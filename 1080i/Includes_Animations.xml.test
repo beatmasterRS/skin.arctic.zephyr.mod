@@ -1,0 +1,99 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<includes>
+    <include name="Animation.Common">
+        <visible>!Window.IsVisible(script-script.extendedinfo-VideoList.xml) + !Window.IsVisible(script-globalsearch-main.xml) + !Window.IsVisible(script-globalsearch-infodialog.xml) + !Window.IsVisible(DialogAddonInfo.xml) + !Window.IsVisible(DialogPVRInfo.xml) + !Window.IsVisible(DialogPVRGuideInfo.xml) + !Window.IsVisible(DialogMusicInfo.xml) + !Window.IsVisible(DialogVideoInfo.xml) + !Window.IsVisible(script-script.extendedinfo-DialogInfo.xml) + !Window.IsVisible(script-script.extendedinfo-DialogVideoInfo.xml)</visible>
+        <animation type="WindowOpen" reversible="false">
+            <effect type="fade" start="0" end="100" time="300" tween="sine" easing="in" />
+            <effect type="zoom" start="50" end="100" time="300" center="auto" tween="quadratic" easing="out" />
+        </animation>
+       <animation type="WindowClose" reversible="false">
+            <effect type="fade" end="0" start="100" time="200" />
+            <effect type="zoom" end="75" start="100" time="200" center="auto" />
+        </animation>
+        <animation type="Visible" reversible="false">
+            <effect type="fade" start="0" end="100" time="300" delay="300" />
+            <effect type="zoom" start="115" end="100" time="300" delay="300" center="auto" />
+        </animation>
+        <animation type="Hidden" reversible="false" condition="![!Window.IsVisible(script-script.extendedinfo-VideoList.xml) + !Window.IsVisible(script-globalsearch-main.xml) + !Window.IsVisible(script-globalsearch-infodialog.xml) + !Window.IsVisible(DialogAddonInfo.xml) + !Window.IsVisible(DialogPVRInfo.xml) + !Window.IsVisible(DialogPVRGuideInfo.xml) + !Window.IsVisible(DialogMusicInfo.xml) + !Window.IsVisible(DialogVideoInfo.xml) + !Window.IsVisible(script-script.extendedinfo-DialogInfo.xml) + !Window.IsVisible(script-script.extendedinfo-DialogVideoInfo.xml)]">
+            <effect type="zoom" start="100" end="85" center="auto" tween="sine" delay="0" easing="out" time="300" />
+            <effect type="fade" start="100" end="0" tween="cubic" easing="out" delay="0" time="300" />
+        </animation>
+        <animation type="Conditional" reversible="true" condition="Window.IsVisible(script-skinshortcuts.xml) | Window.IsVisible(DialogSongInfo.xml) | Window.IsVisible(DialogPictureInfo.xml) | Window.IsVisible(FileBrowser.xml) | Window.IsVisible(DialogConfirm.xml) | Window.IsVisible(DialogSelect.xml) | Window.IsVisible(DialogContextMenu.xml) | Window.IsVisible(DialogButtonMenu.xml) | ControlGroup(9000).HasFocus()">
+            <effect type="zoom" end="95" start="100" time="200" center="auto" tween="quadratic" easing="in" />
+        </animation>
+    </include>
+    <include name="Animation.FadeIn">
+        <animation effect="fade" start="0" end="100" time="350" tween="cubic" easing="inout">Visible</animation>
+        <animation effect="fade" start="0" end="100" time="350" tween="cubic" easing="inout">WindowOpen</animation>
+    </include>
+    <include name="Animation.DelayFadeIn">
+        <animation effect="fade" start="0" end="100" time="650" delay="200" tween="cubic" easing="inout" reversible="false">Visible</animation>
+        <animation effect="fade" start="0" end="100" time="650" delay="200" tween="cubic" easing="inout">WindowOpen</animation>
+    </include>
+    <include name="Animation.FadeFromHome">
+        <animation effect="fade" start="0" end="100" time="350" tween="cubic" easing="inout" condition="Window.Previous(home)">WindowOpen</animation>
+        <animation effect="fade" end="0" start="100" time="350" tween="cubic" easing="inout" condition="Window.Next(home)">WindowClose</animation>
+    </include>
+    <include name="Animation.ZoomIn">
+        <animation type="WindowOpen" reversible="false">
+            <effect type="fade" start="0" end="100" time="300" tween="sine" easing="in" />
+            <effect type="zoom" start="80" end="100" time="300" center="auto" tween="quadratic" easing="out" />
+        </animation>
+        <animation type="Visible" reversible="false">
+            <effect type="fade" start="0" end="100" time="300" tween="sine" easing="in" />
+            <effect type="zoom" start="80" end="100" time="300" center="auto" tween="quadratic" easing="out" />
+        </animation>
+    </include>
+    <include name="Animation.FadeIn.Delay">
+        <animation type="Visible">
+            <effect type="fade" start="0" end="100" time="350" delay="300" tween="cubic" easing="inout"/>
+            <effect type="zoom" start="75" end="100" center="auto" tween="back" time="500" delay="300"/>
+        </animation>
+        <animation effect="fade" start="0" end="100" time="350" tween="cubic" easing="inout">WindowOpen</animation>
+    </include>
+    
+    <include name="Animation.FadeIn.Slide">
+        <animation type="Visible" reversible="false">
+            <effect type="fade" start="0" end="100" time="300" delay="150"/>
+            <effect type="slide" start="0,-48" end="0" center="auto" tween="back" easing="out" time="450" delay="150"/>
+        </animation>
+        <animation type="WindowOpen" reversible="false">
+            <effect type="fade" start="0" end="100" time="300" delay="150"/>
+            <effect type="slide" start="0,-48" end="0" center="auto" tween="back" easing="out" time="450" delay="150"/>
+        </animation>
+    </include>
+	
+	<include name="Animation.SwitchText">
+        <visible>!Container().OnNext + !Container().OnPrevious + !stringcompare(ListItem.Label,..)</visible>
+		<animation condition="!Container().OnNext + !Container().OnPrevious" effect="fade" start="100" end="0" time="500">Hidden</animation> 
+		<animation condition="!Container().OnNext + !Container().OnPrevious" effect="fade" start="0" end="100" time="300">Visible</animation>  		        	
+    </include>
+	
+	<include name="Animation.MenuSlideIn">	
+		<animation effect="slide" delay="200" start="-300" tween="back" easing="out" end="0" time="500">WindowOpen</animation>
+    </include>
+	
+	
+    <include name="Animation.SlideUp">
+        <animation type="Visible">
+            <effect type="fade" start="0" end="100" time="250" delay="0" tween="cubic" easing="inout"/>
+            <effect type="slide" start="0,48" end="0" center="auto" tween="back" easing="out" time="400" delay="0"/>
+        </animation>
+        <animation type="WindowOpen">
+            <effect type="fade" start="0" end="100" time="250" delay="0" tween="cubic" easing="inout"/>
+            <effect type="slide" start="0,48" end="0" center="auto" tween="back" easing="out" time="400" delay="0"/>
+        </animation>
+    </include>
+    
+    <include name="Animation.FadeOut">
+        <animation effect="fade" end="0" start="100" time="150">Hidden</animation>
+        <animation effect="fade" end="0" start="100" time="150">WindowClose</animation>
+    </include>
+
+    <include name="Animation.FurnitureFadeInOut">
+        <animation effect="fade" start="0" end="100" time="350" tween="cubic" easing="inout">Visible</animation>
+        <animation effect="fade" end="0" start="100" time="150">Hidden</animation>
+        <animation effect="fade" start="0" end="100" time="350" tween="cubic" easing="inout" condition="!Window.IsVisible(script-script.extendedinfo-DialogVideoInfo.xml) + !Window.IsVisible(script-script.extendedinfo-DialogInfo.xml) + ![Window.Previous(home) + Skin.HasSetting(home.vertical)] + ![Window.IsVisible(home) + Skin.HasSetting(home.vertical)]">WindowOpen</animation>
+        <animation effect="fade" end="0" start="100" time="150" condition="!Window.IsVisible(script-script.extendedinfo-DialogVideoInfo.xml) + !Window.IsVisible(script-script.extendedinfo-DialogInfo.xml) + ![Window.Next(home) + Skin.HasSetting(home.vertical)] + ![Window.IsVisible(home) + Skin.HasSetting(home.vertical)]">WindowClose</animation>
+    </include>
+</includes>

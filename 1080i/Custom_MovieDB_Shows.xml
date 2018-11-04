@@ -1,0 +1,243 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Foundation -->
+<window type="window" id="1105">
+    <defaultcontrol always="true">9500</defaultcontrol>
+    
+    <onunload>ClearProperty(content)</onunload>
+    <controls>
+        <include>GlobalBackground</include>
+        <include>Furniture_Header</include>
+        <include>Furniture_NowPlaying</include>
+        <include>Furniture_Weather</include>
+        <include>Furniture_Clock</include>
+
+        <control type="group">
+            <posy>40</posy>
+            <include>Animation.Common</include>
+            <control type="grouplist" id="9510">
+                <top>206</top>
+                <height>100</height>
+                <ondown>9500</ondown>
+                <orientation>horizontal</orientation>
+                <align>center</align>
+                <left>SidePad</left>
+                <right>SidePad</right>
+                <control type="button" id="9514">
+                    <font>Medium</font>
+                    <height>100</height>
+                    <width>250</width>
+                    <textcolor>Dark3</textcolor>
+                    <focusedcolor>Dark1</focusedcolor>
+                    <label>31213</label>
+                    <onclick>SetProperty(content,4)</onclick>
+                    <onclick>SetFocus(9500,0)</onclick>
+                    <texturefocus>noop</texturefocus>
+                </control>
+                <control type="button" id="9511">
+                    <font>Medium</font>
+                    <height>100</height>
+                    <width>250</width>
+                    <textcolor>Dark3</textcolor>
+                    <focusedcolor>Dark1</focusedcolor>
+                    <label>31212</label>
+                    <onclick>SetProperty(content,3)</onclick>
+                    <onclick>SetFocus(9500,0)</onclick>
+                    <texturefocus>noop</texturefocus>
+                </control>
+                <control type="button" id="9512">
+                    <font>Medium</font>
+                    <height>100</height>
+                    <width>250</width>
+                    <textcolor>Dark3</textcolor>
+                    <focusedcolor>Dark1</focusedcolor>
+                    <label>31210</label>
+                    <onclick>SetProperty(content,2)</onclick>
+                    <onclick>SetFocus(9500,0)</onclick>
+                    <texturefocus>noop</texturefocus>
+                </control>
+                <control type="button" id="9513">
+                    <font>Medium</font>
+                    <height>100</height>
+                    <width>250</width>
+                    <textcolor>Dark3</textcolor>
+                    <focusedcolor>Dark1</focusedcolor>
+                    <label>31211</label>
+                    <onclick>SetProperty(content,1)</onclick>
+                    <onclick>SetFocus(9500,0)</onclick>
+                    <texturefocus>noop</texturefocus>
+                </control>
+            </control>
+            <control type="group">
+                <centerleft>50%</centerleft>
+                <centertop>49%</centertop>
+                <width>450</width>
+                <height>117</height>
+                <visible>Container(9500).IsUpdating</visible>
+                <include>Animation.FadeIn</include>
+                <include>Animation.FadeOut</include>
+          
+                <control type="image">
+                    <description>Busy animation</description>
+                    <centerleft>54</centerleft>
+                    <centertop>54</centertop>
+                    <width>100</width>
+                    <height>100</height>
+                    <texture>dialog/loading-back.png</texture>
+                    <aspectratio>keep</aspectratio>
+                </control>
+                <control type="image">
+                    <description>Busy animation</description>
+                    <centerleft>54</centerleft>
+                    <centertop>54</centertop>
+                    <width>100</width>
+                    <height>100</height>
+                    <animation effect="rotate" condition="true" start="0" end="360" loop="true" time="1000" center="auto">Conditional</animation>
+                    <texture colordiffuse="$VAR[ColorHighlight]">dialog/loading-spinner.png</texture>
+                    <aspectratio>keep</aspectratio>
+                </control>
+
+                <control type="label">
+                    <description>Busy label</description>
+                    <posx>105</posx>
+                    <posy>30</posy>
+                    <width>720</width>
+                    <height>48</height>
+                    <align>left</align>
+                    <label>$LOCALIZE[31138]...</label>
+                    <textcolor>Dark1</textcolor>
+                </control>
+
+            </control>
+            <control type="list" id="9500">
+                <visible allowhiddenfocus="true">!Container(9500).IsUpdating</visible>
+                <include>Animation.FadeIn</include>
+                <include>Animation.FadeOut</include>
+                <top>330</top>
+                <right>72</right>
+                <left>72</left>
+                <height>674</height>
+                <onup>9510</onup>
+                <preloaditems>2</preloaditems>
+                <orientation>horizontal</orientation>
+                <pagecontrol>60</pagecontrol>
+                <viewtype label="536">list</viewtype>
+                <scrolltime tween="quadratic">400</scrolltime>
+                <itemlayout height="337" width="222">
+                    <control type="image">
+                        <left>0</left>
+                        <top>0</top>
+                        <right>0</right>
+                        <bottom>12</bottom>
+                        <texture border="10">common/nofocus-shadow10.png</texture>
+                    </control>
+                    <control type="image">
+                        <left>10</left>
+                        <top>10</top>
+                        <right>10</right>
+                        <bottom>22</bottom>
+                        <aspectratio scalediffuse="false">scale</aspectratio>
+                        <texture diffuse="diffuse/wall.png" background="true" fallback="DefaultMovies.png">$VAR[PosterImage]</texture>
+                    </control>
+                    <control type="image">
+                        <centerright>32</centerright>
+                        <centertop>32</centertop>
+                        <width>32</width>
+                        <height>32</height>
+                        <aspectratio aligny="top">keep</aspectratio>
+                        <texture>$VAR[PercentWatched]</texture>
+                        <visible>!String.IsEqual(ListItem.Label,..)</visible>
+                        <visible>String.IsEqual(ListItem.Overlay,OverlayWatched.png)</visible>
+                    </control>
+                </itemlayout>
+                <focusedlayout height="337" width="222">
+                    <control type="image">
+                        <left>0</left>
+                        <top>0</top>
+                        <right>0</right>
+                        <bottom>12</bottom>
+                        <texture border="10">common/nofocus-shadow10.png</texture>
+                    </control>
+                    <control type="image">
+                        <left>10</left>
+                        <top>10</top>
+                        <right>10</right>
+                        <bottom>22</bottom>
+                        <aspectratio scalediffuse="false">scale</aspectratio>
+                        <texture diffuse="diffuse/wall.png" background="true" fallback="DefaultMovies.png">$VAR[PosterImage]</texture>
+                    </control>
+                    <control type="image">
+                        <centerright>32</centerright>
+                        <centertop>32</centertop>
+                        <width>32</width>
+                        <height>32</height>
+                        <aspectratio aligny="top">keep</aspectratio>
+                        <texture>$VAR[PercentWatched]</texture>
+                        <visible>!String.IsEqual(ListItem.Label,..)</visible>
+                        <visible>String.IsEqual(ListItem.Overlay,OverlayWatched.png)</visible>
+                    </control>
+                    <control type="image">
+                        <centerleft>50%</centerleft>
+                        <centertop>162</centertop>
+                        <width>128</width>
+                        <height>128</height>
+                        <aspectratio>keep</aspectratio>
+                        <texture colordiffuse="88ffffff">common/playring.png</texture>
+                        <animation type="Focus">
+                            <effect type="zoom" start="90" end="100" time="150" tween="sine" easing="inout" center="auto" />
+                            <effect type="fade" start="0" end="100" time="150" tween="sine" easing="in" />
+                        </animation>
+                        <animation type="Unfocus">
+                            <effect type="zoom" start="100" end="90" time="150" tween="sine" easing="inout" center="auto" />
+                            <effect type="fade" start="100" end="0" time="150" tween="sine" easing="out" />
+                        </animation>
+                        <visible>!String.Contains(ListItem.Path,script.extendedinfo)</visible>
+                    </control>
+                    <control type="image">
+                        <left>3</left>
+                        <top>3</top>
+                        <right>3</right>
+                        <bottom>15</bottom>
+                        <texture colordiffuse="$VAR[ColorHighlight]" border="20">common/selectbox.png</texture>
+                        <animation type="Focus">
+                            <effect type="zoom" start="90" end="100" time="150" tween="sine" easing="inout" center="auto" />
+                            <effect type="fade" start="0" end="100" time="150" tween="sine" easing="in" />
+                        </animation>
+                        <animation type="Unfocus">
+                            <effect type="zoom" start="100" end="90" time="150" tween="sine" easing="inout" center="auto" />
+                            <effect type="fade" start="100" end="0" time="150" tween="sine" easing="out" />
+                        </animation>
+                    </control>
+                      
+                </focusedlayout>
+                <content>$VAR[DefMovieDBEpisodesContent]</content>
+            </control>
+        
+            <control type="grouplist">
+                <visible>!Container(9500).IsUpdating</visible>
+                <include>Animation.FadeIn</include>
+                <include>Animation.FadeOut</include>
+                <left>SidePad</left>
+                
+                <right>SidePad</right>
+                <orientation>vertical</orientation>
+                <top>695</top>
+                <itemgap>-10</itemgap>
+                <control type="label">
+                    <font>MediumBold</font>
+                    <width>100%</width>
+                    <align>center</align>
+                    <textcolor>Dark1</textcolor>
+                    <label>$INFO[Container(9500).ListItem.Label]</label>
+                </control>
+                <control type="label">
+                    <font>Small</font>
+                    <width>100%</width>
+                    <align>center</align>
+                    <textcolor>Dark2</textcolor>
+                    <label>$INFO[Container(9500).ListItem.Rating]$INFO[Container(9500).ListItem.Votes, (, $LOCALIZE[20350])]</label>
+                </control>
+                
+            </control>
+        </control>
+    </controls>
+</window>

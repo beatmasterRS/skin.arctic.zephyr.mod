@@ -1,0 +1,669 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Foundation -->
+<includes>
+
+   <include name="View_54_Banner">
+    
+        <control type="group">
+            <include>Animation.Common</include>
+            <visible>Control.IsVisible(54)</visible>
+            <control type="group">
+                <control type="fixedlist" id="54">
+                    <animation effect="slide" start="0" end="136" condition="!Container.Content(episodes) + !Container.Content(albums) + !Container.Content(songs)">Conditional</animation>
+                    <animation effect="slide" start="0" end="210" condition="Container.Content(albums) | Container.Content(songs)">Conditional</animation>
+                    <visible>substring(Container.FolderPath,plugin://plugin.program.advanced.launcher/,left) | Container.Content(songs) | Container.Content(albums) | Container.Content(movies) | Container.Content(tvshows) | Container.Content(episodes) | Container.Content(seasons) | Container.Content(sets)</visible>
+                    <top>PosterPad</top>
+                    <height>640</height>
+                    <centerleft>50%</centerleft>
+                    <width>1560</width>
+                    <onleft condition="!Skin.HasSetting(global.kioskmode)">9000</onleft>
+                    <onright>60</onright>
+                    <onup>54</onup>
+                    <ondown>54</ondown>
+                    <focusposition>1</focusposition>
+                    <movement>2</movement>
+                    <preloaditems>2</preloaditems>
+                    <pagecontrol>60</pagecontrol>
+                    <viewtype label="539">list</viewtype>
+                    <scrolltime tween="quadratic">400</scrolltime>
+                    <itemlayout width="1288" height="106" condition="!Container.Content(episodes) + !Container.Content(albums) + !Container.Content(songs)">
+                        <control type="label">
+                            <left>0</left>
+                            <centertop>34</centertop>
+                            <width>100%</width>
+                            <height>52</height>
+                            <align>center</align>
+                            <aligny>center</aligny>
+                            <label>$INFO[ListItem.Label]</label>
+                            <font>SmallBold</font>
+                            <textcolor>Dark1</textcolor>
+                            <selectedcolor>Dark1</selectedcolor>
+                        </control>
+                        <control type="label">
+                            <centerbottom>34</centerbottom>
+                            <left>0</left>
+                            <width>100%</width>
+                            <height>52</height>
+                            <align>center</align>
+                            <aligny>center</aligny>
+                            <label>$VAR[LabelYear,,  •  ]$VAR[LabelDuration,,  •  ]$INFO[ListItem.Rating]</label>
+                            <font>Flag</font>
+                            <textcolor>Dark3</textcolor>
+                            <selectedcolor>Dark3</selectedcolor>
+                            <visible>!Container.Content(seasons)</visible>
+                        </control>
+                        <control type="label">
+                            <centerbottom>34</centerbottom>
+                            <left>0</left>
+                            <width>100%</width>
+                            <height>52</height>
+                            <align>center</align>
+                            <aligny>center</aligny>
+                            <label>$INFO[ListItem.Property(UnWatchedEpisodes),, $LOCALIZE[31215]]</label>
+                            <font>Flag</font>
+                            <textcolor>Dark3</textcolor>
+                            <selectedcolor>Dark3</selectedcolor>
+                            <visible>Container.Content(seasons)</visible>
+                        </control>
+                    </itemlayout>
+                    <itemlayout width="1288" height="106" condition="Container.Content(episodes)">
+                        <control type="group">
+                            <posy>-35</posy>
+                            <control type="label">
+                                <font>EpisodeNumber</font>
+                                <top>15</top>
+                                <left>525</left>
+                                <width>180</width>
+                                <height>40</height>
+                                <align>left</align>
+                                <aligny>top</aligny>
+                                <label>$VAR[LabelEpisodeZero]$INFO[ListItem.Episode]</label>
+                                <textcolor>Dark1</textcolor>
+                                <selectedcolor>Dark1</selectedcolor>
+                            </control>
+                            <control type="label">
+                                <top>47</top>
+                                <left>650</left>
+                                <right>54</right>
+                                <height>40</height>
+                                <align>left</align>
+                                <aligny>top</aligny>
+                                <label>$VAR[LabelTitle]</label>
+                                <font>SmallBold</font>
+                                <textcolor>Dark1</textcolor>
+                                <selectedcolor>Dark1</selectedcolor>
+                                <animation effect="slide" start="0" end="50" condition="IntegerGreaterThan(ListItem.Episode,99) | [IntegerGreaterThan(ListItem.Episode,9) + substring(ListItem.Episode,S)]">Conditional</animation>
+                            </control>
+                            <control type="image">
+                                <left>647</left>
+                                <centertop>105</centertop>
+                                <width>32</width>
+                                <height>32</height>
+                                <aspectratio aligny="top">keep</aspectratio>
+                                <texture>$VAR[PercentWatched]</texture>
+                                <visible>!stringcompare(ListItem.Label,..)</visible>
+                                <animation effect="slide" start="0" end="50" condition="IntegerGreaterThan(ListItem.Episode,99) | [IntegerGreaterThan(ListItem.Episode,9) + substring(ListItem.Episode,S)]">Conditional</animation>
+                            </control>
+                            <control type="label">
+                                <top>85</top>
+                                <left>685</left>
+                                <right>50</right>
+                                <height>40</height>
+                                <align>left</align>
+                                <aligny>top</aligny>
+                                <label fallback="19055">$VAR[LabelYear,,  •  ]$VAR[LabelDuration,,  •  ]$INFO[ListItem.Rating]</label>
+                                <font>Tiny</font>
+                                <textcolor>Dark2</textcolor>
+                                <selectedcolor>Dark2</selectedcolor>
+                                <animation effect="slide" start="0" end="50" condition="IntegerGreaterThan(ListItem.Episode,99) | [IntegerGreaterThan(ListItem.Episode,9) + substring(ListItem.Episode,S)]">Conditional</animation>
+                            </control>
+                        </control>
+                    </itemlayout>
+                    
+                    <itemlayout width="1140" height="106" condition="Container.Content(albums)">
+                        <control type="group">
+                            <posy>-35</posy>
+                          
+                            <control type="label">
+                                <top>47</top>
+                                <left>320</left>
+                                <right>54</right>
+                                <height>40</height>
+                                <align>left</align>
+                                <aligny>top</aligny>
+                                <label>$VAR[LabelTitle]</label>
+                                <font>SmallBold</font>
+                                <textcolor>Dark1</textcolor>
+                                <selectedcolor>Dark1</selectedcolor>
+                            </control>
+                            <control type="label">
+                                <top>85</top>
+                                <left>320</left>
+                                <right>50</right>
+                                <height>40</height>
+                                <align>left</align>
+                                <aligny>top</aligny>
+                                <label fallback="19055">$INFO[ListItem.Artist]$INFO[ListItem.Year, • ,]</label>
+                                <font>Tiny</font>
+                                <textcolor>Dark2</textcolor>
+                                <selectedcolor>Dark2</selectedcolor>
+                            </control>
+                        </control>
+                    </itemlayout>
+                    <itemlayout width="1140" height="106" condition="Container.Content(songs)">
+                        <control type="group">
+                            <posy>-35</posy>
+                            <control type="label">
+                                <font>EpisodeNumber</font>
+                                <top>15</top>
+                                <right>420r</right>
+                                <width>150</width>
+                                <height>40</height>
+                                <align>right</align>
+                                <aligny>top</aligny>
+                                <label>$NUMBER[0]$NUMBER[0]</label>
+                                <textcolor>Dark1</textcolor>
+                                <selectedcolor>Dark1</selectedcolor>
+                                <visible>!IntegerGreaterThan(ListItem.TrackNumber,0)</visible>
+                            </control>
+                            <control type="label">
+                                <font>EpisodeNumber</font>
+                                <top>15</top>
+                                <right>420r</right>
+                                <width>150</width>
+                                <height>40</height>
+                                <align>right</align>
+                                <aligny>top</aligny>
+                                <label>0$INFO[ListItem.TrackNumber]</label>
+                                <textcolor>Dark1</textcolor>
+                                <selectedcolor>Dark1</selectedcolor>
+                                <visible>!IntegerGreaterThan(ListItem.TrackNumber,9) + IntegerGreaterThan(ListItem.TrackNumber,0)</visible>
+                            </control>
+                            <control type="label">
+                                <font>EpisodeNumber</font>
+                                <top>15</top>
+                                <right>420r</right>
+                                <width>150</width>
+                                <height>40</height>
+                                <align>right</align>
+                                <aligny>top</aligny>
+                                <label>$INFO[ListItem.TrackNumber]</label>
+                                <textcolor>Dark1</textcolor>
+                                <selectedcolor>Dark1</selectedcolor>
+                                <visible>IntegerGreaterThan(ListItem.TrackNumber,9)</visible>
+                            </control>
+                            <control type="label">
+                                <top>47</top>
+                                <left>440</left>
+                                <right>54</right>
+                                <height>40</height>
+                                <align>left</align>
+                                <aligny>top</aligny>
+                                <label>$INFO[ListItem.Title]</label>
+                                <font>SmallBold</font>
+                                <textcolor>Dark1</textcolor>
+                                <selectedcolor>Dark1</selectedcolor>
+                            </control>
+                            <control type="label">
+                                <top>85</top>
+                                <left>440</left>
+                                <right>50</right>
+                                <height>40</height>
+                                <align>left</align>
+                                <aligny>top</aligny>
+                                <label fallback="19055">$INFO[ListItem.Artist]$INFO[ListItem.Album,  •  ,]</label>
+                                <font>Tiny</font>
+                                <textcolor>Dark2</textcolor>
+                                <selectedcolor>Dark2</selectedcolor>
+                            </control>
+                        </control>
+                    </itemlayout>
+
+                    
+                    <focusedlayout width="1288" height="330" condition="!Container.Content(episodes) + !Container.Content(albums) + !Container.Content(songs) + Skin.HasSetting(54banner.showinfo)">
+                        <control type="image">
+                            <left>110</left>
+                            <top>10</top>
+                            <right>110</right>
+                            <bottom>10</bottom>
+                            <texture colordiffuse="Dark1" border="5">common/box.png</texture>
+                        </control>
+                        <control type="image">                                
+                            <left>110</left>
+                            <top>10</top>
+                            <width>207</width>
+                            <height>310</height>
+                            <aspectratio scalediffuse="false">scale</aspectratio>
+                            <texture diffuse="diffuse/cardposter.png" background="true">$VAR[PosterImage]</texture>
+                        </control>
+                        <control type="image">
+                            <right>124</right>
+                            <top>29</top>
+                            <width>32</width>
+                            <height>32</height>
+                            <aspectratio aligny="top">keep</aspectratio>
+                            <texture>$VAR[PercentWatched]</texture>
+                            <visible>!stringcompare(ListItem.Label,..)</visible>
+                        </control>
+                        <control type="label">
+                            <left>337</left>
+                            <right>174</right>
+                            <top>20</top>
+                            <height>50</height>
+                            <align>left</align>
+                            <font>SmallBold</font>
+                            <textcolor>Light1</textcolor>
+                            <selectedcolor>Light1</selectedcolor>
+                            <label>$INFO[ListItem.Label]</label>
+                        </control>
+                        <control type="textbox">
+                            <left>337</left>
+                            <right>130</right>
+                            <top>70</top>
+                            <height>188</height>
+                            <align>justify</align>
+                            <font>Tiny</font>
+                            <textcolor>Light1</textcolor>
+                            <selectedcolor>Light1</selectedcolor>
+                            <label>$VAR[LabelPlotBox]</label>
+                        </control>
+                        <control type="label">
+                            <left>337</left>
+                            <right>130</right>
+                            <bottom>20</bottom>
+                            <aligny>center</aligny>
+                            <height>38</height>
+                            <align>right</align>
+                            <font>Tiny</font>
+                            <textcolor>Light1</textcolor>
+                            <selectedcolor>Light1</selectedcolor>
+                            <visible>!Container.Content(seasons)</visible>
+                            <label fallback="19055">$VAR[LabelYear,,  •  ]$VAR[LabelDuration,,  •  ]$INFO[ListItem.Rating]</label>
+                        </control>
+                        <control type="label">
+                            <left>337</left>
+                            <right>130</right>
+                            <bottom>20</bottom>
+                            <aligny>center</aligny>
+                            <height>38</height>
+                            <align>right</align>
+                            <font>Tiny</font>
+                            <textcolor>Light1</textcolor>
+                            <selectedcolor>Light1</selectedcolor>
+                            <visible>Container.Content(seasons)</visible>
+                            <label fallback="19055">$INFO[ListItem.Property(UnWatchedEpisodes),, $LOCALIZE[31215]]</label>
+                        </control>
+                    </focusedlayout>
+                    <focusedlayout width="1288" height="322" condition="!Container.Content(episodes) + !Container.Content(albums) + !Container.Content(songs) + !Skin.HasSetting(54banner.showinfo)">
+                        <control type="image">
+                            <left>-12</left>
+							<right>0</right>
+                            <top>11</top>
+                            <width>1313</width>
+                            <height>295</height>
+                            <texture border="6">backg/background_s.png</texture>
+                        </control>
+                        <control type="image">
+                            <left>24</left>
+                            <top>24</top>
+                            <width>1240</width>
+                            <height>270</height>
+                            <texture border="8" colordiffuse="Dark1">common/box.png</texture>
+                        </control>
+                        <control type="image">
+                            <left>24</left>
+                            <top>24</top>
+                            <right>24</right>
+                            <height>230</height>
+                            <texture diffuse="diffuse/banner.png" background="true">$VAR[BannerImage]</texture>
+                            <aspectratio scalediffuse="false">scale</aspectratio>
+                        </control>
+                        <control type="group">
+                            <visible>IntegerGreaterThan(ListItem.Property(UnwatchedEpisodes),0)</visible>
+                            <control type="image">
+                                <right>32</right>
+                                <top>32</top>
+                                <height>40</height>
+                                <width>40</width>
+                                <texture colordiffuse="Dark1">common/circle.png</texture>
+                                <aspectratio align="center" aligny="center">keep</aspectratio>
+                            </control>
+                            <control type="label">
+                                <right>32</right>
+                                <top>32</top>
+                                <height>40</height>
+                                <width>40</width>
+                                <align>center</align>
+                                <aligny>center</aligny>
+                                <label>$INFO[ListItem.Property(UnwatchedEpisodes)]</label>
+                                <font>Flag</font>
+                                <textcolor>Light1</textcolor>
+                            </control>
+                        </control>
+                        
+                        
+                        <control type="label">
+                            <centerbottom>48</centerbottom>
+                            <left>44</left>
+                            <width>1220</width>
+                            <height>40</height>
+                            <align>left</align>
+                            <aligny>center</aligny>
+                            <label>$INFO[ListItem.Label]</label>
+                            <font>Flag</font>
+                            <textcolor>Light1</textcolor>
+                            <selectedcolor>Light1</selectedcolor>
+                        </control>
+                        <control type="label">
+                            <centerbottom>48</centerbottom>
+                            <right>44</right>
+                            <width>1220</width>
+                            <height>40</height>
+                            <align>right</align>
+                            <aligny>center</aligny>
+                            <label>$VAR[LabelYear,,  •  ]$VAR[LabelDuration,,  •  ]$INFO[ListItem.Rating]</label>
+                            <font>Flag</font>
+                            <textcolor>Light1</textcolor>
+                            <selectedcolor>Light1</selectedcolor>
+                            <visible>!Container.Content(seasons)</visible>
+                        </control>
+                        
+                    </focusedlayout>
+                    <focusedlayout width="1560" height="322" condition="Container.Content(episodes)">
+                        <control type="group">
+                            <control type="image">
+                            <left>-15</left>
+							<right>0</right>
+                            <top>11</top>
+                            <width>1595</width>
+                            <height>295</height>
+                            <texture border="6">backg/background_s.png</texture>
+                        </control>
+                            <control type="image">
+                                <left>24</left>
+                                <top>24</top>
+                                <right>24</right>
+                                <height>270</height>
+                                <texture border="8" colordiffuse="Dark1">common/box.png</texture>
+                            </control>
+                            <control type="image">
+                                <left>24</left>
+                                <top>24</top>
+                                <width>480</width>
+                                <height>270</height>
+                                <texture diffuse="diffuse/banner.png" background="true">$VAR[FanartImage]</texture>
+                                <aspectratio scalediffuse="false">scale</aspectratio>
+                            </control>
+                            
+                            <control type="label">
+                                <font>EpisodeNumber</font>
+                                <top>15</top>
+                                <left>525</left>
+                                <width>180</width>
+                                <height>40</height>
+                                <align>left</align>
+                                <aligny>top</aligny>
+                                <label>$VAR[LabelEpisodeZero]$INFO[ListItem.Episode]</label>
+                                <textcolor>Light1</textcolor>
+                                <selectedcolor>Light1</selectedcolor>
+                            </control>
+                            <control type="label">
+                                <top>47</top>
+                                <left>650</left>
+                                <right>54</right>
+                                <height>40</height>
+                                <align>left</align>
+                                <aligny>top</aligny>
+                                <label>$VAR[LabelTitle]</label>
+                                <font>SmallBold</font>
+                                <textcolor>Light1</textcolor>
+                                <selectedcolor>Light1</selectedcolor>
+                                <animation effect="slide" start="0" end="50" condition="IntegerGreaterThan(ListItem.Episode,99) | [IntegerGreaterThan(ListItem.Episode,9) + substring(ListItem.Episode,S)]">Conditional</animation>
+                            </control>
+                            <control type="image">
+                                <left>647</left>
+                                <centertop>105</centertop>
+                                <width>32</width>
+                                <height>32</height>
+                                <aspectratio aligny="top">keep</aspectratio>
+                                <texture>$VAR[PercentWatched]</texture>
+                                <visible>!stringcompare(ListItem.Label,..)</visible>
+                                <animation effect="slide" start="0" end="50" condition="IntegerGreaterThan(ListItem.Episode,99) | [IntegerGreaterThan(ListItem.Episode,9) + substring(ListItem.Episode,S)]">Conditional</animation>
+                            </control>
+                            <control type="label">
+                                <top>85</top>
+                                <left>685</left>
+                                <right>50</right>
+                                <height>40</height>
+                                <align>left</align>
+                                <aligny>top</aligny>
+                                <label fallback="19055">$VAR[LabelYear,,  •  ]$VAR[LabelDuration,,  •  ]$INFO[ListItem.Rating]</label>
+                                <font>Tiny</font>
+                                <textcolor>Light1</textcolor>
+                                <selectedcolor>Light1</selectedcolor>
+                                <animation effect="slide" start="0" end="50" condition="IntegerGreaterThan(ListItem.Episode,99) | [IntegerGreaterThan(ListItem.Episode,9) + substring(ListItem.Episode,S)]">Conditional</animation>
+                            </control>
+                            <control type="textbox">
+                                <top>140</top>
+                                <left>525</left>
+                                <right>50</right>
+                                <bottom>54</bottom>
+                                <align>justify</align>
+                                <aligny>top</aligny>
+                                <label>$INFO[ListItem.Plot]</label>
+                                <font>Tiny</font>
+                                <textcolor>Light1</textcolor>
+                                <selectedcolor>Light1</selectedcolor>
+                            </control>
+                        </control>
+                    </focusedlayout>
+                    <focusedlayout width="1140" height="322" condition="Container.Content(albums)">
+                        <control type="group">
+                            <control type="image">
+                            <left>-15</left>
+							<right>0</right>
+                            <top>11</top>
+                            <width>1318</width>
+                            <height>295</height>
+                            <texture border="6">backg/background_s.png</texture>
+                        </control>
+                            <control type="image">
+                                <left>24</left>
+                                <top>24</top>
+                                <right>24</right>
+                                <height>270</height>
+                                <texture border="8" colordiffuse="Dark1">common/box.png</texture>
+                            </control>
+                            <control type="image">
+                                <left>24</left>
+                                <top>24</top>
+                                <width>270</width>
+                                <height>270</height>
+                                <texture diffuse="diffuse/banner.png" background="true">$VAR[MusicImage]</texture>
+                                <aspectratio scalediffuse="false">scale</aspectratio>
+                            </control>
+                    
+                            <control type="label">
+                                <top>47</top>
+                                <left>320</left>
+                                <right>54</right>
+                                <height>40</height>
+                                <align>left</align>
+                                <aligny>top</aligny>
+                                <label>$VAR[LabelTitle]</label>
+                                <font>SmallBold</font>
+                                <textcolor>Light1</textcolor>
+                                <selectedcolor>Light1</selectedcolor>
+                            </control>
+                            <control type="label">
+                                <top>85</top>
+                                <left>320</left>
+                                <right>50</right>
+                                <height>40</height>
+                                <align>left</align>
+                                <aligny>top</aligny>
+                                <label fallback="19055">$INFO[ListItem.Artist]$INFO[ListItem.Year, • ,]</label>
+                                <font>Tiny</font>
+                                <textcolor>Light1</textcolor>
+                                <selectedcolor>Light1</selectedcolor>
+                            </control>
+                            <control type="textbox">
+                                <top>140</top>
+                                <left>320</left>
+                                <right>50</right>
+                                <bottom>54</bottom>
+                                <align>justify</align>
+                                <aligny>top</aligny>
+                                <label>$INFO[ListItem.Property(Album_Description)]</label>
+                                <font>Tiny</font>
+                                <textcolor>Light1</textcolor>
+                                <selectedcolor>Light1</selectedcolor>
+                            </control>
+                            
+                        </control>
+                    </focusedlayout>
+                    <focusedlayout width="1140" height="322" condition="Container.Content(songs)">
+                        <control type="group">
+                            <control type="image">
+                            <left>-13</left>
+							<right>0</right>
+                            <top>11</top>
+                            <width>1318</width>
+                            <height>295</height>
+                            <texture border="6">backg/background_s.png</texture>
+                        </control>
+                            <control type="image">
+                                <left>24</left>
+                                <top>24</top>
+                                <right>24</right>
+                                <height>270</height>
+                                <texture border="8" colordiffuse="Dark1">common/box.png</texture>
+                            </control>
+                            <control type="image">
+                                <left>24</left>
+                                <top>24</top>
+                                <width>270</width>
+                                <height>270</height>
+                                <texture diffuse="diffuse/banner.png" background="true">$VAR[MusicImage]</texture>
+                                <aspectratio scalediffuse="false">scale</aspectratio>
+                            </control>
+                            <control type="label">
+                                <font>EpisodeNumber</font>
+                                <top>15</top>
+                                <right>420r</right>
+                                <width>150</width>
+                                <height>40</height>
+                                <align>right</align>
+                                <aligny>top</aligny>
+                                <label>$NUMBER[0]$NUMBER[0]</label>
+                                <textcolor>Light1</textcolor>
+                                <selectedcolor>Light1</selectedcolor>
+                                <visible>!IntegerGreaterThan(ListItem.TrackNumber,0)</visible>
+                            </control>
+                            <control type="label">
+                                <font>EpisodeNumber</font>
+                                <top>15</top>
+                                <right>420r</right>
+                                <width>150</width>
+                                <height>40</height>
+                                <align>right</align>
+                                <aligny>top</aligny>
+                                <label>0$INFO[ListItem.TrackNumber]</label>
+                                <textcolor>Light1</textcolor>
+                                <selectedcolor>Light1</selectedcolor>
+                                <visible>!IntegerGreaterThan(ListItem.TrackNumber,9) + IntegerGreaterThan(ListItem.TrackNumber,0)</visible>
+                            </control>
+                            <control type="label">
+                                <font>EpisodeNumber</font>
+                                <top>15</top>
+                                <right>420r</right>
+                                <width>150</width>
+                                <height>40</height>
+                                <align>right</align>
+                                <aligny>top</aligny>
+                                <label>$INFO[ListItem.TrackNumber]</label>
+                                <textcolor>Light1</textcolor>
+                                <selectedcolor>Light1</selectedcolor>
+                                <visible>IntegerGreaterThan(ListItem.TrackNumber,9)</visible>
+                            </control>
+                            <control type="label">
+                                <top>47</top>
+                                <left>440</left>
+                                <right>254</right>
+                                <height>40</height>
+                                <align>left</align>
+                                <aligny>top</aligny>
+                                <label>$INFO[ListItem.Title]</label>
+                                <font>SmallBold</font>
+                                <textcolor>Light1</textcolor>
+                                <selectedcolor>Light1</selectedcolor>
+                            </control>
+                            <control type="label">
+                                <top>85</top>
+                                <left>440</left>
+                                <right>50</right>
+                                <height>40</height>
+                                <align>left</align>
+                                <aligny>top</aligny>
+                                <label fallback="19055">$INFO[ListItem.Artist]$INFO[ListItem.Album,  •  ,]</label>
+                                <font>Tiny</font>
+                                <textcolor>Light1</textcolor>
+                                <selectedcolor>Light1</selectedcolor>
+                            </control>
+                            <control type="textbox">
+                                <top>170</top>
+                                <left>320</left>
+                                <right>50</right>
+                                <bottom>54</bottom>
+                                <align>justify</align>
+                                <aligny>top</aligny>
+                                <label>$INFO[ListItem.Genre,[B]$LOCALIZE[515]  [/B],[CR]]$INFO[ListItem.Duration,[B]$LOCALIZE[180]  [/B],[CR]]</label>
+                                <font>Tiny</font>
+                                <textcolor>Light1</textcolor>
+                                <selectedcolor>Light1</selectedcolor>
+                            </control>
+                            <control type="group">
+                                <right>24</right>
+                                <top>24</top>
+                                <width>300</width>
+                                <control type="image">
+                                    <right>0</right>
+                                    <width>64</width>
+                                    <height>64</height>
+                                    <texture colordiffuse="Light1">flags/$VAR[MusicFlagstar5].png</texture>
+                                </control>
+                                <control type="image">
+                                    <right>38</right>
+                                    <width>64</width>
+                                    <height>64</height>
+                                    <texture colordiffuse="Light1">flags/$VAR[MusicFlagstar4].png</texture>
+                                </control>
+                                <control type="image">
+                                    <right>76</right>
+                                    <width>64</width>
+                                    <height>64</height>
+                                    <texture colordiffuse="Light1">flags/$VAR[MusicFlagstar3].png</texture>
+                                </control>
+                                <control type="image">
+                                    <right>114</right>
+                                    <width>64</width>
+                                    <height>64</height>
+                                    <texture colordiffuse="Light1">flags/$VAR[MusicFlagstar2].png</texture>
+                                </control>
+                                <control type="image">
+                                    <right>152</right>
+                                    <width>64</width>
+                                    <height>64</height>
+                                    <texture colordiffuse="Light1">flags/$VAR[MusicFlagstar1].png</texture>
+                                </control>
+                            </control>
+                        </control>
+                    </focusedlayout>
+                
+                </control>
+                
+                <include>Furniture_Scrollbar</include>
+            </control>
+        </control>
+    </include>
+</includes>

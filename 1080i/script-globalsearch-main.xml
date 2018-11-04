@@ -1,0 +1,221 @@
+<window type="dialog">
+    <defaultcontrol always="true">9500</defaultcontrol>
+    <backgroundcolor>0</backgroundcolor>
+    <onload>SetProperty(globalsearch,1,home)</onload>
+    <onunload>ClearProperty(globalsearch,home)</onunload>
+    <controls>
+        <control type="group">
+            <include>Animation.FadeIn</include>
+            <include>Animation.FadeOut</include>
+            <include>GlobalBackgroundExtended</include>
+            <include>Furniture_Header</include>
+            <include>Furniture_NowPlaying</include>
+            <include>Furniture_Clock</include>
+            <include>Furniture_Weather</include>
+        </control>
+        <control type="group" id="100">
+            
+            <control type="group">
+                <!-- <visible>!Window.IsVisible(script-globalsearch-infodialog.xml)</visible>-->
+                <visible>!Window.IsVisible(script-script.extendedinfo-VideoList.xml) + !Window.IsVisible(DialogAddonInfo.xml) + !Window.IsVisible(DialogPVRRecordingInfo.xml) + !Window.IsVisible(DialogPVRGuideInfo.xml) + !Window.IsVisible(DialogMusicInfo.xml) + !Window.IsVisible(DialogVideoInfo.xml) + !Window.IsVisible(script-script.extendedinfo-DialogInfo.xml) + !Window.IsVisible(script-script.extendedinfo-DialogVideoInfo.xml)</visible>
+                <animation type="WindowOpen" reversible="false">
+                    <effect type="fade" start="0" end="100" time="300" tween="sine" easing="in" />
+                    <effect type="zoom" start="50" end="100" time="300" center="auto" tween="quadratic" easing="out" />
+                </animation>
+                <animation type="WindowClose" reversible="false">
+                    <effect type="fade" end="0" start="100" time="200" tween="sine" easing="out" />
+                    <effect type="zoom" end="75" start="100" time="200" center="auto" tween="quadratic" easing="in" />
+                </animation>
+                <animation type="Visible" reversible="false">
+                    <effect type="fade" start="0" end="100" time="300" delay="300" tween="sine" easing="in" />
+                    <effect type="zoom" start="115" end="100" time="300" delay="300" center="auto" tween="sine" easing="out" />
+                </animation>
+                <animation type="Hidden" reversible="false">
+                    <effect type="zoom" start="100" end="115" center="auto" tween="sine" delay="0" easing="out" time="300" />
+                    <effect type="fade" start="100" end="0" tween="cubic" easing="out" delay="0" time="300" />
+                </animation>
+                <animation type="Conditional" reversible="true" condition="Window.IsVisible(script-skinshortcuts.xml) | Window.IsVisible(DialogSongInfo.xml) | Window.IsVisible(DialogPictureInfo.xml) | Window.IsVisible(FileBrowser.xml) | Window.IsVisible(DialogConfirm.xml) | Window.IsVisible(DialogSelect.xml) | Window.IsVisible(DialogContextMenu.xml) | Window.IsVisible(DialogButtonMenu.xml) | ControlGroup(9000).HasFocus()">
+                    <effect type="zoom" end="95" start="100" time="200" center="auto" tween="quadratic" easing="in" />
+                </animation>
+                <left>SidePad</left>
+                <right>SidePad</right>
+                <top>PosterPad</top>
+                <bottom>SidePad</bottom>
+                <control type="group">
+                    <visible>Control.IsVisible(60)</visible>
+                    <control type="image">
+                        <top>-30</top>
+                        <centerleft>50%</centerleft>
+                        <width>16</width>
+                        <height>16</height>
+                        <texture colordiffuse="Dark2" flipy="true">common/arrow-small.png</texture>
+                        <animation effect="fade" end="100" start="0" delay="300" time="400" reversible="false">Visible</animation>
+                    </control>
+                    <control type="image">
+                        <bottom>100</bottom>
+                        <centerleft>50%</centerleft>
+                        <width>16</width>
+                        <height>16</height>
+                        <texture colordiffuse="Dark2" flipy="false">common/arrow-small.png</texture>
+                        <animation effect="fade" end="100" start="0" delay="300" time="400" reversible="false">Visible</animation>
+                    </control>
+                </control>
+                
+                <control type="scrollbar" id="60">
+                    <left>-1000</left>
+                    <animation effect="fade" start="100" end="0" time="400" condition="true">Conditional</animation>
+                </control>
+    
+                <control type="grouplist" id="9500">
+                    <posy>0</posy>
+                    <height>660</height>
+                    <left>0</left>
+                    <right>-30</right>
+                    <itemgap>0</itemgap>
+                    <pagecontrol>60</pagecontrol>
+                    <orientation>vertical</orientation>
+                    <include content="GlobalSearchListGroupParams">
+                        <param name="buttonclick" value="ActivateWindow(videos,movieactors,return)" />
+                        <param name="iconimage" value="special://skin/extras/icons/actor.png" />
+                        <param name="buttonid" value="9601" />
+                        <param name="groupid" value="219" />
+                        <param name="labelid" value="210" />
+                        <param name="listid" value="211" />
+                        <param name="locallabel" value="$LOCALIZE[20337]" />
+                        <param name="onleft" value="181" />
+                        <param name="onright" value="111" />
+                    </include>
+                    <include content="GlobalSearchListGroupParams">
+                        <param name="buttonclick" value="ActivateWindow(videos,movietitles,return)" />
+                        <param name="iconimage" value="special://skin/extras/icons/film.png" />
+                        <param name="buttonid" value="9602" />
+                        <param name="groupid" value="119" />
+                        <param name="labelid" value="110" />
+                        <param name="listid" value="111" />
+                        <param name="locallabel" value="$LOCALIZE[20342]" />
+                        <param name="onleft" value="211" />
+                        <param name="onright" value="121" />
+                    </include>
+                    <include content="GlobalSearchListGroupParams">
+                        <param name="buttonclick" value="ActivateWindow(videos,tvshowtitles,return)" />
+                        <param name="iconimage" value="special://skin/extras/icons/tv.png" />
+                        <param name="buttonid" value="9603" />
+                        <param name="groupid" value="129" />
+                        <param name="labelid" value="120" />
+                        <param name="listid" value="121" />
+                        <param name="locallabel" value="$LOCALIZE[20343]" />
+                        <param name="onleft" value="111" />
+                        <param name="onright" value="131" />
+                    </include>
+                    <include content="GlobalSearchListGroupParams">
+                        <param name="buttonclick" value="ActivateWindow(videos,tvshowtitles,return)" />
+                        <param name="iconimage" value="special://skin/extras/icons/video.png" />
+                        <param name="buttonid" value="9604" />
+                        <param name="groupid" value="139" />
+                        <param name="labelid" value="130" />
+                        <param name="listid" value="131" />
+                        <param name="locallabel" value="$LOCALIZE[33054]" />
+                        <param name="onleft" value="121" />
+                        <param name="onright" value="141" />
+                    </include>
+                    <include content="GlobalSearchListGroupParams">
+                        <param name="buttonclick" value="ActivateWindow(videos,tvshowtitles,return)" />
+                        <param name="iconimage" value="special://skin/extras/icons/video.png" />
+                        <param name="buttonid" value="9605" />
+                        <param name="groupid" value="149" />
+                        <param name="labelid" value="140" />
+                        <param name="listid" value="141" />
+                        <param name="locallabel" value="$LOCALIZE[20360]" />
+                        <param name="onleft" value="131" />
+                        <param name="onright" value="151" />
+                    </include>
+                    <include content="GlobalSearchListGroupParams">
+                        <param name="buttonclick" value="ActivateWindow(videos,tvshowtitles,return)" />
+                        <param name="iconimage" value="special://skin/extras/icons/video.png" />
+                        <param name="buttonid" value="9606" />
+                        <param name="groupid" value="159" />
+                        <param name="labelid" value="150" />
+                        <param name="listid" value="151" />
+                        <param name="locallabel" value="$LOCALIZE[20389]" />
+                        <param name="onleft" value="141" />
+                        <param name="onright" value="161" />
+                    </include>
+                    <include content="GlobalSearchListGroupParams">
+                        <param name="buttonclick" value="ActivateWindow(music,artists,return)" />
+                        <param name="iconimage" value="special://skin/extras/icons/artist.png" />
+                        <param name="buttonid" value="9607" />
+                        <param name="groupid" value="169" />
+                        <param name="labelid" value="160" />
+                        <param name="listid" value="161" />
+                        <param name="locallabel" value="$LOCALIZE[133]" />
+                        <param name="onleft" value="151" />
+                        <param name="onright" value="171" />
+                    </include>
+                    <include content="GlobalSearchListGroupParams">
+                        <param name="buttonclick" value="ActivateWindow(music,albums,return)" />
+                        <param name="iconimage" value="special://skin/extras/icons/songs.png" />
+                        <param name="buttonid" value="9608" />
+                        <param name="groupid" value="179" />
+                        <param name="labelid" value="170" />
+                        <param name="listid" value="171" />
+                        <param name="locallabel" value="$LOCALIZE[132]" />
+                        <param name="onleft" value="161" />
+                        <param name="onright" value="181" />
+                    </include>
+                    <include content="GlobalSearchListGroupParams">
+                        <param name="buttonclick" value="ActivateWindow(music,songs,return)" />
+                        <param name="iconimage" value="special://skin/extras/icons/song.png" />
+                        <param name="buttonid" value="9609" />
+                        <param name="groupid" value="189" />
+                        <param name="labelid" value="180" />
+                        <param name="listid" value="181" />
+                        <param name="locallabel" value="$LOCALIZE[134]" />
+                        <param name="onleft" value="171" />
+                        <param name="onright" value="211" />
+                    </include>
+                    
+                </control>
+            </control>
+        </control>
+        <control type="label" id="110">
+            <visible>false</visible>
+        </control>
+        <control type="label" id="120">
+            <visible>false</visible>
+        </control>
+        <control type="label" id="130">
+            <visible>false</visible>
+        </control>
+        <control type="label" id="140">
+            <visible>false</visible>
+        </control>
+        <control type="label" id="150">
+            <visible>false</visible>
+        </control>
+        <control type="label" id="160">
+            <visible>false</visible>
+        </control>
+        <control type="label" id="170">
+            <visible>false</visible>
+        </control>
+        <control type="label" id="180">
+            <visible>false</visible>
+        </control>
+        <control type="label" id="210">
+            <visible>false</visible>
+        </control>
+        <control type="label" id="190" description="Searching">
+            <visible>false</visible>
+        </control>
+        <control type="label" id="191" description="Currently Searching">
+            <visible>false</visible>
+        </control>
+        <control type="label" id="198" description="New Search Button">
+            <visible>false</visible>
+        </control>
+        <control type="label" id="199">
+            <visible>false</visible>
+        </control>
+        
+    </controls>
+</window>

@@ -1,0 +1,226 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Foundation -->
+<window id="115">
+    <defaultcontrol always="true">901</defaultcontrol>
+    <visible>Window.IsActive(fullscreenvideo) + !Window.IsActive(script.pseudotv.TVOverlay.xml) + !Window.IsActive(script.pseudotv.live.TVOverlay.xml)</visible>
+    <visible>Window.IsActive(fullscreenvideo) + !Window.IsActive(script.pseudotv.TVOverlay.xml) + !Window.IsActive(script.pseudotv.live.TVOverlay.xml)</visible>
+    <visible>Window.IsActive(fullscreenvideo) + !Window.IsActive(script.pseudotv.TVOverlay.xml) + !Window.IsActive(script.pseudotv.live.TVOverlay.xml)</visible>
+    <allowoverlay>no</allowoverlay>
+    <visible>[VideoPlayer.IsFullscreen] + [Window.IsVisible(videoosd) | Window.IsVisible(fullscreeninfo) | Player.Seeking | Player.DisplayAfterSeek | Player.Paused | Player.Forwarding | Player.Rewinding | Player.ShowInfo | !IsEmpty(Window(home).Property(osdshowinfo))]</visible>
+    <zorder>0</zorder>
+    <controls>
+	
+			
+		
+	
+	
+        <control type="group">
+            <animation effect="slide" start="0" end="0,-74" time="150" condition="Window.IsVisible(videoosd)">Conditional</animation>
+            <control type="group">
+                <animation effect="slide" start="0" end="0,-40" time="150" condition="Window.IsVisible(fullscreeninfo) | Player.ShowInfo | !IsEmpty(Window(home).Property(osdshowinfo)) | [Player.Paused + Skin.HasSetting(osd.showinfoonpause)]">Conditional</animation>
+                <animation effect="slide" start="0" end="0,110" time="150" condition="!Window.IsVisible(fullscreeninfo) + !Player.Seeking + !Player.DisplayAfterSeek + !Player.Paused + !Player.Forwarding + !Player.Rewinding + !Player.ShowInfo + IsEmpty(Window(home).Property(osdshowinfo))">Conditional</animation>
+                <animation effect="slide" start="0,110" end="0" time="150">Visible</animation>
+                <animation effect="slide" start="0,110" end="0" time="150">WindowOpen</animation>
+                <control type="image">
+                    <right>0</right>
+                    <bottom>110</bottom>
+                    <width>500</width>
+                    <height>281</height>
+                    <texture>$VAR[PlayerClearart]</texture>
+                    <aspectratio align="right" aligny="bottom">keep</aspectratio>
+                    <include>Animation.FadeIn</include>
+                    <include>Animation.FadeOut</include>
+                    <visible>Skin.HasSetting(ShowClearArtOSD)</visible>
+                    <animation effect="slide" start="0" end="-70,0" condition="IsEmpty(Player.Art(clearart)) + IsEmpty(Player.Art(tvshow.clearart))">Conditional</animation>
+                </control>
+				<!-- Bild Hintergrund unten -->
+                <control type="image">
+                    <top>110r</top>
+                    <width>100%</width>
+                    <height>374</height>
+                    <texture>common/white.png</texture>
+                    <colordiffuse>$VAR[OSDPanel]</colordiffuse>
+                    <animation effect="fade" start="100" end="95" condition="Skin.HasSetting(osd.usetheme)">Conditional</animation>
+                    <include>Animation.FadeOut</include>
+                </control>
+            </control>
+            <control type="group">
+                <top>180r</top>
+                <bottom>0</bottom>
+                <width>100%</width>
+				<height>200</height>
+                <visible>Window.IsVisible(fullscreeninfo) | Player.ShowInfo | !IsEmpty(Window(home).Property(osdshowinfo)) | [Player.Paused + Skin.HasSetting(osd.showinfoonpause)]</visible>
+                <animation effect="fade" start="0" end="100" delay="150" time="150">Visible</animation>
+                <animation effect="fade" start="0" end="100" delay="150" time="150">WindowOpen</animation>
+                <control type="group">
+                    <left>SidePad</left>
+                    <right>SidePad</right>
+                    <top>20</top>
+                    <bottom>20</bottom>
+					
+					
+					
+
+					<!--<control type="image">	
+				                
+						<posx>0</posx>
+						<posy>-227</posy>
+						<width>250</width>
+						<height>250</height>
+							
+						<visible>!IsEmpty(Player.Art(poster)</visible>			
+						<texture fallback="backg/bd.png">$INFO[Player.Art(discart)]</texture>
+						<animation effect="slide" tween="sine" easing="out" start="-70" end="76" delay="300" time="500">WindowOpen</animation>
+						<animation effect="rotate" end="-360" center="auto" time="3800" loop="true" reversible="false" condition="true">Conditional</animation>
+						<animation effect="slide" start="0" end="-500" time="2000">WindowClose</animation>
+					</control>
+					
+					
+					
+					
+                    <control type="image">
+						<visible>!IsEmpty(Player.Art(tvshow.poster)) | !IsEmpty(Player.Art(poster))</visible>
+						<left>-70</left>
+						<top>-240</top>
+                        <width>270</width>
+						<height>390</height>
+                        <texture>$VAR[PlayerPoster]</texture>                       
+						<animation effect="slide" delay="0" tween="sine" easing="out" start="-70" end="0" time="200">WindowOpen</animation>
+                    </control>-->
+				
+			
+                    
+					
+					
+					
+                    <control type="image">
+                        <width>260</width>
+                        <height>260</height>
+						<bottom>-50</bottom>
+                        <aspectratio>keep</aspectratio>
+                        <texture>$INFO[Player.Art(thumb)]</texture>
+                        <visible>VideoPlayer.Content(LiveTV) + !IsEmpty(Player.Art(thumb))</visible>
+                    </control>
+                    
+                    <control type="group">
+                        <left>290</left>
+                        <visible>VideoPlayer.Content(LiveTV) + !IsEmpty(Player.Art(thumb))</visible>
+                        <include>OSDInfoContent</include>
+                    </control>
+                    
+                    <control type="group">
+                        <left>203</left>
+                        <visible>!IsEmpty(Player.Art(tvshow.poster)) | !IsEmpty(Player.Art(poster))</visible>
+                        <include>OSDInfoContent</include>
+                    </control>
+                    
+                    <control type="group">
+                        <left>0</left>
+                        <visible>IsEmpty(Player.Art(tvshow.poster)) + IsEmpty(Player.Art(poster)) + [!VideoPlayer.Content(LiveTV) | IsEmpty(Player.Art(thumb))]</visible>
+                        <include>OSDInfoContent</include>
+                    </control>
+                
+                </control>
+            </control>
+            <control type="group">
+                <visible>!Player.Paused | !Skin.HasSetting(osd.showinfoonpause)</visible>
+                <visible>!Window.IsVisible(fullscreeninfo) + !Player.ShowInfo + IsEmpty(Window(home).Property(osdshowinfo))</visible>
+                <visible>Player.Seeking | Player.DisplayAfterSeek | Player.Paused | Player.Forwarding | Player.Rewinding</visible>
+                <animation effect="fade" start="0" end="100" delay="150" time="150">Visible</animation>
+                <animation effect="fade" start="0" end="100" delay="150" time="150">WindowOpen</animation>
+                <top>110r</top>
+                <bottom>0</bottom>
+                <width>100%</width>
+                
+                <control type="group">
+                    <left>SidePad</left>
+                    <right>SidePad</right>
+                    <top>20</top>
+                    <bottom>20</bottom>
+                    <control type="label" description="Finishes Time">
+                        <width>400</width>
+                        <bottom>30</bottom>
+                        <height>40</height>
+                        <font>Tiny</font>
+                        <textcolor>$VAR[OSDPanelWhite70]</textcolor>
+                        <label>$VAR[PlayerStatus]</label>
+                    </control>
+                    <control type="label" description="Duration Total Time">
+                        <right>0</right>
+                        <align>right</align>
+                        <width>400</width>
+                        <bottom>30</bottom>
+                        <height>40</height>
+                        <font>Tiny</font>
+                        <textcolor>$VAR[OSDPanelWhite70]</textcolor>
+                        <label>$INFO[Player.Time]$INFO[Player.Duration,  /  ,]</label>
+                    </control>
+          
+                    <control type="progress" description="cache">
+                        <description>Progress Bar</description>
+                        <width>100%</width>
+                        <bottom>10</bottom>
+                        <height>8</height>
+                        <info>Player.ProgressCache</info>
+                        <visible>true</visible>
+                        <texturebg colordiffuse="00ffffff">osd/progress-bg.png</texturebg>
+                        <lefttexture colordiffuse="Highlight2">osd/progress-end.png</lefttexture>
+                        <midtexture colordiffuse="Highlight2">osd/progress-end.png</midtexture>
+                        <righttexture colordiffuse="Highlight2">osd/progress-end.png</righttexture>
+                    </control>
+                    <control type="progress" id="23">
+                        <description>Progress Bar</description>
+                        <width>100%</width>
+                        <bottom>10</bottom>
+                        <height>8</height>
+                        <info>Player.Progress</info>
+                        <visible>!Player.Seeking</visible>
+                    </control>
+                    <control type="progress" id="401">
+                        <description>Progress Bar</description>
+                        <width>100%</width>
+                        <bottom>10</bottom>
+                        <height>8</height>
+                        <visible>Player.Seeking</visible>
+                    </control>
+                </control>
+            </control>
+        
+        </control>
+		
+		
+		
+		<control type="group">
+			<left>10</left>
+			<top>680</top>
+			<visible>Window.IsVisible(fullscreeninfo) | Player.ShowInfo | !IsEmpty(Window(home).Property(osdshowinfo)) | [Player.Paused + Skin.HasSetting(osd.showinfoonpause)]</visible>
+			<animation effect="slide" start="0" end="0,-74" time="150" condition="Window.IsVisible(videoosd)">Conditional</animation>
+			<animation effect="slide" start="0" end="-800" time="300" delay="0" reversible="false">Hidden</animation>
+			<control type="image">	               
+				<top>10</top>
+				<width>250</width>
+				<height>250</height>					
+				<visible>!IsEmpty(Player.Art(poster)</visible>			
+				<texture fallback="backg/bd.png">$INFO[Player.Art(discart)]</texture>
+				<animation effect="slide" tween="sine" easing="out" start="0" end="146" delay="250" time="400">WindowOpen</animation>
+				<animation effect="slide" start="0" end="-400" time="300" delay="0" reversible="false">Hidden</animation>
+				<animation effect="rotate" end="-360" center="auto" time="3800" loop="true" reversible="false" condition="true">Conditional</animation>
+			</control>
+			
+			<control type="image">
+				
+				<width>270</width>
+				<height>390</height>
+				<texture>$VAR[PlayerPoster]</texture>
+				<animation effect="slide" tween="sine" easing="out" start="-200" end="0" delay="0" time="200">WindowOpen</animation>
+				<animation effect="slide" start="0" end="-800" time="300" delay="100" reversible="false">Hidden</animation>
+			</control>
+			
+		</control>
+		
+		
+        <!-- Clock -->
+        <include>Furniture_OSDClock</include>
+    </controls>
+
+</window>

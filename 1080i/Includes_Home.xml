@@ -1,0 +1,2535 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<includes>
+    <include name="HomeHeader">
+        <!-- Header -->
+        <control type="group">
+            <visible>Skin.HasSetting(home.showheader)</visible>
+            
+            <animation effect="slide" start="0" end="0,-250" time="150" condition="[!Skin.HasSetting(home.classicwidgets) + Control.HasFocus(301)]">Conditional</animation>
+            <animation effect="slide" start="0" end="0,-250" time="150">WindowClose</animation>
+            <animation effect="slide" end="0" start="0,-250" time="150">WindowOpen</animation>
+            <control type="image" description="TopBG">
+                <width>100%</width>
+                <top>0</top>
+                <height>240</height>
+                <aspectratio aligny="top">scale</aspectratio>
+                <texture colordiffuse="Background">common/bg.jpg</texture>
+                <animation effect="fade" start="100" end="75" time="200" condition="true">Conditional</animation>
+            </control>
+            <control type="image" description="FanartOverlay">
+                <width>100%</width>
+                <height>240</height>
+                <top>0</top>
+                <aspectratio aligny="bottom">scale</aspectratio>
+                <texture colordiffuse="FloorFade2">common/floor.png</texture>
+            </control>
+            <control type="image" description="Shadow">
+                <width>100%</width>
+                <height>16</height>
+                <top>240</top>
+                <texture flipy="false">common/shadow16B.png</texture>
+            </control>
+            <include>Furniture_Header</include>
+            <control type="group">
+                <visible>Player.HasMedia</visible>
+                <include>Animation.FadeIn</include>
+                <include>Animation.FadeOut</include>
+                <include>Furniture_NowPlaying</include>
+            </control>
+        </control>
+    </include>
+    
+    <include name="HomeNowPlaying">
+        <!-- Next Recording -->
+        <control type="group">
+            <right>72</right>
+            <posy>70</posy>
+            <width>660</width>
+            <height>100</height>
+            <include>Animation.FadeIn.Slide</include>
+            <include>Animation.FadeOut</include>
+            <visible>!Skin.HasSetting(home.showheader)</visible>
+            <visible>Player.HasMedia</visible>
+            <visible>!Control.HasFocus(301) | [Skin.HasSetting(home.classicwidgets) + !Skin.HasSetting(home.showheader)]</visible>
+            <animation effect="slide" end="0,100" time="150" condition="[[!Skin.HasSetting(home.showheader) + [Window.IsVisible(DialogNotification.xml) | Window.IsVisible(DialogExtendedProgressBar.xml) | Window.IsVisible(DialogVolumeBar.xml)]]]">Conditional</animation>
+            <control type="image">
+                <description>background image</description>
+                <posx>0</posx>
+                <posy>0</posy>
+                <width>660</width>
+                <height>100</height>
+                <texture border="16" colordiffuse="Background">common/rounded-shadow8.png</texture>
+                <animation effect="fade" start="100" end="90" condition="true">Conditional</animation>
+            </control>
+			<control type="image">
+				<left>6</left>
+				<top>6</top>
+				<right>6</right>
+				<bottom>6</bottom>                         
+				<texture colordiffuse="FF505050" background="true">common/box4.png</texture>   
+				<visible>Skin.HasSetting(thumbnails.white)</visible>                        
+			</control>
+            
+            <control type="group">
+                <centertop>50%</centertop>
+                <centerleft>52</centerleft>
+                <height>100</height>
+                <width>100</width>
+                <control type="image" description="Back">
+                    <left>0</left>
+                    <centertop>50%</centertop>
+                    <width>100</width>
+                    <height>100</height>
+                    <aspectratio align="center" aligny="center">keep</aspectratio>
+                    <texture>progress/back.png</texture>
+                    <animation effect="fade" start="0" end="100" time="150">VisibleChange</animation>
+                </control>
+                <control type="image" description="Play">
+                    <left>0</left>
+                    <centertop>50%</centertop>
+                    <width>100</width>
+                    <height>100</height>
+                    <aspectratio align="center" aligny="center">keep</aspectratio>
+                    <texture colordiffuse="Dark1">progress/play.png</texture>
+                    <animation effect="fade" start="0" end="100" time="150">VisibleChange</animation>
+                    <visible>!Player.Paused</visible>
+                </control>
+                <control type="image" description="Pause">
+                    <left>0</left>
+                    <centertop>50%</centertop>
+                    <width>100</width>
+                    <height>100</height>
+                    <aspectratio align="center" aligny="center">keep</aspectratio>
+                    <texture colordiffuse="Dark1">progress/pause.png</texture>
+                    <animation effect="fade" start="0" end="100" time="150">VisibleChange</animation>
+                    <visible>Player.Paused</visible>
+                </control>
+                <control type="progress" id="9666">
+                    <texturebg>-</texturebg>
+                    <lefttexture>-</lefttexture>
+                    <midtexture>-</midtexture>
+                    <righttexture>-</righttexture>
+                    <info>Player.Progress</info>
+                    <visible>false</visible>
+                </control>
+                <control type="image">
+                    <left>0</left>
+                    <centertop>50%</centertop>
+                    <width>100</width>
+                    <height>100</height>
+                    <texture colordiffuse="$VAR[ColorHighlight]">$INFO[Control.GetLabel(9666),progress/circle/p,.png]</texture>
+                    <aspectratio align="center">keep</aspectratio>
+                    <visible>!String.IsEmpty(Player.Duration)</visible>
+                </control>
+              
+            </control>
+
+            <control type="group">
+                <left>104</left>
+                <width>550</width>
+                <posy>10</posy>
+                <control type="label">
+                    <centertop>24</centertop>
+                    <width>auto</width>
+                    <font>SmallBold</font>
+                    <align>left</align>
+                    <textcolor>Dark1</textcolor>
+                    <label>$INFO[Player.Title]</label>
+                </control>
+                <control type="label">
+                    <centertop>58</centertop>
+                    <align>left</align>
+                    <font>Flag</font>
+                    <width>auto</width>
+                    <textcolor>Dark2</textcolor>
+                    <label>$INFO[VideoPlayer.TvShowTitle,,  ]$INFO[MusicPlayer.Artist,,  ]$INFO[Player.Time]$INFO[Player.Duration, / ,]</label>
+                </control>
+            </control>
+        </control>     
+    </include>
+
+    <include name="HomeNextRecording">
+        <!-- Next Recording -->
+        <control type="group">
+            <right>72</right>
+            <posy>70</posy>
+            <width>660</width>
+            <height>100</height>
+            <include>Animation.FadeIn.Slide</include>
+            <include>Animation.FadeOut</include>
+            <visible>!Control.HasFocus(301) | [Skin.HasSetting(home.classicwidgets) + !Skin.HasSetting(home.showheader)]</visible>
+            <visible>Skin.HasSetting(home.showheader) | !Window.IsVisible(DialogNotification.xml)</visible>
+            <visible>Skin.HasSetting(home.showheader) | !Window.IsVisible(DialogExtendedProgress.xml)</visible>
+            <visible>Skin.HasSetting(home.showheader) | !Window.IsVisible(DialogVolumeBar.xml)</visible>
+            <animation effect="slide" end="0,100" time="150" condition="!Skin.HasSetting(home.showheader) + Player.HasMedia">Conditional</animation>
+            <animation effect="slide" start="0" end="0,190" time="150" condition="Skin.HasSetting(home.showheader)">Conditional</animation>
+            <visible>Pvr.IsRecording | Pvr.HasTimer</visible>
+            <control type="image">
+                <description>background image</description>
+                <posx>0</posx>
+                <posy>0</posy>
+                <width>660</width>
+                <height>100</height>
+                <texture border="16" colordiffuse="Background">common/rounded-shadow8.png</texture>
+                <animation effect="fade" start="100" end="90" condition="true">Conditional</animation>
+            </control>
+
+            <control type="group">
+                
+                <control type="image">
+                    <left>20</left>
+                    <centertop>50%</centertop>
+                    <width>64</width>
+                    <height>64</height>
+                    <aspectratio>keep</aspectratio>
+                    <texture colordiffuse="Dark1">kaitoast/info.png</texture>
+                </control>
+                
+                <control type="label">
+                    <left>104</left>
+                    <top>22</top>
+                    <height>24</height>
+                    <aligny>center</aligny>
+                    <font>TinyBold</font>
+                    <textcolor>Dark1</textcolor>
+                    <label>$VAR[LabelNextRecordingHeader]</label>
+                </control>
+                <control type="label">
+                    <left>104</left>
+                    <bottom>22</bottom>
+                    <height>24</height>
+                    <aligny>center</aligny>
+                    <font>Tiny</font>
+                    <textcolor>Dark1</textcolor>
+                    <label>$VAR[LabelNextRecording]</label>
+                </control>
+
+            </control>
+        </control>   
+    </include>
+    
+    <include name="HomeWeatherWidget">
+        <!-- Weather Widget -->
+        <control type="group">
+            <animation effect="slide" start="0" end="0,200" time="150" condition="Skin.HasSetting(home.showheader)">Conditional</animation>
+            <animation effect="slide" end="0,100" time="150" condition="[Pvr.IsRecording | Pvr.HasTimer | [!Skin.HasSetting(home.showheader) + [Window.IsVisible(DialogNotification.xml) | Window.IsVisible(DialogExtendedProgressBar.xml) | Window.IsVisible(DialogVolumeBar.xml)]]]">Conditional</animation>
+            <animation effect="slide" end="0,100" time="150" condition="!Skin.HasSetting(home.showheader) + Player.HasMedia">Conditional</animation>
+            <visible>String.Contains(Container(300).ListItem.Property(widget),Weather,left) | Skin.HasSetting(home.showweatherfanart)</visible>
+            <visible>!Player.HasVideo | !Skin.HasSetting(global.showvideo)</visible>
+            <visible>!Control.HasFocus(301) | [Skin.HasSetting(home.classicwidgets) + !Skin.HasSetting(home.showheader) + ![Player.HasMedia + [Pvr.IsRecording | Pvr.HasTimer | Window.IsVisible(DialogNotification.xml) | Window.IsVisible(DialogExtendedProgressBar.xml) | Window.IsVisible(DialogVolumeBar.xml)]]]</visible>
+            <include>Animation.FadeIn.Slide</include>
+            <include>Animation.FadeOut</include>
+            <visible>!Skin.HasSetting(furniture.weather)</visible>
+            <right>72</right>
+            <posy>70</posy>
+            <width>660</width>
+            <height>100</height>
+            <control type="image">
+                <description>background image</description>
+                <left>0</left>
+                <top>0</top>
+                <bottom>0</bottom>
+                <width>660</width>
+                <texture border="16" colordiffuse="Background">common/rounded-shadow8.png</texture>
+                <animation effect="fade" start="100" end="90" condition="true">Conditional</animation>
+            </control>
+			<control type="image">
+				<left>6</left>
+				<top>6</top>
+				<right>6</right>
+				<bottom>6</bottom>                         
+				<texture colordiffuse="FF505050" background="true">common/box4.png</texture>   
+				<visible>Skin.HasSetting(thumbnails.white)</visible>                        
+			</control>
+            <control type="image">
+                <centertop>52</centertop>
+                <centerleft>52</centerleft>
+                <width>80</width>
+                <height>80</height>
+                <fadetime>350</fadetime>
+                <aspectratio aligny="center" align="center">keep</aspectratio>
+                <texture colordiffuse="Dark1">$INFO[Weather.FanartCode,resource://resource.images.weathericons.white/,.png]</texture>
+            </control>
+            <control type="label">
+                <left>104</left>
+                <top>22</top>
+                <right>30</right>
+                <aligny>center</aligny>
+                <height>24</height>
+                <font>TinyBold</font>
+                <textcolor>Dark2</textcolor>
+                <label>$INFO[Weather.Conditions]</label>
+            </control>
+            <control type="label">
+                <left>104</left>
+                <bottom>22</bottom>
+                <right>30</right>
+                <aligny>center</aligny>
+                <height>24</height>
+                <font>SmallBold</font>
+                <textcolor>Dark1</textcolor>
+                <label>$INFO[Weather.Temperature]</label>
+            </control>
+            <control type="label">
+                <left>104</left>
+                <bottom>22</bottom>
+                <right>30</right>
+                <aligny>center</aligny>
+                <height>24</height>
+                <align>right</align>
+                <font>Flag</font>
+                <autoscroll>false</autoscroll>
+                <textcolor>Dark3</textcolor>
+                <label>$INFO[Weather.Location]</label>
+            </control>
+        </control>
+    </include>
+
+    <include name="HomeWidgetUpdating">
+        <!-- Container Updating -->
+        <control type="group">
+            <left>40</left>
+            <bottom>250</bottom>
+            <width>450</width>
+            <height>117</height>
+            <visible>Container(301).IsUpdating</visible>
+            <include>Animation.FadeIn</include>
+            <include>Animation.FadeOut</include>
+            <control type="image">
+                <description>background image</description>
+                <posx>0</posx>
+                <posy>0</posy>
+                <width>450</width>
+                <height>117</height>
+                <animation effect="fade" start="100" end="90" condition="true">Conditional</animation>
+                <texture border="16" colordiffuse="Background">common/rounded-shadow8.png</texture>
+            </control>
+			<control type="image">
+				<left>6</left>
+                <top>7</top>
+                <width>436</width>
+                <height>102</height>
+				<texture colordiffuse="Box2" border="1">common/box3.png</texture>
+				<animation effect="fade" start="100" end="45" condition="true">Conditional</animation>
+				<visible>Skin.HasSetting(thumbnails.white)</visible> 
+			</control>
+
+            <control type="image">
+                <description>Busy animation</description>
+                <centerleft>54</centerleft>
+                <centertop>54</centertop>
+                <width>100</width>
+                <height>100</height>
+                <texture>dialog/loading-back.png</texture>
+                <aspectratio>keep</aspectratio>
+            </control>
+            <control type="image">
+                <description>Busy animation</description>
+                <centerleft>54</centerleft>
+                <centertop>54</centertop>
+                <width>100</width>
+                <height>100</height>
+                <animation effect="rotate" condition="true" start="0" end="360" loop="true" time="1000" center="auto">Conditional</animation>
+                <texture colordiffuse="$VAR[ColorHighlight]">dialog/loading-spinner.png</texture>
+                <aspectratio>keep</aspectratio>
+            </control>
+
+            <control type="label">
+                <description>Busy label</description>
+                <posx>105</posx>
+                <posy>30</posy>
+                <width>720</width>
+                <height>48</height>
+                <align>left</align>
+                <label>$LOCALIZE[31138]...</label>
+                <textcolor>Dark1</textcolor>
+            </control>
+        </control> 
+    </include>
+    <include name="Home-Widget-Featured">
+            <control type="wraplist" id="301">
+                <description>Widget</description>
+                <width>1</width>
+                <height>1</height>
+                <oninfo condition="String.IsEmpty(Container(301).ListItem.TvShowTitle) + String.IsEmpty(Container(301).ListItem.Artist)">RunScript(script.extendedinfo,info=extendedinfo,name=$INFO[Container(301).ListItem.Title],imdb_id=$INFO[Container(301).ListItem.IMDBNumber])</oninfo>
+                <oninfo condition="!String.IsEmpty(Container(301).ListItem.TvShowTitle)">RunScript(script.extendedinfo,info=extendedtvinfo,name=$INFO[Container(301).ListItem.TvShowTitle],imdb_id=$INFO[Container(301).ListItem.IMDBNumber])</oninfo>
+                <onup condition="String.IsEmpty(Container(300).ListItem.Property(widget))">303</onup>
+                <onup condition="!String.IsEmpty(Container(300).ListItem.Property(widget))">300</onup>
+                <ondown>300</ondown>
+                <onback>300</onback>
+                <onleft>301</onleft>
+                <onright>301</onright>
+                <preloaditems>2</preloaditems>
+                <orientation>horizontal</orientation>
+                <autoscroll time="10000">!Control.HasFocus(301)</autoscroll>
+                <scrolltime tween="quadratic">0</scrolltime>
+                <include>Animation.FadeIn</include>
+                <include>Animation.FadeOut</include>
+                <itemlayout width="1" height="1">
+                </itemlayout>
+                <focusedlayout width="1" height="1">
+                </focusedlayout>
+                <content target="$VAR[DefWidgetTarget]">$VAR[DefWidgetContent]</content>
+            </control>
+    </include>
+    <include name="HomeWidgetInfo">
+        <!-- Widget Info -->
+        <control type="group">
+            <animation type="WindowClose">
+                <effect type="fade" start="100" end="0" time="150"/>
+            </animation>
+            <include condition="Skin.HasSetting(NoPersistentWidgets)">Home-Widget-Featured</include>
+            <include condition="!Skin.HasSetting(NoPersistentWidgets)">skinshortcuts-template-widget-featured</include>
+     
+            <!-- Normal Widget -->
+            <control type="group">
+                <visible>!Container(301).IsUpdating</visible>
+                <visible>Integer.IsGreater(Container(301).NumItems,0)</visible>
+                <visible>!String.Contains(Container(300).ListItem.Property(widget),Weather,left)</visible>
+                <visible>!String.IsEqual(Container(300).ListItem.Property(widgetaspect),Square) + !String.IsEqual(Container(300).ListItem.Property(widgetaspect),Thumbnail) + !String.IsEqual(Container(300).ListItem.Property(widgetaspect),Fanart)</visible>
+                <visible>![Window.IsVisible(home) + !String.IsEmpty(Skin.String(home.slideshowpath)) + String.IsEmpty(Container(300).ListItem.Property(widget))] + [String.IsEmpty(Container(300).ListItem.Property(Background)) | !String.IsEmpty(Container(300).ListItem.Property(widget))]</visible>
+                <visible>!Player.HasVideo | !Skin.HasSetting(global.showvideo)</visible>
+                <visible>!Skin.HasSetting(home.dontautoshowwidget) | Control.HasFocus(301)</visible>
+                <include>Animation.FadeIn</include>
+                <animation effect="slide" start="0" end="0,220" time="500" tween="back" reversible="false" easing="out" condition="Control.HasFocus(301)">Conditional</animation>
+                <animation effect="slide" end="0" start="0,220" time="150" reversible="false" condition="!Control.HasFocus(301)">Conditional</animation>
+                <left>40</left>
+                <bottom>220</bottom>
+                <width>890</width>
+                <height>339</height>
+                <control type="image">
+                    <left>0</left>
+                    <right>5</right>
+                    <top>0</top>
+                    <height>334</height>
+                    <texture border="10">common/shadow-5.png</texture>
+                </control>
+				<control type="image">
+                    <left>4</left>
+                    <right>9</right>
+                    <top>4</top>
+                    <height>326</height>
+                    <texture colordiffuse="Box2" border="10">common/box3.png</texture>
+					<visible>Skin.HasSetting(thumbnails.white)</visible> 
+                </control>
+                <control type="image">
+                    <top>5</top>
+                    <left>5</left>
+                    <right>10</right>
+                    <height>324</height>
+                    <animation effect="fade" start="100" end="90" time="200" condition="true">Conditional</animation>
+                    <texture border="5" colordiffuse="Background">common/box.png</texture>
+                </control>
+                <control type="image">
+                    <left>5</left>
+                    <top>5</top>
+                    <width>216</width>
+                    <height>324</height>
+                    <fadetime>350</fadetime>
+                    <aspectratio scalediffuse="false">scale</aspectratio>
+                    <texture diffuse="diffuse/widgetposter.png" fallback="DefaultAddonNone.png">$VAR[WidgetImage]</texture>
+                    <visible>!String.Contains(Container(300).ListItem.Property(widget),Weather,left)</visible>
+                </control>
+                <control type="image">
+                    <left>5</left>
+                    <top>5</top>
+                    <width>216</width>
+                    <height>324</height>
+                    <fadetime>350</fadetime>
+                    <aspectratio scalediffuse="false">keep</aspectratio>
+                    <texture diffuse="diffuse/widgetposter.png">$INFO[Weather.FanartCode,weather/,.png]</texture>
+                    <visible>String.Contains(Container(300).ListItem.Property(widget),Weather,left)</visible>
+                </control>
+                <!--<control type="label">
+                    <left>251</left>
+                    <top>5</top>
+                    <right>40</right>
+                    <aligny>center</aligny>
+                    <height>80</height>
+                    <font>TinyBold</font>
+                    <textcolor>Dark2</textcolor>
+                    <selectedcolor>Dark2</selectedcolor>
+                    <label>$VAR[WidgetLabel]</label>
+                </control>-->
+                <control type="label">
+                    <left>251</left>
+                    <top>10</top>
+                    <right>60</right>
+                    <aligny>center</aligny>
+                    <height>80</height>
+                    <font>MediumBold</font>
+                    <textcolor>Dark1</textcolor>
+                    <selectedcolor>Dark1</selectedcolor>
+                    <label>$VAR[WidgetTitle]</label>
+                </control>
+                <control type="textbox">
+                    <left>251</left>
+                    <right>40</right>
+                    <top>92</top>
+                    <height>153</height>
+                    <font>Tiny</font>
+                    <align>justify</align>
+                    <autoscroll>false</autoscroll>
+                    <textcolor>Dark2</textcolor>
+                    <selectedcolor>Dark2</selectedcolor>
+                    <shadowcolor>noop</shadowcolor>
+                    <label>$VAR[WidgetPlot]</label>
+                </control>
+                <control type="label">
+                    <left>251</left>
+                    <right>40</right>
+                    <top>255</top>
+                    <bottom>324</bottom>
+                    <align>right</align>
+                    <autoscroll>false</autoscroll>
+                    <textcolor>Dark1</textcolor>
+                    <selectedcolor>Dark1</selectedcolor>
+                    <label>$VAR[WidgetSubLabel]</label>
+                    <font>Flag</font>
+                </control>
+				
+				
+				<control type="image">
+					<left>782</left>
+					<top>4</top>
+					<animation effect="fade" start="0" end="100" time="50">VisibleChange</animation>            
+					<width>100</width>
+					<height>100</height>
+					<texture colordiffuse="$VAR[ColorHighlight]">$VAR[WidgetSubLabel33]</texture>					
+				</control>	
+				
+				<control type="image">
+					<left>782</left>
+					<top>4</top>
+					<animation effect="fade" start="0" end="100" time="50">VisibleChange</animation>            
+					<width>100</width>
+					<height>100</height>
+					<texture colordiffuse="FFFFFFFF">$VAR[WidgetSubLabel44]</texture>					
+				</control>
+				
+				
+				
+				
+				
+				
+				
+				
+				
+            </control>
+            
+            <!-- Square Widget -->
+            <control type="group">
+                <visible>!Container(301).IsUpdating</visible>
+                <visible>!Skin.HasSetting(home.dontautoshowwidget) | Control.HasFocus(301)</visible>
+                <visible>!String.Contains(Container(300).ListItem.Property(widget),Weather,left)</visible>
+                <visible>String.IsEqual(Container(300).ListItem.Property(widgetaspect),Square)</visible>
+                <visible>![Window.IsVisible(home) + !String.IsEmpty(Skin.String(home.slideshowpath)) + String.IsEmpty(Container(300).ListItem.Property(widget))] + [String.IsEmpty(Container(300).ListItem.Property(Background)) | !String.IsEmpty(Container(300).ListItem.Property(widget))]</visible>
+                <visible>!Player.HasVideo | !Skin.HasSetting(global.showvideo)</visible>
+                <include>Animation.FadeIn</include>
+                <animation effect="slide" start="0" end="0,220" time="500" tween="back" reversible="false" easing="out" condition="Control.HasFocus(301)">Conditional</animation>
+                <animation effect="slide" end="0" start="0,220" time="150" reversible="false" condition="!Control.HasFocus(301)">Conditional</animation>
+                <left>40</left>
+                <bottom>220</bottom>
+                <width>890</width>
+                <height>339</height>
+                <control type="image">
+                    <left>0</left>
+                    <right>5</right>
+                    <top>0</top>
+                    <height>334</height>
+                    <texture border="10">common/shadow-5.png</texture>
+                </control>
+                <control type="image">
+                    <top>5</top>
+                    <left>5</left>
+                    <right>10</right>
+                    <height>324</height>
+                    <animation effect="fade" start="100" end="90" time="200" condition="true">Conditional</animation>
+                    <texture border="5" colordiffuse="Background">common/box.png</texture>
+                </control>
+                <control type="image">
+                    <left>5</left>
+                    <top>5</top>
+                    <width>324</width>
+                    <height>324</height>
+                    <fadetime>350</fadetime>
+                    <aspectratio scalediffuse="false">scale</aspectratio>
+                    <texture diffuse="diffuse/widgetposter.png" fallback="DefaultAddonNone.png">$VAR[WidgetImage]</texture>
+                </control>
+      
+                <control type="label">
+                    <left>359</left>
+                    <top>5</top>
+                    <right>40</right>
+                    <aligny>center</aligny>
+                    <height>80</height>
+                    <font>TinyBold</font>
+                    <textcolor>Dark2</textcolor>
+                    <selectedcolor>Dark2</selectedcolor>
+                    <label>$VAR[WidgetLabel]</label>
+                </control>
+                <control type="label">
+                    <left>359</left>
+                    <top>55</top>
+                    <right>40</right>
+                    <aligny>center</aligny>
+                    <height>80</height>
+                    <font>MediumBold</font>
+                    <textcolor>Dark1</textcolor>
+                    <selectedcolor>Dark1</selectedcolor>
+                    <label>$VAR[WidgetTitle]</label>
+                </control>
+                <control type="textbox">
+                    <left>359</left>
+                    <right>40</right>
+                    <top>132</top>
+                    <height>127</height>
+                    <font>Tiny</font>
+                    <align>justify</align>
+                    <autoscroll>false</autoscroll>
+                    <textcolor>Dark2</textcolor>
+                    <selectedcolor>Dark2</selectedcolor>
+                    <shadowcolor>noop</shadowcolor>
+                    <label>$INFO[Container(301).ListItem.Property(Artist_Born)]</label>
+                </control>
+                <control type="label">
+                    <left>359</left>
+                    <right>40</right>
+                    <top>265</top>
+                    <bottom>324</bottom>
+                    <align>right</align>
+                    <autoscroll>false</autoscroll>
+                    <textcolor>Dark1</textcolor>
+                    <selectedcolor>Dark1</selectedcolor>
+                    <label>$VAR[WidgetSubLabel]</label>
+                    <font>Flag</font>
+                </control>
+            </control>
+
+            <!-- Landscape -->
+            <!-- Album Widget -->
+            <control type="group">
+                <visible>!Container(301).IsUpdating</visible>
+                <visible>!Skin.HasSetting(home.dontautoshowwidget) | Control.HasFocus(301)</visible>
+                <visible>!String.Contains(Container(300).ListItem.Property(widget),Weather,left)</visible>
+                <visible>String.IsEqual(Container(300).ListItem.Property(widgetaspect),Fanart) | String.IsEqual(Container(300).ListItem.Property(widgetaspect),Thumbnail)</visible>
+                <visible>![Window.IsVisible(home) + !String.IsEmpty(Skin.String(home.slideshowpath)) + String.IsEmpty(Container(300).ListItem.Property(widget))] + [String.IsEmpty(Container(300).ListItem.Property(Background)) | !String.IsEmpty(Container(300).ListItem.Property(widget))]</visible>
+                <visible>!Player.HasVideo | !Skin.HasSetting(global.showvideo)</visible>
+                <include>Animation.FadeIn</include>
+                <animation effect="slide" start="0" end="0,220" time="500" tween="back" reversible="false" easing="out" condition="Control.HasFocus(301)">Conditional</animation>
+                <animation effect="slide" end="0" start="0,220" time="150" reversible="false" condition="!Control.HasFocus(301)">Conditional</animation>
+                <left>40</left>
+                <bottom>250</bottom>
+                <width>1142</width>
+                <height>339</height>
+                <control type="image">
+                    <left>0</left>
+                    <right>5</right>
+                    <top>0</top>
+                    <height>334</height>
+                    <texture border="10">common/shadow-5.png</texture>
+                </control>
+                <control type="image">
+                    <top>5</top>
+                    <left>5</left>
+                    <right>10</right>
+                    <height>324</height>
+                    <animation effect="fade" start="100" end="90" time="200" condition="true">Conditional</animation>
+                    <texture border="5" colordiffuse="Background">common/box.png</texture>
+                </control>
+                <control type="image">
+                    <left>5</left>
+                    <top>5</top>
+                    <width>576</width>
+                    <height>324</height>
+                    <fadetime>350</fadetime>
+                    <aspectratio scalediffuse="false">scale</aspectratio>
+                    <texture diffuse="diffuse/widgetposter.png" fallback="DefaultAddonNone.png">$VAR[WidgetThumbImageFeatured]</texture>
+                </control>
+      
+                <control type="label">
+                    <left>611</left>
+                    <top>5</top>
+                    <right>40</right>
+                    <aligny>center</aligny>
+                    <height>80</height>
+                    <font>TinyBold</font>
+                    <textcolor>Dark2</textcolor>
+                    <selectedcolor>Dark2</selectedcolor>
+                    <label>$VAR[WidgetLabel]</label>
+                </control>
+                <control type="label">
+                    <left>611</left>
+                    <top>55</top>
+                    <right>40</right>
+                    <aligny>center</aligny>
+                    <height>80</height>
+                    <font>MediumBold</font>
+                    <textcolor>Dark1</textcolor>
+                    <selectedcolor>Dark1</selectedcolor>
+                    <label>$VAR[WidgetTitle]</label>
+                </control>
+                <control type="textbox">
+                    <left>611</left>
+                    <right>40</right>
+                    <top>132</top>
+                    <height>127</height>
+                    <font>Tiny</font>
+                    <align>justify</align>
+                    <autoscroll>false</autoscroll>
+                    <textcolor>Dark2</textcolor>
+                    <selectedcolor>Dark2</selectedcolor>
+                    <shadowcolor>noop</shadowcolor>
+                    <label>$VAR[WidgetPlot]</label>
+                </control>
+                <control type="label">
+                    <left>611</left>
+                    <right>40</right>
+                    <top>265</top>
+                    <bottom>324</bottom>
+                    <align>right</align>
+                    <autoscroll>false</autoscroll>
+                    <textcolor>Dark1</textcolor>
+                    <selectedcolor>Dark1</selectedcolor>
+                    <label>$VAR[WidgetSubLabel]</label>
+                    <font>Flag</font>
+                </control>
+            </control>
+            
+            <include>HomeWidgetUpdating</include>
+        </control>
+    </include>
+    
+    <include name="HomeRow">
+        <!-- Home Row -->
+        <control type="group">
+            
+            <animation effect="slide" start="0" end="0,250" time="150" condition="!Skin.HasSetting(home.classicwidgets) + [Control.HasFocus(301)]">Conditional</animation>
+            <animation effect="slide" start="0" end="0,250" time="150">WindowClose</animation>
+            <animation effect="slide" end="0" start="0,250" time="150">WindowOpen</animation>
+            <control type="image" description="BottomBG">
+                <width>100%</width>
+                <height>160</height>
+                <bottom>30</bottom>
+                <aspectratio aligny="bottom">scale</aspectratio>
+                <texture colordiffuse="Background">common/bg.jpg</texture>
+                <animation effect="fade" start="100" end="85" time="200" condition="true">Conditional</animation>
+            </control>
+            <control type="image" description="FanartOverlay">
+                <width>100%</width>
+                <height>160</height>
+                <bottom>30</bottom>
+                <aspectratio aligny="bottom">scale</aspectratio>
+                <texture colordiffuse="FloorFade2">common/floor.png</texture>
+            </control>
+            <control type="image" description="Shadow">
+                <width>100%</width>
+                <height>1</height>
+                <bottom>190</bottom>
+                <texture flipy="true" colordiffuse="Box2">common/sch2.png</texture>
+				<animation effect="fade" start="100" end="65" time="200" condition="true">Conditional</animation>
+            </control>
+			<control type="image" description="Shadow">
+                <width>100%</width>
+                <height>1</height>
+                <bottom>29</bottom>
+                <texture flipy="true" colordiffuse="Box2">common/sch2.png</texture>
+				<animation effect="fade" start="100" end="65" time="200" condition="true">Conditional</animation>
+            </control>
+			
+			<control type="image" description="FanartOverlay">
+                <width>100%</width>
+                <height>360</height>
+                <bottom>-76</bottom>
+                <aspectratio aligny="bottom">scale</aspectratio>
+                <texture>backg/homemenu_overlay.png</texture>
+				<animation effect="fade" start="0" end="5" time="1" condition="true">Conditional</animation>
+            </control>
+			
+			
+            <include>Furniture_Clock</include>
+            <control type="image">
+                <visible>Integer.IsGreater(Container(300).NumItems,6)</visible>
+                <top>958</top>
+                <left>32</left>
+                <width>16</width>
+                <height>16</height>
+                <texture colordiffuse="Dark2" flipx="true">common/arrow-small-right.png</texture>
+            </control>
+            <control type="image">
+                <visible>Integer.IsGreater(Container(300).NumItems,6)</visible>
+                <visible>!Skin.HasSetting(furniture.clock)</visible>
+                <top>958</top>
+                <right>470</right>
+                <width>16</width>
+                <height>16</height>
+                <texture colordiffuse="Dark2" flipx="false">common/arrow-small-right.png</texture>
+            </control>
+            <control type="image">
+                <visible>Integer.IsGreater(Container(300).NumItems,6)</visible>
+                <visible>Skin.HasSetting(furniture.clock)</visible>
+                <top>962</top>
+                <right>32</right>
+                <width>16</width>
+                <height>16</height>
+                <texture colordiffuse="Dark2" flipx="false">common/arrow-small-right.png</texture>
+            </control>
+            <control type="list" id="300">
+                
+                <include>Animation.FadeIn.Delay</include>
+                <include>Animation.FadeOut</include>
+                <description>Home Wraplist</description>
+                <left>SidePad</left>
+                <include condition="!Skin.HasSetting(furniture.clock)">DefHomeRight520</include>
+                <include condition="Skin.HasSetting(furniture.clock)">DefHomeRightSidePad</include>
+                <onup condition="!Player.HasVideo | !Skin.HasSetting(global.showvideo)">301</onup>
+                <ondown condition="Integer.IsGreater(Container(302).NumItems,0)">SetFocus(302,0)</ondown>
+                <onleft>300</onleft>
+                <onright>300</onright>
+                <orientation>horizontal</orientation>
+                <scrolltime>200</scrolltime>
+                <include condition="Skin.HasSetting(home.showicons)">HomeContentIcon</include>
+                <include condition="!Skin.HasSetting(home.showicons)">HomeContentNoIcon</include>
+            </control>
+        
+        </control>
+    </include>
+    
+    <include name="HomeSubMenu">
+        <!-- Sub Menu -->
+        <control type="group">
+            <animation type="Conditional" condition="Control.HasFocus(302)" reversible="false">
+                <effect type="fade" start="0" end="100" time="250" delay="0" tween="cubic" easing="inout"/>
+                <effect type="slide" start="0,48" end="0" center="auto" tween="back" easing="out" time="400" delay="0"/>
+            </animation>
+            
+            <animation effect="fade" end="0" start="100" time="150" condition="!Control.HasFocus(302)" reversible="false">Conditional</animation>
+            <include>Animation.FadeOut</include>
+            <animation effect="slide" start="0" end="220" condition="Container(300).Position(1)">Conditional</animation>
+            <animation effect="slide" start="0" end="440" condition="Container(300).Position(2)">Conditional</animation>
+            <animation effect="slide" start="0" end="660" condition="Container(300).Position(3)">Conditional</animation>
+            <animation effect="slide" start="0" end="880" condition="Container(300).Position(4)">Conditional</animation>
+            <animation effect="slide" start="0" end="1100" condition="Container(300).Position(5)">Conditional</animation>
+            
+            <animation effect="slide" end="0,70" condition="!Integer.IsGreater(Container(302).NumItems,5)">Conditional</animation>
+            <animation effect="slide" end="0,70" condition="!Integer.IsGreater(Container(302).NumItems,4)">Conditional</animation>
+            <animation effect="slide" end="0,70" condition="!Integer.IsGreater(Container(302).NumItems,3)">Conditional</animation>
+            <animation effect="slide" end="0,70" condition="!Integer.IsGreater(Container(302).NumItems,2)">Conditional</animation>
+            <animation effect="slide" end="0,70" condition="!Integer.IsGreater(Container(302).NumItems,1)">Conditional</animation>
+            
+            <animation effect="slide" start="0" end="0,250" time="150" condition="Control.HasFocus(301)">Conditional</animation>
+            <animation effect="slide" start="0" end="0,250" time="150">WindowClose</animation>
+            <animation effect="slide" end="0" start="0,250" time="150">WindowOpen</animation>
+            <posy>460</posy>
+            <centerleft>190</centerleft>
+            <width>316</width>
+            <height>452</height>
+           
+            <control type="image">
+                <description>6 Option Menu</description>
+                <width>100%</width>
+                <height>452</height>
+                <texture border="16" colordiffuse="Background">common/rounded-shadow8.png</texture>
+                <visible>Integer.IsGreater(Container(302).NumItems,5)</visible>
+            </control>
+            <control type="image">
+                <description>5 Option Menu</description>
+                <width>100%</width>
+                <height>382</height>
+                <texture border="16" colordiffuse="Background">common/rounded-shadow8.png</texture>
+                <visible>Integer.IsGreater(Container(302).NumItems,4) + !Integer.IsGreater(Container(302).NumItems,5)</visible>
+            </control>
+            <control type="image">
+                <description>4 Option Menu</description>
+                <width>100%</width>
+                <height>312</height>
+                <texture border="16" colordiffuse="Background">common/rounded-shadow8.png</texture>
+                <visible>Integer.IsGreater(Container(302).NumItems,3) + !Integer.IsGreater(Container(302).NumItems,4)</visible>
+            </control>
+            <control type="image">
+                <description>3 Option Menu</description>
+                <width>100%</width>
+                <height>242</height>
+                <texture border="16" colordiffuse="Background">common/rounded-shadow8.png</texture>
+                <visible>Integer.IsGreater(Container(302).NumItems,2) + !Integer.IsGreater(Container(302).NumItems,3)</visible>
+            </control>
+            <control type="image">
+                <description>2 Option Menu</description>
+                <width>100%</width>
+                <height>172</height>
+                <texture border="16" colordiffuse="Background">common/rounded-shadow8.png</texture>
+                <visible>Integer.IsGreater(Container(302).NumItems,1) + !Integer.IsGreater(Container(302).NumItems,2)</visible>
+            </control>
+            <control type="image">
+                <description>1 Option Menu</description>
+                <width>100%</width>
+                <height>102</height>
+                <texture border="16" colordiffuse="Background">common/rounded-shadow8.png</texture>
+                <visible>!Integer.IsGreater(Container(302).NumItems,1)</visible>
+            </control>
+            <control type="list" id="302">
+                <include>Animation.FadeIn.Delay</include>
+                <include>Animation.FadeOut</include>
+                <top>16</top>
+                <bottom>16</bottom>
+                <left>8</left>
+                <right>8</right>
+                <onup>302</onup>
+                <ondown>302</ondown>
+                <onleft>300</onleft>
+                <onright>300</onright>
+                <onback>300</onback>
+                <orientation>vertical</orientation>
+                <scrolltime>200</scrolltime>
+
+                <itemlayout width="300" height="70">
+                   
+                  
+                    <control type="label">
+                        <align>center</align>
+                        <aligny>center</aligny>
+                        <width>100%</width>
+                        <centertop>50%</centertop>
+                        <height>100%</height>
+                        <textcolor>Dark2</textcolor>
+                        <include>DefContextButton</include>
+                        <label>$INFO[ListItem.Label]</label>
+                    </control>
+             
+                    
+                </itemlayout>
+
+                <focusedlayout width="300" height="70">
+                   
+                    <control type="image">
+                        <width>100%</width>
+                        <height>100%</height>
+                        <texture colordiffuse="$VAR[ColorHighlight]">common/white.png</texture>
+                    </control>
+                    <control type="label">
+                        <align>center</align>
+                        <aligny>center</aligny>
+                        <width>100%</width>
+                        <centertop>50%</centertop>
+                        <height>100%</height>
+                        <textcolor>Selected</textcolor>
+                        <include>DefContextButton</include>
+                        <label>$INFO[ListItem.Label]</label>
+                    </control>
+                    
+                    
+             
+                </focusedlayout>
+
+                <content>
+                    <include>skinshortcuts-submenu</include>
+                </content>
+            </control>
+        
+        </control>
+    </include>
+
+    <include name="HomeSubMenu2">
+        <control type="group">
+            <animation type="Conditional" condition="Control.HasFocus(302)" reversible="false">
+                <effect type="slide" start="0,24" end="0" time="100" delay="200"/>
+                <effect type="fade" start="0" end="100" time="200" delay="200"/>
+            </animation>
+            <animation type="Conditional" condition="!Control.HasFocus(302)" reversible="false">
+                <effect type="fade" start="100" end="0" time="200" delay="0"/>
+            </animation>
+            <animation effect="slide" start="0" end="0,250" time="150">WindowClose</animation>
+            <include>Animation.FadeOut</include>
+            <control type="list" id="302">
+                
+                <description>Home Wraplist</description>
+                <left>SidePad</left>
+                <include condition="!Skin.HasSetting(furniture.clock)">DefHomeRight520</include>
+                <include condition="Skin.HasSetting(furniture.clock)">DefHomeRightSidePad</include>
+                <onup>300</onup>
+                <ondown>300</ondown>
+                <onleft>302</onleft>
+                <onright>302</onright>
+                <orientation>horizontal</orientation>
+                <scrolltime>200</scrolltime>
+                <top>921</top>
+                <itemlayout width="220" height="64">
+                    <control type="label">
+                        <align>center</align>
+                        <aligny>top</aligny>
+                        <width>180</width>
+                        <top>30</top>
+                        <centerleft>50%</centerleft>
+                        <textcolor>Dark3</textcolor>
+                        <font>HomeIcon</font>
+                        <label>$INFO[ListItem.Label]</label>
+                    </control>
+                </itemlayout>
+
+                <focusedlayout width="220" height="64">
+                    <control type="label">
+                        <align>center</align>
+                        <aligny>top</aligny>
+                        <width>90%</width>
+                        <top>30</top>
+                        <centerleft>50%</centerleft>
+                        <textcolor>Dark1</textcolor>
+                        <font>HomeIcon</font>
+                        <label>$INFO[ListItem.Label]</label>
+                    </control>
+                    <control type="image">
+                        <top>74</top>
+                        <centerleft>50%</centerleft>
+                        <width>90%</width>
+                        <height>4</height>
+                        <texture colordiffuse="$VAR[ColorHighlight]">common/box.png</texture>
+                        <visible>Control.HasFocus(302)</visible>
+                        <include>Animation.FadeIn</include>
+                        <include>Animation.FadeOut</include>
+                    </control>
+                    <control type="image">
+                        <top>10</top>
+                        <centerleft>50%</centerleft>
+                        <width>16</width>
+                        <height>16</height>
+                        <texture colordiffuse="Dark3" flipy="true">common/arrow-small.png</texture>
+                        <animation effect="fade" end="100" start="0" delay="300" time="400" reversible="false">Focus</animation>
+                    </control>
+                </focusedlayout>
+                <content>
+                    <include>skinshortcuts-submenu</include>
+                </content>
+            </control>
+        
+        </control>
+    </include>
+
+    <include name="Home-Widget-Classic">
+        <control type="list" id="301">
+            <description>Plugin Content Widget</description>
+            <visible>Integer.IsGreater(Container(301).NumItems,0) | Container(301).IsUpdating</visible>
+            <visible allowhiddenfocus="true">Control.HasFocus(301) | ControlGroup(303).HasFocus() | !Skin.HasSetting(home.dontautoshowwidget)</visible>
+            <include>Animation.FadeIn</include>
+            <animation effect="fade" start="100" end="0" time="0" delay="0" reversible="false" condition="Control.IsVisible(9201) | Container(301).IsUpdating">Conditional</animation>
+            <animation effect="fade" start="0" end="100" time="350" tween="cubic" easing="inout" delay="100" reversible="false" condition="!Control.IsVisible(9201) + !Container(301).IsUpdating">Conditional</animation>
+            <left>70</left>
+            <right>70</right>
+            <top>20</top>
+            <bottom>20</bottom>
+            <oninfo condition="String.IsEmpty(Container(301).ListItem.TvShowTitle) + String.IsEmpty(Container(301).ListItem.Artist)">RunScript(script.extendedinfo,info=extendedinfo,name=$INFO[Container(301).ListItem.Title],imdb_id=$INFO[Container(301).ListItem.IMDBNumber])</oninfo>
+            <oninfo condition="!String.IsEmpty(Container(301).ListItem.TvShowTitle)">RunScript(script.extendedinfo,info=extendedtvinfo,name=$INFO[Container(301).ListItem.TvShowTitle],imdb_id=$INFO[Container(301).ListItem.IMDBNumber])</oninfo>
+            <onup condition="String.IsEmpty(Container(300).ListItem.Property(widget))">303</onup>
+            <onup condition="!String.IsEmpty(Container(300).ListItem.Property(widget))">300</onup>
+            <ondown>300</ondown>
+            <onback>300</onback>
+            <onleft>301</onleft>
+            <onright>301</onright>
+            <preloaditems>2</preloaditems>
+            <orientation>horizontal</orientation>
+            <autoscroll time="10000">!Control.HasFocus(301)</autoscroll>
+            <scrolltime tween="quadratic">400</scrolltime>
+            <itemlayout width="178" height="257" condition="!String.IsEqual(Container(300).ListItem.Property(widgetaspect),Square) + ![String.IsEqual(Container(300).ListItem.Property(widgetaspect),Fanart) | String.IsEqual(Container(300).ListItem.Property(widgetaspect),Thumbnail)]">
+                <control type="image">
+                    <left>10</left>
+                    <right>10</right>
+                    <bottom>10</bottom>
+                    <top>10</top>
+                    <aspectratio scalediffuse="false">scale</aspectratio>
+                    <texture diffuse="diffuse/wall.png" fallback="DefaultAddonNone.png" background="true">$VAR[PosterImage]</texture>
+                </control>
+            </itemlayout>
+            <focusedlayout width="178" height="257" condition="!String.IsEqual(Container(300).ListItem.Property(widgetaspect),Square) + ![String.IsEqual(Container(300).ListItem.Property(widgetaspect),Fanart) | String.IsEqual(Container(300).ListItem.Property(widgetaspect),Thumbnail)]">
+                <control type="image">
+                    <left>10</left>
+                    <right>10</right>
+                    <bottom>10</bottom>
+                    <top>10</top>
+                    <aspectratio scalediffuse="false">scale</aspectratio>
+                    <texture diffuse="diffuse/wall.png" fallback="DefaultAddonNone.png" background="true">$VAR[PosterImage]</texture>
+                </control>
+                <control type="image">
+                    <visible>Control.HasFocus(301)</visible>
+                    <left>3</left>
+                    <top>3</top>
+                    <right>3</right>
+                    <bottom>3</bottom>
+                    <texture colordiffuse="$VAR[ColorHighlight]" border="20">common/selectbox.png</texture>
+                    <animation type="Focus">
+                        <effect type="zoom" start="90" end="100" time="150" tween="sine" easing="inout" center="auto" />
+                        <effect type="fade" start="0" end="100" time="150" tween="sine" easing="in" />
+                    </animation>
+                    <animation type="Unfocus">
+                        <effect type="zoom" start="100" end="90" time="150" tween="sine" easing="inout" center="auto" />
+                        <effect type="fade" start="100" end="0" time="150" tween="sine" easing="out" />
+                    </animation>
+                </control>
+            </focusedlayout>
+            <itemlayout width="254" height="257" condition="String.IsEqual(Container(300).ListItem.Property(widgetaspect),Square)">
+                <control type="image">
+                    <centerleft>50%</centerleft>
+                    <width>237</width>
+                    <bottom>10</bottom>
+                    <top>10</top>
+                    <aspectratio scalediffuse="false">scale</aspectratio>
+                    <texture diffuse="diffuse/wall.png" fallback="DefaultAddonNone.png" background="true">$VAR[PosterImage]</texture>
+                </control>
+            </itemlayout>
+            <focusedlayout width="254" height="257" condition="String.IsEqual(Container(300).ListItem.Property(widgetaspect),Square)">
+                <control type="image">
+                    <centerleft>50%</centerleft>
+                    <width>237</width>
+                    <bottom>10</bottom>
+                    <top>10</top>
+                    <aspectratio scalediffuse="false">scale</aspectratio>
+                    <texture diffuse="diffuse/wall.png" fallback="DefaultAddonNone.png" background="true">$VAR[PosterImage]</texture>
+                </control>
+                <control type="image">
+                    <visible>Control.HasFocus(301)</visible>
+                    <left>3</left>
+                    <top>3</top>
+                    <right>3</right>
+                    <bottom>3</bottom>
+                    <texture colordiffuse="$VAR[ColorHighlight]" border="20">common/selectbox.png</texture>
+                    <animation type="Focus">
+                        <effect type="zoom" start="90" end="100" time="150" tween="sine" easing="inout" center="auto" />
+                        <effect type="fade" start="0" end="100" time="150" tween="sine" easing="in" />
+                    </animation>
+                    <animation type="Unfocus">
+                        <effect type="zoom" start="100" end="90" time="150" tween="sine" easing="inout" center="auto" />
+                        <effect type="fade" start="100" end="0" time="150" tween="sine" easing="out" />
+                    </animation>
+                </control>
+            </focusedlayout>
+            <itemlayout width="445" height="257" condition="[String.IsEqual(Container(300).ListItem.Property(widgetaspect),Fanart) | String.IsEqual(Container(300).ListItem.Property(widgetaspect),Thumbnail)]">
+                <control type="image">
+                    <centerleft>50%</centerleft>
+                    <width>425</width>
+                    <bottom>10</bottom>
+                    <top>10</top>
+                    <aspectratio scalediffuse="false">scale</aspectratio>
+                    <texture diffuse="diffuse/wall.png" fallback="DefaultAddonNone.png" background="true">$VAR[WidgetThumbImage]</texture>
+                </control>
+            </itemlayout>
+            <focusedlayout width="445" height="257" condition="[String.IsEqual(Container(300).ListItem.Property(widgetaspect),Fanart) | String.IsEqual(Container(300).ListItem.Property(widgetaspect),Thumbnail)]">
+                <control type="image">
+                    <centerleft>50%</centerleft>
+                    <width>425</width>
+                    <bottom>10</bottom>
+                    <top>10</top>
+                    <aspectratio scalediffuse="false">scale</aspectratio>
+                    <texture diffuse="diffuse/wall.png" fallback="DefaultAddonNone.png" background="true">$VAR[WidgetThumbImage]</texture>
+                </control>
+                <control type="image">
+                    <visible>Control.HasFocus(301)</visible>
+                    <left>3</left>
+                    <top>3</top>
+                    <right>3</right>
+                    <bottom>3</bottom>
+                    <texture colordiffuse="$VAR[ColorHighlight]" border="20">common/selectbox.png</texture>
+                    <animation type="Focus">
+                        <effect type="zoom" start="90" end="100" time="150" tween="sine" easing="inout" center="auto" />
+                        <effect type="fade" start="0" end="100" time="150" tween="sine" easing="in" />
+                    </animation>
+                    <animation type="Unfocus">
+                        <effect type="zoom" start="100" end="90" time="150" tween="sine" easing="inout" center="auto" />
+                        <effect type="fade" start="100" end="0" time="150" tween="sine" easing="out" />
+                    </animation>
+                </control>
+            </focusedlayout>
+            <content target="$VAR[DefWidgetTarget]" limit="10">$VAR[DefWidgetContent]</content>
+        </control>
+    </include>
+
+    <include name="HomeClassicWidgets">
+        <control type="group">
+            <animation effect="slide" start="0" end="0,800" time="200">WindowClose</animation>
+            <animation effect="slide" end="0" start="0,550" time="200">WindowOpen</animation>
+            <control type="group">
+                <control type="group">
+                    <animation effect="slide" end="0,-250" time="450" tween="back" reversible="false" condition="Control.HasFocus(301)">Conditional</animation>
+                    <animation effect="slide" start="0,-250" time="250" tween="quadratic" reversible="false" condition="!Control.HasFocus(301)">Conditional</animation>
+                    <animation effect="slide" start="0" end="0,-270" time="450" tween="back" reversible="false" condition="[!String.IsEmpty(Container(300).ListItem.Property(widget)) | [String.IsEmpty(Container(300).ListItem.Property(widget)) + [String.IsEmpty(Container(300).ListItem.Property(Background)) + String.IsEmpty(Skin.String(home.slideshowpath))]]] + [[String.Contains(Container(300).ListItem.Property(widget),Weather,left) | Integer.IsGreater(Container(301).NumItems,0) | Container(301).IsUpdating] + [String.Contains(Container(300).ListItem.Property(widget),Weather,left) | Control.HasFocus(301) | !Skin.HasSetting(home.dontautoshowwidget)]]">Conditional</animation>
+                    <animation effect="slide" end="0" start="0,-270" time="250" tween="quadratic" reversible="false" condition="![[!String.IsEmpty(Container(300).ListItem.Property(widget)) | [String.IsEmpty(Container(300).ListItem.Property(widget)) + [String.IsEmpty(Container(300).ListItem.Property(Background)) + String.IsEmpty(Skin.String(home.slideshowpath))]]]] | ![[String.Contains(Container(300).ListItem.Property(widget),Weather,left) | Integer.IsGreater(Container(301).NumItems,0) | Container(301).IsUpdating] + [String.Contains(Container(300).ListItem.Property(widget),Weather,left) | Control.HasFocus(301) | !Skin.HasSetting(home.dontautoshowwidget)]]">Conditional</animation>
+                    <control type="image" description="BottomBG">
+                        <width>100%</width>
+                        <height>900</height>
+                        <bottom>-680</bottom>
+                        <aspectratio aligny="bottom">scale</aspectratio>
+                        <texture colordiffuse="Background">common/bg.jpg</texture>
+                        <animation effect="fade" start="100" end="75" time="200" condition="true">Conditional</animation>
+                    </control>
+                    <control type="image" description="FanartOverlay">
+                        <width>100%</width>
+                        <height>900</height>
+                        <bottom>-680</bottom>
+                        <aspectratio aligny="bottom">scale</aspectratio>
+                        <texture colordiffuse="FloorFade">common/floor.png</texture>
+                    </control>
+                    <control type="image" description="Shadow">
+                        <width>100%</width>
+                        <height>16</height>
+                        <bottom>220</bottom>
+                        <texture flipy="true">common/shadow16B.png</texture>
+                    </control>
+                </control>
+                <!-- Widget  -->
+                <control type="group">
+                    <animation effect="fade" start="100" end="0" time="600" condition="![[String.Contains(Container(300).ListItem.Property(widget),Weather,left) | Integer.IsGreater(Container(301).NumItems,0) | Container(301).IsUpdating] + [String.Contains(Container(300).ListItem.Property(widget),Weather,left) | Control.HasFocus(301) | !Skin.HasSetting(home.dontautoshowwidget)]]">Conditional</animation>
+                    <animation effect="fade" end="100" start="0" time="0" condition="[[String.Contains(Container(300).ListItem.Property(widget),Weather,left) | Integer.IsGreater(Container(301).NumItems,0) | Container(301).IsUpdating] + [String.Contains(Container(300).ListItem.Property(widget),Weather,left) | Control.HasFocus(301) | !Skin.HasSetting(home.dontautoshowwidget)]]">Conditional</animation>
+
+                    <animation type="WindowClose">
+                        <effect type="fade" start="100" end="0" time="150"/>
+                    </animation>
+                    <bottom>190</bottom>
+                    <height>297</height>
+                 
+                    <control type="group">
+                        <animation effect="fade" start="100" end="0" time="0" reversible="false" condition="![!String.Contains(Container(300).ListItem.Property(widget),Weather,left) + [!String.IsEmpty(Container(300).ListItem.Property(widget)) | [String.IsEmpty(Container(300).ListItem.Property(widget)) + [String.IsEmpty(Container(300).ListItem.Property(Background)) + [String.IsEmpty(Skin.String(home.slideshowpath))]]]]]">Conditional</animation>
+                        <animation effect="fade" start="0" end="100" time="0" delay="0" reversible="false" condition="!String.Contains(Container(300).ListItem.Property(widget),Weather,left) + [!String.IsEmpty(Container(300).ListItem.Property(widget)) | [String.IsEmpty(Container(300).ListItem.Property(widget)) + [String.IsEmpty(Container(300).ListItem.Property(Background)) + [String.IsEmpty(Skin.String(home.slideshowpath))]]]]">Conditional</animation>
+                        <include condition="Skin.HasSetting(NoPersistentWidgets)">Home-Widget-Classic</include>
+                        <include condition="!Skin.HasSetting(NoPersistentWidgets)">skinshortcuts-template-widget-classic</include>
+                    </control>
+
+                    <!-- Weather Widget -->
+                    <control type="group">
+                        <visible>String.Contains(Container(300).ListItem.Property(widget),Weather,left)</visible>
+                        <visible>Weather.IsFetched</visible>
+                        <control type="grouplist">
+                            <left>70</left>
+                            <right>70</right>
+                            <top>20</top>
+                            <bottom>20</bottom>
+                            <height>252</height>
+                            <orientation>horizontal</orientation>
+                            <itemgap>0</itemgap>
+                            <control type="group">
+                                <width>593.33</width>
+                                <height>100%</height>
+                                
+                                <control type="image">
+                                    <left>10</left>
+                                    <top>10</top>
+                                    <right>10</right>
+                                    <bottom>10</bottom>
+                                    <texture border="5" colordiffuse="Light3">common/box.png</texture>
+                                </control>
+                                <control type="image">
+                                    <top>30</top>
+                                    <left>30</left>
+                                    <height>192</height>
+                                    <width>192</width>
+                                    <aspectratio align="center" aligny="center">keep</aspectratio>
+                                    <texture>$INFO[Skin.String(weather.icons.path),,/]$INFO[Window(Weather).Property(Day0.FanartCode),,.png]</texture>
+                                    <visible>!String.IsEmpty(Skin.String(weather.icons.path))</visible>
+                                </control>
+                                <control type="image">
+                                    <top>30</top>
+                                    <left>50</left>
+                                    <height>192</height>
+                                    <width>192</width>
+                                    <aspectratio align="center" aligny="center">keep</aspectratio>
+                                    <texture>$INFO[Window(Weather).Property(Day0.OutlookIcon)]</texture>
+                                    <visible>String.IsEmpty(Skin.String(weather.icons.path))</visible>
+                                </control>
+                                <control type="label">
+                                    <left>292</left>
+                                    <right>50</right>
+                                    <top>50</top>
+                                    <height>50</height>
+                                    <font>TinyBold</font>
+                                    <align>right</align>
+                                    <aligny>center</aligny>
+                                    <textcolor>Dark1</textcolor>
+                                    <label fallback="161">$LOCALIZE[33006]</label>
+                                </control>
+                                <control type="label">
+                                    <left>292</left>
+                                    <right>50</right>
+                                    <height>100%</height>
+                                    <aligny>center</aligny>
+                                    <autoscroll>false</autoscroll>
+                                    <align>right</align>
+                                    <font>Large</font>
+                                    <textcolor>Dark1</textcolor>
+                                    <label>$INFO[Window(Weather).Property(Day0.HighTemp),[B],[/B]°  ]$INFO[Window(Weather).Property(Day0.LowTemp),,°]</label>
+                                </control>
+                                <control type="label">
+                                    <left>292</left>
+                                    <right>50</right>
+                                    <bottom>50</bottom>
+                                    <height>50</height>
+                                    <font>Tiny</font>
+                                    <align>right</align>
+                                    <aligny>center</aligny>
+                                    <textcolor>Dark1</textcolor>
+                                    <label>$INFO[Window(Weather).Property(Day0.Outlook)]</label>
+                                </control>
+                            </control>
+                            <control type="group">
+                                <width>593.33</width>
+                                <height>100%</height>
+                                
+                                <control type="image">
+                                    <left>10</left>
+                                    <top>10</top>
+                                    <right>10</right>
+                                    <bottom>10</bottom>
+                                    <texture border="5" colordiffuse="Light3">common/box.png</texture>
+                                </control>
+                                <control type="image">
+                                    <top>30</top>
+                                    <left>30</left>
+                                    <height>192</height>
+                                    <width>192</width>
+                                    <aspectratio align="center" aligny="center">keep</aspectratio>
+                                    <texture>$INFO[Skin.String(weather.icons.path),,/]$INFO[Window(Weather).Property(Day1.FanartCode),,.png]</texture>
+                                    <visible>!String.IsEmpty(Skin.String(weather.icons.path))</visible>
+                                </control>
+                                <control type="image">
+                                    <top>30</top>
+                                    <left>50</left>
+                                    <height>192</height>
+                                    <width>192</width>
+                                    <aspectratio align="center" aligny="center">keep</aspectratio>
+                                    <texture>$INFO[Window(Weather).Property(Day1.OutlookIcon)]</texture>
+                                    <visible>String.IsEmpty(Skin.String(weather.icons.path))</visible>
+                                </control>
+                                <control type="label">
+                                    <left>292</left>
+                                    <right>50</right>
+                                    <top>50</top>
+                                    <height>50</height>
+                                    <font>TinyBold</font>
+                                    <align>right</align>
+                                    <aligny>center</aligny>
+                                    <textcolor>Dark1</textcolor>
+                                    <label fallback="161">$INFO[Window(Weather).Property(Day1.Title)]</label>
+                                </control>
+                                <control type="label">
+                                    <left>292</left>
+                                    <right>50</right>
+                                    <height>100%</height>
+                                    <aligny>center</aligny>
+                                    <autoscroll>false</autoscroll>
+                                    <align>right</align>
+                                    <font>Large</font>
+                                    <textcolor>Dark1</textcolor>
+                                    <label>$INFO[Window(Weather).Property(Day1.HighTemp),[B],[/B]°  ]$INFO[Window(Weather).Property(Day1.LowTemp),,°]</label>
+                                </control>
+                                <control type="label">
+                                    <left>292</left>
+                                    <right>50</right>
+                                    <bottom>50</bottom>
+                                    <height>50</height>
+                                    <font>Tiny</font>
+                                    <align>right</align>
+                                    <aligny>center</aligny>
+                                    <textcolor>Dark1</textcolor>
+                                    <label>$INFO[Window(Weather).Property(Day1.Outlook)]</label>
+                                </control>
+                            </control>
+                            <control type="group">
+                                <width>593.33</width>
+                                <height>100%</height>
+                                
+                                <control type="image">
+                                    <left>10</left>
+                                    <top>10</top>
+                                    <right>10</right>
+                                    <bottom>10</bottom>
+                                    <texture border="5" colordiffuse="Light3">common/box.png</texture>
+                                </control>
+                                <control type="image">
+                                    <top>30</top>
+                                    <left>30</left>
+                                    <height>192</height>
+                                    <width>192</width>
+                                    <aspectratio align="center" aligny="center">keep</aspectratio>
+                                    <texture>$INFO[Skin.String(weather.icons.path),,/]$INFO[Window(Weather).Property(Day2.FanartCode),,.png]</texture>
+                                    <visible>!String.IsEmpty(Skin.String(weather.icons.path))</visible>
+                                </control>
+                                <control type="image">
+                                    <top>30</top>
+                                    <left>50</left>
+                                    <height>192</height>
+                                    <width>192</width>
+                                    <aspectratio align="center" aligny="center">keep</aspectratio>
+                                    <texture>$INFO[Window(Weather).Property(Day2.OutlookIcon)]</texture>
+                                    <visible>String.IsEmpty(Skin.String(weather.icons.path))</visible>
+                                </control>
+                                <control type="label">
+                                    <left>292</left>
+                                    <right>50</right>
+                                    <top>50</top>
+                                    <height>50</height>
+                                    <font>TinyBold</font>
+                                    <align>right</align>
+                                    <aligny>center</aligny>
+                                    <textcolor>Dark1</textcolor>
+                                    <label fallback="161">$INFO[Window(Weather).Property(Day2.Title)]</label>
+                                </control>
+                                <control type="label">
+                                    <left>292</left>
+                                    <right>50</right>
+                                    <height>100%</height>
+                                    <aligny>center</aligny>
+                                    <autoscroll>false</autoscroll>
+                                    <align>right</align>
+                                    <font>Large</font>
+                                    <textcolor>Dark1</textcolor>
+                                    <label>$INFO[Window(Weather).Property(Day2.HighTemp),[B],[/B]°  ]$INFO[Window(Weather).Property(Day2.LowTemp),,°]</label>
+                                </control>
+                                <control type="label">
+                                    <left>292</left>
+                                    <right>50</right>
+                                    <bottom>50</bottom>
+                                    <height>50</height>
+                                    <font>Tiny</font>
+                                    <align>right</align>
+                                    <aligny>center</aligny>
+                                    <textcolor>Dark1</textcolor>
+                                    <label>$INFO[Window(Weather).Property(Day2.Outlook)]</label>
+                                </control>
+                            </control>
+                        </control>
+                    </control>
+                    
+                    <!-- Container Updating -->
+                    <control type="group" id="9201">
+                        <centerleft>50%</centerleft>
+                        <centertop>50%</centertop>
+                        <width>450</width>
+                        <height>117</height>
+                        <visible>Container(301).IsUpdating | [String.Contains(Container(300).ListItem.Property(widget),Weather,left) + !Weather.IsFetched]</visible>
+                        <animation effect="fade" start="0" end="100" delay="500" time="200" reversible="false">Visible</animation>
+                    
+                        <control type="image">
+                            <description>Busy animation</description>
+                            <centerleft>54</centerleft>
+                            <centertop>54</centertop>
+                            <width>100</width>
+                            <height>100</height>
+                            <texture>dialog/loading-back.png</texture>
+                            <aspectratio>keep</aspectratio>
+                        </control>
+                        <control type="image">
+                            <description>Busy animation</description>
+                            <centerleft>54</centerleft>
+                            <centertop>54</centertop>
+                            <width>100</width>
+                            <height>100</height>
+                            <animation effect="rotate" condition="true" start="0" end="360" loop="true" time="1000" center="auto">Conditional</animation>
+                            <texture colordiffuse="$VAR[ColorHighlight]">dialog/loading-spinner.png</texture>
+                            <aspectratio>keep</aspectratio>
+                        </control>
+
+                        <control type="label">
+                            <description>Busy label</description>
+                            <posx>105</posx>
+                            <posy>30</posy>
+                            <width>720</width>
+                            <height>48</height>
+                            <align>left</align>
+                            <label>$LOCALIZE[31138]...</label>
+                            <textcolor>Dark1</textcolor>
+                        </control>
+
+                    </control>
+                </control>
+                <!-- Widget Info -->
+                <control type="group">
+                    <visible>Control.HasFocus(301)</visible>
+                    <posy>355</posy>
+                    <animation effect="fade" start="0" end="100" time="350" delay="300" tween="cubic" easing="inout" reversible="false">Visible</animation>
+                    <animation effect="fade" start="100" end="0" time="0" reversible="false">Hidden</animation>
+                    <control type="group">
+                        <left>SidePad</left>
+                        <right>SidePad</right>
+                        <control type="label">
+                            <left>0</left>
+                            <top>0</top>
+                            <right>0</right>
+                            <aligny>center</aligny>
+                            <height>80</height>
+                            <font>TinyBold</font>
+                            <textcolor>Dark2</textcolor>
+                            <selectedcolor>Dark2</selectedcolor>
+                            <label>$VAR[WidgetLabel]</label>
+                        </control>
+                        <control type="label">
+                            <left>0</left>
+                            <top>55</top>
+                            <right>0</right>
+                            <aligny>center</aligny>
+                            <height>80</height>
+                            <font>MediumBold</font>
+                            <textcolor>Dark1</textcolor>
+                            <selectedcolor>Dark1</selectedcolor>
+                            <label>$VAR[WidgetTitle]</label>
+                        </control>
+                        <control type="textbox">
+                            <left>0</left>
+                            <right>0</right>
+                            <top>120</top>
+                            <height>97</height>
+                            <font>Tiny</font>
+                            <align>justify</align>
+                            <autoscroll>false</autoscroll>
+                            <textcolor>Dark2</textcolor>
+                            <selectedcolor>Dark2</selectedcolor>
+                            <shadowcolor>noop</shadowcolor>
+                            <label>$VAR[WidgetPlot]</label>
+                        </control>
+                        <control type="label">
+                            <left>600</left>
+                            <right>0</right>
+                            <top>85</top>
+                            <height>40</height>
+                            <align>right</align>
+                            <autoscroll>false</autoscroll>
+                            <textcolor>Dark2</textcolor>
+                            <selectedcolor>Dark2</selectedcolor>
+                            <label>$VAR[WidgetSubLabel]</label>
+                            <font>Flag</font>
+                        </control>
+                    </control>
+                </control>
+                
+            </control>
+            <!-- Home Row -->
+            <control type="image">
+                <visible>Integer.IsGreater(Container(300).NumItems,6)</visible>
+                <top>962</top>
+                <left>32</left>
+                <width>16</width>
+                <height>16</height>
+                <texture colordiffuse="Dark2" flipx="true">common/arrow-small-right.png</texture>
+            </control>
+            <control type="image">
+                <visible>Integer.IsGreater(Container(300).NumItems,6)</visible>
+                <visible>!Skin.HasSetting(furniture.clock)</visible>
+                <top>962</top>
+                <right>470</right>
+                <width>16</width>
+                <height>16</height>
+                <texture colordiffuse="Dark2" flipx="false">common/arrow-small-right.png</texture>
+            </control>
+            <control type="image">
+                <visible>Integer.IsGreater(Container(300).NumItems,6)</visible>
+                <visible>Skin.HasSetting(furniture.clock)</visible>
+                <top>962</top>
+                <right>32</right>
+                <width>16</width>
+                <height>16</height>
+                <texture colordiffuse="Dark2" flipx="false">common/arrow-small-right.png</texture>
+            </control>
+            <control type="list" id="300">
+                <include>Animation.FadeIn.Delay</include>
+                <include>Animation.FadeOut</include>
+                <description>Home Wraplist</description>
+                <left>SidePad</left>
+                <include condition="!Skin.HasSetting(furniture.clock)">DefHomeRight520</include>
+                <include condition="Skin.HasSetting(furniture.clock)">DefHomeRightSidePad</include>
+                <onup condition="!Skin.HasSetting(home.dontshowfanart) + !String.Contains(Container(300).ListItem.Property(widget),Weather,left) + [!String.IsEmpty(Container(300).ListItem.Property(widget)) | [String.IsEmpty(Container(300).ListItem.Property(widget)) + [String.IsEmpty(Container(300).ListItem.Property(Background)) + [String.IsEmpty(Skin.String(home.slideshowpath))]]]]">301</onup>
+                <onup condition="Skin.HasSetting(home.dontshowfanart) + !String.Contains(Container(300).ListItem.Property(widget),Weather,left) + [!String.IsEmpty(Container(300).ListItem.Property(widget)) | [String.IsEmpty(Container(300).ListItem.Property(widget)) + [String.IsEmpty(Container(300).ListItem.Property(Background)) + [String.IsEmpty(Skin.String(home.slideshowpath))]]]]">SetFocus(301,0)</onup>
+                <ondown condition="Integer.IsGreater(Container(302).NumItems,0)">SetFocus(302,0)</ondown>
+                <onleft>300</onleft>
+                <onright>300</onright>
+                <orientation>horizontal</orientation>
+                <scrolltime>200</scrolltime>
+                <include condition="Skin.HasSetting(home.showicons)">HomeContentIcon</include>
+                <include condition="!Skin.HasSetting(home.showicons)">HomeContentNoIcon</include>
+            </control>
+            <include>Furniture_Clock</include>
+        </control>
+    </include>
+    
+    <include name="HomeContentNoIcon">
+        <top>942</top>
+        <animation effect="fade" start="100" end="0" time="150" reversible="false" condition="Control.HasFocus(302) + Skin.HasSetting(home.submenu2)">Conditional</animation>
+        <animation type="Conditional" condition="!Control.HasFocus(302) + Skin.HasSetting(home.submenu2)" reversible="false">
+            <effect type="slide" start="0,-24" end="0" time="100" delay="200"/>
+            <effect type="fade" start="0" end="100" time="200" delay="200"/>
+        </animation>
+		
+        <itemlayout width="220" height="64">
+            <control type="label">
+                <align>center</align>
+                <aligny>top</aligny>
+                <width>180</width>
+                <top>0</top>
+                <centerleft>50%</centerleft>
+                <textcolor>Dark3</textcolor>
+                <font>Home</font>
+                <label>$INFO[ListItem.Label]</label>
+            </control>
+        </itemlayout>
+
+        <focusedlayout width="220" height="64">
+		
+            <control type="label">
+				<include>HomeListScrollAnim</include>
+                <align>center</align>
+                <aligny>top</aligny>
+                <width>90%</width>
+                <top>0</top>
+                <centerleft>50%</centerleft>
+                <textcolor>$VAR[ColorHighlight]</textcolor>
+                <font>Home</font>
+                <label>$INFO[ListItem.Label]</label>
+            </control>
+            <!--<control type="image">
+                <top>55</top>
+                <centerleft>50%</centerleft>
+                <width>90%</width>
+                <height>4</height>
+                <texture colordiffuse="$VAR[ColorHighlight]">common/box.png</texture>
+                <visible>Control.HasFocus(300)</visible>
+                <include>Animation.FadeIn</include>
+                <include>Animation.FadeOut</include>
+            </control>-->
+            <control type="image">
+                <top>50</top>
+                <centerleft>50%</centerleft>
+                <width>16</width>
+                <height>16</height>
+                <texture colordiffuse="$VAR[ColorHighlight]">common/arrow-small.png</texture>
+                <visible>Control.HasFocus(300)</visible>
+                <visible>Integer.IsGreater(Container(302).NumItems,0)</visible>
+                <animation effect="fade" end="100" start="0" delay="300" time="400" reversible="false">Focus</animation>
+            </control>
+        </focusedlayout>
+        <content>
+            <include>skinshortcuts-mainmenu</include>
+        </content>
+    </include>
+    
+    <include name="HomeContentIcon">
+        <top>848</top>
+        <itemlayout width="220" height="220">
+            <control type="image">
+                <width>128</width>
+                <height>128</height>
+                <centerleft>50%</centerleft>
+                <centertop>40%</centertop>
+                <texture colordiffuse="Dark3">$INFO[ListItem.Icon]</texture>
+                <visible>String.Contains(ListItem.Icon,special://skin/extras/icons)</visible>
+            </control>
+            <control type="label">
+                <align>center</align>
+                <aligny>top</aligny>
+                <width>180</width>
+                <bottom>0</bottom>
+                <centerleft>50%</centerleft>
+                <textcolor>Dark3</textcolor>
+                <font>HomeIcon</font>
+                <label>$INFO[ListItem.Label]</label>
+            </control>
+        </itemlayout>
+
+        <focusedlayout width="220" height="220">
+            <control type="image">
+                <width>128</width>
+                <height>128</height>
+                <centerleft>50%</centerleft>
+                <centertop>40%</centertop>
+                <texture colordiffuse="Dark1">$INFO[ListItem.Icon]</texture>
+                <visible>String.Contains(ListItem.Icon,special://skin/extras/icons)</visible>
+            </control>
+            <control type="label">
+                <align>center</align>
+                <aligny>top</aligny>
+                <width>180</width>
+                <bottom>0</bottom>
+                <centerleft>50%</centerleft>
+                <textcolor>Dark1</textcolor>
+                <font>HomeIcon</font>
+                <label>$INFO[ListItem.Label]</label>
+            </control>
+            <control type="image">
+                <bottom>16</bottom>
+                <centerleft>50%</centerleft>
+                <width>90%</width>
+                <height>4</height>
+                <texture colordiffuse="$VAR[ColorHighlight]">common/box.png</texture>
+                <visible>Control.HasFocus(300)</visible>
+                <include>Animation.FadeIn</include>
+                <include>Animation.FadeOut</include>
+            </control>
+            <control type="image">
+                <bottom>-4</bottom>
+                <centerleft>50%</centerleft>
+                <width>16</width>
+                <height>16</height>
+                <texture colordiffuse="Dark3">common/arrow-small.png</texture>
+                <visible>Control.HasFocus(300)</visible>
+                <visible>Integer.IsGreater(Container(302).NumItems,0)</visible>
+                <animation effect="fade" end="100" start="0" delay="300" time="400" reversible="false">Focus</animation>
+            </control>
+        </focusedlayout>
+        <content>
+            <include>skinshortcuts-mainmenu</include>
+        </content>
+    </include>
+ 
+    <include name="HomeBackgroundPlaylist">
+        <control type="list" id="9988">           
+            <description>hidden container for playlist background</description>
+            <posx>-20</posx>
+            <posy>-20</posy>
+            <width>1</width>
+            <height>1</height>
+            <visible>true</visible>
+            <onup>50</onup>
+            <ondown>50</ondown>
+            <onleft>50</onleft>
+            <onright>50</onright>
+            <autoscroll time="10000">true</autoscroll>
+            <itemlayout width="1" height="1">
+            </itemlayout>
+            <focusedlayout height="1" width="1">
+            </focusedlayout>
+            <content>$INFO[Container(300).ListItem.Property(backgroundPlaylist)]</content>
+        </control>
+    </include>
+
+    <include name="HomeVerticalMenu">
+        <!-- Furniture -->
+        <include>Furniture_Header</include>
+        <include>Furniture_NowPlaying</include>
+        <include>Furniture_Clock</include>
+        <include>Furniture_Weather</include>
+        <!-- <include>Furniture_Home_Flags</include> -->
+
+        <control type="group">
+            <animation effect="slide" start="0" end="-450" time="300" delay="0" center="auto" tween="sine" easing="out" condition="Control.HasFocus(301)">Conditional</animation>
+            <!-- LEFT SIDE -->
+            <control type="group">
+                <visible>!Window.IsVisible(script-script.extendedinfo-VideoList.xml) + !Window.IsVisible(script-globalsearch-main.xml) + !Window.IsVisible(script-globalsearch-infodialog.xml) + !Window.IsVisible(DialogAddonInfo.xml) + !Window.IsVisible(DialogPVRRecordingInfo.xml) + !Window.IsVisible(DialogPVRGuideInfo.xml) + !Window.IsVisible(DialogMusicInfo.xml) + !Window.IsVisible(DialogVideoInfo.xml) + !Window.IsVisible(script-script.extendedinfo-DialogInfo.xml) + !Window.IsVisible(script-script.extendedinfo-DialogVideoInfo.xml)</visible>
+                <animation type="WindowOpen" reversible="false">
+                    <effect type="fade" start="0" end="100" time="300" tween="sine" easing="in" />
+                    <effect type="slide" start="-1920" end="0" time="300" center="auto" tween="quadratic" easing="out" />
+                </animation>
+                <animation type="WindowClose" reversible="false">
+                    <effect type="fade" end="0" start="100" time="200" tween="sine" easing="out" />
+                    <effect type="slide" end="-1920" start="0" time="200" center="auto" tween="quadratic" easing="in" />
+                </animation>
+                <animation type="Visible" reversible="false">
+                    <effect type="fade" start="0" end="100" time="300" delay="300" tween="sine" easing="in" />
+                    <effect type="slide" start="-1920" end="0" time="300" delay="300" center="auto" tween="sine" easing="out" />
+                </animation>
+                <animation type="Hidden" reversible="false">
+                    <effect type="slide" end="-1920" start="0" center="auto" tween="sine" delay="0" easing="out" time="300" />
+                    <effect type="fade" start="100" end="0" tween="cubic" easing="out" delay="0" time="300" />
+                </animation>
+                <animation type="Conditional" reversible="true" condition="Window.IsVisible(DialogSongInfo.xml) | Window.IsVisible(DialogPictureInfo.xml) | Window.IsVisible(FileBrowser.xml) | Window.IsVisible(DialogConfirm.xml) | Window.IsVisible(DialogSelect.xml) | Window.IsVisible(DialogContextMenu.xml) | Window.IsVisible(DialogButtonMenu.xml) | ControlGroup(9000).HasFocus()">
+                    <effect type="zoom" end="95" start="100" time="200" center="auto" tween="quadratic" easing="in" />
+                </animation>
+                <!-- Home List -->
+                <control type="panel" id="300">    
+                    <animation effect="fade" start="100" end="33" time="400" condition="Control.HasFocus(301)">Conditional</animation>
+                    <animation effect="slide" start="-500" end="0" time="200" delay="100" tween="quadratic" easing="out">Visible</animation>
+                    <visible allowhiddenfocus="true">!Control.HasFocus(302)</visible>
+                    <include>Animation.FadeIn</include>
+                    <include>Animation.FadeOut</include>
+                    <description>Home Wraplist</description>
+                    <left>SidePad</left>
+                    <top>PosterPad</top>
+                    <width>PosterW</width>
+                    <height>720</height>
+                    <orientation>vertical</orientation>
+                    <onright>301</onright>
+                    <onleft>302</onleft>
+                    <scrolltime>200</scrolltime>
+                    <itemlayout width="427" height="80">
+                        <control type="label">
+                            <right>30</right>
+                            <left>0</left>
+                            <align>right</align>
+                            <aligny>center</aligny>
+                            <height>100%</height>
+                            <textcolor>Dark3</textcolor>
+                            <font>Home</font>
+                            <label>$INFO[ListItem.Label]</label>
+                            <visible>!Skin.HasSetting(home.showicons)</visible>
+                        </control>
+                        <control type="label">
+                            <right>100</right>
+                            <left>0</left>
+                            <align>right</align>
+                            <aligny>center</aligny>
+                            <height>100%</height>
+                            <textcolor>Dark3</textcolor>
+                            <font>Home</font>
+                            <label>$INFO[ListItem.Label]</label>
+                            <visible>Skin.HasSetting(home.showicons)</visible>
+                        </control>
+                        <control type="image">
+                            <right>10</right>
+                            <width>80</width>
+                            <height>80</height>
+                            <texture colordiffuse="Dark3">$INFO[ListItem.Icon]</texture>
+                            <visible>Skin.HasSetting(home.showicons)</visible>
+                        </control>
+                    </itemlayout>
+
+                    <focusedlayout width="427" height="80">
+                        <control type="label">
+                            <right>30</right>
+                            <left>0</left>
+                            <align>right</align>
+                            <aligny>center</aligny>
+                            <height>100%</height>
+                            <textcolor>Dark1</textcolor>
+                            <font>HomeFO</font>
+                            <label>$INFO[ListItem.Label]</label>
+                            <visible>!Skin.HasSetting(home.showicons)</visible>
+                        </control>
+                        <control type="label">
+                            <right>100</right>
+                            <left>0</left>
+                            <align>right</align>
+                            <aligny>center</aligny>
+                            <height>100%</height>
+                            <textcolor>Dark1</textcolor>
+                            <font>HomeFO</font>
+                            <label>$INFO[ListItem.Label]</label>
+                            <visible>Skin.HasSetting(home.showicons)</visible>
+                        </control>
+                        <control type="image">
+                            <right>10</right>
+                            <width>80</width>
+                            <height>80</height>
+                            <texture colordiffuse="Dark1">$INFO[ListItem.Icon]</texture>
+                            <visible>Skin.HasSetting(home.showicons)</visible>
+                        </control>
+                    </focusedlayout>
+                    <content>
+                        <include>skinshortcuts-mainmenu</include>
+                    </content>
+                </control>
+                <!-- SubMenu List -->
+                <control type="list" id="302">
+                    <visible allowhiddenfocus="true">Control.HasFocus(302)</visible>
+                    <animation effect="fade" start="100" end="33" time="400" condition="Control.HasFocus(301)">Conditional</animation>
+                    <animation effect="slide" start="-500" end="0" time="200" delay="100" tween="quadratic" easing="out">Visible</animation>
+                    
+                    <include>Animation.FadeIn</include>
+                    <include>Animation.FadeOut</include>
+                    <description>Home Wraplist</description>
+                    <left>SidePad</left>
+                    <top>PosterPad</top>
+                    <width>PosterW</width>
+                    <height>720</height>
+                    <orientation>vertical</orientation>
+                    <onright>300</onright>
+                    <onleft>300</onleft>
+                    <ondown>302</ondown>
+                    <onup>302</onup>
+                    <onback>300</onback>
+                    <scrolltime>200</scrolltime>
+                    <itemlayout width="427" height="80">
+                        <control type="label">
+                            <right>30</right>
+                            <left>0</left>
+                            <align>right</align>
+                            <aligny>center</aligny>
+                            <height>100%</height>
+                            <textcolor>Dark3</textcolor>
+                            <font>Home</font>
+                            <label>$INFO[ListItem.Label]</label>
+                        </control>
+                    </itemlayout>
+
+                    <focusedlayout width="427" height="80">
+                        <control type="label">
+                            <right>30</right>
+                            <left>0</left>
+                            <align>right</align>
+                            <aligny>center</aligny>
+                            <height>100%</height>
+                            <textcolor>Dark1</textcolor>
+                            <font>Home</font>
+                            <label>$INFO[ListItem.Label]</label>
+                        </control>
+                    </focusedlayout>
+                    <content>
+                        <include>skinshortcuts-submenu</include>
+                    </content>
+                </control>
+            </control>
+
+            <!-- RIGHT SIDE -->
+            <control type="group">
+                <visible>!Window.IsVisible(script-script.extendedinfo-VideoList.xml) + !Window.IsVisible(script-globalsearch-main.xml) + !Window.IsVisible(script-globalsearch-infodialog.xml) + !Window.IsVisible(DialogAddonInfo.xml) + !Window.IsVisible(DialogPVRRecordingInfo.xml) + !Window.IsVisible(DialogPVRGuideInfo.xml) + !Window.IsVisible(DialogMusicInfo.xml) + !Window.IsVisible(DialogVideoInfo.xml) + !Window.IsVisible(script-script.extendedinfo-DialogInfo.xml) + !Window.IsVisible(script-script.extendedinfo-DialogVideoInfo.xml)</visible>
+                <animation type="WindowOpen" reversible="false">
+                    <effect type="fade" start="0" end="100" time="300" tween="sine" easing="in" />
+                    <effect type="slide" start="1920" end="0" time="300" center="auto" tween="quadratic" easing="out" />
+                </animation>
+                <animation type="WindowClose" reversible="false">
+                    <effect type="fade" end="0" start="100" time="200" tween="sine" easing="out" />
+                    <effect type="slide" end="1920" start="0" time="200" center="auto" tween="quadratic" easing="in" />
+                </animation>
+                <animation type="Visible" reversible="false">
+                    <effect type="fade" start="0" end="100" time="300" delay="300" tween="sine" easing="in" />
+                    <effect type="slide" start="1920" end="0" time="300" delay="300" center="auto" tween="sine" easing="out" />
+                </animation>
+                <animation type="Hidden" reversible="false">
+                    <effect type="slide" end="1920" start="0" center="auto" tween="sine" delay="0" easing="out" time="300" />
+                    <effect type="fade" start="100" end="0" tween="cubic" easing="out" delay="0" time="300" />
+                </animation>
+                <animation type="Conditional" reversible="true" condition="Window.IsVisible(DialogSongInfo.xml) | Window.IsVisible(DialogPictureInfo.xml) | Window.IsVisible(FileBrowser.xml) | Window.IsVisible(DialogConfirm.xml) | Window.IsVisible(DialogSelect.xml) | Window.IsVisible(DialogContextMenu.xml) | Window.IsVisible(DialogButtonMenu.xml) | ControlGroup(9000).HasFocus()">
+                    <effect type="zoom" end="95" start="100" time="200" center="auto" tween="quadratic" easing="in" />
+                </animation>
+                <!-- Container Updating -->
+                <control type="group">
+                    <centerleft>60%</centerleft>
+                    <centertop>45%</centertop>
+                    <width>450</width>
+                    <height>117</height>
+                    <visible>[!String.Contains(Container(300).ListItem.Property(widget),Weather,left) + Container(301).IsUpdating] | [!Weather.IsFetched + String.Contains(Container(300).ListItem.Property(widget),Weather,left)]</visible>
+                    <include>Animation.FadeIn</include>
+                    <include>Animation.FadeOut</include>
+                    <control type="image">
+                        <description>Busy animation</description>
+                        <centerleft>54</centerleft>
+                        <centertop>54</centertop>
+                        <width>100</width>
+                        <height>100</height>
+                        <texture>dialog/loading-back.png</texture>
+                        <aspectratio>keep</aspectratio>
+                    </control>
+                    <control type="image">
+                        <description>Busy animation</description>
+                        <centerleft>54</centerleft>
+                        <centertop>54</centertop>
+                        <width>100</width>
+                        <height>100</height>
+                        <animation effect="rotate" condition="true" start="0" end="360" loop="true" time="1000" center="auto">Conditional</animation>
+                        <texture colordiffuse="$VAR[ColorHighlight]">dialog/loading-spinner.png</texture>
+                        <aspectratio>keep</aspectratio>
+                    </control>
+                    <control type="label">
+                        <description>Busy label</description>
+                        <posx>105</posx>
+                        <posy>30</posy>
+                        <width>720</width>
+                        <height>48</height>
+                        <align>left</align>
+                        <label>$LOCALIZE[31138]...</label>
+                        <textcolor>Dark1</textcolor>
+                    </control>
+                </control>
+                <control type="group">
+                    <animation effect="fade" start="100" end="0" time="0" reversible="false" condition="[!String.Contains(Container(300).ListItem.Property(widget),Weather,left) + [!Integer.IsGreater(Container(301).NumItems,0) | Container(301).IsUpdating]] | [!Weather.IsFetched + String.Contains(Container(300).ListItem.Property(widget),Weather,left)]">Conditional</animation>
+                    <animation effect="fade" start="0" end="100" time="0" reversible="false" condition="![[!String.Contains(Container(300).ListItem.Property(widget),Weather,left) + [!Integer.IsGreater(Container(301).NumItems,0) | Container(301).IsUpdating]] | [!Weather.IsFetched + String.Contains(Container(300).ListItem.Property(widget),Weather,left)]]">Conditional</animation>
+                    <!-- Widget Text -->
+                    <control type="label">
+                        <font>TinyBold</font>
+                        <right>70</right>
+                        <width>1322</width>
+                        <top>256</top>
+                        <align>left</align>
+                        <textcolor>Dark2</textcolor>
+                        <label>$VAR[WidgetLabel]</label>
+                        <include>Animation.FadeIn</include>
+                        <include>Animation.FadeOut</include>
+                        <animation effect="fade" start="100" end="33" time="400" condition="!Control.HasFocus(301)">Conditional</animation>
+                    </control>
+                    <control type="grouplist">
+                        <visible>!String.Contains(Container(300).ListItem.Property(widget),Weather,left)</visible>
+                        <animation effect="fade" start="100" end="33" time="400" condition="!Control.HasFocus(301)">Conditional</animation>
+                        <include>Animation.FadeIn</include>
+                        <include>Animation.FadeOut</include>
+                        <right>70</right>
+                        <width>1322</width>
+                        <orientation>vertical</orientation>
+                        <top>672</top>
+                        <itemgap>0</itemgap>
+                        <control type="label">
+                            <font>SmallBold</font>
+                            <width>100%</width>
+                            <align>left</align>
+                            <textcolor>Dark1</textcolor>
+                            <label>$VAR[WidgetTitle]</label>
+                        </control>
+                        <control type="textbox">
+                            <font>Tiny</font>
+                            <width>100%</width>
+                            <height>95</height>
+                            <align>left</align>
+                            <textcolor>Dark2</textcolor>
+                            <label>$VAR[WidgetPlot]</label>
+                        </control>
+                        <control type="label">
+                            <font>Tiny</font>
+                            <width>100%</width>
+                            <align>left</align>
+                            <textcolor>Dark2</textcolor>
+                            <label>$VAR[WidgetSubLabel]</label>
+                        </control>
+                    </control>
+
+                    <!-- Weather Widget -->
+                    <control type="group">
+                        <visible>String.Contains(Container(300).ListItem.Property(widget),Weather,left)</visible>
+                        <visible>Weather.IsFetched</visible>
+                        <control type="grouplist">
+                            <top>330</top>
+                            <left>518</left>
+                            <right>70</right>
+                            <height>252</height>
+                            <orientation>horizontal</orientation>
+                            <itemgap>0</itemgap>
+                            <control type="group">
+                                <width>666</width>
+                                <height>100%</height>
+                                <control type="image">
+                                    <left>0</left>
+                                    <top>0</top>
+                                    <right>0</right>
+                                    <bottom>0</bottom>
+                                    <texture border="10">common/nofocus-shadow10.png</texture>
+                                </control>
+                                <control type="image">
+                                    <left>10</left>
+                                    <top>10</top>
+                                    <right>10</right>
+                                    <bottom>10</bottom>
+                                    <texture border="5" colordiffuse="Panel">common/box.png</texture>
+                                </control>
+                                <control type="multiimage" description="Fanart">
+                                    <visible>!Skin.HasSetting(weather.hidefanart)</visible>
+                                    <left>10</left>
+                                    <top>10</top>
+                                    <right>10</right>
+                                    <bottom>10</bottom>
+                                    <fadetime>600</fadetime>
+                                    <timeperimage>12000</timeperimage>
+                                    <randomize>true</randomize>
+                                    <aspectratio>scale</aspectratio>
+                                    <animation effect="fade" start="100" end="10" condition="true">Conditional</animation>
+                                    <imagepath background="true">$INFO[Skin.String(weather.fanart)]$INFO[Window(Weather).Property(Day0.FanartCode)]/</imagepath>
+                                </control>
+                                <control type="image">
+                                    <top>30</top>
+                                    <left>50</left>
+                                    <height>192</height>
+                                    <width>192</width>
+                                    <aspectratio align="center" aligny="center">keep</aspectratio>
+                                    <texture>$INFO[Window(Weather).Property(Day0.OutlookIcon)]</texture>
+                                    <visible>String.IsEmpty(Skin.String(weather.icons.path))</visible>
+                                </control>
+                                <control type="label">
+                                    <left>292</left>
+                                    <right>50</right>
+                                    <top>50</top>
+                                    <height>50</height>
+                                    <font>TinyBold</font>
+                                    <align>right</align>
+                                    <aligny>center</aligny>
+                                    <textcolor>PanelWhite100</textcolor>
+                                    <label fallback="161">$LOCALIZE[33006]</label>
+                                </control>
+                                <control type="label">
+                                    <left>292</left>
+                                    <right>50</right>
+                                    <height>100%</height>
+                                    <aligny>center</aligny>
+                                    <autoscroll>false</autoscroll>
+                                    <align>right</align>
+                                    <font>Large</font>
+                                    <textcolor>PanelWhite100</textcolor>
+                                    <label>$INFO[Window(Weather).Property(Day0.HighTemp),[B],[/B]°  ]$INFO[Window(Weather).Property(Day0.LowTemp),,°]</label>
+                                </control>
+                                <control type="label">
+                                    <left>292</left>
+                                    <right>50</right>
+                                    <bottom>50</bottom>
+                                    <height>50</height>
+                                    <font>Tiny</font>
+                                    <align>right</align>
+                                    <aligny>center</aligny>
+                                    <textcolor>PanelWhite100</textcolor>
+                                    <label>$INFO[Window(Weather).Property(Day0.Outlook)]</label>
+                                </control>
+                            </control>
+                            <control type="group">
+                                <width>666</width>
+                                <height>100%</height>
+                                <control type="image">
+                                    <left>0</left>
+                                    <top>0</top>
+                                    <right>0</right>
+                                    <bottom>0</bottom>
+                                    <texture border="10">common/nofocus-shadow10.png</texture>
+                                </control>
+                                <control type="image">
+                                    <left>10</left>
+                                    <top>10</top>
+                                    <right>10</right>
+                                    <bottom>10</bottom>
+                                    <texture border="5" colordiffuse="Panel">common/box.png</texture>
+                                </control>
+                                <control type="multiimage" description="Fanart">
+                                    <visible>!Skin.HasSetting(weather.hidefanart)</visible>
+                                    <left>10</left>
+                                    <top>10</top>
+                                    <right>10</right>
+                                    <bottom>10</bottom>
+                                    <fadetime>600</fadetime>
+                                    <timeperimage>12000</timeperimage>
+                                    <randomize>true</randomize>
+                                    <aspectratio>scale</aspectratio>
+                                    <animation effect="fade" start="100" end="10" condition="true">Conditional</animation>
+                                    <imagepath background="true">$INFO[Skin.String(weather.fanart)]$INFO[Window(Weather).Property(Day2.FanartCode)]/</imagepath>
+                                </control>
+                                <control type="image">
+                                    <top>30</top>
+                                    <left>50</left>
+                                    <height>192</height>
+                                    <width>192</width>
+                                    <aspectratio align="center" aligny="center">keep</aspectratio>
+                                    <texture>$INFO[Window(Weather).Property(Day2.OutlookIcon)]</texture>
+                                    <visible>String.IsEmpty(Skin.String(weather.icons.path))</visible>
+                                </control>
+                                <control type="label">
+                                    <left>292</left>
+                                    <right>50</right>
+                                    <top>50</top>
+                                    <height>50</height>
+                                    <font>TinyBold</font>
+                                    <align>right</align>
+                                    <aligny>center</aligny>
+                                    <textcolor>PanelWhite100</textcolor>
+                                    <label fallback="161">$INFO[Window(Weather).Property(Day2.Title)]</label>
+                                </control>
+                                <control type="label">
+                                    <left>292</left>
+                                    <right>50</right>
+                                    <height>100%</height>
+                                    <aligny>center</aligny>
+                                    <autoscroll>false</autoscroll>
+                                    <align>right</align>
+                                    <font>Large</font>
+                                    <textcolor>PanelWhite100</textcolor>
+                                    <label>$INFO[Window(Weather).Property(Day2.HighTemp),[B],[/B]°  ]$INFO[Window(Weather).Property(Day2.LowTemp),,°]</label>
+                                </control>
+                                <control type="label">
+                                    <left>292</left>
+                                    <right>50</right>
+                                    <bottom>50</bottom>
+                                    <height>50</height>
+                                    <font>Tiny</font>
+                                    <align>right</align>
+                                    <aligny>center</aligny>
+                                    <textcolor>PanelWhite100</textcolor>
+                                    <label>$INFO[Window(Weather).Property(Day2.Outlook)]</label>
+                                </control>
+                            </control>
+                        </control>
+
+                        <control type="grouplist">
+                            <top>582</top>
+                            <left>518</left>
+                            <right>70</right>
+                            <height>252</height>
+                            <orientation>horizontal</orientation>
+                            <itemgap>0</itemgap>
+                            
+                            <control type="group">
+                                <width>666</width>
+                                <height>100%</height>
+                                <control type="image">
+                                    <left>0</left>
+                                    <top>0</top>
+                                    <right>0</right>
+                                    <bottom>0</bottom>
+                                    <texture border="10">common/nofocus-shadow10.png</texture>
+                                </control>
+                                <control type="image">
+                                    <left>10</left>
+                                    <top>10</top>
+                                    <right>10</right>
+                                    <bottom>10</bottom>
+                                    <texture border="5" colordiffuse="Panel">common/box.png</texture>
+                                </control>
+                                <control type="multiimage" description="Fanart">
+                                    <visible>!Skin.HasSetting(weather.hidefanart)</visible>
+                                    <left>10</left>
+                                    <top>10</top>
+                                    <right>10</right>
+                                    <bottom>10</bottom>
+                                    <fadetime>600</fadetime>
+                                    <timeperimage>12000</timeperimage>
+                                    <randomize>true</randomize>
+                                    <aspectratio>scale</aspectratio>
+                                    <animation effect="fade" start="100" end="10" condition="true">Conditional</animation>
+                                    <imagepath background="true">$INFO[Skin.String(weather.fanart)]$INFO[Window(Weather).Property(Day1.FanartCode)]/</imagepath>
+                                </control>
+                                <control type="image">
+                                    <top>30</top>
+                                    <left>50</left>
+                                    <height>192</height>
+                                    <width>192</width>
+                                    <aspectratio align="center" aligny="center">keep</aspectratio>
+                                    <texture>$INFO[Window(Weather).Property(Day1.OutlookIcon)]</texture>
+                                    <visible>String.IsEmpty(Skin.String(weather.icons.path))</visible>
+                                </control>
+                                <control type="label">
+                                    <left>292</left>
+                                    <right>50</right>
+                                    <top>50</top>
+                                    <height>50</height>
+                                    <font>TinyBold</font>
+                                    <align>right</align>
+                                    <aligny>center</aligny>
+                                    <textcolor>PanelWhite100</textcolor>
+                                    <label fallback="161">$LOCALIZE[33007]</label>
+                                </control>
+                                <control type="label">
+                                    <left>292</left>
+                                    <right>50</right>
+                                    <height>100%</height>
+                                    <aligny>center</aligny>
+                                    <autoscroll>false</autoscroll>
+                                    <align>right</align>
+                                    <font>Large</font>
+                                    <textcolor>PanelWhite100</textcolor>
+                                    <label>$INFO[Window(Weather).Property(Day1.HighTemp),[B],[/B]°  ]$INFO[Window(Weather).Property(Day1.LowTemp),,°]</label>
+                                </control>
+                                <control type="label">
+                                    <left>292</left>
+                                    <right>50</right>
+                                    <bottom>50</bottom>
+                                    <height>50</height>
+                                    <font>Tiny</font>
+                                    <align>right</align>
+                                    <aligny>center</aligny>
+                                    <textcolor>PanelWhite100</textcolor>
+                                    <label>$INFO[Window(Weather).Property(Day1.Outlook)]</label>
+                                </control>
+                            </control>
+                            <control type="group">
+                                <width>666</width>
+                                <height>100%</height>
+                                <control type="image">
+                                    <left>0</left>
+                                    <top>0</top>
+                                    <right>0</right>
+                                    <bottom>0</bottom>
+                                    <texture border="10">common/nofocus-shadow10.png</texture>
+                                </control>
+                                <control type="image">
+                                    <left>10</left>
+                                    <top>10</top>
+                                    <right>10</right>
+                                    <bottom>10</bottom>
+                                    <texture border="5" colordiffuse="Panel">common/box.png</texture>
+                                </control>
+                                <control type="multiimage" description="Fanart">
+                                    <visible>!Skin.HasSetting(weather.hidefanart)</visible>
+                                    <left>10</left>
+                                    <top>10</top>
+                                    <right>10</right>
+                                    <bottom>10</bottom>
+                                    <fadetime>600</fadetime>
+                                    <timeperimage>12000</timeperimage>
+                                    <randomize>true</randomize>
+                                    <aspectratio>scale</aspectratio>
+                                    <animation effect="fade" start="100" end="10" condition="true">Conditional</animation>
+                                    <imagepath background="true">$INFO[Skin.String(weather.fanart)]$INFO[Window(Weather).Property(Day3.FanartCode)]/</imagepath>
+                                </control>
+                                <control type="image">
+                                    <top>30</top>
+                                    <left>50</left>
+                                    <height>192</height>
+                                    <width>192</width>
+                                    <aspectratio align="center" aligny="center">keep</aspectratio>
+                                    <texture>$INFO[Window(Weather).Property(Day3.OutlookIcon)]</texture>
+                                    <visible>String.IsEmpty(Skin.String(weather.icons.path))</visible>
+                                </control>
+                                <control type="label">
+                                    <left>292</left>
+                                    <right>50</right>
+                                    <top>50</top>
+                                    <height>50</height>
+                                    <font>TinyBold</font>
+                                    <align>right</align>
+                                    <aligny>center</aligny>
+                                    <textcolor>PanelWhite100</textcolor>
+                                    <label fallback="161">$INFO[Window(Weather).Property(Day3.Title)]</label>
+                                </control>
+                                <control type="label">
+                                    <left>292</left>
+                                    <right>50</right>
+                                    <height>100%</height>
+                                    <aligny>center</aligny>
+                                    <autoscroll>false</autoscroll>
+                                    <align>right</align>
+                                    <font>Large</font>
+                                    <textcolor>PanelWhite100</textcolor>
+                                    <label>$INFO[Window(Weather).Property(Day3.HighTemp),[B],[/B]°  ]$INFO[Window(Weather).Property(Day3.LowTemp),,°]</label>
+                                </control>
+                                <control type="label">
+                                    <left>292</left>
+                                    <right>50</right>
+                                    <bottom>50</bottom>
+                                    <height>50</height>
+                                    <font>Tiny</font>
+                                    <align>right</align>
+                                    <aligny>center</aligny>
+                                    <textcolor>PanelWhite100</textcolor>
+                                    <label>$INFO[Window(Weather).Property(Day3.Outlook)]</label>
+                                </control>
+                            </control>
+                        </control>
+                    </control>
+                    <!-- Widget -->
+                    <include condition="Skin.HasSetting(NoPersistentWidgets)">Home-Widget-Vertical</include>
+                    <include condition="!Skin.HasSetting(NoPersistentWidgets)">skinshortcuts-template-widget-vertical</include>
+                </control>
+            </control>
+        </control>
+    </include>
+    <include name="Home-Widget-Vertical">
+        <control type="list" id="301">
+            <visible>!String.Contains(Container(300).ListItem.Property(widget),Weather,left)</visible>
+            <visible allowhiddenfocus="true">Integer.IsGreater(Container(301).NumItems,0) | Container(301).IsUpdating</visible>
+            <animation effect="fade" start="100" end="66" time="400" condition="!Control.HasFocus(301)">Conditional</animation>
+            <include>Animation.FadeIn</include>
+            <autoscroll time="10000">!Control.HasFocus(301)</autoscroll>
+            <top>330</top>
+            <left>518</left>
+            <width>1776</width>
+            <height>325</height>
+            <onback>300</onback>
+            <onleft>300</onleft>
+            <onup>300</onup>
+            <ondown>300</ondown>
+            <onright>noop</onright>
+            <oninfo condition="String.IsEmpty(Container(301).ListItem.TvShowTitle) + String.IsEmpty(Container(301).ListItem.Artist)">RunScript(script.extendedinfo,info=extendedinfo,name=$INFO[Container(301).ListItem.Title],imdb_id=$INFO[Container(301).ListItem.IMDBNumber])</oninfo>
+            <oninfo condition="!String.IsEmpty(Container(301).ListItem.TvShowTitle)">RunScript(script.extendedinfo,info=extendedtvinfo,name=$INFO[Container(301).ListItem.TvShowTitle],imdb_id=$INFO[Container(301).ListItem.IMDBNumber])</oninfo>
+            <focusposition>0</focusposition>
+            <preloaditems>2</preloaditems>
+            <orientation>horizontal</orientation>
+            <pagecontrol>60</pagecontrol>
+            <viewtype label="536">list</viewtype>
+            <scrolltime tween="quadratic">400</scrolltime>
+            <itemlayout height="325" width="222" condition="!String.IsEqual(Container(300).ListItem.Property(widgetaspect),Square) + ![String.IsEqual(Container(300).ListItem.Property(widgetaspect),Fanart) | String.IsEqual(Container(300).ListItem.Property(widgetaspect),Thumbnail)]">
+                <control type="image">
+                    <left>0</left>
+                    <top>0</top>
+                    <right>0</right>
+                    <bottom>0</bottom>
+                    <texture border="10">common/nofocus-shadow10.png</texture>
+                </control>
+                <control type="image">
+                    <left>10</left>
+                    <top>10</top>
+                    <right>10</right>
+                    <bottom>10</bottom>
+                    <aspectratio scalediffuse="false">scale</aspectratio>
+                    <texture diffuse="diffuse/wall.png" background="true" fallback="DefaultMovies.png">$VAR[PosterImage]</texture>
+                </control>
+                <control type="image">
+                    <centerright>32</centerright>
+                    <centertop>32</centertop>
+                    <width>32</width>
+                    <height>32</height>
+                    <aspectratio aligny="top">keep</aspectratio>
+                    <texture>$VAR[PercentWatched]</texture>
+                    <visible>!String.IsEqual(ListItem.Label,..)</visible>
+                    <visible>String.IsEqual(ListItem.Overlay,OverlayWatched.png)</visible>
+                </control>
+            </itemlayout>
+            <itemlayout height="325" width="325" condition="String.IsEqual(Container(300).ListItem.Property(widgetaspect),Square)">
+                <control type="image">
+                    <left>0</left>
+                    <top>0</top>
+                    <right>0</right>
+                    <bottom>0</bottom>
+                    <texture border="10">common/nofocus-shadow10.png</texture>
+                </control>
+                <control type="image">
+                    <left>10</left>
+                    <top>10</top>
+                    <right>10</right>
+                    <bottom>10</bottom>
+                    <aspectratio scalediffuse="false">scale</aspectratio>
+                    <texture diffuse="diffuse/wall.png" background="true" fallback="DefaultMovies.png">$VAR[PosterImage]</texture>
+                </control>
+                <control type="image">
+                    <centerright>32</centerright>
+                    <centertop>32</centertop>
+                    <width>32</width>
+                    <height>32</height>
+                    <aspectratio aligny="top">keep</aspectratio>
+                    <texture>$VAR[PercentWatched]</texture>
+                    <visible>!String.IsEqual(ListItem.Label,..)</visible>
+                    <visible>String.IsEqual(ListItem.Overlay,OverlayWatched.png)</visible>
+                </control>
+            </itemlayout>
+            <itemlayout height="325" width="562" condition="String.IsEqual(Container(300).ListItem.Property(widgetaspect),Thumbnail) | String.IsEqual(Container(300).ListItem.Property(widgetaspect),Fanart)">
+                <control type="image">
+                    <left>0</left>
+                    <top>0</top>
+                    <right>0</right>
+                    <bottom>0</bottom>
+                    <texture border="10">common/nofocus-shadow10.png</texture>
+                </control>
+                <control type="image">
+                    <left>10</left>
+                    <top>10</top>
+                    <right>10</right>
+                    <bottom>10</bottom>
+                    <aspectratio scalediffuse="false">scale</aspectratio>
+                    <texture diffuse="diffuse/wall.png" background="true" fallback="DefaultMovies.png">$VAR[WidgetThumbImage]</texture>
+                </control>
+                <control type="image">
+                    <centerright>32</centerright>
+                    <centertop>32</centertop>
+                    <width>32</width>
+                    <height>32</height>
+                    <aspectratio aligny="top">keep</aspectratio>
+                    <texture>$VAR[PercentWatched]</texture>
+                    <visible>!String.IsEqual(ListItem.Label,..)</visible>
+                    <visible>String.IsEqual(ListItem.Overlay,OverlayWatched.png)</visible>
+                </control>
+            </itemlayout>
+            <focusedlayout height="325" width="222" condition="!String.IsEqual(Container(300).ListItem.Property(widgetaspect),Square) + ![String.IsEqual(Container(300).ListItem.Property(widgetaspect),Fanart) | String.IsEqual(Container(300).ListItem.Property(widgetaspect),Thumbnail)]">
+                <control type="image">
+                    <left>0</left>
+                    <top>0</top>
+                    <right>0</right>
+                    <bottom>0</bottom>
+                    <texture border="10">common/nofocus-shadow10.png</texture>
+                </control>
+                <control type="image">
+                    <left>10</left>
+                    <top>10</top>
+                    <right>10</right>
+                    <bottom>10</bottom>
+                    <aspectratio scalediffuse="false">scale</aspectratio>
+                    <texture diffuse="diffuse/wall.png" background="true" fallback="DefaultMovies.png">$VAR[PosterImage]</texture>
+                </control>
+                <control type="image">
+                    <centerright>32</centerright>
+                    <centertop>32</centertop>
+                    <width>32</width>
+                    <height>32</height>
+                    <aspectratio aligny="top">keep</aspectratio>
+                    <texture>$VAR[PercentWatched]</texture>
+                    <visible>!String.IsEqual(ListItem.Label,..)</visible>
+                    <visible>String.IsEqual(ListItem.Overlay,OverlayWatched.png)</visible>
+                </control>
+                <control type="image">
+                    <left>3</left>
+                    <top>3</top>
+                    <right>3</right>
+                    <bottom>3</bottom>
+                    <texture colordiffuse="$VAR[ColorHighlight]" border="20">common/selectbox.png</texture>
+                    <visible>Control.HasFocus(301)</visible>
+                    <animation type="Focus">
+                        <effect type="zoom" start="90" end="100" time="150" tween="sine" easing="inout" center="auto" />
+                        <effect type="fade" start="0" end="100" time="150" tween="sine" easing="in" />
+                    </animation>
+                    <animation type="Unfocus">
+                        <effect type="zoom" start="100" end="90" time="150" tween="sine" easing="inout" center="auto" />
+                        <effect type="fade" start="100" end="0" time="150" tween="sine" easing="out" />
+                    </animation>
+                </control>
+                  
+            </focusedlayout>
+            <focusedlayout height="325" width="325" condition="String.IsEqual(Container(300).ListItem.Property(widgetaspect),Square)">
+                <control type="image">
+                    <left>0</left>
+                    <top>0</top>
+                    <right>0</right>
+                    <bottom>0</bottom>
+                    <texture border="10">common/nofocus-shadow10.png</texture>
+                </control>
+                <control type="image">
+                    <left>10</left>
+                    <top>10</top>
+                    <right>10</right>
+                    <bottom>10</bottom>
+                    <aspectratio scalediffuse="false">scale</aspectratio>
+                    <texture diffuse="diffuse/wall.png" background="true" fallback="DefaultMovies.png">$VAR[PosterImage]</texture>
+                </control>
+                <control type="image">
+                    <centerright>32</centerright>
+                    <centertop>32</centertop>
+                    <width>32</width>
+                    <height>32</height>
+                    <aspectratio aligny="top">keep</aspectratio>
+                    <texture>$VAR[PercentWatched]</texture>
+                    <visible>!String.IsEqual(ListItem.Label,..)</visible>
+                    <visible>String.IsEqual(ListItem.Overlay,OverlayWatched.png)</visible>
+                </control>
+                <control type="image">
+                    <left>3</left>
+                    <top>3</top>
+                    <right>3</right>
+                    <bottom>3</bottom>
+                    <texture colordiffuse="$VAR[ColorHighlight]" border="20">common/selectbox.png</texture>
+                    <visible>Control.HasFocus(301)</visible>
+                    <animation type="Focus">
+                        <effect type="zoom" start="90" end="100" time="150" tween="sine" easing="inout" center="auto" />
+                        <effect type="fade" start="0" end="100" time="150" tween="sine" easing="in" />
+                    </animation>
+                    <animation type="Unfocus">
+                        <effect type="zoom" start="100" end="90" time="150" tween="sine" easing="inout" center="auto" />
+                        <effect type="fade" start="100" end="0" time="150" tween="sine" easing="out" />
+                    </animation>
+                </control>
+                  
+            </focusedlayout>
+            <focusedlayout height="325" width="562" condition="String.IsEqual(Container(300).ListItem.Property(widgetaspect),Thumbnail) | String.IsEqual(Container(300).ListItem.Property(widgetaspect),Fanart)">
+                <control type="image">
+                    <left>0</left>
+                    <top>0</top>
+                    <right>0</right>
+                    <bottom>0</bottom>
+                    <texture border="10">common/nofocus-shadow10.png</texture>
+                </control>
+                <control type="image">
+                    <left>10</left>
+                    <top>10</top>
+                    <right>10</right>
+                    <bottom>10</bottom>
+                    <aspectratio scalediffuse="false">scale</aspectratio>
+                    <texture diffuse="diffuse/wall.png" background="true" fallback="DefaultMovies.png">$VAR[WidgetThumbImage]</texture>
+                </control>
+                <control type="image">
+                    <centerright>32</centerright>
+                    <centertop>32</centertop>
+                    <width>32</width>
+                    <height>32</height>
+                    <aspectratio aligny="top">keep</aspectratio>
+                    <texture>$VAR[PercentWatched]</texture>
+                    <visible>!String.IsEqual(ListItem.Label,..)</visible>
+                    <visible>String.IsEqual(ListItem.Overlay,OverlayWatched.png)</visible>
+                </control>
+                <control type="image">
+                    <left>3</left>
+                    <top>3</top>
+                    <right>3</right>
+                    <bottom>3</bottom>
+                    <texture colordiffuse="$VAR[ColorHighlight]" border="20">common/selectbox.png</texture>
+                    <visible>Control.HasFocus(301)</visible>
+                    <animation type="Focus">
+                        <effect type="zoom" start="90" end="100" time="150" tween="sine" easing="inout" center="auto" />
+                        <effect type="fade" start="0" end="100" time="150" tween="sine" easing="in" />
+                    </animation>
+                    <animation type="Unfocus">
+                        <effect type="zoom" start="100" end="90" time="150" tween="sine" easing="inout" center="auto" />
+                        <effect type="fade" start="100" end="0" time="150" tween="sine" easing="out" />
+                    </animation>
+                </control>
+                  
+            </focusedlayout>
+            <content target="$VAR[DefWidgetTarget]">$VAR[DefWidgetContent]</content>
+        </control>
+    </include>
+</includes>

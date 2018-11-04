@@ -1,0 +1,100 @@
+<?xml version="1.0" encoding="utf-8"?>
+<window id="3001">
+    <!-- The following property allows TvTunes to keep playing when this window is displayed -->
+    <onload condition="!String.IsEmpty(ListItem.TvShowTitle)">SetProperty("TvTunesSupported", "TvShows")</onload>
+    <onload condition="String.IsEmpty(ListItem.TvShowTitle)">SetProperty("TvTunesSupported", "Movies")</onload>
+    <onload condition="Skin.HasSetting(ActivateTvTunes) + System.HasAddon(script.tvtunes)">XBMC.RunScript(script.tvtunes,backend=True)</onload>
+    <defaultcontrol always="true">51</defaultcontrol>
+    
+    <controls>
+        <include>GlobalBackground</include>
+        <control type="group">
+            <height>866</height>
+            <include>DefDialogInfoPanel</include>
+            
+            <control type="label">
+                <description>Header Label</description>
+                <centerleft>50%</centerleft>
+                <width>1000</width>
+                <align>center</align>
+                <label>$ADDON[script.videoextras 32001]</label>
+                <posy>15</posy>
+                <font>MediumBold</font>
+            </control>
+  
+            <control type="list" id="51">
+                <description>Control Area</description>
+                <left>15</left>
+                <right>45</right>
+                <bottom>15</bottom>
+                <height>759</height>
+                <orientation>vertical</orientation>
+                <pagecontrol>60</pagecontrol>
+                <onup>51</onup>
+                <ondown>51</ondown>
+                <onright>60</onright>
+                <itemlayout width="1260" height="69">
+                    <control type="label">
+                        <posx>30</posx>
+                        <width>auto</width>
+                        <aligny>center</aligny>
+                        <height>64</height>
+                        <font>SmallBold</font>
+                        <label>$INFO[ListItem.Label]</label>
+                    </control>
+                    <control type="label">
+                        <right>30</right>
+                        <width>500</width>
+                        <aligny>center</aligny>
+                        <height>64</height>
+                        <align>right</align>
+                        <font>Small</font>
+                        <label>$INFO[ListItem.Label2]</label>
+                    </control>
+                
+                </itemlayout>
+                <focusedlayout width="1260" height="69">
+                    <control type="image">                                
+                        <width>100%</width>
+                        <height>100%</height>
+                        <texture border="8" colordiffuse="$VAR[ColorHighlight]">common/box.png</texture>
+                    </control>
+                    <control type="label">
+                        <posx>30</posx>
+                        <width>auto</width>
+                        <aligny>center</aligny>
+                        <height>64</height>
+                        <font>SmallBold</font>
+                        <textcolor>Selected</textcolor>
+                        <selectedcolor>Selected</selectedcolor>
+                        <label>$INFO[ListItem.Label]</label>
+                    </control>
+                    <control type="label">
+                        <right>30</right>
+                        <width>500</width>
+                        <aligny>center</aligny>
+                        <height>64</height>
+                        <align>right</align>
+                        <font>Small</font>
+                        <textcolor>Selected</textcolor>
+                        <selectedcolor>Selected</selectedcolor>
+                        <label>$INFO[ListItem.Label2]</label>
+                    </control>
+                </focusedlayout>
+            </control>
+            <control type="scrollbar" id="60">
+                <right>15</right>
+                <width>8</width>
+                <bottom>15</bottom>
+                <height>759</height>
+                <onleft>51</onleft>
+                <onright>51</onright>
+                <ondown>60</ondown>
+                <onup>60</onup>
+                <texturesliderbackground colordiffuse="Black12">common/white.png</texturesliderbackground>
+                <texturesliderbarfocus colordiffuse="$VAR[ColorHighlight]">common/white.png</texturesliderbarfocus>
+                <texturesliderbar colordiffuse="PanelWhite12">common/white.png</texturesliderbar>
+            </control>
+        </control>
+    </controls>
+</window>

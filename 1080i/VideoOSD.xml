@@ -1,0 +1,157 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Foundation -->
+<window id="2901">
+    <include condition="!Player.PauseEnabled">OSDFocusStop</include>
+    <include condition="Player.PauseEnabled">OSDFocusPause</include>
+    
+    <onunload>ClearProperty(osdshowinfo,home)</onunload>
+    <controls>
+        <control type="group">
+            <height>74</height>
+            <bottom>0</bottom>
+            <animation type="WindowOpen">
+                <effect type="fade" start="0" end="100" time="150" delay="150"/>
+            </animation>
+            <animation type="WindowClose">
+                <effect type="fade" end="0" start="100" time="150"/>
+            </animation>
+            <animation type="Visible">
+                <effect type="fade" start="0" end="100" time="150" delay="150"/>
+            </animation>
+            <animation type="Hidden">
+                <effect type="fade" end="0" start="100" time="150"/>
+            </animation>
+            <!-- Sub Menu -->
+            <control type="group">
+                <visible allowhiddenfocus="true">ControlGroup(9300).HasFocus() | Control.HasFocus(3)</visible>
+
+                <include>Animation.SlideUp</include>
+                <include>Animation.FadeOut</include>
+                <bottom>72</bottom>
+                <centerleft>572</centerleft>
+                <width>316</width>
+                <height>152</height>
+                <control type="image">
+                    <description>background image</description>
+                    <width>100%</width>
+                    <height>100%</height>
+                    <colordiffuse>$VAR[OSDPanel]</colordiffuse>
+                    <texture border="16">common/rounded-shadow8.png</texture>
+                </control>
+                <control type="grouplist" id="9300">
+                    <include>Animation.FadeIn.Delay</include>
+                    <include>Animation.FadeOut</include>
+                    <top>16</top>
+                    <bottom>16</bottom>
+                    <left>8</left>
+                    <right>8</right>
+                    <onup>3</onup>
+                    <ondown>3</ondown>
+                    <onleft>3</onleft>
+                    <onright>3</onright>
+                    <itemgap>0</itemgap>
+                    <orientation>vertical</orientation>
+                    <scrolltime>200</scrolltime>
+                    <control type="button" id="9301" description="Download">
+                        <width>100%</width>
+                        <height>60</height>
+                        <textcolor>$VAR[OSDPanelWhite70]</textcolor>
+                        <include>DefContextButton</include>
+                        <label>33003</label>
+                        <onclick>ActivateWindow(SubtitleSearch)</onclick>
+                    </control>
+                    <control type="togglebutton" id="9302" description="Enable Subs">
+                        <width>100%</width>
+                        <height>60</height>
+                        <textcolor>$VAR[OSDPanelWhite70]</textcolor>
+                        <include>DefContextButton</include>
+                        <label>$LOCALIZE[305] $INFO[VideoPlayer.SubtitlesLanguage,[UPPERCASE],[/UPPERCASE]]</label>
+                        <altlabel>13106</altlabel>
+                        <onclick>NextSubtitle</onclick>
+                        <usealttexture>!VideoPlayer.SubtitlesEnabled</usealttexture>
+                    </control>
+                </control>
+            
+            </control>
+            
+            <control type="grouplist" id="100">
+                <top>13</top>
+                <left>50</left>
+                <height>48</height>
+                <itemgap>0</itemgap>
+                <orientation>horizontal</orientation>
+                <align>left</align>
+                <onleft>6</onleft>
+                <onright condition="!Player.CanRecord | !VideoPlayer.Content(LiveTV)">12</onright>
+                <onright condition="Player.CanRecord + VideoPlayer.Content(LiveTV)">9003</onright>
+                <include>DefOSDUpDown</include>
+                <usecontrolcoords>true</usecontrolcoords>
+        
+                
+
+                <control type="button" id="1">
+                    <description>Audio</description>
+                    <label>292</label>
+                    <align>left</align>
+                    <onclick>ActivateWindow(124)</onclick>
+                    <include>DefOSDButtons</include>
+                </control>
+
+                <control type="button" id="2">
+                    <description>Video Settings</description>
+                    <label>291</label>
+                    <align>left</align>
+                    <onclick>ActivateWindow(123)</onclick>
+                    <include>DefOSDButtons</include>
+                </control>
+                
+                <control type="button" id="3">
+                    <onup>9302</onup>
+                    <ondown>9301</ondown>
+                    <description>Subs</description>
+                    <align>left</align>
+                    <label>$LOCALIZE[287]</label>
+                    <onclick>Action(ShowSubtitles)</onclick>
+                    <include>DefOSDButtons</include>
+                </control>
+            </control>
+            <control type="grouplist" id="101">
+            
+                <top>13</top>
+                <width>100%</width>
+                <height>48</height>
+                <itemgap>16</itemgap>
+                <orientation>horizontal</orientation>
+                <align>center</align>
+                <onleft>3</onleft>
+                <onright>4</onright>
+                <ondown>noop</ondown>
+                <include condition="!Skin.HasSetting(osd.usetheme)">OSDVideoControls</include>
+                <include condition="Skin.HasSetting(osd.usetheme)">OSDVideoControlsFlip</include>
+            
+            </control>
+            
+            <control type="grouplist" id="102">
+                <top>13</top>
+                <right>50</right>
+                <height>48</height>
+                <itemgap>0</itemgap>
+                <orientation>horizontal</orientation>
+                <align>right</align>
+                <onleft>17</onleft>
+                <onright>1</onright>
+                <include>DefOSDUpDown</include>
+                <usecontrolcoords>true</usecontrolcoords>
+                
+                <include condition="!VideoPlayer.Content(livetv) + [VideoPlayer.HasMenu | [!VideoPlayer.Content(movies) + !VideoPlayer.Content(episodes)]]">OSDDVDMenu</include>
+                <include condition="!VideoPlayer.HasMenu + VideoPlayer.Content(episodes)">OSDExtraInfoTV</include>
+                <include condition="!VideoPlayer.HasMenu + VideoPlayer.Content(movies)">OSDExtraInfoMOVIES</include>
+                
+                <include condition="!VideoPlayer.Content(livetv)">OSDVideosRight</include>
+                <include condition="VideoPlayer.Content(livetv)">OSDPVRRight</include>
+            </control>
+        </control>
+    
+    </controls>
+
+</window>
