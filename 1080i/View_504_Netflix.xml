@@ -6,7 +6,9 @@
 
 		<control type="group">	
 			<include>Animation.Common</include>	
-			<visible>Control.IsVisible(504)</visible> 		
+			<visible>Control.IsVisible(504)</visible>
+			<include>JumpBarHorizontal</include>
+			<include>ViewSlideForJumpBar</include> 		
 			<control type="label">
 				<top>180</top>
 				<left>90</left>
@@ -15,8 +17,64 @@
 				<include>DefDialogInfoHeader</include>
 				<label>$INFO[ListItem.Title]</label>
 			</control>	
+			
+			
+				
+			<!--
+			Punkt Hintergr	&#61833;
+			Haken 			&#10003;
+			Flamme			&#62079;
+			Uhr 			&#61968;
+			Play 			&#61822;
+			Offe Kr m Pfeil	&#62251;
+			Kreis 			&#63346;
+			
+			
+			-->
+			
+			
+			
+			<!--
+			<control type="label">
+				<top>180</top>
+				<left>550</left>
+				<width>100</width>
+				<height>100</height>
+				<align>center</align>
+				<aligny>center</aligny>
+				<textcolor>FF333333</textcolor>
+				<font>Symbols</font>
+					
+				<label>&#58973;</label>
+			</control>
+			
+			<control type="label">
+				<top>180</top>
+				<left>450</left>
+				<width>100</width>
+				<height>100</height>
+				<align>center</align>
+				<aligny>center</aligny>
+				<textcolor>FF333333</textcolor>
+				<font>SymbolTest2</font>
+					
+				<label>&#61833;</label>
+			</control>	
+			<control type="label">
+				<top>180</top>
+				<left>450</left>
+				<width>100</width>
+				<height>100</height>
+				<align>center</align>
+				<aligny>center</aligny>
+				
+				<textcolor>FFD402AA</textcolor>
+				<font>SymbolTest</font>
+					
+				<label>&#63346;</label>
+			</control>	-->
 			<control type="grouplist">
-				<visible>!ListItem.IsFolder</visible>
+				<visible>[!String.IsEqual(ListItem.Label,..)  + Container.Content(movies)] | [!String.IsEqual(ListItem.Label,..)  + Container.Content(episodes)]</visible>
 				<left>90</left>
 				<top>250</top>			
 				<itemgap>0</itemgap>	
@@ -41,6 +99,34 @@
 					<label fallback="416">$LOCALIZE[2050]: $INFO[ListItem.Duration(mins),, $LOCALIZE[12391]]</label>
 				</control>	
 			</control>	
+			<control type="grouplist">
+				<visible>!String.IsEqual(ListItem.Label,..) + Container.Content(tvshows)</visible>			
+				<left>90</left>
+				<top>250</top>			
+				<itemgap>0</itemgap>	
+				<control type="label">	
+								
+					<height>36</height>
+					<font>Tiny</font>
+					<textcolor>Dark2</textcolor>
+					<label fallback="416">$LOCALIZE[29909]: $INFO[ListItem.Studio]</label>				
+				</control>
+				<control type="label">
+						
+					<width>1100</width>
+					<height>36</height>
+					<font>Tiny</font>
+					<textcolor>Dark2</textcolor>
+					<label>$LOCALIZE[20352]: $INFO[ListItem.Property(TotalEpisodes),, $LOCALIZE[20360]] $INFO[ListItem.Property(UnWatchedEpisodes),  •  , $LOCALIZE[16101]]</label>                        
+                </control>
+				<control type="label">	
+								
+					<height>36</height>
+					<font>Tiny</font>
+					<textcolor>Dark2</textcolor>
+					<label fallback="416">$INFO[ListItem.MPAA,$LOCALIZE[563]: ]</label>				
+				</control>	
+			</control>
 			<control type="textbox">				
 				<top>376</top>
 				<bottom>17</bottom>
@@ -57,7 +143,7 @@
 				<left>90</left>
 				<top>110</top>
 				<width>1050</width>
-				<visible>!ListItem.IsFolder</visible>
+				<visible>!String.IsEqual(ListItem.Label,..) </visible>
 				<visible>!Skin.HasSetting(furniture.numericrating)</visible>
 				<control type="image">
 				<posx>0</posx>
@@ -108,7 +194,7 @@
 				<left>90</left>
 				<top>110</top>
 				<width>1050</width>
-				<visible>!ListItem.IsFolder</visible>
+				<visible>!String.IsEqual(ListItem.Label,..) </visible>
 				<visible>Skin.HasSetting(furniture.numericrating)</visible>
 				<control type="image">
 				<posx>0</posx>
@@ -128,11 +214,11 @@
                 </control>
 			</control> 
 			<control type="group">
-				<visible>!ListItem.IsFolder</visible>
+				<visible>!String.IsEqual(ListItem.Label,..) </visible>
 				<left>1540</left>
-				<top>190</top>
+				<top>214</top>
 				<control type="image">	
-					<visible>!ListItem.IsFolder + !String.IsEmpty(ListItem.Art(discart)) + Skin.HasSetting(discartfanart)</visible>                  
+					<visible>!String.IsEqual(ListItem.Label,..)  + !String.IsEmpty(ListItem.Art(discart)) + Skin.HasSetting(discartfanart)</visible>                  
                     <right>92</right>
                     <width>285</width>
                     <height>285</height>
@@ -159,13 +245,14 @@
 					<bottom>475</bottom>                          
 					<texture colordiffuse="Box2" background="true">common/box2.png</texture>   
 					<visible>!Skin.HasSetting(thumbnails.white)</visible>  
-					<visible>!ListItem.IsFolder</visible>                     
+					<visible>!String.IsEqual(ListItem.Label,..) </visible>                     
 				</control>
 				<control type="image">	
-					<visible>!ListItem.IsFolder</visible>                 			
+					<visible>!String.IsEqual(ListItem.Label,..) </visible>                 			
 					<width>293</width>
-					<height>414</height>
+					<height>390</height>
 					<fadetime>200</fadetime>
+					<aspectratio aligny="center" align="center" scalediffuse="false">scale</aspectratio>
 					<texture background="true">$VAR[PosterImage]</texture>		
 				</control>
 		    </control>
@@ -173,10 +260,10 @@
 				<top>640</top>
 				<right>SidePad</right>
 				<left>80</left>				
-				<visible>Container.Content(movies)</visible>               
+				<visible>Container.Content(movies) | Container.Content(tvshows) | Container.Content(episodes) | Container.Content(seasons)</visible>               
                 <onup condition="!Skin.HasSetting(global.kioskmode)">9000</onup>
                 <ondown>1615</ondown>
-                <preloaditems>2</preloaditems>
+                <preloaditems>0</preloaditems>
                 <pagecontrol>1615</pagecontrol>
 				<height>255</height>
 				<orientation>horizontal</orientation>
@@ -192,12 +279,41 @@
                     </control>
 					<control type="image">
 						<left>11</left>
-						<top>9</top>
-						<right>9</right>
-						<bottom>59</bottom>                          
-						<texture colordiffuse="Box2" background="true">common/box2.png</texture>   
+						<width>1</width>  
+						<top>10</top>                  
+                        <bottom>60</bottom>                        
+						<texture colordiffuse="Box2" background="true">common/box11.png</texture>  
 						<visible>!Skin.HasSetting(thumbnails.white)</visible>                        
 					</control>
+					<control type="image">
+						<right>9</right>
+						<width>1</width>  
+						<top>10</top>                  
+                        <bottom>60</bottom>                        
+						<texture colordiffuse="Box2" background="true">common/box11.png</texture>  
+						<visible>!Skin.HasSetting(thumbnails.white)</visible>                        
+					</control>
+					
+					
+					
+					<control type="image">
+						<right>9</right>
+						<height>1</height>  
+						<top>9</top>                  
+                        <left>11</left>                     
+						<texture colordiffuse="Box2" background="true">common/box11.png</texture>  
+						<visible>!Skin.HasSetting(thumbnails.white)</visible>                        
+					</control>
+					<control type="image">
+						<right>9</right>
+						<height>1</height>  
+						<left>11</left>                
+                        <bottom>59</bottom>                        
+						<texture colordiffuse="Box2" background="true">common/box11.png</texture>  
+						<visible>!Skin.HasSetting(thumbnails.white)</visible>                        
+					</control>
+					
+					
                     <control type="image">
                         <left>12</left>
                         <top>10</top>
@@ -212,28 +328,45 @@
 						<width>300</width>
 						<height>50</height>
 						<left>20</left>  
-						<font>Mini</font>
+						<font>Small333</font>
 						<textcolor>Dark1</textcolor>
-						<visible>!ListItem.IsFolder</visible>
-						<label>$INFO[ListItem.Label] ($INFO[ListItem.Year])</label>
+						<visible>!String.IsEqual(ListItem.Label,..)</visible>
+						<label>$INFO[ListItem.Label] $INFO[ListItem.Year,(,)]</label>						
 					</control>
-					<control type="image">
+					
+					<!--<control type="image">
                         <centerright>32</centerright>
                         <centertop>32</centertop>
                         <width>32</width>
                         <height>32</height>
                         <aspectratio aligny="top">keep</aspectratio>
-                        <texture colordiffuse="$VAR[ColorHighlight]">$VAR[PosterPercentWatchedBacking]</texture>
-                        <visible>!stringcompare(ListItem.Label,..)</visible>
+                        <texture colordiffuse="FF333333">$VAR[WatchedBacking]</texture>
+                        <visible>!String.IsEqual(ListItem.Label,..)</visible>
+                    </control>-->
+                    
+					<control type="label">
+                        <align>center</align>
+                        <aligny>center</aligny>
+                        <width>50</width>
+						<right>7</right>
+						<top>6</top>
+                        <height>50</height>
+                        <textcolor>$VAR[WatchedBackingColor]</textcolor>
+						<font>SymbolPosterBackground</font>
+                        <label>$VAR[WatchedBacking]</label>
+                        <visible>!String.IsEqual(ListItem.Label,..)</visible>
                     </control>
-                    <control type="image">
-                        <centerright>32</centerright>
-                        <centertop>32</centertop>
-                        <width>32</width>
-                        <height>32</height>
-                        <aspectratio aligny="top">keep</aspectratio>
-                        <texture>$VAR[PosterPercentWatched]</texture>
-                        <visible>!stringcompare(ListItem.Label,..)</visible>
+					<control type="label">
+                        <align>center</align>
+                        <aligny>center</aligny>
+                        <width>50</width>
+						<right>7</right>
+						<top>6</top>
+                        <height>50</height>
+                        <textcolor>$VAR[WatchedLabelPosterColor]</textcolor>
+						<font>SymbolPoster</font>
+                        <label>$VAR[WatchedLabelPoster]</label>
+                        <visible>!String.IsEqual(ListItem.Label,..)</visible>
                     </control>
 				</itemlayout>
 				<focusedlayout height="255" width="352">
@@ -246,10 +379,37 @@
                  	</control>
 					<control type="image">
 						<left>11</left>
-						<top>9</top>
+						<width>1</width>  
+						<top>10</top>                  
+                        <bottom>60</bottom>                        
+						<texture colordiffuse="Box2" background="true">common/box11.png</texture>  
+						<visible>!Skin.HasSetting(thumbnails.white)</visible>                        
+					</control>
+					<control type="image">
 						<right>9</right>
-						<bottom>59</bottom>                          
-						<texture colordiffuse="Box2" background="true">common/box2.png</texture>   
+						<width>1</width>  
+						<top>10</top>                  
+                        <bottom>60</bottom>                        
+						<texture colordiffuse="Box2" background="true">common/box11.png</texture>  
+						<visible>!Skin.HasSetting(thumbnails.white)</visible>                        
+					</control>
+					
+					
+					
+					<control type="image">
+						<right>9</right>
+						<height>1</height>  
+						<top>9</top>                  
+                        <left>11</left>                     
+						<texture colordiffuse="Box2" background="true">common/box11.png</texture>  
+						<visible>!Skin.HasSetting(thumbnails.white)</visible>                        
+					</control>
+					<control type="image">
+						<right>9</right>
+						<height>1</height>  
+						<left>11</left>                
+                        <bottom>59</bottom>                        
+						<texture colordiffuse="Box2" background="true">common/box11.png</texture>  
 						<visible>!Skin.HasSetting(thumbnails.white)</visible>                        
 					</control>
                     <control type="image">
@@ -261,24 +421,29 @@
                         <aspectratio scalediffuse="false">scale</aspectratio>
                         <texture diffuse="diffuse/wall.png" background="true">$VAR[FanartImage]</texture>
                     </control>
-					<control type="image">
-                        <centerright>32</centerright>
-                        <centertop>32</centertop>
-                        <width>32</width>
-                        <height>32</height>
-                        <aspectratio aligny="top">keep</aspectratio>
-                        <texture colordiffuse="$VAR[ColorHighlight]">$VAR[PosterPercentWatchedBacking]</texture>
-                        <visible>!stringcompare(ListItem.Label,..)</visible>
+					<control type="label">
+                        <align>center</align>
+                        <aligny>center</aligny>
+                        <width>50</width>
+						<right>7</right>
+						<top>6</top>
+                        <height>50</height>
+                        <textcolor>$VAR[WatchedBackingColor]</textcolor>
+						<font>SymbolPosterBackground</font>
+                        <label>$VAR[WatchedBacking]</label>
+                        <visible>!String.IsEqual(ListItem.Label,..)</visible>
                     </control>
-                    <control type="image">
-                        <centerright>32</centerright>
-                        <centertop>32</centertop>
-                        <width>32</width>
-                        <height>32</height>
-                        <aspectratio aligny="top">keep</aspectratio>
-						<scroll>false</scroll>
-                        <texture>$VAR[PosterPercentWatched]</texture>
-                        <visible>!stringcompare(ListItem.Label,..)</visible>
+					<control type="label">
+                        <align>center</align>
+                        <aligny>center</aligny>
+                        <width>50</width>
+						<right>7</right>
+						<top>6</top>
+                        <height>50</height>
+                        <textcolor>$VAR[WatchedLabelPosterColor]</textcolor>
+						<font>SymbolPoster</font>
+                        <label>$VAR[WatchedLabelPoster]</label>
+                        <visible>!String.IsEqual(ListItem.Label,..)</visible>
                     </control>
 					<control type="image">
                         <left>5</left>
@@ -300,10 +465,10 @@
 						<width>300</width>
 						<height>50</height>
 						<left>20</left>  
-						<font>Mini</font>
+						<font>Small333</font>
 						<scroll>false</scroll>
 						<textcolor>Dark1</textcolor>
-						<visible>!ListItem.IsFolder</visible>
+						<visible>!String.IsEqual(ListItem.Label,..)</visible>
 						<label>$INFO[ListItem.Label] ($INFO[ListItem.Year])</label>
 					</control>
 				</focusedlayout>
@@ -316,11 +481,11 @@
 				<orientation>horizontal</orientation>
 				<height>8</height>
 				<onup>50</onup>
-				<ondown condition="!Skin.HasSetting(global.kioskmode)">9000</ondown>
+				<ondown condition="!Skin.HasSetting(global.kioskmode)">290000</ondown>
 				<texturesliderbackground border="4" colordiffuse="Dark4">scrollbar/scrollv.png</texturesliderbackground>
-				<texturesliderbar border="4" colordiffuse="Dark3">scrollbar/scrollv.png</texturesliderbar>
-				<texturesliderbarfocus border="4" colordiffuse="Dark2">scrollbar/scrollv.png</texturesliderbarfocus>
-				<animation effect="fade" start="100" end="23" time="400" condition="!Control.HasFocus($PARAM[scrollid]) + !Container.Scrolling">Conditional</animation>
+       			<texturesliderbar border="4" colordiffuse="Dark2">scrollbar/scrollv.png</texturesliderbar>
+        		<texturesliderbarfocus border="4" colordiffuse="Dark1">scrollbar/scrollv.png</texturesliderbarfocus>
+				<animation effect="fade" start="100" end="23" time="400" condition="!Control.HasFocus(1615) + !Container.Scrolling">Conditional</animation>
 			</control>
 			
 			
@@ -328,21 +493,32 @@
 				<visible>Control.HasFocus(504) + !Container(504).OnPrevious</visible>
 				<include>Animation.DelayFadeIn</include>
 				<top>740</top>
-				<left>70</left>
+				<left>66</left>
 				<width>16</width>
 				<height>16</height>
 				<texture colordiffuse="Dark1" flipx="true">common/arrow-small-right.png</texture>
+				<animation effect="zoom" center="auto" pulse="true" start="100" end="170" time="200" delay="2000" condition="String.IsEqual(ListItem.Label,..)">Conditional</animation>
 			</control>
 			
-			<control type="image">
+			<!--<control type="image">
 				<visible>Control.HasFocus(504) + !Container(504).OnNext</visible>
 				<include>Animation.DelayFadeIn</include>
-				<top>740</top>
-				
+				<top>740</top>			
 				<left>1838</left>
 				<width>16</width>
 				<height>16</height>
 				<texture colordiffuse="Dark1">common/arrow-small-right.png</texture>
+			</control>-->
+			
+			<control type="image">
+				<visible>Control.HasFocus(504) + !Container(504).OnNext</visible>
+				<include>Animation.DelayFadeIn</include>
+				<top>740</top>			
+				<left>1843</left>
+				<width>16</width>
+				<height>16</height>
+				<texture colordiffuse="Dark1">common/arrow-small-right.png</texture>
+				<animation effect="zoom" center="auto" pulse="true" start="100" end="170" time="200" delay="2000" condition="String.IsEqual(ListItem.Label,..)">Conditional</animation>
 			</control>
 			
 		</control>
