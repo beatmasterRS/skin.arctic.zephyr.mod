@@ -834,36 +834,51 @@
                 <texture colordiffuse="Dark1">flags/3D.png</texture>
                 <visible>ListItem.IsStereoscopic</visible>
             </control>
-            <!--
+            
             <control type="image">
-                <width>64</width>
+                <width>84</width>
                 <centertop>50%</centertop>
                 <height>64</height>
                 <texture colordiffuse="Dark1">flags/bluray.png</texture>
+				<aspectratio aligny="center" align="center">keep</aspectratio>
+				<visible>Skin.HasSetting(furniture.flagicons)</visible>
                 <visible>[String.Contains(ListItem.FilenameAndPath,bluray) | String.Contains(ListItem.FilenameAndPath,bdrip) | String.Contains(ListItem.FilenameAndPath,bd25) | String.Contains(ListItem.FilenameAndPath,bd50)]</visible>
             </control>
             <control type="image">
-                <width>95</width>
+                <width>94</width>
                 <centertop>50%</centertop>
                 <height>64</height>
+				<aspectratio aligny="center" align="center">keep</aspectratio>
                 <texture colordiffuse="Dark1">flags/hddvd.png</texture>
+				<visible>Skin.HasSetting(furniture.flagicons)</visible>
                 <visible>String.Contains(ListItem.FilenameAndPath,hddvd)</visible>
             </control>
             <control type="image">
-                <width>64</width>
+                <width>84</width>
                 <centertop>50%</centertop>
                 <height>64</height>
+				<aspectratio aligny="center" align="center">keep</aspectratio>
                 <texture colordiffuse="Dark1">flags/dvd.png</texture>
+				<visible>Skin.HasSetting(furniture.flagicons)</visible>
                 <visible>String.Contains(ListItem.FilenameAndPath,dvd) + !String.Contains(ListItem.FilenameAndPath,hddvd)</visible>
-            </control>-->
+            </control>
             
             <control type="image">
-                <width>64</width>
+                <width>84</width>
                 <centertop>50%</centertop>
                 <height>64</height>
+				<aspectratio aligny="center" align="center">keep</aspectratio>
                 <texture colordiffuse="Dark1">flags/imdb.png</texture>
                 <visible>!String.IsEmpty(ListItem.Top250)</visible>
             </control>
+			
+			<!--<control type="image">
+                <width>164</width>
+                <centertop>50%</centertop>
+                <height>64</height>
+                <texture colordiffuse="Dark1">$INFO[ListItem.Studio,resource://resource.images.studios.white/,.png]</texture>
+                
+            </control>-->
 			
 			
 			<!--<control type="image">
@@ -871,7 +886,7 @@
                 <height>40</height>
 				<centertop>50%</centertop>
                 <aspectratio align="center">keep</aspectratio>
-                <texture fallback="backg/flags/mpaa/nr.png" colordiffuse="Dark1">backg/$VAR[RatingFlagVar]</texture>
+                <texture fallback="flags2/mpaa/nr.png" colordiffuse="Dark1">backg/$VAR[RatingFlagVar]</texture>
 				<visible>!String.IsEmpty(ListItem.AudioChannels)</visible>
             </control>-->
             
@@ -1643,41 +1658,37 @@
 		   
 		   
 		 <control type="grouplist">
-			<visible>Skin.HasSetting(furniture.weatherleft) + !String.Contains(Weather.Temperature ,Beschäftigt)</visible>
+			<visible>Skin.HasSetting(furniture.weatherleft) + Weather.IsFetched</visible>
 			
 		   	<itemgap>3</itemgap>
             <orientation>horizontal</orientation>
-		   	<left>1585</left>
+		   	<right>200</right>
 			<height>100</height>
+			<width>500</width>
+			<align>right</align>
 			<bottom>-12</bottom>
-			<control type="label">
-				
+			<control type="label">				
 				<centertop>28</centertop>
 				<width>auto</width>
 				<font>MediumBold</font>
-				<align>right</align>
-				
+				<align>right</align>				
 				<textcolor>Dark2</textcolor>
 				<label>$INFO[Weather.Temperature]</label>
-			</control>
-			
+				<include>Animation.FadeIn</include>
+			</control>			
 			<control type="image">
-				<width>60</width>
+				<width min="20" max="60">auto</width>
 				<height>70</height>
 				<bottom>12</bottom>
-				<fadetime>350</fadetime>
-				<align>right</align>
-				
+				<align>right</align>			
 				<aspectratio aligny="center" align="center">keep</aspectratio>
 				<texture colordiffuse="Dark2">$INFO[Weather.FanartCode,resource://resource.images.weathericons.white/,.png]</texture>
+				<include>Animation.FadeIn</include>
 			</control>
-		</control>
-		
+		</control>		
 		<control type="group">
-			<visible>Skin.HasSetting(furniture.weatherleft) + String.Contains(Weather.Temperature ,Beschäftigt)</visible>
-			
-		   	
-            <orientation>horizontal</orientation>
+			<visible>Skin.HasSetting(furniture.weatherleft) + !Weather.IsFetched</visible>		
+		    <orientation>horizontal</orientation>
 		   	<left>1595</left>
 			<height>100</height>
 			<bottom>10</bottom>
@@ -1700,8 +1711,7 @@
 				<texture colordiffuse="$VAR[ColorHighlight]">dialog/loading-spinner.png</texture>
 				<aspectratio>keep</aspectratio>
 			</control>
-		</control>
-		   
+		</control>	   
 		    <control type="label">
                 <centertop>24</centertop>
                 <right>130</right>
@@ -1732,8 +1742,7 @@
                 <width>50%</width>
                 <label>$INFO[System.Date(DDD)]$COMMA $INFO[System.Date(d MMM yyyy)]</label>
             </control>
-			
-			
+
             <control type="label">
                 <centertop>92</centertop>
                 <right>SidePad</right>
