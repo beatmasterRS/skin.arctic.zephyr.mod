@@ -8,7 +8,7 @@
 		<height>PosterH</height>
 		<width>8</width>
 		<onleft>50</onleft>
-		<onright condition="Container.Content(movies) | Container.Content(tvshows)">290000</onright>
+		<onright condition="Container.Content(movies) | Container.Content(tvshows) | Container.Content(actors) | Container.Content(addons)">290000</onright>
 		<onright condition="!Container.Content(movies) + !Container.Content(tvshows)">9000</onright>
 		<texturesliderbackground border="4" colordiffuse="Dark4">scrollbar/scrollv.png</texturesliderbackground>
         <texturesliderbar border="4" colordiffuse="Dark2">scrollbar/scrollv.png</texturesliderbar>
@@ -44,6 +44,7 @@
             <height>PosterH</height>
             <width>8</width>
             <onleft>50</onleft>
+			<onright>290000</onright>
 			<showonepage>false</showonepage>
 		   <orientation>vertical</orientation>
             <onright condition="!Skin.HasSetting(global.kioskmode)">9000</onright>
@@ -1658,8 +1659,9 @@
 		   
 		   
 		 <control type="grouplist">
-			<visible>Skin.HasSetting(furniture.weatherleft) + Weather.IsFetched</visible>
-			
+			<visible>Skin.HasSetting(furniture.weatherleft)</visible>
+			<visible>!String.Contains(Weather.Temperature ,e)</visible>
+			<visible>!String.Contains(Weather.Temperature ,u)</visible>	
 		   	<itemgap>3</itemgap>
             <orientation>horizontal</orientation>
 		   	<right>200</right>
@@ -1687,7 +1689,8 @@
 			</control>
 		</control>		
 		<control type="group">
-			<visible>Skin.HasSetting(furniture.weatherleft) + !Weather.IsFetched</visible>		
+			<visible>Skin.HasSetting(furniture.weatherleft)</visible>
+			<visible>String.Contains(Weather.Temperature ,e) | String.Contains(Weather.Temperature ,u)  | String.Contains(Weather.Temperature ,i)  | String.Contains(Weather.Temperature ,a)</visible>		
 		    <orientation>horizontal</orientation>
 		   	<left>1595</left>
 			<height>100</height>

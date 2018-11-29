@@ -7,19 +7,8 @@
 	
 	<include name="Furniture_OverlayInfoNew">
 
-        <control type="button" id="9601">
-            <width>1</width>
-            <height>1</height>
-            <visible allowhiddenfocus="true">false</visible>
-            <onback>50</onback>
-            <onup>50</onup>
-            <ondown>50</ondown>
-            <onleft>50</onleft>
-            <onright>50</onright>
-        </control>
-
         <control type="group">
-            <visible>[System.IdleTime(3) + Skin.HasSetting(osd.overlayinfoplayer)] + Player.Paused</visible>
+            <visible>System.IdleTime(3) + Skin.HasSetting(osd.overlayinfoplayer) + Player.Paused</visible>
            	<include>Animation.FadeIn</include>
             <include>Animation.FadeOut</include>
 
@@ -45,7 +34,7 @@
             <right>SidePad</right>
             <top>PosterPad</top>
             <height>650</height>
-            <visible>[System.IdleTime(3) + Skin.HasSetting(osd.overlayinfoplayer)] + Player.Paused</visible>
+            <visible>System.IdleTime(3) + Skin.HasSetting(osd.overlayinfoplayer) + Player.Paused</visible>
             <include>Animation.FadeIn.Slide</include>
             <include>Animation.FadeOut</include>
 
@@ -70,34 +59,84 @@
                 <align>justify</align>
                 <font>Medium</font>
                 <textcolor>Dark1</textcolor>
-                <label>$INFO[VideoPlayer.Tagline,[B],[/B][CR][CR]]$INFO[VideoPlayer.Plot]</label>
+                <label fallback="416">$INFO[VideoPlayer.Tagline,[B],[/B][CR][CR]]$INFO[VideoPlayer.Plot]</label>
             </control>
         </control>
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
     </include>
 
+	<include name="Furniture_OverlayInfoNewInfoButton">
+		<control type="button" id="809">
+            <description>FakeButton</description>
+			<visible allowhiddenfocus="true">false</visible>
+            <width>1</width>
+            <height>1</height>
+            <label></label>
+            <font>noop</font>
+			<ondown>SetFocus(18)</ondown>
+			<onleft>SetFocus(18)</onleft>
+			<onup>SetFocus(18)</onup>
+			<onback>SetFocus(18)</onback>
+			<onright>SetFocus(18)</onright>
+            <include>DefOSDUpDown</include>
+            <texturefocus>-</texturefocus>
+            <texturenofocus>-</texturenofocus>	
+        </control>
+        <control type="group">
+            <visible>Control.HasFocus(809)</visible>
+           	<include>Animation.FadeIn</include>
+            <include>Animation.FadeOut</include>
+
+            <control type="image" description="Background">
+                <include>Dimensions_Fullscreen</include>
+                <texture colordiffuse="Background">common/bg.jpg</texture>
+                <animation effect="fade" start="100" end="95" condition="true">Conditional</animation>
+            </control>
+
+            <control type="image" description="clearlogo">
+                <visible>Skin.HasSetting(furniture.logo)</visible>
+                <centertop>120</centertop>
+                <centerleft>50%</centerleft>
+                <width>400</width>
+                <height>100</height>
+                <aspectratio align="center">keep</aspectratio>
+                <texture background="true">$VAR[ClearLogoTopVar]</texture>
+            </control>
+        </control>
+        <control type="group">
+            <left>SidePad</left>
+            <right>SidePad</right>
+            <top>PosterPad</top>
+            <height>650</height>
+            <visible>Control.HasFocus(809)</visible>
+            <include>Animation.FadeIn.Slide</include>
+            <include>Animation.FadeOut</include>
+            <control type="label">
+                <description>header label</description>
+                <left>60</left>
+                <right>60</right>
+                <posy>60</posy>
+                <font>EpisodeNumber</font>
+                <textcolor>Dark1</textcolor>
+                <height>45</height>
+                <label>$INFO[VideoPlayer.Title]</label>
+            </control>
+            <control type="textbox">
+                <description>textarea</description>
+                <left>60</left>
+                <right>60</right>
+                <top>150</top>
+                <bottom>0</bottom>
+                <align>justify</align>
+                <font>Medium</font>
+                <textcolor>Dark1</textcolor>
+                <label fallback="416">$INFO[VideoPlayer.Tagline,[B],[/B][CR][CR]]$INFO[VideoPlayer.Plot]</label>
+            </control>
+        </control>
+    </include>
 	
 	
     <include name="OSDInfoContent">
-        <right>0</right>
-        
-        
+        <right>0</right>  
         <control type="grouplist">
             <visible>true</visible>
             <include>Animation.FadeIn</include>
@@ -119,9 +158,7 @@
 				<textcolor>$VAR[OSDPanelWhite30]</textcolor>
 				<label>$INFO[VideoPlayer.VideoCodec,,  •  ]$INFO[VideoPlayer.VideoResolution,,  •  ]$INFO[VideoPlayer.VideoAspect,,  •  ]$INFO[VideoPlayer.AudioCodec,,]$VAR[LabelOSDAudioChannels,  •  ,]</label>
 				<visible>!Skin.HasSetting(furniture.flagiconsosdnoicons) + Skin.HasSetting(furniture.flagiconsosd)</visible>		
-			</control>
-			
-			
+			</control>		
 			<control type="image">
                 <width min="20" max="60">auto</width>
                 <height>30</height>
@@ -162,48 +199,40 @@
                 <aspectratio align="center">keep</aspectratio>
                 <visible>Skin.HasSetting(furniture.flagiconsosd) + !String.IsEmpty(VideoPlayer.AudioChannels) + Skin.HasSetting(furniture.flagiconsosdnoicons)</visible>
             </control>
-			
-			
-			
-			
-			
-			
-			
-			
 			<control type="image">	
 				<width>35</width>
 				<height>35</height>
 				<centertop>50%</centertop>
 				<texture colordiffuse="$VAR[ColorHighlight]">backg/$VAR[Flagstar199].png</texture>
-				<visible>!Skin.HasSetting(videoosd.numericrating)</visible>			
+				<visible>!Skin.HasSetting(videoosd.numericrating) + !VideoPlayer.Content(LiveTV)</visible>			
 			</control>
 			<control type="image">			
 				<width>35</width>
 				<height>35</height>
 				<centertop>50%</centertop>
 				<texture colordiffuse="$VAR[ColorHighlight]">backg/$VAR[Flagstar299].png</texture>
-				<visible>!Skin.HasSetting(videoosd.numericrating)</visible>				
+				<visible>!Skin.HasSetting(videoosd.numericrating) + !VideoPlayer.Content(LiveTV)</visible>				
 			</control>
 			<control type="image">				
 				<width>35</width>
 				<height>35</height>
 				<centertop>50%</centertop>
 				<texture colordiffuse="$VAR[ColorHighlight]">backg/$VAR[Flagstar399].png</texture>
-				<visible>!Skin.HasSetting(videoosd.numericrating)</visible>				
+				<visible>!Skin.HasSetting(videoosd.numericrating) + !VideoPlayer.Content(LiveTV)</visible>				
 			</control>
 			<control type="image">			
 				<width>35</width>
 				<height>35</height>
 				<centertop>50%</centertop>
 				<texture colordiffuse="$VAR[ColorHighlight]">backg/$VAR[Flagstar499].png</texture>
-				<visible>!Skin.HasSetting(videoosd.numericrating)</visible>				
+				<visible>!Skin.HasSetting(videoosd.numericrating) + !VideoPlayer.Content(LiveTV)</visible>				
 			</control>
 			<control type="image">			
 				<width>35</width>
 				<height>35</height>
 				<centertop>50%</centertop>
 				<texture colordiffuse="$VAR[ColorHighlight]">backg/$VAR[Flagstar599].png</texture>
-				<visible>!Skin.HasSetting(videoosd.numericrating)</visible>			
+				<visible>!Skin.HasSetting(videoosd.numericrating) + !VideoPlayer.Content(LiveTV)</visible>			
 			</control>
 			
 			<control type="image">	
@@ -211,7 +240,7 @@
 				<height>35</height>
 				<centertop>50%</centertop>
 				<texture colordiffuse="$VAR[ColorHighlight]">backg/$VAR[Flagstar199].png</texture>
-				<visible>Skin.HasSetting(videoosd.numericrating)</visible>			
+				<visible>Skin.HasSetting(videoosd.numericrating) + !VideoPlayer.Content(LiveTV)</visible>			
 			</control>
 			<control type="label">
 				<width>35</width>
@@ -223,57 +252,6 @@
 				<textcolor>Dark1</textcolor>
 				<visible>Skin.HasSetting(videoosd.numericrating) +  Integer.IsGreater(VideoPlayer.Rating,0)</visible>								
 			</control>
-			<!--
-			
-			<control type="image">
-				
-				<width>35</width>
-				<height>35</height>
-				<centertop>50%</centertop>
-				<texture colordiffuse="$VAR[OSDPanelWhite70]">backg/$VAR[Flagstar599].png</texture>
-				<visible>!Skin.HasSetting(furniture.numericrating) + Integer.IsGreater(VideoPlayer.Rating,0)</visible>
-			</control>
-			
-			-->
-			
-			
-			
-			<!--
-			
-            <control type="image">
-                <width>64</width>
-                <height>64</height>
-                <centertop>50%</centertop>
-                <texture colordiffuse="$VAR[OSDPanelWhite70]">flags/star10.png</texture>
-            </control>
-			<control type="image">
-                <width>64</width>
-                <height>64</height>
-                <centertop>50%</centertop>
-                <texture colordiffuse="$VAR[OSDPanelWhite70]">flags/star10.png</texture>
-            </control>
-			<control type="image">
-                <width>64</width>
-                <height>64</height>
-                <centertop>50%</centertop>
-                <texture colordiffuse="$VAR[OSDPanelWhite70]">flags/star10.png</texture>
-            </control>
-			
-			-->
-			
-			<!--
-            <control type="label">
-                <left>5</left>
-                <width min="35">auto</width>
-                <centertop>50%</centertop>
-                <height>64</height>
-                <align>left</align>
-                <aligny>center</aligny>
-                <label>$INFO[VideoPlayer.Rating]</label>
-                <font>Flag</font>
-                <textcolor>$VAR[OSDPanelWhite70]</textcolor>
-				<visible>Integer.IsGreater(VideoPlayer.Rating,0)</visible>
-            </control>  -->          
         </control>
 
         <!--<control type="label" description="Title">
@@ -313,6 +291,8 @@
             
         </control>-->
 
+
+
 		<control type="group">
 			<left>20</left>
 			<visible>VideoPlayer.Content(episodes)</visible>
@@ -339,12 +319,6 @@
 				<visible>Skin.HasSetting(furniture.flagicons)</visible>
 			</control>
         </control>
-		
-		
-		
-		
-		
-		
 		<control type="grouplist">
 		<!-- WENN TAGLINE DA IST-->
 			<visible>!VideoPlayer.Content(episodes)</visible>		
@@ -364,10 +338,6 @@
 				<label>$VAR[PlayerBigTitle] </label>			
 			</control>
         </control>
-		
-		
-		
-		
 		<control type="grouplist">
 		<!-- WENN TAGLINE NIIICHT DA IST-->
 			<visible>!VideoPlayer.Content(episodes)</visible>		
@@ -395,15 +365,6 @@
 				<label>$VAR[PlayerBigTitle]</label>
 				<visible>Skin.HasSetting(furniture.flagicons)</visible>
 			</control>
-			<!--<control type="label" description="Show">
-				<width max="100%">auto</width>
-				<top>40</top>
-				<height>40</height>
-				<font>Medium</font>
-				<textcolor>$VAR[OSDPanelWhite70]</textcolor>
-				<label>  ($INFO[VideoPlayer.Tagline])</label>
-				
-			</control>-->
         </control>
 		
 		
@@ -1607,8 +1568,18 @@
             <onclick>EjectTray()</onclick>
             <visible>System.HasMediadvd</visible>
         </control>
-		
-		<control type="button" id="806">
+		<control type="button" id="18">
+            <description>Settings</description>
+            <width>48</width>
+            <height>48</height>
+            <label></label>
+            <font>noop</font>
+            <include>DefOSDUpDown</include>
+            <texturefocus colordiffuse="$VAR[ColorHighlight]" flipx="true">osd/info.png</texturefocus>
+            <texturenofocus colordiffuse="Dark1" flipx="true">osd/info.png</texturenofocus>
+			<onclick>SetFocus(809)</onclick>
+        </control>
+		<control type="button" id="19">
             <description>Settings</description>
             <width>48</width>
             <height>48</height>
@@ -1620,6 +1591,8 @@
             <onclick>ActivateWindow(1197)</onclick>
 			<onclick>SetFocus(9000)</onclick>
         </control>
+		
+		
     </include>
     <include name="Furniture_OSDClock">
         <control type="group">
