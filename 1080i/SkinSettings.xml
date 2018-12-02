@@ -77,14 +77,21 @@
                         <include>DefSettingsButton</include>
                         <label>Experimental</label>
                     </control>
+					<control type="togglebutton" id="9110" description="Resources">
+                        <usealttexture>ControlGroup(9100).HasFocus(9110)</usealttexture>
+                        <alttexturenofocus colordiffuse="$VAR[ColorHighlight]">common/white.png</alttexturenofocus>
+                        <include>DefSettingsButton</include>
+                        <label>Resources</label>
+                    </control>
 					<control type="togglebutton" id="9109" description="Extras">
                         <usealttexture>ControlGroup(9100).HasFocus(9109)</usealttexture>
                         <alttexturenofocus colordiffuse="$VAR[ColorHighlight]">common/white.png</alttexturenofocus>
                         <include>DefSettingsButton</include>
                         <label>Supported Addons</label>
                     </control>
-					<control type="togglebutton" id="9110" description="Backup / Restore">
-                        <usealttexture>ControlGroup(9100).HasFocus(9110)</usealttexture>
+					
+					<control type="togglebutton" id="9111" description="Backup / Restore">
+                        <usealttexture>ControlGroup(9100).HasFocus(9111)</usealttexture>
                         <alttexturenofocus colordiffuse="$VAR[ColorHighlight]">common/white.png</alttexturenofocus>
                         <include>DefSettingsButton</include>
                         <label>Backup / Restore</label>
@@ -328,18 +335,37 @@
 					 
 					 <control type="button" id="9281" description="Backup">
                         <width>1310</width>
-                        <visible>ControlGroup(9100).HasFocus(9110)</visible>
+                        <visible>ControlGroup(9100).HasFocus(9111)</visible>
                         <include>DefSettingsButton</include>
                         <label>$LOCALIZE[31002]</label>
                         <onclick>RunScript(script.skin.helper.service,action=backup)</onclick>
                     </control>
                     <control type="button" id="9282" description="Restore">
                         <width>1310</width>
-                        <visible>ControlGroup(9100).HasFocus(9110)</visible>
+                        <visible>ControlGroup(9100).HasFocus(9111)</visible>
                         <include>DefSettingsButton</include>
                         <label>$LOCALIZE[31003]</label>
                         <onclick>RunScript(script.skin.helper.service,action=restore)</onclick>
                     </control>
+					
+					
+					<control type="button" id="9283" description="Movie Genre">
+                        <width>1310</width>
+                        <visible>ControlGroup(9100).HasFocus(9110)</visible>
+                        <include>DefSettingsButton</include>
+                        <label>Movie Genre Icons</label>
+						<label2>$VAR[Label_GenreIcons]</label2>
+                        <onclick>RunScript(script.image.resource.select,property=genre.icons&amp;type=resource.images.moviegenreicons)</onclick>	
+                    </control>
+					 
+					<control type="button" id="9284" description="Studios">
+                        <width>1310</width>
+                        <visible>ControlGroup(9100).HasFocus(9110)</visible>
+                        <include>DefSettingsButton</include>
+                        <label>Studio Icons</label>
+						<label2>$VAR[Label_StudioIcons]</label2>
+                        <onclick>RunScript(script.image.resource.select,property=studio.logos&amp;type=resource.images.studios)</onclick>
+                    </control> 
 					 
 					 
 					<!-- Addons -->
@@ -363,7 +389,9 @@
                         <visible>ControlGroup(9100).HasFocus(9109)</visible>
                         <include>DefSettingsButton</include>
 						<label>ExtendedInfo Script</label>
-						<label2>$INFO[System.AddonVersion(script.extendedinfo)]</label2>                   
+						<label2>$INFO[System.AddonVersion(script.extendedinfo)]</label2>  
+						<onclick condition="!System.HasAddon(script.extendedinfo)">RunPlugin(plugin://script.extendedinfo)</onclick>
+						<onclick condition="System.HasAddon(script.extendedinfo)">Addon.OpenSettings(script.extendedinfo)</onclick>                 
 					</control>              
                     
 					<!-- Experimantal -->
