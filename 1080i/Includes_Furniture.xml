@@ -200,6 +200,32 @@
         <value>star0</value>
     </variable>
 	
+	<variable name="FlagstarSong1">
+        <value condition="Integer.IsGreater(ListItem.UserRating,1)">star10</value>
+        <value condition="Integer.IsGreater(ListItem.UserRating,0)">star5</value>
+        <value>star0</value>
+    </variable>
+    <variable name="FlagstarSong2">
+        <value condition="Integer.IsGreater(ListItem.UserRating,3)">star10</value>
+        <value condition="Integer.IsGreater(ListItem.UserRating,2)">star5</value>
+        <value>star0</value>
+    </variable>
+    <variable name="FlagstarSong3">
+        <value condition="Integer.IsGreater(ListItem.UserRating,5)">star10</value>
+        <value condition="Integer.IsGreater(ListItem.UserRating,4)">star5</value>
+        <value>star0</value>
+    </variable>
+    <variable name="FlagstarSong4">
+        <value condition="Integer.IsGreater(ListItem.UserRating,7)">star10</value>
+        <value condition="Integer.IsGreater(ListItem.UserRating,6)">star5</value>
+        <value>star0</value>
+    </variable>
+    <variable name="FlagstarSong5">
+        <value condition="Integer.IsGreater(ListItem.UserRating,9)">star10</value>
+        <value condition="Integer.IsGreater(ListItem.UserRating,8)">star5</value>
+        <value>star0</value>
+    </variable>
+	
 			<variable name="Flagstar199">
 				<value condition="Integer.IsGreater(VideoPlayer.Rating,1)">star10</value>
 				<value condition="Integer.IsGreater(VideoPlayer.Rating,0)">star5</value>
@@ -1537,12 +1563,8 @@
             </control>
         </control>
     </include>
-	
-	
-	
-	
-	 <include name="Furniture_Header">
-		
+
+	 <include name="Furniture_Header">	
         <control type="image" description="clearlogo">
             <include>Animation.FadeIn</include>
             <include>Animation.FadeOut</include>
@@ -1639,12 +1661,6 @@
             </control>
         </control>
     </include>
-	
-	
-	
-	
-	
-	
 	
     <include name="HeaderLabelWidthLogo"><width>560</width></include>
     <include name="Furniture_Clock">
@@ -1800,8 +1816,6 @@
 					</control>
 				</control>	
 			</control>		
-		
-		   
 		    <control type="label">
                 <centertop>24</centertop>
                 <right>130</right>
@@ -1832,7 +1846,6 @@
                 <width>50%</width>
                 <label>$INFO[System.Date(DDD)]$COMMA $INFO[System.Date(d MMM yyyy)]</label>
             </control>
-
             <control type="label">
                 <centertop>92</centertop>
                 <right>SidePad</right>
@@ -1842,12 +1855,9 @@
                 <width>50%</width>
                 <visible>Skin.HasSetting(furniture.weather)</visible>
                 <label>[COLOR=$VAR[ColorHighlight]]$INFO[Weather.Temperature][/COLOR]  $INFO[Weather.Conditions]</label>
-            </control>
-      
-        </control>
-        
+            </control>    
+        </control>      
     </include>
-
     <include name="Furniture_Weather">
         <!-- Weather Furniture -->
         <control type="grouplist">
@@ -1900,7 +1910,6 @@
             </control>
         </control>
     </include>
-	
 	<include name="Furniture_NowPlaying">
         <control type="grouplist">
             <visible>!Skin.HasSetting(furniture.nowplaying)</visible>
@@ -1989,14 +1998,12 @@
                     <texture colordiffuse="$VAR[ColorHighlight]">$INFO[Control.GetLabel(933),progress/circle/p,.png]</texture>
                     <aspectratio align="center">keep</aspectratio>
                     <visible>!String.IsEmpty(Player.Duration)</visible>
-                </control>
-              
+                </control>            
             </control>
         </control>
     </include>
 
     <include name="Furniture_OverlayInfo">
-
         <control type="button" id ="9601">
             <width>1</width>
             <height>1</height>
@@ -2007,7 +2014,6 @@
             <onleft>50</onleft>
             <onright>50</onright>
         </control>
-
         <control type="group">
             <visible>[System.IdleTime(3) + Skin.HasSetting(furniture.overlayinfo)] | Control.HasFocus(9601)</visible>
             <visible>![Window.IsVisible(script-skinshortcuts.xml) | Window.IsVisible(DialogSongInfo.xml) | Window.IsVisible(DialogPictureInfo.xml) | Window.IsVisible(FileBrowser.xml) | Window.IsVisible(DialogConfirm.xml) | Window.IsVisible(DialogSelect.xml) | Window.IsVisible(DialogContextMenu.xml) | Window.IsVisible(DialogButtonMenu.xml) | ControlGroup(9000).HasFocus()]</visible>
@@ -2067,6 +2073,142 @@
             </control>
         </control>
     </include>
-
-    
+	
+	<include name="Furniture_Flags_Audio">
+        <control type="grouplist">			
+            <visible>!Window.IsVisible(script-script.extendedinfo-DialogVideoInfo.xml)</visible>
+            <visible>!Window.IsVisible(script-script.extendedinfo-DialogInfo.xml)</visible>
+			<visible>Container.Content(songs)</visible>
+			<visible>!Control.HasFocus(9501)</visible>
+			<visible>!Control.HasFocus(160)</visible>
+            <visible>!String.IsEqual(ListItem.Label,..)</visible>
+            <include>Animation.FadeIn</include>
+            <include>Animation.FadeOut</include>
+            <left>70</left>
+            <centerbottom>NavBarPad</centerbottom>
+            <width>1400</width>
+            <height>120</height>
+            <orientation>horizontal</orientation>
+            <align>left</align>
+            <itemgap>5</itemgap>
+            <usecontrolcoords>true</usecontrolcoords>
+            <control type="image">
+                <width>64</width>
+                <height>64</height>
+                <centertop>50%</centertop>
+                <texture colordiffuse="Dark1">flags/$VAR[FlagstarSong1].png</texture>
+            </control>
+            <control type="image">
+                <posx>-38</posx>
+                <width>64</width>
+                <height>64</height>
+                <centertop>50%</centertop>
+                <texture colordiffuse="Dark1">flags/$VAR[FlagstarSong2].png</texture>
+                <visible>!Skin.HasSetting(furniture.numericrating)</visible>
+            </control>
+            <control type="image">
+                <posx>-38</posx>
+                <width>64</width>
+                <height>64</height>
+                <centertop>50%</centertop>
+                <texture colordiffuse="Dark1">flags/$VAR[FlagstarSong3].png</texture>
+                <visible>!Skin.HasSetting(furniture.numericrating)</visible>
+            </control>
+            <control type="image">
+                <posx>-38</posx>
+                <width>64</width>
+                <height>64</height>
+                <centertop>50%</centertop>
+                <texture colordiffuse="Dark1">flags/$VAR[FlagstarSong4].png</texture>
+                <visible>!Skin.HasSetting(furniture.numericrating)</visible>
+            </control>
+            <control type="image">
+                <posx>-38</posx>
+                <width>64</width>
+                <height>64</height>
+                <centertop>50%</centertop>
+                <texture colordiffuse="Dark1">flags/$VAR[FlagstarSong5].png</texture>
+                <visible>!Skin.HasSetting(furniture.numericrating)</visible>
+            </control>
+            <control type="label">
+                <left>-16</left>
+                <width min="48">auto</width>
+                <centertop>50%</centertop>
+                <height>64</height>
+                <align>left</align>
+                <aligny>center</aligny>
+                <label>$INFO[ListItem.UserRating]</label>
+                <font>Flag</font>
+                <textcolor>Dark1</textcolor>
+				<visible>!String.IsEmpty(ListItem.UserRating)</visible>
+                <visible>Skin.HasSetting(furniture.numericrating)</visible>
+            </control>		
+			<control type="label">
+                <width>auto</width>
+                <centertop>50%</centertop>
+                <height>64</height>
+                <align>left</align>
+                <aligny>center</aligny>
+                <label>$INFO[ListItem.FileExtension]</label>
+                <font>Flag</font>
+                <textcolor>Dark1</textcolor>
+                <visible>!Skin.HasSetting(furniture.flagicons)</visible>
+            </control>                   
+            <control type="image">
+                <width min="20" max="100">auto</width>
+                <height>64</height>
+                <centertop>50%</centertop>
+                <texture colordiffuse="Dark1" fallback="flags/fallback.png">$INFO[ListItem.FileExtension,flags/audio/,.png]</texture>
+                <aspectratio align="center">keep</aspectratio>
+                <visible>Skin.HasSetting(furniture.flagicons) + !String.IsEmpty(ListItem.FileExtension)</visible>
+            </control>      
+            <control type="image">
+                <width>48</width>
+                <centertop>50%</centertop>
+                <height>64</height>
+                <texture colordiffuse="Dark1">flags/audio.png</texture>
+                <aspectratio align="left">scale</aspectratio>
+                <visible>!Skin.HasSetting(furniture.flagicons) + !String.IsEmpty(ListItem.AudioCodec)</visible>
+            </control>
+            <control type="image">
+                <width>48</width>
+                <height>64</height>
+                <centertop>50%</centertop>
+                <texture colordiffuse="Dark1">flags/time.png</texture>
+                <aspectratio align="left">scale</aspectratio>      
+            </control>
+            <control type="label">
+                <width>auto</width>
+                <centertop>50%</centertop>
+                <height>64</height>
+                <align>left</align>
+                <aligny>center</aligny>
+                <label>$INFO[ListItem.Duration(mins:ss),, $LOCALIZE[31102]  ]</label>
+                <font>Flag</font>
+                <textcolor>Dark1</textcolor>              
+            </control>
+			<control type="label">
+				<visible>Skin.HasSetting(thumbnails.moreinfos)</visible>
+                <width>auto</width>
+                <centertop>50%</centertop>
+                <height>64</height>
+                <align>left</align>
+                <aligny>center</aligny>
+                <label>$INFO[ListItem.TrackNumber,•  Track #,]</label>
+                <font>Flag</font>
+                <textcolor>Dark1</textcolor>            
+            </control>
+			<control type="label">
+				<visible>Skin.HasSetting(thumbnails.moreinfos)</visible>
+                <width>700</width>
+                <centertop>50%</centertop>
+                <height>64</height>
+                <align>left</align>
+                <aligny>center</aligny>
+                <label>$INFO[ListItem.Album, •  ,]</label>
+                <font>Flag</font>
+                <textcolor>Dark1</textcolor>            
+            </control>
+        </control>
+    </include>
 </includes>
