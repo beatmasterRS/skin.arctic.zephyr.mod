@@ -48,7 +48,7 @@
 
                 <!-- Control Buttons -->
                 <control type="grouplist" id="9000">
-                    <visible allowhiddenfocus="true">ControlGroup(9000).HasFocus()</visible>
+                    <visible allowhiddenfocus="true">ControlGroup(9000).HasFocus() | Control.HasFocus(50)</visible>
                     <bottom>224</bottom>
                     <left>ListSquareX</left>
                     <right>SidePad</right>
@@ -69,6 +69,7 @@
                         <include>DefInfoButtons</include>
 						<onclick>PlayMedia($INFO[ListItem.FileNameAndPath])</onclick>
 						<onclick>Dialog.Close(135)</onclick>
+						<visible>String.IsEqual(ListItem.DBType,album) | String.IsEqual(ListItem.DBType,song)</visible>
                     </control>
 					
 					<control type="button" id="7">
@@ -81,20 +82,23 @@
                         <description>Discog</description>
                         <label>21888</label>
                         <width>260</width>
+						<onclick>ClearProperty(tracklist)</onclick>
                         <onclick>SetProperty(content,1)</onclick>
                         <onclick>SetFocus(9501)</onclick>
+						
                         <include>DefInfoButtons</include>
                     </control>
 
                     <control type="togglebutton" id ="9002">
                         <description>Tracklist</description>
                         <label>182</label>
-                        <altlabel>183</altlabel>
+                        <altlabel>21887</altlabel>
                         <width>260</width>
                         <usealttexture>!String.IsEmpty(Window.Property(tracklist))</usealttexture>
                         <onclick condition="String.IsEmpty(Window.Property(tracklist))">SetProperty(tracklist,1)</onclick>
                         <onclick condition="!String.IsEmpty(Window.Property(tracklist))">ClearProperty(tracklist)</onclick>
                         <include>DefInfoButtons</include>
+						<onup>SetFocus(50)</onup>
                         <visible>Container.Content(albums)</visible>
                     </control>
 
@@ -132,6 +136,89 @@
                         <visible>Container.Content(artists)</visible>
                     </control> -->
                 </control>
+				
+				
+				
+					
+					
+				<control type="group">
+					
+					<left>ListSquareX</left>
+                    <right>SidePad</right>                
+                    <top>PosterPad</top>	
+					<control type="label">
+						<visible>!String.IsEmpty(Window.Property(tracklist))</visible>
+						<width>150</width>
+						<height>36</height>
+						<font>Tiny</font>
+						<left>30</left>
+						<top>260</top>
+						<textcolor>Dark1</textcolor>
+						<label>[B]Tracklist[/B]</label>
+						<aligny>center</aligny>
+						<include>Animation.FadeIn</include>
+					</control>
+					<control type="panel" id="50">
+						<include>Animation.FadeIn</include>
+						<visible>!String.IsEmpty(Window.Property(tracklist))</visible>	
+						<left>180</left>
+						<top>254</top>
+						<right>SidePad</right>
+                        <width>1300</width>
+                        <height>300</height>
+                        <onleft>9000</onleft>
+                        <onright>62</onright>
+                        <onup>50</onup>
+                        <ondown>50</ondown>
+                        <viewtype label="">list</viewtype>
+                        <pagecontrol>62</pagecontrol>
+                        <orientation>vertical</orientation>		
+                        <itemlayout height="36" width="1180">
+                            <control type="label">
+                                <textcolor>Dark2</textcolor>
+                                <height>50</height>
+                                <width>660</width>
+                                <font>Tiny</font>                           
+                                <label>$INFO[ListItem.TrackNumber,,]  [COLOR=$VAR[ColorHighlight]]›[/COLOR]  $INFO[ListItem.Label]  [COLOR=$VAR[ColorHighlight]]›[/COLOR]</label>
+                            </control>
+							
+							<control type="label">
+                                <textcolor>Dark2</textcolor>
+                                <height>50</height>
+                                <width>160</width>
+                                <font>Tiny</font>
+								<align>right</align>
+								<left>750</left>                           
+                                <label>$INFO[ListItem.Duration]  </label>
+                            </control>
+                            
+                        </itemlayout>
+                        <focusedlayout height="85" width="1180">
+                            <control type="group">
+								<control type="label">
+									<textcolor>$VAR[ColorHighlight]</textcolor>
+									<height>50</height>
+									<width>660</width>
+									<font>Tiny</font>                           
+									<label>$INFO[ListItem.TrackNumber,,]  [COLOR=$VAR[ColorHighlight]]›[/COLOR]  $INFO[ListItem.Label]  [COLOR=$VAR[ColorHighlight]]›[/COLOR]</label>
+								</control>
+								
+								<control type="label">
+									<textcolor>$VAR[ColorHighlight]</textcolor>
+									<height>50</height>
+									<width>160</width>
+									<font>Tiny</font>
+									<align>right</align>
+									<left>750</left>                           
+									<label>$INFO[ListItem.Duration]  </label>
+								</control>
+							
+							        
+                                
+                            </control>
+                        </focusedlayout>                     
+                    </control>
+				 </control>
 
 				
 				
@@ -139,6 +226,7 @@
 				
 				<control type="group">
 					<visible>!Control.IsVisible(50) + String.IsEmpty(Window.Property(content))</visible>
+					<visible>!Container.Content(artists)</visible>
                     <left>ListSquareX</left>
                     <right>SidePad</right>
                     <bottom>224</bottom>
@@ -155,21 +243,21 @@
                             <description>Header Label</description>
                             <textcolor>Dark1</textcolor>
                             <include>DefDialogInfoHeader</include>
-                            <label fallback="19055">$INFO[ListItem.Title]</label>
+                            <label fallback="416">$INFO[ListItem.Title]</label>
                         </control>
 						<control type="label">
 							<visible>String.IsEqual(ListItem.Title,)</visible>
                             <description>Header Label</description>
                             <textcolor>Dark1</textcolor>
                             <include>DefDialogInfoHeader</include>
-                            <label fallback="19055">$INFO[ListItem.FileName]</label>
+                            <label fallback="416">$INFO[ListItem.FileName]</label>
                         </control>
 						<!--<control type="label">
 							<visible>String.IsEmpty($INFO[ListItem.Album])</visible>
                             <description>Header Label</description>
                             <textcolor>Dark1</textcolor>
                             <include>DefDialogInfoHeader</include>
-                            <label fallback="19055">Leer</label>
+                            <label fallback="416">Leer</label>
                         </control>-->
 						
 						
@@ -181,7 +269,7 @@
                                 <height>36</height>
                                 <font>Tiny</font>
                                 <textcolor>Dark2</textcolor>
-                                <label fallback="19055">$INFO[ListItem.Artist]</label>
+                                <label fallback="416">$INFO[ListItem.Artist]</label>
                                 <aligny>center</aligny>
                             </control>
                         </control>
@@ -209,7 +297,7 @@
                                 <wrapmultiline>false</wrapmultiline>
                                 <scrollspeed>40</scrollspeed>
                                 <scrollsuffix>  ••  </scrollsuffix>
-                                <label fallback="19055">$INFO[ListItem.Duration(mins ss)]</label>
+                                <label fallback="416">$INFO[ListItem.Duration(mins ss)]</label>
                                 <aligny>center</aligny>
                             </control>
                         </control>
@@ -236,7 +324,7 @@
                                 <wrapmultiline>false</wrapmultiline>
                                 <scrollspeed>40</scrollspeed>
                                 <scrollsuffix>  ••  </scrollsuffix>
-                                <label fallback="19055">$INFO[ListItem.Album]</label>
+                                <label fallback="416">$INFO[ListItem.Album]</label>
                                 <aligny>center</aligny>
                             </control>
                         </control>
@@ -263,7 +351,7 @@
                                 <wrapmultiline>false</wrapmultiline>
                                 <scrollspeed>40</scrollspeed>
                                 <scrollsuffix>  ••  </scrollsuffix>
-                                <label fallback="19055">$INFO[ListItem.Year]</label>
+                                <label fallback="416">$INFO[ListItem.Year]</label>
                                 <aligny>center</aligny>
                             </control>
                         </control>
@@ -271,74 +359,6 @@
 						
 						
 						
-						<control type="group">
-                            <height>36</height>
-                            <width>100%</width>
-                            <control type="label">
-                                <width>150</width>
-                                <height>36</height>
-                                <font>Tiny</font>
-                                <textcolor>Dark1</textcolor>
-                                <label>[B]Audiocodec[/B]</label>
-                                <aligny>center</aligny>
-                            </control>
-                            <!--<control type="label">
-                                <left>180</left>
-                                <top>6</top>
-                                <width>100%</width>
-                                <height>24</height>
-                                <font>Tiny</font>
-                                <textcolor>Dark2</textcolor>
-                                <scroll>true</scroll>
-                                <wrapmultiline>false</wrapmultiline>
-                                <scrollspeed>40</scrollspeed>
-                                <scrollsuffix>  ••  </scrollsuffix>
-                                <label fallback="19055">$INFO[ListItem.FileExtension]</label>
-                                <aligny>center</aligny>
-                            </control>-->
-							<control type="image">
-								<left>175</left>
-                                <top>-5</top>
-								<width>55</width>
-								<height>45</height>
-								
-								<texture colordiffuse="Dark2">flags/audio/$INFO[ListItem.FileExtension].png</texture>
-								
-							</control>
-                        </control>
-						
-						<!-- DEBUG
-						
-						<control type="group">
-                            <height>36</height>
-                            <width>100%</width>
-                            <control type="label">
-                                <width>150</width>
-                                <height>36</height>
-                                <font>Tiny</font>
-                                <textcolor>Dark1</textcolor>
-                                <label>[B]Rating[/B]</label>
-                                <aligny>center</aligny>
-                            </control>
-                            <control type="label">
-                                <left>180</left>
-                                <top>6</top>
-                                <width>100%</width>
-                                <height>24</height>
-                                <font>Tiny</font>
-                                <textcolor>Dark2</textcolor>
-                                <scroll>true</scroll>
-                                <wrapmultiline>false</wrapmultiline>
-                                <scrollspeed>40</scrollspeed>
-                                <scrollsuffix>  ••  </scrollsuffix>
-                                <label fallback="19055">$INFO[ListItem.UserRating]</label>
-                                <aligny>center</aligny>
-                            </control>
-                        </control>-->
-
-
-
-
 						
 						
 						<control type="group">
@@ -363,12 +383,11 @@
                                 <wrapmultiline>false</wrapmultiline>
                                 <scrollspeed>40</scrollspeed>
                                 <scrollsuffix>  ••  </scrollsuffix>
-                                <label fallback="19055">$INFO[ListItem.Path]</label>
+                                <label fallback="416">$INFO[ListItem.Path]</label>
                                 <aligny>center</aligny>
                             </control>
                         </control>
-						
-						
+										
 						<control type="group">
                             <height>36</height>
                             <width>100%</width>
@@ -391,21 +410,15 @@
                                 <wrapmultiline>false</wrapmultiline>
                                 <scrollspeed>40</scrollspeed>
                                 <scrollsuffix>  ••  </scrollsuffix>
-                                <label fallback="19055">$INFO[ListItem.FileName]</label>
+                                <label fallback="416">$INFO[ListItem.FileName]</label>
                                 <aligny>center</aligny>
                             </control>
                         </control>
-												
-						
-						
-						
-						
-						
 					</control>	
 					
 					
-					<control type="group">
-					<!--<include>Animation.SwitchStars</include>-->
+					<!--<control type="group">
+					
 					<posy>120</posy>
 					<posx>30</posx>
                     <width>1050</width>
@@ -452,7 +465,7 @@
 							</control>
 						
 						
-				</control> 
+				</control> -->
 				
 				<control type="group">
 					<!--<include>Animation.SwitchStars</include>-->
@@ -495,9 +508,12 @@
 				                
 
                 <!-- Album Info -->
+				
+				
+				
                 <control type="group">
                     <visible>Container.Content(albums)</visible>
-                    <visible>!Control.IsVisible(50) + String.IsEmpty(Window.Property(content))</visible>
+                    <visible>String.IsEmpty(Window.Property(content))</visible>
                     <left>ListSquareX</left>
                     <right>SidePad</right>
                     <bottom>224</bottom>
@@ -521,7 +537,7 @@
                                 <height>36</height>
                                 <font>Tiny</font>
                                 <textcolor>Dark2</textcolor>
-                                <label fallback="19055">$INFO[ListItem.Artist]</label>
+                                <label fallback="416">$INFO[ListItem.Artist]</label>
                                 <aligny>center</aligny>
                             </control>
                         </control>
@@ -542,7 +558,7 @@
                                 <height>36</height>
                                 <font>Tiny</font>
                                 <textcolor>Dark2</textcolor>
-                                <label fallback="19055">$INFO[ListItem.Year]</label>
+                                <label fallback="416">$INFO[ListItem.Year]</label>
                                 <aligny>center</aligny>
                             </control>
                         </control>
@@ -562,7 +578,7 @@
                                 <height>36</height>
                                 <font>Tiny</font>
                                 <textcolor>Dark2</textcolor>
-                                <label fallback="19055">$INFO[Window(home).Property(Album.Songs.Duration)]$INFO[Window(home).Property(Album.Songs.Count),  -  , $LOCALIZE[182]]</label>
+                                <label fallback="416">$INFO[Window(home).Property(Album.Songs.Duration)]$INFO[Window(home).Property(Album.Songs.Count),  -  , $LOCALIZE[182]]</label>
                                 <aligny>center</aligny>
                             </control>
                         </control>
@@ -582,7 +598,7 @@
                                 <height>36</height>
                                 <font>Tiny</font>
                                 <textcolor>Dark2</textcolor>
-                                <label fallback="19055">$INFO[ListItem.Property(Album_Label)]</label>
+                                <label fallback="416">$INFO[ListItem.Property(Album_Label)]</label>
                                 <aligny>center</aligny>
                             </control>
                         </control>
@@ -602,47 +618,13 @@
                                 <height>36</height>
                                 <font>Tiny</font>
                                 <textcolor>Dark2</textcolor>
-                                <label fallback="19055">$INFO[ListItem.Genre]</label>
+                                <label fallback="416">$INFO[ListItem.Genre]</label>
                                 <aligny>center</aligny>
                             </control>
                         </control>
-
-                        <!-- Twitter -->
-                        <!--<control type="group">
-                            <height>36</height>
-                            <width>100%</width>
-                            <control type="label">
-                                <width>150</width>
-                                <height>36</height>
-                                <font>Tiny</font>
-                                <textcolor>Dark1</textcolor>
-                                <label>[B]Twitter[/B]</label>
-                                <aligny>center</aligny>
-                            </control>
-                            <control type="label">
-                                <left>150</left>
-                                <top>6</top>
-                                <width>100%</width>
-                                <height>24</height>
-                                <font>Tiny</font>
-                                <textcolor>Dark2</textcolor>
-                                <scroll>true</scroll>
-                                <wrapmultiline>false</wrapmultiline>
-                                <scrollspeed>40</scrollspeed>
-                                <scrollsuffix>  ••  </scrollsuffix>
-                                <label fallback="19055">$INFO[Container(9301).ListItem.Property(author),[B],[/B]]$INFO[Container(9301).ListItem.Property(date), ,]$INFO[Container(9301).ListItem.Property(comment),  -  ","]$INFO[Container(9301).ListItem(1).Property(author),  ••  [B],[/B]]$INFO[Container(9301).ListItem(1).Property(date), ,]$INFO[Container(9301).ListItem(1).Property(comment),  -  ","]$INFO[Container(9301).ListItem(2).Property(author),  ••  [B],[/B]]$INFO[Container(9301).ListItem(2).Property(date), ,]$INFO[Container(9301).ListItem(2).Property(comment),  -  ","]$INFO[Container(9301).ListItem(3).Property(author),  ••  [B],[/B]]$INFO[Container(9301).ListItem(3).Property(date), ,]$INFO[Container(9301).ListItem(3).Property(comment),  -  ","]$INFO[Container(9301).ListItem(4).Property(author),  ••  [B],[/B]]$INFO[Container(9301).ListItem(4).Property(date), ,]$INFO[Container(9301).ListItem(4).Property(comment),  -  ","]$INFO[Container(9301).ListItem(5).Property(author),  ••  [B],[/B]]$INFO[Container(9301).ListItem(5).Property(date), ,]$INFO[Container(9301).ListItem(5).Property(comment),  -  ","]$INFO[Container(9301).ListItem(6).Property(author),  ••  [B],[/B]]$INFO[Container(9301).ListItem(6).Property(date), ,]$INFO[Container(9301).ListItem(6).Property(comment),  -  ","]$INFO[Container(9301).ListItem(7).Property(author),  ••  [B],[/B]]$INFO[Container(9301).ListItem(7).Property(date), ,]$INFO[Container(9301).ListItem(7).Property(comment),  -  ","]$INFO[Container(9301).ListItem(8).Property(author),  ••  [B],[/B]]$INFO[Container(9301).ListItem(8).Property(date), ,]$INFO[Container(9301).ListItem(8).Property(comment),  -  ","]$INFO[Container(9301).ListItem(9).Property(author),  ••  [B],[/B]]$INFO[Container(9301).ListItem(9).Property(date), ,]$INFO[Container(9301).ListItem(9).Property(comment),  -  ","]$INFO[Container(9301).ListItem(10).Property(author),  ••  [B],[/B]]$INFO[Container(9301).ListItem(10).Property(date), ,]$INFO[Container(9301).ListItem(10).Property(comment),  -  ","]$INFO[Container(9301).ListItem(11).Property(author),  ••  [B],[/B]]$INFO[Container(9301).ListItem(11).Property(date), ,]$INFO[Container(9301).ListItem(11).Property(comment),  -  ","]$INFO[Container(9301).ListItem(12).Property(author),  ••  [B],[/B]]$INFO[Container(9301).ListItem(12).Property(date), ,]$INFO[Container(9301).ListItem(12).Property(comment),  -  ","]$INFO[Container(9301).ListItem(13).Property(author),  ••  [B],[/B]]$INFO[Container(9301).ListItem(13).Property(date), ,]$INFO[Container(9301).ListItem(13).Property(comment),  -  ","]$INFO[Container(9301).ListItem(14).Property(author),  ••  [B],[/B]]$INFO[Container(9301).ListItem(14).Property(date), ,]$INFO[Container(9301).ListItem(14).Property(comment),  -  ","]$INFO[Container(9301).ListItem(15).Property(author),  ••  [B],[/B]]$INFO[Container(9301).ListItem(15).Property(date), ,]$INFO[Container(9301).ListItem(15).Property(comment),  -  ","]$INFO[Container(9301).ListItem(16).Property(author),  ••  [B],[/B]]$INFO[Container(9301).ListItem(16).Property(date), ,]$INFO[Container(9301).ListItem(16).Property(comment),  -  ","]$INFO[Container(9301).ListItem(17).Property(author),  ••  [B],[/B]]$INFO[Container(9301).ListItem(17).Property(date), ,]$INFO[Container(9301).ListItem(17).Property(comment),  -  ","]$INFO[Container(9301).ListItem(18).Property(author),  ••  [B],[/B]]$INFO[Container(9301).ListItem(18).Property(date), ,]$INFO[Container(9301).ListItem(18).Property(comment),  -  ","]$INFO[Container(9301).ListItem(19).Property(author),  ••  [B],[/B]]$INFO[Container(9301).ListItem(19).Property(date), ,]$INFO[Container(9301).ListItem(19).Property(comment),  -  ","]</label>
-                                <aligny>center</aligny>
-                            </control>
-                        </control>-->
+							
 						
-						
-						
-						
-						
-						
-						
-						
-						<control type="group">
+						<!--<control type="group">
                             <height>36</height>
                             <width>100%</width>
                             <control type="label">
@@ -664,7 +646,7 @@
                                 <wrapmultiline>false</wrapmultiline>
                                 <scrollspeed>40</scrollspeed>
                                 <scrollsuffix>  ••  </scrollsuffix>
-                                <label fallback="19055">$INFO[ListItem.Size]</label>
+                                <label fallback="416">$INFO[ListItem.Size]</label>
                                 <aligny>center</aligny>
                             </control>
                         </control>
@@ -691,7 +673,7 @@
                                 <wrapmultiline>false</wrapmultiline>
                                 <scrollspeed>40</scrollspeed>
                                 <scrollsuffix>  ••  </scrollsuffix>
-                                <label fallback="19055">$INFO[ListItem.FileExtension]</label>
+                                <label fallback="416">$INFO[ListItem.FileExtension]</label>
                                 <aligny>center</aligny>
                             </control>
                         </control>
@@ -718,8 +700,40 @@
                                 <wrapmultiline>false</wrapmultiline>
                                 <scrollspeed>40</scrollspeed>
                                 <scrollsuffix>  ••  </scrollsuffix>
-                                <label fallback="19055">$INFO[ListItem.Duration(mins)]</label>
+                                <label fallback="416">$INFO[ListItem.Duration(mins)]</label>
                                 <aligny>center</aligny>
+                            </control>
+                        </control>-->
+						
+						
+						
+						
+						
+						
+						
+                        <control type="group">
+                            <height>auto</height>
+                            <width>100%</width>
+                            <visible>Container.Content(Albums)</visible>
+							<visible>String.IsEmpty(Window.Property(tracklist))</visible>
+                            <control type="label">
+                                <width>150</width>
+                                <height>36</height>
+                                <font>Tiny</font>
+                                <textcolor>Dark1</textcolor>
+                                <label>[B]$LOCALIZE[21887][/B]</label>
+                                <aligny>center</aligny>
+                            </control>
+                            <control type="textbox">
+                                <left>150</left>
+                                <right>0</right>
+								<top>2</top>
+                                <height>220</height>
+                                <font>Tiny</font>
+                                <textcolor>Dark2</textcolor>
+                                <scroll>false</scroll>
+                                <aligny>top</aligny>
+                                <label fallback="416">$VAR[LabelPlotBox]</label>
                             </control>
                         </control>
 						
@@ -729,29 +743,12 @@
 						
 						
 						
+						
+						
+						
+						
+						
                         <!--<control type="group">
-                            <height>auto</height>
-                            <width>100%</width>
-                            <visible>!Container.Content(Albums) | String.IsEmpty(Window.Property(tracklist))</visible>
-                            <control type="label">
-                                <width>150</width>
-                                <height>36</height>
-                                <font>Tiny</font>
-                                <textcolor>Dark1</textcolor>
-                                <label>[B]$LOCALIZE[183][/B]</label>
-                                <aligny>center</aligny>
-                            </control>
-                            <control type="textbox" id="4">
-                                <left>150</left>
-                                <right>0</right>
-                                <height>240</height>
-                                <font>Tiny</font>
-                                <textcolor>Dark2</textcolor>
-                                <scroll>false</scroll>
-                                <aligny>top</aligny>
-                            </control>
-                        </control>-->
-                        <control type="group">
                             <visible>Container.Content(Albums) + !String.IsEmpty(Window.Property(tracklist))</visible>
                             <height>auto</height>
                             <width>100%</width>
@@ -768,28 +765,30 @@
                                 <width>439</width>
                                 <height>250</height>
                                 <font>Tiny</font>
+								<top>2</top>
                                 <textcolor>Dark2</textcolor>
                                 <scroll>false</scroll>
-                                <label fallback="19055">$INFO[Window(home).Property(Album.Song.1.Title),[B]1.[/B] ,]$INFO[Window(home).Property(Album.Song.2.Title),[CR][B]2.[/B] ,]$INFO[Window(home).Property(Album.Song.3.Title),[CR][B]3.[/B] ,]$INFO[Window(home).Property(Album.Song.4.Title),[CR][B]4.[/B] ,]$INFO[Window(home).Property(Album.Song.5.Title),[CR][B]5.[/B] ,]$INFO[Window(home).Property(Album.Song.6.Title),[CR][B]6.[/B] ,]$INFO[Window(home).Property(Album.Song.7.Title),[CR][B]7.[/B] ,]$INFO[Window(home).Property(Album.Song.8.Title),[CR][B]8.[/B] ,]</label>
+                                <label fallback="416">$INFO[Window(home).Property(Album.Song.1.Title),[B]1.[/B] ,]$INFO[Window(home).Property(Album.Song.2.Title),[CR][B]2.[/B] ,]$INFO[Window(home).Property(Album.Song.3.Title),[CR][B]3.[/B] ,]$INFO[Window(home).Property(Album.Song.4.Title),[CR][B]4.[/B] ,]$INFO[Window(home).Property(Album.Song.5.Title),[CR][B]5.[/B] ,]$INFO[Window(home).Property(Album.Song.6.Title),[CR][B]6.[/B] ,]$INFO[Window(home).Property(Album.Song.7.Title),[CR][B]7.[/B] ,]$INFO[Window(home).Property(Album.Song.8.Title),[CR][B]8.[/B] ,]</label>
                                 <aligny>top</aligny>
                             </control>
                             <control type="label">
                                 <left>589</left>
+								<top>2</top>
                                 <width>439</width>
                                 <height>250</height>
                                 <font>Tiny</font>
                                 <textcolor>Dark2</textcolor>
                                 <scroll>false</scroll>
-                                <label fallback="19055">$INFO[Window(home).Property(Album.Song.9.Title),[B]9.[/B] ,]$INFO[Window(home).Property(Album.Song.10.Title),[CR][B]10.[/B] ,]$INFO[Window(home).Property(Album.Song.11.Title),[CR][B]11.[/B] ,]$INFO[Window(home).Property(Album.Song.12.Title),[CR][B]12.[/B] ,]$INFO[Window(home).Property(Album.Song.13.Title),[CR][B]13.[/B] ,]$INFO[Window(home).Property(Album.Song.14.Title),[CR][B]14.[/B] ,]$INFO[Window(home).Property(Album.Song.15.Title),[CR][B]15.[/B] ,]$INFO[Window(home).Property(Album.Song.16.Title),[CR][B]16.[/B] ,]</label>
+                                <label fallback="416">$INFO[Window(home).Property(Album.Song.9.Title),[B]9.[/B] ,]$INFO[Window(home).Property(Album.Song.10.Title),[CR][B]10.[/B] ,]$INFO[Window(home).Property(Album.Song.11.Title),[CR][B]11.[/B] ,]$INFO[Window(home).Property(Album.Song.12.Title),[CR][B]12.[/B] ,]$INFO[Window(home).Property(Album.Song.13.Title),[CR][B]13.[/B] ,]$INFO[Window(home).Property(Album.Song.14.Title),[CR][B]14.[/B] ,]$INFO[Window(home).Property(Album.Song.15.Title),[CR][B]15.[/B] ,]$INFO[Window(home).Property(Album.Song.16.Title),[CR][B]16.[/B] ,]</label>
                                 <aligny>top</aligny>
                             </control>
-                        </control>
+                        </control>-->
 						 
 				
                     </control>
-					<control type="group">
+					<!--<control type="group">
 					
-						<top>200</top>
+						<top>360</top>
 						<posx>30</posx>
 						<width>1050</width>
 						<visible>String.IsEqual(ListItem.DBType,album) | String.IsEqual(ListItem.DBType,song)</visible>
@@ -833,7 +832,7 @@
 							<centertop>50%</centertop>
 							<texture colordiffuse="$VAR[ColorHighlight]">backg/$VAR[Flagstar335].png</texture>						
 						</control>						
-					</control>
+					</control>-->
 					<control type="group">
 					<!--<include>Animation.SwitchStars</include>-->
 						
@@ -890,7 +889,7 @@
                                 <height>36</height>
                                 <font>Tiny</font>
                                 <textcolor>Dark2</textcolor>
-                                <label fallback="19055">$INFO[ListItem.Property(Artist_YearsActive)]</label>
+                                <label fallback="416">$INFO[ListItem.Property(Artist_YearsActive)]</label>
                                 <aligny>center</aligny>
                             </control>
                         </control>
@@ -910,7 +909,7 @@
                                 <height>36</height>
                                 <font>Tiny</font>
                                 <textcolor>Dark2</textcolor>
-                                <label fallback="19055">$INFO[ListItem.Genre]</label>
+                                <label fallback="416">$INFO[ListItem.Genre]</label>
                                 <aligny>center</aligny>
                             </control>
                         </control>
@@ -940,7 +939,7 @@
                                 <height>36</height>
                                 <font>Tiny</font>
                                 <textcolor>Dark2</textcolor>
-                                <label fallback="19055">$INFO[ListItem.Property(Artist_Born)]$INFO[ListItem.Property(Artist_Formed)]</label>
+                                <label fallback="416">$INFO[ListItem.Property(Artist_Born)]$INFO[ListItem.Property(Artist_Formed)]</label>
                                 <aligny>center</aligny>
                             </control>
                         </control>
@@ -970,7 +969,7 @@
                                 <height>36</height>
                                 <font>Tiny</font>
                                 <textcolor>Dark2</textcolor>
-                                <label fallback="19055">$INFO[ListItem.Property(Artist_Died)]$INFO[ListItem.Property(Artist_Disbanded)]</label>
+                                <label fallback="416">$INFO[ListItem.Property(Artist_Died)]$INFO[ListItem.Property(Artist_Disbanded)]</label>
                                 <aligny>center</aligny>
                             </control>
                         </control>
@@ -990,13 +989,13 @@
                                 <height>36</height>
                                 <font>Tiny</font>
                                 <textcolor>Dark2</textcolor>
-                                <label fallback="19055">$INFO[ListItem.Property(Artist_Style)]</label>
+                                <label fallback="416">$INFO[ListItem.Property(Artist_Style)]</label>
                                 <aligny>center</aligny>
                             </control>
                         </control>
 
                         <!-- Twitter -->
-                        <control type="group">
+                       <!-- <control type="group">
                             <height>36</height>
                             <width>100%</width>
                             <control type="label">
@@ -1018,10 +1017,10 @@
                                 <wrapmultiline>false</wrapmultiline>
                                 <scrollspeed>40</scrollspeed>
                                 <scrollsuffix>  ••  </scrollsuffix>
-                                <label fallback="19055">$INFO[Container(9301).ListItem.Property(author),[B],[/B]]$INFO[Container(9301).ListItem.Property(date), ,]$INFO[Container(9301).ListItem.Property(comment),  -  ","]$INFO[Container(9301).ListItem(1).Property(author),  ••  [B],[/B]]$INFO[Container(9301).ListItem(1).Property(date), ,]$INFO[Container(9301).ListItem(1).Property(comment),  -  ","]$INFO[Container(9301).ListItem(2).Property(author),  ••  [B],[/B]]$INFO[Container(9301).ListItem(2).Property(date), ,]$INFO[Container(9301).ListItem(2).Property(comment),  -  ","]$INFO[Container(9301).ListItem(3).Property(author),  ••  [B],[/B]]$INFO[Container(9301).ListItem(3).Property(date), ,]$INFO[Container(9301).ListItem(3).Property(comment),  -  ","]$INFO[Container(9301).ListItem(4).Property(author),  ••  [B],[/B]]$INFO[Container(9301).ListItem(4).Property(date), ,]$INFO[Container(9301).ListItem(4).Property(comment),  -  ","]$INFO[Container(9301).ListItem(5).Property(author),  ••  [B],[/B]]$INFO[Container(9301).ListItem(5).Property(date), ,]$INFO[Container(9301).ListItem(5).Property(comment),  -  ","]$INFO[Container(9301).ListItem(6).Property(author),  ••  [B],[/B]]$INFO[Container(9301).ListItem(6).Property(date), ,]$INFO[Container(9301).ListItem(6).Property(comment),  -  ","]$INFO[Container(9301).ListItem(7).Property(author),  ••  [B],[/B]]$INFO[Container(9301).ListItem(7).Property(date), ,]$INFO[Container(9301).ListItem(7).Property(comment),  -  ","]$INFO[Container(9301).ListItem(8).Property(author),  ••  [B],[/B]]$INFO[Container(9301).ListItem(8).Property(date), ,]$INFO[Container(9301).ListItem(8).Property(comment),  -  ","]$INFO[Container(9301).ListItem(9).Property(author),  ••  [B],[/B]]$INFO[Container(9301).ListItem(9).Property(date), ,]$INFO[Container(9301).ListItem(9).Property(comment),  -  ","]$INFO[Container(9301).ListItem(10).Property(author),  ••  [B],[/B]]$INFO[Container(9301).ListItem(10).Property(date), ,]$INFO[Container(9301).ListItem(10).Property(comment),  -  ","]$INFO[Container(9301).ListItem(11).Property(author),  ••  [B],[/B]]$INFO[Container(9301).ListItem(11).Property(date), ,]$INFO[Container(9301).ListItem(11).Property(comment),  -  ","]$INFO[Container(9301).ListItem(12).Property(author),  ••  [B],[/B]]$INFO[Container(9301).ListItem(12).Property(date), ,]$INFO[Container(9301).ListItem(12).Property(comment),  -  ","]$INFO[Container(9301).ListItem(13).Property(author),  ••  [B],[/B]]$INFO[Container(9301).ListItem(13).Property(date), ,]$INFO[Container(9301).ListItem(13).Property(comment),  -  ","]$INFO[Container(9301).ListItem(14).Property(author),  ••  [B],[/B]]$INFO[Container(9301).ListItem(14).Property(date), ,]$INFO[Container(9301).ListItem(14).Property(comment),  -  ","]$INFO[Container(9301).ListItem(15).Property(author),  ••  [B],[/B]]$INFO[Container(9301).ListItem(15).Property(date), ,]$INFO[Container(9301).ListItem(15).Property(comment),  -  ","]$INFO[Container(9301).ListItem(16).Property(author),  ••  [B],[/B]]$INFO[Container(9301).ListItem(16).Property(date), ,]$INFO[Container(9301).ListItem(16).Property(comment),  -  ","]$INFO[Container(9301).ListItem(17).Property(author),  ••  [B],[/B]]$INFO[Container(9301).ListItem(17).Property(date), ,]$INFO[Container(9301).ListItem(17).Property(comment),  -  ","]$INFO[Container(9301).ListItem(18).Property(author),  ••  [B],[/B]]$INFO[Container(9301).ListItem(18).Property(date), ,]$INFO[Container(9301).ListItem(18).Property(comment),  -  ","]$INFO[Container(9301).ListItem(19).Property(author),  ••  [B],[/B]]$INFO[Container(9301).ListItem(19).Property(date), ,]$INFO[Container(9301).ListItem(19).Property(comment),  -  ","]</label>
+                                <label fallback="416">$INFO[Container(9301).ListItem.Property(author),[B],[/B]]$INFO[Container(9301).ListItem.Property(date), ,]$INFO[Container(9301).ListItem.Property(comment),  -  ","]$INFO[Container(9301).ListItem(1).Property(author),  ••  [B],[/B]]$INFO[Container(9301).ListItem(1).Property(date), ,]$INFO[Container(9301).ListItem(1).Property(comment),  -  ","]$INFO[Container(9301).ListItem(2).Property(author),  ••  [B],[/B]]$INFO[Container(9301).ListItem(2).Property(date), ,]$INFO[Container(9301).ListItem(2).Property(comment),  -  ","]$INFO[Container(9301).ListItem(3).Property(author),  ••  [B],[/B]]$INFO[Container(9301).ListItem(3).Property(date), ,]$INFO[Container(9301).ListItem(3).Property(comment),  -  ","]$INFO[Container(9301).ListItem(4).Property(author),  ••  [B],[/B]]$INFO[Container(9301).ListItem(4).Property(date), ,]$INFO[Container(9301).ListItem(4).Property(comment),  -  ","]$INFO[Container(9301).ListItem(5).Property(author),  ••  [B],[/B]]$INFO[Container(9301).ListItem(5).Property(date), ,]$INFO[Container(9301).ListItem(5).Property(comment),  -  ","]$INFO[Container(9301).ListItem(6).Property(author),  ••  [B],[/B]]$INFO[Container(9301).ListItem(6).Property(date), ,]$INFO[Container(9301).ListItem(6).Property(comment),  -  ","]$INFO[Container(9301).ListItem(7).Property(author),  ••  [B],[/B]]$INFO[Container(9301).ListItem(7).Property(date), ,]$INFO[Container(9301).ListItem(7).Property(comment),  -  ","]$INFO[Container(9301).ListItem(8).Property(author),  ••  [B],[/B]]$INFO[Container(9301).ListItem(8).Property(date), ,]$INFO[Container(9301).ListItem(8).Property(comment),  -  ","]$INFO[Container(9301).ListItem(9).Property(author),  ••  [B],[/B]]$INFO[Container(9301).ListItem(9).Property(date), ,]$INFO[Container(9301).ListItem(9).Property(comment),  -  ","]$INFO[Container(9301).ListItem(10).Property(author),  ••  [B],[/B]]$INFO[Container(9301).ListItem(10).Property(date), ,]$INFO[Container(9301).ListItem(10).Property(comment),  -  ","]$INFO[Container(9301).ListItem(11).Property(author),  ••  [B],[/B]]$INFO[Container(9301).ListItem(11).Property(date), ,]$INFO[Container(9301).ListItem(11).Property(comment),  -  ","]$INFO[Container(9301).ListItem(12).Property(author),  ••  [B],[/B]]$INFO[Container(9301).ListItem(12).Property(date), ,]$INFO[Container(9301).ListItem(12).Property(comment),  -  ","]$INFO[Container(9301).ListItem(13).Property(author),  ••  [B],[/B]]$INFO[Container(9301).ListItem(13).Property(date), ,]$INFO[Container(9301).ListItem(13).Property(comment),  -  ","]$INFO[Container(9301).ListItem(14).Property(author),  ••  [B],[/B]]$INFO[Container(9301).ListItem(14).Property(date), ,]$INFO[Container(9301).ListItem(14).Property(comment),  -  ","]$INFO[Container(9301).ListItem(15).Property(author),  ••  [B],[/B]]$INFO[Container(9301).ListItem(15).Property(date), ,]$INFO[Container(9301).ListItem(15).Property(comment),  -  ","]$INFO[Container(9301).ListItem(16).Property(author),  ••  [B],[/B]]$INFO[Container(9301).ListItem(16).Property(date), ,]$INFO[Container(9301).ListItem(16).Property(comment),  -  ","]$INFO[Container(9301).ListItem(17).Property(author),  ••  [B],[/B]]$INFO[Container(9301).ListItem(17).Property(date), ,]$INFO[Container(9301).ListItem(17).Property(comment),  -  ","]$INFO[Container(9301).ListItem(18).Property(author),  ••  [B],[/B]]$INFO[Container(9301).ListItem(18).Property(date), ,]$INFO[Container(9301).ListItem(18).Property(comment),  -  ","]$INFO[Container(9301).ListItem(19).Property(author),  ••  [B],[/B]]$INFO[Container(9301).ListItem(19).Property(date), ,]$INFO[Container(9301).ListItem(19).Property(comment),  -  ","]</label>
                                 <aligny>center</aligny>
                             </control>
-                        </control>
+                        </control>-->
                         <control type="group">
                             <height>auto</height>
                             <width>100%</width>
@@ -1030,17 +1029,19 @@
                                 <height>36</height>
                                 <font>Tiny</font>
                                 <textcolor>Dark1</textcolor>
-                                <label>[B]$LOCALIZE[183][/B]</label>
+                                <label>[B]$LOCALIZE[21887][/B]</label>
                                 <aligny>center</aligny>
                             </control>
-                            <control type="textbox" id="4">
+                            <control type="textbox">
+								<top>2</top>
                                 <left>150</left>
                                 <right>0</right>
-                                <height>240</height>
+                                <height>140</height>
                                 <font>Tiny</font>
                                 <textcolor>Dark2</textcolor>
                                 <scroll>false</scroll>
                                 <aligny>top</aligny>
+								<label>$INFO[ListItem.Property(Artist_Description)]</label>
                             </control>
                         </control>
                     </control>
@@ -1088,7 +1089,7 @@
 
                 <!-- Content Labels -->
                 <control type="label">
-                    <visible>Control.IsVisible(50) | [!String.IsEmpty(Window.Property(content)) + !Container(9501).IsUpdating +  !String.IsEqual(Container(9501).NumItems,0)]</visible>
+                    <visible>[!String.IsEmpty(Window.Property(content)) + !Container(9501).IsUpdating +  !String.IsEqual(Container(9501).NumItems,0)]</visible>
                     <left>720</left>
                     <right>SidePad</right>
                     <textoffsetx>5</textoffsetx>
@@ -1109,14 +1110,14 @@
                             <description>Header Label</description>
                             <textcolor>Dark1</textcolor>
                             <include>DefDialogInfoHeader</include>
-                            <label fallback="19055">$INFO[ListItem.Title]</label>
+                            <label fallback="416">$INFO[ListItem.Title]</label>
                         </control>
 						<control type="label">
 							<visible>String.IsEqual(ListItem.Title,)</visible>
                             <description>Header Label</description>
                             <textcolor>Dark1</textcolor>
                             <include>DefDialogInfoHeader</include>
-                            <label fallback="19055">$INFO[ListItem.FileName]</label>
+                            <label fallback="416">$INFO[ListItem.FileName]</label>
                         </control>
                         <control type="group">
                             <height>50</height>
@@ -1126,19 +1127,19 @@
                                 <height>36</height>
                                 <font>Tiny</font>
                                 <textcolor>Dark2</textcolor>
-                                <label fallback="19055">$INFO[ListItem.Artist]</label>
+                                <label fallback="416">$INFO[ListItem.Artist]</label>
                                 <aligny>center</aligny>
                             </control>
                         </control>
-						<control type="label">						
+						<!--<control type="label">						
 							<left>730</left>
 							<right>SidePad</right>						
 							<top>685</top>
 							<font>Tiny</font>
 							<textcolor>Dark2</textcolor>
-							<label>19055</label>
+							<label>416</label>
 							<include>Animation.DelayFadeIn</include>
-						</control>
+						</control>-->
 					</control>
 				</control>
                 <!--<control type="label">
