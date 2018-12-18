@@ -89,12 +89,12 @@
 			<thumb />
 			<property name="labelID">2</property>
 			<property name="defaultID">music</property>
-			<property name="widgetaspect">Fanart</property>
+			<property name="widgetaspect">Thumbnail</property>
 			<property name="widget">Library</property>
-			<property name="widgetName">Filme - Titel</property>
-			<property name="widgetType">movies</property>
-			<property name="widgetTarget">videos</property>
-			<property name="widgetPath">library://video/movies/titles.xml/</property>
+			<property name="widgetName">Titel</property>
+			<property name="widgetType">songs</property>
+			<property name="widgetTarget">music</property>
+			<property name="widgetPath">library://music/songs.xml/</property>
 			<onclick>ActivateWindow(Music)</onclick>
 			<property name="path">ActivateWindow(Music)</property>
 			<property name="list">Music</property>
@@ -3161,7 +3161,136 @@
 			<content limit="10" target="">$VAR[DefWidgetContent]</content>
 		</control>
 		<control id="301" type="list">
-			<visible>String.IsEqual(Container(300).ListItem.Property(submenuVisibility),num-2) | String.IsEqual(Container(300).ListItem.Property(submenuVisibility),num-31103)</visible>
+			<visible>String.IsEqual(Container(300).ListItem.Property(submenuVisibility),num-2)</visible>
+			<description>Plugin Content Widget</description>
+			<left>70</left>
+			<right>70</right>
+			<top>20</top>
+			<bottom>20</bottom>
+			<oninfo condition="IsEmpty(Container(301).ListItem.TvShowTitle) + IsEmpty(Container(301).ListItem.Artist)">RunScript(script.extendedinfo,info=extendedinfo,name=$INFO[Container(301).ListItem.Title],imdb_id=$INFO[Container(301).ListItem.IMDBNumber])</oninfo>
+			<oninfo condition="!IsEmpty(Container(301).ListItem.TvShowTitle)">RunScript(script.extendedinfo,info=extendedtvinfo,name=$INFO[Container(301).ListItem.TvShowTitle],imdb_id=$INFO[Container(301).ListItem.IMDBNumber])</oninfo>
+			<onup condition="IsEmpty(Container(300).ListItem.Property(widget))">303</onup>
+			<onup condition="!IsEmpty(Container(300).ListItem.Property(widget))">300</onup>
+			<ondown>300</ondown>
+			<onback>300</onback>
+			<onleft>301</onleft>
+			<onright>301</onright>
+			<preloaditems>2</preloaditems>
+			<orientation>horizontal</orientation>
+			<autoscroll time="10000">!Control.HasFocus(301)</autoscroll>
+			<scrolltime tween="quadratic">400</scrolltime>
+			<itemlayout condition="!StringCompare(Container(300).ListItem.Property(widgetaspect),Square) + ![StringCompare(Container(300).ListItem.Property(widgetaspect),Fanart) | StringCompare(Container(300).ListItem.Property(widgetaspect),Thumbnail)]" height="257" width="178">
+				<control type="image">
+					<left>10</left>
+					<right>10</right>
+					<bottom>10</bottom>
+					<top>10</top>
+					<aspectratio scalediffuse="false">scale</aspectratio>
+					<texture background="true" diffuse="diffuse/wall.png" fallback="DefaultAddonNone.png">$VAR[PosterImage]</texture>
+				</control>
+			</itemlayout>
+			<focusedlayout condition="!StringCompare(Container(300).ListItem.Property(widgetaspect),Square) + ![StringCompare(Container(300).ListItem.Property(widgetaspect),Fanart) | StringCompare(Container(300).ListItem.Property(widgetaspect),Thumbnail)]" height="257" width="178">
+				<control type="image">
+					<left>10</left>
+					<right>10</right>
+					<bottom>10</bottom>
+					<top>10</top>
+					<aspectratio scalediffuse="false">scale</aspectratio>
+					<texture background="true" diffuse="diffuse/wall.png" fallback="DefaultAddonNone.png">$VAR[PosterImage]</texture>
+				</control>
+				<control type="image">
+					<visible>Control.HasFocus(301)</visible>
+					<left>3</left>
+					<top>3</top>
+					<right>3</right>
+					<bottom>3</bottom>
+					<texture border="20" colordiffuse="$VAR[ColorHighlight]">common/selectbox.png</texture>
+					<animation type="Focus">
+						<effect center="auto" easing="inout" end="100" start="90" time="150" tween="sine" type="zoom" />
+						<effect easing="in" end="100" start="0" time="150" tween="sine" type="fade" />
+					</animation>
+					<animation type="Unfocus">
+						<effect center="auto" easing="inout" end="90" start="100" time="150" tween="sine" type="zoom" />
+						<effect easing="out" end="0" start="100" time="150" tween="sine" type="fade" />
+					</animation>
+				</control>
+			</focusedlayout>
+			<itemlayout condition="StringCompare(Container(300).ListItem.Property(widgetaspect),Square)" height="257" width="254">
+				<control type="image">
+					<centerleft>50%</centerleft>
+					<width>237</width>
+					<bottom>10</bottom>
+					<top>10</top>
+					<aspectratio scalediffuse="false">scale</aspectratio>
+					<texture background="true" diffuse="diffuse/wall.png" fallback="DefaultAddonNone.png">$VAR[PosterImage]</texture>
+				</control>
+			</itemlayout>
+			<focusedlayout condition="StringCompare(Container(300).ListItem.Property(widgetaspect),Square)" height="257" width="254">
+				<control type="image">
+					<centerleft>50%</centerleft>
+					<width>237</width>
+					<bottom>10</bottom>
+					<top>10</top>
+					<aspectratio scalediffuse="false">scale</aspectratio>
+					<texture background="true" diffuse="diffuse/wall.png" fallback="DefaultAddonNone.png">$VAR[PosterImage]</texture>
+				</control>
+				<control type="image">
+					<visible>Control.HasFocus(301)</visible>
+					<left>3</left>
+					<top>3</top>
+					<right>3</right>
+					<bottom>3</bottom>
+					<texture border="20" colordiffuse="$VAR[ColorHighlight]">common/selectbox.png</texture>
+					<animation type="Focus">
+						<effect center="auto" easing="inout" end="100" start="90" time="150" tween="sine" type="zoom" />
+						<effect easing="in" end="100" start="0" time="150" tween="sine" type="fade" />
+					</animation>
+					<animation type="Unfocus">
+						<effect center="auto" easing="inout" end="90" start="100" time="150" tween="sine" type="zoom" />
+						<effect easing="out" end="0" start="100" time="150" tween="sine" type="fade" />
+					</animation>
+				</control>
+			</focusedlayout>
+			<itemlayout condition="[StringCompare(Container(300).ListItem.Property(widgetaspect),Fanart) | StringCompare(Container(300).ListItem.Property(widgetaspect),Thumbnail)]" height="257" width="445">
+				<control type="image">
+					<centerleft>50%</centerleft>
+					<width>425</width>
+					<bottom>10</bottom>
+					<top>10</top>
+					<aspectratio scalediffuse="false">scale</aspectratio>
+					<texture background="true" diffuse="diffuse/wall.png" fallback="DefaultAddonNone.png">$VAR[WidgetThumbImage]</texture>
+				</control>
+			</itemlayout>
+			<focusedlayout condition="[StringCompare(Container(300).ListItem.Property(widgetaspect),Fanart) | StringCompare(Container(300).ListItem.Property(widgetaspect),Thumbnail)]" height="257" width="445">
+				<control type="image">
+					<centerleft>50%</centerleft>
+					<width>425</width>
+					<bottom>10</bottom>
+					<top>10</top>
+					<aspectratio scalediffuse="false">scale</aspectratio>
+					<texture background="true" diffuse="diffuse/wall.png" fallback="DefaultAddonNone.png">$VAR[WidgetThumbImage]</texture>
+				</control>
+				<control type="image">
+					<visible>Control.HasFocus(301)</visible>
+					<left>3</left>
+					<top>3</top>
+					<right>3</right>
+					<bottom>3</bottom>
+					<texture border="20" colordiffuse="$VAR[ColorHighlight]">common/selectbox.png</texture>
+					<animation type="Focus">
+						<effect center="auto" easing="inout" end="100" start="90" time="150" tween="sine" type="zoom" />
+						<effect easing="in" end="100" start="0" time="150" tween="sine" type="fade" />
+					</animation>
+					<animation type="Unfocus">
+						<effect center="auto" easing="inout" end="90" start="100" time="150" tween="sine" type="zoom" />
+						<effect easing="out" end="0" start="100" time="150" tween="sine" type="fade" />
+					</animation>
+				</control>
+			</focusedlayout>
+			<content limit="10" target="music">library://music/songs.xml/</content>
+		</control>
+		<control id="301" type="list">
+			<visible>String.IsEqual(Container(300).ListItem.Property(submenuVisibility),num-31103)</visible>
 			<description>Plugin Content Widget</description>
 			<left>70</left>
 			<right>70</right>
@@ -3345,7 +3474,32 @@
 			<content limit="10" target="">$VAR[DefWidgetContent]</content>
 		</control>
 		<control id="301" type="wraplist">
-			<visible>String.IsEqual(Container(300).ListItem.Property(submenuVisibility),num-2) | String.IsEqual(Container(300).ListItem.Property(submenuVisibility),num-31103)</visible>
+			<visible>String.IsEqual(Container(300).ListItem.Property(submenuVisibility),num-2)</visible>
+			<description>Widget</description>
+			<width>1</width>
+			<height>1</height>
+			<oninfo condition="IsEmpty(Container(301).ListItem.TvShowTitle) + IsEmpty(Container(301).ListItem.Artist)">RunScript(script.extendedinfo,info=extendedinfo,name=$INFO[Container(301).ListItem.Title],imdb_id=$INFO[Container(301).ListItem.IMDBNumber])</oninfo>
+			<oninfo condition="!IsEmpty(Container(301).ListItem.TvShowTitle)">RunScript(script.extendedinfo,info=extendedtvinfo,name=$INFO[Container(301).ListItem.TvShowTitle],imdb_id=$INFO[Container(301).ListItem.IMDBNumber])</oninfo>
+			<onup condition="IsEmpty(Container(300).ListItem.Property(widget))">303</onup>
+			<onup condition="!IsEmpty(Container(300).ListItem.Property(widget))">300</onup>
+			<ondown>300</ondown>
+			<onback>300</onback>
+			<onleft>301</onleft>
+			<onright>301</onright>
+			<preloaditems>2</preloaditems>
+			<orientation>horizontal</orientation>
+			<autoscroll time="10000">!Control.HasFocus(301)</autoscroll>
+			<scrolltime tween="quadratic">0</scrolltime>
+			<include>Animation.FadeIn</include>
+			<include>Animation.FadeOut</include>
+			<itemlayout height="1" width="1">
+                </itemlayout>
+			<focusedlayout height="1" width="1">
+                </focusedlayout>
+			<content limit="10" target="music">library://music/songs.xml/</content>
+		</control>
+		<control id="301" type="wraplist">
+			<visible>String.IsEqual(Container(300).ListItem.Property(submenuVisibility),num-31103)</visible>
 			<description>Widget</description>
 			<width>1</width>
 			<height>1</height>
@@ -3843,7 +3997,241 @@
 			<content limit="10" target="">$VAR[DefWidgetContent]</content>
 		</control>
 		<control id="301" type="list">
-			<visible>String.IsEqual(Container(300).ListItem.Property(submenuVisibility),num-2) | String.IsEqual(Container(300).ListItem.Property(submenuVisibility),num-31103)</visible>
+			<visible>String.IsEqual(Container(300).ListItem.Property(submenuVisibility),num-2)</visible>
+			<visible>!substring(Container(300).ListItem.Property(widget),Weather,left)</visible>
+			<animation condition="!Control.HasFocus(301)" effect="fade" end="66" start="100" time="400">Conditional</animation>
+			<autoscroll time="10000">!Control.HasFocus(301)</autoscroll>
+			<top>330</top>
+			<left>518</left>
+			<width>1776</width>
+			<height>325</height>
+			<onright>noop</onright>
+			<onback>300</onback>
+			<onleft>300</onleft>
+			<onup>300</onup>
+			<ondown>300</ondown>
+			<oninfo condition="IsEmpty(Container(301).ListItem.TvShowTitle) + IsEmpty(Container(301).ListItem.Artist)">RunScript(script.extendedinfo,info=extendedinfo,name=$INFO[Container(301).ListItem.Title],imdb_id=$INFO[Container(301).ListItem.IMDBNumber])</oninfo>
+			<oninfo condition="!IsEmpty(Container(301).ListItem.TvShowTitle)">RunScript(script.extendedinfo,info=extendedtvinfo,name=$INFO[Container(301).ListItem.TvShowTitle],imdb_id=$INFO[Container(301).ListItem.IMDBNumber])</oninfo>
+			<focusposition>0</focusposition>
+			<preloaditems>2</preloaditems>
+			<orientation>horizontal</orientation>
+			<pagecontrol>60</pagecontrol>
+			<viewtype label="536">list</viewtype>
+			<scrolltime tween="quadratic">400</scrolltime>
+			<itemlayout condition="!StringCompare(Container(300).ListItem.Property(widgetaspect),Square) + ![StringCompare(Container(300).ListItem.Property(widgetaspect),Fanart) | StringCompare(Container(300).ListItem.Property(widgetaspect),Thumbnail)]" height="325" width="222">
+				<control type="image">
+					<left>0</left>
+					<top>0</top>
+					<right>0</right>
+					<bottom>0</bottom>
+					<texture border="10">common/nofocus-shadow10.png</texture>
+				</control>
+				<control type="image">
+					<left>10</left>
+					<top>10</top>
+					<right>10</right>
+					<bottom>10</bottom>
+					<aspectratio scalediffuse="false">scale</aspectratio>
+					<texture background="true" diffuse="diffuse/wall.png" fallback="DefaultMovies.png">$VAR[PosterImage]</texture>
+				</control>
+				<control type="image">
+					<centerright>32</centerright>
+					<centertop>32</centertop>
+					<width>32</width>
+					<height>32</height>
+					<aspectratio aligny="top">keep</aspectratio>
+					<texture>$VAR[PercentWatched]</texture>
+					<visible>!stringcompare(ListItem.Label,..)</visible>
+					<visible>stringcompare(ListItem.Overlay,OverlayWatched.png)</visible>
+				</control>
+			</itemlayout>
+			<itemlayout condition="StringCompare(Container(300).ListItem.Property(widgetaspect),Square)" height="325" width="325">
+				<control type="image">
+					<left>0</left>
+					<top>0</top>
+					<right>0</right>
+					<bottom>0</bottom>
+					<texture border="10">common/nofocus-shadow10.png</texture>
+				</control>
+				<control type="image">
+					<left>10</left>
+					<top>10</top>
+					<right>10</right>
+					<bottom>10</bottom>
+					<aspectratio scalediffuse="false">scale</aspectratio>
+					<texture background="true" diffuse="diffuse/wall.png" fallback="DefaultMovies.png">$VAR[PosterImage]</texture>
+				</control>
+				<control type="image">
+					<centerright>32</centerright>
+					<centertop>32</centertop>
+					<width>32</width>
+					<height>32</height>
+					<aspectratio aligny="top">keep</aspectratio>
+					<texture>$VAR[PercentWatched]</texture>
+					<visible>!stringcompare(ListItem.Label,..)</visible>
+					<visible>stringcompare(ListItem.Overlay,OverlayWatched.png)</visible>
+				</control>
+			</itemlayout>
+			<itemlayout condition="StringCompare(Container(300).ListItem.Property(widgetaspect),Thumbnail) | StringCompare(Container(300).ListItem.Property(widgetaspect),Fanart)" height="325" width="562">
+				<control type="image">
+					<left>0</left>
+					<top>0</top>
+					<right>0</right>
+					<bottom>0</bottom>
+					<texture border="10">common/nofocus-shadow10.png</texture>
+				</control>
+				<control type="image">
+					<left>10</left>
+					<top>10</top>
+					<right>10</right>
+					<bottom>10</bottom>
+					<aspectratio scalediffuse="false">scale</aspectratio>
+					<texture background="true" diffuse="diffuse/wall.png" fallback="DefaultMovies.png">$VAR[WidgetThumbImage]</texture>
+				</control>
+				<control type="image">
+					<centerright>32</centerright>
+					<centertop>32</centertop>
+					<width>32</width>
+					<height>32</height>
+					<aspectratio aligny="top">keep</aspectratio>
+					<texture>$VAR[PercentWatched]</texture>
+					<visible>!stringcompare(ListItem.Label,..)</visible>
+					<visible>stringcompare(ListItem.Overlay,OverlayWatched.png)</visible>
+				</control>
+			</itemlayout>
+			<focusedlayout condition="!StringCompare(Container(300).ListItem.Property(widgetaspect),Square) + ![StringCompare(Container(300).ListItem.Property(widgetaspect),Fanart) | StringCompare(Container(300).ListItem.Property(widgetaspect),Thumbnail)]" height="325" width="222">
+				<control type="image">
+					<left>0</left>
+					<top>0</top>
+					<right>0</right>
+					<bottom>0</bottom>
+					<texture border="10">common/nofocus-shadow10.png</texture>
+				</control>
+				<control type="image">
+					<left>10</left>
+					<top>10</top>
+					<right>10</right>
+					<bottom>10</bottom>
+					<aspectratio scalediffuse="false">scale</aspectratio>
+					<texture background="true" diffuse="diffuse/wall.png" fallback="DefaultMovies.png">$VAR[PosterImage]</texture>
+				</control>
+				<control type="image">
+					<centerright>32</centerright>
+					<centertop>32</centertop>
+					<width>32</width>
+					<height>32</height>
+					<aspectratio aligny="top">keep</aspectratio>
+					<texture>$VAR[PercentWatched]</texture>
+					<visible>!stringcompare(ListItem.Label,..)</visible>
+					<visible>stringcompare(ListItem.Overlay,OverlayWatched.png)</visible>
+				</control>
+				<control type="image">
+					<left>3</left>
+					<top>3</top>
+					<right>3</right>
+					<bottom>3</bottom>
+					<texture border="20" colordiffuse="$VAR[ColorHighlight]">common/selectbox.png</texture>
+					<visible>Control.HasFocus(301)</visible>
+					<animation type="Focus">
+						<effect center="auto" easing="inout" end="100" start="90" time="150" tween="sine" type="zoom" />
+						<effect easing="in" end="100" start="0" time="150" tween="sine" type="fade" />
+					</animation>
+					<animation type="Unfocus">
+						<effect center="auto" easing="inout" end="90" start="100" time="150" tween="sine" type="zoom" />
+						<effect easing="out" end="0" start="100" time="150" tween="sine" type="fade" />
+					</animation>
+				</control>
+			</focusedlayout>
+			<focusedlayout condition="StringCompare(Container(300).ListItem.Property(widgetaspect),Square)" height="325" width="325">
+				<control type="image">
+					<left>0</left>
+					<top>0</top>
+					<right>0</right>
+					<bottom>0</bottom>
+					<texture border="10">common/nofocus-shadow10.png</texture>
+				</control>
+				<control type="image">
+					<left>10</left>
+					<top>10</top>
+					<right>10</right>
+					<bottom>10</bottom>
+					<aspectratio scalediffuse="false">scale</aspectratio>
+					<texture background="true" diffuse="diffuse/wall.png" fallback="DefaultMovies.png">$VAR[PosterImage]</texture>
+				</control>
+				<control type="image">
+					<centerright>32</centerright>
+					<centertop>32</centertop>
+					<width>32</width>
+					<height>32</height>
+					<aspectratio aligny="top">keep</aspectratio>
+					<texture>$VAR[PercentWatched]</texture>
+					<visible>!stringcompare(ListItem.Label,..)</visible>
+					<visible>stringcompare(ListItem.Overlay,OverlayWatched.png)</visible>
+				</control>
+				<control type="image">
+					<left>3</left>
+					<top>3</top>
+					<right>3</right>
+					<bottom>3</bottom>
+					<texture border="20" colordiffuse="$VAR[ColorHighlight]">common/selectbox.png</texture>
+					<visible>Control.HasFocus(301)</visible>
+					<animation type="Focus">
+						<effect center="auto" easing="inout" end="100" start="90" time="150" tween="sine" type="zoom" />
+						<effect easing="in" end="100" start="0" time="150" tween="sine" type="fade" />
+					</animation>
+					<animation type="Unfocus">
+						<effect center="auto" easing="inout" end="90" start="100" time="150" tween="sine" type="zoom" />
+						<effect easing="out" end="0" start="100" time="150" tween="sine" type="fade" />
+					</animation>
+				</control>
+			</focusedlayout>
+			<focusedlayout condition="StringCompare(Container(300).ListItem.Property(widgetaspect),Thumbnail) | StringCompare(Container(300).ListItem.Property(widgetaspect),Fanart)" height="325" width="562">
+				<control type="image">
+					<left>0</left>
+					<top>0</top>
+					<right>0</right>
+					<bottom>0</bottom>
+					<texture border="10">common/nofocus-shadow10.png</texture>
+				</control>
+				<control type="image">
+					<left>10</left>
+					<top>10</top>
+					<right>10</right>
+					<bottom>10</bottom>
+					<aspectratio scalediffuse="false">scale</aspectratio>
+					<texture background="true" diffuse="diffuse/wall.png" fallback="DefaultMovies.png">$VAR[WidgetThumbImage]</texture>
+				</control>
+				<control type="image">
+					<centerright>32</centerright>
+					<centertop>32</centertop>
+					<width>32</width>
+					<height>32</height>
+					<aspectratio aligny="top">keep</aspectratio>
+					<texture>$VAR[PercentWatched]</texture>
+					<visible>!stringcompare(ListItem.Label,..)</visible>
+					<visible>stringcompare(ListItem.Overlay,OverlayWatched.png)</visible>
+				</control>
+				<control type="image">
+					<left>3</left>
+					<top>3</top>
+					<right>3</right>
+					<bottom>3</bottom>
+					<texture border="20" colordiffuse="$VAR[ColorHighlight]">common/selectbox.png</texture>
+					<visible>Control.HasFocus(301)</visible>
+					<animation type="Focus">
+						<effect center="auto" easing="inout" end="100" start="90" time="150" tween="sine" type="zoom" />
+						<effect easing="in" end="100" start="0" time="150" tween="sine" type="fade" />
+					</animation>
+					<animation type="Unfocus">
+						<effect center="auto" easing="inout" end="90" start="100" time="150" tween="sine" type="zoom" />
+						<effect easing="out" end="0" start="100" time="150" tween="sine" type="fade" />
+					</animation>
+				</control>
+			</focusedlayout>
+			<content limit="10" target="music">library://music/songs.xml/</content>
+		</control>
+		<control id="301" type="list">
+			<visible>String.IsEqual(Container(300).ListItem.Property(submenuVisibility),num-31103)</visible>
 			<visible>!substring(Container(300).ListItem.Property(widget),Weather,left)</visible>
 			<animation condition="!Control.HasFocus(301)" effect="fade" end="66" start="100" time="400">Conditional</animation>
 			<autoscroll time="10000">!Control.HasFocus(301)</autoscroll>
