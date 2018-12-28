@@ -180,7 +180,7 @@
                     <top>20</top>
                     <bottom>20</bottom>
 					
-                    <control type="label" description="Finishes Time">
+					<control type="label" description="Finishes Time">
                         <width>400</width>
                         <bottom>30</bottom>
                         <height>40</height>
@@ -188,18 +188,65 @@
                         <textcolor>$VAR[OSDPanelWhite70]</textcolor>
                         <label>$VAR[PlayerStatus]</label>
                     </control>
-                    <control type="label" description="Duration Total Time">
-                        <right>0</right>
-                        <align>right</align>
-                        <width>400</width>
-                        <bottom>30</bottom>
-                        <height>40</height>
-                        <font>Tiny</font>
-                        <textcolor>$VAR[OSDPanelWhite70]</textcolor>
-                        <label>$INFO[Player.Time]$INFO[Player.Duration,  /  ,]</label>
-                    </control>
-          
-                    <control type="progress" description="cache">
+					
+					<control type="grouplist">
+						<orientation>horizontal</orientation>
+            			<align>right</align>
+						<control type="label">
+							<visible>!Skin.HasSetting(ClockOSD)</visible>	
+							<width>auto</width>
+							<align>right</align>
+							<height>40</height>		
+							<font>Tiny</font>
+							<textcolor>$VAR[OSDPanelWhite70]</textcolor>
+							<label>$INFO[System.Time] </label>
+							<visible>Player.HasVideo</visible>
+						</control>
+			
+						<control type="image">
+							<visible>!Skin.HasSetting(ClockOSD)</visible>	
+							<centertop>10%</centertop>
+							<width>30</width>
+							<height>45</height>
+							<align>right</align>
+							<colordiffuse>$VAR[OSDPanelWhite30]</colordiffuse>
+							<texture>kaitoast/finishtime2.png</texture>
+							<visible>Player.HasVideo</visible>
+						</control>
+						<control type="label">
+							<visible>!Skin.HasSetting(ClockOSD)</visible>	
+							<width>auto</width>
+							<align>right</align>
+							<height>40</height>		
+							<font>Tiny</font>
+							<textcolor>$VAR[OSDPanelWhite70]</textcolor>
+							<label>$INFO[Player.FinishTime]  •  </label>
+							<visible>Player.HasVideo</visible>
+							<visible>!VideoPlayer.Content(LiveTV)</visible>
+						</control>
+						<control type="label" description="Chapter-OSD">
+							<width>auto</width>
+							<height>40</height>		
+							<font>Tiny</font>
+							<textcolor>$VAR[OSDPanelWhite70]</textcolor>
+							<label>$INFO[Player.Chapter]$INFO[Player.ChapterCount, / ,  •  ]</label>
+							<visible>!VideoPlayer.Content(LiveTV) + Player.HasVideo + !String.IsEqual(Player.ChapterCount,0) + !String.IsEqual(Player.ChapterCount,00)</visible>
+						</control>
+						
+						<control type="label" description="Duration Total Time">
+							<width>auto</width>
+							<bottom>30</bottom>
+							<height>40</height>
+							<font>Tiny</font>
+							<textcolor>$VAR[OSDPanelWhite70]</textcolor>
+							<label>$INFO[Player.Time]$INFO[Player.Duration,  /  ,]</label>
+						</control>
+          			</control>
+                    
+					
+					
+					
+					<control type="progress" description="cache">
                         <description>Progress Bar</description>
                         <width>100%</width>
                         <bottom>10</bottom>
