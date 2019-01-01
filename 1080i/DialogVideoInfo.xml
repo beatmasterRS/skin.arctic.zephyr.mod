@@ -115,7 +115,7 @@
                         <onclick>SetProperty(filminfo,33)</onclick>
                         <onleft>ClearProperty(filminfo)</onleft>
 						<onright>ClearProperty(filminfo)</onright> 				
-                        <visible>Container.Content(movies)</visible>							
+                        <visible>Container.Content(movies) | Container.Content(tvshows)</visible>							
                     </control>
                     <control type="button" id="11">
                         <description>Trailer button</description>
@@ -212,15 +212,25 @@
                     <top>335</top>
 					<control type="group">
 					<align>right</align>
-					<control type="image">
-						<height>60</height>
-						<width>180</width>
-						<right>5</right>
-						<top>-110</top>
+						<control type="image">
+							<height>60</height>
+							<width>180</width>
+							<right>5</right>
+							<top>-110</top>						
+							<aspectratio aligny="center" align="right">keep</aspectratio>			
+							<texture colordiffuse="Dark1" fallback="flags2/mpaa/NR.png">$VAR[RatingFlagVar33]</texture>
+							<visible>!Skin.HasSetting(show.studiologos)</visible> 
+						</control>
 						
-						<aspectratio aligny="center" align="right">keep</aspectratio>			
-						<texture colordiffuse="Dark1" fallback="flags2/mpaa/NR.png">$VAR[RatingFlagVar33]</texture>
-					</control>
+						<control type="image">
+							<height>120</height>
+							<width>180</width>
+							<right>5</right>
+							<top>-110</top>						
+							<aspectratio aligny="center" align="right">keep</aspectratio>			
+							<texture colordiffuse="Dark1">$VAR[ThumbImageStudiosDialogInfo]</texture>
+							<visible>Skin.HasSetting(show.studiologos)</visible> 
+						</control>
 					</control>			
 					<control type="group">
 						<control type="label">
@@ -691,7 +701,6 @@
 <control type="group">
 <animation condition="Control.HasFocus(50) | Control.HasFocus(9501)" effect="fade" end="0"  start="100" time="300">Conditional</animation>		
 					
-					
 					<control type="group">
 						<align>right</align>
 						
@@ -730,7 +739,7 @@
 							<top>-65</top>
 							<height>36</height>
 							<font>Tiny</font>
-							<textcolor>Dark1</textcolor>
+							<textcolor>Dark2</textcolor>
 							<width>78%</width>
 							<label fallback="19055">$INFO[ListItem.Tagline]</label>
 							<aligny>center</aligny>
@@ -752,7 +761,7 @@
 							<height>46</height>
 							<font>Tiny</font>
 							<width>250</width>
-							<textcolor>Dark1</textcolor>
+							<textcolor>Dark2</textcolor>
 							<label fallback="19055">$INFO[ListItem.Year]</label>
 							<aligny>center</aligny>
 						</control>
@@ -773,7 +782,7 @@
 							<height>46</height>
 							<width>40%</width>
 							<font>Tiny</font>
-							<textcolor>Dark1</textcolor>
+							<textcolor>Dark2</textcolor>
 							<label fallback="19055">$INFO[ListItem.Genre]</label>
 							<aligny>center</aligny>
 						</control>
@@ -795,7 +804,7 @@
 							<height>36</height>
 							<width>250</width>
 							<font>Tiny</font>
-							<textcolor>Dark1</textcolor>
+							<textcolor>Dark2</textcolor>
 							<label fallback="19055">$INFO[ListItem.Duration(mins),, $LOCALIZE[12391]]</label> 
 							<aligny>center</aligny>
 						</control>
@@ -816,7 +825,7 @@
 							<left>170</left>						
 							<height>36</height>
 							<font>Tiny</font>
-							<textcolor>Dark1</textcolor>
+							<textcolor>Dark2</textcolor>
 							<label fallback="nicht verfügbar">$INFO[ListItem.Rating] ($INFO[ListItem.Votes,, Votes])</label>
 							<aligny>center</aligny>
 						</control>
@@ -893,7 +902,9 @@
 						</control>
 					</control>	-->
 					
+					<!--
 					<control type="textbox" id="4">
+						<visible>String.IsEqual(Container(50).NumItems,0)</visible> 
 						<scrolltime>10000</scrolltime>
                     	<autoscroll delay="3000" time="4000" repeat="10000">true</autoscroll>
 						<width>1270</width>
@@ -901,8 +912,36 @@
 						<left>0</left>
 						<height>115</height>
 						<font>Tiny</font>
-						<textcolor>Dark1</textcolor>
-						<align>justify</align>		
+						<textcolor>Dark2</textcolor>
+						<align>justify</align>	
+                    </control>
+					-->
+					
+					<control type="textbox">
+						<visible>String.IsEqual(Container(50).NumItems,0)</visible> 
+						<scrolltime>10000</scrolltime>
+                    	<autoscroll delay="3000" time="4000" repeat="10000">true</autoscroll>
+						<width>1270</width>
+						<top>110</top>
+						<left>0</left>
+						<height>220</height>
+						<font>Tiny</font>
+						<textcolor>Dark2</textcolor>
+						<align>justify</align>
+						<label fallback="19055">$INFO[ListItem.Plot]</label>		
+                    </control>
+					<control type="textbox">
+						<visible>!String.IsEqual(Container(50).NumItems,0)</visible> 
+						<scrolltime>10000</scrolltime>
+                    	<autoscroll delay="3000" time="4000" repeat="10000">true</autoscroll>
+						<width>1270</width>
+						<top>110</top>
+						<left>0</left>
+						<height>115</height>
+						<font>Tiny</font>
+						<textcolor>Dark2</textcolor>
+						<align>justify</align>
+						<label fallback="19055">$INFO[ListItem.Plot]</label>		
                     </control> 
 								
 				</control> 					
@@ -967,15 +1006,15 @@
 									<texture border="10">common/nofocus-shadow10.png</texture>
 								</control>
 								<control type="image">
-									<left>-1</left>
+									<left>0</left>
 									<top>47</top>
-									<right>48</right>
+									<right>47</right>
 									<height>305</height>                          
 									<texture colordiffuse="Box2" background="true">common/box5.png</texture>   
 									<visible>!Skin.HasSetting(thumbnails.white)</visible>                        
 								</control> 
 								<control type="image">
-									<left>1</left>
+									<left>2</left>
 									<top>48</top>
 									<width>219</width>
 									<height>302</height>
