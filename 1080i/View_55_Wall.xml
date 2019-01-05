@@ -444,6 +444,73 @@
             </include>
         </control>
     </include>
+	
+	<include name="View_55_Info_Left">
+       	<control type="group">
+			<left>35</left>
+			<top>20</top>
+			<animation effect="fade" start="0" end="100" delay="1300" time="200" reversible="false">Focus</animation>
+		   	<control type="label">							
+				<width>610</width>
+				<height>50</height>			  
+				<font>MediumBold</font>
+				<textcolor>Light1</textcolor>
+				<label>$INFO[ListItem.Label]</label>
+			</control> 
+			<control type="textbox">
+				<top>70</top>							
+				<width>610</width>
+				<height>150</height>			  
+				<font>Tiny</font>
+				<textcolor>Light2</textcolor>
+				<align>justify</align>
+				<label>$INFO[ListItem.Plot]</label>
+			</control> 
+			
+			<control type="label">	
+				<top>230</top>						
+				<width>610</width>
+				<height>50</height>			  
+				<font>Tiny</font>
+				<align>right</align>
+				<textcolor>Light1</textcolor>
+				<label>$VAR[SubLabel55]</label>
+			</control> 	
+		</control>    
+    </include>
+	<include name="View_55_Info_Right">
+       	<control type="group">
+			<left>242</left>
+			<top>20</top>
+			<animation effect="fade" start="0" end="100" delay="1300" time="200" reversible="false">Focus</animation>
+		   	<control type="label">							
+				<width>610</width>
+				<height>50</height>			  
+				<font>MediumBold</font>
+				<textcolor>Light1</textcolor>
+				<label>$INFO[ListItem.Label]</label>
+			</control> 
+			<control type="textbox">
+				<top>70</top>							
+				<width>610</width>
+				<height>150</height>			  
+				<font>Tiny</font>
+				<textcolor>Light2</textcolor>
+				<align>justify</align>
+				<label>$INFO[ListItem.Plot]</label>
+			</control> 
+			
+			<control type="label">	
+				<top>230</top>						
+				<width>610</width>
+				<height>50</height>			  
+				<font>Tiny</font>
+				<align>right</align>
+				<textcolor>Light1</textcolor>
+				<label>$VAR[SubLabel55]</label>
+			</control> 	
+		</control>    
+    </include>
 
     <include name="View_55_Wall">
         <control type="group">
@@ -477,7 +544,7 @@
 						<left>9</left>
 						<top>9</top>
 						<right>9</right>
-						<bottom>19</bottom>                          
+						<bottom>21</bottom>                          
 						<texture colordiffuse="Box2" background="true">common/box2.png</texture>   
 						<visible>!Skin.HasSetting(thumbnails.white)</visible>                        
 					</control>
@@ -556,6 +623,51 @@
 						<texture colordiffuse="Box2" background="true">common/box2.png</texture>   
 						<visible>!Skin.HasSetting(thumbnails.white)</visible>                        
 					</control>
+					
+					
+					<control type="group">
+						<visible>Skin.HasSetting(55wall.slideinfo) + !String.IsEqual(ListItem.Label,..)</visible> 
+                        <posx>0</posx>  
+                        <posy>0</posy>                       
+                        <visible>Container(55).Column(0) | Container(55).Column(1) | Container(55).Column(2) | Container(55).Column(3)</visible>                   
+                        <animation effect="fade" start="0" end="0" delay="0" time="50" tween="cubic" easing="inout" reversible="false">UnFocus</animation>
+                        <animation effect="fade" start="0" end="0" delay="0" time="50" tween="cubic" easing="inout" reversible="false">Hidden</animation>
+                        <control type="image">
+                            <visible>Control.HasFocus(55)</visible>
+                            <top>5</top>
+                            <left>10</left>
+                            <width>870</width>
+                            <height>305</height>
+                            <texture colordiffuse="Dark1" border="5">common/box.png</texture>
+                            <animation type="Focus">
+                                <effect type="zoom" start="10,0,202,311" end="10,0,868,311" tween="cubic" easing="inout" delay="1000" time="400" reversible="false" />
+                                <effect type="fade" start="0" end="100" tween="cubic" easing="inout" delay="200" time="150" />
+                            </animation>
+                        </control>
+                        <include>View_55_Info_Right</include>
+                    </control>
+					<control type="group">
+                        <posx>-668</posx>   
+                        <top>2</top>
+                        <visible>Skin.HasSetting(55wall.slideinfo) + !String.IsEqual(ListItem.Label,..)</visible>
+                        <visible>Container(55).Column(4) | Container(55).Column(5) | Container(55).Column(6) | Container(55).Column(7)</visible>
+                        <animation effect="fade" start="0" end="0" delay="0" time="50" tween="cubic" easing="inout" reversible="false">UnFocus</animation>
+                        <animation effect="fade" start="0" end="0" delay="0" time="50" tween="cubic" easing="inout" reversible="false">Hidden</animation>
+                        <control type="image">
+                            <top>5</top>
+                            <right>10</right>
+                            <width>870</width>
+                            <height>328</height>
+                            <texture colordiffuse="Dark1" border="5">common/box.png</texture>
+                            <animation type="Focus">
+                                <effect type="zoom" start="675,0,202,311" end="0,0,868,311" tween="cubic" easing="inout" delay="1000" time="400" reversible="false" />
+                                <effect type="fade" start="0" end="100" delay="200" time="150" tween="cubic" easing="inout" />
+                            </animation>
+                        </control>
+						<include>View_55_Info_Left</include>
+                        
+                    </control>
+					
                     <control type="image">
                         <left>10</left>
                         <top>10</top>
@@ -564,6 +676,8 @@
                         <aspectratio scalediffuse="false">scale</aspectratio>
                         <texture diffuse="diffuse/wall.png" background="true">$VAR[PosterImage]</texture>
                     </control>
+					
+					
                     <control type="label">
                         <align>center</align>
                         <aligny>center</aligny>
@@ -630,6 +744,9 @@
                             <effect type="fade" start="100" end="0" time="150" tween="sine" easing="out" />
                         </animation>
                     </control>	
+					
+					
+					
 
                 </focusedlayout>
             </control>
