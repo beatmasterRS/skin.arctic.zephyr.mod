@@ -6,7 +6,7 @@
     <visible>Window.IsActive(fullscreenvideo) + !Window.IsActive(script.pseudotv.TVOverlay.xml) + !Window.IsActive(script.pseudotv.live.TVOverlay.xml)</visible>
     <visible>Window.IsActive(fullscreenvideo) + !Window.IsActive(script.pseudotv.TVOverlay.xml) + !Window.IsActive(script.pseudotv.live.TVOverlay.xml)</visible>
     <allowoverlay>no</allowoverlay>
-    <visible>[VideoPlayer.IsFullscreen] + [Window.IsVisible(videoosd) | Window.IsVisible(fullscreeninfo) | Player.Seeking | Player.DisplayAfterSeek | Player.Paused | Player.Forwarding | Player.Rewinding | Player.ShowInfo | !String.IsEmpty(Window(home).Property(osdshowinfo))]</visible>
+    <visible>[VideoPlayer.IsFullscreen] + [Window.IsVisible(videoosd) | Window.IsVisible(fullscreeninfo) | Player.Seeking | Player.DisplayAfterSeek | Player.Paused | !String.IsEmpty(Player.SeekNumeric) | Player.Forwarding | Player.Rewinding | Player.ShowInfo | !String.IsEmpty(Window(home).Property(osdshowinfo))]</visible>
     <zorder>0</zorder>
     <controls>
 	
@@ -19,6 +19,7 @@
             <control type="group">
                 <animation effect="slide" start="0" end="0,-40" time="150" condition="Window.IsVisible(fullscreeninfo) | Player.ShowInfo | !String.IsEmpty(Window(home).Property(osdshowinfo)) | [Player.Paused + Skin.HasSetting(osd.showinfoonpause)]">Conditional</animation>
                 <animation effect="slide" start="0" end="0,110" time="150" condition="!Window.IsVisible(fullscreeninfo) + !Player.Seeking + !Player.DisplayAfterSeek + !Player.Paused + !Player.Forwarding + !Player.Rewinding + !Player.ShowInfo + String.IsEmpty(Window(home).Property(osdshowinfo))">Conditional</animation>
+				<animation effect="slide" start="0" end="0,-110" time="150" condition="!String.IsEmpty(Player.SeekNumeric) + !Window.IsVisible(fullscreeninfo) + !Window.IsVisible(videoosd)">Conditional</animation>
                 <animation effect="slide" start="0,110" end="0" time="150">Visible</animation>
                 <animation effect="slide" start="0,110" end="0" time="150">WindowOpen</animation>
                 <control type="image">
@@ -166,7 +167,7 @@
             <control type="group">
                 <visible>!Player.Paused | !Skin.HasSetting(osd.showinfoonpause)</visible>
                 <visible>!Window.IsVisible(fullscreeninfo) + !Player.ShowInfo + String.IsEmpty(Window(home).Property(osdshowinfo))</visible>
-                <visible>Player.Seeking | Player.DisplayAfterSeek | Player.Paused | Player.Forwarding | Player.Rewinding</visible>
+                <visible>Player.Seeking | Player.DisplayAfterSeek | Player.Paused | Player.Forwarding | Player.Rewinding | !String.IsEmpty(Player.SeekNumeric)</visible>
                 <animation effect="fade" start="0" end="100" delay="150" time="150">Visible</animation>
                 <animation effect="fade" start="0" end="100" delay="150" time="150">WindowOpen</animation>
                 <top>110r</top>
@@ -239,7 +240,18 @@
 							<font>Tiny</font>
 							<textcolor>$VAR[OSDPanelWhite70]</textcolor>
 							<label>$INFO[Player.Time]$INFO[Player.Duration,  /  ,]</label>
+							<visible>String.IsEmpty(Player.SeekNumeric)</visible>
 						</control>
+						<control type="label" description="Duration Total Time">
+							<width>auto</width>
+							<bottom>30</bottom>
+							<height>40</height>
+							<font>Tiny</font>
+							<textcolor>$VAR[OSDPanelWhite70]</textcolor>
+							<label>$INFO[Player.SeekNumeric(hh:mm:ss)]$INFO[Player.Duration,  /  ,]</label>
+							<visible>!String.IsEmpty(Player.SeekNumeric)</visible>
+						</control>
+						
           			</control>
                     
 					
