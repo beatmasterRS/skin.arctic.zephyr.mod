@@ -1,13 +1,94 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<window>
-	<allowoverlay>no</allowoverlay>
-	<defaultcontrol always="false">101</defaultcontrol>
-	<coordinates>
-		<system>1</system>
-		<left>0</left>
-		<top>0</top>
-	</coordinates>
-	<controls> 
+<includes>
+	<include name="NormalLyrics">
+		<control type="group">
+            <include>Animation.FadeIn</include>
+            <include>Animation.FadeOut</include>
+            <control type="group">
+
+                <control type="group">
+                    <animation effect="slide" end="334" start="0" time="75" tween="quadratic" condition="Window.IsActive(musicosd)">Conditional</animation>
+                    <top>200</top>
+                    <bottom>180</bottom>
+                    <width>100%</width>
+
+                    <!-- ** Required ** Do not change <id> or <type> (Smooth scrolling list for lyrics) -->
+                    <control type="list" id="110">
+                        <left>350</left>
+                        <right>350</right>
+                        <top>0</top>
+                        <bottom>0</bottom>
+                        <onleft>101</onleft>
+                        <onright>101</onright>
+                        <onup>110</onup>
+                        <ondown>110</ondown>
+                        <pagecontrol>111</pagecontrol>
+                        <scrolltime>200</scrolltime>
+                        <itemlayout height="100" width="1220">
+                            <control type="label">
+                                <width>100%</width>
+                                <align>center</align>
+                                <selectedcolor>$VAR[ColorHighlight]</selectedcolor>
+                                <info>ListItem.Label</info>
+                                <textcolor>$VAR[OSDPanelWhite70]</textcolor>
+                                <font>Lyrics</font>
+                            </control>
+                        </itemlayout>
+                        <focusedlayout height="100" width="1220">
+                            <control type="label">
+                                <width>100%</width>
+                                <align>center</align>
+                                <textcolor>$VAR[ColorHighlight]</textcolor>
+                                <selectedcolor>$VAR[ColorHighlight]</selectedcolor>
+                                <info>ListItem.Label</info>
+                                <font>Lyrics</font>
+                            </control>
+                        </focusedlayout>
+                    </control>
+                    <!-- ** Required ** Do not change <id> or <type> (Song Chooser if it gets it wrong) -->
+                    <control type="list" id="120">
+                        <left>350</left>
+                        <right>350</right>
+                        <top>SidePad</top>
+                        <bottom>30</bottom>
+                        <onleft>111</onleft>
+                        <onright>111</onright>
+                        <onup>110</onup>
+                        <ondown>110</ondown>
+                        <pagecontrol>111</pagecontrol>
+                        <scrolltime>200</scrolltime>
+                        <itemlayout height="50">
+                            <control type="label">
+                                <width>1220</width>
+                                <selectedcolor>$VAR[ColorHighlight]</selectedcolor>
+                                <info>ListItem.Label</info>
+                                <textcolor>$VAR[OSDPanelWhite70]</textcolor>
+                                <font>Small</font>
+                            </control>
+                        </itemlayout>
+                        <focusedlayout height="50">
+                            <control type="label">
+                                <width>1220</width>
+                                <textcolor>$VAR[ColorHighlight]</textcolor>
+                                <selectedcolor>$VAR[ColorHighlight]</selectedcolor>
+                                <info>ListItem.Label</info>
+                                <font>Small</font>
+                            </control>
+                        </focusedlayout>
+                    </control>
+
+                    <control type="label" id="200">
+                        <description>Scraper label</description>
+                        <visible>false</visible>
+                    </control>
+
+                </control>
+
+            </control>
+
+        </control>
+	</include>
+	<include name="VideoLyrics">
 		<control type="group">
 			<animation effect="slide" end="0,0" start="0,-540" time="200" tween="quadratic" easing="out">WindowOpen</animation>
 			<animation effect="slide" start="0,0" end="0,-540" time="200" tween="quadratic" easing="out">WindowClose</animation>
@@ -164,7 +245,9 @@
 		</control>
 		<!-- ** Required ** Do not change <id> or <type> -->
 		<!-- ** Required ** Do not change <id> or <type> -->
-					<control type="group">
+				<control type="group">
+				<animation effect="slide" end="584,100" start="0,0" time="75" tween="quadratic" condition="Window.IsActive(musicosd)">Conditional</animation>
+				<animation effect="zoom" end="70" start="100" time="75" tween="quadratic" condition="Window.IsActive(musicosd)">Conditional</animation>
 				<visible>!String.String.IsEmpty(Container(110).ListItem.Label) + !String.Contains(Container(110).ListItem.Label,@) + !String.Contains(Container(110).ListItem.Label,chorus) + !String.Contains(Container(110).ListItem.Label,lrc) + !String.Contains(Container(110).ListItem.Label,lyric) + !String.Contains(Container(110).ListItem.Label,qq) + !String.Contains(Container(110).ListItem.Label,www)</visible>
 				<control type="group">
 				<visible>[!String.String.IsEmpty(Window(Home).Property(culrc.islrc)) + Integer.IsGreater(Container(110).ListItem.Property(duration),299) + !Integer.IsGreater(Container(110).ListItem.Property(duration),1449)] | String.String.IsEmpty(Container(110).ListItem.Property(part4))</visible>
@@ -637,5 +720,5 @@
 				</include>
 			</control>
 			</control>	
-	</controls>
-</window>
+	</include>
+</includes>
