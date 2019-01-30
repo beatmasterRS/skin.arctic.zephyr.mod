@@ -1,0 +1,237 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Foundation -->
+<includes>
+    <include name="View_509_Shift">
+        <description>List View (id=509)</description>
+		<control type="group">
+			<include>Animation.Common</include>	
+			<include>JumpBarHorizontal</include>
+			<include>ViewSlideForJumpBar</include> 
+            <visible>Control.IsVisible(509)</visible>
+			<control type="label">
+				<top>180</top>
+				<left>80</left>
+				<description>Header Label</description>
+				<textcolor>Dark1</textcolor>
+				<font>SmallBold</font>
+				<label fallback="19055">$INFO[ListItem.Title]</label>
+			</control>	
+			<control type="grouplist">
+				<visible>[!String.IsEqual(ListItem.Label,..)  + Container.Content(movies)]</visible>
+				<visible>!Container.Content(seasons)</visible>
+				<left>80</left>
+				<top>250</top>			
+				<itemgap>0</itemgap>	
+				<control type="label">				
+					<height>36</height>
+					<font>Tiny</font>
+					<textcolor>Dark2</textcolor>
+					<label fallback="19055">$LOCALIZE[20339]: $INFO[ListItem.Director]</label> 
+				</control>
+				<control type="label">
+					<width>1100</width>
+					<height>36</height>
+					<font>Tiny</font>
+					<textcolor>Dark2</textcolor>
+					<label fallback="19055">$LOCALIZE[2050]: $INFO[ListItem.Duration(mins),, $LOCALIZE[12391]]</label>                       
+                </control>
+			</control>	
+			<control type="grouplist">
+				<visible>[!String.IsEqual(ListItem.Label,..) + Container.Content(tvshows)] | [!String.IsEqual(ListItem.Label,..) + Container.Content(seasons)]</visible>			
+				<left>80</left>
+				<top>250</top>			
+				<itemgap>0</itemgap>	
+				<control type="label">				
+					<height>36</height>
+					<font>Tiny</font>
+					<textcolor>Dark2</textcolor>
+					<label fallback="19055">$LOCALIZE[29909]: $INFO[ListItem.Studio]</label>				
+				</control>
+				<control type="label">	
+					<width>1100</width>
+					<height>36</height>
+					<font>Tiny</font>
+					<textcolor>Dark2</textcolor>
+					<label>$LOCALIZE[20352]: $INFO[ListItem.Property(TotalEpisodes),, $LOCALIZE[20360]] $INFO[ListItem.Property(UnWatchedEpisodes),  •  , $LOCALIZE[16101]]</label>        
+                </control>
+			</control>
+			<control type="wraplist" id="509">
+               <visible>Container.Content(movies) | Container.Content(tvshows) | Container.Content(seasons)</visible> 
+                <top>360</top>
+                <left>70</left>
+                <width>1782</width>
+                <height>395</height>
+                <onup condition="!Skin.HasSetting(global.kioskmode)">9000</onup>
+                <ondown>1615</ondown>
+                <onright>1604</onright>
+				<orientation>horizontal</orientation>
+                <preloaditems>2</preloaditems>
+                <pagecontrol>1615</pagecontrol>
+				<focusposition>1</focusposition>
+                <viewtype label="Shift">ist</viewtype>
+                <scrolltime tween="quadratic">400</scrolltime>
+                <itemlayout height="395" width="222">
+                    <control type="image">
+                        <left>2</left>
+                        <top>0</top>
+                        <right>0</right>
+                        <bottom>70</bottom>
+                        <texture border="10">common/nofocus-shadow10.png</texture>
+                    </control>
+					<control type="image">
+						<left>9</left>
+						<top>9</top>
+						<right>11</right>
+						<bottom>79</bottom>                          
+						<texture colordiffuse="Box2" background="true">common/box2.png</texture>   
+						<visible>!Skin.HasSetting(thumbnails.white)</visible>                        
+					</control>
+                    <control type="image">
+                        <left>10</left>
+                        <width>200</width>
+						<height>305</height>
+                        <bottom>80</bottom>
+                        <aspectratio scalediffuse="false">scale</aspectratio>
+                        <texture diffuse="diffuse/wall.png" background="true">$VAR[PosterImage]</texture>
+                    </control>
+                    <control type="label">
+                        <align>center</align>
+                        <aligny>center</aligny>
+                        <width>50</width>
+						<right>7</right>
+						<top>6</top>
+                        <height>50</height>
+                        <textcolor>$VAR[WatchedBackingColor]</textcolor>
+						<font>SymbolPosterBackground</font>
+                        <label>$VAR[WatchedBacking]</label>
+                        <visible>!String.IsEqual(ListItem.Label,..)</visible>
+                    </control>
+					<control type="label">
+                        <align>center</align>
+                        <aligny>center</aligny>
+                        <width>50</width>
+						<right>7</right>
+						<top>6</top>
+                        <height>50</height>
+                        <textcolor>$VAR[WatchedLabelPosterColor]</textcolor>
+						<font>SymbolPoster</font>
+                        <label>$VAR[WatchedLabelPoster]</label>
+                        <visible>!String.IsEqual(ListItem.Label,..)</visible>
+                    </control>
+					<control type="label">
+						<top>320</top>
+						<width>190</width>
+						<height>50</height>
+						<left>20</left>  
+						<font>Small333</font>
+						<align>center</align>
+						<textcolor>Dark1</textcolor>
+						<visible>!String.IsEqual(ListItem.Label,..)</visible>
+						<label>$INFO[ListItem.Label] </label>						
+					</control>	
+                </itemlayout>
+                <focusedlayout height="395" width="222">
+                    <control type="image">
+                        <left>2</left>
+                        <top>0</top>
+                        <right>0</right>
+                        <bottom>70</bottom>
+                        <texture border="10">common/nofocus-shadow10.png</texture>
+                    </control>
+					<control type="image">
+						<left>9</left>
+						<top>9</top>
+						<right>11</right>
+						<bottom>79</bottom>                          
+						<texture colordiffuse="Box2" background="true">common/box2.png</texture>   
+						<visible>!Skin.HasSetting(thumbnails.white)</visible>                        
+					</control>
+                    <control type="image">
+                        <left>10</left>
+                        <width>200</width>
+						<height>305</height>
+                        <bottom>80</bottom>
+                        <aspectratio scalediffuse="false">scale</aspectratio>
+                        <texture diffuse="diffuse/wall.png" background="true">$VAR[PosterImage]</texture>
+                    </control>
+                    <control type="label">
+                        <align>center</align>
+                        <aligny>center</aligny>
+                        <width>50</width>
+						<right>7</right>
+						<top>6</top>
+                        <height>50</height>
+                        <textcolor>$VAR[WatchedBackingColor]</textcolor>
+						<font>SymbolPosterBackground</font>
+                        <label>$VAR[WatchedBacking]</label>
+                        <visible>!String.IsEqual(ListItem.Label,..)</visible>
+                    </control>
+					<control type="label">
+                        <align>center</align>
+                        <aligny>center</aligny>
+                        <width>50</width>
+						<right>7</right>
+						<top>6</top>
+                        <height>50</height>
+                        <textcolor>$VAR[WatchedLabelPosterColor]</textcolor>
+						<font>SymbolPoster</font>
+                        <label>$VAR[WatchedLabelPoster]</label>
+                        <visible>!String.IsEqual(ListItem.Label,..)</visible>
+                    </control>
+					<control type="image">
+                        <left>5</left>
+                        <top>3</top>
+                        <right>4</right>
+                        <bottom>73</bottom>
+                        <texture colordiffuse="$VAR[ColorHighlight]" border="20">common/selectbox.png</texture>
+                        <animation type="Focus">
+                            <effect type="zoom" start="90" end="100" time="150" tween="sine" easing="inout" center="auto" />
+                            <effect type="fade" start="0" end="100" time="150" tween="sine" easing="in" />
+                        </animation>
+                        <animation type="Unfocus">
+                            <effect type="zoom" start="100" end="90" time="150" tween="sine" easing="inout" center="auto" />
+                            <effect type="fade" start="100" end="0" time="150" tween="sine" easing="out" />
+                        </animation>
+                    </control>
+					<control type="label">
+						<top>320</top>
+						<width>190</width>
+						<height>50</height>
+						<left>20</left>  
+						<font>Small333</font>
+						<align>center</align>
+						<textcolor>Dark1</textcolor>
+						<visible>!String.IsEqual(ListItem.Label,..)</visible>
+						<label>$INFO[ListItem.Label] </label>						
+					</control>	
+                </focusedlayout>
+            </control>    
+			<control type="scrollbar" id="1615">
+				<include content="scrollbar_hor">
+					<param name="scrollid" value="1615" />
+				</include>
+			</control>	
+			
+			<control type="label">
+				<visible>!String.IsEqual(ListItem.Label,..)</visible>
+				<top>752</top>
+				<left>80</left>				
+				<height>36</height>
+				<font>Tiny</font>
+				<textcolor>Dark1</textcolor>
+				<label fallback="19055">$INFO[ListItem.Genre]</label>				
+			</control>	
+			<control type="textbox">				
+				<top>790</top>
+				<bottom>17</bottom>
+				<left>80</left>
+				<font>Tiny</font>
+				<height>75</height>
+				<textcolor>Dark2</textcolor>
+				<selectedcolor>Dark2</selectedcolor>
+				<label>$INFO[ListItem.Plot]</label>			
+				<width>1750</width>	
+			</control>			
+		</control>			
+    </include>
+</includes>
