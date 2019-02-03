@@ -85,6 +85,7 @@
                 <texture background="true">$VAR[ClearLogoHome]</texture>
                 <animation effect="fade" start="100" end="0" time="500">VisibleChange</animation>
                 <animation effect="fade" start="0" end="0,250" time="150">WindowClose</animation>
+				<animation effect="slide" end="0,-30" start="0,0" time="1" reversible="false" condition="Skin.HasSetting(home.oldmenuheight)">Conditional</animation>
             </control>
 
 
@@ -589,10 +590,12 @@
     <include name="HomeWidgetInfo">
         <!-- Widget Info -->
         <control type="group">
+		<animation effect="slide" end="0,-30" start="0,0" time="1" reversible="false" condition="Skin.HasSetting(home.oldmenuheight)">Conditional</animation>
             <animation type="WindowClose">
                 <effect type="fade" start="100" end="0" time="150"/>
             </animation>
-            <include condition="Skin.HasSetting(NoPersistentWidgets)">Home-Widget-Featured</include>
+			
+            <!--<include condition="Skin.HasSetting(NoPersistentWidgets)">Home-Widget-Featured</include>-->
             <include condition="!Skin.HasSetting(NoPersistentWidgets)">skinshortcuts-template-widget-featured</include>
      
             <!-- Normal Widget -->
@@ -746,16 +749,6 @@
 						<animation effect="rotate" center="auto" time="0" end="-45" condition="true" loop="false">Conditional</animation>
 					</control>
 				</control>
-				
-				
-				
-				
-				
-				
-				
-				
-				
-				
 				
 				
             </control>
@@ -1121,48 +1114,69 @@
             <animation effect="slide" start="0" end="0,250" time="150" condition="!Skin.HasSetting(home.classicwidgets) + [Control.HasFocus(301)]">Conditional</animation>
             <animation effect="slide" start="0" end="0,250" time="150">WindowClose</animation>
             <animation effect="slide" end="0" start="0,250" time="150">WindowOpen</animation>
-            <control type="image" description="BottomBG">
-                <width>100%</width>
-                <height>160</height>
-                <bottom>30</bottom>
-                <aspectratio aligny="bottom">scale</aspectratio>
-                <texture colordiffuse="Background">common/bg.jpg</texture>
-                <animation effect="fade" start="100" end="85" time="200" condition="true">Conditional</animation>
-            </control>
-            <control type="image" description="FanartOverlay">
-                <width>100%</width>
-                <height>160</height>
-                <bottom>30</bottom>
-                <aspectratio aligny="bottom">scale</aspectratio>
-                <texture colordiffuse="FloorFade2">common/floor.png</texture>
-            </control>
-            <control type="image" description="Shadow">
-                <width>100%</width>
-                <height>1</height>
-                <bottom>190</bottom>
-                <texture flipy="true" colordiffuse="BoxHomerow">common/sch2.png</texture>
-				
-				<visible>!Skin.HasSetting(thumbnails.white)</visible> 
-            </control>
-			<control type="image" description="Shadow">
-                <width>100%</width>
-                <height>1</height>
-                <bottom>29</bottom>
-                <texture flipy="true" colordiffuse="BoxHomerow">common/sch2.png</texture>
-				
-				<visible>!Skin.HasSetting(thumbnails.white)</visible> 
-            </control>
-			
-			<control type="image" description="FanartOverlay">
-                <width>100%</width>
-                <height>360</height>
-                <bottom>-76</bottom>
-                <aspectratio aligny="bottom">scale</aspectratio>
-                <texture>backg/homemenu_overlay.png</texture>
-				<animation effect="fade" start="0" end="5" time="1" condition="true">Conditional</animation>
-            </control>
-			
-			
+			<control type="group">
+				<visible>!Skin.HasSetting(home.oldmenuheight)</visible>     
+				<control type="image" description="BottomBG">
+					<width>100%</width>
+					<height>160</height>
+					<bottom>30</bottom>
+					<aspectratio aligny="bottom">scale</aspectratio>
+					<texture colordiffuse="Background">common/bg.jpg</texture>
+					<animation effect="fade" start="100" end="75" time="200" condition="true">Conditional</animation>
+				</control>
+				<control type="image" description="FanartOverlay">
+					<width>100%</width>
+					<height>160</height>
+					<bottom>30</bottom>
+					<aspectratio aligny="bottom">scale</aspectratio>
+					<texture colordiffuse="FloorFade2">common/floor.png</texture>
+				</control>
+				<control type="image" description="Shadow">
+					<width>100%</width>
+					<height>1</height>
+					<bottom>190</bottom>
+					<texture flipy="true" colordiffuse="BoxHomerow">common/sch2.png</texture>		
+					<visible>!Skin.HasSetting(thumbnails.white)</visible> 
+				</control>
+				<control type="image" description="Shadow">
+					<width>100%</width>
+					<height>1</height>
+					<bottom>29</bottom>
+					<texture flipy="true" colordiffuse="BoxHomerow">common/sch2.png</texture>	
+					<visible>!Skin.HasSetting(thumbnails.white)</visible> 
+				</control>
+			</control>	
+			<control type="group">
+				<visible>Skin.HasSetting(home.oldmenuheight)</visible> 
+				<control type="image" description="BottomBG">
+					<width>100%</width>
+					<height>220</height>
+					<bottom>0</bottom>
+					<aspectratio aligny="bottom">scale</aspectratio>
+					<texture colordiffuse="Background">common/bg.jpg</texture>
+					<animation effect="fade" start="100" end="75" time="200" condition="true">Conditional</animation>
+				</control>
+				<control type="image" description="FanartOverlay">
+					<width>100%</width>
+					<height>220</height>
+					<bottom>0</bottom>
+					<aspectratio aligny="bottom">scale</aspectratio>
+					<texture colordiffuse="FloorFade">common/floor.png</texture>
+				</control>
+				<control type="image" description="Shadow">
+					<width>100%</width>
+					<height>16</height>
+					<bottom>220</bottom>
+					<texture flipy="true">common/shadow16B.png</texture>
+				</control>
+				<control type="image" description="Shadow">
+					<width>100%</width>
+					<height>1</height>
+					<bottom>220</bottom>
+					<texture flipy="true" colordiffuse="BoxHomerow">common/sch2.png</texture>		
+					<visible>!Skin.HasSetting(thumbnails.white)</visible> 
+				</control>
+			</control>	
             <include>Furniture_Clock</include>
             <control type="image">
                 <visible>Integer.IsGreater(Container(300).NumItems,6)</visible>
