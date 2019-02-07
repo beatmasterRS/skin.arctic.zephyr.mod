@@ -257,6 +257,9 @@
         <value condition="Window.IsActive(script-globalsearch-infodialog.xml) | Window.IsActive(script-globalsearch-main.xml)">$VAR[GlobalSearchArtInfo]</value>
         <value condition="[Window.IsVisible(script-script.extendedinfo-DialogVideoInfo.xml) + String.IsEmpty(Window(home).Property(ExtendedInfo_fanart))] | Window.IsVisible(script-script.extendedinfo-DialogInfo.xml) | Window.IsVisible(script-NextAired-TVGuide.xml) | Window.IsVisible(script-NextAired-TVGuide2.xml)">actorbg.jpg</value>
         <value condition="Window.IsVisible(script-script.extendedinfo-DialogVideoInfo.xml) + !String.IsEmpty(Window(home).Property(ExtendedInfo_fanart))">$INFO[Window(home).Property(ExtendedInfo_fanart)]</value>
+		
+		<value condition="!String.IsEmpty(Control.GetLabel(4399)) + Skin.HasSetting(EnableExtraFanart) + !Skin.HasSetting(global.hidefanart)">$INFO[Control.GetLabel(4399)]</value>
+		
         <value condition="Window.IsVisible(weather) + !String.IsEmpty(Skin.String(weather.fanart.path))">$INFO[Skin.String(weather.fanart.path)]$INFO[Window(Weather).Property(Current.FanartCode)]/</value>
         <value condition="Window.IsVisible(home) + !String.IsEmpty(Skin.String(weather.fanart.path)) + String.Contains(Container(300).ListItem.Property(widget),Weather) + !Skin.HasSetting(home.dontshowfanart)">$INFO[Skin.String(weather.fanart.path)]$INFO[Window(Weather).Property(Current.FanartCode)]/</value>
         <value condition="Window.IsVisible(home) + !String.IsEmpty(Container(301).ListItem.Art(fanart)) + [!Skin.HasSetting(home.dontshowfanart) | Control.HasFocus(301)] + Control.IsVisible(301)">$INFO[Container(301).ListItem.Art(fanart)]</value>
@@ -330,17 +333,64 @@
             <visible>!Window.IsVisible(home) | Skin.HasSetting(home.vertical)</visible>
             <animation effect="fade" start="100" end="75" time="200" condition="Player.HasVideo + Skin.HasSetting(global.showvideo) | Player.HasAudio + Skin.HasSetting(global.showvisualisation)">Conditional</animation>
         </control>
-		
-		
-		
-		
-		
+
+		<control type="fadelabel" id="4399">
+			<top>-900</top>
+			<width>2560</width>
+			<height>0</height>
+			<scroll>false</scroll>
+			<scrollout>false</scrollout>
+			<randomize>true</randomize>
+			<resetonlabelchange>true</resetonlabelchange>
+			<visible>Skin.HasSetting(EnableExtraFanart)</visible>
+			<label>$INFO[ListItem.Art(fanart)]</label>
+			<label>$INFO[ListItem.Art(fanart1)]</label>
+			<label>$INFO[ListItem.Art(fanart2)]</label>
+			<label>$INFO[ListItem.Art(fanart3)]</label>
+			<label>$INFO[ListItem.Art(fanart4)]</label>
+			<label>$INFO[ListItem.Art(fanart5)]</label>
+			<label>$INFO[ListItem.Art(fanart6)]</label>
+			<label>$INFO[ListItem.Art(fanart7)]</label>
+			<label>$INFO[ListItem.Art(fanart8)]</label>
+			<label>$INFO[ListItem.Art(fanart9)]</label>
+			<label>$INFO[ListItem.Art(fanart10)]</label>
+			<label>$INFO[ListItem.Art(fanart11)]</label>
+			<label>$INFO[ListItem.Art(fanart12)]</label>
+			<label>$INFO[ListItem.Art(fanart13)]</label>
+			<label>$INFO[ListItem.Art(fanart14)]</label>
+			<label>$INFO[ListItem.Art(fanart15)]</label>
+			<label>$INFO[ListItem.Art(fanart16)]</label>
+			<label>$INFO[ListItem.Art(fanart17)]</label>
+			<label>$INFO[ListItem.Art(fanart18)]</label>
+			<label>$INFO[ListItem.Art(fanart19)]</label>
+			<label>$INFO[ListItem.Art(fanart20)]</label>
+			<label>$INFO[ListItem.Art(tvshow.fanart1)]</label>
+			<label>$INFO[ListItem.Art(tvshow.fanart2)]</label>
+			<label>$INFO[ListItem.Art(tvshow.fanart3)]</label>
+			<label>$INFO[ListItem.Art(tvshow.fanart4)]</label>
+			<label>$INFO[ListItem.Art(tvshow.fanart5)]</label>
+			<label>$INFO[ListItem.Art(tvshow.fanart6)]</label>
+			<label>$INFO[ListItem.Art(tvshow.fanart7)]</label>
+			<label>$INFO[ListItem.Art(tvshow.fanart8)]</label>
+			<label>$INFO[ListItem.Art(tvshow.fanart9)]</label>
+			<label>$INFO[ListItem.Art(tvshow.fanart10)]</label>
+			<label>$INFO[ListItem.Art(tvshow.fanart11)]</label>
+			<label>$INFO[ListItem.Art(tvshow.fanart12)]</label>
+			<label>$INFO[ListItem.Art(tvshow.fanart13)]</label>
+			<label>$INFO[ListItem.Art(tvshow.fanart14)]</label>
+			<label>$INFO[ListItem.Art(tvshow.fanart15)]</label>
+			<label>$INFO[ListItem.Art(tvshow.fanart16)]</label>
+			<label>$INFO[ListItem.Art(tvshow.fanart17)]</label>
+			<label>$INFO[ListItem.Art(tvshow.fanart18)]</label>
+			<label>$INFO[ListItem.Art(tvshow.fanart19)]</label>
+			<label>$INFO[ListItem.Art(tvshow.fanart20)]</label>
+			<pauseatend>12000</pauseatend>
+		</control>
 		
         <control type="multiimage" description="Fanart">
             <include condition="!Window.IsVisible(home) | Skin.HasSetting(home.vertical)">GlobalBackgroundFade</include>
             <visible>!Player.HasMedia | [!Skin.HasSetting(global.showvideo) + Player.HasVideo] | [!Skin.HasSetting(global.showvisualisation) + Player.HasAudio]</visible>
             <visible>!Skin.HasSetting(global.hidefanart) | Window.IsVisible(home)</visible>
-	
             <include>Dimensions_Fullscreen</include>
             <include>Animation.FadeFromHome</include>
             <animation effect="fade" end="0" start="100" time="350" tween="cubic" easing="inout" condition="Window.IsVisible(home)">WindowClose</animation>
@@ -352,15 +402,7 @@
             <animation effect="zoom" start="110" end="120" center="auto" time="10000" tween="sine" easing="inout" pulse="true" condition="Skin.HasSetting(Fanart.Animate)">Conditional</animation>
             <animation effect="slide" start="-20,-20" end="20,20" time="6000" tween="sine" easing="inout" pulse="true" condition="Skin.HasSetting(Fanart.Animate)">Conditional</animation>
         </control>
-		
-	
-		
-		
-		
-		
-		
-		
-		
+
         <control type="image" description="Fanart Fallback always">
             <include>GlobalBackgroundFade</include>
             <visible>!Player.HasMedia | [!Skin.HasSetting(global.showvideo) + Player.HasVideo] | [!Skin.HasSetting(global.showvisualisation) + Player.HasAudio]</visible>
