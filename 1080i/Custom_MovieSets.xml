@@ -13,17 +13,20 @@
     <controls>
 
 	<control type="group">
+		
 		<include>Animation.ZoomIn</include>		
-            <animation type="Conditional" reversible="true" condition="Window.IsVisible(FileBrowser.xml) | Window.IsVisible(DialogProgress.xml) | Window.IsVisible(DialogYesNo.xml) | Window.IsVisible(DialogOK.xml) | Window.IsVisible(DialogSelect.xml) | Window.IsVisible(DialogContextMenu.xml) | Window.IsVisible(DialogButtonMenu.xml)">
-                <effect type="zoom" end="95" start="100" time="200" center="auto" tween="quadratic" easing="in" />
-            </animation>
+		<animation type="Conditional" reversible="true" condition="Window.IsVisible(FileBrowser.xml) | Window.IsVisible(DialogProgress.xml) | Window.IsVisible(DialogYesNo.xml) | Window.IsVisible(DialogOK.xml) | Window.IsVisible(DialogSelect.xml) | Window.IsVisible(DialogContextMenu.xml) | Window.IsVisible(DialogButtonMenu.xml)">
+			<effect type="zoom" end="95" start="100" time="200" center="auto" tween="quadratic" easing="in" />
+		</animation>
 <!-- 	Poster 	-->
 		<control type="group">
+			<visible>!Window.IsVisible(DialogVideoInfo.xml)</visible>
 			<include>Animation.SidePoster</include>	
 			<include>View_50_SidePoster</include>
 		</control>
 <!-- 	Rechte Seite 	-->					
             <control type="group">
+				<visible>!Window.IsVisible(DialogVideoInfo.xml)</visible>
 				<visible>!Window.IsVisible(script-ExtendedInfo Script-DialogVideoInfo.xml)</visible>
                 <visible>!Window.IsVisible(script-ExtendedInfo Script-DialogInfo.xml)</visible>
 				<visible>!Window.IsVisible(script-script.extendedinfo-DialogInfo.xml)</visible>
@@ -77,7 +80,7 @@
                 </control>
                 <!-- Control Buttons -->
                 <control type="grouplist" id="9000">
-<animation condition="Control.HasFocus(50) | Control.HasFocus(9501) | Control.HasFocus(9502)" effect="fade" end="0"  start="100" time="300">Conditional</animation>
+<animation condition="Control.HasFocus(50) | Control.HasFocus(9501)" effect="fade" end="0"  start="100" time="300">Conditional</animation>
                     <bottom>224</bottom>
                     <left>540</left>
                     <right>SidePad</right>
@@ -90,8 +93,8 @@
 					<control type="button" id="9019">
                         <include>DefInfoButtons</include>
                         <label>342</label>                  
-                        <onclick>SetFocus(43260)</onclick>				
-                       	<onup>43260</onup>						
+                        <onclick>SetFocus(9502)</onclick>				
+                       	<onup>9502</onup>						
                     </control>
 					<control type="button" id="9100">
                         <description>Artwork Beef</description>
@@ -100,7 +103,7 @@
 						<onclick>RunScript(script.artwork.beef, mode=gui, mediatype=set, dbid=$INFO[ListItem.DBID])</onclick>
 						<visible>system.hasaddon(script.artwork.beef)</visible>
                         <visible>!Skin.HasSetting(global.kioskmode)</visible>
-						<onup>43260</onup>	
+						<onup>9502</onup>	
                     </control>
                 </control>			
 
@@ -127,40 +130,64 @@
 						<pagecontrol>60</pagecontrol>
 						<viewtype label="536">list</viewtype>				
 						<itemlayout height="60" width="950">				
-							<control type="label">
-								<visible>Control.HasFocus(43260)</visible>	
-						<include>Animation.ViHi</include>	
-								<posx>30</posx>
-								<width>900</width>
-								<font>SmallNavi</font>
-								<aligny>center</aligny>
-								<height>60</height>
-								<textcolor>Dark1</textcolor>
-								<selectedcolor>Dark1</selectedcolor>
-								<label>$INFO[Container(9502).ListItem.Label] ($VAR[LabelYear])</label>
+							<control type="group">	
+								<visible>Control.HasFocus(9502)</visible>	
+								<include>Animation.ViHi</include>
+								<control type="label">									
+									<posx>30</posx>
+									<width>900</width>
+									<font>SmallNavi</font>
+									<aligny>center</aligny>
+									<height>60</height>
+									<textcolor>Dark1</textcolor>
+									<selectedcolor>Dark1</selectedcolor>
+									<label>$INFO[Container(9502).ListItem.Label]</label>
+								</control>
+								<control type="label">									
+									<posx>30</posx>
+									<width>900</width>
+									<font>SmallNavi</font>
+									<aligny>center</aligny>
+									<align>right</align>
+									<height>60</height>
+									<textcolor>Dark1</textcolor>
+									<selectedcolor>Dark1</selectedcolor>
+									<label>($VAR[LabelYear])</label>
+								</control>	
 							</control>	
 						</itemlayout>
 						<focusedlayout height="60" width="950">	
 							<control type="group">	
-							<visible>Control.HasFocus(43260)</visible>	
-						<include>Animation.ViHi</include>
-							<control type="image">	                                
-								<width>100%</width>
-								<height>100%</height>
-								<texture border="8" colordiffuse="Dark3">common/box.png</texture>
-								<include>ListViewScrollAnim</include>			
-							</control>
-							<control type="label">
-								<posx>30</posx>
-								<width>900</width>
-								<font>SmallNavi</font>
-								<aligny>center</aligny>
-								<height>60</height>
-								<textcolor>Dark1</textcolor>
-								<selectedcolor>Dark1</selectedcolor>
-								<label>$INFO[Container(9502).ListItem.Label] ($VAR[LabelYear])</label>
-								<visible>Container.Content(movies)</visible>
-							</control>
+								<visible>Control.HasFocus(9502)</visible>	
+								<include>Animation.ViHi</include>
+								<control type="image">	                                
+									<width>100%</width>
+									<height>100%</height>
+									<texture border="8" colordiffuse="Dark3">common/box.png</texture>
+									<include>ListViewScrollAnim</include>			
+								</control>
+								<control type="label">
+									<posx>30</posx>
+									<width>900</width>
+									<font>SmallNavi</font>
+									<aligny>center</aligny>
+									<height>60</height>
+									<textcolor>Dark1</textcolor>
+									<selectedcolor>Dark1</selectedcolor>
+									<label>$INFO[Container(9502).ListItem.Label]</label>
+									<visible>Container.Content(movies)</visible>
+								</control>
+								<control type="label">									
+									<posx>30</posx>
+									<width>900</width>
+									<font>SmallNavi</font>
+									<aligny>center</aligny>
+									<align>right</align>
+									<height>60</height>
+									<textcolor>Dark1</textcolor>
+									<selectedcolor>Dark1</selectedcolor>
+									<label>($VAR[LabelYear])</label>
+								</control>	
 							</control>			
 						</focusedlayout>
 						<content sortorder="ascending" sortby="year">videodb://movies/sets/$INFO[ListItem.DBID]/</content>
@@ -176,7 +203,7 @@
 						<textcolor>Dark2</textcolor>
 						<align>justify</align>
 						<label fallback="19055">$INFO[Container(9502).ListItem.Plot]</label>
-						<visible>Control.HasFocus(43260)</visible>	
+						<visible>Control.HasFocus(9502)</visible>	
 						<include>Animation.ViHi</include>	
 					</control> 
 					<control type="label">
@@ -188,7 +215,7 @@
 						<textcolor>Dark1</textcolor>
 						<label>[B]$LOCALIZE[37543][/B]</label>
 						<align>left</align>
-						<visible>Control.HasFocus(43260)</visible>	
+						<visible>Control.HasFocus(9502)</visible>	
 						<include>Animation.ViHi</include>
 					</control>
 					<control type="group">	
@@ -219,7 +246,7 @@
 							<texture background="true">$INFO[Container(9502).ListItem.Art(poster)]</texture>		
 						</control>
 					</control>		 
-					<control type="list" id="43260">
+					<!--<control type="list" id="43260">
 						<left>-200</left>
 						<top>200</top>
 						<width>1800</width>
@@ -235,7 +262,7 @@
 						<itemlayout/>
 						<focusedlayout/>
 						<content>$VAR[Datab]</content>
-					</control>		
+					</control>	-->	
 					<control type="group">
 						<control type="label">
 							<top>-120</top>
@@ -265,7 +292,7 @@
 						<visible>Skin.HasSetting(show.studiologos)</visible> 
 					</control>		
 					<control type="group">
-					<visible>!Control.HasFocus(43260)</visible>	
+					<visible>!Control.HasFocus(9502)</visible>	
 					<include>Animation.ViHi</include>		
 					<control type="group">
 						<height>43</height>
@@ -423,7 +450,7 @@
 					</control>
 					</control>
 					<control type="textbox">
-						<visible>!Control.HasFocus(43260)</visible>
+						<visible>!Control.HasFocus(9502)</visible>
 						<include>Animation.ViHi</include>
 						<scrolltime>10000</scrolltime>
                     	<autoscroll delay="3000" time="4000" repeat="10000">true</autoscroll>
