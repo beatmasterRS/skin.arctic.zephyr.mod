@@ -137,7 +137,35 @@
         </control>
     </include>
 	
+	
+	
+	<include name="OSDPVRInfoContent">
+		<control type="grouplist">
+			<orientation>horizontal</orientation>
+			<top>143</top>
+			<left>0</left>
+			<width>1600</width>
+			<height>70</height>		
+			<visible>VideoPlayer.Content(LiveTV) + Skin.HasSetting(pvr.showtechnicalinfo)</visible>
+			<animation effect="fade" start="0" end="100" time="300">Visible</animation>
+			<animation effect="fade" start="100" end="0" time="100">Hidden</animation>
+			<control type="label">
+				<width min="30" max="290">auto</width>
+				<font>Tiny</font>
+				<textcolor>Dark2</textcolor>
+				<label>$LOCALIZE[19007]: $INFO[Pvr.ActStreamStatus]</label>
+			</control>
+			<control type="label">
+				<width min="30" max="1280">auto</width>
+				<font>Tiny</font>
+				<textcolor>Dark2</textcolor>
+				<label>$LOCALIZE[19008]: $INFO[Pvr.ActStreamSignal]    $LOCALIZE[19009]: $INFO[Pvr.ActStreamSnr]    $LOCALIZE[19015]: $INFO[Pvr.ActStreamEncryptionName]</label>
+				<align>right</align>
+			</control>
+		</control>
+	</include>
     <include name="OSDInfoContent">
+		<animation effect="slide" start="0" end="0,-39" time="150" condition="VideoPlayer.Content(LiveTV) + Skin.HasSetting(pvr.showtechnicalinfo)">Conditional</animation>
         <right>0</right>  
         <control type="grouplist">
 			<animation effect="slide" start="0" end="0,-80" time="150" condition="Skin.HasSetting(osd.showplot)">Conditional</animation>
@@ -443,7 +471,7 @@
 				<scroll>false</scroll>
 				<textcolor>$VAR[OSDPanelWhite70]</textcolor>
 				<label>$VAR[PlayerStatus]</label>
-				<label>$INFO[VideoPlayer.NextTitle, $LOCALIZE[19031]: ] ($INFO[VideoPlayer.NextStartTime] - $INFO[VideoPlayer.NextEndTime])</label>				
+				<label>$INFO[VideoPlayer.NextTitle,$LOCALIZE[19031]: ] ($INFO[VideoPlayer.NextStartTime] - $INFO[VideoPlayer.NextEndTime])</label>				
 			</control>
 			<control type="label" description="Elapsed Time">
 				<visible>String.IsEmpty(VideoPlayer.NextTitle)</visible>	
