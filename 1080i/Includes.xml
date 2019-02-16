@@ -637,14 +637,15 @@
 	<include name="FullscreenArtwork">
 		<control type="fixedlist" id="9151">
 			<top>0</top>
-			<visible>Control.HasFocus(9603)</visible>
+			<visible allowhiddenfocus="true">Control.HasFocus(9603) | Control.HasFocus(9151)</visible>
 			<include>Animation.FadeIn</include>
 			<include>Dimensions_Fullscreen</include>
 			<onright>9151</onright>
 			<onleft>9151</onleft>
 			<ondown>9000</ondown>
+			<onback>9603</onback>
 			<onup>9000</onup>
-			<autoscroll time="10000">true</autoscroll>
+			<autoscroll time="10000">Control.HasFocus(9603)</autoscroll>
             <scrolltime tween="quadratic">300</scrolltime>
 			<preloaditems>2</preloaditems>				
 			<viewtype label="37518">fixedlist</viewtype>
@@ -760,8 +761,27 @@
 					<label>$INFO[ListItem.Art(tvshow.fanart10)]</label>
 					<visible>!String.IsEmpty(ListItem.Art(tvshow.fanart10))</visible>
 				</item>
-				
 			</content>
+		</control>
+		<control type="image">
+			<visible>Control.HasFocus(9151)</visible> 
+			<include>Animation.FadeIn</include>
+			<animation effect="fade" start="100" end="0" time="400" delay="2000" condition="Control.HasFocus(9151)">Conditional</animation>
+			<bottom>70</bottom>
+			<right>70</right>
+			<width>50</width>
+			<height>50</height>
+			<texture background="true">osd/pauset.png</texture>
+		</control>
+		<control type="image">
+			<visible>Control.HasFocus(9603)</visible> 
+			<animation effect="fade" start="100" end="0" time="400" delay="2000" condition="Control.HasFocus(9603)">Conditional</animation>
+			<include>Animation.FadeIn</include>
+			<bottom>70</bottom>
+			<right>70</right>
+			<width>50</width>
+			<height>50</height>
+			<texture background="true">osd/play.png</texture>
 		</control>
 		<control type="button" id="9603">
 			<width>1</width>
@@ -769,10 +789,8 @@
 			<visible allowhiddenfocus="true">false</visible>
 			<onleft>SetFocus(9151)</onleft>
 			<onleft>Left</onleft>
-			<onleft>SetFocus(9603)</onleft>
 			<onright>SetFocus(9151)</onright>
 			<onright>Right</onright>
-			<onright>SetFocus(9603)</onright>
 			<ondown>9000</ondown>
 			<onback>9000</onback>
 		</control>	
