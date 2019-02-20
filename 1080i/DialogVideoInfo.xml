@@ -42,6 +42,7 @@
                         <width>16</width>
                         <height>16</height>
                         <texture colordiffuse="Dark1" flipx="true">common/arrow-small-right.png</texture>
+						<animation condition="!Skin.HasSetting(olddialogbuttons)" effect="slide" end="25" time="0">Conditional</animation>
                     </control>
                     <control type="image">
                         <centerright>64</centerright>
@@ -86,132 +87,12 @@
                 </control>
 
                 <!-- Control Buttons -->
-                <control type="grouplist" id="9000">
-<animation condition="Control.HasFocus(50) | Control.HasFocus(9501)" effect="fade" end="0"  start="100" time="300">Conditional</animation>
-                    <bottom>224</bottom>
-                    <left>540</left>
-                    <right>SidePad</right>
-                    <height>68</height>
-                    <bottom>33</bottom>
-                    <itemgap>16</itemgap>
-                    <onup>50</onup>    
-					<ondown>9601</ondown>     
-                    <orientation>horizontal</orientation>
-                    <control type="button" id ="8">
-                        <description>Play</description>
-                        <label>208</label>
-                        <include>DefInfoButtons</include>
-						<onfocus>ClearProperty(filminfo)</onfocus>
-						<onclick>Dialog.Close(1132)</onclick>					
-                    </control>				
-					<control type="button" id="9019">
-                        <include>DefInfoButtons</include>
-                        <label>37551</label>                  
-                        <onclick>SetProperty(filminfo,33)</onclick>
-                        <onleft>ClearProperty(filminfo)</onleft>
-						<onright>ClearProperty(filminfo)</onright> 				
-                        <visible>Container.Content(movies) | Container.Content(tvshows)</visible>							
-                    </control>	
-                    <control type="button" id="11">
-                        <description>Trailer button</description>
-                        <label>20410</label>
-                        <include>DefInfoButtons</include>
-                        <visible>!String.IsEmpty(ListItem.Trailer)</visible>
-						<onfocus>ClearProperty(filminfo)</onfocus>
-                    </control>
-					<control type="togglebutton" id ="7">
-                        <description>Tracklist</description>
-                        <label>38023</label>
-                        <altlabel>$LOCALIZE[563] $INFO[ListItem.UserRating,,.0]</altlabel>
-                        <usealttexture>!String.IsEmpty(ListItem.UserRating)</usealttexture>
-                        <include>DefInfoButtons</include>
-						<visible>Container.Content(movies) | Container.Content(tvshows) | Container.Content(episodes)</visible>
-                    </control>
-					<control type="button" id="146">
-                        <description>Special Features button</description>
-                        <label>31282</label>
-                        <include>DefInfoButtons</include>
-                        <visible>System.HasAddon(plugin.video.specialfeatures)</visible>
-                        <visible>String.IsEqual(Window(home).Property(SpecialFeatures.Visible),true)</visible>
-                        <onclick>Action(close)</onclick>
-                        <onclick>RunScript(plugin.video.specialfeatures,listitem)</onclick>
-                    </control>
-
-                    <!--<control type="button" id="53">
-                        <include>DefInfoButtons</include>
-                        <label>206</label>
-                        <onclick condition="!Control.IsVisible(50)">SendClick(2003,5)</onclick>
-                        <onclick>ClearProperty(content)</onclick>
-                        <onclick>SetFocus(51)</onclick>
-                        <visible>!String.Contains(Container.FolderPath,plugin://,left)</visible>             
-                    </control>-->
-                    
-                   <!-- <control type="button" id="9011">
-                        <include>DefInfoButtons</include>
-                        <label>20339</label>
-                        <onclick condition="Control.IsVisible(50)">SendClick(2003,5)</onclick>
-                        <onclick>SetProperty(content,3)</onclick>
-                         <onup>9501</onup>    
-                        <visible>Container.Content(movies)</visible>
-                        <visible>!String.IsEmpty(ListItem.Director)</visible>
-                    </control>-->
-
-                    <control type="button" id="9012">
-                        <include>DefInfoButtons</include>
-                        <label>31206</label>
-                        <onclick condition="Control.IsVisible(50)">SendClick(2003,5)</onclick>
-                        <onclick>SetProperty(content,2)</onclick>
-                        <ondown>9012</ondown>					
-						<onup condition="Control.IsVisible(50) + String.IsEmpty(Window.Property(content))">50</onup>--> 
-						<onup>9501</onup> 
-                        <visible>Container.Content(movies)</visible>					
-                    </control>
-                    <control type="button" id="49">
-                        <description>Home Theatre</description>
-                        <label>31170</label>
-                        <include>DefInfoButtons</include>
-                        <onclick>XBMC.RunScript(script.cinema.experience,movieid=$INFO[ListItem.DBID])</onclick>
-                        <visible>system.hasaddon(script.cinema.experience) + Container.Content(movies)</visible>
-						<onfocus>ClearProperty(filminfo)</onfocus>
-                    </control>
-					<control type="button" id="51">
-                        <description>Get Thumb</description>
-                        <label>37550</label>
-                        <include>DefInfoButtons</include>
-						<onclick>SetFocus(9603)</onclick>
-						<visible>!String.IsEmpty(ListItem.Art(fanart))</visible>
-                    </control> 
-                    <!--<control type="button" id="105">
-                        <description>Extras</description>
-                        <include>DefInfoButtons</include>
-                        <label>31171</label>
-                        <onclick>RunScript(script.videoextras,display,"$INFO[ListItem.FilenameAndPath]")</onclick>
-                        <visible>System.HasAddon(script.videoextras) + [Container.Content(movies) | Container.Content(episodes) | Container.Content(TVShows) | Container.Content(musicvideos)] + String.IsEmpty(Window(movieinformation).Property("HideVideoExtrasButton"))</visible>
-                    </control>-->					
-                    <control type="button" id ="6">
-						<onfocus>ClearProperty(filminfo)</onfocus>
-                        <description>Refresh</description>
-                        <label>184</label>
-                        <include>DefInfoButtons</include>
-                        <visible>!Skin.HasSetting(global.kioskmode)</visible>
-                    </control>
-                    <control type="button" id ="10">
-                        <description>Get Thumb</description>
-                        <label>13405</label>
-                        <include>DefInfoButtons</include>
-                        <visible>!Skin.HasSetting(global.kioskmode)</visible>
-                    </control> 
-					<control type="button" id="9001">
-                        <label>37513</label>
-                        <onclick condition="Container.Content(tvshows)">RunScript(script.artwork.beef, mode=gui, mediatype=tvshow, dbid=$INFO[ListItem.DBID])</onclick>
-                        <onclick condition="Container.Content(movies)">RunScript(script.artwork.beef, mode=gui, mediatype=movie, dbid=$INFO[ListItem.DBID])</onclick>
-                        <onclick condition="Container.Content(musicvideos)">RunScript(script.artwork.beef, mode=gui, mediatype=musicvideo, dbid=$INFO[ListItem.DBID])</onclick>
-                        <description>Get Artwork</description>
-                        <include>DefInfoButtons</include>
-                        <visible>!Skin.HasSetting(global.kioskmode)</visible>
-                        <visible>[Container.Content(tvshows) | Container.Content(movies) | Container.Content(musicvideos)] + system.hasaddon(script.artwork.beef)</visible>
-                    </control>
-                </control>			
+                
+				
+				<include condition="Skin.HasSetting(olddialogbuttons)">DialogVideoInfoNavigation</include>
+				<include condition="!Skin.HasSetting(olddialogbuttons)">DialogVideoInfoNavigationNew</include>
+				
+						
 				<control type="group">
 					<visible>!String.IsEmpty(Window.Property(filminfo)) + Control.HasFocus(9019)</visible>				
 					<include>Animation.FadeIn</include>
@@ -991,10 +872,28 @@
 						<label>$INFO[ListItem.FileNameAndPath]</label>
 						<aligny>center</aligny>
 						<align>right</align>
-						<visible>ControlGroup(9000).HasFocus()</visible>
+						<visible>ControlGroup(9000).HasFocus() + !Skin.HasSetting(HideFileNameAndPath)</visible>
 						<include>Animation.FadeIn</include>
 						<include>Animation.FadeOut</include>
-					</control>						
+						<include condition="!Skin.HasSetting(olddialogbuttons)">Animation.FileNameAndPath</include>
+					</control>		
+					
+					<control type="label">
+						<left>0</left>
+						<top>520</top>
+						<height>50</height>
+						<font>Mini</font>
+						<scroll>false</scroll>
+						<textcolor>Dark3</textcolor>
+						<label>$VAR[DialogInfoLabel]</label>
+						<aligny>center</aligny>
+						<align>right</align>
+						<visible>ControlGroup(9000).HasFocus() + !Skin.HasSetting(olddialogbuttons)</visible>
+						<include>Animation.FadeIn</include>
+						<include>Animation.FadeOut</include>
+						<include condition="!Skin.HasSetting(HideFileNameAndPath)">Animation.ButtonLabel</include>
+					</control>	
+									
 					<control type="label">
 						<left>140</left>
 						<top>520</top>
@@ -1016,7 +915,7 @@
 						<include>Animation.FadeIn</include>
 						<onback>ClearProperty(down)</onback>
 						<ondown>ClearProperty(down)</ondown>
-						<width>2450</width>
+						<width>2120</width>
 						<height>616</height>                   
 						<ondown>9000</ondown>
 						<onleft>7000</onleft>
@@ -1078,23 +977,6 @@
 									<texture colordiffuse="Box2" background="true">common/box5.png</texture>   
 									<visible>!Skin.HasSetting(thumbnails.white)</visible>                        
 								</control> 
-								
-								
-								
-								
-								
-								
-								
-								<!--<control type="image">
-									<visible>Control.HasFocus(50) + Skin.HasSetting(furniture.actorszoom)</visible>
-									<animation center="auto" condition="Control.HasFocus(50)" easing="inout" effect="fade" end="100" start="0" time="300" tween="sine">Focus</animation>
-                                    <animation center="auto" condition="Control.HasFocus(50)" easing="inout" effect="fade" end="0" start="100" time="300" tween="sine">UnFocus</animation>
-									<bottom>396</bottom>
-									<left>-3</left>
-									<height>176</height>
-									<width>130</width>
-									<texture colordiffuse="$VAR[ColorHighlight]" border="10">common/selectbox.png</texture>
-								</control>-->
 								<control type="image">
 									<left>1</left>
 									<top>48</top>
@@ -1105,14 +987,11 @@
 								</control>
 								<control type="group">
 									<visible>false</visible>
-									<!--<animation effect="fade" end="0" start="100" time="0">Focus</animation>
-									<animation effect="fade" end="100" start="0" time="300">UnFocus</animation>-->
 									<control type="image">
 										<top>175</top>
 										<width>130</width>
 										<height>40</height>
 										<texture colordiffuse="B3333333">common/black-back.png</texture>										
-										<!--<visible>Control.HasFocus(50)</visible>-->
 									</control>							
 									<control type="label">
 										<left>10</left>
@@ -1254,18 +1133,6 @@
 									<textcolor>Dark1</textcolor>
 								</control>
 							</control>
-
-							<!--<control type="image">
-								<visible>Control.HasFocus(50)</visible>
-								<include>Animation.DelayFadeIn</include>
-								<left>830</left>
-								<right>SidePad</right>
-								<top>-230</top>
-								<width>80</width>
-								<height>80</height>
-								<texture colordiffuse="Dark1">common/ecke.png</texture>
-							</control>-->
-							
 						</control>						
 				   </control>
 				</control>
@@ -1426,17 +1293,7 @@
 							<height>317</height>                          
 							<texture colordiffuse="Box2" background="true">common/box5.png</texture>   
 							<visible>!Skin.HasSetting(thumbnails.white)</visible>                        
-						</control> 		
-						<!--<control type="image">
-								<visible>Control.HasFocus(9501) + Skin.HasSetting(furniture.actorszoom)</visible>
-								<animation center="auto" condition="Control.HasFocus(9501)" easing="inout" effect="fade" end="100" start="0" time="300" tween="sine">Focus</animation>
-								<animation center="auto" condition="Control.HasFocus(9501)" easing="inout" effect="fade" end="0" start="100" time="300" tween="sine">UnFocus</animation>
-								<bottom>124</bottom>
-								<left>4</left>
-								<height>327</height>
-								<width>212</width>
-								<texture colordiffuse="$VAR[ColorHighlight]" border="50">common/selectbox.png</texture>
-							</control>-->					
+						</control> 							
 						<control type="image">
 							<left>10</left>
 							<top>10</top>

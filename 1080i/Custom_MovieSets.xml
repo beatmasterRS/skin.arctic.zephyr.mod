@@ -32,42 +32,7 @@
 				<visible>!Window.IsVisible(script-script.extendedinfo-DialogInfo.xml)</visible>
 				<visible>!Window.IsVisible(script-script.extendedinfo-DialogVideoInfo.xml)</visible>
 				<include>Animation.RightSide</include>
-                <control type="group">
-                    <include>Animation.DelayFadeIn</include>
-                    <visible>ControlGroup(9000).HasFocus()</visible>
-                    <centerbottom>258</centerbottom>
-                    <height>16</height>
-                    <control type="image">
-                        <centerleft>524</centerleft>
-                        <width>16</width>
-                        <height>16</height>
-                        <texture colordiffuse="Dark1" flipx="true">common/arrow-small-right.png</texture>
-                    </control>
-                    <control type="image">
-                        <centerright>64</centerright>
-                        <width>16</width>
-                        <height>16</height>
-                        <texture colordiffuse="Dark1" flipx="false">common/arrow-small-right.png</texture>
-                    </control>
-                </control>			
-                <control type="group">
-                    <include>Animation.DelayFadeIn</include>
-                    <visible>Control.HasFocus(51) | [Control.HasFocus(9501) + Control.IsVisible(9501)]</visible>
-                    <centerbottom>566</centerbottom>
-                    <height>16</height>
-                    <control type="image">
-                        <centerleft>524</centerleft>
-                        <width>16</width>
-                        <height>16</height>
-                        <texture colordiffuse="Dark1" flipx="true">common/arrow-small-right.png</texture>
-                    </control>
-                    <control type="image">
-                        <centerright>64</centerright>
-                        <width>16</width>
-                        <height>16</height>
-                        <texture colordiffuse="Dark1" flipx="false">common/arrow-small-right.png</texture>
-                    </control>
-                </control>
+                
                 <control type="button" id="9601">
                     <width>1</width>
                     <height>1</height>
@@ -79,40 +44,11 @@
                     <onright>9000</onright>
                 </control>
                 <!-- Control Buttons -->
-                <control type="grouplist" id="9000">
-<animation condition="Control.HasFocus(50) | Control.HasFocus(9501)" effect="fade" end="0"  start="100" time="300">Conditional</animation>
-                    <bottom>224</bottom>
-                    <left>540</left>
-                    <right>SidePad</right>
-                    <height>68</height>
-                    <bottom>33</bottom>
-                    <itemgap>16</itemgap>
-                    <onup>50</onup>    
-					<ondown>9601</ondown>     
-                    <orientation>horizontal</orientation>						
-					<control type="button" id="9019">
-                        <include>DefInfoButtons</include>
-                        <label>342</label>                  
-                        <onclick>SetFocus(9502)</onclick>				
-                       	<onup>9502</onup>						
-                    </control>
-					<control type="button" id="9100">
-                        <description>Artwork Beef</description>
-                        <label>Artwork Beef</label>
-                        <include>DefInfoButtons</include>
-						<onclick>RunScript(script.artwork.beef, mode=gui, mediatype=set, dbid=$INFO[ListItem.DBID])</onclick>
-						<visible>system.hasaddon(script.artwork.beef)</visible>
-                        <visible>!Skin.HasSetting(global.kioskmode)</visible>
-						<onup>9502</onup>	
-                    </control>
-					<control type="button" id="51">
-                        <description>Get Thumb</description>
-                        <label>37550</label>
-                        <include>DefInfoButtons</include>
-						<onclick>SetFocus(9603)</onclick>
-						<visible>!String.IsEmpty(ListItem.Art(fanart))</visible>
-                    </control> 
-                </control>			
+                <include condition="Skin.HasSetting(olddialogbuttons)">DialogMovieSetsInfoNavigation</include>
+				<include content="DialogMovieSetsInfoNavigationNew" condition="!Skin.HasSetting(olddialogbuttons)">
+					<param name="buttonwidth" value="125" />
+					<param name="buttonheight" value="68" />
+				</include>	
 
 				<control type="group">
 					<visible>String.IsEmpty(Window.Property(content)) + String.IsEmpty(Window.Property(filminfo)) + !Container(9501).IsUpdating</visible>
@@ -130,6 +66,7 @@
 						<width>960</width>
 						<height>180</height>
 						<onleft>9000</onleft>
+						<onright>9000</onright>
 						<onback>ClearProperty(content)</onback>
 						<onback>9000</onback>
 						<orientation>vertical</orientation>
@@ -198,7 +135,21 @@
 							</control>			
 						</focusedlayout>
 						<content sortorder="ascending" sortby="year">videodb://movies/sets/$INFO[ListItem.DBID]/</content>
-					</control>
+					</control>					
+					<control type="label">
+						<left>0</left>
+						<top>520</top>
+						<height>50</height>
+						<font>Mini</font>
+						<scroll>false</scroll>
+						<textcolor>Dark3</textcolor>
+						<label>$VAR[DialogInfoLabel]</label>
+						<aligny>center</aligny>
+						<align>right</align>
+						<visible>ControlGroup(9000).HasFocus() + !Skin.HasSetting(olddialogbuttons)</visible>
+						<include>Animation.FadeIn</include>
+						<include>Animation.FadeOut</include>
+					</control>			
 					<control type="textbox">
 						<scrolltime>10000</scrolltime>
 						<autoscroll delay="3000" time="4000" repeat="10000">true</autoscroll>
@@ -253,23 +204,6 @@
 							<texture background="true">$INFO[Container(9502).ListItem.Art(poster)]</texture>		
 						</control>
 					</control>		 
-					<!--<control type="list" id="43260">
-						<left>-200</left>
-						<top>200</top>
-						<width>1800</width>
-						<height>400</height>
-						<onleft>9000</onleft>
-						<onright>9000</onright>
-						<onup>SetFocus(9502)</onup>
-						<onup>Up</onup>
-						<onup>SetFocus(43260)</onup>
-						<ondown>SetFocus(9502)</ondown>
-						<ondown>Down</ondown>
-						<ondown>SetFocus(43260)</ondown>
-						<itemlayout/>
-						<focusedlayout/>
-						<content>$VAR[Datab]</content>
-					</control>	-->	
 					<control type="group">
 						<control type="label">
 							<top>-120</top>
@@ -483,13 +417,11 @@
             <visible>Control.HasFocus(9601)</visible>
             <include>Animation.FadeIn</include>
             <include>Animation.FadeOut</include>
-
             <control type="image" description="Background">
                 <include>Dimensions_Fullscreen</include>
                 <texture colordiffuse="Background">common/bg.jpg</texture>
                 <animation effect="fade" start="100" end="95" condition="true">Conditional</animation>
             </control>
-
             <control type="image" description="clearlogo">
                 <visible>Skin.HasSetting(furniture.logo)</visible>
                 <centertop>120</centertop>
@@ -500,7 +432,6 @@
                 <texture background="true">$VAR[ClearLogoTopVar]</texture>
             </control>
         </control>
-
         <control type="group">
             <left>SidePad</left>
             <right>SidePad</right>
@@ -509,8 +440,6 @@
             <visible>Control.HasFocus(9601)</visible>
             <include>Animation.FadeIn.Slide</include>
             <include>Animation.FadeOut</include>
-
-
             <control type="label">
                 <description>header label</description>
                 <left>60</left>
@@ -521,7 +450,6 @@
                 <height>45</height>
                 <label>$INFO[ListItem.Label]</label>
             </control>
-
             <control type="textbox">
                 <description>textarea</description>
                 <left>60</left>
@@ -536,5 +464,4 @@
         </control>	
 		<include>FullscreenArtwork</include>	
     </controls>
-
 </window>

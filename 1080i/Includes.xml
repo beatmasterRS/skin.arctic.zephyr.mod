@@ -769,8 +769,8 @@
 			<animation effect="fade" start="100" end="0" time="400" delay="2000" condition="Control.HasFocus(9151)">Conditional</animation>
 			<bottom>70</bottom>
 			<right>70</right>
-			<width>50</width>
-			<height>50</height>
+			<width>48</width>
+			<height>48</height>
 			<texture background="true">osd/pauset.png</texture>
 		</control>
 		<control type="image">
@@ -779,8 +779,8 @@
 			<include>Animation.FadeIn</include>
 			<bottom>70</bottom>
 			<right>70</right>
-			<width>50</width>
-			<height>50</height>
+			<width>48</width>
+			<height>48</height>
 			<texture background="true">osd/play.png</texture>
 		</control>
 		<control type="button" id="9603">
@@ -802,4 +802,1066 @@
 			<include condition="Window.IsVisible(Home.xml)">Furniture_Flags</include>
 		</control>
 	</include>
+	
+	<include name="DialogVideoInfoNavigation">
+		<control type="grouplist" id="9000">
+			<animation condition="Control.HasFocus(50) | Control.HasFocus(9501)" effect="fade" end="0"  start="100" time="300">Conditional</animation>
+			<bottom>224</bottom>
+			<left>540</left>
+			<right>SidePad</right>
+			<height>68</height>
+			<bottom>33</bottom>
+			<itemgap>16</itemgap>
+			<onup>50</onup>    
+			<ondown>9601</ondown>     
+			<orientation>horizontal</orientation>
+			<control type="button" id ="8">
+				<description>Play</description>
+				<label>208</label>
+				<include>DefInfoButtons</include>
+				<onfocus>ClearProperty(filminfo)</onfocus>
+				<onclick>Dialog.Close(1132)</onclick>					
+			</control>				
+			<control type="button" id="9019">
+				<include>DefInfoButtons</include>
+				<label>37551</label>                  
+				<onclick>SetProperty(filminfo,33)</onclick>
+				<onleft>ClearProperty(filminfo)</onleft>
+				<onright>ClearProperty(filminfo)</onright> 				
+				<visible>Container.Content(movies) | Container.Content(tvshows)</visible>							
+			</control>	
+			<control type="button" id="11">
+				<description>Trailer button</description>
+				<label>20410</label>
+				<include>DefInfoButtons</include>
+				<visible>!String.IsEmpty(ListItem.Trailer)</visible>
+				<onfocus>ClearProperty(filminfo)</onfocus>
+			</control>
+			<control type="togglebutton" id ="7">
+				<description>Tracklist</description>
+				<label>38023</label>
+				<altlabel>$LOCALIZE[563] $INFO[ListItem.UserRating,,.0]</altlabel>
+				<usealttexture>!String.IsEmpty(ListItem.UserRating)</usealttexture>
+				<include>DefInfoButtons</include>
+				<visible>Container.Content(movies) | Container.Content(tvshows) | Container.Content(episodes)</visible>
+			</control>
+			<control type="button" id="146">
+				<description>Special Features button</description>
+				<label>31282</label>
+				<include>DefInfoButtons</include>
+				<visible>System.HasAddon(plugin.video.specialfeatures)</visible>
+				<visible>String.IsEqual(Window(home).Property(SpecialFeatures.Visible),true)</visible>
+				<onclick>Action(close)</onclick>
+				<onclick>RunScript(plugin.video.specialfeatures,listitem)</onclick>
+			</control>
+			<control type="button" id="9012">
+				<include>DefInfoButtons</include>
+				<label>31206</label>
+				<onclick condition="Control.IsVisible(50)">SendClick(2003,5)</onclick>
+				<onclick>SetProperty(content,2)</onclick>
+				<ondown>9012</ondown>					
+				<onup condition="Control.IsVisible(50) + String.IsEmpty(Window.Property(content))">50</onup>--> 
+				<onup>9501</onup> 
+				<visible>Container.Content(movies)</visible>					
+			</control>
+			<control type="button" id="49">
+				<description>Home Theatre</description>
+				<label>31170</label>
+				<include>DefInfoButtons</include>
+				<onclick>XBMC.RunScript(script.cinema.experience,movieid=$INFO[ListItem.DBID])</onclick>
+				<visible>system.hasaddon(script.cinema.experience) + Container.Content(movies)</visible>
+				<onfocus>ClearProperty(filminfo)</onfocus>
+			</control>
+			<control type="button" id="51">
+				<description>Get Thumb</description>
+				<label>37550</label>
+				<include>DefInfoButtons</include>
+				<onclick>SetFocus(9603)</onclick>
+				<visible>!String.IsEmpty(ListItem.Art(fanart))</visible>
+			</control> 				
+			<control type="button" id ="6">
+				<onfocus>ClearProperty(filminfo)</onfocus>
+				<description>Refresh</description>
+				<label>184</label>
+				<include>DefInfoButtons</include>
+				<visible>!Skin.HasSetting(global.kioskmode)</visible>
+			</control>
+			<control type="button" id ="10">
+				<description>Get Thumb</description>
+				<label>13405</label>
+				<include>DefInfoButtons</include>
+				<visible>!Skin.HasSetting(global.kioskmode)</visible>
+			</control> 
+			<control type="button" id="9001">
+				<label>37513</label>
+				<onclick condition="Container.Content(tvshows)">RunScript(script.artwork.beef, mode=gui, mediatype=tvshow, dbid=$INFO[ListItem.DBID])</onclick>
+				<onclick condition="Container.Content(movies)">RunScript(script.artwork.beef, mode=gui, mediatype=movie, dbid=$INFO[ListItem.DBID])</onclick>
+				<onclick condition="Container.Content(musicvideos)">RunScript(script.artwork.beef, mode=gui, mediatype=musicvideo, dbid=$INFO[ListItem.DBID])</onclick>
+				<description>Get Artwork</description>
+				<include>DefInfoButtons</include>
+				<visible>!Skin.HasSetting(global.kioskmode)</visible>
+				<visible>[Container.Content(tvshows) | Container.Content(movies) | Container.Content(musicvideos)] + system.hasaddon(script.artwork.beef)</visible>
+			</control>
+		</control>
+	</include>
+	
+	<include name="buttontextures">
+		<font>Null</font>
+		<textcolor>Dark2</textcolor>
+		<texturenofocus colordiffuse="Dark4" border="0">common/box.png</texturenofocus>
+		<texturefocus colordiffuse="$VAR[ColorHighlight]" border="0">common/box.png</texturefocus>
+		<textureradioonfocus colordiffuse="FFFFFFFF">$PARAM[icon]</textureradioonfocus>
+		<textureradioonnofocus colordiffuse="FFFFFFFF">$PARAM[icon]</textureradioonnofocus>
+		<textureradioofffocus colordiffuse="FFFFFFFF">$PARAM[icon]</textureradioofffocus>
+		<textureradiooffnofocus colordiffuse="FFFFFFFF">$PARAM[icon]</textureradiooffnofocus>
+		<textureradiooffdisabled colordiffuse="disabled">$PARAM[icon]</textureradiooffdisabled>
+		<textureradioondisabled colordiffuse="disabled">$PARAM[icon]</textureradioondisabled>
+	</include>
+	<include name="buttondimensions">
+		<width>134</width>
+		<height>88</height>
+		<radioposx>40</radioposx>
+		<radioposy>18</radioposy>
+		<radiowidth>48</radiowidth>
+	</include>
+	
+	<include name="buttondimensionssquare">
+		<width>126</width>
+		<height>88</height>
+		<radioposx>40</radioposx>
+		<radioposy>18</radioposy>
+		<radiowidth>48</radiowidth>
+	</include>
+	
+	<include name="listdimensions">
+		<height>68</height>
+		<bottom>33</bottom>
+		<itemgap>28</itemgap>
+	</include>
+	
+	<include name="DialogVideoInfoNavigationNew">
+		<control type="grouplist" id="9000">
+			<animation condition="Control.HasFocus(50) | Control.HasFocus(9501)" effect="fade" end="0"  start="100" time="300">Conditional</animation>
+			<visible>true</visible>
+			<bottom>224</bottom>
+			<left>568</left>
+			<right>83</right>
+			<include>listdimensions</include>
+			<onup>50</onup>    
+			<ondown>9601</ondown>     
+			<orientation>horizontal</orientation>
+			<control type="radiobutton" id ="8">
+				<include>buttondimensions</include>
+				<onfocus>ClearProperty(content)</onfocus>
+				<include content="buttontextures">
+					<param name="icon" value="buttonsdialogs/play.png" />
+				</include>
+				<onfocus>ClearProperty(filminfo)</onfocus>
+				<onclick>Dialog.Close(1132)</onclick>					
+			</control>
+			<control type="radiobutton" id ="9019">
+				<include>buttondimensions</include>
+				<onfocus>ClearProperty(content)</onfocus>
+				<include content="buttontextures">
+					<param name="icon" value="buttonsdialogs/info.png" />
+				</include>
+				<onclick>SetProperty(filminfo,33)</onclick>
+				<onleft>ClearProperty(filminfo)</onleft>
+				<onright>ClearProperty(filminfo)</onright> 				
+				<visible>Container.Content(movies) | Container.Content(tvshows)</visible>				
+			</control>
+			<control type="radiobutton" id ="11">
+				<include>buttondimensions</include>
+				<onfocus>ClearProperty(content)</onfocus>
+				<include content="buttontextures">
+					<param name="icon" value="buttonsdialogs/trailer.png" />
+				</include>
+				<visible>!String.IsEmpty(ListItem.Trailer)</visible>
+				<onfocus>ClearProperty(filminfo)</onfocus>			
+			</control>		
+			<control type="radiobutton" id ="9012">
+				<include>buttondimensions</include>
+				<onfocus>ClearProperty(content)</onfocus>
+				<include content="buttontextures">
+					<param name="icon" value="buttonsdialogs/similar.png" />
+				</include>
+				<onclick condition="Control.IsVisible(50)">SendClick(2003,5)</onclick>
+				<onclick>SetProperty(content,2)</onclick>
+				<onfocus>ClearProperty(filminfo)</onfocus>
+				<ondown>9012</ondown>					
+				<onup condition="Control.IsVisible(50) + String.IsEmpty(Window.Property(content))">50</onup>--> 
+				<onup>9501</onup> 
+				<visible>String.IsEqual(ListItem.DBType,movie)</visible>
+			</control>
+			<control type="radiobutton" id ="51">
+				<include>buttondimensions</include>
+				<onfocus>ClearProperty(content)</onfocus>
+				<onfocus>ClearProperty(filminfo)</onfocus>
+				<include content="buttontextures">
+					<param name="icon" value="buttonsdialogs/image.png" />
+				</include>
+				<onclick>SetFocus(9603)</onclick>
+				<visible>!String.IsEmpty(ListItem.Art(fanart))</visible>
+			</control>			
+			<control type="radiobutton" id ="7">
+				<include>buttondimensions</include>
+				<onfocus>ClearProperty(content)</onfocus>
+				<onfocus>ClearProperty(filminfo)</onfocus>
+				<include content="buttontextures">
+					<param name="icon" value="buttonsdialogs/rating.png" />
+				</include>
+				<visible>Container.Content(movies) | Container.Content(tvshows) | Container.Content(episodes)</visible>
+				<visible>Control.IsEnabled(7)</visible>
+			</control>		
+			<control type="radiobutton" id ="6">
+				<include>buttondimensions</include>
+				<onfocus>ClearProperty(content)</onfocus>
+				<include content="buttontextures">
+					<param name="icon" value="buttonsdialogs/update.png" />
+				</include>
+				<visible>!Skin.HasSetting(global.kioskmode)</visible>
+				<visible>Control.IsEnabled(6)</visible>
+			</control>		
+			<control type="radiobutton" id ="10">
+				<include>buttondimensions</include>
+				<onfocus>ClearProperty(content)</onfocus>
+				<include content="buttontextures">
+					<param name="icon" value="buttonsdialogs/choose_image.png" />
+				</include>
+				<visible>!Skin.HasSetting(global.kioskmode)</visible>
+				<visible>Control.IsEnabled(10)</visible>
+			</control>		
+			<control type="radiobutton" id ="9001">
+				<include>buttondimensions</include>
+				<onfocus>ClearProperty(content)</onfocus>
+				<include content="buttontextures">
+					<param name="icon" value="buttonsdialogs/artworkdownloader.png" />
+				</include>
+				<onclick condition="Container.Content(tvshows)">RunScript(script.artwork.beef, mode=gui, mediatype=tvshow, dbid=$INFO[ListItem.DBID])</onclick>
+				<onclick condition="Container.Content(movies)">RunScript(script.artwork.beef, mode=gui, mediatype=movie, dbid=$INFO[ListItem.DBID])</onclick>
+				<onclick condition="Container.Content(musicvideos)">RunScript(script.artwork.beef, mode=gui, mediatype=musicvideo, dbid=$INFO[ListItem.DBID])</onclick>
+				<visible>!Skin.HasSetting(global.kioskmode)</visible>
+				<visible>[Container.Content(tvshows) | Container.Content(movies) | Container.Content(musicvideos)] + system.hasaddon(script.artwork.beef)</visible>
+			</control>
+		</control>	
+	</include>	
+	
+	<include name="DialogMovieSetsInfoNavigation">
+		<control type="grouplist" id="9000">
+			<animation condition="Control.HasFocus(50) | Control.HasFocus(9501)" effect="fade" end="0"  start="100" time="300">Conditional</animation>
+			<bottom>224</bottom>
+			<left>540</left>
+			<right>SidePad</right>
+			<height>68</height>
+			<bottom>33</bottom>
+			<itemgap>16</itemgap>
+			<onup>50</onup>    
+			<ondown>9601</ondown>     
+			<orientation>horizontal</orientation>						
+			<control type="button" id="9019">
+				<include>DefInfoButtons</include>
+				<label>342</label>                  
+				<onclick>SetFocus(9502)</onclick>				
+				<onup>9502</onup>						
+			</control>
+			<control type="button" id="9100">
+				<description>Artwork Beef</description>
+				<label>Artwork Beef</label>
+				<include>DefInfoButtons</include>
+				<onclick>RunScript(script.artwork.beef, mode=gui, mediatype=set, dbid=$INFO[ListItem.DBID])</onclick>
+				<visible>system.hasaddon(script.artwork.beef)</visible>
+				<visible>!Skin.HasSetting(global.kioskmode)</visible>
+				<onup>9502</onup>	
+			</control>
+			<control type="button" id="51">
+				<description>Get Thumb</description>
+				<label>37550</label>
+				<include>DefInfoButtons</include>
+				<onclick>SetFocus(9603)</onclick>
+				<visible>!String.IsEmpty(ListItem.Art(fanart))</visible>
+			</control> 
+		</control>		
+	</include>
+	
+	<include name="DialogMovieSetsInfoNavigationNew">
+		<control type="grouplist" id="9000">
+			<animation condition="Control.HasFocus(50) | Control.HasFocus(9501)" effect="fade" end="0"  start="100" time="300">Conditional</animation>
+			<visible>true</visible>
+			<bottom>224</bottom>
+			<left>570</left>
+			<right>160</right>
+			<include>listdimensions</include>
+			<onup>50</onup>    
+			<ondown>9601</ondown>     
+			<orientation>horizontal</orientation>
+			<control type="radiobutton" id ="9019">
+				<description>Play</description>
+				<font>Button</font>
+				<textcolor>Dark2</textcolor>
+				<include>buttondimensions</include>
+				<onfocus>ClearProperty(content)</onfocus>
+				<include content="buttontextures">
+					<param name="icon" value="buttonsdialogs/set.png" />
+				</include>
+				<onclick>SetFocus(9502)</onclick>				
+				<onup>9502</onup>						
+			</control>
+			<control type="radiobutton" id ="51">
+				<description>Trailer</description>
+				<font>Button</font>
+				<textcolor>Dark2</textcolor>
+				<include>buttondimensions</include>
+				<onright>7</onright>
+				<onfocus>ClearProperty(content)</onfocus>
+				<include content="buttontextures">
+					<param name="icon" value="buttonsdialogs/image.png" />
+				</include>
+				<onclick>SetFocus(9603)</onclick>
+				<visible>!String.IsEmpty(ListItem.Art(fanart))</visible>
+			</control>			
+			<control type="radiobutton" id ="9100">
+				<description>Trailer</description>
+				<font>Button</font>
+				<textcolor>Dark2</textcolor>
+				<include>buttondimensions</include>
+				<onfocus>ClearProperty(content)</onfocus>
+				<include content="buttontextures">
+					<param name="icon" value="buttonsdialogs/artworkdownloader.png" />
+				</include>
+				<onclick>RunScript(script.artwork.beef, mode=gui, mediatype=set, dbid=$INFO[ListItem.DBID])</onclick>
+				<visible>system.hasaddon(script.artwork.beef)</visible>
+				<visible>!Skin.HasSetting(global.kioskmode)</visible>
+				<onup>9502</onup>
+			</control>
+		</control>		
+	</include>
+	
+	<include name="DialogMusicInfoNavigation">
+		<control type="grouplist" id="9000">
+			<visible allowhiddenfocus="true">ControlGroup(9000).HasFocus() | Control.HasFocus(50) | Control.HasFocus(9009)</visible>
+			<bottom>224</bottom>
+			<left>ListSquareX</left>
+			<right>SidePad</right>
+			<height>68</height>
+			<bottom>33</bottom>
+			<itemgap>16</itemgap>
+			<ondown>9000</ondown>
+			<onup condition="Control.IsVisible(50)">51</onup>
+			<onup condition="Control.IsVisible(9501)">9501</onup>
+			<orientation>horizontal</orientation>
+			<control type="button" id ="8">
+				<description>Play</description>
+				<label>208</label>
+				<width>260</width>
+				<include>DefInfoButtons</include>
+				<onclick>PlayMedia($INFO[ListItem.FileNameAndPath])</onclick>
+				<onclick>Dialog.Close(135)</onclick>
+				<visible>String.IsEqual(ListItem.DBType,album) | String.IsEqual(ListItem.DBType,song)</visible>
+				<onup condition="Control.IsVisible(50)">SetFocus(9009)</onup>	
+			</control>				
+			<control type="button" id="7">
+				<width>260</width>
+				<include>DefInfoButtons</include>
+				<visible>String.IsEqual(ListItem.DBType,album) | String.IsEqual(ListItem.DBType,song)</visible>
+				<onup condition="Control.IsVisible(50)">SetFocus(9009)</onup>	
+			</control>					
+			<control type="button" id ="9001">
+				<description>Discog</description>
+				<label>21888</label>
+				<width>260</width>
+				<onclick>ClearProperty(tracklist)</onclick>
+				<onclick>SetProperty(content,1)</onclick>
+				<onclick>SetFocus(9501)</onclick>	
+				<onup condition="Control.IsVisible(50)">SetFocus(9009)</onup>				
+				<include>DefInfoButtons</include>
+			</control>
+			<control type="togglebutton" id ="9002">
+				<description>Tracklist</description>
+				<label>182</label>
+				<altlabel>21887</altlabel>
+				<width>260</width>
+				<usealttexture>!String.IsEmpty(Window.Property(tracklist))</usealttexture>
+				<onclick condition="String.IsEmpty(Window.Property(tracklist))">SetProperty(tracklist,1)</onclick>
+				<onclick condition="!String.IsEmpty(Window.Property(tracklist))">ClearProperty(tracklist)</onclick>
+				<include>DefInfoButtons</include>
+				<onup condition="Control.IsVisible(50)">SetFocus(9009)</onup>
+				<visible>Container.Content(albums)</visible>
+			</control>
+			<control type="button" id ="9003">
+				<description>Youtube</description>
+				<label>31141</label>
+				<width>260</width>
+				<onclick>Close</onclick>
+				<onclick>ActivateWindow(videos,plugin://plugin.video.youtube/search/?q=$INFO[ListItem.Artist],return)</onclick>
+				<include>DefInfoButtons</include>
+				<onup condition="Control.IsVisible(50)">SetFocus(9009)</onup>	
+			</control>
+			<control type="button" id="51">
+				<description>Get Thumb</description>
+				<label>37550</label>
+				<width>260</width>
+				<include>DefInfoButtons</include>
+				<onclick>SetFocus(9603)</onclick>
+				<visible>!String.IsEmpty(ListItem.Art(fanart))</visible>
+			</control> 
+			<control type="button" id ="6">
+				<description>Refresh</description>
+				<label>184</label>
+				<width>260</width>
+				<include>DefInfoButtons</include>
+				<visible>!Skin.HasSetting(global.kioskmode)</visible>
+				<onup condition="Control.IsVisible(50)">SetFocus(9009)</onup>	
+			</control>
+			<control type="button" id ="10">
+				<description>Get Thumb</description>
+				<label>13405</label>
+				<width>260</width>
+				<include>DefInfoButtons</include>
+				<visible>!Skin.HasSetting(global.kioskmode)</visible>
+				<onup condition="Control.IsVisible(50)">SetFocus(9009)</onup>	
+			</control>
+			<control type="button" id="54">
+				<label>37513</label>
+				<onclick condition="Container.Content(songs)">RunScript(script.artwork.beef)</onclick>
+				<description>Get Artwork</description>
+				<include>DefInfoButtons</include>
+				<onup condition="Control.IsVisible(50)">SetFocus(9009)</onup>
+			</control>
+		</control>	
+	</include>
+
+	<include name="DialogMusicInfoNavigationNew">
+		<control type="grouplist" id="9000">
+			<visible allowhiddenfocus="true">ControlGroup(9000).HasFocus() | Control.HasFocus(50) | Control.HasFocus(9009)</visible>
+			<bottom>224</bottom>
+			<left>783</left>
+			<right>SidePad</right>
+			<include>listdimensions</include>
+			<onup>50</onup>    
+			<ondown>9601</ondown>     
+			<orientation>horizontal</orientation>
+			<control type="radiobutton" id ="8">
+				<include>buttondimensionssquare</include>
+				<include content="buttontextures">
+					<param name="icon" value="buttonsdialogs/play.png" />
+				</include>
+				<onfocus>ClearProperty(content)</onfocus>
+				<onclick>PlayMedia($INFO[ListItem.FileNameAndPath])</onclick>
+				<onclick>Dialog.Close(135)</onclick>
+				<visible>String.IsEqual(ListItem.DBType,album) | String.IsEqual(ListItem.DBType,song)</visible>
+				<onup condition="Control.IsVisible(50)">SetFocus(9009)</onup>						
+			</control>
+			<control type="radiobutton" id ="7">
+				<include>buttondimensionssquare</include>
+				<include content="buttontextures">
+					<param name="icon" value="buttonsdialogs/rating.png" />
+				</include>
+				<onfocus>ClearProperty(content)</onfocus>
+				<textcolor>Dark4</textcolor>
+				<font>Null</font>
+				<visible>String.IsEqual(ListItem.DBType,album) | String.IsEqual(ListItem.DBType,song)</visible>
+			</control>		
+			<control type="radiobutton" id ="9019">
+				<description>Trailer</description>
+				<include>buttondimensionssquare</include>
+				<onfocus>ClearProperty(content)</onfocus>
+				<include content="buttontextures">
+					<param name="icon" value="buttonsdialogs/set.png" />
+				</include>
+				<onclick>ClearProperty(tracklist)</onclick>
+				<onclick>SetProperty(content,1)</onclick>
+				<onclick>SetFocus(9501)</onclick>	
+				<onup condition="Control.IsVisible(50)">SetFocus(9009)</onup>	
+			</control>			
+			<control type="radiobutton" id ="9002">
+				<description>Trailer</description>
+				<font>Button</font>
+				<textcolor>Dark4</textcolor>
+				<include>buttondimensionssquare</include>
+				<onfocus>ClearProperty(content)</onfocus>
+				<texturenofocus colordiffuse="Dark4" border="0">common/box.png</texturenofocus>
+				<texturefocus colordiffuse="$VAR[ColorHighlight]" border="0">common/box.png</texturefocus>
+				<textureradioonfocus colordiffuse="FFFFFFFF">buttonsdialogs/bio.png</textureradioonfocus>
+				<textureradioonnofocus colordiffuse="FFFFFFFF">buttonsdialogs/bio.png</textureradioonnofocus>
+				<textureradioofffocus colordiffuse="FFFFFFFF">buttonsdialogs/tracks.png</textureradioofffocus>
+				<textureradiooffnofocus colordiffuse="FFFFFFFF">buttonsdialogs/tracks.png</textureradiooffnofocus>
+				<textureradiooffdisabled colordiffuse="disabled">buttonsdialogs/set.png</textureradiooffdisabled>
+				<textureradioondisabled colordiffuse="disabled">buttonsdialogs/set.png</textureradioondisabled>
+				<onclick condition="String.IsEmpty(Window.Property(tracklist))">SetProperty(tracklist,1)</onclick>
+				<onclick condition="!String.IsEmpty(Window.Property(tracklist))">ClearProperty(tracklist)</onclick>
+				<onup condition="Control.IsVisible(50)">SetFocus(9009)</onup>
+				<visible>Container.Content(albums)</visible>
+			</control>							
+			<control type="radiobutton" id ="9003">
+				<description>Trailer</description>
+				<font>Button</font>
+				<textcolor>Dark4</textcolor>
+				<focuscolor>Dark4</focuscolor>
+				<include>buttondimensionssquare</include>
+				<onfocus>ClearProperty(content)</onfocus>
+				<include content="buttontextures">
+					<param name="icon" value="buttonsdialogs/youtube.png" />
+				</include>
+				<onclick>Close</onclick>
+				<onclick>ActivateWindow(videos,plugin://plugin.video.youtube/search/?q=$INFO[ListItem.Artist],return)</onclick>
+				<include>DefInfoButtons</include>
+				<onup condition="Control.IsVisible(50)">SetFocus(9009)</onup>	
+			</control>	
+			<control type="radiobutton" id ="51">
+				<description>Trailer</description>
+				<font>Button</font>
+				<textcolor>Dark2</textcolor>
+				<include>buttondimensionssquare</include>
+				<onfocus>ClearProperty(content)</onfocus>
+				<texturenofocus colordiffuse="Dark4" border="0">common/box.png</texturenofocus>
+				<texturefocus colordiffuse="$VAR[ColorHighlight]" border="0">common/box.png</texturefocus>
+				<include content="buttontextures">
+					<param name="icon" value="buttonsdialogs/image.png" />
+				</include>
+				<onclick>SetFocus(9603)</onclick>
+				<visible>!String.IsEmpty(ListItem.Art(fanart))</visible>
+			</control>
+			<control type="radiobutton" id ="48">
+				<description>Trailer</description>
+				<font>Button</font>
+				<textcolor>Dark2</textcolor>
+				<include>buttondimensionssquare</include>
+				<onfocus>ClearProperty(content)</onfocus>
+				<include content="buttontextures">
+					<param name="icon" value="buttonsdialogs/update.png" />
+				</include>
+				<visible>!Skin.HasSetting(global.kioskmode)</visible>
+				<onup condition="Control.IsVisible(50)">SetFocus(9009)</onup>
+				<onclick>SendClick(6)</onclick>	
+			</control>	
+			
+			<control type="radiobutton" id ="54">
+				<description>Trailer</description>
+				<font>Button</font>
+				<textcolor>Dark2</textcolor>
+				<include>buttondimensionssquare</include>
+				<onfocus>ClearProperty(content)</onfocus>
+				<include content="buttontextures">
+					<param name="icon" value="buttonsdialogs/thumb.png" />
+				</include>
+				<visible>!Skin.HasSetting(global.kioskmode)</visible>
+				<onup condition="Control.IsVisible(50)">SetFocus(9009)</onup>
+				<onclick>SendClick(10)</onclick>	
+			</control>		
+		</control>		
+	</include>
+	
+	<include name="DialogPvrInfoNavigation">
+		<control type="grouplist" id="9000">
+			<bottom>224</bottom>
+			<left>ListSquareX</left>
+			<right>SidePad</right>
+			<height>68</height>
+			<bottom>33</bottom>
+			<itemgap>16</itemgap>
+			<ondown>9000</ondown>
+			<onup condition="Control.IsVisible(50)">51</onup>
+			<onup condition="Control.IsVisible(9501)">9501</onup>
+			<orientation>horizontal</orientation>
+			<control type="button" id="4">
+				<align>center</align>
+				<width>260</width>
+				<label>19003</label>
+				<include>DefInfoButtons</include>
+				<visible>Window.IsActive(PVRGuideInfo)</visible>
+			</control>
+			<control type="button" id="5">
+				<align>center</align>
+				<width>260</width>
+				<label>19165</label>
+				<include>DefInfoButtons</include>
+				<visible>Window.IsActive(PVRGuideInfo)</visible>
+			</control>
+			<control type="button" id="6">
+				<align>center</align>
+				<width>260</width>
+				<label>264</label>
+				<include>DefInfoButtons</include>
+				<visible>Window.IsActive(PVRGuideInfo)</visible>
+			</control>
+			<control type="button" id="8">
+				<align>center</align>
+				<width>260</width>
+				<label>19687</label>
+				<include>DefInfoButtons</include>
+				<visible>Window.IsActive(PVRGuideInfo) | Window.IsActive(PVRRecordingInfo)</visible>
+			</control>
+			<control type="button" id="10">
+				<align>center</align>
+				<width>260</width>
+				<label>19190</label>
+				<include>DefInfoButtons</include>
+				<visible>Window.IsActive(PVRGuideInfo)</visible>
+			</control>
+			<control type="button" id="7">
+				<align>center</align>
+				<width>260</width>
+				<label>186</label>
+				<include>DefInfoButtons</include>
+			</control>
+		</control>
+	</include>
+	
+	<include name="DialogPvrInfoNavigationNew">
+		<control type="grouplist" id="9000">
+			<visible allowhiddenfocus="true">ControlGroup(9000).HasFocus() | Control.HasFocus(50) | Control.HasFocus(9009)</visible>
+			<bottom>224</bottom>
+			<left>783</left>
+			<right>SidePad</right>
+			<include>listdimensions</include>
+			<onup>50</onup>    
+			<ondown>9601</ondown>     
+			<orientation>horizontal</orientation>
+			<control type="radiobutton" id ="4">
+				<include>buttondimensionssquare</include>
+				<include content="buttontextures">
+					<param name="icon" value="buttonsdialogs/similar.png" />
+				</include>
+				<visible>Window.IsActive(PVRGuideInfo)</visible>					
+			</control>
+			<control type="radiobutton" id ="5">
+				<include>buttondimensionssquare</include>
+				<include content="buttontextures">
+					<param name="icon" value="buttonsdialogs/launch.png" />
+				</include>
+				<visible>Window.IsActive(PVRGuideInfo)</visible>					
+			</control>
+			<control type="radiobutton" id ="6">
+				<include>buttondimensionssquare</include>
+				<include content="buttontextures">
+					<param name="icon" value="buttonsdialogs/record.png" />
+				</include>
+				<visible>Window.IsActive(PVRGuideInfo)</visible>					
+			</control>
+			<control type="radiobutton" id ="8">
+				<include>buttondimensionssquare</include>
+				<include content="buttontextures">
+					<param name="icon" value="buttonsdialogs/play_record.png" />
+				</include>
+				<visible>Window.IsActive(PVRGuideInfo) | Window.IsActive(PVRRecordingInfo)</visible>					
+			</control>
+			<control type="radiobutton" id ="10">
+				<include>buttondimensionssquare</include>
+				<include content="buttontextures">
+					<param name="icon" value="buttonsdialogs/play.png" />
+				</include>
+				<visible>Window.IsActive(PVRGuideInfo)</visible>					
+			</control>
+			<control type="radiobutton" id ="7">
+				<include>buttondimensionssquare</include>
+				<include content="buttontextures">
+					<param name="icon" value="buttonsdialogs/enabled.png" />
+				</include>					
+			</control>
+		</control>		
+	</include>
+	
+	<include name="DialogAddonInfoNavigationNew">
+		<control type="grouplist" id="9000">
+			<bottom>224</bottom>
+			<left>783</left>
+			<right>SidePad</right>
+			<include>listdimensions</include>
+			<ondown>9000</ondown>
+			<onup condition="Control.IsVisible(50)">51</onup>
+			<onup condition="Control.IsVisible(9501)">9501</onup>
+			<orientation>horizontal</orientation>
+			<control type="radiobutton" id ="12">
+				<include>buttondimensionssquare</include>
+				<include content="buttontextures">
+					<param name="icon" value="buttonsdialogs/launch.png" />
+				</include>
+				<textcolor>Dark4</textcolor>
+				<font>Null</font>
+				<visible>Control.IsEnabled(12)</visible>						
+			</control>
+			<control type="radiobutton" id ="6">
+				<include>buttondimensionssquare</include>
+				<texturenofocus colordiffuse="Dark4" border="0">common/box.png</texturenofocus>
+				<texturefocus colordiffuse="$VAR[ColorHighlight]" border="0">common/box.png</texturefocus>
+				<textureradioonfocus colordiffuse="FFFFFFFF">buttonsdialogs/uninstall.png</textureradioonfocus>
+				<textureradioonnofocus colordiffuse="FFFFFFFF">buttonsdialogs/uninstall.png</textureradioonnofocus>
+				<textureradioofffocus colordiffuse="FFFFFFFF">buttonsdialogs/install.png</textureradioofffocus>
+				<textureradiooffnofocus colordiffuse="FFFFFFFF">buttonsdialogs/install.png</textureradiooffnofocus>
+				<visible>!Skin.HasSetting(global.kioskmode)</visible>
+				<visible>Control.IsEnabled(6)</visible>	
+				<textcolor>Dark4</textcolor>
+				<font>Null</font>
+				<selected>ListItem.Property(addon.isinstalled) | !Window.IsActive(addonbrowser)</selected>					
+			</control>
+			<control type="radiobutton" id ="7">
+				<include>buttondimensionssquare</include>
+				<texturenofocus colordiffuse="Dark4" border="0">common/box.png</texturenofocus>
+				<texturefocus colordiffuse="$VAR[ColorHighlight]" border="0">common/box.png</texturefocus>
+				<textureradioonfocus colordiffuse="FFFFFFFF">buttonsdialogs/disable.png</textureradioonfocus>
+				<textureradioonnofocus colordiffuse="FFFFFFFF">buttonsdialogs/disable.png</textureradioonnofocus>
+				<textureradioofffocus colordiffuse="FFFFFFFF">buttonsdialogs/enabled.png</textureradioofffocus>
+				<textureradiooffnofocus colordiffuse="FFFFFFFF">buttonsdialogs/enabled.png</textureradiooffnofocus>
+				<visible>!Skin.HasSetting(global.kioskmode)</visible>
+				<visible>Control.IsEnabled(7)</visible>	
+				<textcolor>Dark4</textcolor>
+				<font>Null</font>
+				<selected>!String.StartsWith(Control.GetLabel(7),$LOCALIZE[24022]) | !Window.IsActive(addonbrowser)</selected>						
+			</control>
+			<control type="radiobutton" id ="9">
+				<include>buttondimensionssquare</include>
+				<include content="buttontextures">
+					<param name="icon" value="buttonsdialogs/configure.png" />
+				</include>
+				<visible>Control.IsEnabled(9)</visible>					
+			</control>
+			<control type="radiobutton" id ="8">
+				<include>buttondimensionssquare</include>
+				<include content="buttontextures">
+					<param name="icon" value="buttonsdialogs/update.png" />
+				</include>
+				<visible>Control.IsEnabled(8)</visible>					
+			</control>
+		</control>
+	</include>	
+	
+	<include name="DialogAddonInfoNavigation">
+		<control type="grouplist" id="9000">
+			<bottom>224</bottom>
+			<left>ListSquareX</left>
+			<right>SidePad</right>
+			<height>68</height>
+			<bottom>33</bottom>
+			<itemgap>16</itemgap>
+			<ondown>9000</ondown>
+			<onup condition="Control.IsVisible(50)">51</onup>
+			<onup condition="Control.IsVisible(9501)">9501</onup>
+			<orientation>horizontal</orientation>
+			<control type="button" id ="12">
+				<description>Launch</description>
+				<label>518</label>
+				<width>260</width>
+				<include>DefInfoButtons</include>
+				<visible>Control.IsEnabled(12)</visible>
+			</control>
+			<control type="button" id ="6">
+				<description>Install</description>
+				<label>24022</label>
+				<width>260</width>
+				<include>DefInfoButtons</include>
+				<visible>!Skin.HasSetting(global.kioskmode)</visible>
+				<visible>Control.IsEnabled(6)</visible>
+			</control>
+			<control type="button" id ="7">
+				<description>Enable</description>
+				<label>24021</label>
+				<width>260</width>
+				<include>DefInfoButtons</include>
+				<visible>!Skin.HasSetting(global.kioskmode)</visible>
+				<visible>Control.IsEnabled(7)</visible>
+			</control>
+			<control type="button" id ="9">
+				<description>Settings</description>
+				<label>24020</label>
+				<width>260</width>
+				<include>DefInfoButtons</include>
+				<visible>!Skin.HasSetting(global.kioskmode)</visible>
+				<visible>Control.IsEnabled(9)</visible>
+			</control>
+			<control type="button" id ="8">
+				<description>Update</description>
+				<label>24069</label>
+				<width>260</width>
+				<include>DefInfoButtons</include>
+				<visible>!Skin.HasSetting(global.kioskmode)</visible>
+				<visible>Control.IsEnabled(8)</visible>
+			</control>
+		</control>
+	</include>	
+	
+	<include name="ExtendedDialogVideoInfoNavigation">
+		<control type="grouplist" id="9000">
+			<visible allowhiddenfocus="true">ControlGroup(9000).HasFocus()</visible>
+			<bottom>224</bottom>
+			<left>540</left>
+			<right>SidePad</right>
+			<height>68</height>
+			<bottom>33</bottom>
+			<itemgap>16</itemgap>
+			<ondown>9000</ondown>
+			<onup condition="Control.IsVisible(50)">51</onup>
+			<onup condition="Control.IsVisible(9501)">9501</onup>
+			<orientation>horizontal</orientation>
+			<control type="button" id ="8">
+				<description>Play</description>
+				<label>208</label>
+				<include>DefInfoButtons</include>
+				<visible>!String.IsEmpty(Window.Property(DBID)) + !String.IsEqual(Window.Property(Type),tvshow)</visible>
+				<visible>String.IsEmpty(Window(home).Property(globalsearch))</visible>
+			</control>
+			<control type="button" id ="120">
+				<description>Browse</description>
+				<label>21385</label>
+				<include>DefInfoButtons</include>
+				<visible>!String.IsEmpty(Window.Property(DBID)) + String.IsEqual(Window.Property(Type),tvshow)</visible>
+				<visible>String.IsEmpty(Window(home).Property(globalsearch))</visible>
+			</control>
+			<control type="button" id ="9002">
+				<description>Cast</description>
+				<label>206</label>
+				<include>DefInfoButtons</include>
+				<onclick>SetProperty(content,1000)</onclick>
+				<onclick>SetFocus(1000)</onclick>
+			</control>		
+			<control type="button" id ="9006">
+				<description>Artwork</description>
+				<label>Artwork</label>
+				<include>DefInfoButtons</include>
+				<onclick>SetProperty(content,1350)</onclick>
+				<onclick>SetFocus(1350)</onclick>
+			</control> 
+			<control type="button" id ="9003">
+				<description>Similar</description>
+				<label>31206</label>
+				<include>DefInfoButtons</include>
+				<onclick>SetProperty(content,150)</onclick>
+				<onclick>SetFocus(150)</onclick>			
+			</control>
+			<control type="button" id ="9004">
+				<description>Youtube</description>
+				<label>$ADDON[script.extendedinfo 32118]</label>
+				<include>DefInfoButtons</include>
+				<onclick>SetProperty(content,350)</onclick>
+				<onclick>SetFocus(350)</onclick>
+			</control>
+			<control type="button" id ="9005">
+				<description>Crew</description>
+				<label>$ADDON[script.extendedinfo 32115]</label>
+				<include>DefInfoButtons</include>
+				<onclick>SetProperty(content,750)</onclick>
+				<onclick>SetFocus(750)</onclick>
+			</control>  
+		</control>
+	</include>
+	
+	<include name="ExtendedDialogVideoInfoNavigationNew">
+		<control type="grouplist" id="9000">
+			<visible allowhiddenfocus="true">ControlGroup(9000).HasFocus()</visible>
+			<bottom>224</bottom>
+			<left>571</left>
+			<right>SidePad</right>
+			<include>listdimensions</include>
+			<ondown>9000</ondown>
+			<onup condition="Control.IsVisible(50)">51</onup>
+			<onup condition="Control.IsVisible(9501)">9501</onup>
+			<orientation>horizontal</orientation>	
+			<control type="radiobutton" id ="8">
+				<include>buttondimensions</include>
+				<include content="buttontextures">
+					<param name="icon" value="buttonsdialogs/play.png" />
+				</include>
+				<visible>!String.IsEmpty(Window.Property(DBID)) + !String.IsEqual(Window.Property(Type),tvshow)</visible>
+				<visible>String.IsEmpty(Window(home).Property(globalsearch))</visible>					
+			</control>
+			<control type="radiobutton" id ="120">
+				<description>Browse</description>
+				<include>buttondimensions</include>
+				<include content="buttontextures">
+					<param name="icon" value="buttonsdialogs/browse.png" />
+				</include>
+				<visible>!String.IsEmpty(Window.Property(DBID)) + String.IsEqual(Window.Property(Type),tvshow)</visible>
+				<visible>String.IsEmpty(Window(home).Property(globalsearch))</visible>				
+			</control>
+			<control type="radiobutton" id ="9002">
+				<include>buttondimensions</include>
+				<include content="buttontextures">
+					<param name="icon" value="buttonsdialogs/cast.png" />
+				</include>
+				<onclick>SetProperty(content,1000)</onclick>
+				<onclick>SetFocus(1000)</onclick>		
+			</control>
+			<control type="radiobutton" id ="9006">
+				<include>buttondimensions</include>
+				<include content="buttontextures">
+					<param name="icon" value="buttonsdialogs/image.png" />
+				</include>
+				<onclick>SetProperty(content,1350)</onclick>
+				<onclick>SetFocus(1350)</onclick>	
+			</control>
+			<control type="radiobutton" id ="9003">
+				<include>buttondimensions</include>
+				<include content="buttontextures">
+					<param name="icon" value="buttonsdialogs/similar.png" />
+				</include>
+				<onclick>SetProperty(content,150)</onclick>
+				<onclick>SetFocus(150)</onclick>
+			</control>
+			<control type="radiobutton" id ="9004">
+				<include>buttondimensions</include>
+				<include content="buttontextures">
+					<param name="icon" value="buttonsdialogs/youtube.png" />
+				</include>
+				<onclick>SetProperty(content,350)</onclick>
+				<onclick>SetFocus(350)</onclick>
+			</control>
+			<control type="radiobutton" id ="9005">
+				<include>buttondimensions</include>
+				<include content="buttontextures">
+					<param name="icon" value="buttonsdialogs/crew.png" />
+				</include>
+				<onclick>SetProperty(content,750)</onclick>
+				<onclick>SetFocus(750)</onclick>
+			</control>
+		</control>
+	</include>
+	
+	<include name="ExtendedDialogInfoNavigation">
+		<control type="grouplist" id="9000">
+			<visible allowhiddenfocus="true">ControlGroup(9000).HasFocus()</visible>
+			<bottom>224</bottom>
+			<left>540</left>
+			<right>SidePad</right>
+			<height>68</height>
+			<bottom>33</bottom>
+			<itemgap>16</itemgap>
+			<ondown>9000</ondown>
+			<onup condition="Control.IsVisible(50)">51</onup>
+			<onup condition="Control.IsVisible(9501)">9501</onup>
+			<orientation>horizontal</orientation>	
+			<control type="button" id ="9006">
+				<description>Artwork</description>
+				<label>Artwork</label>
+				<include>DefInfoButtons</include>
+				<onclick>SetProperty(content,450)</onclick>
+				<onclick>SetFocus(450)</onclick>			
+			</control>  
+			<control type="button" id ="9002">
+				<description>Movies</description>
+				<label>$ADDON[script.extendedinfo 32010]</label>
+				<include>DefInfoButtons</include>
+				<onclick>SetProperty(content,150)</onclick>
+				<onclick>SetFocus(150)</onclick>
+			</control>	
+			<control type="button" id ="9003">
+				<description>TvShows</description>
+				<label>$ADDON[script.extendedinfo 32031]</label>
+				<include>DefInfoButtons</include>
+				<onclick>SetProperty(content,250)</onclick>
+				<onclick>SetFocus(250)</onclick>
+			</control>
+			<control type="button" id ="9004">
+				<description>Youtube</description>
+				<label>$ADDON[script.extendedinfo 32118]</label>
+				<include>DefInfoButtons</include>
+				<onclick>SetProperty(content,350)</onclick>
+				<onclick>SetFocus(350)</onclick>
+			</control>
+			<control type="button" id ="9005">
+				<description>AsCrew</description>
+				<label>$ADDON[script.extendedinfo 32115]</label>
+				<include>DefInfoButtons</include>
+				<onclick>SetProperty(content,550)</onclick>
+				<onclick>SetFocus(550)</onclick>
+			</control>  
+		</control>
+	</include>
+	
+	<include name="ExtendedDialogInfoNavigationNew">
+		<control type="grouplist" id="9000">
+			<visible allowhiddenfocus="true">ControlGroup(9000).HasFocus()</visible>
+			<bottom>224</bottom>
+			<left>571</left>
+			<right>SidePad</right>
+			<include>listdimensions</include>
+			<ondown>9000</ondown>
+			<onup condition="Control.IsVisible(50)">51</onup>
+			<onup condition="Control.IsVisible(9501)">9501</onup>
+			<orientation>horizontal</orientation>		
+			<control type="radiobutton" id ="9006">
+				<include>buttondimensions</include>
+				<include content="buttontextures">
+					<param name="icon" value="buttonsdialogs/image.png" />
+				</include>
+				<onclick>SetProperty(content,450)</onclick>
+				<onclick>SetFocus(450)</onclick>				
+			</control>
+			<control type="radiobutton" id ="9002">
+				<include>buttondimensions</include>
+				<include content="buttontextures">
+					<param name="icon" value="buttonsdialogs/trailer.png" />
+				</include>
+				<onclick>SetProperty(content,150)</onclick>
+				<onclick>SetFocus(150)</onclick>				
+			</control>
+			<control type="radiobutton" id ="9003">
+				<include>buttondimensions</include>
+				<include content="buttontextures">
+					<param name="icon" value="buttonsdialogs/tvshows.png" />
+				</include>
+				<onclick>SetProperty(content,250)</onclick>
+				<onclick>SetFocus(250)</onclick>				
+			</control>
+			<control type="radiobutton" id ="9004">
+				<include>buttondimensions</include>
+				<include content="buttontextures">
+					<param name="icon" value="buttonsdialogs/youtube.png" />
+				</include>
+				<onclick>SetProperty(content,350)</onclick>
+				<onclick>SetFocus(350)</onclick>				
+			</control>
+			<control type="radiobutton" id ="9005">
+				<include>buttondimensions</include>
+				<include content="buttontextures">
+					<param name="icon" value="buttonsdialogs/director.png" />
+				</include>
+				<onclick>SetProperty(content,550)</onclick>
+				<onclick>SetFocus(550)</onclick>				
+			</control>
+		</control>
+	</include>
+	<variable name="DialogInfoLabel">	
+		<value condition="Control.HasFocus(9006) + Window.IsVisible(script-script.extendedinfo-DialogInfo.xml)">$LOCALIZE[37513]</value>
+		<value condition="Control.HasFocus(9002) + Window.IsVisible(script-script.extendedinfo-DialogInfo.xml)">$ADDON[script.extendedinfo 32010]</value>
+		<value condition="Control.HasFocus(9003) + Window.IsVisible(script-script.extendedinfo-DialogInfo.xml)">$ADDON[script.extendedinfo 32031]</value>
+		<value condition="Control.HasFocus(9004) + Window.IsVisible(script-script.extendedinfo-DialogInfo.xml)">$ADDON[script.extendedinfo 32118]</value>
+		<value condition="Control.HasFocus(9005) + Window.IsVisible(script-script.extendedinfo-DialogInfo.xml)">$ADDON[script.extendedinfo 32115]</value>		
+		<value condition="Control.HasFocus(8) + Window.IsVisible(script-script.extendedinfo-DialogVideoInfo.xml)">$LOCALIZE[208]</value>
+		<value condition="Control.HasFocus(120) + Window.IsVisible(script-script.extendedinfo-DialogVideoInfo.xml)">$LOCALIZE[21385]</value>
+		<value condition="Control.HasFocus(9002) + Window.IsVisible(script-script.extendedinfo-DialogVideoInfo.xml)">$LOCALIZE[206]</value>
+		<value condition="Control.HasFocus(9006) + Window.IsVisible(script-script.extendedinfo-DialogVideoInfo.xml)">$LOCALIZE[37513]</value>
+		<value condition="Control.HasFocus(9003) + Window.IsVisible(script-script.extendedinfo-DialogVideoInfo.xml)">$LOCALIZE[31206]</value>
+		<value condition="Control.HasFocus(9004) + Window.IsVisible(script-script.extendedinfo-DialogVideoInfo.xml)">$ADDON[script.extendedinfo 32118]</value>
+		<value condition="Control.HasFocus(9005) + Window.IsVisible(script-script.extendedinfo-DialogVideoInfo.xml)">$ADDON[script.extendedinfo 32115]</value>
+		<value condition="Control.HasFocus(12) + Window.IsVisible(DialogAddonInfo.xml)">$LOCALIZE[518]</value>
+		<value condition="Control.HasFocus(9) + Window.IsVisible(DialogAddonInfo.xml)">$LOCALIZE[24020]</value>
+		<value condition="Control.HasFocus(8) + Window.IsVisible(DialogAddonInfo.xml)">$LOCALIZE[24069]</value>
+		<value condition="Control.HasFocus(7) + Window.IsVisible(DialogAddonInfo.xml)">$INFO[Control.GetLabel(7)]</value>
+		<value condition="Control.HasFocus(6) + Window.IsVisible(DialogAddonInfo.xml)">$INFO[Control.GetLabel(6)]</value>
+		<value condition="Control.HasFocus(4) + Window.IsVisible(DialogPVRInfo.xml)">$LOCALIZE[19003]</value>
+		<value condition="Control.HasFocus(5) + Window.IsVisible(DialogPVRInfo.xml)">$LOCALIZE[19165]</value>
+		<value condition="Control.HasFocus(8) + Window.IsVisible(DialogPVRInfo.xml)">$LOCALIZE[19687]</value>
+		<value condition="Control.HasFocus(10) + Window.IsVisible(DialogPVRInfo.xml)">$LOCALIZE[19190]</value>		
+		<value condition="Control.HasFocus(7) + Window.IsVisible(DialogPVRInfo.xml)">$LOCALIZE[186]</value>
+		<value condition="Control.HasFocus(6) + Window.IsVisible(DialogPVRInfo.xml)">$LOCALIZE[264]</value>		
+		<value condition="Control.HasFocus(9019) + Window.IsVisible(DialogVideoInfo.xml)">$LOCALIZE[37551]</value>
+		<value condition="Control.HasFocus(8)">$LOCALIZE[208]</value>
+		<value condition="Control.HasFocus(9019)">$LOCALIZE[21888]</value>
+		<value condition="Control.HasFocus(9018)">$LOCALIZE[37551]</value>
+		<value condition="Control.HasFocus(11)">$LOCALIZE[20410]</value>
+		<value condition="Control.HasFocus(9012)">$LOCALIZE[31206]</value>
+		<value condition="Control.HasFocus(51)">$LOCALIZE[37550]</value>
+		<value condition="Control.HasFocus(7)">$LOCALIZE[38023]</value>
+		<value condition="Control.HasFocus(6)">$LOCALIZE[184]</value>
+		<value condition="Control.HasFocus(10)">$LOCALIZE[13405]</value>
+		<value condition="Control.HasFocus(9001)">$LOCALIZE[31203]</value>
+		<value condition="Control.HasFocus(49)">$LOCALIZE[31170]</value>
+		<value condition="Control.HasFocus(9100)">$LOCALIZE[31203]</value>
+		<value condition="Control.HasFocus(123)">$LOCALIZE[38023]</value>
+		<value condition="Control.HasFocus(9003)">$LOCALIZE[31141]</value>
+		<value condition="Control.HasFocus(48)">$LOCALIZE[184]</value>
+		<value condition="Control.HasFocus(54)">$LOCALIZE[13405]</value>		
+		<value condition="Control.HasFocus(9002) + String.IsEmpty(Window.Property(tracklist))">$LOCALIZE[182]</value>
+		<value condition="Control.HasFocus(9002) + !String.IsEmpty(Window.Property(tracklist))">$LOCALIZE[21887]</value>
+	</variable>
+
 </includes>

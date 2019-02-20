@@ -31,62 +31,8 @@
                 <animation effect="slide" start="0" end="1920" time="300" tween="quadratic" easing="in">Hidden</animation>
 
                 <!-- Control Buttons -->
-                <control type="grouplist" id="9000">
-                    <bottom>224</bottom>
-                    <left>ListSquareX</left>
-                    <right>SidePad</right>
-                    <height>68</height>
-                    <bottom>33</bottom>
-                    <itemgap>16</itemgap>
-                    <ondown>9000</ondown>
-                    <onup condition="Control.IsVisible(50)">51</onup>
-                    <onup condition="Control.IsVisible(9501)">9501</onup>
-                    <orientation>horizontal</orientation>
-
-                    <control type="button" id ="12">
-                        <description>Launch</description>
-                        <label>518</label>
-                        <width>260</width>
-                        <include>DefInfoButtons</include>
-                        <visible>Control.IsEnabled(12)</visible>
-                    </control>
-
-                    <control type="button" id ="6">
-                        <description>Install</description>
-                        <label>24022</label>
-                        <width>260</width>
-                        <include>DefInfoButtons</include>
-                        <visible>!Skin.HasSetting(global.kioskmode)</visible>
-                        <visible>Control.IsEnabled(6)</visible>
-                    </control>
-
-                    <control type="button" id ="7">
-                        <description>Enable</description>
-                        <label>24021</label>
-                        <width>260</width>
-                        <include>DefInfoButtons</include>
-                        <visible>!Skin.HasSetting(global.kioskmode)</visible>
-                        <visible>Control.IsEnabled(7)</visible>
-                    </control>
-
-                    <control type="button" id ="9">
-                        <description>Settings</description>
-                        <label>24020</label>
-                        <width>260</width>
-                        <include>DefInfoButtons</include>
-                        <visible>!Skin.HasSetting(global.kioskmode)</visible>
-                        <visible>Control.IsEnabled(9)</visible>
-                    </control>
-
-                    <control type="button" id ="8">
-                        <description>Update</description>
-                        <label>24069</label>
-                        <width>260</width>
-                        <include>DefInfoButtons</include>
-                        <visible>!Skin.HasSetting(global.kioskmode)</visible>
-                        <visible>Control.IsEnabled(8)</visible>
-                    </control>
-                </control>
+                <include condition="Skin.HasSetting(olddialogbuttons)">DialogAddonInfoNavigation</include>
+				<include condition="!Skin.HasSetting(olddialogbuttons)">DialogAddonInfoNavigationNew</include>
 
                 
 
@@ -219,8 +165,20 @@
                         </control>
                     </control>
                 </control>
-
-               
+				<control type="label">
+					<right>83</right>
+					<bottom>175</bottom>
+					<height>50</height>
+					<font>Mini</font>
+					<scroll>false</scroll>
+					<textcolor>Dark3</textcolor>
+					<label>$VAR[DialogInfoLabel]</label>
+					<aligny>center</aligny>
+					<align>right</align>
+					<visible>ControlGroup(9000).HasFocus() + !Skin.HasSetting(olddialogbuttons)</visible>
+					<include>Animation.FadeIn</include>
+					<include>Animation.FadeOut</include>
+				</control>               
             </control>
         </control>
     </controls>

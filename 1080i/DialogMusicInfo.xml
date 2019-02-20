@@ -26,7 +26,7 @@
                 <include>Animation.RightSide</include>     
                 <control type="group">
                     <include>Animation.DelayFadeIn</include>
-                    <visible>Control.HasFocus(51) | [Control.HasFocus(9501) + Control.IsVisible(9501)]</visible>
+                    <visible>[Control.HasFocus(9501) + Control.IsVisible(9501)]</visible>
                     <centerbottom>566</centerbottom>
 					<right>198</right>
                     <height>16</height>
@@ -43,105 +43,15 @@
                     <visible allowhiddenfocus="true">false</visible>
                 </control>
                 <!-- Control Buttons -->
-                <control type="grouplist" id="9000">
-                    <visible allowhiddenfocus="true">ControlGroup(9000).HasFocus() | Control.HasFocus(50) | Control.HasFocus(9009)</visible>
-                    <bottom>224</bottom>
-                    <left>ListSquareX</left>
-                    <right>SidePad</right>
-                    <height>68</height>
-                    <bottom>33</bottom>
-                    <itemgap>16</itemgap>
-                    <ondown>9000</ondown>
-                    <onup condition="Control.IsVisible(50)">51</onup>
-                    <onup condition="Control.IsVisible(9501)">9501</onup>
-                    <orientation>horizontal</orientation>
-					<control type="button" id ="8">
-                        <description>Play</description>
-                        <label>208</label>
-						<width>260</width>
-                        <include>DefInfoButtons</include>
-						<onclick>PlayMedia($INFO[ListItem.FileNameAndPath])</onclick>
-						<onclick>Dialog.Close(135)</onclick>
-						<visible>String.IsEqual(ListItem.DBType,album) | String.IsEqual(ListItem.DBType,song)</visible>
-						<onup condition="Control.IsVisible(50)">SetFocus(9009)</onup>	
-                    </control>				
-					<control type="button" id="7">
-						<width>260</width>
-						<include>DefInfoButtons</include>
-						<visible>String.IsEqual(ListItem.DBType,album) | String.IsEqual(ListItem.DBType,song)</visible>
-						<onup condition="Control.IsVisible(50)">SetFocus(9009)</onup>	
-					</control>					
-                    <control type="button" id ="9001">
-                        <description>Discog</description>
-                        <label>21888</label>
-                        <width>260</width>
-						<onclick>ClearProperty(tracklist)</onclick>
-                        <onclick>SetProperty(content,1)</onclick>
-                        <onclick>SetFocus(9501)</onclick>	
-						<onup condition="Control.IsVisible(50)">SetFocus(9009)</onup>				
-                        <include>DefInfoButtons</include>
-                    </control>
-                    <control type="togglebutton" id ="9002">
-                        <description>Tracklist</description>
-                        <label>182</label>
-                        <altlabel>21887</altlabel>
-                        <width>260</width>
-                        <usealttexture>!String.IsEmpty(Window.Property(tracklist))</usealttexture>
-                        <onclick condition="String.IsEmpty(Window.Property(tracklist))">SetProperty(tracklist,1)</onclick>
-                        <onclick condition="!String.IsEmpty(Window.Property(tracklist))">ClearProperty(tracklist)</onclick>
-                        <include>DefInfoButtons</include>
-						<onup condition="Control.IsVisible(50)">SetFocus(9009)</onup>
-                        <visible>Container.Content(albums)</visible>
-                    </control>
-                    <control type="button" id ="9003">
-                        <description>Youtube</description>
-                        <label>31141</label>
-                        <width>260</width>
-                        <onclick>Close</onclick>
-                        <onclick>ActivateWindow(videos,plugin://plugin.video.youtube/search/?q=$INFO[ListItem.Artist],return)</onclick>
-                        <include>DefInfoButtons</include>
-						<onup condition="Control.IsVisible(50)">SetFocus(9009)</onup>	
-                    </control>
-					<control type="button" id="51">
-                        <description>Get Thumb</description>
-                        <label>37550</label>
-						<width>260</width>
-                        <include>DefInfoButtons</include>
-						<onclick>SetFocus(9603)</onclick>
-						<visible>!String.IsEmpty(ListItem.Art(fanart))</visible>
-                    </control> 
-                    <control type="button" id ="6">
-                        <description>Refresh</description>
-                        <label>184</label>
-                        <width>260</width>
-                        <include>DefInfoButtons</include>
-                        <visible>!Skin.HasSetting(global.kioskmode)</visible>
-						<onup condition="Control.IsVisible(50)">SetFocus(9009)</onup>	
-                    </control>
-                    <control type="button" id ="10">
-                        <description>Get Thumb</description>
-                        <label>13405</label>
-                        <width>260</width>
-                        <include>DefInfoButtons</include>
-                        <visible>!Skin.HasSetting(global.kioskmode)</visible>
-						<onup condition="Control.IsVisible(50)">SetFocus(9009)</onup>	
-                    </control>
-					<control type="button" id="54">
-                        <label>37513</label>
-                        <onclick condition="Container.Content(songs)">RunScript(script.artwork.beef)</onclick>
-                        <description>Get Artwork</description>
-                        <include>DefInfoButtons</include>
-                    	<onup condition="Control.IsVisible(50)">SetFocus(9009)</onup>
-					</control>
-                    <!-- <control type="button" id ="12">
-                        <description>Get Fanart</description>
-                        <label>20413</label>
-                        <width>260</width>
-                        <include>DefInfoButtons</include>
-                        <visible>!Skin.HasSetting(global.kioskmode)</visible>
-                        <visible>Container.Content(artists)</visible>
-                    </control> -->
-                </control>
+                <include condition="Skin.HasSetting(olddialogbuttons)">DialogMusicInfoNavigation</include>
+				<include content="DialogMusicInfoNavigationNew" condition="!Skin.HasSetting(olddialogbuttons)">
+					<param name="buttonwidth" value="125" />
+					<param name="buttonheight" value="68" />
+				</include>
+				
+				
+				
+				
 				<control type="group">				
 					<left>ListSquareX</left>
                     <right>SidePad</right>                
@@ -1344,6 +1254,20 @@
                 </control>
             </control>
         </control>
+		<control type="label">
+			<right>83</right>
+			<bottom>175</bottom>
+			<height>50</height>
+			<font>Mini</font>
+			<scroll>false</scroll>
+			<textcolor>Dark3</textcolor>
+			<label>$VAR[DialogInfoLabel]</label>
+			<aligny>center</aligny>
+			<align>right</align>
+			<visible>ControlGroup(9000).HasFocus() + !Skin.HasSetting(olddialogbuttons)</visible>
+			<include>Animation.FadeIn</include>
+			<include>Animation.FadeOut</include>
+		</control>	
 		<control type="button" id="160">		
 			<left>-30</left>
 			<top>-30</top>
