@@ -1,0 +1,188 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Foundation -->
+<includes>
+    <include name="View_510_Minimal">
+        <description>List View (id=510)</description>
+		<control type="group">
+			<include>Animation.Common</include>	
+			<!--<include>JumpBarHorizontal</include>
+			<include>ViewSlideForJumpBar</include>-->
+            <visible>Control.IsVisible(510)</visible>
+			<control type="group">
+				<left>235</left>
+				<top>40</top>
+				<width>520</width>
+				<animation effect="slide" start="0,0" end="0,20" time="200" condition="Skin.HasSetting(ShowClearart510)">Conditional</animation>		
+				<control type="image" description="clearlogo">
+					<visible>Skin.HasSetting(ShowClearart510) + !String.IsEmpty(ListItem.Art(clearlogo))</visible>
+					<top>-670</top>
+					<width>275</width>
+					<aspectratio scalediffuse="true" align="left">keep</aspectratio>
+					<texture background="true">$INFO[ListItem.Art(clearlogo)]</texture>
+					<include>Animation.ViHi</include>
+					<fadetime>100</fadetime>
+				</control>	
+				<control type="label">
+					<visible>!Skin.HasSetting(ShowClearart510) | [Skin.HasSetting(ShowClearart510) + String.IsEmpty(ListItem.Art(clearlogo))]</visible>
+					<top>180</top>
+					<description>Header Label</description>
+					<textcolor>Dark1</textcolor>
+					<font>SmallBold</font>
+					<label fallback="19055">$INFO[ListItem.Title]</label>
+					<include>Animation.ViHi</include>
+				</control>
+				<control type="label">
+					<visible>!String.IsEqual(ListItem.Label,..)</visible>
+					<top>236</top>					
+					<height>36</height>
+					<font>Tiny</font>
+					<textcolor>Dark1</textcolor>
+					<label>$VAR[509_Row_3]</label>				
+				</control>
+				<control type="textbox">				
+					<top>300</top>
+					<bottom>17</bottom>
+					<font>Tiny</font>
+					<height>180</height>
+					<textcolor>Dark2</textcolor>
+					<selectedcolor>Dark2</selectedcolor>
+					<label>$INFO[ListItem.Plot]</label>				
+				</control>
+				<control type="label">
+					<top>195</top>
+					<left>-130</left>
+					<description>Header Label</description>
+					<textcolor>Dark2</textcolor>
+					<font>HomeFO</font>
+					<label>$INFO[ListItem.Year]</label>
+				</control>	
+				<control type="label">
+					<top>265</top>
+					<left>-130</left>
+					<width>100</width>
+					<align>center</align>
+					<description>Header Label</description>
+					<textcolor>Dark3</textcolor>
+					<font>Small</font>
+					<label>$INFO[ListItem.Duration(mins)]</label>
+				</control>	
+			</control>
+			<control type="wraplist" id="510">
+				<oninfo condition="ListItem.IsCollection">ActivateWindow(1132)</oninfo>
+                <visible>Container.Content(movies) | Container.Content(tvshows) | Container.Content(seasons)</visible> 
+                <top>600</top>
+                <left>-80</left>
+                <width>2058</width>
+                <height>395</height>
+                <onup condition="!Skin.HasSetting(global.kioskmode)">9000</onup>
+                <ondown>1651</ondown>
+				<orientation>horizontal</orientation>
+                <preloaditems>2</preloaditems>
+                <pagecontrol>1651</pagecontrol>
+				<focusposition>2</focusposition>
+                <viewtype label="37590">list</viewtype>
+                <scrolltime tween="quadratic">400</scrolltime>
+                <itemlayout height="287" width="160">
+                    <control type="image">
+                        <left>2</left>
+                        <top>-3</top>
+                        <right>-5</right>
+                        <bottom>52</bottom>
+                        <texture border="10">common/nofocus-shadow10.png</texture>
+                    </control>
+					<control type="image">
+						<left>9</left>
+						<top>4</top>
+						<right>4</right>
+						<bottom>60</bottom>                          
+						<texture colordiffuse="Box2" background="true">common/box2.png</texture>   
+						<visible>!Skin.HasSetting(thumbnails.white)</visible>                        
+					</control>
+                    <control type="image">
+                        <left>10</left>
+						<top>5</top>
+                        <width>145</width>
+						<height>221</height>
+                        <bottom>80</bottom>
+                        <aspectratio scalediffuse="false">scale</aspectratio>
+                        <texture diffuse="diffuse/wall.png" background="true">$VAR[PosterImage]</texture>
+                    </control>
+					<control type="label">
+                        <align>center</align>
+                        <aligny>center</aligny>
+                        <width>50</width>
+						<right>0</right>
+						<top>0</top>
+                        <height>50</height>
+                        <textcolor>$VAR[WatchedLabelPosterColor]</textcolor>
+						<font>SymbolPoster</font>
+                        <label>$VAR[WatchedLabelPoster]</label>
+                        <visible>!String.IsEqual(ListItem.Label,..)</visible>
+                    </control>
+                </itemlayout>
+                <focusedlayout height="287" width="160">
+                    <control type="group">
+					<animation center="80,168" easing="inout" effect="zoom" end="120" start="100" time="300" tween="sine">Focus</animation>
+					<animation center="80,168" easing="inout" effect="zoom" end="100" start="120" time="300" tween="sine">UnFocus</animation>	
+					<control type="image">
+                        <left>2</left>
+                        <top>-3</top>
+                        <right>-5</right>
+                        <bottom>52</bottom>
+                        <texture border="10">common/nofocus-shadow10.png</texture>
+                    </control>
+					<control type="image">
+						<left>9</left>
+						<top>4</top>
+						<right>4</right>
+						<bottom>60</bottom>                          
+						<texture colordiffuse="Box2" background="true">common/box2.png</texture>   
+						<visible>!Skin.HasSetting(thumbnails.white)</visible>                        
+					</control>
+                    <control type="image">
+                        <left>10</left>
+						<top>5</top>
+                        <width>145</width>
+						<height>221</height>
+                        <bottom>80</bottom>
+                        <aspectratio scalediffuse="false">scale</aspectratio>
+                        <texture diffuse="diffuse/wall.png" background="true">$VAR[PosterImage]</texture>
+                    </control>
+					<control type="label">
+                        <align>center</align>
+                        <aligny>center</aligny>
+                        <width>50</width>
+						<right>0</right>
+						<top>0</top>
+                        <height>50</height>
+                        <textcolor>$VAR[WatchedLabelPosterColor]</textcolor>
+						<font>SymbolPoster</font>
+                        <label>$VAR[WatchedLabelPoster]</label>
+                        <visible>!String.IsEqual(ListItem.Label,..)</visible>
+                    </control>
+					<control type="image">
+                        <left>5</left>
+                        <top>0</top>
+                        <right>0</right>
+                        <bottom>55</bottom>
+                        <texture colordiffuse="$VAR[ColorHighlight]" border="20">common/selectbox.png</texture>
+                        <animation type="Focus">
+                            <effect type="zoom" start="90" end="100" time="150" tween="sine" easing="inout" center="auto" />
+                            <effect type="fade" start="0" end="100" time="150" tween="sine" easing="in" />
+                        </animation>
+                        <animation type="Unfocus">
+                            <effect type="zoom" start="100" end="90" time="150" tween="sine" easing="inout" center="auto" />
+                            <effect type="fade" start="100" end="0" time="150" tween="sine" easing="out" />
+                        </animation>
+                    </control>
+					</control>
+                </focusedlayout>
+            </control>    
+			<control type="scrollbar" id="1651">
+				<include content="scrollbar_hor">
+					<param name="scrollid" value="1651" />
+				</include>
+			</control>		
+		</control>			
+    </include>
+</includes>
