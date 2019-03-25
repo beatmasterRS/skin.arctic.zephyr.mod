@@ -12,6 +12,7 @@
 				<left>235</left>
 				<top>40</top>
 				<width>520</width>
+				<animation effect="slide" start="0,0" end="0,-30" time="200" condition="Skin.HasSetting(ShowDiscart510)">Conditional</animation>
 				<animation effect="slide" start="0,0" end="0,20" time="200" condition="Skin.HasSetting(ShowClearart510)">Conditional</animation>		
 				<control type="image" description="clearlogo">
 					<visible>Skin.HasSetting(ShowClearart510) + !String.IsEmpty(ListItem.Art(clearlogo))</visible>
@@ -39,7 +40,19 @@
 					<textcolor>Dark1</textcolor>
 					<label>$VAR[509_Row_3]</label>				
 				</control>
-				<control type="textbox">				
+				<control type="textbox">
+					<visible>Skin.HasSetting(ShowDiscart510)</visible>
+					<animation effect="slide" start="0,0" end="0,-10" time="200" condition="Skin.HasSetting(ShowDiscart510) + Skin.HasSetting(ShowClearart510)">Conditional</animation>				
+					<top>300</top>
+					<bottom>17</bottom>
+					<font>Tiny</font>
+					<height>140</height>
+					<textcolor>Dark2</textcolor>
+					<selectedcolor>Dark2</selectedcolor>
+					<label>$INFO[ListItem.Plot]</label>				
+				</control>
+				<control type="textbox">	
+					<visible>!Skin.HasSetting(ShowDiscart510)</visible>			
 					<top>300</top>
 					<bottom>17</bottom>
 					<font>Tiny</font>
@@ -121,7 +134,7 @@
                     </control>
                 </itemlayout>
                 <focusedlayout height="287" width="160">
-                    <control type="group">
+                    <control type="group">			
 					<animation center="80,168" easing="inout" effect="zoom" end="120" start="100" time="300" tween="sine">Focus</animation>
 					<animation center="80,168" easing="inout" effect="zoom" end="100" start="120" time="300" tween="sine">UnFocus</animation>	
 					<control type="image">
@@ -138,6 +151,28 @@
 						<bottom>60</bottom>                          
 						<texture colordiffuse="Box2" background="true">common/box2.png</texture>   
 						<visible>!Skin.HasSetting(thumbnails.white)</visible>                        
+					</control>
+					<control type="image">	
+						<visible>!String.IsEqual(ListItem.Label,..)</visible> 
+						<visible>Skin.HasSetting(ShowDiscart510)</visible>                   
+						<top>8</top>
+						<right>8</right>
+						<width>139</width>
+						<height>139</height>
+						<fadetime>1000</fadetime>				
+						<texture>$INFO[ListItem.Art(discart)]</texture>
+						<animation type="Conditional" condition="!Container(510).OnNext + !Container(510).OnPrevious" reversible="false">                  
+							<effect type="fade" start="0" end="100" time="50" delay="500" />                
+						</animation> 
+						<animation type="Conditional" condition="!Container(510).OnNext + !Container(510).OnPrevious" reversible="false">                  
+							<effect type="slide" start="0,0" end="0,-80" time="500" delay="1000" tween="cubic" />                
+						</animation>
+						<animation type="Visible" reversible="false">                  
+							<effect type="fade" start="0" end="100" time="1500" tween="cubic" />                
+						</animation>
+						<animation type="Hidden" reversible="false">                  
+							<effect type="fade" start="100" end="0" time="500" tween="cubic" />                
+						</animation>
 					</control>
                     <control type="image">
                         <left>10</left>
