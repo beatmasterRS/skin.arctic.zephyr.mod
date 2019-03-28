@@ -337,6 +337,13 @@
 		<colordiffuse>BackgroundNewBlur</colordiffuse>
 	</include>
 	
+	<include name="IncludeFloorFade">
+		<colordiffuse>FloorFade</colordiffuse>
+	</include>
+	<include name="IncludeFloorFadeBlur">
+		<colordiffuse>FloorFadeBlur</colordiffuse>
+	</include>
+	
 	<variable name="ImageBackG">	
 		<value condition="Skin.HasSetting(EnableBlur) + !Skin.HasSetting(BlurOnHome) + Window.IsVisible(Home.xml)">$VAR[GlobalFanart]</value>
 		<value condition="Skin.HasSetting(EnableBlur)">$INFO[Window(home).Property(ImageFilterFIVE)]</value>
@@ -427,7 +434,16 @@
 			<label>$INFO[ListItem.Art(tvshow.fanart20)]</label>
 			<pauseatend>12000</pauseatend>
 		</control>
+<!--
 
+in 2 teile teilen
+oben dann visible -> Control.IsVisible(510) | Control.IsVisible(510) + Window.IsVisible(DialogVideoInfo.xml) | Control.IsVisible(510) + Window.IsVisible(Custom_MovieSets.xml)
+
+unten !Control.IsVisible(510)
+
+
+
+-->
         <control type="multiimage" description="Fanart">		
 			<visible>!Control.IsVisible(510) | Window.IsVisible(DialogVideoInfo.xml) | Window.IsVisible(Custom_MovieSets.xml)</visible>
 			<include condition="[!Window.IsVisible(home) | Skin.HasSetting(home.vertical)] + Window.IsVisible(Home.xml) + Skin.HasSetting(BlurOnHome) + Skin.HasSetting(EnableBlur)">GlobalBackgroundFadeBlur</include>
@@ -476,8 +492,8 @@
 			<top>0</top>
 			<fadetime>600</fadetime>
 			<animation effect="fade" start="100" end="60"time="0" condition="true">Conditional</animation>
-			<include>Animation.DelayFadeIn510</include>
-			<include>Animation.FadeOut</include>
+			<include>Animation.FadeIn510</include>
+			<include>Animation.FadeOut510</include>
         </control>
 		
 		<control type="image" description="Background">
@@ -492,25 +508,28 @@
 			<top>0</top>
 			<fadetime>600</fadetime>
 			<animation effect="fade" start="100" end="60"time="0" condition="true">Conditional</animation>
-			<include>Animation.DelayFadeIn510</include>
-			<include>Animation.FadeOut</include>
-        </control>
-		
-		<control type="image" description="Background">
-			<visible>Skin.HasSetting(EnableBlur)</visible>
-			<visible>Control.IsVisible(510) + !Window.IsVisible(DialogVideoInfo.xml) + !Window.IsVisible(Custom_MovieSets.xml)</visible>
-            <include>Dimensions_Fullscreen</include>
-			<include>Animation.FadeFromInfo</include>
-            <texture>common/bg.png</texture>
-			<include>Overlay510Blur</include>
+			<include>Animation.FadeIn510</include>
+			<include>Animation.FadeOut510</include>
         </control>
 
 		<control type="image" description="Background">
-			<visible>!Skin.HasSetting(EnableBlur)</visible>
 			<visible>Control.IsVisible(510) + !Window.IsVisible(DialogVideoInfo.xml) + !Window.IsVisible(Custom_MovieSets.xml)</visible>
             <include>Dimensions_Fullscreen</include>
-			<include>Animation.FadeFromInfo</include>
             <texture>common/bg.png</texture>
+			<include condition="Skin.HasSetting(EnableBlur)">Overlay510Blur</include>
+			<include condition="!Skin.HasSetting(EnableBlur)">Overlay510</include>
+        </control>
+		
+		<control type="image" description="Background">
+			<visible>!Skin.HasSetting(EnableBlur)</visible>
+			<visible>Control.IsVisible(510) + !Window.IsVisible(DialogVideoInfo.xml) + !Window.IsVisible(Custom_MovieSets.xml)</visible>
+            <width>1290</width>
+			<height>670</height>
+			<aspectratio>keep</aspectratio>
+			<animation effect="fade" start="80" end="0"time="500" condition="Control.IsVisible(510) + !Window.IsVisible(DialogVideoInfo.xml) + !Window.IsVisible(Custom_MovieSets.xml)">Conditional</animation>
+			<right>-100</right>
+			<top>-20</top>
+            <texture>common/as.png</texture>
 			<include>Overlay510</include>
         </control>
 
@@ -527,19 +546,14 @@
         </control>
 
         <control type="image" description="FanartOverlay">
-			<visible>!Skin.HasSetting(EnableBlur)</visible>
             <include>Dimensions_Fullscreen</include>
             <visible>!Window.IsVisible(home) | Skin.HasSetting(home.vertical)</visible>
             <include condition="!Skin.HasSetting(home.vertical)">Animation.FadeFromHome</include>
-            <texture colordiffuse="FloorFade">common/floor.png</texture>
+            <texture>common/floor.png</texture>
+			<include condition="Skin.HasSetting(EnableBlur)">IncludeFloorFadeBlur</include>
+			<include condition="!Skin.HasSetting(EnableBlur)">IncludeFloorFade</include>
         </control>
-		<control type="image" description="FanartOverlay">
-			<visible>Skin.HasSetting(EnableBlur)</visible>
-            <include>Dimensions_Fullscreen</include>
-            <visible>!Window.IsVisible(home) | Skin.HasSetting(home.vertical)</visible>
-            <include condition="!Skin.HasSetting(home.vertical)">Animation.FadeFromHome</include>
-            <texture colordiffuse="FloorFadeBlur">common/floor.png</texture>
-        </control>
+
 		<!--
 		
 		<control type="image">
