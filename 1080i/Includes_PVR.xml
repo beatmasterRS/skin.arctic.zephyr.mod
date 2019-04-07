@@ -109,8 +109,6 @@
     </include>
 
     <include name="PVRInfoPanel">
-
-      
         <control type="group">
             <left>70</left>
             <width>645</width>
@@ -141,16 +139,37 @@
                     <visible>Player.HasVideo</visible>
 					<aspectratio align="center" aligny="center" scalediffuse="false">scale</aspectratio>
                 </control>
-                <control type="image">
-                    <left>10</left>
-                    <top>10</top>
-                    <right>10</right>
-                    <bottom>10</bottom>
-                    
-                    <aspectratio align="left" aligny="center" scalediffuse="false">scale</aspectratio>
-                    <texture diffuse="diffuse/pvrinfo.png" background="true" fallback="pvr/background.jpg">$VAR[PVRThumb]</texture>
-                    <visible>!Player.HasVideo</visible>
-                </control>
+				<control type="image">
+					<left>10</left>
+					<top>10</top>
+					<right>10</right>
+					<bottom>10</bottom>
+					<aspectratio align="center" aligny="center" scalediffuse="false">scale</aspectratio>
+					<texture diffuse="diffuse/pvrinfo.png" background="true">pvr/background.jpg</texture>
+					<visible>!Player.HasVideo</visible>
+					<fadetime>150</fadetime>
+				</control>
+				<control type="image">
+					<visible>!Player.HasVideo</visible>
+					<left>10</left>
+					<top>10</top>
+					<right>10</right>
+					<bottom>10</bottom>
+					<aspectratio align="center" aligny="center" scalediffuse="false">keep</aspectratio>
+					<texture diffuse="diffuse/pvrinfo.png" background="true" fallback="pvr/background.jpg">$VAR[ChannelListEPGIconVar]</texture>
+					<fadetime>250</fadetime>
+				</control>
+				<control type="image">
+					<fadetime>250</fadetime>
+					<visible>!String.IsEmpty(Listitem.EpgEventIcon) + !Player.HasVideo</visible>
+					<left>30</left>
+					<top>25</top>
+					<right>10</right>
+					<height>50</height>
+					<bottom>10</bottom>
+					<aspectratio align="left" aligny="center" scalediffuse="false">keep</aspectratio>
+					<texture>$INFO[ListItem.Icon]</texture>
+				</control>
 				<control type="image">
                     <left>10</left>
                     <top>9</top>
@@ -1489,8 +1508,8 @@
                 </focusedlayout>
             </control>
             <control type="group">
-                <top>701</top>
-                <height>165</height>
+                <top>690</top>
+                <height>175</height>
                 <left>70</left>
                 <right>70</right>
                 <control type="image">
@@ -1501,24 +1520,53 @@
                     <texture colordiffuse="Dark4" border="5">common/box.png</texture>
                 </control>
                 <control type="image">
+					<fadetime>250</fadetime>
                     <right>20</right>
                     <top>20</top>
                     <width>250</width>
-                    <height>125</height>
+                    <height>136</height>
                     <aspectratio align="right">keep</aspectratio>
-                    <texture>$INFO[ListItem.Icon]</texture>
+                    <texture>$VAR[ChannelListEPGIconVar]</texture>
                 </control>
-                <control type="label">
-                    <left>30</left>
+				<control type="image">
+					<fadetime>250</fadetime>
+					<visible>!String.IsEmpty(Listitem.EpgEventIcon) + !Player.HasVideo</visible>
+					<left>1525</left>
+					<top>23</top>
+					<height>40</height>
+                        <bottom>5</bottom>
+                        <aspectratio align="left" aligny="center">keep</aspectratio>
+					<aspectratio align="left" aligny="center" scalediffuse="false">keep</aspectratio>
+					<texture>$INFO[Container(52).ListItem.Icon]</texture>
+				</control>
+                <control type="grouplist">
+					<orientation>horizontal</orientation>
+					<left>30</left>
                     <right>30</right>
-                    <top>24</top>
+                    <top>10</top>
                     <align>left</align>
                     <aligny>top</aligny>
-                    <font>SmallBold</font>
-                    <textcolor>Dark1</textcolor>
-                    <selectedcolor>Dark1</selectedcolor>
-                    <label>[COLOR=$VAR[ColorHighlight]]$INFO[ListItem.StartTime]$INFO[ListItem.EndTime, - ,][/COLOR]$INFO[ListItem.Title,  ,]        $INFO[ListItem.Genre, $LOCALIZE[515]: ]</label>
-                </control>
+					<width>1400</width>
+					<control type="label">	
+						<width max="700">auto</width>
+						<aligny>center</aligny>
+						<height>64</height>
+						<font>SmallBold</font>
+						<textcolor>PanelWhite100</textcolor>
+						<selectedcolor>PanelWhite100</selectedcolor>
+						<label>[COLOR=$VAR[ColorHighlight]]$INFO[ListItem.StartTime]$INFO[ListItem.EndTime, - ,][/COLOR]$INFO[ListItem.Title,  ,]</label>
+					</control>
+					<control type="label">
+						<visible>!String.IsEmpty(ListItem.Genre)</visible>
+						<width>auto</width>
+						<aligny>center</aligny>
+						<height>64</height>
+						<font>SmallBold</font>
+						<textcolor>PanelWhite100</textcolor>
+						<selectedcolor>PanelWhite100</selectedcolor>
+						<label>     [COLOR=$VAR[ColorHighlight]]$LOCALIZE[515][/COLOR]$INFO[ListItem.Genre,  ,]</label>
+					</control>
+				</control>
                 <control type="textbox">
                     <left>30</left>
                     <right>280</right>
