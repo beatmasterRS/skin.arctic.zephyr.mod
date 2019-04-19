@@ -1078,39 +1078,10 @@
             <label>$INFO[ListItem.Label]</label>
             <visible>Container.Content(episodes) | Container.Content(tvshows)</visible>
         </control>
-       
-		<!--<control type="group">
-			<visible>Container.Content(movies) | Container.Content(episodes)</visible>
-			<control type="label">
-				<animation effect="fade" start="100" end="0" time="200" delay="1900">Focus</animation>
-				<animation effect="fade" start="0" end="100" time="0" delay="0">UnFocus</animation>
-				<right>154</right>
-				<width>500</width>
-				<aligny>center</aligny>
-				<height>64</height>
-				<align>right</align>
-				<font>SmallNavi</font>
-				<textcolor>Light1</textcolor>
-				<selectedcolor>Light1</selectedcolor>
-				<label>$VAR[LabelDuration]</label>
-			</control>		
-			<control type="label">
-				<animation effect="fade" start="0" end="100" time="300" delay="2200">Focus</animation>
-				<animation effect="fade" start="100" end="0" time="0" delay="0">UnFocus</animation>
-				<right>154</right>
-				<width>500</width>
-				<aligny>center</aligny>
-				<height>64</height>
-				<align>right</align>
-				<font>SmallNavi</font>
-				<textcolor>Light1</textcolor>
-				<selectedcolor>Light1</selectedcolor>
-				<label>$LOCALIZE[37516] $INFO[ListItem.EndTime]</label>
-				<visible>!String.IsEqual(ListItem.Label,..)</visible>
-			</control>
-		</control>-->
+		
 		<control type="group">
-			<!--<visible>!Container.Content(movies) + !Container.Content(episodes)</visible>-->
+			<visible>Container.Content(tvshows) | Container.Content(episodes) | Container.Content(movies) | Container.Content(seasons)</visible>
+			<animation effect="slide" start="0" end="64" time="0" condition="Container.Content(Seasons)">Conditional</animation>
 			<control type="label">
 				<right>154</right>
 				<width>500</width>
@@ -1120,10 +1091,34 @@
 				<font>SmallNavi</font>
 				<textcolor>Light1</textcolor>
 				<selectedcolor>Light1</selectedcolor>
-				<label>$VAR[LabelDuration]</label>
+				<label>$VAR[LabelDurationVar50]</label>
+				<include>Animation.TestIn</include>
+			</control>	
+			<control type="label">
+				<right>154</right>
+				<width>500</width>
+				<aligny>center</aligny>
+				<height>64</height>
+				<align>right</align>
+				<font>SmallNavi</font>
+				<textcolor>Light1</textcolor>
+				<selectedcolor>Light1</selectedcolor>
+				<label>$VAR[LabelDurationVarInfo50]</label>
+				<include>Animation.TestOut</include>
 			</control>			
 		</control>
-		
+		<control type="label">
+			<visible>!Container.Content(tvshows) + !Container.Content(episodes) + !Container.Content(movies) + !Container.Content(seasons)</visible>
+			<right>154</right>
+			<width>500</width>
+			<aligny>center</aligny>
+			<height>64</height>
+			<align>right</align>
+			<font>SmallNavi</font>
+			<textcolor>Light1</textcolor>
+			<selectedcolor>Light1</selectedcolor>
+			<label>$VAR[LabelDuration]</label>
+		</control>	
 		
 		<control type="label">
 			<align>right</align>
@@ -1208,7 +1203,8 @@
             <font>SmallNavi</font>
             <textcolor>Dark1</textcolor>
             <selectedcolor>Dark1</selectedcolor>
-            <label>$VAR[LabelDuration]</label>
+            <label>$VAR[LabelDurationVarInfo50]</label>
+			<animation effect="slide" start="0" end="64" time="0" condition="Container.Content(Seasons)">Conditional</animation>
         </control>
         <!--<control type="image">
             <centerright>110</centerright>

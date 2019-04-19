@@ -35,9 +35,6 @@
             <animation effect="zoom" start="110" end="130" center="auto" time="10000" tween="sine" easing="inout" pulse="true" condition="Skin.HasSetting(ArtistSlideshow.Animate)">Conditional</animation>
             <animation effect="slide" start="-30,-30" end="30,30" time="6000" tween="sine" easing="inout" pulse="true" condition="Skin.HasSetting(ArtistSlideshow.Animate)">Conditional</animation>
         </control>
-
-
-
         <control type="image">
 			<top>970</top>
             <height>130</height>
@@ -47,9 +44,9 @@
             <animation effect="fade" start="100" end="90" condition="Skin.HasSetting(osd.usetheme)">Conditional</animation>
             <visible>Window.IsVisible(script-cu-lrclyrics-main.xml) + !Window.IsVisible(musicosd)</visible>
 			<visible>Window.IsVisible(script-cu-lrclyrics-main.xml) + !Skin.HasSetting(hideseekbaronlyrics)</visible>
+			<visible>!Skin.HasSetting(osd.usethemeNewOSD)</visible>
 			<animation effect="slide" end="0,110" start="0" time="150" tween="quadratic">Hidden</animation>
 			<animation effect="slide" start="0,110" end="0" time="150" tween="quadratic">Visible</animation>
-
         </control>
 		<control type="image">
             <height>100%</height>
@@ -59,9 +56,378 @@
             <animation effect="fade" start="100" end="60" condition="Skin.HasSetting(osd.usetheme)">Conditional</animation>
             <visible>Window.IsVisible(script-cu-lrclyrics-main.xml)</visible>
         </control>
-
+		
+        <control type="group">
+            <visible>!Window.IsVisible(musicosd)</visible>
+            <visible>Window.IsVisible(script-cu-lrclyrics-main.xml) | Player.Seeking | Player.DisplayAfterSeek | Player.Paused | Player.Forwarding | Player.Rewinding | Player.ShowInfo</visible>
+            <animation effect="slide" start="0,110" end="0" time="150" tween="quadratic">Visible</animation>
+            <animation effect="slide" start="0,110" end="0" time="150" tween="quadratic">WindowOpen</animation>
+            <animation effect="slide" end="0,160" start="0" time="150" tween="quadratic">Hidden</animation>
+			<animation effect="slide" end="0,120" start="0" time="150" tween="quadratic" condition="Window.IsVisible(script-cu-lrclyrics-main.xml) + Skin.HasSetting(hideseekbaronlyrics) + !Skin.HasSetting(osd.usethemeNewOSD)">Conditional</animation>
+			<animation effect="slide" end="0,260" start="0" time="150" tween="quadratic" condition="Window.IsVisible(script-cu-lrclyrics-main.xml) + Skin.HasSetting(hideseekbaronlyrics) + Skin.HasSetting(osd.usethemeNewOSD)">Conditional</animation>
+            <animation effect="slide" end="0,160" start="0" time="150" tween="quadratic">WindowClose</animation>
+			<animation effect="slide" start="0,0" end="0,-10" time="150" condition="Skin.HasSetting(osd.usethemeNewOSD)">Conditional</animation>
+			<control type="image">
+				<top>111r</top>
+				<width>100%</width>
+				<height>1</height>
+				<texture colordiffuse="BoxHomerow">common/sch2.png</texture>
+				<include>Animation.FadeOut</include>
+				<visible>!Skin.HasSetting(thumbnails.white) + !Skin.HasSetting(osd.usethemeNewOSD)</visible>
+			</control>
+            <control type="image">
+                <top>110r</top>
+                <width>100%</width>
+                <height>374</height>
+                <texture>common/white.png</texture>
+                <colordiffuse>$VAR[OSDPanel]</colordiffuse>
+                <animation effect="fade" start="100" end="90" condition="Skin.HasSetting(osd.usetheme)">Conditional</animation>
+                <visible>!Window.IsVisible(script-cu-lrclyrics-main.xml) + !Skin.HasSetting(osd.usethemeNewOSD)</visible>
+            </control>
+			<control type="image" description="FanartOverlay">
+				<width>100%</width>
+				<height>360</height>
+				<bottom>-157</bottom>
+				<aspectratio aligny="bottom">scale</aspectratio>
+				<texture>backg/homemenu_overlay.png</texture>				
+				<animation effect="fade" start="0" end="5" time="1" condition="true">Conditional</animation>
+				<include>Animation.FadeOut</include>
+				<visible>!Skin.HasSetting(osd.usethemeNewOSD)</visible>
+			</control>
+            <control type="image">
+                <top>830r</top>
+                <width>100%</width>
+                <height>870</height>
+                <texture>common/fsinfoscreen.png</texture>
+                
+                <animation effect="fade" start="100" end="90" condition="Skin.HasSetting(osd.usetheme)">Conditional</animation>
+                <visible>!Window.IsVisible(script-cu-lrclyrics-main.xml) + Skin.HasSetting(osd.usethemeNewOSD)</visible>
+				<visible>!Window.IsVisible(musicosd)</visible>
+            	<visible>Window.IsVisible(script-cu-lrclyrics-main.xml) | Player.Seeking | Player.DisplayAfterSeek | Player.Paused | Player.Forwarding | Player.Rewinding | Player.ShowInfo</visible>
+				<include>Animation.FadeIn</include>
+				<include>Animation.FadeOut</include>
+            </control>
+			<control type="grouplist">
+				<animation effect="slide" start="0,0" end="0,-50" time="150" condition="Skin.HasSetting(osd.usethemeNewOSD)">Conditional</animation>
+				<animation effect="slide" start="0,0" end="-50," time="0" condition="Skin.HasSetting(osd.usethemeNewOSD)">Conditional</animation>
+				<visible>true</visible>
+				<include>Animation.FadeIn</include>
+				<include>Animation.FadeOut</include>
+				<right>80</right>
+				<bottom>38</bottom>
+				<width>1400</width>
+				<height>64</height>
+				<orientation>horizontal</orientation>
+				<align>right</align>
+				<itemgap>8</itemgap>
+				<usecontrolcoords>true</usecontrolcoords>				
+				<control type="label" description="Duration Total Time">        
+					<align>right</align>
+					<width>400</width>
+					<bottom>13</bottom>
+					<height>40</height>
+					<font>Tiny</font>
+					<textcolor>$VAR[OSDPanelWhite70]</textcolor>
+					<label>$INFO[Player.Time]$INFO[Player.Duration,  /  ,]</label>
+				</control>			
+				<control type="image">				
+					<width>30</width>
+					<height>30</height>
+					<centertop>50%</centertop>
+					<texture colordiffuse="$VAR[ColorHighlight]">backg/$VAR[FlagstarMusic1].png</texture>
+					<visible>Integer.IsGreater(MusicPlayer.Time,0)</visible>
+					<visible>!Skin.HasSetting(musicosd.numericrating)</visible>
+					<animation type="Visible" condition="Integer.IsGreater(MusicPlayer.UserRating,0)"> 
+						<effect type="fade" start="0" end="100" time="200"/>
+						<effect type="zoom" center="auto" tween="back" easing="out" delay="2000" start="90" end="130" time="200"/>
+					 	<effect type="zoom" center="auto" delay="2200" start="110" end="77" time="200"/>
+					</animation>
+					<animation type="WindowOpen" condition="Integer.IsGreater(MusicPlayer.UserRating,0)"> 
+						<effect type="fade" start="0" end="100" time="200"/>
+						<effect type="zoom" center="auto" tween="back" easing="out" delay="2000" start="90" end="130" time="200"/>
+					 	<effect type="zoom" center="auto" delay="2200" start="110" end="77" time="200"/>
+					</animation>					
+					<animation type="Hidden"> 
+						<effect type="fade" start="100" end="0" time="400"/>
+					</animation>					
+				</control>			
+				<control type="image">				
+					<width>30</width>
+					<height>30</height>
+					<centertop>50%</centertop>
+					<texture colordiffuse="$VAR[ColorHighlight]">backg/$VAR[FlagstarMusic2].png</texture>
+					<visible>Integer.IsGreater(MusicPlayer.Time,0)</visible>
+					<visible>!Skin.HasSetting(musicosd.numericrating)</visible>
+					<animation type="Visible" condition="Integer.IsGreater(MusicPlayer.UserRating,2)"> 
+					 <effect type="fade" start="0" end="100" time="200"/>
+					 <effect type="zoom" center="auto" tween="back" easing="out" delay="2050" start="90" end="130" time="200"/>
+					 <effect type="zoom" center="auto" delay="2250" start="110" end="77" time="200"/>
+					</animation>					
+					<animation type="WindowOpen" condition="Integer.IsGreater(MusicPlayer.UserRating,2)"> 
+					 <effect type="fade" start="0" end="100" time="200"/>
+					 <effect type="zoom" center="auto" tween="back" easing="out" delay="2050" start="90" end="130" time="200"/>
+					 <effect type="zoom" center="auto" delay="2250" start="110" end="77" time="200"/>
+					</animation>
+					<animation type="Hidden"> 
+						<effect type="fade" start="100" end="0" time="400"/>
+					</animation>
+				</control>
+				<control type="image">	
+					<width>30</width>
+					<height>30</height>
+					<centertop>50%</centertop>
+					<texture colordiffuse="$VAR[ColorHighlight]">backg/$VAR[FlagstarMusic3].png</texture>
+					<visible>Integer.IsGreater(MusicPlayer.Time,0)</visible>
+					<visible>!Skin.HasSetting(musicosd.numericrating)</visible>
+					<animation type="Visible" condition="Integer.IsGreater(MusicPlayer.UserRating,4)"> 
+						<effect type="fade" start="0" end="100" time="200"/>
+						<effect type="zoom" center="auto" tween="back" easing="out" delay="2100" start="90" end="130" time="200"/>
+					 	<effect type="zoom" center="auto" delay="2300" start="110" end="77" time="200"/>
+					</animation>		
+					<animation type="WindowOpen" condition="Integer.IsGreater(MusicPlayer.UserRating,4)"> 
+						<effect type="fade" start="0" end="100" time="200"/>
+						<effect type="zoom" center="auto" tween="back" easing="out" delay="2100" start="90" end="130" time="200"/>
+					 	<effect type="zoom" center="auto" delay="2300" start="110" end="77" time="200"/>
+					</animation>
+					<animation type="Hidden"> 
+						<effect type="fade" start="100" end="0" time="400"/>
+					</animation>
+				</control>
+				<control type="image">
+					<width>30</width>
+					<height>30</height>
+					<centertop>50%</centertop>
+					<texture colordiffuse="$VAR[ColorHighlight]">backg/$VAR[FlagstarMusic4].png</texture>
+					<visible>Integer.IsGreater(MusicPlayer.Time,0)</visible>
+					<visible>!Skin.HasSetting(musicosd.numericrating)</visible>
+					<animation type="Visible" condition="Integer.IsGreater(MusicPlayer.UserRating,6)"> 
+					 	<effect type="fade" start="0" end="100" time="200"/>
+					 	<effect type="zoom" center="auto" tween="back" easing="out" delay="2150" start="90" end="130" time="200"/>
+					 	<effect type="zoom" center="auto" delay="2350" start="110" end="77" time="200"/>
+					</animation>
+					<animation type="WindowOpen" condition="Integer.IsGreater(MusicPlayer.UserRating,6)"> 
+					 	<effect type="fade" start="0" end="100" time="200"/>
+					 	<effect type="zoom" center="auto" tween="back" easing="out" delay="2150" start="90" end="130" time="200"/>
+					 	<effect type="zoom" center="auto" delay="2350" start="110" end="77" time="200"/>
+					</animation>
+					
+					<animation type="Hidden"> 
+						<effect type="fade" start="100" end="0" time="400"/>
+					</animation>
+				</control>
+				<control type="image">
+					
+					<width>30</width>
+					<height>30</height>
+					<centertop>50%</centertop>
+					<texture colordiffuse="$VAR[ColorHighlight]">backg/$VAR[FlagstarMusic5].png</texture>
+					<visible>Integer.IsGreater(MusicPlayer.Time,0)</visible>
+					<visible>!Skin.HasSetting(musicosd.numericrating)</visible>
+					<animation type="Visible" condition="Integer.IsGreater(MusicPlayer.UserRating,8)"> 
+						<effect type="fade" start="0" end="100" time="200"/>
+						<effect type="zoom" center="auto" tween="back" easing="out" delay="2200" start="90" end="130" time="200"/>
+					 	<effect type="zoom" center="auto" delay="2400" start="110" end="77" time="200"/>
+					</animation>	
+					<animation type="WindowOpen" condition="Integer.IsGreater(MusicPlayer.UserRating,8)"> 
+						<effect type="fade" start="0" end="100" time="200"/>
+						<effect type="zoom" center="auto" tween="back" easing="out" delay="2200" start="90" end="130" time="200"/>
+					 	<effect type="zoom" center="auto" delay="2400" start="110" end="77" time="200"/>
+					</animation>	
+					<animation type="Hidden"> 
+						<effect type="fade" start="100" end="0" time="400"/>
+					</animation>
+				</control>					
+				<control type="image">
+					<width>30</width>
+					<height>30</height>
+					<centertop>50%</centertop>
+					<texture colordiffuse="$VAR[ColorHighlight]">backg/$VAR[FlagstarMusic1].png</texture>
+					<visible>Integer.IsGreater(MusicPlayer.Time,0)</visible>
+					<visible>Skin.HasSetting(musicosd.numericrating)</visible>
+					<animation type="Visible" condition="Integer.IsGreater(MusicPlayer.UserRating,0)"> 
+						<effect type="fade" start="0" end="100" time="200"/>
+						<effect type="zoom" center="auto" tween="back" easing="out" delay="2000" start="90" end="130" time="200"/>
+					 	<effect type="zoom" center="auto" delay="2200" start="110" end="77" time="200"/>
+					</animation>
+					<animation type="WindowOpen" condition="Integer.IsGreater(MusicPlayer.UserRating,0)"> 
+						<effect type="fade" start="0" end="100" time="200"/>
+						<effect type="zoom" center="auto" tween="back" easing="out" delay="2000" start="90" end="130" time="200"/>
+					 	<effect type="zoom" center="auto" delay="2200" start="110" end="77" time="200"/>
+					</animation>				
+					<animation type="Hidden"> 
+						<effect type="fade" start="100" end="0" time="400"/>
+					</animation>					
+				</control>
+				<control type="label">
+					<width>45</width>
+					<height>60</height>
+					<label>$INFO[MusicPlayer.UserRating,,.0]</label>
+					<aligny>center</aligny>
+					<textcolor>$VAR[OSDPanelWhite30]</textcolor>
+					<font>Flag</font>
+					<textcolor>Dark1</textcolor>
+					<visible>Skin.HasSetting(musicosd.numericrating) + Integer.IsGreater(MusicPlayer.UserRating,0)</visible>								
+				</control>
+			</control>
+            <control type="group">
+				<visible>!Skin.HasSetting(osd.usethemeNewOSD)</visible>
+                <animation effect="fade" start="0" end="100" delay="150" time="150">Visible</animation>
+                <animation effect="fade" start="0" end="100" delay="150" time="150">WindowOpen</animation>
+                <top>110r</top>
+                <bottom>0</bottom>
+                <width>100%</width>
+                <control type="group">
+                    <left>SidePad</left>
+                    <right>SidePad</right>
+                    <top>20</top>
+                    <bottom>20</bottom>
+                    <control type="label" description="Finishes Time">
+                        <left>0</left>
+                        <right>0</right>
+                        <bottom>30</bottom>
+                        <height>40</height>
+                        <font>Tiny</font>
+                        <textcolor>$VAR[OSDPanelWhite70]</textcolor>
+                        <label>$VAR[PlayerStatus]</label>
+                    </control>
+                    <control type="progress" description="cache">
+                        <description>Progress Bar</description>
+                        <width>100%</width>
+                        <bottom>10</bottom>
+                        <height>8</height>
+                        <info>Player.ProgressCache</info>
+                        <visible>true</visible>
+                        <texturebg colordiffuse="00ffffff">osd/progress-bg.png</texturebg>
+                        <lefttexture colordiffuse="Highlight2">osd/progress-end.png</lefttexture>
+                        <midtexture colordiffuse="Highlight2">osd/progress-end.png</midtexture>
+                        <righttexture colordiffuse="Highlight2">osd/progress-end.png</righttexture>
+                    </control>
+                    <control type="progress" id="23">
+                        <description>Progress Bar</description>
+                        <width>100%</width>
+                        <bottom>10</bottom>
+                        <height>8</height>
+                        <info>Player.Progress</info>
+                    </control>
+                </control>
+            </control>
+			<control type="group">
+				<visible>Skin.HasSetting(osd.usethemeNewOSD)</visible>
+                <animation effect="fade" start="0" end="100" delay="150" time="150">Visible</animation>
+                <animation effect="fade" start="0" end="100" delay="150" time="150">WindowOpen</animation>
+            	<animation effect="slide" end="0,110" start="0" time="150" tween="quadratic">Hidden</animation>
+           		<animation effect="slide" end="0,110" start="0" time="150" tween="quadratic">WindowClose</animation>
+                <top>110r</top>
+                <bottom>0</bottom>
+                <width>100%</width>
+                <control type="group">
+                    <left>530</left>
+                    <right>SidePadNewOSD</right>
+                    <top>20</top>
+					<animation effect="slide" start="0,0" end="0,-50" time="150" condition="Skin.HasSetting(osd.usethemeNewOSD)">Conditional</animation>
+                    <bottom>20</bottom>
+                    <control type="label" description="Finishes Time">
+						<animation effect="slide" start="0,0" end="0,-70" time="150" condition="Skin.HasSetting(osd.artistinfos)">Conditional</animation>
+                        <left>0</left>
+                        <right>0</right>
+                        <bottom>85</bottom>
+                        <height>40</height>
+						<width>950</width>
+                        <font>MediumBold</font>
+                        <textcolor>$VAR[OSDPanelWhite70]</textcolor>
+                        <label>$VAR[PlayerStatusNewOSD]</label>
+                    </control>					
+					<!--<control type="label">
+						<right>0</right>
+						<align>left</align>
+						<bottom>100</bottom>
+						<height>40</height>
+						<font>tiny</font>
+						<textcolor>$VAR[OSDPanelWhite70]</textcolor>
+						<animation effect="slide" start="0,0" end="0,70" time="150" condition="Skin.HasSetting(osd.usethemeNewOSD)">Conditional</animation>
+						<label>$INFO[MusicPlayer.BitsPerSample] bit  •  $INFO[MusicPlayer.BitRate] kbps  •  $VAR[Label_MusicPlayerCodec]</label>				
+					</control>	-->
+					<control type="grouplist">
+						<width>700</width>
+						<height>64</height>
+						<orientation>horizontal</orientation>
+						<align>left</align>
+						<itemgap>8</itemgap>
+						<bottom>77</bottom>
+						<control type="label">
+							<width>auto</width>
+							<align>left</align>
+							<height>40</height>
+							<font>tiny</font>
+							<textcolor>$VAR[OSDPanelWhite70]</textcolor>
+							<animation effect="slide" start="0,0" end="0,70" time="150" condition="Skin.HasSetting(osd.usethemeNewOSD)">Conditional</animation>
+							<label>$INFO[MusicPlayer.BitsPerSample,,bit]</label>				
+						</control>
+						<control type="label">
+							<width>auto</width>
+							<align>left</align>
+							<height>40</height>
+							<font>tiny</font>
+							<textcolor>$VAR[OSDPanelWhite70]</textcolor>
+							<animation effect="slide" start="0,0" end="0,70" time="150" condition="Skin.HasSetting(osd.usethemeNewOSD)">Conditional</animation>
+							<label>$INFO[MusicPlayer.BitRate,  •  ,kbps]</label>				
+						</control>
+						<control type="label">
+							<width>auto</width>
+							<align>left</align>
+							<height>40</height>
+							<font>tiny</font>
+							<textcolor>$VAR[OSDPanelWhite70]</textcolor>
+							<animation effect="slide" start="0,0" end="0,70" time="150" condition="Skin.HasSetting(osd.usethemeNewOSD)">Conditional</animation>
+							<label>$VAR[Label_MusicPlayerCodec,  •  ]</label>				
+						</control>
+					</control>
+					
+					<control type="group">
+					<top>255</top>
+					<visible>Skin.HasSetting(osd.artistinfos)</visible>						
+					<control type="textbox">
+						<description>RSS feed</description>
+						<right>0</right>
+						<bottom>255</bottom>
+						<height>70</height>
+						<scroll>true</scroll>
+						<scrollspeed>30</scrollspeed>
+						<pauseatend>500</pauseatend>
+						<font>Tiny</font>
+						<align>justify</align>					
+						<textcolor>$VAR[OSDPanelWhite70]</textcolor>
+						<label fallback="nicht verfügbar">$INFO[Window(Visualisation).Property(ArtistSlideshow.ArtistBiography),]</label>	
+						<label>$INFO[MusicPlayer.Artist,[COLOR labelheader]$LOCALIZE[31105] ,:[/COLOR] ]$INFO[Window(Visualisation).Property(ArtistSlideshow.1.AlbumName)]$INFO[Window(Visualisation).Property(ArtistSlideshow.2.AlbumName),[COLOR labelheader]  •  [/COLOR]]$INFO[Window(Visualisation).Property(ArtistSlideshow.3.AlbumName),[COLOR labelheader]  •  [/COLOR]]$INFO[Window(Visualisation).Property(ArtistSlideshow.4.AlbumName),[COLOR labelheader]  •  [/COLOR]]$INFO[Window(Visualisation).Property(ArtistSlideshow.5.AlbumName),[COLOR labelheader]  •  [/COLOR]]$INFO[Window(Visualisation).Property(ArtistSlideshow.6.AlbumName),[COLOR labelheader]  •  [/COLOR]]$INFO[Window(Visualisation).Property(ArtistSlideshow.7.AlbumName),[COLOR labelheader]  •  [/COLOR]]$INFO[Window(Visualisation).Property(ArtistSlideshow.8.AlbumName),[COLOR labelheader]  •  [/COLOR]]$INFO[Window(Visualisation).Property(ArtistSlideshow.9.AlbumName),[COLOR labelheader]  •  [/COLOR]]$INFO[Window(Visualisation).Property(ArtistSlideshow.10.AlbumName),[COLOR labelheader]  •  [/COLOR]]</label>		
+					</control>
+				</control>
+                    <control type="progress" description="cache">
+                        <description>Progress Bar</description>
+                        <width>100%</width>
+                        <bottom>10</bottom>
+                        <height>8</height>
+                        <info>Player.ProgressCache</info>
+                        <visible>true</visible>
+                        <texturebg colordiffuse="00ffffff">osd/progress-bg.png</texturebg>
+                        <lefttexture colordiffuse="Highlight2">osd/progress-end.png</lefttexture>
+                        <midtexture colordiffuse="Highlight2">osd/progress-end.png</midtexture>
+                        <righttexture colordiffuse="Highlight2">osd/progress-end.png</righttexture>
+                    </control>
+                    <control type="progress" id="23">
+                        <description>Progress Bar</description>
+                        <width>100%</width>
+                        <bottom>10</bottom>
+                        <height>8</height>
+                        <info>Player.Progress</info>
+                    </control>
+                </control>
+            </control>
+        </control>
 		<control type="group">
 			<visible>Skin.HasSetting(AlternativeCd) + Skin.HasSetting(ShowMusicCd)</visible>
+			<animation effect="slide" start="0,0" end="0,137" time="150" condition="Skin.HasSetting(osd.usethemeNewOSD)">Conditional</animation>
+			<animation effect="slide" start="0,0" end="50,0" time="0" condition="Skin.HasSetting(osd.usethemeNewOSD)">Conditional</animation>
+			<animation effect="slide" start="0,0" end="0,-40" time="150" condition="Skin.HasSetting(osd.artistinfos) + Skin.HasSetting(osd.usethemeNewOSD)">Conditional</animation>
 			<control type="group">
 				<visible>Integer.IsGreater(MusicPlayer.Time,0)</visible>
 				<visible>Player.ShowInfo</visible>
@@ -81,7 +447,6 @@
 				<animation type="Visible" reversible="false">
 					<effect type="slide" start="-130,0" end="0,0" tween="sine" easing="out" time="600" delay="700" />
 				</animation>
-	
 				<control type="image">	
 					<visible>!Window.IsVisible(DialogBusy.xml)</visible>	                
 					<width>240</width>
@@ -91,8 +456,7 @@
 					<texture fallback="backg/default.png">$INFO[Player.Art(discart)]</texture>
 					<animation effect="rotate" center="auto" time="6000" end="-360" condition="true" loop="true">Conditional</animation>
 				</control>
-			</control>
-			
+			</control>			
 			<control type="image">
 				<visible>Player.ShowInfo</visible>
 				<visible>!Window.IsVisible(musicosd)</visible>
@@ -116,9 +480,10 @@
 				</animation>
 			</control>
 		</control>
-		
 		<control type="group">
 			<visible>!Skin.HasSetting(AlternativeCd) + Skin.HasSetting(ShowMusicCd)</visible>
+			<animation effect="slide" start="0,0" end="0,142" time="150" condition="Skin.HasSetting(osd.usethemeNewOSD)">Conditional</animation>
+			<animation effect="slide" start="0,0" end="50,0" time="0" condition="Skin.HasSetting(osd.usethemeNewOSD)">Conditional</animation>
 			<control type="group">
 				<visible>Skin.HasSetting(osd.artistinfos)</visible>
 				<visible>Integer.IsGreater(MusicPlayer.Time,0)</visible>
@@ -128,185 +493,154 @@
 				<!--<animation type="WindowOpen" reversible="false">
 					<effect type="slide" start="1480,0" end="0,0" tween="sine" easing="out" time="400" delay="0" />
 				</animation>-->
-				
-				<animation type="WindowClose" reversible="false">
-					<effect type="slide" start="0,0" end="1400,0" tween="sine" easing="out" time="400" delay="500" />
-					<effect type="fade" start="100" end="0" time="200" delay="500" />
-				</animation>
-				<animation type="WindowOpen" reversible="false">
-					<effect type="slide" start="1480,0" end="0,0" tween="sine" easing="out" time="400" delay="0" />
-					<effect type="fade" start="50" end="100" time="400" />
-				</animation>
-				
-				<animation type="Hidden" reversible="false">
-					<effect type="slide" start="0,0" end="1400,0" tween="sine" easing="out" time="400" delay="500" />
-					<effect type="fade" start="100" end="0" time="200" delay="500" />
-				</animation>
-				<animation type="Visible" reversible="false">
-					<effect type="slide" start="1480,0" end="0,0" tween="sine" easing="out" time="400" delay="0" />
-					<effect type="fade" start="50" end="100" time="400" />
-				</animation>
-				
-				
-				<control type="image">
-					<visible>!Skin.HasSetting(AlternativeCd) + Skin.HasSetting(ShowMusicCd)</visible>
-					<top>634</top>
-					<height>263</height>
-					<width>1302</width>
-					<left>529</left>
-					<right>SidePad</right>
-					<texture colordiffuse="BoxWidget">common/box15white.png</texture>
+				<control type="group">
+					<visible>!Skin.HasSetting(osd.usethemeNewOSD)</visible>
+					<animation type="WindowClose" reversible="false">
+						<effect type="slide" start="0,0" end="1400,0" tween="sine" easing="out" time="400" delay="500" />
+						<effect type="fade" start="100" end="0" time="200" delay="500" />
+					</animation>
+					<animation type="WindowOpen" reversible="false">
+						<effect type="slide" start="1480,0" end="0,0" tween="sine" easing="out" time="400" delay="0" />
+						<effect type="fade" start="50" end="100" time="400" />
+					</animation>
 					
-					
+					<animation type="Hidden" reversible="false">
+						<effect type="slide" start="0,0" end="1400,0" tween="sine" easing="out" time="400" delay="500" />
+						<effect type="fade" start="100" end="0" time="200" delay="500" />
+					</animation>
+					<animation type="Visible" reversible="false">
+						<effect type="slide" start="1480,0" end="0,0" tween="sine" easing="out" time="400" delay="0" />
+						<effect type="fade" start="50" end="100" time="400" />
+					</animation>				
+					<control type="image">
+						<visible>!Skin.HasSetting(AlternativeCd) + Skin.HasSetting(ShowMusicCd)</visible>
+						<top>634</top>
+						<height>263</height>
+						<width>1302</width>
+						<left>529</left>
+						<right>SidePadNewOSD</right>
+						<texture colordiffuse="BoxWidget">common/box15white.png</texture>					
+					</control>
+					<control type="image">
+						<visible>!Skin.HasSetting(AlternativeCd) + Skin.HasSetting(ShowMusicCd)</visible>
+						<top>635</top>
+						<height>261</height>
+						<width>1300</width>
+						<left>530</left>
+						<right>SidePadNewOSD</right>
+						<texture diffuse="diffuse/wall.png" border="5">common/white.png</texture>
+						<colordiffuse>$VAR[OSDPanel]</colordiffuse>
+						<animation effect="fade" start="100" end="80" condition="Skin.HasSetting(osd.usetheme)">Conditional</animation>		
+					</control>
+					<control type="label" description="Finishes Time">
+						<left>550</left>
+						<right>0</right>
+						<bottom>380</bottom>
+						<height>40</height>
+						<font>SmallBold</font>
+						<textcolor>$VAR[OSDPanelWhite70]</textcolor>
+						<label>$LOCALIZE[19033]</label>
+					</control>		
+					<control type="label" description="Finishes Time">
+						<left>570</left>
+						<right>0</right>
+						<bottom>320</bottom>
+						<height>40</height>
+						<font>TinyBold2</font>
+						<textcolor>$VAR[OSDPanelWhite70]</textcolor>
+						<label>$LOCALIZE[2050]:</label>
+					</control>
+					<control type="label" description="Finishes Time">					
+						<right>1050</right>
+						<align>right</align>
+						<bottom>320</bottom>
+						<height>40</height>
+						<font>tiny</font>
+						<textcolor>$VAR[OSDPanelWhite70]</textcolor>
+						<label>$INFO[MusicPlayer.Duration]</label>
+					</control>					
+					<control type="label" description="Finishes Time">
+						<left>570</left>
+						<right>0</right>
+						<bottom>285</bottom>
+						<height>40</height>
+						<font>TinyBold2</font>
+						<textcolor>$VAR[OSDPanelWhite70]</textcolor>
+						<label>$LOCALIZE[21446]:</label>
+					</control>
+					<control type="label" description="Finishes Time">					
+						<right>1050</right>
+						<align>right</align>
+						<bottom>285</bottom>
+						<height>40</height>
+						<font>tiny</font>
+						<textcolor>$VAR[OSDPanelWhite70]</textcolor>
+						<label>$VAR[Label_MusicPlayerCodec]</label>
+					</control>
+					<control type="label" description="Finishes Time">
+						<left>570</left>
+						<right>0</right>
+						<bottom>250</bottom>
+						<height>40</height>
+						<font>TinyBold2</font>
+						<textcolor>$VAR[OSDPanelWhite70]</textcolor>
+						<label>$LOCALIZE[623]:</label>
+					</control>
+					<control type="label">
+						<right>1050</right>
+						<align>right</align>
+						<bottom>250</bottom>
+						<height>40</height>
+						<font>tiny</font>
+						<textcolor>$VAR[OSDPanelWhite70]</textcolor>
+						<label>$INFO[MusicPlayer.BitRate] kbps</label>
+					</control>
+					<control type="label" description="Finishes Time">
+						<left>570</left>
+						<right>0</right>
+						<bottom>215</bottom>
+						<height>40</height>
+						<font>TinyBold2</font>
+						<textcolor>$VAR[OSDPanelWhite70]</textcolor>
+						<label>$LOCALIZE[613]:</label>
+					</control>
+					<control type="label">
+						<right>1050</right>
+						<align>right</align>
+						<bottom>215</bottom>
+						<height>40</height>
+						<font>tiny</font>
+						<textcolor>$VAR[OSDPanelWhite70]</textcolor>
+						<label>$INFO[MusicPlayer.BitsPerSample] bit</label>				
+					</control>
+					<control type="label" description="Finishes Time">
+						<left>970</left>
+						<right>0</right>
+						<bottom>320</bottom>
+						<height>40</height>
+						<width>180</width>
+						<font>TinyBold2</font>
+						<textcolor>$VAR[OSDPanelWhite70]</textcolor>
+						<label>$LOCALIZE[21891]:</label>
+					</control>				
+					<control type="textbox">
+						<description>RSS feed</description>
+						<left>1150</left>
+						<bottom>208</bottom>
+						<height>150</height>
+						<width>650</width>
+						<scroll>true</scroll>
+						<scrollspeed>30</scrollspeed>
+						<pauseatend>500</pauseatend>
+						<font>Tiny</font>					
+						<textcolor>$VAR[OSDPanelWhite70]</textcolor>
+						<label fallback="nicht verfügbar">$INFO[Window(Visualisation).Property(ArtistSlideshow.ArtistBiography),]</label>	
+						<label>$INFO[MusicPlayer.Artist,[COLOR labelheader]$LOCALIZE[31105] ,:[/COLOR] ]$INFO[Window(Visualisation).Property(ArtistSlideshow.1.AlbumName)]$INFO[Window(Visualisation).Property(ArtistSlideshow.2.AlbumName),[COLOR labelheader]  •  [/COLOR]]$INFO[Window(Visualisation).Property(ArtistSlideshow.3.AlbumName),[COLOR labelheader]  •  [/COLOR]]$INFO[Window(Visualisation).Property(ArtistSlideshow.4.AlbumName),[COLOR labelheader]  •  [/COLOR]]$INFO[Window(Visualisation).Property(ArtistSlideshow.5.AlbumName),[COLOR labelheader]  •  [/COLOR]]$INFO[Window(Visualisation).Property(ArtistSlideshow.6.AlbumName),[COLOR labelheader]  •  [/COLOR]]$INFO[Window(Visualisation).Property(ArtistSlideshow.7.AlbumName),[COLOR labelheader]  •  [/COLOR]]$INFO[Window(Visualisation).Property(ArtistSlideshow.8.AlbumName),[COLOR labelheader]  •  [/COLOR]]$INFO[Window(Visualisation).Property(ArtistSlideshow.9.AlbumName),[COLOR labelheader]  •  [/COLOR]]$INFO[Window(Visualisation).Property(ArtistSlideshow.10.AlbumName),[COLOR labelheader]  •  [/COLOR]]</label>		
+					</control>
 				</control>
-				<control type="image">
-					<visible>!Skin.HasSetting(AlternativeCd) + Skin.HasSetting(ShowMusicCd)</visible>
-					<top>635</top>
-					<height>261</height>
-					<width>1300</width>
-					<left>530</left>
-					<right>SidePad</right>
-					<texture diffuse="diffuse/wall.png" border="5">common/white.png</texture>
-					<colordiffuse>$VAR[OSDPanel]</colordiffuse>
-					<animation effect="fade" start="100" end="80" condition="Skin.HasSetting(osd.usetheme)">Conditional</animation>
-					
-				</control>
-				
-				
-				<control type="label" description="Finishes Time">
-					<left>550</left>
-					<right>0</right>
-					<bottom>380</bottom>
-					<height>40</height>
-					<font>SmallBold</font>
-					<textcolor>$VAR[OSDPanelWhite70]</textcolor>
-					<label>$LOCALIZE[19033]</label>
-				</control>
-				
-				
-				<control type="label" description="Finishes Time">
-					<left>570</left>
-					<right>0</right>
-					<bottom>320</bottom>
-					<height>40</height>
-					<font>TinyBold2</font>
-					<textcolor>$VAR[OSDPanelWhite70]</textcolor>
-					<label>$LOCALIZE[2050]:</label>
-				</control>
-				<control type="label" description="Finishes Time">
-					
-					<right>1050</right>
-					<align>right</align>
-					<bottom>320</bottom>
-					<height>40</height>
-					<font>tiny</font>
-					<textcolor>$VAR[OSDPanelWhite70]</textcolor>
-					<label>$INFO[MusicPlayer.Duration]</label>
-				</control>
-				
-				<control type="label" description="Finishes Time">
-					<left>570</left>
-					<right>0</right>
-					<bottom>285</bottom>
-					<height>40</height>
-					<font>TinyBold2</font>
-					<textcolor>$VAR[OSDPanelWhite70]</textcolor>
-					<label>$LOCALIZE[21446]:</label>
-				</control>
-				<!--<control type="image">
-					<left>820</left>
-					<align>right</align>
-					<bottom>285</bottom>
-					<height>42</height>
-					<width>54</width>
-					<height>32</height>
-					<aspectratio aligny="center">keep</aspectratio>
-					<texture colordiffuse="FF333333">flags/audio/$INFO[MusicPlayer.Codec].png</texture>
-					
-				</control>-->
-				<control type="label" description="Finishes Time">
-					
-					<right>1050</right>
-					<align>right</align>
-					<bottom>285</bottom>
-					<height>40</height>
-					<font>tiny</font>
-					<textcolor>$VAR[OSDPanelWhite70]</textcolor>
-					<label>$VAR[Label_MusicPlayerCodec]</label>
-				</control>
-				
-				
-				<control type="label" description="Finishes Time">
-					<left>570</left>
-					<right>0</right>
-					<bottom>250</bottom>
-					<height>40</height>
-					<font>TinyBold2</font>
-					<textcolor>$VAR[OSDPanelWhite70]</textcolor>
-					<label>$LOCALIZE[623]:</label>
-				</control>
-				<control type="label">
-					<right>1050</right>
-					<align>right</align>
-					<bottom>250</bottom>
-					<height>40</height>
-					<font>tiny</font>
-					<textcolor>$VAR[OSDPanelWhite70]</textcolor>
-					<label>$INFO[MusicPlayer.BitRate] kbps</label>
-					
-					
-				</control>
-				
-				
-				
-				<control type="label" description="Finishes Time">
-					<left>570</left>
-					<right>0</right>
-					<bottom>215</bottom>
-					<height>40</height>
-					<font>TinyBold2</font>
-					<textcolor>$VAR[OSDPanelWhite70]</textcolor>
-					<label>$LOCALIZE[613]:</label>
-				</control>
-				<control type="label">
-					<right>1050</right>
-					<align>right</align>
-					<bottom>215</bottom>
-					<height>40</height>
-					<font>tiny</font>
-					<textcolor>$VAR[OSDPanelWhite70]</textcolor>
-					<label>$INFO[MusicPlayer.BitsPerSample] bit</label>				
-				</control>
-
-				<control type="label" description="Finishes Time">
-					<left>970</left>
-					<right>0</right>
-					<bottom>320</bottom>
-					<height>40</height>
-					<width>180</width>
-					<font>TinyBold2</font>
-					<textcolor>$VAR[OSDPanelWhite70]</textcolor>
-					<label>$LOCALIZE[21891]:</label>
-				</control>
-				
-				<control type="textbox">
-					<description>RSS feed</description>
-					<left>1150</left>
-					<bottom>208</bottom>
-					<height>150</height>
-					<width>650</width>
-					<scroll>true</scroll>
-					<scrollspeed>30</scrollspeed>
-					<pauseatend>500</pauseatend>
-					<font>Tiny</font>					
-					<textcolor>$VAR[OSDPanelWhite70]</textcolor>
-					<label fallback="nicht verfügbar">$INFO[Window(Visualisation).Property(ArtistSlideshow.ArtistBiography),]</label>	
-					<label>$INFO[MusicPlayer.Artist,[COLOR labelheader]$LOCALIZE[31105] ,:[/COLOR] ]$INFO[Window(Visualisation).Property(ArtistSlideshow.1.AlbumName)]$INFO[Window(Visualisation).Property(ArtistSlideshow.2.AlbumName),[COLOR labelheader]  •  [/COLOR]]$INFO[Window(Visualisation).Property(ArtistSlideshow.3.AlbumName),[COLOR labelheader]  •  [/COLOR]]$INFO[Window(Visualisation).Property(ArtistSlideshow.4.AlbumName),[COLOR labelheader]  •  [/COLOR]]$INFO[Window(Visualisation).Property(ArtistSlideshow.5.AlbumName),[COLOR labelheader]  •  [/COLOR]]$INFO[Window(Visualisation).Property(ArtistSlideshow.6.AlbumName),[COLOR labelheader]  •  [/COLOR]]$INFO[Window(Visualisation).Property(ArtistSlideshow.7.AlbumName),[COLOR labelheader]  •  [/COLOR]]$INFO[Window(Visualisation).Property(ArtistSlideshow.8.AlbumName),[COLOR labelheader]  •  [/COLOR]]$INFO[Window(Visualisation).Property(ArtistSlideshow.9.AlbumName),[COLOR labelheader]  •  [/COLOR]]$INFO[Window(Visualisation).Property(ArtistSlideshow.10.AlbumName),[COLOR labelheader]  •  [/COLOR]]</label>		
-				</control>
-
 			</control>
-
 			<control type="group">
+				<animation effect="slide" start="0,0" end="0,-40" time="150" condition="Skin.HasSetting(osd.artistinfos) + Skin.HasSetting(osd.usethemeNewOSD)">Conditional</animation>
 				<visible>Integer.IsGreater(MusicPlayer.Time,0)</visible>
 				<visible>Player.ShowInfo</visible>
 				<visible>!Window.IsVisible(musicosd)</visible>
@@ -325,7 +659,6 @@
 				<animation type="Visible" reversible="false">
 					<effect type="slide" start="-130,0" end="0,0" tween="sine" easing="out" time="600" delay="700" />
 				</animation>
-	
 				<control type="image">	
 					<visible>!Window.IsVisible(DialogBusy.xml)</visible>	                
 					<width>240</width>
@@ -336,7 +669,8 @@
 					<animation effect="rotate" center="auto" time="6000" end="-360" condition="true" loop="true">Conditional</animation>
 				</control>
 			</control>
-			<control type="image">
+			<control type="image">	
+				<animation effect="slide" start="0,0" end="0,-40" time="150" condition="Skin.HasSetting(osd.artistinfos) + Skin.HasSetting(osd.usethemeNewOSD)">Conditional</animation>
 				<visible>Player.ShowInfo</visible>
 				<visible>!Window.IsVisible(musicosd)</visible>
 				<top>636</top>
@@ -359,6 +693,7 @@
 				</animation>
 			</control>
 			<control type="image">
+				<animation effect="slide" start="0,0" end="0,-40" time="150" condition="Skin.HasSetting(osd.artistinfos) + Skin.HasSetting(osd.usethemeNewOSD)">Conditional</animation>
 				<visible>Player.ShowInfo</visible>
 				<visible>!Window.IsVisible(musicosd)</visible>
 				<top>637</top>
@@ -379,311 +714,8 @@
 				<animation type="WindowOpen" reversible="false">
 					<effect type="slide" start="-480,0" end="0,0" tween="sine" easing="out" time="400" delay="0" />
 				</animation>
-			</control>
-			
+			</control>			
 		</control>	
-		
-		
-		
-        <control type="group">
-            <visible>!Window.IsVisible(musicosd)</visible>
-            <visible>Window.IsVisible(script-cu-lrclyrics-main.xml) | Player.Seeking | Player.DisplayAfterSeek | Player.Paused | Player.Forwarding | Player.Rewinding | Player.ShowInfo</visible>
-            <animation effect="slide" start="0,110" end="0" time="150" tween="quadratic">Visible</animation>
-            <animation effect="slide" start="0,110" end="0" time="150" tween="quadratic">WindowOpen</animation>
-            <animation effect="slide" end="0,110" start="0" time="150" tween="quadratic">Hidden</animation>
-			<animation effect="slide" end="0,120" start="0" time="150" tween="quadratic" condition="Window.IsVisible(script-cu-lrclyrics-main.xml) + Skin.HasSetting(hideseekbaronlyrics)">Conditional</animation>
-            <animation effect="slide" end="0,110" start="0" time="150" tween="quadratic">WindowClose</animation>
-
-			<control type="image">
-				<top>111r</top>
-				<width>100%</width>
-				<height>1</height>
-				<texture colordiffuse="BoxHomerow">common/sch2.png</texture>
-				<include>Animation.FadeOut</include>
-				<visible>!Skin.HasSetting(thumbnails.white)</visible>
-			</control>
-            <control type="image">
-                <top>110r</top>
-                <width>100%</width>
-                <height>374</height>
-                <texture>common/white.png</texture>
-                <colordiffuse>$VAR[OSDPanel]</colordiffuse>
-                <animation effect="fade" start="100" end="90" condition="Skin.HasSetting(osd.usetheme)">Conditional</animation>
-                <visible>!Window.IsVisible(script-cu-lrclyrics-main.xml)</visible>
-            </control>
-			<control type="image" description="FanartOverlay">
-				<width>100%</width>
-				<height>360</height>
-				<bottom>-157</bottom>
-				<aspectratio aligny="bottom">scale</aspectratio>
-				<texture>backg/homemenu_overlay.png</texture>				
-				<animation effect="fade" start="0" end="5" time="1" condition="true">Conditional</animation>
-				<include>Animation.FadeOut</include>
-			</control>
-			
-			
-			<control type="grouplist">
-				<visible>true</visible>
-				<include>Animation.FadeIn</include>
-				<include>Animation.FadeOut</include>
-				<right>80</right>
-				<bottom>38</bottom>
-				<width>1400</width>
-				<height>64</height>
-				<orientation>horizontal</orientation>
-				<align>right</align>
-				<itemgap>8</itemgap>
-				<usecontrolcoords>true</usecontrolcoords>
-				
-				<control type="label" description="Duration Total Time">        
-					<align>right</align>
-					<width>400</width>
-					<bottom>13</bottom>
-					<height>40</height>
-					<font>Tiny</font>
-					<textcolor>$VAR[OSDPanelWhite70]</textcolor>
-					<label>$INFO[Player.Time]$INFO[Player.Duration,  /  ,]</label>
-				</control>
-				
-				
-				<control type="image">
-					
-					<width>30</width>
-					<height>30</height>
-					<centertop>50%</centertop>
-					<texture colordiffuse="$VAR[ColorHighlight]">backg/$VAR[FlagstarMusic1].png</texture>
-
-					<visible>Integer.IsGreater(MusicPlayer.Time,0)</visible>
-					<visible>!Skin.HasSetting(musicosd.numericrating)</visible>
-					<animation type="Visible" condition="Integer.IsGreater(MusicPlayer.UserRating,0)"> 
-						<effect type="fade" start="0" end="100" time="200"/>
-						<effect type="zoom" center="auto" tween="back" easing="out" delay="2000" start="90" end="130" time="200"/>
-					 	<effect type="zoom" center="auto" delay="2200" start="110" end="77" time="200"/>
-					</animation>
-					<animation type="WindowOpen" condition="Integer.IsGreater(MusicPlayer.UserRating,0)"> 
-						<effect type="fade" start="0" end="100" time="200"/>
-						<effect type="zoom" center="auto" tween="back" easing="out" delay="2000" start="90" end="130" time="200"/>
-					 	<effect type="zoom" center="auto" delay="2200" start="110" end="77" time="200"/>
-					</animation>
-					
-					<animation type="Hidden"> 
-						<effect type="fade" start="100" end="0" time="400"/>
-					</animation>
-					
-				</control>
-				
-				<control type="image">
-					
-					<width>30</width>
-					<height>30</height>
-					<centertop>50%</centertop>
-					<texture colordiffuse="$VAR[ColorHighlight]">backg/$VAR[FlagstarMusic2].png</texture>
-					<visible>Integer.IsGreater(MusicPlayer.Time,0)</visible>
-					<visible>!Skin.HasSetting(musicosd.numericrating)</visible>
-					<animation type="Visible" condition="Integer.IsGreater(MusicPlayer.UserRating,2)"> 
-					 <effect type="fade" start="0" end="100" time="200"/>
-					 <effect type="zoom" center="auto" tween="back" easing="out" delay="2050" start="90" end="130" time="200"/>
-					 <effect type="zoom" center="auto" delay="2250" start="110" end="77" time="200"/>
-					</animation>
-					
-					<animation type="WindowOpen" condition="Integer.IsGreater(MusicPlayer.UserRating,2)"> 
-					 <effect type="fade" start="0" end="100" time="200"/>
-					 <effect type="zoom" center="auto" tween="back" easing="out" delay="2050" start="90" end="130" time="200"/>
-					 <effect type="zoom" center="auto" delay="2250" start="110" end="77" time="200"/>
-					</animation>
-					
-					<animation type="Hidden"> 
-						<effect type="fade" start="100" end="0" time="400"/>
-					</animation>
-				</control>
-				<control type="image">
-					
-					<width>30</width>
-					<height>30</height>
-					<centertop>50%</centertop>
-					<texture colordiffuse="$VAR[ColorHighlight]">backg/$VAR[FlagstarMusic3].png</texture>
-					<visible>Integer.IsGreater(MusicPlayer.Time,0)</visible>
-					<visible>!Skin.HasSetting(musicosd.numericrating)</visible>
-					<animation type="Visible" condition="Integer.IsGreater(MusicPlayer.UserRating,4)"> 
-						<effect type="fade" start="0" end="100" time="200"/>
-						<effect type="zoom" center="auto" tween="back" easing="out" delay="2100" start="90" end="130" time="200"/>
-					 	<effect type="zoom" center="auto" delay="2300" start="110" end="77" time="200"/>
-					</animation>
-					
-					<animation type="WindowOpen" condition="Integer.IsGreater(MusicPlayer.UserRating,4)"> 
-						<effect type="fade" start="0" end="100" time="200"/>
-						<effect type="zoom" center="auto" tween="back" easing="out" delay="2100" start="90" end="130" time="200"/>
-					 	<effect type="zoom" center="auto" delay="2300" start="110" end="77" time="200"/>
-					</animation>
-					
-					<animation type="Hidden"> 
-						<effect type="fade" start="100" end="0" time="400"/>
-					</animation>
-				</control>
-				<control type="image">
-					
-					<width>30</width>
-					<height>30</height>
-					<centertop>50%</centertop>
-					<texture colordiffuse="$VAR[ColorHighlight]">backg/$VAR[FlagstarMusic4].png</texture>
-					<visible>Integer.IsGreater(MusicPlayer.Time,0)</visible>
-					<visible>!Skin.HasSetting(musicosd.numericrating)</visible>
-					<animation type="Visible" condition="Integer.IsGreater(MusicPlayer.UserRating,6)"> 
-					 	<effect type="fade" start="0" end="100" time="200"/>
-					 	<effect type="zoom" center="auto" tween="back" easing="out" delay="2150" start="90" end="130" time="200"/>
-					 	<effect type="zoom" center="auto" delay="2350" start="110" end="77" time="200"/>
-					</animation>
-					
-					<animation type="WindowOpen" condition="Integer.IsGreater(MusicPlayer.UserRating,6)"> 
-					 	<effect type="fade" start="0" end="100" time="200"/>
-					 	<effect type="zoom" center="auto" tween="back" easing="out" delay="2150" start="90" end="130" time="200"/>
-					 	<effect type="zoom" center="auto" delay="2350" start="110" end="77" time="200"/>
-					</animation>
-					
-					<animation type="Hidden"> 
-						<effect type="fade" start="100" end="0" time="400"/>
-					</animation>
-				</control>
-				<control type="image">
-					
-					<width>30</width>
-					<height>30</height>
-					<centertop>50%</centertop>
-					<texture colordiffuse="$VAR[ColorHighlight]">backg/$VAR[FlagstarMusic5].png</texture>
-					<visible>Integer.IsGreater(MusicPlayer.Time,0)</visible>
-					<visible>!Skin.HasSetting(musicosd.numericrating)</visible>
-					<animation type="Visible" condition="Integer.IsGreater(MusicPlayer.UserRating,8)"> 
-						<effect type="fade" start="0" end="100" time="200"/>
-						<effect type="zoom" center="auto" tween="back" easing="out" delay="2200" start="90" end="130" time="200"/>
-					 	<effect type="zoom" center="auto" delay="2400" start="110" end="77" time="200"/>
-					</animation>
-					
-					<animation type="WindowOpen" condition="Integer.IsGreater(MusicPlayer.UserRating,8)"> 
-						<effect type="fade" start="0" end="100" time="200"/>
-						<effect type="zoom" center="auto" tween="back" easing="out" delay="2200" start="90" end="130" time="200"/>
-					 	<effect type="zoom" center="auto" delay="2400" start="110" end="77" time="200"/>
-					</animation>
-					
-					<animation type="Hidden"> 
-						<effect type="fade" start="100" end="0" time="400"/>
-					</animation>
-				</control>	
-				
-				<control type="image">
-					
-					<width>30</width>
-					<height>30</height>
-					<centertop>50%</centertop>
-					<texture colordiffuse="$VAR[ColorHighlight]">backg/$VAR[FlagstarMusic1].png</texture>
-
-					<visible>Integer.IsGreater(MusicPlayer.Time,0)</visible>
-					<visible>Skin.HasSetting(musicosd.numericrating)</visible>
-					<animation type="Visible" condition="Integer.IsGreater(MusicPlayer.UserRating,0)"> 
-						<effect type="fade" start="0" end="100" time="200"/>
-						<effect type="zoom" center="auto" tween="back" easing="out" delay="2000" start="90" end="130" time="200"/>
-					 	<effect type="zoom" center="auto" delay="2200" start="110" end="77" time="200"/>
-					</animation>
-					<animation type="WindowOpen" condition="Integer.IsGreater(MusicPlayer.UserRating,0)"> 
-						<effect type="fade" start="0" end="100" time="200"/>
-						<effect type="zoom" center="auto" tween="back" easing="out" delay="2000" start="90" end="130" time="200"/>
-					 	<effect type="zoom" center="auto" delay="2200" start="110" end="77" time="200"/>
-					</animation>
-					
-					<animation type="Hidden"> 
-						<effect type="fade" start="100" end="0" time="400"/>
-					</animation>
-					
-				</control>
-				<control type="label">
-					<width>45</width>
-					<height>60</height>
-					<label>$INFO[MusicPlayer.UserRating,,.0]</label>
-					<aligny>center</aligny>
-					<textcolor>$VAR[OSDPanelWhite30]</textcolor>
-					<font>Flag</font>
-					<textcolor>Dark1</textcolor>
-					<visible>Skin.HasSetting(musicosd.numericrating) + Integer.IsGreater(MusicPlayer.UserRating,0)</visible>								
-				</control>
-			</control>
-
-            <control type="group">
-                <animation effect="fade" start="0" end="100" delay="150" time="150">Visible</animation>
-                <animation effect="fade" start="0" end="100" delay="150" time="150">WindowOpen</animation>
-                <top>110r</top>
-                <bottom>0</bottom>
-                <width>100%</width>
-
-                <control type="group">
-                    <left>SidePad</left>
-                    <right>SidePad</right>
-                    <top>20</top>
-                    <bottom>20</bottom>
-                    <control type="label" description="Finishes Time">
-                        <left>0</left>
-                        <right>0</right>
-                        <bottom>30</bottom>
-                        <height>40</height>
-                        <font>Tiny</font>
-                        <textcolor>$VAR[OSDPanelWhite70]</textcolor>
-                        <label>$VAR[PlayerStatus]</label>
-                    </control>
-
-                    <control type="progress" description="cache">
-                        <description>Progress Bar</description>
-                        <width>100%</width>
-                        <bottom>10</bottom>
-                        <height>8</height>
-                        <info>Player.ProgressCache</info>
-                        <visible>true</visible>
-                        <texturebg colordiffuse="00ffffff">osd/progress-bg.png</texturebg>
-                        <lefttexture colordiffuse="Highlight2">osd/progress-end.png</lefttexture>
-                        <midtexture colordiffuse="Highlight2">osd/progress-end.png</midtexture>
-                        <righttexture colordiffuse="Highlight2">osd/progress-end.png</righttexture>
-                    </control>
-                    <control type="progress" id="23">
-                        <description>Progress Bar</description>
-                        <width>100%</width>
-                        <bottom>10</bottom>
-                        <height>8</height>
-                        <info>Player.Progress</info>
-                    </control>
-                </control>
-
-			<control type="group">
-				<include>Animation.FadeIn.Delay</include>	
-				<visible>false</visible>
-
-				<control type="label">
-					<description>RSS feed</description>
-					<left>935</left>
-					<top>25</top>
-					<height>30</height>
-					<width>540</width>
-					<scroll>true</scroll>
-					<scrollspeed>30</scrollspeed>
-					<font>Tiny</font>
-					<label>[COLOR FF333333]$LOCALIZE[21887]:[/COLOR]</label>	
-				</control>
-				
-				<control type="label">
-					<description>RSS feed</description>
-					<left>1045</left>
-					<top>25</top>
-					<height>30</height>
-					<width>430</width>
-					<scroll>true</scroll>
-					<scrollspeed>30</scrollspeed>
-					<pauseatend>500</pauseatend>
-					<font>Tiny</font>					
-					<textcolor>grey</textcolor>
-					<label>$INFO[Window(Visualisation).Property(ArtistSlideshow.ArtistBiography), ]</label>	
-					<label>$INFO[MusicPlayer.Artist,[COLOR labelheader]$LOCALIZE[31105] ,:[/COLOR] ]$INFO[Window(Visualisation).Property(ArtistSlideshow.1.AlbumName)]$INFO[Window(Visualisation).Property(ArtistSlideshow.2.AlbumName),[COLOR labelheader]  •  [/COLOR]]$INFO[Window(Visualisation).Property(ArtistSlideshow.3.AlbumName),[COLOR labelheader]  •  [/COLOR]]$INFO[Window(Visualisation).Property(ArtistSlideshow.4.AlbumName),[COLOR labelheader]  •  [/COLOR]]$INFO[Window(Visualisation).Property(ArtistSlideshow.5.AlbumName),[COLOR labelheader]  •  [/COLOR]]$INFO[Window(Visualisation).Property(ArtistSlideshow.6.AlbumName),[COLOR labelheader]  •  [/COLOR]]$INFO[Window(Visualisation).Property(ArtistSlideshow.7.AlbumName),[COLOR labelheader]  •  [/COLOR]]$INFO[Window(Visualisation).Property(ArtistSlideshow.8.AlbumName),[COLOR labelheader]  •  [/COLOR]]$INFO[Window(Visualisation).Property(ArtistSlideshow.9.AlbumName),[COLOR labelheader]  •  [/COLOR]]$INFO[Window(Visualisation).Property(ArtistSlideshow.10.AlbumName),[COLOR labelheader]  •  [/COLOR]]</label>			
-				</control>
-			</control>
-            </control>
-        </control>
-
-
         <control type="group">
             <visible>Player.ShowCodec</visible>
             <visible>!Window.IsVisible(script-cu-lrclyrics-main.xml)</visible>
