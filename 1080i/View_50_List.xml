@@ -23,11 +23,15 @@
                     <pagecontrol>1627</pagecontrol>
                     <viewtype label="535">list</viewtype>
                     <scrolltime tween="quadratic">400</scrolltime>
-                    <itemlayout width="ListW" height="64">
+                    <itemlayout condition="!Skin.HasSetting(511ListInfo)" width="ListW" height="64">
                         <include>50itemlayout</include>
                     </itemlayout>
+					
+					<itemlayout condition="Skin.HasSetting(511ListInfo)" width="ListW" height="91">
+                        <include>50itemlayout_info</include>
+                    </itemlayout>
 
-                    <focusedlayout width="ListW" height="128" condition="Skin.HasSetting(50list.showplot)">
+                    <focusedlayout width="ListW" height="128" condition="Skin.HasSetting(50list.showplot) + !Skin.HasSetting(511ListInfo)">
                         <control type="group">
                             <visible>!Control.HasFocus(60)</visible>
                             <include>50focuslayout</include>
@@ -57,7 +61,7 @@
                             </control>
                         </control>
                     </focusedlayout>
-                    <focusedlayout width="ListW" height="64" condition="!Skin.HasSetting(50list.showplot)">
+                    <focusedlayout width="ListW" height="64" condition="!Skin.HasSetting(50list.showplot) + !Skin.HasSetting(511ListInfo)">
                         <control type="group">
                             <visible>!Control.HasFocus(60)</visible>
                             <include>50focuslayout</include>
@@ -65,6 +69,17 @@
                         <control type="group">
                             <visible>Control.HasFocus(60)</visible>
                             <include>50itemlayout</include>
+                        </control>
+                    </focusedlayout>
+					
+					<focusedlayout width="ListW" height="91" condition="Skin.HasSetting(511ListInfo)">
+                        <control type="group">
+                            <visible>!Control.HasFocus(60)</visible>
+                            <include>50focuslayout_info</include>
+                        </control>
+                        <control type="group">
+                            <visible>Control.HasFocus(60)</visible>
+                            <include>50itemlayout_info</include>
                         </control>
                     </focusedlayout>
                 </control>
@@ -148,7 +163,7 @@
 					<size>38</size>
                     <textcolor>Dark1</textcolor>
                     <selectedcolor>Dark1</selectedcolor>
-                    <label>$INFO[ListItem.Year] $INFO[ListItem.Duration(mins), •  , min] $INFO[ListItem.mpaa, •  ]</label>
+                    <label>$INFO[ListItem.Year] $INFO[ListItem.Duration(mins),  •  , min] $INFO[ListItem.mpaa, •  ]</label>
 					<!--<visible>!ListItem.IsFolder</visible> -->
                 </control>
 				
@@ -575,11 +590,11 @@
                     <pagecontrol>60</pagecontrol>
                     <viewtype label="535">list</viewtype>
                     <scrolltime tween="quadratic">400</scrolltime>
-                    <itemlayout width="ListW" height="64">
+                    <itemlayout condition="!Skin.HasSetting(511ListInfo)" width="ListW" height="64">
                         <include>50itemlayout</include>
                     </itemlayout>
 
-                    <focusedlayout width="ListW" height="64">
+                    <focusedlayout condition="!Skin.HasSetting(511ListInfo)" width="ListW" height="64">
                         <control type="group">
                             <visible>!Control.HasFocus(60)</visible>
                             <include>50focuslayout</include>
@@ -589,6 +604,23 @@
                             <include>50itemlayout</include>
                         </control>
                     </focusedlayout>
+					
+					
+					<itemlayout condition="Skin.HasSetting(511ListInfo)" width="ListW" height="90">
+                        <include>50itemlayout_info</include>
+                    </itemlayout>
+
+                    <focusedlayout condition="Skin.HasSetting(511ListInfo)" width="ListW" height="90">
+                        <control type="group">
+                            <visible>!Control.HasFocus(60)</visible>
+                            <include>50focuslayout_info</include>
+                        </control>
+                        <control type="group">
+                            <visible>Control.HasFocus(60)</visible>
+                            <include>50itemlayout_info</include>
+                        </control>
+                    </focusedlayout>
+					
                 </control>
                 <control type="scrollbar" id="60">
                     <onback>50</onback>
@@ -776,6 +808,47 @@
         </control>
     </include>
 	
+	<include name="View_50_List_Square_Playlist">
+        <description>List View (id=50)</description>
+        <control type="group">
+            <include>Animation.Common</include>
+            <visible>Control.IsVisible(50)</visible>
+			<include>JumpBarHorizontal</include>
+			<include>ViewSlideForJumpBar</include>
+            <control type="group">
+                <control type="list" id="50">
+					<oninfo condition="ListItem.IsCollection">ActivateWindow(1132)</oninfo>
+                    <top>PosterPad</top>
+                    <height>PosterH</height>
+                    <left>ListSquareX</left>
+                    <right>SidePad</right>
+                    <onleft condition="!Skin.HasSetting(global.kioskmode)">9000</onleft>
+                    <onright>60</onright>
+                    <onup>50</onup>
+                    <ondown>50</ondown>
+                    <pagecontrol>60</pagecontrol>
+                    <viewtype label="535">list</viewtype>
+                    <scrolltime>200</scrolltime>
+                    <itemlayout width="ListSquareW" height="64">
+                        <include>50itemlayout_square_playlist</include>
+                    </itemlayout>
+
+                    <focusedlayout width="ListSquareW" height="64">
+                        <control type="group">
+                            <visible>!Control.HasFocus(60)</visible>
+                            <include>50focuslayout_square_playlist</include>
+                        </control>
+                        <control type="group">
+                            <visible>Control.HasFocus(60)</visible>
+                            <include>50itemlayout_square_playlist</include>
+                        </control>
+                    </focusedlayout>
+                </control>
+                <include>Furniture_Scrollbar</include>
+            </control>
+            <include>View_50_SidePoster_Square</include>
+        </control>
+    </include>
 	
 	<include name="View_51_List_Squarepics">
         <description>List View (id=51)</description>
@@ -1078,10 +1151,10 @@
             <label>$INFO[ListItem.Label]</label>
             <visible>Container.Content(episodes) | Container.Content(tvshows)</visible>
         </control>
+       
 		
 		<control type="group">
-			<visible>Container.Content(tvshows) | Container.Content(episodes) | Container.Content(movies) | Container.Content(seasons)</visible>
-			<animation effect="slide" start="0" end="64" time="0" condition="Container.Content(Seasons)">Conditional</animation>
+			<!--<visible>!Container.Content(movies) + !Container.Content(episodes)</visible>-->
 			<control type="label">
 				<right>154</right>
 				<width>500</width>
@@ -1091,34 +1164,11 @@
 				<font>SmallNavi</font>
 				<textcolor>Light1</textcolor>
 				<selectedcolor>Light1</selectedcolor>
-				<label>$VAR[LabelDurationVar50]</label>
-				<include>Animation.TestIn</include>
-			</control>	
-			<control type="label">
-				<right>154</right>
-				<width>500</width>
-				<aligny>center</aligny>
-				<height>64</height>
-				<align>right</align>
-				<font>SmallNavi</font>
-				<textcolor>Light1</textcolor>
-				<selectedcolor>Light1</selectedcolor>
-				<label>$VAR[LabelDurationVarInfo50]</label>
-				<include>Animation.TestOut</include>
+				<label>$VAR[50ListNormal]</label>
+				<animation effect="slide" start="0" end="64" time="0" condition="Container.Content(Seasons)">Conditional</animation>
 			</control>			
 		</control>
-		<control type="label">
-			<visible>!Container.Content(tvshows) + !Container.Content(episodes) + !Container.Content(movies) + !Container.Content(seasons)</visible>
-			<right>154</right>
-			<width>500</width>
-			<aligny>center</aligny>
-			<height>64</height>
-			<align>right</align>
-			<font>SmallNavi</font>
-			<textcolor>Light1</textcolor>
-			<selectedcolor>Light1</selectedcolor>
-			<label>$VAR[LabelDuration]</label>
-		</control>	
+		
 		
 		<control type="label">
 			<align>right</align>
@@ -1133,16 +1183,6 @@
 			<visible>!String.IsEqual(ListItem.Label,..)</visible>
 			<animation effect="slide" start="0" end="64" time="0" condition="Container.Content(Seasons)">Conditional</animation>
 		</control>
-        <!--<control type="image">
-            <centerright>110</centerright>
-            <centertop>32</centertop>
-            <width>32</width>
-            <height>32</height>
-            <aspectratio aligny="top">keep</aspectratio>
-            <texture>$VAR[PercentWatched]</texture>
-            <visible>!String.IsEqual(ListItem.Label,..)</visible>
-            <animation effect="slide" start="0" end="64" time="0" condition="Container.Content(Seasons)">Conditional</animation>
-        </control>-->
         <control type="label">
             <right>30</right>
             <width>500</width>
@@ -1203,20 +1243,9 @@
             <font>SmallNavi</font>
             <textcolor>Dark1</textcolor>
             <selectedcolor>Dark1</selectedcolor>
-            <label>$VAR[LabelDurationVarInfo50]</label>
+            <label>$VAR[50ListNormal]</label>
 			<animation effect="slide" start="0" end="64" time="0" condition="Container.Content(Seasons)">Conditional</animation>
         </control>
-        <!--<control type="image">
-            <centerright>110</centerright>
-            <centertop>32</centertop>
-            <width>32</width>
-            <height>32</height>
-            <aspectratio aligny="top">keep</aspectratio>
-            <texture>$VAR[PercentWatched]</texture>
-            <visible>!String.IsEqual(ListItem.Label,..)</visible>
-            <animation effect="slide" start="0" end="64" time="0" condition="Container.Content(Seasons)">Conditional</animation>
-        </control>-->
-		
 		<control type="label">
 			<align>right</align>
 			<aligny>center</aligny>
@@ -1230,8 +1259,6 @@
 			<visible>!String.IsEqual(ListItem.Label,..)</visible>
 			<animation effect="slide" start="0" end="64" time="0" condition="Container.Content(Seasons)">Conditional</animation>
 		</control>
-		
-		
         <control type="label">
             <right>30</right>
             <width>500</width>
@@ -1331,26 +1358,6 @@
 			<visible>!Container.Content(songs)</visible>
 			<visible>!ListItem.IsFolder</visible>
         </control>
-		
-		
-		
-		<!--
-		
-		<control type="label">
-            <right>45</right>
-            <width>500</width>
-            <aligny>center</aligny>
-            <height>64</height>
-            <align>right</align>
-            <textcolor>WatchedIconsListFocus</textcolor>
-			<selectedcolor>WatchedIconsListFocus</selectedcolor>
-			<font>SymbolList</font>
-			<label>$VAR[WatchedLabelList]</label>
-			<visible>!Container.Content(songs)</visible>
-        </control>
-		
-		-->
-        
     </include>
     <include name="50focuslayout_square">
         <control type="image">                                
@@ -1443,8 +1450,305 @@
 			<visible>!Container.Content(songs)</visible>
 			<visible>!ListItem.IsFolder</visible>
         </control>
-		
-		
-		
+    </include>
+    <include name="50itemlayout_square_playlist">
+        <control type="image">
+            <left>25</left>
+            <centertop>32</centertop>
+            <width>32</width>
+            <height>32</height>
+            <aspectratio aligny="top">keep</aspectratio>
+            <texture colordiffuse="Dark1">indicator/playlist.png</texture>
+            <visible>ListItem.IsPlaying</visible>
+        </control>
+        <control type="label">
+            <posx>30</posx>
+            <width>auto</width>
+            <aligny>center</aligny>
+            <height>64</height>
+            <font>SmallNavi</font>
+            <label>$INFO[ListItem.Label]</label>
+            <textcolor>Dark1</textcolor>
+            <selectedcolor>Dark1</selectedcolor>
+            <visible>!ListItem.IsPlaying</visible>
+        </control>
+        <control type="label">
+            <posx>78</posx>
+            <width>auto</width>
+            <aligny>center</aligny>
+            <height>64</height>
+            <font>SmallNavi</font>
+            <label>$INFO[ListItem.Label]</label>
+            <textcolor>Dark1</textcolor>
+            <selectedcolor>Dark1</selectedcolor>
+            <visible>ListItem.IsPlaying</visible>
+        </control>
+        <control type="label">
+            <right>45</right>
+            <width>500</width>
+            <aligny>center</aligny>
+            <height>64</height>
+            <align>right</align>
+            <font>SmallNavi</font>
+            <textcolor>Dark1</textcolor>
+            <selectedcolor>Dark1</selectedcolor>
+            <label>$INFO[ListItem.Duration]</label>
+        </control>
+    </include>
+    <include name="50focuslayout_square_playlist">
+        <control type="image">                                
+            <width>100%</width>
+            <height>100%</height>
+            <texture border="8" colordiffuse="Dark1">common/box.png</texture>
+			<include>ListViewScrollAnim</include>
+        </control>
+        <control type="image">
+            <left>25</left>
+            <centertop>32</centertop>
+            <width>32</width>
+            <height>32</height>
+            <aspectratio aligny="top">keep</aspectratio>
+            <texture colordiffuse="Light1">indicator/playlist.png</texture>
+            <visible>ListItem.IsPlaying</visible>
+        </control>
+        <control type="label">
+            <posx>30</posx>
+            <width>auto</width>
+            <aligny>center</aligny>
+            <height>64</height>
+            <font>SmallNavi</font>
+            <label>$INFO[ListItem.Label]</label>
+            <textcolor>Light1</textcolor>
+            <selectedcolor>Light1</selectedcolor>
+            <visible>!ListItem.IsPlaying</visible>
+        </control>
+        <control type="label">
+            <posx>78</posx>
+            <width>auto</width>
+            <aligny>center</aligny>
+            <height>64</height>
+            <font>SmallNavi</font>
+            <label>$INFO[ListItem.Label]</label>
+            <textcolor>Light1</textcolor>
+            <selectedcolor>Light1</selectedcolor>
+            <visible>ListItem.IsPlaying</visible>
+        </control>
+		<control type="label">
+            <right>45</right>
+            <width>500</width>
+            <aligny>center</aligny>
+            <height>64</height>
+            <align>right</align>
+            <font>SmallNavi</font>
+            <textcolor>Light1</textcolor>
+            <selectedcolor>Light1</selectedcolor>
+            <label>$INFO[ListItem.Duration]</label>
+        </control>
+    </include>	
+	<include name="50focuslayout_info">
+        <control type="image">                                
+            <width>100%</width>
+            <height>100%</height>
+            <texture border="8" colordiffuse="Dark1">common/box.png</texture>
+			<include>ListViewScrollAnim</include>          
+        </control>
+        <control type="label">
+			<top>-5</top>
+            <posx>30</posx>
+            <width>200</width>
+            <font>SmallNavi</font>
+            <aligny>center</aligny>
+            <height>64</height>
+            <textcolor>Light1</textcolor>
+            <selectedcolor>Light1</selectedcolor>
+            <label>$VAR[LabelYear]</label>
+            <visible>Container.Content(movies) | Container.Content(tvshows)</visible>
+        </control>
+        <control type="label">
+			<top>-5</top>
+            <posx>120</posx>
+            <width>auto</width>
+            <aligny>center</aligny>
+            <height>64</height>
+            <font>SmallNavi</font>
+            <textcolor>Light1</textcolor>
+            <selectedcolor>Light1</selectedcolor>
+            <label>$INFO[ListItem.Label]</label>
+            <animation effect="slide" start="0" end="-90" time="0" condition="!Container.Content(movies) + !Container.Content(tvshows)">Conditional</animation>
+            <visible>!Container.Content(episodes)</visible>
+        </control>
+        <control type="label">
+			<top>-5</top>
+            <posx>30</posx>
+            <width>auto</width>
+            <aligny>center</aligny>
+            <height>64</height>
+            <font>SmallNavi</font>
+            <textcolor>Light1</textcolor>
+            <selectedcolor>Light1</selectedcolor>
+            <label>$INFO[ListItem.Label]</label>
+            <visible>Container.Content(episodes)</visible>
+        </control>
+		<control type="group">
+			<top>28</top>
+			<posx>30</posx>
+			<control type="label">
+				<width>auto</width>
+				<aligny>center</aligny>
+				<height>64</height>
+				<align>left</align>
+				<font>Small24</font>
+				<textcolor>Light2</textcolor>
+				<selectedcolor>Light2</selectedcolor>
+				<label>$VAR[LabelDurationVar50]</label>
+				<include>Animation.TestIn</include>
+			</control>	
+			<control type="label">
+				<width>auto</width>
+				<aligny>center</aligny>
+				<height>64</height>
+				<align>left</align>
+				<font>Small24</font>
+				<textcolor>Light2</textcolor>
+				<selectedcolor>Light2</selectedcolor>
+				<label>$VAR[50ListExtended]</label>
+				<include>Animation.TestOut</include>
+			</control>			
+		</control>
+		<control type="label">
+			<top>-5</top>
+			<animation effect="slide" start="0" end="64" time="0" condition="Container.Content(Seasons)">Conditional</animation>
+			<right>154</right>
+			<width>500</width>
+			<aligny>center</aligny>
+			<height>64</height>
+			<align>right</align>
+			<font>SmallNavi</font>
+			<textcolor>Light1</textcolor>
+			<selectedcolor>Light1</selectedcolor>
+			<label>$VAR[50ListNormalRight]</label>
+			<visible>!Container.Content(seasons) + !Container.Content(tvshows)</visible>
+		</control>	
+		<control type="label">
+			<top>-5</top>
+			<align>right</align>
+			<aligny>center</aligny>
+			<width>64</width>
+			<centerright>130</centerright>	
+			<height>68</height>
+			<textcolor>WatchedIconsListFocus</textcolor>
+			<selectedcolor>WatchedIconsListFocus</selectedcolor>
+			<font>SymbolList</font>
+			<label>$VAR[WatchedLabelList]</label>
+			<visible>!String.IsEqual(ListItem.Label,..)</visible>
+			<animation effect="slide" start="0" end="64" time="0" condition="Container.Content(Seasons)">Conditional</animation>
+		</control>
+        <control type="label">
+			<top>-5</top>
+            <right>30</right>
+            <width>500</width>
+            <aligny>center</aligny>
+            <height>64</height>
+            <align>right</align>
+            <font>SmallNavi</font>
+            <textcolor>Light1</textcolor>
+            <selectedcolor>Light1</selectedcolor>
+            <label fallback="0.0">$INFO[ListItem.Rating]</label>
+            <visible>!String.IsEqual(ListItem.Label,..)</visible>
+            <visible>!Container.Content(seasons)</visible>
+        </control>
+    </include>
+
+    <include name="50itemlayout_info">
+        <control type="label">
+			<top>-5</top>
+            <posx>30</posx>
+            <width>200</width>
+            <font>SmallNavi</font>
+            <aligny>center</aligny>
+            <height>64</height>
+            <label>$VAR[LabelYear]</label>
+            <textcolor>Dark1</textcolor>
+            <selectedcolor>Dark1</selectedcolor>
+            <visible>Container.Content(movies) | Container.Content(tvshows)</visible>
+        </control>
+        <control type="label">
+			<top>-5</top>
+            <posx>120</posx>
+            <width>auto</width>
+            <aligny>center</aligny>
+            <height>64</height>
+            <font>SmallNavi</font>
+            <label>$INFO[ListItem.Label]</label>
+            <textcolor>Dark1</textcolor>
+            <selectedcolor>Dark1</selectedcolor>
+            <animation effect="slide" start="0" end="-90" time="0" condition="!Container.Content(movies) + !Container.Content(tvshows)">Conditional</animation>
+            <visible>!Container.Content(episodes)</visible>
+        </control>
+        <control type="label">
+			<top>-5</top>
+            <posx>30</posx>
+            <width>auto</width>
+            <aligny>center</aligny>
+            <height>64</height>
+            <font>SmallNavi</font>
+            <label>$INFO[ListItem.Label]</label>
+            <textcolor>Dark1</textcolor>
+            <selectedcolor>Dark1</selectedcolor>
+            <visible>Container.Content(episodes)</visible>
+        </control>
+		<control type="label">
+			<top>28</top>
+            <posx>30</posx>
+            <width max="560">auto</width>
+            <aligny>center</aligny>
+            <height>64</height>
+            <font>Small24</font>
+            <label>$VAR[50ListExtended]</label>
+            <textcolor>Dark2</textcolor>
+            <selectedcolor>Dark1</selectedcolor>
+        </control>
+        <control type="label">
+			<top>-5</top>
+            <right>154</right>
+            <width>500</width>
+            <aligny>center</aligny>
+            <height>64</height>
+            <align>right</align>
+            <font>SmallNavi</font>
+            <textcolor>Dark1</textcolor>
+            <selectedcolor>Dark1</selectedcolor>
+            <label>$VAR[50ListNormalRight]</label>
+			<visible>!Container.Content(tvshows)</visible>
+			<animation effect="slide" start="0" end="64" time="0" condition="Container.Content(Seasons)">Conditional</animation>
+        </control>
+		<control type="label">
+			<top>-5</top>
+			<align>right</align>
+			<aligny>center</aligny>
+			<width>64</width>
+			<centerright>130</centerright>		
+			<height>68</height>
+			<textcolor>WatchedIconsList</textcolor>
+			<selectedcolor>WatchedIconsList</selectedcolor>
+			<font>SymbolList</font>
+			<label>$VAR[WatchedLabelList]</label>
+			<visible>!String.IsEqual(ListItem.Label,..)</visible>
+			<animation effect="slide" start="0" end="64" time="0" condition="Container.Content(Seasons)">Conditional</animation>
+		</control>
+        <control type="label">
+			<top>-5</top>
+            <right>30</right>
+            <width>500</width>
+            <aligny>center</aligny>
+            <height>64</height>
+            <align>right</align>
+            <font>SmallNavi</font>
+            <textcolor>Dark1</textcolor>
+            <selectedcolor>Dark1</selectedcolor>
+            <label fallback="0.0">$INFO[ListItem.Rating]</label>
+            <visible>!String.IsEqual(ListItem.Label,..)</visible>
+            <visible>!Container.Content(seasons)</visible>
+        </control>
     </include>
 </includes>

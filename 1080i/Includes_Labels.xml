@@ -439,7 +439,7 @@
 	</variable>
 	
 	<variable name="Label2Var">
-		<value condition="[Container.Content(tvshows) | Container.Content(seasons)] + !String.IsEqual(ListItem.Label,..)">$INFO[ListItem.Property(WatchedEpisodes)]/$INFO[ListItem.Property(TotalEpisodes)] $LOCALIZE[16102]</value>
+		<value condition="[Container.Content(tvshows) | Container.Content(seasons)] + !String.IsEqual(ListItem.Label,..)">$INFO[ListItem.Property(WatchedEpisodes)]/$INFO[ListItem.Property(TotalEpisodes)] $LOCALIZE[37614]</value>
 		<value condition="[Container.Content(episodes) | Container.Content(movies)] + !String.IsEqual(ListItem.Label,..)">$LOCALIZE[37516] $INFO[ListItem.EndTime]</value>
 		<value>$INFO[ListItem.Label2]</value>
 	</variable>
@@ -449,13 +449,53 @@
 	</variable>
 	
 	<variable name="LabelDurationVar50">
-		<value condition="[Container.Content(tvshows) | Container.Content(episodes) | Container.Content(movies)] + !String.IsEmpty(ListItem.Duration(mins))">$LOCALIZE[37516] $INFO[ListItem.EndTime]</value>
+		<value condition="ListItem.IsCollection">$LOCALIZE[19055]</value>
+		<value condition="[Container.Content(tvshows) | Container.Content(seasons)] + !String.IsEqual(ListItem.Label,..)">$INFO[ListItem.Property(WatchedEpisodes)]/$INFO[ListItem.Property(TotalEpisodes)] $LOCALIZE[37614]</value>
+		<value condition="[Container.Content(episodes) | Container.Content(movies)] + !String.IsEmpty(ListItem.Duration(mins))">$LOCALIZE[37516] $INFO[ListItem.EndTime]</value>
 		<value condition="Container.Content(seasons) + !String.IsEqual(ListItem.Label,..)">$INFO[ListItem.Property(WatchedEpisodes)]/$INFO[ListItem.Property(TotalEpisodes)] $LOCALIZE[16102]</value>
 		<value>$VAR[LabelDuration]</value>
 	</variable>
 	<variable name="LabelDurationVarInfo50">
+		
+		<value condition="Container.Content(seasons) + !String.IsEqual(ListItem.Label,..)">$INFO[ListItem.Property(TotalEpisodes)] $LOCALIZE[20360]</value>
+		<value condition="!Container.Content(tvshows)">$VAR[LabelDuration]</value>
+	</variable>
+	
+	
+	
+	
+		
+	<variable name="50ListNormal">
+		<value condition="Container.Content(tvshows) + !String.IsEqual(ListItem.Label,..)">$INFO[ListItem.Year]</value>
 		<value condition="Container.Content(seasons) + !String.IsEqual(ListItem.Label,..)">$INFO[ListItem.Property(TotalEpisodes)] $LOCALIZE[20360]</value>
 		<value>$VAR[LabelDuration]</value>
 	</variable>
+	
+	<variable name="50ListNormalRight">
+		<value condition="Container.Content(tvshows) + !String.IsEqual(ListItem.Label,..)">$INFO[ListItem.Year]</value>
+		<value>$VAR[LabelDuration]</value>
+	</variable>
+	
+	
+	<variable name="50ListExtended">
+		<value condition="ListItem.IsCollection">$LOCALIZE[19055]</value>
+		<value condition="Container.Content(seasons) + !String.IsEqual(ListItem.Label,..)">$INFO[ListItem.Year,,  •  ]$INFO[ListItem.Property(TotalEpisodes)] $LOCALIZE[20360]</value>
+		<value condition="[Container.Content(movies)] + !String.IsEqual(ListItem.Label,..)">$INFO[ListItem.Genre]</value>
+		<value condition="[Container.Content(tvshows)] + !String.IsEqual(ListItem.Label,..)">$INFO[ListItem.Property(TotalEpisodes)] $LOCALIZE[20360] $INFO[ListItem.Genre, •  ]</value>
+		
+		<value condition="!String.IsEmpty(ListItem.Genre)">$INFO[ListItem.Genre]</value>
+		<value>$INFO[ListItem.Duration(mins),, $LOCALIZE[31102]]</value>
+	</variable>
+	
+	
+	
+	<variable name="56ListExtended">
+		<value condition="Container.Content(seasons) + !String.IsEqual(ListItem.Label,..)">$INFO[ListItem.Year]$VAR[Label2VarInfo,  •  ]$INFO[ListItem.Duration(mins),  •  , min]</value>
+		<value condition="[Container.Content(episodes)] + !String.IsEqual(ListItem.Label,..)">$VAR[Label2VarInfo]$INFO[ListItem.Duration(mins),  •  , min]</value>
+		
+		<value>$INFO[ListItem.Year]$VAR[Label2VarInfo,  •  ]$INFO[ListItem.Genre,  •  ]</value>
+	</variable>
+	
+	
 	
 </includes>
