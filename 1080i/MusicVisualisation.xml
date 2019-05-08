@@ -98,8 +98,7 @@
                 <top>830r</top>
                 <width>100%</width>
                 <height>870</height>
-                <texture>common/fsinfoscreen.png</texture>
-                
+                <texture>common/fsinfoscreen.png</texture>       
                 <animation effect="fade" start="100" end="90" condition="Skin.HasSetting(osd.usetheme)">Conditional</animation>
                 <visible>!Window.IsVisible(script-cu-lrclyrics-main.xml) + Skin.HasSetting(osd.usethemeNewOSD)</visible>
 				<visible>!Window.IsVisible(musicosd)</visible>
@@ -107,10 +106,192 @@
 				<include>Animation.FadeIn</include>
 				<include>Animation.FadeOut</include>
             </control>
+			<control type="image">
+                <top>830r</top>
+                <width>100%</width>
+                <height>870</height>
+                <texture>common/fsinfoscreen.png</texture>
+                <animation effect="fade" start="100" end="40" condition="true">Conditional</animation>
+                <animation effect="fade" start="100" end="90" condition="Skin.HasSetting(osd.usetheme)">Conditional</animation>
+                <visible>!Window.IsVisible(script-cu-lrclyrics-main.xml) + Skin.HasSetting(osd.usethemeNewOSD)</visible>
+				<visible>!Window.IsVisible(musicosd)</visible>
+            	<visible>Window.IsVisible(script-cu-lrclyrics-main.xml) | Player.Seeking | Player.DisplayAfterSeek | Player.Paused | Player.Forwarding | Player.Rewinding | Player.ShowInfo</visible>
+				<include>Animation.FadeIn</include>
+				<include>Animation.FadeOut</include>
+            </control>		
+			<control type="label" description="Duration Total Time"> 
+				<animation effect="slide" start="0,0" end="0,-50" time="150" condition="Skin.HasSetting(osd.usethemeNewOSD)">Conditional</animation>
+				<animation effect="slide" start="0,0" end="-50," time="0" condition="Skin.HasSetting(osd.usethemeNewOSD)">Conditional</animation>
+				<visible>Skin.HasSetting(osd.usethemeNewOSD)</visible>
+				<include>Animation.FadeIn</include>
+				<include>Animation.FadeOut</include>
+				<right>80</right>
+				<bottom>38</bottom>
+				<width>300</width>
+				<height>64</height>      
+				<align>right</align>
+				<width>400</width>
+				<bottom>13</bottom>
+				<height>40</height>
+				<font>Tiny</font>
+				<textcolor>$VAR[OSDPanelWhite70]</textcolor>
+				<label>$INFO[Player.Time]$INFO[Player.Duration,  /  ,]</label>
+			</control>	
+			<control type="grouplist">
+				<animation effect="slide" start="0,0" end="0,-70" time="150" condition="Skin.HasSetting(osd.artistinfos)">Conditional</animation>
+				<visible>Skin.HasSetting(osd.usethemeNewOSD)</visible>
+				<include>Animation.FadeIn</include>
+				<include>Animation.FadeOut</include>
+				<right>130</right>
+				<bottom>142</bottom>
+				<width>1400</width>
+				<height>64</height>
+				<orientation>horizontal</orientation>
+				<align>right</align>
+				<itemgap>8</itemgap>
+				<usecontrolcoords>true</usecontrolcoords>						
+				<control type="image">				
+					<width>35</width>
+					<height>35</height>
+					<centertop>50%</centertop>
+					<texture colordiffuse="$VAR[ColorHighlight]">backg/$VAR[FlagstarMusic1].png</texture>
+					<visible>Integer.IsGreater(MusicPlayer.Time,0)</visible>
+					<visible>!Skin.HasSetting(musicosd.numericrating)</visible>
+					<animation type="Visible" condition="Integer.IsGreater(MusicPlayer.UserRating,0)"> 
+						<effect type="fade" start="0" end="100" time="200"/>
+						<effect type="zoom" center="auto" tween="back" easing="out" delay="2000" start="90" end="130" time="200"/>
+					 	<effect type="zoom" center="auto" delay="2200" start="110" end="77" time="200"/>
+					</animation>
+					<animation type="WindowOpen" condition="Integer.IsGreater(MusicPlayer.UserRating,0)"> 
+						<effect type="fade" start="0" end="100" time="200"/>
+						<effect type="zoom" center="auto" tween="back" easing="out" delay="2000" start="90" end="130" time="200"/>
+					 	<effect type="zoom" center="auto" delay="2200" start="110" end="77" time="200"/>
+					</animation>					
+					<animation type="Hidden"> 
+						<effect type="fade" start="100" end="0" time="400"/>
+					</animation>					
+				</control>			
+				<control type="image">				
+					<width>35</width>
+					<height>35</height>
+					<centertop>50%</centertop>
+					<texture colordiffuse="$VAR[ColorHighlight]">backg/$VAR[FlagstarMusic2].png</texture>
+					<visible>Integer.IsGreater(MusicPlayer.Time,0)</visible>
+					<visible>!Skin.HasSetting(musicosd.numericrating)</visible>
+					<animation type="Visible" condition="Integer.IsGreater(MusicPlayer.UserRating,2)"> 
+					 <effect type="fade" start="0" end="100" time="200"/>
+					 <effect type="zoom" center="auto" tween="back" easing="out" delay="2050" start="90" end="130" time="200"/>
+					 <effect type="zoom" center="auto" delay="2250" start="110" end="77" time="200"/>
+					</animation>					
+					<animation type="WindowOpen" condition="Integer.IsGreater(MusicPlayer.UserRating,2)"> 
+					 <effect type="fade" start="0" end="100" time="200"/>
+					 <effect type="zoom" center="auto" tween="back" easing="out" delay="2050" start="90" end="130" time="200"/>
+					 <effect type="zoom" center="auto" delay="2250" start="110" end="77" time="200"/>
+					</animation>
+					<animation type="Hidden"> 
+						<effect type="fade" start="100" end="0" time="400"/>
+					</animation>
+				</control>
+				<control type="image">	
+					<width>35</width>
+					<height>35</height>
+					<centertop>50%</centertop>
+					<texture colordiffuse="$VAR[ColorHighlight]">backg/$VAR[FlagstarMusic3].png</texture>
+					<visible>Integer.IsGreater(MusicPlayer.Time,0)</visible>
+					<visible>!Skin.HasSetting(musicosd.numericrating)</visible>
+					<animation type="Visible" condition="Integer.IsGreater(MusicPlayer.UserRating,4)"> 
+						<effect type="fade" start="0" end="100" time="200"/>
+						<effect type="zoom" center="auto" tween="back" easing="out" delay="2100" start="90" end="130" time="200"/>
+					 	<effect type="zoom" center="auto" delay="2300" start="110" end="77" time="200"/>
+					</animation>		
+					<animation type="WindowOpen" condition="Integer.IsGreater(MusicPlayer.UserRating,4)"> 
+						<effect type="fade" start="0" end="100" time="200"/>
+						<effect type="zoom" center="auto" tween="back" easing="out" delay="2100" start="90" end="130" time="200"/>
+					 	<effect type="zoom" center="auto" delay="2300" start="110" end="77" time="200"/>
+					</animation>
+					<animation type="Hidden"> 
+						<effect type="fade" start="100" end="0" time="400"/>
+					</animation>
+				</control>
+				<control type="image">
+					<width>35</width>
+					<height>35</height>
+					<centertop>50%</centertop>
+					<texture colordiffuse="$VAR[ColorHighlight]">backg/$VAR[FlagstarMusic4].png</texture>
+					<visible>Integer.IsGreater(MusicPlayer.Time,0)</visible>
+					<visible>!Skin.HasSetting(musicosd.numericrating)</visible>
+					<animation type="Visible" condition="Integer.IsGreater(MusicPlayer.UserRating,6)"> 
+					 	<effect type="fade" start="0" end="100" time="200"/>
+					 	<effect type="zoom" center="auto" tween="back" easing="out" delay="2150" start="90" end="130" time="200"/>
+					 	<effect type="zoom" center="auto" delay="2350" start="110" end="77" time="200"/>
+					</animation>
+					<animation type="WindowOpen" condition="Integer.IsGreater(MusicPlayer.UserRating,6)"> 
+					 	<effect type="fade" start="0" end="100" time="200"/>
+					 	<effect type="zoom" center="auto" tween="back" easing="out" delay="2150" start="90" end="130" time="200"/>
+					 	<effect type="zoom" center="auto" delay="2350" start="110" end="77" time="200"/>
+					</animation>
+					
+					<animation type="Hidden"> 
+						<effect type="fade" start="100" end="0" time="400"/>
+					</animation>
+				</control>
+				<control type="image">
+					<width>35</width>
+					<height>35</height>
+					<centertop>50%</centertop>
+					<texture colordiffuse="$VAR[ColorHighlight]">backg/$VAR[FlagstarMusic5].png</texture>
+					<visible>Integer.IsGreater(MusicPlayer.Time,0)</visible>
+					<visible>!Skin.HasSetting(musicosd.numericrating)</visible>
+					<animation type="Visible" condition="Integer.IsGreater(MusicPlayer.UserRating,8)"> 
+						<effect type="fade" start="0" end="100" time="200"/>
+						<effect type="zoom" center="auto" tween="back" easing="out" delay="2200" start="90" end="130" time="200"/>
+					 	<effect type="zoom" center="auto" delay="2400" start="110" end="77" time="200"/>
+					</animation>	
+					<animation type="WindowOpen" condition="Integer.IsGreater(MusicPlayer.UserRating,8)"> 
+						<effect type="fade" start="0" end="100" time="200"/>
+						<effect type="zoom" center="auto" tween="back" easing="out" delay="2200" start="90" end="130" time="200"/>
+					 	<effect type="zoom" center="auto" delay="2400" start="110" end="77" time="200"/>
+					</animation>	
+					<animation type="Hidden"> 
+						<effect type="fade" start="100" end="0" time="400"/>
+					</animation>
+				</control>					
+				<control type="image">
+					<width>35</width>
+					<height>35</height>
+					<centertop>50%</centertop>
+					<texture colordiffuse="$VAR[ColorHighlight]">backg/$VAR[FlagstarMusic1].png</texture>
+					<visible>Integer.IsGreater(MusicPlayer.Time,0)</visible>
+					<visible>Skin.HasSetting(musicosd.numericrating)</visible>
+					<animation type="Visible" condition="Integer.IsGreater(MusicPlayer.UserRating,0)"> 
+						<effect type="fade" start="0" end="100" time="200"/>
+						<effect type="zoom" center="auto" tween="back" easing="out" delay="2000" start="90" end="130" time="200"/>
+					 	<effect type="zoom" center="auto" delay="2200" start="110" end="77" time="200"/>
+					</animation>
+					<animation type="WindowOpen" condition="Integer.IsGreater(MusicPlayer.UserRating,0)"> 
+						<effect type="fade" start="0" end="100" time="200"/>
+						<effect type="zoom" center="auto" tween="back" easing="out" delay="2000" start="90" end="130" time="200"/>
+					 	<effect type="zoom" center="auto" delay="2200" start="110" end="77" time="200"/>
+					</animation>				
+					<animation type="Hidden"> 
+						<effect type="fade" start="100" end="0" time="400"/>
+					</animation>					
+				</control>
+				<control type="label">
+					<width>45</width>
+					<height>60</height>
+					<label>$INFO[MusicPlayer.UserRating,,.0]</label>
+					<aligny>center</aligny>
+					<textcolor>$VAR[OSDPanelWhite30]</textcolor>
+					<font>Flag</font>
+					<textcolor>Dark1</textcolor>
+					<visible>Skin.HasSetting(musicosd.numericrating) + Integer.IsGreater(MusicPlayer.UserRating,0)</visible>								
+				</control>
+			</control>
 			<control type="grouplist">
 				<animation effect="slide" start="0,0" end="0,-50" time="150" condition="Skin.HasSetting(osd.usethemeNewOSD)">Conditional</animation>
 				<animation effect="slide" start="0,0" end="-50," time="0" condition="Skin.HasSetting(osd.usethemeNewOSD)">Conditional</animation>
-				<visible>true</visible>
+				<visible>!Skin.HasSetting(osd.usethemeNewOSD)</visible>
 				<include>Animation.FadeIn</include>
 				<include>Animation.FadeOut</include>
 				<right>80</right>
@@ -269,6 +450,7 @@
 					<visible>Skin.HasSetting(musicosd.numericrating) + Integer.IsGreater(MusicPlayer.UserRating,0)</visible>								
 				</control>
 			</control>
+			
             <control type="group">
 				<visible>!Skin.HasSetting(osd.usethemeNewOSD)</visible>
                 <animation effect="fade" start="0" end="100" delay="150" time="150">Visible</animation>
@@ -493,6 +675,14 @@
 				<!--<animation type="WindowOpen" reversible="false">
 					<effect type="slide" start="1480,0" end="0,0" tween="sine" easing="out" time="400" delay="0" />
 				</animation>-->
+				<animation type="Hidden" reversible="false">
+					<effect type="slide" start="0,0" end="1400,0" tween="sine" easing="out" time="400" delay="500" />
+					<effect type="fade" start="100" end="0" time="200" delay="500" />
+				</animation>
+				<animation type="Visible" reversible="false">
+					<effect type="slide" start="1480,0" end="0,0" tween="sine" easing="out" time="400" delay="0" />
+					<effect type="fade" start="50" end="100" time="400" />
+				</animation>
 				<control type="group">
 					<visible>!Skin.HasSetting(osd.usethemeNewOSD)</visible>
 					<animation type="WindowClose" reversible="false">
@@ -504,14 +694,7 @@
 						<effect type="fade" start="50" end="100" time="400" />
 					</animation>
 					
-					<animation type="Hidden" reversible="false">
-						<effect type="slide" start="0,0" end="1400,0" tween="sine" easing="out" time="400" delay="500" />
-						<effect type="fade" start="100" end="0" time="200" delay="500" />
-					</animation>
-					<animation type="Visible" reversible="false">
-						<effect type="slide" start="1480,0" end="0,0" tween="sine" easing="out" time="400" delay="0" />
-						<effect type="fade" start="50" end="100" time="400" />
-					</animation>				
+									
 					<control type="image">
 						<visible>!Skin.HasSetting(AlternativeCd) + Skin.HasSetting(ShowMusicCd)</visible>
 						<top>634</top>
