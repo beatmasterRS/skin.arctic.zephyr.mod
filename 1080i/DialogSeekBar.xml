@@ -210,6 +210,144 @@
                 </control>
             </control>
             <control type="group">
+				<visible>!Skin.HasSetting(osd.usethemeNewOSD)</visible>
+                <visible>!Player.Paused | !Skin.HasSetting(osd.showinfoonpause)</visible>
+                <visible>!Window.IsVisible(fullscreeninfo) + !Player.ShowInfo + String.IsEmpty(Window(home).Property(osdshowinfo))</visible>
+                <visible>Player.Seeking | Player.DisplayAfterSeek | Player.Paused | Player.Forwarding | Player.Rewinding | !String.IsEmpty(Player.SeekNumeric) | !String.IsEmpty(PVR.ChannelNumberInput)</visible>
+                <animation effect="fade" start="0" end="100" delay="150" time="150">Visible</animation>
+                <animation effect="fade" start="0" end="100" delay="150" time="150">WindowOpen</animation>
+                <top>110r</top>
+                <bottom>0</bottom>
+                <width>100%</width>  
+				<animation effect="slide" start="0,0" end="0,-10" time="150" condition="Skin.HasSetting(osd.usethemeNewOSD)">Conditional</animation>         
+                <control type="group">
+                    <left>SidePad</left>
+                    <right>SidePad</right>
+                    <top>20</top>
+                    <bottom>20</bottom>			
+					<control type="label" description="Finishes Time">
+                        <width>400</width>
+                        <bottom>30</bottom>
+                        <height>40</height>
+                        <font>Tiny</font>
+                        <textcolor>$VAR[OSDPanelWhite70]</textcolor>
+                        <label>$VAR[PlayerStatus]</label>
+                    </control>
+					
+					<control type="grouplist">
+						<orientation>horizontal</orientation>
+            			<align>right</align>
+						<control type="label">
+							<visible>!Skin.HasSetting(ClockOSD)</visible>	
+							<width>auto</width>
+							<align>right</align>
+							<height>40</height>		
+							<font>Tiny</font>
+							<textcolor>$VAR[OSDPanelWhite70]</textcolor>
+							<label>$INFO[System.Time] </label>
+							<visible>Player.HasVideo</visible>
+						</control>
+			
+						<control type="image">
+							<visible>!Skin.HasSetting(ClockOSD)</visible>	
+							<centertop>10%</centertop>
+							<width>30</width>
+							<height>45</height>
+							<align>right</align>
+							<colordiffuse>$VAR[OSDPanelWhite30]</colordiffuse>
+							<texture>kaitoast/finishtime2.png</texture>
+							<visible>Player.HasVideo</visible>
+						</control>
+						<control type="label">
+							<visible>!Skin.HasSetting(ClockOSD)</visible>	
+							<width>auto</width>
+							<align>right</align>
+							<height>40</height>		
+							<font>Tiny</font>
+							<textcolor>$VAR[OSDPanelWhite70]</textcolor>
+							<label>$INFO[Player.FinishTime]  •  </label>
+							<visible>Player.HasVideo</visible>
+							<visible>!VideoPlayer.Content(LiveTV)</visible>
+						</control>
+						<control type="label" description="Chapter-OSD">
+							<width>auto</width>
+							<height>40</height>		
+							<font>Tiny</font>
+							<textcolor>$VAR[OSDPanelWhite70]</textcolor>
+							<label>$INFO[Player.Chapter]$INFO[Player.ChapterCount, / ,  •  ]</label>
+							<visible>!VideoPlayer.Content(LiveTV) + Player.HasVideo + !String.IsEqual(Player.ChapterCount,0) + !String.IsEqual(Player.ChapterCount,00)</visible>
+						</control>
+						
+						<control type="label" description="Duration Total Time">
+							<width>auto</width>
+							<bottom>30</bottom>
+							<height>40</height>
+							<font>Tiny</font>
+							<textcolor>$VAR[OSDPanelWhite70]</textcolor>
+							<label>$INFO[Player.Time]$INFO[Player.Duration,  /  ,]</label>
+							<visible>String.IsEmpty(Player.SeekNumeric) + !VideoPlayer.Content(LiveTV)</visible>
+						</control>
+						<control type="label" description="Duration Total Time">
+							<width>auto</width>
+							<bottom>30</bottom>
+							<height>40</height>
+							<font>Tiny</font>
+							<textcolor>$VAR[OSDPanelWhite70]</textcolor>
+							<label>$INFO[Player.SeekNumeric(hh:mm:ss)]$INFO[Player.Duration,  /  ,]</label>
+							<visible>!String.IsEmpty(Player.SeekNumeric) + !VideoPlayer.Content(LiveTV)</visible>
+						</control>
+						<control type="label" description="Duration Total Time">
+							<width>auto</width>
+							<bottom>30</bottom>
+							<height>40</height>
+							<font>Tiny</font>
+							<textcolor>$VAR[OSDPanelWhite70]</textcolor>
+							<label>$INFO[PVR.EpgEventFinishTime]</label>
+							<visible>VideoPlayer.Content(LiveTV)</visible>
+						</control>	
+						
+						<control type="label" description="Total Time">	
+							<width>auto</width>
+							<align>right</align>
+							<height>40</height>		
+							<font>Tiny</font>
+							<textcolor>$VAR[OSDPanelWhite70]</textcolor>
+							<label>$INFO[PVR.EpgEventElapsedTime, •   ,]  /  $INFO[PVR.EpgEventDuration]</label>
+							<visible>VideoPlayer.Content(LiveTV)</visible>
+						</control>
+											
+          			</control>
+					<control type="progress" description="cache">
+                        <description>Progress Bar</description>
+                        <width>100%</width>
+                        <bottom>10</bottom>
+                        <height>8</height>
+                        <info>Player.ProgressCache</info>
+                        <visible>true</visible>
+                        <texturebg colordiffuse="00ffffff">osd/progress-bg.png</texturebg>
+                        <lefttexture colordiffuse="Highlight2">osd/progress-end.png</lefttexture>
+                        <midtexture colordiffuse="Highlight2">osd/progress-end.png</midtexture>
+                        <righttexture colordiffuse="Highlight2">osd/progress-end.png</righttexture>
+                    </control>
+                    <control type="progress" id="23">
+                        <description>Progress Bar</description>
+                        <width>100%</width>
+                        <bottom>10</bottom>
+                        <height>8</height>
+                        <info>Player.Progress</info>
+                        <visible>!Player.Seeking</visible>
+                    </control>
+                    <control type="progress" id="401">
+                        <description>Progress Bar</description>
+                        <width>100%</width>
+                        <bottom>10</bottom>
+                        <height>8</height>
+                        <visible>Player.Seeking</visible>
+                    </control>
+                </control>
+            </control>
+			<control type="group">
+				<visible>Skin.HasSetting(osd.usethemeNewOSD)</visible>
                 <visible>!Player.Paused | !Skin.HasSetting(osd.showinfoonpause)</visible>
                 <visible>!Window.IsVisible(fullscreeninfo) + !Player.ShowInfo + String.IsEmpty(Window(home).Property(osdshowinfo))</visible>
                 <visible>Player.Seeking | Player.DisplayAfterSeek | Player.Paused | Player.Forwarding | Player.Rewinding | !String.IsEmpty(Player.SeekNumeric) | !String.IsEmpty(PVR.ChannelNumberInput)</visible>
