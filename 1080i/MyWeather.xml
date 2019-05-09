@@ -13,12 +13,14 @@
         <control type="group">
             <include>Animation.Common</include>
             <control type="grouplist">
+				<visible>!Control.HasFocus(548) + !Control.HasFocus(549) + !Control.HasFocus(551)</visible>
                 <posy>PosterPad</posy>
                 <left>SidePad</left>
                 <right>SidePad</right>
                 <height>PosterH</height>
                 <orientation>horizontal</orientation>
                 <itemgap>10</itemgap>
+				<include>Animation.Weather</include>
                 <control type="group">
                     <width>285</width>
                     <control type="image">
@@ -459,14 +461,211 @@
                 </control>
             </control>
 
-
+			
         </control>
-        <control type="button" id="9100" description="Fake Button">
+		
+		
+		
+		
+		<control type="panel" id="551">
+			<include>Animation.Weather2</include>
+			<width>1760</width>
+			<height>810</height>
+			<onup>9100</onup>
+			<ondown>9100</ondown>
+			<onback>9100</onback>
+			<onright>noop</onright>
+			<onleft>9100</onleft>
+			<posy>PosterPad</posy>
+			<left>SidePad</left>
+			<right>SidePad</right>
+			<height>PosterH</height>
+			<orientation>horizontal</orientation>
+			<scrolltime tween="quadratic" easing="out">200</scrolltime>
+			<itemlayout height="810" width="1840">
+				<control type="group">
+                    <control type="image">
+						<width>1760</width>
+						<height>640</height>                         
+						<texture colordiffuse="Box2" background="true">common/box16.png</texture>   
+						<visible>!Skin.HasSetting(thumbnails.white)</visible>                        
+					</control> 
+					<control type="image">
+						<left>1</left>
+						<top>1</top>
+						<right>1</right>
+						<bottom>1</bottom> 
+                        <width>1758</width>
+						<height>638</height> 
+                        <texture border="5" colordiffuse="Panel">common/box.png</texture>
+                    </control>              
+					<control type="image">
+						<left>1</left>
+						<top>1</top>
+						<right>1</right>
+						<bottom>1</bottom> 
+						<width>1758</width>
+						<height>638</height>
+						<texture>$INFO[ListItem.Icon]</texture>
+						<aspectratio align="center" aligny="center">scale</aspectratio>
+					</control>
+					<control type="image">
+						<left>1</left>
+						<top>1</top>
+						<right>1</right>
+						<bottom>1</bottom> 
+						<width>1758</width>
+						<height>638</height>
+						<texture>$INFO[ListItem.Property(MapLayer)]</texture>
+						<aspectratio align="center" aligny="center">scale</aspectratio>
+						<animation type="Conditional" condition="true" reversible="false">						
+							<effect type="fade" end="40" start="100" time="0"  />
+						</animation>
+					</control>
+					<control type="label">
+						<top>520</top>
+						<width>1401</width>
+						<height>70</height>
+						<align>right</align>
+						<right>88</right>
+						<textcolor>B3000000</textcolor>
+						<font>Small333</font>
+						<label>$INFO[ListItem.Label]</label>	
+					</control>
+					<control type="image">
+						<top>579</top>
+						<width>1401</width>
+						<height>60</height>
+						<right>81</right>
+						<texture>$INFO[ListItem.Property(Legend)]</texture>
+						<aspectratio align="right" aligny="bottom">keep</aspectratio>
+					</control>
+                </control>  
+			</itemlayout>
+			<focusedlayout height="810" width="1840">
+				<control type="group">
+                    <control type="image">
+						<width>1760</width>
+						<height>640</height>                         
+						<texture colordiffuse="Box2" background="true">common/box16.png</texture>   
+						<visible>!Skin.HasSetting(thumbnails.white)</visible>                        
+					</control> 
+					<control type="image">
+						<left>1</left>
+						<top>1</top>
+						<right>1</right>
+						<bottom>1</bottom> 
+                        <width>1758</width>
+						<height>638</height> 
+                        <texture border="5" colordiffuse="Panel">common/box.png</texture>
+                    </control>              
+					<control type="image">
+						<left>1</left>
+						<top>1</top>
+						<right>1</right>
+						<bottom>1</bottom> 
+						<width>1758</width>
+						<height>638</height>
+						<texture>$INFO[ListItem.Icon]</texture>
+						<aspectratio align="center" aligny="center">scale</aspectratio>
+					</control>
+					<control type="image">
+						<left>1</left>
+						<top>1</top>
+						<right>1</right>
+						<bottom>1</bottom> 
+						<width>1758</width>
+						<height>638</height>
+						<texture>$INFO[ListItem.Property(MapLayer)]</texture>
+						<aspectratio align="center" aligny="center">scale</aspectratio>
+						<animation type="Conditional" condition="true" reversible="false">						
+							<effect type="fade" end="40" start="100" time="0"  />
+						</animation>
+					</control>
+					<control type="label">
+						<top>520</top>
+						<width>1401</width>
+						<height>70</height>
+						<align>right</align>
+						<right>88</right>
+						<textcolor>B3000000</textcolor>
+						<font>Small333</font>
+						<label>$INFO[ListItem.Label]</label>
+					</control>
+					<control type="image">
+						<top>579</top>
+						<width>1401</width>
+						<height>60</height>
+						<right>81</right>
+						<texture>$INFO[ListItem.Property(Legend)]</texture>
+						<aspectratio align="right" aligny="bottom">keep</aspectratio>
+					</control>
+                </control>  
+			</focusedlayout>
+			<content>
+				<item>
+					<label>$INFO[Window.Property(Map.1.Heading)]</label>
+					<icon>$INFO[Window.Property(Map.1.Area)]</icon>
+					<property name="MapLayer">$INFO[Window.Property(Map.1.Layer)]</property>
+					<property name="Legend">$INFO[Window.Property(Map.1.Legend)]</property>
+					<visible>!String.IsEmpty(Window.Property(Map.1.Area)) + !String.IsEmpty(Window.Property(Map.IsFetched))</visible>
+				</item>
+				<item>
+					<label>$INFO[Window.Property(Map.2.Heading)]</label>
+					<icon>$INFO[Window.Property(Map.2.Area)]</icon>
+					<property name="MapLayer">$INFO[Window.Property(Map.2.Layer)]</property>
+					<property name="Legend">$INFO[Window.Property(Map.2.Legend)]</property>
+					<visible>!String.IsEmpty(Window.Property(Map.2.Area)) + !String.IsEmpty(Window.Property(Map.IsFetched))</visible>
+				</item>
+				<item>
+					<label>$INFO[Window.Property(Map.3.Heading)]</label>
+					<icon>$INFO[Window.Property(Map.3.Area)]</icon>
+					<property name="MapLayer">$INFO[Window.Property(Map.3.Layer)]</property>
+					<property name="Legend">$INFO[Window.Property(Map.3.Legend)]</property>
+					<visible>!String.IsEmpty(Window.Property(Map.3.Area)) + !String.IsEmpty(Window.Property(Map.IsFetched))</visible>
+				</item>
+				<item>
+					<label>$INFO[Window.Property(Map.4.Heading)]</label>
+					<icon>$INFO[Window.Property(Map.4.Area)]</icon>
+					<property name="MapLayer">$INFO[Window.Property(Map.4.Layer)]</property>
+					<property name="Legend">$INFO[Window.Property(Map.4.Legend)]</property>
+					<visible>!String.IsEmpty(Window.Property(Map.4.Area)) + !String.IsEmpty(Window.Property(Map.IsFetched))</visible>
+				</item>	
+				<item>
+					<label>$INFO[Window.Property(Map.5.Heading)]</label>
+					<icon>$INFO[Window.Property(Map.5.Area)]</icon>
+					<property name="MapLayer">$INFO[Window.Property(Map.5.Layer)]</property>
+					<property name="Legend">$INFO[Window.Property(Map.5.Legend)]</property>
+					<visible>!String.IsEmpty(Window.Property(Map.5.Area)) + !String.IsEmpty(Window.Property(Map.IsFetched))</visible>
+				</item>							
+			</content>
+		</control>
+		
+		
+		
+		<control type="image">	
+			<visible>[Control.HasFocus(9100) + !String.IsEmpty(Window.Property(Map.IsFetched))] | [Control.HasFocus(551) + Container(551).HasNext]</visible>
+			<left>1855</left>
+			<top>525</top>
+			<width>16</width>
+			<height>16</height>
+			<texture colordiffuse="Dark1" flipx="false">common/arrow-small-right.png</texture>
+			<include>Animation.DelayFadeIn3</include>
+		</control>
+		<control type="image">	
+			<visible>Control.HasFocus(551)</visible>
+			<left>50</left>
+			<top>525</top>
+			<width>16</width>
+			<height>16</height>
+			<texture colordiffuse="Dark1" flipx="true">common/arrow-small-right.png</texture>
+			<include>Animation.DelayFadeIn3</include>
+		</control>
+		<control type="button" id="9100" description="Fake Button">
             <visible allowhiddenfocus="true">false</visible>
-            <onleft>9000</onleft>
-            <onright>9000</onright>
             <onup>9000</onup>
-            <ondown>9000</ondown>
+			<ondown>9000</ondown>
+			<onright condition="!String.IsEmpty(Window.Property(Map.IsFetched))">551</onright>
             <onclick>SetFocus(9000)</onclick>
         </control>
         <control type="spincontrolex" id="3">
