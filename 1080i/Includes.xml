@@ -1178,9 +1178,20 @@
 				<include content="buttontextures">
 					<param name="icon" value="buttonsdialogs/trailer.png" />
 				</include>
-				<visible>!String.IsEmpty(ListItem.Trailer)</visible>
+				<visible>!String.IsEmpty(ListItem.Trailer) + !Skin.HasSetting(PlayTrailerWindowed)</visible>
 				<onfocus>ClearProperty(filminfo)</onfocus>			
-			</control>		
+			</control>
+			<control type="radiobutton" id ="1223">
+				<include>buttondimensions</include>
+				<onfocus>ClearProperty(content)</onfocus>
+				<include content="buttontextures">
+					<param name="icon" value="buttonsdialogs/trailer.png" />
+				</include>
+				<visible>!String.IsEmpty(ListItem.Trailer) + Skin.HasSetting(PlayTrailerWindowed)</visible>
+				<onfocus>ClearProperty(filminfo)</onfocus>
+				<!--<onback>stop</onback>-->	
+				<onclick>PlayMedia($INFO[ListItem.Trailer],1)</onclick>		
+			</control>	
 			<control type="radiobutton" id ="9012">
 				<include>buttondimensions</include>
 				<onfocus>ClearProperty(content)</onfocus>
@@ -2100,6 +2111,7 @@
 		<value condition="Control.HasFocus(9019)">$LOCALIZE[21888]</value>
 		<value condition="Control.HasFocus(9018)">$LOCALIZE[37551]</value>
 		<value condition="Control.HasFocus(11)">$LOCALIZE[20410]</value>
+		<value condition="Control.HasFocus(1223)">$LOCALIZE[20410]</value>
 		<value condition="Control.HasFocus(9012)">$LOCALIZE[31206]</value>
 		<value condition="Control.HasFocus(51)">$LOCALIZE[37550]</value>
 		<value condition="Control.HasFocus(7)">$LOCALIZE[38023]</value>
@@ -2388,5 +2400,43 @@
 			</control>
 		</control>
 	</include>
+	
+	<include name="DialogConformButtonsNew">
+		<control type="radiobutton" id="11">
+			<include>buttondimensions</include>
+			<label>107</label>
+			<include content="buttontextures">
+				<param name="icon" value="buttonsdialogs/enabled.png" />
+			</include>
+		</control>
+		<control type="radiobutton" id="10">
+			<include>buttondimensions</include>
+			<label>106</label>
+			<include content="buttontextures">
+				<param name="icon" value="buttonsdialogs/disable.png" />
+			</include>
+		</control>
+	</include>
+	
+	<include name="DialogConformButtons">
+		<control type="button" id="11">
+			<description>Yes</description>
+			<width>320</width>
+			<label>107</label>
+			<font>Button</font>
+			<texturefocus colordiffuse="$VAR[ColorHighlight]" border="5">common/box.png</texturefocus>
+			<texturenofocus colordiffuse="Black12" border="5">common/box.png</texturenofocus>
+		</control>
+		<control type="button" id="10">
+			<description>No</description>
+			<width>320</width>
+			<label>106</label>
+			<font>Button</font>
+			<texturefocus colordiffuse="$VAR[ColorHighlight]" border="5">common/box.png</texturefocus>
+			<texturenofocus colordiffuse="Black12" border="5">common/box.png</texturenofocus>
+		</control>
+	</include>
+	
+
 	
 </includes>
