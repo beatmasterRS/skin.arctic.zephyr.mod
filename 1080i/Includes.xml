@@ -1034,8 +1034,8 @@
 				<description>Home Theatre</description>
 				<label>31170</label>
 				<include>DefInfoButtons</include>
-				<onclick>XBMC.RunScript(script.cinema.experience,movieid=$INFO[ListItem.DBID])</onclick>
-				<visible>system.hasaddon(script.cinema.experience) + Container.Content(movies)</visible>
+				<onclick>RunScript(script.cinemavision,experience)</onclick>
+				<visible>System.HasAddon(script.cinemavision) + [Container.Content(movies) | Container.Content(tvshows) | Container.Content(episodes)]</visible>
 				<onfocus>ClearProperty(filminfo)</onfocus>
 			</control>
 			<control type="button" id="51">
@@ -1166,7 +1166,7 @@
 				<selected>ListItem.IsResumable</selected>
 				<onfocus>ClearProperty(filminfo)</onfocus>
 				<onclick>Dialog.Close(1132)</onclick>					
-			</control>
+			</control>      
 			<control type="radiobutton" id ="9019">
 				<include>buttondimensions</include>
 				<onfocus>ClearProperty(content)</onfocus>
@@ -1213,6 +1213,16 @@
 				<onup>9501</onup> 
 				<visible>String.IsEqual(ListItem.DBType,movie) | String.IsEqual(ListItem.DBType,tvshow)</visible>
 			</control>
+            <control type="radiobutton" id="49">
+				<description>Home Theatre</description>
+                <include>buttondimensions</include>
+                <include content="buttontextures">
+					<param name="icon" value="buttonsdialogs/cinema.png" />
+				</include>
+				<onclick>RunScript(script.cinemavision,experience)</onclick>
+				<visible>System.HasAddon(script.cinemavision) + [Container.Content(movies) | Container.Content(tvshows) | Container.Content(episodes)]</visible>
+				<onfocus>ClearProperty(filminfo)</onfocus>
+			</control> 
 			<control type="radiobutton" id ="51">
 				<include>buttondimensions</include>
 				<onfocus>ClearProperty(content)</onfocus>
@@ -2136,7 +2146,8 @@
 		<value condition="Control.HasFocus(123)">$LOCALIZE[38023]</value>
 		<value condition="Control.HasFocus(9003)">$LOCALIZE[31141]</value>
 		<value condition="Control.HasFocus(48)">$LOCALIZE[184]</value>
-		<value condition="Control.HasFocus(54)">$LOCALIZE[13405]</value>		
+		<value condition="Control.HasFocus(54)">$LOCALIZE[13405]</value>
+        <value condition="Control.HasFocus(49)">$LOCALIZE[31170]</value>		
 		<value condition="Control.HasFocus(9002) + String.IsEmpty(Window.Property(tracklist))">$LOCALIZE[182]</value>
 		<value condition="Control.HasFocus(9002) + !String.IsEmpty(Window.Property(tracklist))">$LOCALIZE[21887]</value>
 	</variable>
