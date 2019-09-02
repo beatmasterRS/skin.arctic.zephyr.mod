@@ -1,0 +1,560 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<window>
+	<defaultcontrol>9000</defaultcontrol>
+    <onload>ClearProperty(down)</onload>
+	<onunload>ClearProperty(down)</onunload>
+    
+    <onload>SetProperty(onback_10052,SetFocus(9000))</onload>
+    <onload>SetProperty(onback_10053,SetFocus(9000))</onload>
+    <onload>SetProperty(onback_10054,SetFocus(9000))</onload>
+    <onload>SetProperty(onback_10055,SetFocus(9000))</onload>
+	<controls>
+		<!-- Storage container for the item details -->
+		<control type="list" id="10051">
+			<top>-3000</top>
+			<left>-3000</left>
+			<width>1</width>
+			<height>1</height>
+			<itemlayout/>
+			<focusedlayout/>
+		</control>
+
+        
+        <control type="image">
+            <width>100%</width>
+            <height>100%</height>
+            <animation effect="fade" start="100" end="90" condition="Skin.HasSetting(osd.usetheme)">Conditional</animation>
+            <texture colordiffuse="$VAR[OSDPanel]">common/white.png</texture>
+            <visible>Window.IsVisible(fullscreenvideo)</visible>
+        </control>
+        
+        <control type="group">
+            <animation type="Conditional" reversible="true" condition="Window.IsVisible(FileBrowser.xml) | Window.IsVisible(DialogConfirm.xml) | Window.IsVisible(DialogSelect.xml) | Window.IsVisible(DialogContextMenu.xml) | Window.IsVisible(DialogButtonMenu.xml)">
+                <effect type="zoom" end="95" start="100" time="200" center="auto" tween="quadratic" easing="in" />
+            </animation>
+            <!-- Side Poster -->
+            <control type="group">
+                <include>Animation.SidePoster</include>
+				<animation condition="!ControlGroup(9000).HasFocus() + !String.IsEqual(Window.Property(videoinfo),3)" effect="fade" end="0"  start="100" time="300">Conditional</animation>
+                <control type="group" description="Poster">
+                    <left>SidePad</left>
+                    <top>PosterPad</top>
+                    <control type="image">
+                        <top>PosterH</top>
+                        <width>PosterW</width>
+                        <height>PosterH</height>
+                        <fadetime>100</fadetime>
+                        <aspectratio align="center" aligny="center" scalediffuse="false">scale</aspectratio>
+                        <texture flipy="true" diffuse="diffuse/listposter-ref.png" background="true">$INFO[Container(10051).ListItem.Art(thumb)]</texture>
+                        <visible>Skin.HasSetting(show.reflections)</visible>
+                    </control>
+                    <control type="image">
+                        <centertop>PosterH</centertop>
+                        <width>PosterW</width>
+                        <height>48</height>
+                        <aspectratio>stretch</aspectratio>
+                        <texture>diffuse/shadowspot.png</texture>    
+                    </control>
+                    <control type="image">
+                        <width>PosterW</width>
+                        <height>PosterH</height>
+                        <texture border="5" colordiffuse="FF181818">common/box.png</texture>
+                    </control>
+					<control type="image">
+                        <left>-24</left>
+                        <top>-24</top>
+                        <width>PosterShadowW</width>
+                        <height>PosterShadowH</height>
+                        <texture border="32">common/shadow-24.png</texture>
+                    </control>
+					<control type="image">
+						<left>-1</left>
+						<top>-1</top>
+						<height>642</height>
+						<width>430</width>                           
+						<texture colordiffuse="Box2" background="true">common/box2.png</texture>   
+						<visible>!Skin.HasSetting(thumbnails.white)</visible>                        
+					</control>
+                    <control type="image">
+                        <width>PosterW</width>
+                        <height>PosterH</height>
+                        <fadetime>100</fadetime>
+                        <aspectratio align="center" aligny="center" scalediffuse="false">scale</aspectratio>
+                        <texture diffuse="diffuse/listposter.png" background="true">$INFO[Container(10051).ListItem.Art(thumb)]</texture>
+                    </control>     
+                </control>
+            </control>
+
+
+
+
+
+
+
+        <!-- Right Side Info -->
+            <control type="group">
+                <include>Animation.RightSide</include>
+                <!-- Arrows -->
+
+
+                <!-- Control Buttons -->
+                <control type="group">
+                    <bottom>-80</bottom> 
+                    <include>Animation.VideoFadeOut</include>    
+				    <include>ExtendedDialogInfoNavigationVideoWIP</include>
+                </control>
+                
+                <control type="group">
+                    <top>210</top>
+                    <left>570</left>
+                    <animation condition="!ControlGroup(9000).HasFocus() + !String.IsEqual(Window.Property(videoinfo),3)" effect="fade" end="0"  start="100" time="300">Conditional</animation>
+                    <control type="label">
+                        <top>-120</top>
+                        <left>0</left>
+                        <font>LargeNew</font>
+                        <description>Header Label</description>
+                        <textcolor>Dark1</textcolor>
+                        <include>DefDialogInfoHeader</include>
+                        <label>$VAR[LabelWIPDialogVideoInfoHeader]</label>
+                    </control>
+                    <control type="label">
+                        <top>-65</top>
+                        <height>36</height>
+                        <font>Tiny</font>
+                        <textcolor>Dark1</textcolor>
+                        <width>78%</width>
+                        <label fallback="19055">$VAR[LabelWIPDialogVideoInfoTagline]</label>
+                        <aligny>center</aligny>
+                    </control>  
+                    
+                    <control type="label">
+                        <top>-5</top>
+                        <height>36</height>
+                        <font>Tiny</font>
+                        <textcolor>Dark1</textcolor>
+                        <width>78%</width>
+                        <label fallback="19055">DBID vorhanden</label>
+                        <visible>!String.IsEmpty(ListItem.DBID)</visible>
+                        <aligny>center</aligny>
+                    </control>                   
+                </control>
+                
+                <control type="group">
+                    <include>Animation.DelayFadeIn</include>
+                    <visible>Control.HasFocus(10055)</visible>
+                    <centerbottom>560</centerbottom>
+                    <height>16</height>
+                    <control type="image">
+                        <centerleft>550</centerleft>
+                        <width>16</width>
+                        <height>16</height>
+                        <texture colordiffuse="Dark1" flipx="true">common/arrow-small-right.png</texture>
+                    </control>
+                    <control type="image">
+                        <centerright>68</centerright>
+                        <width>16</width>
+                        <height>16</height>
+                        <texture colordiffuse="Dark1" flipx="false">common/arrow-small-right.png</texture>
+                    </control>
+                </control> 
+                
+                <control type="group">
+                    <animation condition="!ControlGroup(9000).HasFocus() | String.IsEqual(Window.Property(videoinfo),3)" effect="fade" end="0"  start="100" time="300">Conditional</animation>
+                    <left>570</left>
+                    <bottom>224</bottom>
+                    <top>205</top>
+                    <include>Animation.FadeInDialogInfo</include>
+                    <include>Animation.FadeOutDialogInfo</include> 
+                    <visible>!String.IsEqual(Window.Property(videoinfo),3)</visible>
+                    <control type="group">
+						<control type="group">
+                            <height>43</height>
+                            <control type="label">
+                                <width>100%</width>
+                                <height>46</height>
+                                <font>Tiny</font>
+                                <textcolor>Dark1</textcolor>
+                                <label>[B]$LOCALIZE[345][/B]</label>
+                                <aligny>center</aligny>
+                            </control>
+                            <control type="label">
+                                <left>200</left>
+                                <right>420</right>
+                                <height>46</height>
+                                <font>Tiny</font>
+                                <width>250</width>
+                                <textcolor>Dark2</textcolor>
+                                <label fallback="19055">$INFO[Container(10051).ListItem.Year]</label>
+                                <aligny>center</aligny>
+                            </control>
+                        </control>
+                        <control type="group">
+                            <height>43</height>
+                            <left>440</left>
+                            <control type="label">
+                                <width>100%</width>
+                                <height>46</height>
+                                <font>Tiny</font>
+                                <textcolor>Dark1</textcolor>
+                                <label>[B]$LOCALIZE[515][/B]</label>
+                                <aligny>center</aligny>
+                            </control>
+                            <control type="label">
+                                <left>200</left>
+                                <height>46</height>
+                                <width>40%</width>
+                                <font>Tiny</font>
+                                <textcolor>Dark2</textcolor>
+                                <label fallback="19055">$INFO[Container(10051).ListItem.Genre]</label>
+                                <aligny>center</aligny>
+                            </control>
+                        </control> 
+                        <control type="group">
+                            <top>40</top>			
+                            <height>43</height>
+                            <control type="label">
+                                <width>170</width>
+                                <height>36</height>
+                                <font>Tiny</font>
+                                <textcolor>Dark1</textcolor>
+                                <label>[B]$LOCALIZE[2050][/B]</label>
+                                <aligny>center</aligny>
+                            </control>
+                            <control type="label">
+                                <left>200</left>
+                                <right>420</right>
+                                <height>36</height>
+                                <width>250</width>
+                                <font>Tiny</font>
+                                <textcolor>Dark2</textcolor>
+                                <label fallback="19055">$INFO[Container(10051).ListItem.Duration(mins),,min]</label> 
+                                <aligny>center</aligny>
+                            </control>
+                        </control>
+                        <control type="group">
+                            <top>40</top>
+                            <left>440</left>
+                            <height>43</height>
+                            <control type="label">
+                                <width>100%</width>
+                                <height>36</height>
+                                <font>Tiny</font>
+                                <textcolor>Dark1</textcolor>
+                                <label>[B]$LOCALIZE[563][/B]</label>
+                                <aligny>center</aligny>
+                            </control>
+                            <control type="label">
+                                <left>200</left>						
+                                <height>36</height>
+                                <font>Tiny</font>
+                                <textcolor>Dark2</textcolor>
+                                <label fallback="19055">$INFO[Container(10051).ListItem.Rating]</label>
+                                <aligny>center</aligny>
+                            </control>
+                        </control> 
+                        <control type="group">
+                            <top>76</top>			
+                            <height>43</height>
+                            <control type="label">
+                                <width>170</width>
+                                <height>36</height>
+                                <font>Tiny</font>
+                                <textcolor>Dark1</textcolor>
+                                <label>[B]$ADDON[script.embuary.info 32013][/B]</label>
+                                <aligny>center</aligny>
+                            </control>
+                            <control type="label">
+                                <left>200</left>
+                                <right>420</right>
+                                <height>36</height>
+                                <width>250</width>
+                                <font>Tiny</font>
+                                <textcolor>Dark2</textcolor>
+                                <label fallback="19055">$INFO[Container(10051).ListItem.Property(Budget),,$]</label> 
+                                <aligny>center</aligny>
+                            </control>
+                        </control>
+                        <control type="group">
+                            <top>76</top>
+                            <left>440</left>
+                            <height>43</height>
+                            <control type="label">
+                                <width>100%</width>
+                                <height>36</height>
+                                <font>Tiny</font>
+                                <textcolor>Dark1</textcolor>
+                                <label>[B]$ADDON[script.embuary.info 32014][/B]</label>
+                                <aligny>center</aligny>
+                            </control>
+                            <control type="label">
+                                <left>200</left>						
+                                <height>36</height>
+                                <font>Tiny</font>
+                                <textcolor>Dark2</textcolor>
+                              <label fallback="19055">$INFO[Container(10051).ListItem.Property(Revenue),,$]</label>
+                                <aligny>center</aligny>
+                            </control>
+                        </control>    
+                        <control type="group">
+                            <top>112</top>			
+                            <height>43</height>
+                            <control type="label">
+                                <width>170</width>
+                                <height>36</height>
+                                <font>Tiny</font>
+                                <textcolor>Dark1</textcolor>
+                                <label>[B]$ADDON[script.embuary.info 32011][/B]</label>
+                                <aligny>center</aligny>
+                            </control>
+                            <control type="label">
+                                <left>200</left>
+                                <right>420</right>
+                                <height>36</height>
+                                <width>250</width>
+                                <font>Tiny</font>
+                                <textcolor>Dark2</textcolor>
+                                <label fallback="19055">$INFO[Container(10051).ListItem.Premiered]</label> 
+                                <aligny>center</aligny>
+                            </control>
+                        </control>
+                        <control type="group">
+                            <top>112</top>
+                            <left>440</left>
+                            <height>43</height>
+                            <control type="label">
+                                <width>100%</width>
+                                <height>36</height>
+                                <font>Tiny</font>
+                                <textcolor>Dark1</textcolor>
+                                <label>[B]$ADDON[script.embuary.info 32012][/B]</label>
+                                <aligny>center</aligny>
+                            </control>
+                            <control type="label">
+                                <left>200</left>						
+                                <height>36</height>
+                                <font>Tiny</font>
+                                <textcolor>Dark2</textcolor>
+                                <label fallback="19055">$INFO[Container(10051).ListItem.Property(release)]</label>
+                                <aligny>center</aligny>
+                            </control>
+                        </control>          
+                        <control type="textbox"> 
+                            <scrolltime>10000</scrolltime>
+                            <autoscroll delay="10000" time="4000" repeat="10000">true</autoscroll>
+                            <right>SidePad</right>
+                            <top>180</top>
+                            <left>0</left>
+                            <height>145</height>
+                            <font>Tiny</font>
+                            <textcolor>Dark2</textcolor>
+                            <align>left</align>
+                            <label fallback="19055">$INFO[Container(10051).ListItem.Plot]</label>		
+                        </control> 
+                    </control>    
+                </control>        
+
+                <control type="group">
+                    <top>200</top>
+                    <left>200</left>
+                    <!-- Images -->
+                    <include content="VideoList">
+                        <param name="fallbackpicture" value="pbtmdb.png" />
+                        <param name="arrowleft" value="-12" />
+                        <param name="arrowtop" value="342" />
+                        <param name="arrowright" value="158" />
+                        <param name="visi" value="String.IsEmpty(Window.Property(videoinfo))" />
+                        <param name="animation" value="Animation.extendedcast" />
+                        <param name="controlid" value="10052" />                     
+                        <param name="focusposition" value="2" />                
+                        <param name="listbottom" value="30" />
+                        <param name="listleft" value="-255" />
+                        <param name="width" value="260" />
+                        <param name="headerbottom" value="710" />
+                        <param name="headerleft" value="570" />
+                        <param name="labelbottom" value="-110" />
+                        <param name="labelleft" value="-20" />
+                        <param name="labeltwovisible" value="true" />
+                        <param name="labeltwobottom" value="-150" />
+                        <param name="labeltwoleft" value="130" />     
+                    </include>
+                    <include content="ListInfoUpdating">
+                        <param name="visi" value="String.IsEmpty(Window.Property(videoinfo))" />
+                        <param name="controlid" value="10052" />
+                        <param name="alignleft" value="750" />
+                        <param name="alignbottom" value="240" />
+                    </include>
+                
+                    <!-- Movies -->
+                    <include content="VideoList">
+                        <param name="fallbackpicture" value="pbtmdb.png" />
+                        <param name="arrowleft" value="-12" />
+                        <param name="arrowtop" value="342" />
+                        <param name="arrowright" value="158" />
+                        <param name="visi" value="String.IsEqual(Window.Property(videoinfo),1)" />
+                        <param name="animation" value="Animation.extendedcast" />
+                        <param name="controlid" value="10053" />                     
+                        <param name="focusposition" value="2" />                
+                        <param name="listbottom" value="30" />
+                        <param name="listleft" value="-255" />
+                        <param name="width" value="260" />
+                        <param name="headerbottom" value="710" />
+                        <param name="headerleft" value="570" />
+                        <param name="labelbottom" value="-110" />
+                        <param name="labelleft" value="-20" />
+                        <param name="labeltwovisible" value="true" />
+                        <param name="labeltwobottom" value="-150" />
+                        <param name="labeltwoleft" value="130" />     
+                    </include>
+                    <include content="ListInfoUpdating">
+                        <param name="visi" value="String.IsEqual(Window.Property(videoinfo),1)" />
+                        <param name="controlid" value="10053" />
+                        <param name="alignleft" value="750" />
+                        <param name="alignbottom" value="240" />
+                    </include>
+                
+                    <!-- TV Shows -->
+                    <include content="VideoList">
+                        <param name="fallbackpicture" value="pbtmdb.png" />
+                        <param name="arrowleft" value="-12" />
+                        <param name="arrowtop" value="342" />
+                        <param name="arrowright" value="148" />
+                        <param name="visi" value="String.IsEqual(Window.Property(videoinfo),2)" />
+                        <param name="animation" value="Animation.extendedcast" />
+                        <param name="controlid" value="10054" />                     
+                        <param name="focusposition" value="1" />                
+                        <param name="listbottom" value="30" />
+                        <param name="listleft" value="-255" />
+                        <param name="width" value="366" />
+                        <param name="headerbottom" value="710" />
+                        <param name="headerleft" value="543" />
+                        <param name="labelbottom" value="-110" />
+                        <param name="labelleft" value="-40" />
+                        <param name="labeltwovisible" value="true" />
+                        <param name="labeltwobottom" value="-150" />
+                        <param name="labeltwoleft" value="130" />    
+                    </include>
+                    <include content="ListInfoUpdating">
+                        <param name="visi" value="String.IsEqual(Window.Property(videoinfo),2)" />
+                        <param name="controlid" value="10054" />
+                        <param name="alignleft" value="750" />
+                        <param name="alignbottom" value="240" />
+                    </include>
+
+                    <!--<include content="VideoList">
+                        <param name="fallbackpicture" value="pbtmdb.png" />
+                        <param name="arrowleft" value="-12" />
+                        <param name="arrowtop" value="342" />
+                        <param name="arrowright" value="158" />
+                        <param name="visi" value="String.IsEqual(Window.Property(videoinfo),3)" />
+                        <param name="animation" value="Animation.extendedcast" />
+                        <param name="controlid" value="10055" />                     
+                        <param name="focusposition" value="1" />                
+                        <param name="listbottom" value="30" />
+                        <param name="listleft" value="-255" />
+                        <param name="width" value="366" />
+                        <param name="headerbottom" value="710" />
+                        <param name="headerleft" value="543" />
+                        <param name="labelbottom" value="-110" />
+                        <param name="labelleft" value="-40" />
+                        <param name="labeltwovisible" value="true" />
+                        <param name="labeltwobottom" value="-150" />
+                        <param name="labeltwoleft" value="130" />      
+                    </include>
+                    <include content="ListInfoUpdating">
+                        <param name="visi" value="String.IsEqual(Window.Property(videoinfo),3)" />
+                        <param name="controlid" value="10055" />
+                        <param name="alignleft" value="750" />
+                        <param name="alignbottom" value="240" />
+                    </include>-->
+                
+                    <!-- TV Shows -->
+                    <include content="VideoList">
+                        <param name="fallbackpicture" value="pbtmdb.png" />
+                        <param name="arrowleft" value="-12" />
+                        <param name="arrowtop" value="342" />
+                        <param name="arrowright" value="158" />
+                        <param name="visi" value="String.IsEqual(Window.Property(videoinfo),4)" />
+                        <param name="animation" value="Animation.extendedcast" />
+                        <param name="controlid" value="10056" />                     
+                        <param name="focusposition" value="2" />                
+                        <param name="listbottom" value="30" />
+                        <param name="listleft" value="-255" />
+                        <param name="width" value="260" />
+                        <param name="headerbottom" value="710" />
+                        <param name="headerleft" value="570" />
+                        <param name="labelbottom" value="-110" />
+                        <param name="labelleft" value="-20" />
+                        <param name="labeltwovisible" value="true" />
+                        <param name="labeltwobottom" value="-150" />
+                        <param name="labeltwoleft" value="130" />     
+                    </include>
+                    <include content="ListInfoUpdating">
+                        <param name="visi" value="String.IsEqual(Window.Property(videoinfo),4)" />
+                        <param name="controlid" value="10056" />
+                        <param name="alignleft" value="750" />
+                        <param name="alignbottom" value="240" />
+                    </include>
+                
+                    <!-- TV Shows -->
+                    <include content="VideoList">
+                        <param name="fallbackpicture" value="pbtmdb.png" />
+                        <param name="arrowleft" value="-12" />
+                        <param name="arrowtop" value="342" />
+                        <param name="arrowright" value="158" />
+                        <param name="visi" value="String.IsEqual(Window.Property(videoinfo),5)" />
+                        <param name="animation" value="Animation.extendedcast" />
+                        <param name="controlid" value="10053" />                     
+                        <param name="focusposition" value="2" />                
+                        <param name="listbottom" value="30" />
+                        <param name="listleft" value="-255" />
+                        <param name="width" value="260" />
+                        <param name="headerbottom" value="710" />
+                        <param name="headerleft" value="570" />
+                        <param name="labelbottom" value="-110" />
+                        <param name="labelleft" value="-20" />
+                        <param name="labeltwovisible" value="true" />
+                        <param name="labeltwobottom" value="-150" />
+                        <param name="labeltwoleft" value="130" />     
+                    </include>
+                    <include content="ListInfoUpdating">
+                        <param name="visi" value="String.IsEqual(Window.Property(videoinfo),5)" />
+                        <param name="controlid" value="10053" />
+                        <param name="alignleft" value="750" />
+                        <param name="alignbottom" value="240" />
+                    </include>
+                    
+                    <!-- Images -->
+                    <include content="ImageList">
+                        <param name="visi" value="String.IsEqual(Window.Property(videoinfo),3)" />
+                        <param name="controlid" value="10055" />                                    
+                        <param name="listbottom" value="184" />
+                        <param name="listleft" value="372" />  
+                        <param name="listright" value="SidePad" />  
+                        <param name="listtop" value="135" />  
+                    </include>
+                    <include content="ListInfoUpdating">
+                        <param name="visi" value="String.IsEqual(Window.Property(videoinfo),3)" />
+                        <param name="controlid" value="10055" />
+                        <param name="alignleft" value="750" />
+                        <param name="alignbottom" value="240" />
+                    </include>
+                    
+                </control>
+            </control>
+        </control>
+		<control type="label">
+			<right>83</right>
+			<bottom>105</bottom>
+			<height>50</height>
+			<font>Mini</font>
+			<scroll>false</scroll>
+			<textcolor>Dark3</textcolor>
+			<label>$VAR[DialogInfoLabel]</label>
+			<aligny>center</aligny>
+			<align>right</align>
+			<visible>ControlGroup(9000).HasFocus() + !Skin.HasSetting(olddialogbuttons)</visible>
+			<include>Animation.FadeIn</include>
+			<include>Animation.FadeOut</include>
+		</control>
+	</controls>
+</window>
