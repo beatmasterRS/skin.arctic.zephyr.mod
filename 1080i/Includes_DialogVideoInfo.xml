@@ -72,6 +72,7 @@
                     <bottom>-80</bottom>
                     <include>Animation.VideoFadeOut</include>
 				    <include>DialogVideoInfoNavigationWIP</include>
+                    <include>ArrowsNavigation</include>
 				</control>
                 
                 <control type="group">
@@ -397,7 +398,18 @@
                         <top>150</top>
                         <right>5</right>	
                         <texture colordiffuse="Dark1">$VAR[ThumbImageStudiosDialogInfo]</texture>
-                    </control>                   	
+                        <visible>Skin.HasSetting(show.studiologos)</visible>
+                    </control> 
+                    <control type="image">
+                        <height>109</height>
+                        <width>240</width>
+                        <top>150</top>
+                        <right>5</right>
+                        <aspectratio align="right" aligny="bottom">keep</aspectratio>	
+                        <texture colordiffuse="Dark1" fallback="flags2/mpaa/NR.png">$VAR[RatingFlagVar33]</texture>
+                        <visible>!Skin.HasSetting(show.studiologos)</visible> 
+                    </control>  
+                                     	
                     <control type="grouplist">
                         <orientation>vertical</orientation>
                         <itemgap>-30</itemgap>             
@@ -669,18 +681,33 @@
                             </control>
                         </control>
                         <control type="textbox">
-                            <visible>String.IsEqual(Container(50).NumItems,0) | Skin.HasSetting(HideActorImages)</visible> 
+                            <visible>[String.IsEqual(Container(50).NumItems,0) | Skin.HasSetting(HideActorImages)] + String.IsEmpty(Window.Property(moviecontent))</visible> 
                             <scrolltime>10000</scrolltime>
                             <autoscroll delay="10000" time="4000" repeat="10000">true</autoscroll>
                             <right>0</right>
-                            <top>220</top>
+                            <top>180</top>
                             <left>0</left>
-                            <height>388</height>
+                            <height>428</height>
                             <font>Tiny</font>
                             <textcolor>Dark2</textcolor>
                             <align>left</align>
                             <label fallback="19055">$INFO[ListItem.Plot]$INFO[ListItem.Plot]</label>		
                         </control>
+                        <control type="textbox">
+                            <visible>[String.IsEqual(Container(50).NumItems,0) | Skin.HasSetting(HideActorImages)] + !String.IsEmpty(Window.Property(moviecontent))</visible> 
+                            <scrolltime>10000</scrolltime>
+                            <autoscroll delay="10000" time="4000" repeat="10000">true</autoscroll>
+                            <right>0</right>
+                            <top>180</top>
+                            <left>0</left>
+                            <height>140</height>
+                            <font>Tiny</font>
+                            <textcolor>Dark2</textcolor>
+                            <align>left</align>
+                            <label fallback="19055">$INFO[ListItem.Plot]$INFO[ListItem.Plot]</label>		
+                        </control>
+                        
+                        
                         <control type="textbox">
                             <visible>!String.IsEqual(Container(50).NumItems,0) + !Skin.HasSetting(HideActorImages)</visible> 
                             <scrolltime>10000</scrolltime>
@@ -707,7 +734,7 @@
                         <param name="arrowtop" value="342" />
                         <param name="arrowright" value="158" />
                         <!--<param name="ContentToLoad" value="$VAR[CastVariable]" />-->
-                        <param name="visi" value="String.IsEmpty(Window.Property(moviecontent))" />
+                        <param name="visi" value="String.IsEmpty(Window.Property(moviecontent)) + !Skin.HasSetting(HideActorImages)" />
                         <param name="animation" value="Animation.cast" />
                         <param name="controlid" value="50" />
                         <param name="onup1" value="RunScript(script.embuary.info,call=person,query=$INFO[Container(50).ListItem.Label]))" />                       
