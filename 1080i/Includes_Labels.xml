@@ -68,20 +68,66 @@
 		<value condition="String.Contains(ListItem.PercentPlayed,0) + String.Contains(ListItem.Overlay,OverlayUnwatched.png)">0%</value>
     </variable>
     
-    <variable name="LabelDialogVideoInfo">
-        <value condition="String.IsEqual(Window.Property(content),3)">$LOCALIZE[31204] $INFO[ListItem.Label]</value>
-        <value condition="String.IsEqual(Window.Property(content),2)">$LOCALIZE[31204] $INFO[ListItem.Label]</value>
-        <value condition="String.IsEqual(Window.Property(content),6)">$LOCALIZE[37667] $INFO[ListItem.Director]</value>
-        <value condition="String.IsEqual(Window.Property(content),1)">$LOCALIZE[37669] $INFO[ListItem.Studio]</value>
-        <value condition="String.IsEqual(Window.Property(filminfo),2)">$LOCALIZE[37666] $INFO[ListItem.Label]</value>
+    <variable name="LabelDialogMusicInfo">
+        <value condition="String.IsEqual(Window.Property(musicinfo),1) + Container.Content(artists)">$LOCALIZE[37681] $INFO[ListItem.Artist]</value>
+        <value condition="String.IsEqual(Window.Property(musicinfo),2) + Container.Content(artists)">$LOCALIZE[37675] $INFO[ListItem.Artist]</value>
+        <value condition="String.IsEqual(Window.Property(musicinfo),4) + Container.Content(artists)">$LOCALIZE[37674] $INFO[ListItem.Artist]</value>
+        
+        <value condition="String.IsEqual(Window.Property(musicinfo),2) + Container.Content(songs)">$LOCALIZE[37675] $INFO[ListItem.Title]</value>
+        <value condition="Container.Content(albums)">$INFO[ListItem.Album]</value>
+        <value condition="Container.Content(songs)">$INFO[ListItem.Title]</value>
+        <value condition="Container.Content(artists)">$INFO[ListItem.Artist]</value>
+    </variable>
+    
+    <variable name="LabelDialogMusicInfoTagline">
+        <value condition="Container.Content(albums)">$INFO[ListItem.Artist]</value>
+        <value condition="Container.Content(songs)">$INFO[ListItem.Artist]</value>
+        <value condition="Container.Content(artists)">$INFO[ListItem.Property(Artist_YearsActive)]</value>
+    </variable>
+    
+    
+    
+    <variable name="LabelDialogMusicInfoHeader">
+        <value condition="String.IsEmpty(Window.Property(musicinfo))">$LOCALIZE[37681] $INFO[ListItem.Artist]</value>
+        <value condition="String.IsEqual(Window.Property(musicinfo),2)">$LOCALIZE[37675] $INFO[ListItem.Title]</value>
+    </variable>
+    
+    <variable name="LabelExtendedDialogVideoInfo">
+        <value condition="String.IsEqual(Window.Property(vidinfo),2)">$LOCALIZE[37674] $INFO[Window.Property(title)]</value>
+        <value condition="String.IsEqual(Window.Property(vidinfo),3)">$LOCALIZE[31204] $INFO[Window.Property(title)]</value>
+        <value condition="String.IsEqual(Window.Property(vidinfo),4)">$LOCALIZE[37675] $INFO[Window.Property(title)]</value>
+        <value condition="String.IsEqual(Window.Property(vidinfo),5)">$LOCALIZE[37676] $INFO[Window.Property(title)]</value>
+        <value>$INFO[Window.Property(title)]</value>
+    </variable>
+
+    <variable name="LabelExtendedDialogVideoInfoTagline">
+        <value>$INFO[Window.Property(Tagline)]</value>
+    </variable>
+        
+    <variable name="LabelExtendedDialogInfo">
+        <value condition="String.IsEqual(Window.Property(actinfo),1)">$LOCALIZE[37677] $INFO[Window.Property(Label)]</value>
+        <value condition="String.IsEqual(Window.Property(actinfo),2)">$LOCALIZE[37678] $INFO[Window.Property(Label)]</value>
+        <value condition="String.IsEqual(Window.Property(actinfo),3)">$LOCALIZE[37675] $INFO[Window.Property(Label)]</value>
+        <value condition="String.IsEqual(Window.Property(actinfo),4)">$LOCALIZE[37679] $INFO[Window.Property(Label)]</value>
+        <value>$INFO[Window.Property(Label)]</value>
+    </variable>
+
+    <variable name="LabelExtendedDialogInfoTagline">
+        <value>$INFO[Window.Property(Tagline)]</value>
+    </variable>
+    
+    
+    
+    <variable name="YoutubeChannel">
+        <value condition="String.Contains(Container(9502).ListItem.FileNameAndPath(),channel/) + String.Contains(Container(9502).ListItem.FileNameAndPath(),youtube)">(Channel)</value>
+    </variable>
+    
+    <variable name="LabelMovieSetsDialogInfo">
+        <value condition="String.IsEqual(Window.Property(setsinfo),1)">$LOCALIZE[37682] $INFO[ListItem.Label]</value>
+        <value condition="String.IsEqual(Window.Property(setsinfo),2)">$LOCALIZE[37674] $INFO[ListItem.Label]</value>
         <value>$INFO[ListItem.Label]</value>
     </variable>
-    <variable name="LabelDialogVideoInfoTagline">
-        <value condition="String.IsEqual(Window.Property(content),3)">$INFO[ListItem.Genre]</value>
-        <value condition="String.IsEqual(Window.Property(content),2)">$INFO[ListItem.Genre]</value>
-        <value condition="!String.IsEqual(Window.Property(filminfo),5) + !String.IsEqual(Window.Property(filminfo),7)">$INFO[ListItem.Tagline]</value>
-    </variable>
-	
+
 	<variable name="504_Row_1">
 		<value condition="Container.Content(tvshows) | Container.Content(seasons)">$LOCALIZE[29909]: $INFO[ListItem.Studio]</value>
 		<value condition="ListItem.IsCollection">$LOCALIZE[515]: $INFO[Window(Home).Property(SkinHelper.ListItem.Genre)]</value>
@@ -602,5 +648,200 @@
 		<value condition="Container.Content(tvshows) + !String.IsEqual(ListItem.Label,..)">$INFO[ListItem.Rating]</value>
 		<value condition="Container.Content(episodes) + !String.IsEqual(ListItem.Label,..)">$INFO[ListItem.Rating]</value>
 		<value>$INFO[ListItem.Rating]</value>
+	</variable>
+    
+    <variable name="DialogInfoLabel">
+        <value condition="Control.HasFocus(10) + Window.IsVisible(DialogAddonInfo.xml)">$LOCALIZE[24996]</value>
+        
+        <value condition="Control.HasFocus(9005) + Window.IsVisible(Custom_MovieSets.xml)">$LOCALIZE[37695]</value>
+        <value condition="Control.HasFocus(9007) + Window.IsVisible(Custom_MovieSets.xml)">$LOCALIZE[5]</value>
+        
+        <value condition="Control.HasFocus(9001) + Window.IsVisible(script-embuary-person.xml) + Skin.HasSetting(wipinfo)">$LOCALIZE[37693]</value>
+        <value condition="Control.HasFocus(9002) + Window.IsVisible(script-embuary-person.xml) + Skin.HasSetting(wipinfo)">$LOCALIZE[37677]</value>
+        <value condition="Control.HasFocus(9003) + Window.IsVisible(script-embuary-person.xml) + Skin.HasSetting(wipinfo)">$LOCALIZE[37699]</value>
+        <value condition="Control.HasFocus(9007) + Window.IsVisible(script-embuary-person.xml) + Skin.HasSetting(wipinfo)">$LOCALIZE[5]</value>
+        
+        <value condition="Control.HasFocus(9001) + Window.IsVisible(script-embuary-video.xml) + Skin.HasSetting(wipinfo)">$LOCALIZE[37693]</value>
+        <value condition="Control.HasFocus(9002) + Window.IsVisible(script-embuary-video.xml) + Skin.HasSetting(wipinfo)">$LOCALIZE[37694]</value>
+        <value condition="Control.HasFocus(9003) + Window.IsVisible(script-embuary-video.xml) + Skin.HasSetting(wipinfo)">$LOCALIZE[37696]</value>
+        <value condition="Control.HasFocus(9004) + Window.IsVisible(script-embuary-video.xml) + Skin.HasSetting(wipinfo)">$LOCALIZE[37695]</value>
+        <value condition="Control.HasFocus(9005) + Window.IsVisible(script-embuary-video.xml) + Skin.HasSetting(wipinfo)">$LOCALIZE[37697]</value>
+        <value condition="Control.HasFocus(9007) + Window.IsVisible(script-embuary-video.xml) + Skin.HasSetting(wipinfo)">$LOCALIZE[5]</value>
+        
+        <value condition="Control.HasFocus(9001) + Window.IsVisible(DialogMusicInfo.xml) + Skin.HasSetting(wipinfo)">$LOCALIZE[208]</value>
+        <value condition="Control.HasFocus(9002) + Window.IsVisible(DialogMusicInfo.xml) + Skin.HasSetting(wipinfo)">$LOCALIZE[37551]</value>
+        <value condition="Control.HasFocus(9003) + Window.IsVisible(DialogMusicInfo.xml) + Skin.HasSetting(wipinfo)">$LOCALIZE[37701]</value>
+        <value condition="Control.HasFocus(9004) + Window.IsVisible(DialogMusicInfo.xml) + Skin.HasSetting(wipinfo)">$LOCALIZE[37700]</value>
+        <value condition="Control.HasFocus(9005) + Window.IsVisible(DialogMusicInfo.xml) + Skin.HasSetting(wipinfo)">$LOCALIZE[37696]</value>
+        <value condition="Control.HasFocus(9006) + Window.IsVisible(DialogMusicInfo.xml) + Skin.HasSetting(wipinfo)">$LOCALIZE[37695]</value>
+        <value condition="Control.HasFocus(9007) + Window.IsVisible(DialogMusicInfo.xml) + Skin.HasSetting(wipinfo)">$LOCALIZE[38023]</value>
+        <value condition="Control.HasFocus(9008) + Window.IsVisible(DialogMusicInfo.xml) + Skin.HasSetting(wipinfo)">$LOCALIZE[5]</value>
+        
+        <value condition="Control.HasFocus(9001) + Window.IsVisible(DialogVideoInfo.xml) + Skin.HasSetting(wipinfo)">$LOCALIZE[37551]</value>
+        <value condition="Control.HasFocus(9002) + Window.IsVisible(DialogVideoInfo.xml) + Skin.HasSetting(wipinfo)">$LOCALIZE[31206]</value>
+        <value condition="Control.HasFocus(9003) + Window.IsVisible(DialogVideoInfo.xml) + Skin.HasSetting(wipinfo)">$LOCALIZE[37687]</value>
+        <value condition="Control.HasFocus(9004) + Window.IsVisible(DialogVideoInfo.xml) + Skin.HasSetting(wipinfo)">$LOCALIZE[31141]</value>
+        <value condition="Control.HasFocus(9005) + Window.IsVisible(DialogVideoInfo.xml) + Skin.HasSetting(wipinfo)">$LOCALIZE[31265]</value>
+        	
+		<value condition="Control.HasFocus(9006) + Window.IsVisible(script-script.extendedinfo-DialogInfo.xml)">$LOCALIZE[37513]</value>
+		<value condition="Control.HasFocus(9002) + Window.IsVisible(script-script.extendedinfo-DialogInfo.xml)">$ADDON[script.extendedinfo 32010]</value>
+		<value condition="Control.HasFocus(9003) + Window.IsVisible(script-script.extendedinfo-DialogInfo.xml)">$ADDON[script.extendedinfo 32031]</value>
+		<value condition="Control.HasFocus(9004) + Window.IsVisible(script-script.extendedinfo-DialogInfo.xml)">$ADDON[script.extendedinfo 32118]</value>
+		<value condition="Control.HasFocus(9005) + Window.IsVisible(script-script.extendedinfo-DialogInfo.xml)">$ADDON[script.extendedinfo 32115]</value>		
+		<value condition="Control.HasFocus(8) + Window.IsVisible(script-script.extendedinfo-DialogVideoInfo.xml)">$LOCALIZE[208]</value>
+		<value condition="Control.HasFocus(120) + Window.IsVisible(script-script.extendedinfo-DialogVideoInfo.xml)">$LOCALIZE[21385]</value>
+		<value condition="Control.HasFocus(9002) + Window.IsVisible(script-script.extendedinfo-DialogVideoInfo.xml)">$LOCALIZE[206]</value>
+		<value condition="Control.HasFocus(9006) + Window.IsVisible(script-script.extendedinfo-DialogVideoInfo.xml)">$LOCALIZE[37513]</value>
+		<value condition="Control.HasFocus(9003) + Window.IsVisible(script-script.extendedinfo-DialogVideoInfo.xml)">$LOCALIZE[31206]</value>
+		<value condition="Control.HasFocus(9004) + Window.IsVisible(script-script.extendedinfo-DialogVideoInfo.xml)">$ADDON[script.extendedinfo 32118]</value>
+		<value condition="Control.HasFocus(9005) + Window.IsVisible(script-script.extendedinfo-DialogVideoInfo.xml)">$ADDON[script.extendedinfo 32115]</value>
+		<value condition="Control.HasFocus(12) + Window.IsVisible(DialogAddonInfo.xml)">$LOCALIZE[518]</value>
+		<value condition="Control.HasFocus(9) + Window.IsVisible(DialogAddonInfo.xml)">$LOCALIZE[24020]</value>
+		<value condition="Control.HasFocus(8) + Window.IsVisible(DialogAddonInfo.xml)">$LOCALIZE[24069]</value>
+		<value condition="Control.HasFocus(7) + Window.IsVisible(DialogAddonInfo.xml)">$INFO[Control.GetLabel(7)]</value>
+		<value condition="Control.HasFocus(6) + Window.IsVisible(DialogAddonInfo.xml)">$INFO[Control.GetLabel(6)]</value>
+		<value condition="Control.HasFocus(4) + Window.IsVisible(DialogPVRInfo.xml)">$LOCALIZE[19003]</value>
+		<value condition="Control.HasFocus(5) + Window.IsVisible(DialogPVRInfo.xml)">$LOCALIZE[19165]</value>
+		<value condition="Control.HasFocus(8) + Window.IsVisible(DialogPVRInfo.xml)">$LOCALIZE[19687]</value>
+		<value condition="Control.HasFocus(10) + Window.IsVisible(DialogPVRInfo.xml)">$LOCALIZE[19190]</value>		
+		<value condition="Control.HasFocus(7) + Window.IsVisible(DialogPVRInfo.xml)">$LOCALIZE[186]</value>
+		<value condition="Control.HasFocus(6) + Window.IsVisible(DialogPVRInfo.xml)">$LOCALIZE[264]</value>		
+		<value condition="Control.HasFocus(9019) + Window.IsVisible(DialogVideoInfo.xml)">$LOCALIZE[37551]</value>
+        <value condition="Control.HasFocus(9001) + Window.IsVisible(DialogMusicInfo.xml)">$LOCALIZE[37551]</value>
+		<value condition="Control.HasFocus(9020)">$LOCALIZE[31141]</value>
+        <value condition="Control.HasFocus(9021)">$LOCALIZE[182]</value>        
+        <value condition="Control.HasFocus(8)">$LOCALIZE[208]</value>
+		<value condition="Control.HasFocus(666)">$LOCALIZE[37554]</value>
+		<value condition="Control.HasFocus(667)">$LOCALIZE[37555]</value>
+		<value condition="Control.HasFocus(9019)">$LOCALIZE[21888]</value>
+		<value condition="Control.HasFocus(9018)">$LOCALIZE[37551]</value>
+		<value condition="Control.HasFocus(11)">$LOCALIZE[20410]</value>
+		<value condition="Control.HasFocus(1223)">$LOCALIZE[20410]</value>
+		<value condition="Control.HasFocus(9012)">$LOCALIZE[31206]</value>
+		<value condition="Control.HasFocus(51)">$LOCALIZE[37550]</value>
+		<value condition="Control.HasFocus(7)">$LOCALIZE[38023]</value>
+		<value condition="Control.HasFocus(6)">$LOCALIZE[184]</value>
+		<value condition="Control.HasFocus(10)">$LOCALIZE[13405]</value>
+		<value condition="Control.HasFocus(9001)">$LOCALIZE[37683]</value>
+        <value condition="Control.HasFocus(9010)">$LOCALIZE[5]</value>
+		<value condition="Control.HasFocus(49)">$LOCALIZE[31170]</value>
+		<value condition="Control.HasFocus(9100)">$LOCALIZE[37683]</value>
+		<value condition="Control.HasFocus(123)">$LOCALIZE[38023]</value>
+		<value condition="Control.HasFocus(9003)">$LOCALIZE[31141]</value>
+		<value condition="Control.HasFocus(48)">$LOCALIZE[184]</value>
+		<value condition="Control.HasFocus(54)">$LOCALIZE[13405]</value>
+        <value condition="Control.HasFocus(49)">$LOCALIZE[31170]</value>
+        <value condition="Control.HasFocus(9035)">$LOCALIZE[37667] $INFO[ListItem.Director]</value>	
+        <value condition="Control.HasFocus(9036)">$LOCALIZE[37669] $INFO[ListItem.Studio]</value>		
+		<value condition="Control.HasFocus(9002) + String.IsEmpty(Window.Property(tracklist))">$LOCALIZE[182]</value>
+		<value condition="Control.HasFocus(9002) + !String.IsEmpty(Window.Property(tracklist))">$LOCALIZE[21887]</value>
+	</variable>
+    
+    
+    <variable name="LabelWIPMusicHeader">
+        <value condition="Container.Content(albums) + String.IsEqual(Window.Property(musiccontent),3)">$LOCALIZE[37675] $INFO[ListItem.Album]</value>
+        <value condition="Container.Content(albums) + String.IsEqual(Window.Property(musiccontent),1)">$LOCALIZE[37686] $INFO[ListItem.Album]</value>
+        <value condition="Container.Content(albums)">$INFO[ListItem.Album]</value>
+        
+        <value condition="Container.Content(songs) + String.IsEqual(Window.Property(musiccontent),3)">$LOCALIZE[37675] $INFO[ListItem.Title]</value>
+        <value condition="Container.Content(songs)">$INFO[ListItem.Title]</value>
+        
+        <value condition="Container.Content(artists) + String.IsEqual(Window.Property(musiccontent),4)">$LOCALIZE[37674] $INFO[ListItem.Artist]</value>
+        <value condition="Container.Content(artists) + String.IsEqual(Window.Property(musiccontent),3)">$LOCALIZE[37675] $INFO[ListItem.Artist]</value>
+        <value condition="Container.Content(artists) + String.IsEqual(Window.Property(musiccontent),2)">$LOCALIZE[37681] $INFO[ListItem.Artist]</value>
+        <value condition="Container.Content(artists)">$INFO[ListItem.Artist]</value>
+    </variable>
+    
+    <variable name="LabelWIPMusicTagline">
+        <value condition="Container.Content(albums)">$INFO[ListItem.Artist]</value>
+        <value condition="Container.Content(songs)">$INFO[ListItem.Artist]</value>
+        <value condition="Container.Content(artists)">$INFO[ListItem.Property(Artist_YearsActive)]</value>
+    </variable>
+    
+    <variable name="MusicListLabelHeader">
+        <value condition="Control.HasFocus(9501)">$LOCALIZE[37681] $INFO[ListItem.Label]</value>
+        <value condition="Control.HasFocus(9502)">$LOCALIZE[37675] $INFO[ListItem.Label]</value>
+    </variable>
+    
+    <variable name="VideoListLabelHeader">
+        <value condition="Control.HasFocus(10054) + Window.IsVisible(script-embuary-person.xml)">$LOCALIZE[37674] $INFO[Container(10051).ListItem.Label]</value>
+        <value condition="Control.HasFocus(10053) + Window.IsVisible(script-embuary-person.xml)">$LOCALIZE[37678] $INFO[Container(10051).ListItem.Label]</value>
+        <value condition="Control.HasFocus(10052) + Window.IsVisible(script-embuary-person.xml)">$LOCALIZE[37677] $INFO[Container(10051).ListItem.Label]</value>
+        
+        <value condition="Control.HasFocus(10056) + Window.IsVisible(script-embuary-video.xml)">$LOCALIZE[37676] $INFO[Container(10051).ListItem.Label]</value>
+        <value condition="Control.HasFocus(10055) + Window.IsVisible(script-embuary-video.xml)">$LOCALIZE[37674] $INFO[Container(10051).ListItem.Label]</value>
+        <value condition="Control.HasFocus(10054) + Window.IsVisible(script-embuary-video.xml)">$LOCALIZE[37675] $INFO[Container(10051).ListItem.Label]</value>
+        <value condition="Control.HasFocus(10053) + Window.IsVisible(script-embuary-video.xml)">$LOCALIZE[37673] $INFO[Container(10051).ListItem.Label]</value>
+        <value condition="Control.HasFocus(10052) + Window.IsVisible(script-embuary-video.xml)">$LOCALIZE[37672] $INFO[Container(10051).ListItem.Label]</value>
+        
+        <value condition="Control.HasFocus(50) + Window.IsVisible(DialogAddonInfo.xml)">$LOCALIZE[37702] $INFO[ListItem.Label]</value>
+        <value condition="Control.HasFocus(9501) + Window.IsVisible(DialogMusicInfo.xml)">$LOCALIZE[37681] $INFO[ListItem.Label]</value>
+        <value condition="Control.HasFocus(9502) + Window.IsVisible(DialogMusicInfo.xml)">$LOCALIZE[37675] $INFO[ListItem.Label]</value>
+        <value condition="String.IsEqual(Window.Property(moviecontent),1)">$LOCALIZE[37665] $INFO[ListItem.Label]</value>
+        <value condition="String.IsEqual(Window.Property(moviecontent),2)">$LOCALIZE[37673] $INFO[ListItem.Label]</value>
+        <value condition="String.IsEqual(Window.Property(moviecontent),3)">$LOCALIZE[37684] $INFO[ListItem.Studio]</value>
+        <value condition="String.IsEqual(Window.Property(moviecontent),4)">$LOCALIZE[37675] $INFO[ListItem.Label]</value>
+        <value condition="String.IsEmpty(Window.Property(setsinfo)) + Control.IsVisible(9502) + Window.IsVisible(Custom_MovieSets.xml)">$LOCALIZE[37682] $INFO[ListItem.Label]</value>
+        <value>$LOCALIZE[37672] $INFO[ListItem.Label]</value>
+    </variable>
+    
+    <variable name="LabelWIPDialogVideoInfoHeader">
+        <value condition="String.IsEmpty(Window.Property(actinfo)) + Window.IsVisible(script-embuary-person.xml)">$INFO[Container(10051).ListItem.Label]</value>
+        <value condition="String.IsEqual(Window.Property(actinfo),1) + Window.IsVisible(script-embuary-person.xml)">$LOCALIZE[37677] $INFO[Container(10051).ListItem.Label]</value>
+        <value condition="String.IsEqual(Window.Property(actinfo),2) + Window.IsVisible(script-embuary-person.xml)">$LOCALIZE[37678] $INFO[Container(10051).ListItem.Label]</value>
+        
+        <value condition="String.IsEmpty(Window.Property(videoinfo)) + Window.IsVisible(script-embuary-video.xml)">$INFO[Container(10051).ListItem.Label]</value>
+        <value condition="String.IsEqual(Window.Property(videoinfo),1) + Window.IsVisible(script-embuary-video.xml)">$LOCALIZE[37673] $INFO[Container(10051).ListItem.Label]</value>
+        <value condition="String.IsEqual(Window.Property(videoinfo),2) + Window.IsVisible(script-embuary-video.xml)">$LOCALIZE[37675] $INFO[Container(10051).ListItem.Label]</value>
+        <value condition="String.IsEqual(Window.Property(videoinfo),3) + Window.IsVisible(script-embuary-video.xml)">$LOCALIZE[37674] $INFO[Container(10051).ListItem.Label]</value>
+        <value condition="String.IsEqual(Window.Property(videoinfo),4) + Window.IsVisible(script-embuary-video.xml)">$LOCALIZE[37676] $INFO[Container(10051).ListItem.Label]</value>
+        
+        <value condition="String.IsEqual(Window.Property(moviecontent),1)">$LOCALIZE[37665] $INFO[ListItem.Label]</value>
+        <value condition="String.IsEqual(Window.Property(moviecontent),2)">$LOCALIZE[37673] $INFO[ListItem.Label]</value>
+        <value condition="String.IsEqual(Window.Property(moviecontent),3)">$LOCALIZE[37684] $INFO[ListItem.Studio]</value>
+        <value condition="String.IsEqual(Window.Property(moviecontent),4)">$LOCALIZE[37675] $INFO[ListItem.Label]</value>
+        <value condition="String.IsEqual(Window.Property(moviecontent),5)">$LOCALIZE[37674] $INFO[ListItem.Label]</value>
+        <value>$INFO[ListItem.Label]</value>
+    </variable>
+    
+    <variable name="LabelWIPDialogVideoInfoTagline">
+        <value condition="Window.IsVisible(script-embuary-video.xml)">$INFO[Container(10051).ListItem.Tagline]</value>
+        <value condition="String.IsEqual(Window.Property(moviecontent),3)">$INFO[ListItem.Genre]</value>
+        <value condition="String.IsEqual(Window.Property(moviecontent),2)">$INFO[ListItem.Genre]</value>
+        <value condition="String.IsEmpty(Window.Property(moviecontent))">$INFO[ListItem.Tagline]</value>
+        <value>$INFO[ListItem.Tagline]</value>
+    </variable>
+    
+    <variable name="ListInfoUpdatingLabel">   
+        <value>$LOCALIZE[37692]</value>
+    </variable>
+    
+    <variable name="LabelDialogVideoInfo">
+        <value condition="String.IsEqual(Window.Property(filminfo),1)">$LOCALIZE[37665] $INFO[ListItem.Label]</value>
+        <value condition="String.IsEqual(Window.Property(filminfo),3)">$LOCALIZE[31204] $INFO[ListItem.Label]</value>
+        <value condition="String.IsEqual(Window.Property(filminfo),5)">$LOCALIZE[37675] $INFO[ListItem.Label]</value>
+        <value condition="String.IsEqual(Window.Property(filminfo),7)">$LOCALIZE[37669] $INFO[ListItem.Studio]</value>
+        <value condition="String.IsEqual(Window.Property(filminfo),2)">$LOCALIZE[37666] $INFO[ListItem.Label]</value>
+        <value condition="String.IsEqual(Window.Property(filminfo),4)">$LOCALIZE[37674] $INFO[ListItem.Label]</value>
+        <value>$INFO[ListItem.Label]</value>
+    </variable>
+    
+    <variable name="LabelDialogVideoInfoTagline">
+        <value condition="String.IsEqual(Window.Property(filminfo),3)">$INFO[ListItem.Genre]</value>
+        <value condition="String.IsEqual(Window.Property(filminfo),2)">$INFO[ListItem.Genre]</value>
+        <value condition="String.IsEmpty(Window.Property(filminfo))">$INFO[ListItem.Tagline]</value>
+        <value>$INFO[ListItem.Tagline]</value>
+    </variable>
+    
+    <variable name="LabelExtendedVideoInfoLabel2">
+        <value condition="!String.IsEmpty(Container(10052).ListItem.Property(Role))">$INFO[Container(10052).ListItem.Property(Role),$LOCALIZE[20347] ,]</value>
+        <value condition="!String.IsEmpty(Container(10053).ListItem.Property(Role))">$INFO[Container(10053).ListItem.Property(Role),$LOCALIZE[20347] ,]</value>
+        <value>$INFO[ListItem.Label2,$LOCALIZE[20347] ,]</value>
+    </variable>
+    
+    <variable name="LabelKnownFor">
+        <value condition="!String.IsEmpty(Container(10052).ListItemAbsolute(0).Label) + Container.Content(movies)">|  $ADDON[script.embuary.info 32017]: $INFO[Container(10052).ListItemAbsolute(0).Label]$INFO[Container(10052).ListItemAbsolute(1).Label,$COMMA ]</value>
+        <value condition="!String.IsEmpty(Container(10053).ListItemAbsolute(0).Label) + Container.Content(tvshows)">|  $ADDON[script.embuary.info 32017]: $INFO[Container(10053).ListItemAbsolute(0).Label]$INFO[Container(10053).ListItemAbsolute(1).Label,$COMMA ]$INFO[Container(10053).ListItemAbsolute(2).Label,$COMMA ]</value>
+        <value>$INFO[Container(10051).ListItem.Property(known_for_department),$ADDON[script.embuary.info 32017]: ]</value>
 	</variable>
 </includes>
