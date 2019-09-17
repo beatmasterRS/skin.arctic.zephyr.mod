@@ -2530,9 +2530,40 @@
                 <control type="group">
                     <animation effect="fade" start="100" end="0" time="0" reversible="false" condition="[!String.Contains(Container(300).ListItem.Property(widget),Weather) + [!Integer.IsGreater(Container(301).NumItems,0) | Container(301).IsUpdating]] | [!Weather.IsFetched + String.Contains(Container(300).ListItem.Property(widget),Weather)]">Conditional</animation>
                     <animation effect="fade" start="0" end="100" time="0" reversible="false" condition="![[!String.Contains(Container(300).ListItem.Property(widget),Weather) + [!Integer.IsGreater(Container(301).NumItems,0) | Container(301).IsUpdating]] | [!Weather.IsFetched + String.Contains(Container(300).ListItem.Property(widget),Weather)]]">Conditional</animation>
+                    <!-- Widget Banner -->
+                    <control type="group">
+                        <visible>String.Contains(Container(300).ListItem.Property(widgetBanner),yes) + !String.Contains(Container(300).ListItem.Property(widget),Weather)</visible>
+                        <animation effect="fade" start="100" end="66" time="400" condition="!Control.HasFocus(301)">Conditional</animation>
+                        <top>238</top>
+                        <control type="image"> 
+                            <width>1314</width>
+                            <right>79</right>
+                            <height>222</height>
+                            <texture border="5" colordiffuse="Box2">common/box2.png</texture>
+                        </control>
+                        <control type="image">
+                            <right>80</right>
+                            <top>1</top>
+                            <width>1312</width>
+                            <height>220</height> 
+                            <aspectratio scalediffuse="false">scale</aspectratio>
+                            <fadetime>300</fadetime>
+                            <texture diffuse="diffuse/wall.png" background="true" fallback="DefaultMovies.png">$VAR[BannerImage301]</texture>
+                        </control>
+                        <!-- ClearLogo Fallback -->
+                        <control type="image">
+                            <visible>String.IsEmpty(Container(301).ListItem.Art(banner)) + String.IsEmpty(Container(301).ListItem.Art(tvshow.banner))</visible>
+                            <right>100</right>
+                            <top>80</top>
+                            <height>120</height> 
+                            <aspectratio scalediffuse="false" align="right" aligny="bottom">keep</aspectratio>
+                            <fadetime>300</fadetime>
+                            <texture diffuse="diffuse/wall.png" background="true">$VAR[ClearLogoHome]</texture>
+                        </control> 
+                    </control>
                     <!-- Widget Text -->
                     <control type="label">
-						<visible>!Skin.HasSetting(hidewidgettitle)</visible>
+						<visible>!Skin.HasSetting(hidewidgettitle) + !String.Contains(Container(300).ListItem.Property(widget),Weather) + !String.Contains(Container(300).ListItem.Property(widgetBanner),yes)</visible>
                         <font>TinyBold</font>
                         <right>70</right>
                         <width>1322</width>
@@ -2545,7 +2576,7 @@
                         <animation effect="fade" start="100" end="33" time="400" condition="!Control.HasFocus(301)">Conditional</animation>
                     </control>
                     <control type="grouplist">
-                        <visible>!String.Contains(Container(300).ListItem.Property(widget),Weather)</visible>
+                        <visible>!String.Contains(Container(300).ListItem.Property(widget),Weather) + !String.Contains(Container(300).ListItem.Property(widgetBanner),yes)</visible>
                         <animation effect="fade" start="100" end="33" time="400" condition="!Control.HasFocus(301)">Conditional</animation>
                         <include>Animation.FadeIn</include>
                         <include>Animation.FadeOut</include>
@@ -2579,7 +2610,31 @@
                             <label>$VAR[WidgetSubLabel]</label>
                         </control>
                     </control>
-
+                    <control type="grouplist">
+                        <visible>String.Contains(Container(300).ListItem.Property(widgetBanner),yes) + !String.Contains(Container(300).ListItem.Property(widget),Weather)</visible>
+                        <animation effect="fade" start="100" end="33" time="400" condition="!Control.HasFocus(301)">Conditional</animation>
+                        <include>Animation.FadeIn</include>
+                        <include>Animation.FadeOut</include>
+                        <right>70</right>
+                        <width>1322</width>
+                        <orientation>vertical</orientation>
+                        <top>812</top>
+                        <itemgap>-10</itemgap>
+                        <control type="label">
+                            <font>SmallBold</font>
+                            <textcolor>Dark1</textcolor>
+                            <label>$VAR[WidgetTitle]</label>
+                            <include>Animation.FadeIn</include>
+                            <include>Animation.FadeOut</include>
+                        </control>
+                        <control type="label">
+                            <font>Tiny</font>
+                            <width>100%</width>
+                            <align>left</align>
+                            <textcolor>Dark2</textcolor>
+                            <label>$VAR[WidgetSubLabel]</label>
+                        </control>
+                    </control>
                     <!-- Weather Widget -->
                     <control type="group">
                         <visible>String.Contains(Container(300).ListItem.Property(widget),Weather)</visible>
@@ -2929,10 +2984,11 @@
                         </control>
                     </control>
                     <!-- Widget -->
-                    
-					<include condition="Skin.HasSetting(NoPersistentWidgets)">Home-Widget-Vertical</include>
-                    <include condition="!Skin.HasSetting(NoPersistentWidgets)">skinshortcuts-template-widget-vertical</include>
-					
+                    <control type="group">
+                        <animation effect="slide" start="0,0" end="0,138" time="0" condition="String.Contains(Container(300).ListItem.Property(widgetBanner),yes)">Conditional</animation>
+					    <include condition="Skin.HasSetting(NoPersistentWidgets)">Home-Widget-Vertical</include>
+                        <include condition="!Skin.HasSetting(NoPersistentWidgets)">skinshortcuts-template-widget-vertical</include>
+					</control>
                 </control>
             </control>
         </control>
