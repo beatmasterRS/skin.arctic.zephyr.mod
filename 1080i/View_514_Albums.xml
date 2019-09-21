@@ -9,8 +9,8 @@
 			<include>ViewSlideForJumpBar</include> 
             <visible>Control.IsVisible(514)</visible>
             <control type="group">
-                <animation type="Conditional" condition="Container.Content(albums)">                  
-                    <effect type="slide" start="0,0" end="0,-33" time="0" />                
+                <animation type="Conditional" condition="Container.Content(albums) | [Container.Content(movies) + !Skin.HasSetting(ShowClearart514)]">                  
+                    <effect type="slide" start="0,0" end="0,-50" time="0" />                
                 </animation>
                 <control type="label">
                     <top>600</top>
@@ -39,7 +39,7 @@
                     <itemgap>0</itemgap>
                     <orientation>vertical</orientation>	
                     <control type="textbox">				
-                        <visible>[!String.IsEmpty(ListItem.Property(Artist_Description)) + Container.Content(artists)] | [!String.IsEmpty(ListItem.Property(Album_Description)) + Container.Content(albums)]</visible>
+                        <visible>[!String.IsEmpty(ListItem.Property(Artist_Description)) + Container.Content(artists)] | [!String.IsEmpty(ListItem.Property(Album_Description)) + Container.Content(albums)] | Container.Content(movies) | Container.Content(tvshows)</visible>
                         <left>80</left>
                         <font>Tiny</font>
                         <height>140</height>
@@ -49,7 +49,7 @@
                         <right>SidePad</right>	
                     </control>
                     <control type="label">	
-                        <visible>!String.IsEmpty(ListItem.Property(Album_Description)) | !String.IsEmpty(ListItem.Property(Artist_Description))</visible>			
+                        <visible>!String.IsEmpty(ListItem.Property(Album_Description)) | !String.IsEmpty(ListItem.Property(Artist_Description)) | Container.Content(movies)| Container.Content(tvshows)</visible>			
                         <height>16</height>
                         <font>Tiny</font>
                         <textcolor>Dark2</textcolor>
@@ -63,7 +63,7 @@
                     </control>  
                 </control>
                 <control type="wraplist" id="514">     
-                    <visible>Container.Content(artists) | Container.Content(albums)</visible>
+                    <visible>Container.Content(artists) | Container.Content(albums) | Container.Content(movies) | Container.Content(tvshows)</visible>
                     <oninfo condition="ListItem.IsCollection">ActivateWindow(1132)</oninfo>
                     <top>306</top>
                     <left>60</left>
@@ -77,7 +77,7 @@
                     <pagecontrol>1615</pagecontrol>
                     <orientation>horizontal</orientation>
                     <focusposition>1</focusposition>
-                    <viewtype label="37707">list</viewtype>
+                    <viewtype label="37710">list</viewtype>
                     <scrolltime tween="quadratic">400</scrolltime>
                     <itemlayout height="330" width="299">
                         <control type="image">
@@ -102,7 +102,6 @@
                             <height>256</height>
                             <aspectratio scalediffuse="false" align="center" aligny="center">scale</aspectratio>
                             <texture diffuse="diffuse/wall.png" background="true">$VAR[ThumbImage]</texture>
-                            <visible>Container.Content(albums) | Container.Content(artists) | Container.Content(songs)</visible>
                         </control>
                         <control type="label">
                             <align>center</align>
@@ -157,7 +156,6 @@
                             <height>256</height>
                             <aspectratio scalediffuse="false" align="center" aligny="center">scale</aspectratio>
                             <texture diffuse="diffuse/wall.png" background="true">$VAR[ThumbImage]</texture>
-                            <visible>Container.Content(albums) | Container.Content(artists) | Container.Content(songs)</visible>
                         </control>
                     </focusedlayout>
                 </control> 
