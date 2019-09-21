@@ -8,190 +8,166 @@
 			<include>JumpBarHorizontal</include>
 			<include>ViewSlideForJumpBar</include> 
             <visible>Control.IsVisible(514)</visible>
-			<control type="label">
-                <visible>!Skin.HasSetting(ShowClearart514) | [Skin.HasSetting(ShowClearart514) + String.IsEmpty(ListItem.Art(clearlogo))]</visible>
-				<top>230</top>
-				<left>80</left>
-				<description>Header Label</description>
-				<textcolor>Dark1</textcolor>
-				<font>SmallBold</font>
-                <include>Animation.ViHi2</include>
-				<label fallback="19055">$INFO[ListItem.Label]</label>
-			</control>	
-            <control type="image" description="clearlogo">
-                <visible>Skin.HasSetting(ShowClearart514) + !String.IsEmpty(ListItem.Art(clearlogo))</visible>
-                <top>190</top>
-				<left>80</left>
-                <height>100</height>	
-                <aspectratio align="left" aligny="top">keep</aspectratio>
-                <texture background="true">$INFO[ListItem.Art(clearlogo)]</texture>
-                <include>Animation.ViHi2</include>
-                <fadetime>100</fadetime>
-            </control>	
-			<control type="grouplist">
-				<visible>!String.IsEqual(ListItem.Label,..) + Container.Content(albums)</visible>
-				<left>80</left>
-				<top>300</top>			
-				<itemgap>0</itemgap>	
-				<control type="label">				
-					<height>36</height>
-					<font>Tiny</font>
-					<textcolor>Dark2</textcolor>
-					<label fallback="19055">$INFO[ListItem.Artist]</label> 
-				</control>
-				<control type="label">
-					<width>1100</width>
-					<height>36</height>
-					<font>Tiny</font>
-					<textcolor>Dark2</textcolor>
-					<label fallback="19055">$INFO[ListItem.Year]$INFO[ListItem.Genre,  •  ,]</label>                      
-                </control>
-			</control>
-            <control type="grouplist">
-				<visible>!String.IsEqual(ListItem.Label,..) + Container.Content(artists)</visible>
-				<left>80</left>
-				<top>300</top>			
-				<itemgap>0</itemgap>	
-				<control type="label">
-					<width>1100</width>
-					<height>36</height>
-					<font>Tiny</font>
-					<textcolor>Dark2</textcolor>
-					<label fallback="19055">$INFO[ListItem.Genre]$INFO[ListItem.Property(Artist_Born),  •  ,]</label>                      
-                </control>
-			</control>	
-			<control type="wraplist" id="514">
-                <animation type="Conditional" condition="Container.Content(albums)" reversible="false">                  
-                    <effect type="slide" start="0,0" end="0,33" time="0" tween="cubic" />                
+            <control type="group">
+                <animation type="Conditional" condition="Container.Content(albums)">                  
+                    <effect type="slide" start="0,0" end="0,-33" time="0" />                
                 </animation>
-                <visible>Container.Content(artists) | Container.Content(albums)</visible>
-                <oninfo condition="ListItem.IsCollection">ActivateWindow(1132)</oninfo>
-                <top>366</top>
-                <left>60</left>
-                <width>1800</width>
-                <height>330</height>
-                <onup condition="!Skin.HasSetting(global.kioskmode)">9000</onup>
-                <ondown>1615</ondown>
-                <onleft>514</onleft>
-                <onright>514</onright>
-                <preloaditems>1</preloaditems>
-                <pagecontrol>1615</pagecontrol>
-                <orientation>horizontal</orientation>
-                <focusposition>1</focusposition>
-                <viewtype label="37707">list</viewtype>
-                <scrolltime tween="quadratic">400</scrolltime>
-                <itemlayout height="330" width="299">
-                    <control type="image">
-                        <left>10</left>
-                        <top>11</top>
-                        <width>93%</width>
-                        <height>83%</height>
-                        <texture border="10">common/nofocus-shadow10.png</texture>
+                <control type="label">
+                    <top>600</top>
+                    <left>80</left>
+                    <description>Header Label</description>
+                    <textcolor>Dark1</textcolor>
+                    <font>SmallBold</font>
+                    <include>Animation.ViHi2</include>
+                    <label fallback="19055">$INFO[ListItem.Label]</label>
+                </control>	
+                <control type="image" description="clearlogo">
+                    <visible>Skin.HasSetting(ShowClearart514) + !String.IsEmpty(ListItem.Art(clearlogo))</visible>
+                    <top>190</top>
+                    <left>80</left>
+                    <height>100</height>	
+                    <aspectratio align="left" aligny="top">keep</aspectratio>
+                    <texture background="true">$INFO[ListItem.Art(clearlogo)]</texture>
+                    <include>Animation.ViHi2</include>
+                    <fadetime>100</fadetime>
+                </control>	
+                <control type="grouplist">
+                    <visible>!String.IsEqual(ListItem.Label,..)</visible>
+                    <left>80</left>
+                    <top>675</top>
+                    <height>600</height>			
+                    <itemgap>0</itemgap>
+                    <orientation>vertical</orientation>	
+                    <control type="textbox">				
+                        <visible>[!String.IsEmpty(ListItem.Property(Artist_Description)) + Container.Content(artists)] | [!String.IsEmpty(ListItem.Property(Album_Description)) + Container.Content(albums)]</visible>
+                        <left>80</left>
+                        <font>Tiny</font>
+                        <height>140</height>
+                        <textcolor>Dark2</textcolor>
+                        <selectedcolor>Dark2</selectedcolor>
+                        <label>$VAR[LabelArtistAlbumDescription]</label>		
+                        <right>SidePad</right>	
+                    </control>
+                    <control type="label">	
+                        <visible>!String.IsEmpty(ListItem.Property(Album_Description)) | !String.IsEmpty(ListItem.Property(Artist_Description))</visible>			
+                        <height>16</height>
+                        <font>Tiny</font>
+                        <textcolor>Dark2</textcolor>
+                        <label></label> 
+                    </control> 
+                    <control type="label">				
+                        <height>36</height>
+                        <font>Tiny</font>
+                        <textcolor>Dark2</textcolor>
+                        <label fallback="19055">$VAR[LabelArtistAlbum]</label> 
                     </control>  
-                    <control type="image">
-                        <left>19</left>
-                        <top>19</top>
-                        <right>19</right>
-                        <height>258</height>                           
-                        <texture colordiffuse="Box2" background="true">common/box2.png</texture>   
-                        <visible>!Skin.HasSetting(thumbnails.white)</visible>                        
-                    </control>
-                    <control type="image">
-                        <left>20</left>
-                        <top>20</top>
-                        <right>20</right>
-                        <height>256</height>
-                        <aspectratio scalediffuse="false" align="center" aligny="center">scale</aspectratio>
-                        <texture diffuse="diffuse/wall.png" background="true">$VAR[ThumbImage]</texture>
-                        <visible>Container.Content(albums) | Container.Content(artists) | Container.Content(songs)</visible>
-                    </control>
-                    <control type="label">
-                        <align>center</align>
-                        <aligny>center</aligny>
-                        <width>50</width>
-                        <right>13</right>
-                        <top>12</top>
-                        <height>50</height>
-                        <textcolor>$VAR[WatchedLabelPosterColor]</textcolor>
-                        <font>SymbolPoster</font>
-                        <label>$VAR[WatchedLabelPoster]</label>
-                        <visible>!String.IsEqual(ListItem.Label,..)</visible>
-                    </control>
-                </itemlayout>
-                <focusedlayout height="330" width="299">
-                    <control type="image">
-                        <left>10</left>
-                        <top>11</top>
-                        <width>93%</width>
-                        <height>83%</height>
-                        <texture border="10">common/nofocus-shadow10.png</texture>
-                    </control>
-                    <control type="image">
-                        <left>19</left>
-                        <top>19</top>
-                        <right>19</right>
-                        <height>258</height>                           
-                        <texture colordiffuse="Box2" background="true">common/box2.png</texture>   
-                        <visible>!Skin.HasSetting(thumbnails.white)</visible>                        
-                    </control>
-                    <control type="image">
-                        <animation center="auto" condition="Control.HasFocus(500)" effect="fade" end="100" start="0" time="250">Focus</animation>
-                        <animation center="auto" condition="Control.HasFocus(500)"  effect="fade" end="0" start="100" time="50">UnFocus</animation>
-                        <left>13</left>
-                        <top>13</top>
-                        <right>13</right>
-                        <bottom>47</bottom>
-                        <texture border="5" colordiffuse="$VAR[ColorHighlight]">common/box.png</texture>
-                    </control>
-                    <control type="image">
-                        <left>20</left>
-                        <top>20</top>
-                        <right>20</right>
-                        <height>256</height>
-                        <aspectratio scalediffuse="false">scale</aspectratio>
-                        <texture diffuse="diffuse/wall.png" colordiffuse="ff181818">common/white.png</texture>
-                    </control>
-                    <control type="image">
-                        <left>20</left>
-                        <top>20</top>
-                        <right>20</right>
-                        <height>256</height>
-                        <aspectratio scalediffuse="false" align="center" aligny="center">scale</aspectratio>
-                        <texture diffuse="diffuse/wall.png" background="true">$VAR[ThumbImage]</texture>
-                        <visible>Container.Content(albums) | Container.Content(artists) | Container.Content(songs)</visible>
-                    </control>
-                </focusedlayout>
+                </control>
+                <control type="wraplist" id="514">     
+                    <visible>Container.Content(artists) | Container.Content(albums)</visible>
+                    <oninfo condition="ListItem.IsCollection">ActivateWindow(1132)</oninfo>
+                    <top>306</top>
+                    <left>60</left>
+                    <width>1800</width>
+                    <height>330</height>
+                    <onup condition="!Skin.HasSetting(global.kioskmode)">9000</onup>
+                    <ondown>1615</ondown>
+                    <onleft>514</onleft>
+                    <onright>514</onright>
+                    <preloaditems>1</preloaditems>
+                    <pagecontrol>1615</pagecontrol>
+                    <orientation>horizontal</orientation>
+                    <focusposition>1</focusposition>
+                    <viewtype label="37707">list</viewtype>
+                    <scrolltime tween="quadratic">400</scrolltime>
+                    <itemlayout height="330" width="299">
+                        <control type="image">
+                            <left>10</left>
+                            <top>11</top>
+                            <width>93%</width>
+                            <height>83%</height>
+                            <texture border="10">common/nofocus-shadow10.png</texture>
+                        </control>  
+                        <control type="image">
+                            <left>19</left>
+                            <top>19</top>
+                            <right>19</right>
+                            <height>258</height>                           
+                            <texture colordiffuse="Box2" background="true">common/box2.png</texture>   
+                            <visible>!Skin.HasSetting(thumbnails.white)</visible>                        
+                        </control>
+                        <control type="image">
+                            <left>20</left>
+                            <top>20</top>
+                            <right>20</right>
+                            <height>256</height>
+                            <aspectratio scalediffuse="false" align="center" aligny="center">scale</aspectratio>
+                            <texture diffuse="diffuse/wall.png" background="true">$VAR[ThumbImage]</texture>
+                            <visible>Container.Content(albums) | Container.Content(artists) | Container.Content(songs)</visible>
+                        </control>
+                        <control type="label">
+                            <align>center</align>
+                            <aligny>center</aligny>
+                            <width>50</width>
+                            <right>13</right>
+                            <top>12</top>
+                            <height>50</height>
+                            <textcolor>$VAR[WatchedLabelPosterColor]</textcolor>
+                            <font>SymbolPoster</font>
+                            <label>$VAR[WatchedLabelPoster]</label>
+                            <visible>!String.IsEqual(ListItem.Label,..)</visible>
+                        </control>
+                    </itemlayout>
+                    <focusedlayout height="330" width="299">
+                        <control type="image">
+                            <left>10</left>
+                            <top>11</top>
+                            <width>93%</width>
+                            <height>83%</height>
+                            <texture border="10">common/nofocus-shadow10.png</texture>
+                        </control>
+                        <control type="image">
+                            <left>19</left>
+                            <top>19</top>
+                            <right>19</right>
+                            <height>258</height>                           
+                            <texture colordiffuse="Box2" background="true">common/box2.png</texture>   
+                            <visible>!Skin.HasSetting(thumbnails.white)</visible>                        
+                        </control>
+                        <control type="image">
+                            <animation center="auto" condition="Control.HasFocus(500)" effect="fade" end="100" start="0" time="250">Focus</animation>
+                            <animation center="auto" condition="Control.HasFocus(500)"  effect="fade" end="0" start="100" time="50">UnFocus</animation>
+                            <left>13</left>
+                            <top>13</top>
+                            <right>13</right>
+                            <bottom>47</bottom>
+                            <texture border="5" colordiffuse="$VAR[ColorHighlight]">common/box.png</texture>
+                        </control>
+                        <control type="image">
+                            <left>20</left>
+                            <top>20</top>
+                            <right>20</right>
+                            <height>256</height>
+                            <aspectratio scalediffuse="false">scale</aspectratio>
+                            <texture diffuse="diffuse/wall.png" colordiffuse="ff181818">common/white.png</texture>
+                        </control>
+                        <control type="image">
+                            <left>20</left>
+                            <top>20</top>
+                            <right>20</right>
+                            <height>256</height>
+                            <aspectratio scalediffuse="false" align="center" aligny="center">scale</aspectratio>
+                            <texture diffuse="diffuse/wall.png" background="true">$VAR[ThumbImage]</texture>
+                            <visible>Container.Content(albums) | Container.Content(artists) | Container.Content(songs)</visible>
+                        </control>
+                    </focusedlayout>
+                </control> 
             </control> 
 			<control type="scrollbar" id="1615">
                 <bottom>190</bottom>
 				<include content="scrollbar_hor">
 					<param name="scrollid" value="1615" />
 				</include>
-			</control>	
-			<control type="textbox">				
-				<top>715</top>
-				<bottom>17</bottom>
-				<left>80</left>
-				<font>Tiny</font>
-				<height>150</height>
-				<textcolor>Dark2</textcolor>
-				<selectedcolor>Dark2</selectedcolor>
-				<label fallback="19055">$INFO[ListItem.Property(Album_Description)]</label>			
-				<right>SidePad</right>
-                <visible>Container.Content(albums)</visible> 	
-			</control>	
-            <control type="textbox">				
-				<top>685</top>
-				<bottom>17</bottom>
-				<left>80</left>
-				<font>Tiny</font>
-				<height>180</height>
-				<textcolor>Dark2</textcolor>
-				<selectedcolor>Dark2</selectedcolor>
-				<label fallback="19055">$INFO[ListItem.Property(Artist_Description)]</label>
-                <visible>Container.Content(artists)</visible> 			
-				<right>SidePad</right>	
-			</control>		
+			</control>			
 		</control>			
     </include>
 </includes>
