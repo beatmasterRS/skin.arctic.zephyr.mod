@@ -36,7 +36,7 @@
             <!-- Side Poster -->
             <control type="group">
                 <include>Animation.SidePoster</include>
-				<animation condition="!ControlGroup(9000).HasFocus() + !String.IsEqual(Window.Property(videoinfo),3)" effect="fade" end="0"  start="100" time="300">Conditional</animation>
+				<animation condition="!ControlGroup(9000).HasFocus() + !String.IsEqual(Window.Property(videoinfo),3) + !Control.HasFocus(9601)" effect="fade" end="0"  start="100" time="300">Conditional</animation>
                 <control type="group" description="Poster">
                     <left>SidePad</left>
                     <top>PosterPad</top>
@@ -98,7 +98,7 @@
                 <control type="group">
                     <top>210</top>
                     <left>570</left>
-                    <animation condition="!ControlGroup(9000).HasFocus() + !String.IsEqual(Window.Property(videoinfo),3)" effect="fade" end="0"  start="100" time="300">Conditional</animation>
+                    <animation condition="!ControlGroup(9000).HasFocus() + !String.IsEqual(Window.Property(videoinfo),3) + !Control.HasFocus(9601)" effect="fade" end="0"  start="100" time="300">Conditional</animation>
                     <control type="label">
                         <top>-120</top>
                         <left>0</left>
@@ -137,196 +137,251 @@
                     </control>
                 </control>                 
                 <control type="group">
-                    <animation condition="!ControlGroup(9000).HasFocus() | String.IsEqual(Window.Property(videoinfo),3)" effect="fade" end="0"  start="100" time="300">Conditional</animation>
+                    <animation condition="[!ControlGroup(9000).HasFocus() | String.IsEqual(Window.Property(videoinfo),3)] + !Control.HasFocus(9601)" effect="fade" end="0"  start="100" time="300">Conditional</animation>
                     <left>570</left>
                     <bottom>224</bottom>
-                    <top>205</top>
+                    <top>210</top>                    
                     <include>Animation.FadeInDialogInfo</include>
                     <include>Animation.FadeOutDialogInfo</include> 
                     <visible>!String.IsEqual(Window.Property(videoinfo),3)</visible>
-                    <control type="group">
-						<control type="group">
-                            <height>43</height>
-                            <control type="label">
-                                <width>100%</width>
-                                <height>46</height>
-                                <font>Tiny</font>
-                                <textcolor>Dark1</textcolor>
-                                <label>[B]$LOCALIZE[345][/B]</label>
-                                <aligny>center</aligny>
-                            </control>
-                            <control type="label">
-                                <left>200</left>
-                                <right>420</right>
-                                <height>46</height>
-                                <font>Tiny</font>
-                                <width>230</width>
-                                <textcolor>Dark2</textcolor>
-                                <label fallback="19055">$INFO[Container(10051).ListItem.Year]</label>
-                                <aligny>center</aligny>
-                            </control>
-                        </control>
+                    <control type="grouplist">
+                        <height>325</height>
+                        <itemgap>36</itemgap>
+                        <orentation>horizontal</orentation>
                         <control type="group">
-                            <height>43</height>
-                            <left>440</left>
-                            <control type="label">
-                                <width>100%</width>
-                                <height>46</height>
-                                <font>Tiny</font>
-                                <textcolor>Dark1</textcolor>
-                                <label>[B]$LOCALIZE[515][/B]</label>
-                                <aligny>center</aligny>
+                            <control type="group">
+                                <height>43</height>
+                                <control type="label">
+                                    <width>100%</width>
+                                    <height>36</height>
+                                    <font>Tiny</font>
+                                    <textcolor>Dark1</textcolor>
+                                    <label>[B]$LOCALIZE[345][/B]</label>
+                                    <aligny>center</aligny>
+                                </control>
+                                <control type="label">
+                                    <left>200</left>
+                                    <right>420</right>
+                                    <height>36</height>
+                                    <font>Tiny</font>
+                                    <width>230</width>
+                                    <textcolor>Dark2</textcolor>
+                                    <label fallback="19055">$INFO[Container(10051).ListItem.Year]</label>
+                                    <aligny>center</aligny>
+                                </control>
                             </control>
-                            <control type="label">
-                                <left>200</left>
-                                <height>46</height>
-                                <width>40%</width>
-                                <font>Tiny</font>
-                                <textcolor>Dark2</textcolor>
-                                <label fallback="19055">$INFO[Container(10051).ListItem.Genre]</label>
-                                <aligny>center</aligny>
-                            </control>
+                            <control type="group">
+                                <height>43</height>
+                                <left>440</left>
+                                <control type="label">
+                                    <width>100%</width>
+                                    <height>36</height>
+                                    <font>Tiny</font>
+                                    <textcolor>Dark1</textcolor>
+                                    <label>[B]$LOCALIZE[515][/B]</label>
+                                    <aligny>center</aligny>
+                                </control>
+                                <control type="label">
+                                    <left>200</left>
+                                    <height>36</height>
+                                    <width>40%</width>
+                                    <font>Tiny</font>
+                                    <textcolor>Dark2</textcolor>
+                                    <label fallback="19055">$INFO[Container(10051).ListItem.Genre]</label>
+                                    <aligny>center</aligny>
+                                </control>
+                            </control> 
                         </control> 
                         <control type="group">
-                            <top>40</top>			
-                            <height>43</height>
-                            <control type="label">
-                                <width>170</width>
-                                <height>36</height>
-                                <font>Tiny</font>
-                                <textcolor>Dark1</textcolor>
-                                <label>[B]$LOCALIZE[2050][/B]</label>
-                                <aligny>center</aligny>
+                            <control type="group">		
+                                <height>43</height>
+                                <control type="label">
+                                    <width>170</width>
+                                    <height>36</height>
+                                    <font>Tiny</font>
+                                    <textcolor>Dark1</textcolor>
+                                    <label>[B]$LOCALIZE[2050][/B]</label>
+                                    <aligny>center</aligny>
+                                </control>
+                                <control type="label">
+                                    <left>200</left>
+                                    <right>420</right>
+                                    <height>36</height>
+                                    <width>230</width>
+                                    <font>Tiny</font>
+                                    <textcolor>Dark2</textcolor>
+                                    <label fallback="19055">$INFO[Container(10051).ListItem.Duration(mins),,min]</label> 
+                                    <aligny>center</aligny>
+                                </control>
                             </control>
-                            <control type="label">
-                                <left>200</left>
-                                <right>420</right>
-                                <height>36</height>
-                                <width>230</width>
-                                <font>Tiny</font>
-                                <textcolor>Dark2</textcolor>
-                                <label fallback="19055">$INFO[Container(10051).ListItem.Duration(mins),,min]</label> 
-                                <aligny>center</aligny>
+                            <control type="group">  
+                                <left>440</left>
+                                <height>43</height>
+                                <control type="label">
+                                    <width>100%</width>
+                                    <height>36</height>
+                                    <font>Tiny</font>
+                                    <textcolor>Dark1</textcolor>
+                                    <label>[B]$LOCALIZE[563][/B]</label>
+                                    <aligny>center</aligny>
+                                </control>
+                                <control type="label">
+                                    <left>200</left>						
+                                    <height>36</height>
+                                    <font>Tiny</font>
+                                    <textcolor>Dark2</textcolor>
+                                    <label fallback="19055">$INFO[Container(10051).ListItem.Rating] $INFO[Container(10051).ListItem.Property(Votes.IMDB),(,$LOCALIZE[205])]</label>
+                                    <aligny>center</aligny>
+                                </control>
+                            </control> 
+                        </control>                         
+                        <control type="group">
+                            <control type="group">
+                                <height>43</height>
+                                <control type="label">
+                                    <width>170</width>
+                                    <height>36</height>
+                                    <font>Tiny</font>
+                                    <textcolor>Dark1</textcolor>
+                                    <label>[B]$LOCALIZE[20339][/B]</label>
+                                    <aligny>center</aligny>
+                                </control>
+                                <control type="label">
+                                    <left>200</left>
+                                    <right>420</right>
+                                    <height>36</height>
+                                    <width>230</width>
+                                    <font>Tiny</font>
+                                    <textcolor>Dark2</textcolor>
+                                    <label fallback="19055">$INFO[Container(10051).ListItem.Director]</label> 
+                                    <aligny>center</aligny>
+                                </control>
+                            </control>
+                            <control type="group">                                
+                                <left>440</left>
+                                <height>43</height>
+                                <control type="label">
+                                    <width>100%</width>
+                                    <height>36</height>
+                                    <font>Tiny</font>
+                                    <textcolor>Dark1</textcolor>
+                                    <label>[B]$LOCALIZE[20417][/B]</label>
+                                    <aligny>center</aligny>
+                                </control>
+                                <control type="label">
+                                    <left>200</left>						
+                                    <height>36</height>
+                                    <font>Tiny</font>
+                                    <textcolor>Dark2</textcolor>
+                                    <label fallback="19055">$INFO[Container(10051).ListItem.Writer]</label>
+                                    <aligny>center</aligny>
+                                </control>
+                            </control>
+                        </control>                        
+                        <control type="group">
+                            <visible>!String.IsEmpty(Container(10051).ListItem.Property(Budget)) | !String.IsEmpty(Container(10051).ListItem.Property(Revenue))</visible>
+                            <control type="group">                                        
+                                <height>43</height>
+                                <control type="label">
+                                    <width>170</width>
+                                    <height>36</height>
+                                    <font>Tiny</font>
+                                    <textcolor>Dark1</textcolor>
+                                    <label>[B]$ADDON[script.embuary.info 32013][/B]</label>
+                                    <aligny>center</aligny>
+                                </control>
+                                <control type="label">
+                                    <left>200</left>
+                                    <right>420</right>
+                                    <height>36</height>
+                                    <width>230</width>
+                                    <font>Tiny</font>
+                                    <textcolor>Dark2</textcolor>
+                                    <label fallback="19055">$INFO[Container(10051).ListItem.Property(Budget),,$]</label> 
+                                    <aligny>center</aligny>
+                                </control>
+                            </control>
+                            <control type="group">                                
+                                <left>440</left>
+                                <height>43</height>
+                                <control type="label">
+                                    <width>100%</width>
+                                    <height>36</height>
+                                    <font>Tiny</font>
+                                    <textcolor>Dark1</textcolor>
+                                    <label>[B]$ADDON[script.embuary.info 32014][/B]</label>
+                                    <aligny>center</aligny>
+                                </control>
+                                <control type="label">
+                                    <left>200</left>						
+                                    <height>36</height>
+                                    <font>Tiny</font>
+                                    <textcolor>Dark2</textcolor>
+                                  <label fallback="19055">$INFO[Container(10051).ListItem.Property(Revenue),,$]</label>
+                                    <aligny>center</aligny>
+                                </control>
+                            </control>  
+                        </control>                           
+                        <control type="group">
+                            <visible>!String.IsEmpty(Container(10051).ListItem.Premiered) | !String.IsEmpty(Container(10051).ListItem.Property(release))</visible>
+                            <control type="group">                                            
+                                <height>43</height>
+                                <control type="label">
+                                    <width>170</width>
+                                    <height>36</height>
+                                    <font>Tiny</font>
+                                    <textcolor>Dark1</textcolor>
+                                    <label>[B]$ADDON[script.embuary.info 32011][/B]</label>
+                                    <aligny>center</aligny>
+                                </control>
+                                <control type="label">
+                                    <left>200</left>
+                                    <right>420</right>
+                                    <height>36</height>
+                                    <width>230</width>
+                                    <font>Tiny</font>
+                                    <textcolor>Dark2</textcolor>
+                                    <label fallback="19055">$INFO[Container(10051).ListItem.Premiered]</label> 
+                                    <aligny>center</aligny>
+                                </control>
+                            </control>
+                            <control type="group">                                
+                                <left>440</left>
+                                <height>43</height>
+                                <control type="label">
+                                    <width>100%</width>
+                                    <height>36</height>
+                                    <font>Tiny</font>
+                                    <textcolor>Dark1</textcolor>
+                                    <label>[B]$ADDON[script.embuary.info 32012][/B]</label>
+                                    <aligny>center</aligny>
+                                </control>
+                                <control type="label">
+                                    <left>200</left>						
+                                    <height>36</height>
+                                    <font>Tiny</font>
+                                    <textcolor>Dark2</textcolor>
+                                    <label fallback="19055">$INFO[Container(10051).ListItem.Property(release)]</label>
+                                    <aligny>center</aligny>
+                                </control>
                             </control>
                         </control>
-                        <control type="group">
-                            <top>40</top>
+                        <control type="group">   
                             <left>440</left>
-                            <height>43</height>
-                            <control type="label">
-                                <width>100%</width>
-                                <height>36</height>
-                                <font>Tiny</font>
-                                <textcolor>Dark1</textcolor>
-                                <label>[B]$LOCALIZE[563][/B]</label>
-                                <aligny>center</aligny>
-                            </control>
-                            <control type="label">
-                                <left>200</left>						
-                                <height>36</height>
-                                <font>Tiny</font>
-                                <textcolor>Dark2</textcolor>
-                                <label fallback="19055">$INFO[Container(10051).ListItem.Rating]</label>
-                                <aligny>center</aligny>
-                            </control>
-                        </control> 
-                        <control type="group">
-                            <top>76</top>			
-                            <height>43</height>
-                            <control type="label">
-                                <width>170</width>
-                                <height>36</height>
-                                <font>Tiny</font>
-                                <textcolor>Dark1</textcolor>
-                                <label>[B]$ADDON[script.embuary.info 32013][/B]</label>
-                                <aligny>center</aligny>
-                            </control>
-                            <control type="label">
-                                <left>200</left>
-                                <right>420</right>
-                                <height>36</height>
-                                <width>230</width>
-                                <font>Tiny</font>
-                                <textcolor>Dark2</textcolor>
-                                <label fallback="19055">$INFO[Container(10051).ListItem.Property(Budget),,$]</label> 
-                                <aligny>center</aligny>
-                            </control>
+                            <height>-5</height>
                         </control>
-                        <control type="group">
-                            <top>76</top>
-                            <left>440</left>
-                            <height>43</height>
-                            <control type="label">
-                                <width>100%</width>
-                                <height>36</height>
-                                <font>Tiny</font>
-                                <textcolor>Dark1</textcolor>
-                                <label>[B]$ADDON[script.embuary.info 32014][/B]</label>
-                                <aligny>center</aligny>
-                            </control>
-                            <control type="label">
-                                <left>200</left>						
-                                <height>36</height>
+                        <control type="group">        
+                            <control type="textbox"> 
+                                <scrolltime>10000</scrolltime>
+                                <autoscroll delay="10000" time="4000" repeat="10000">true</autoscroll>
+                                <right>SidePad</right>                                
+                                <left>0</left>
+                                <height>auto</height>
                                 <font>Tiny</font>
                                 <textcolor>Dark2</textcolor>
-                              <label fallback="19055">$INFO[Container(10051).ListItem.Property(Revenue),,$]</label>
-                                <aligny>center</aligny>
-                            </control>
-                        </control>    
-                        <control type="group">
-                            <top>112</top>			
-                            <height>43</height>
-                            <control type="label">
-                                <width>170</width>
-                                <height>36</height>
-                                <font>Tiny</font>
-                                <textcolor>Dark1</textcolor>
-                                <label>[B]$ADDON[script.embuary.info 32011][/B]</label>
-                                <aligny>center</aligny>
-                            </control>
-                            <control type="label">
-                                <left>200</left>
-                                <right>420</right>
-                                <height>36</height>
-                                <width>230</width>
-                                <font>Tiny</font>
-                                <textcolor>Dark2</textcolor>
-                                <label fallback="19055">$INFO[Container(10051).ListItem.Premiered]</label> 
-                                <aligny>center</aligny>
-                            </control>
-                        </control>
-                        <control type="group">
-                            <top>112</top>
-                            <left>440</left>
-                            <height>43</height>
-                            <control type="label">
-                                <width>100%</width>
-                                <height>36</height>
-                                <font>Tiny</font>
-                                <textcolor>Dark1</textcolor>
-                                <label>[B]$ADDON[script.embuary.info 32012][/B]</label>
-                                <aligny>center</aligny>
-                            </control>
-                            <control type="label">
-                                <left>200</left>						
-                                <height>36</height>
-                                <font>Tiny</font>
-                                <textcolor>Dark2</textcolor>
-                                <label fallback="19055">$INFO[Container(10051).ListItem.Property(release)]</label>
-                                <aligny>center</aligny>
-                            </control>
-                        </control>          
-                        <control type="textbox"> 
-                            <scrolltime>10000</scrolltime>
-                            <autoscroll delay="10000" time="4000" repeat="10000">true</autoscroll>
-                            <right>SidePad</right>
-                            <top>180</top>
-                            <left>0</left>
-                            <height>145</height>
-                            <font>Tiny</font>
-                            <textcolor>Dark2</textcolor>
-                            <align>left</align>
-                            <label fallback="19055">$INFO[Container(10051).ListItem.Plot]</label>		
+                                <align>left</align>
+                                <label fallback="19055">$INFO[Container(10051).ListItem.Plot]</label>		
+                            </control> 
                         </control> 
                     </control>    
                 </control>        
@@ -533,5 +588,6 @@
 			<include>Animation.FadeIn</include>
 			<include>Animation.FadeOut</include>
 		</control>
+        <include>Furniture_OverlayInfoExtendedInfo</include>
 	</controls>
 </window>
