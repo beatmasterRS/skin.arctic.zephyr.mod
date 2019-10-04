@@ -1554,7 +1554,19 @@
 				<onclick>Dialog.Close(135)</onclick>
 				<visible>String.IsEqual(ListItem.DBType,album) | String.IsEqual(ListItem.DBType,song)</visible>
 				<onup condition="Control.IsVisible(50)">SetFocus(9009)</onup>	
-			</control>				
+			</control>
+            
+            <control type="button" id ="8">
+				<description>Play</description>
+				<label>208</label>
+				<width>260</width>
+				<include>DefInfoButtons</include>
+				<onclick>PlayMedia($INFO[ListItem.FileNameAndPath])</onclick>
+				<onclick>Dialog.Close(135)</onclick>
+				<visible>String.IsEqual(ListItem.DBType,album) | String.IsEqual(ListItem.DBType,song)</visible>
+				<onup condition="Control.IsVisible(50)">SetFocus(9009)</onup>	
+			</control>
+            				
 			<control type="button" id="7">
 				<width>260</width>
 				<include>DefInfoButtons</include>
@@ -2805,16 +2817,18 @@
             <onup condition="String.IsEqual(Window.Property(musiccontent),3)">9502</onup>
             <onup condition="String.IsEqual(Window.Property(musiccontent),4)">95031</onup>
             <onup condition="String.IsEqual(Window.Property(musiccontent),1)">9009</onup>
-            
-            <!-- Play Button -->
-			<control type="radiobutton" id ="9001">
-                <visible>String.IsEqual(ListItem.DBType,album) | String.IsEqual(ListItem.DBType,song)</visible>	
-                <onfocus>ClearProperty(musiccontent)</onfocus>               
-                <onclick>PlayMedia($INFO[ListItem.FileNameAndPath])</onclick>				
+      
+            <control type="radiobutton" id ="9001">
+                <visible>[String.IsEqual(ListItem.DBType,album) | String.IsEqual(ListItem.DBType,song)]</visible>	
+                <onfocus>ClearProperty(musiccontent)</onfocus>             
+                <onclick condition="String.IsEqual(ListItem.DBType,song)">PlayMedia($INFO[ListItem.FileNameAndPath])</onclick>               
+                <onclick condition="String.IsEqual(ListItem.DBType,album) + !String.IsEmpty(ListItem.FolderPath)">PlayMedia($INFO[ListItem.FileNameAndPath])</onclick> 
+                <onclick condition="!System.HasAddon(script.playalbum) + String.IsEqual(ListItem.DBType,album) + String.IsEmpty(ListItem.FolderPath)">InstallAddon(script.playalbum)</onclick>
+                <onclick condition="System.HasAddon(script.playalbum) + String.IsEqual(ListItem.DBType,album) + String.IsEmpty(ListItem.FolderPath)">RunScript(script.playalbum,albumid=$INFO[ListItem.DBID])</onclick>           				
 				<include>buttondimensionssquare</include>
 				<include content="buttontextures">
 					<param name="icon" value="buttonsdialogs/play.png" />
-				</include>				
+				</include>			
 			</control>
 
             <!-- Info (Startseite) Button -->
