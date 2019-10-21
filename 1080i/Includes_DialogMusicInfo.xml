@@ -37,9 +37,9 @@
                 <control type="group">
                     <include>Animation.MusicFadeOut</include>
                     <include>DialogMusicInfoNavigationWIP</include>
-                </control>
-                
-                <!-- Control Buttons -->
+                </control>                
+                               
+                <!-- Header -->
                 <control type="group">
                     <include>Animation.MusicFadeOut</include>
                     <top>90</top>
@@ -93,6 +93,18 @@
                     <visible>!String.IsEqual(Window.Property(musiccontent),4)</visible>
                     <include>Animation.FadeOutDialogWIP</include>
                     <include>Animation.FadeInDialogWIP</include>
+                    
+                    <!-- Clearlogo -->
+                    <control type="image" description="clearlogo">
+                        <top>50</top>
+                        <right>10</right>
+                        <height>100</height>	
+                        <aspectratio align="right" aligny="top">keep</aspectratio>
+                        <texture background="true">$INFO[ListItem.Art(clearlogo)]</texture>
+                        <animation effect="rotate" condition="true" start="360" end="350" loop="false" time="0" center="auto">Conditional</animation>
+                        <include>Animation.MusicFadeOut</include>
+                    </control>
+                    
                     <!-- ALbums -->
                     <control type="group">
                         <visible>Container.Content(albums)</visible>
@@ -329,6 +341,66 @@
                                     <aligny>center</aligny>
                                 </control>
                             </control>
+                            <control type="group">
+                                <height>36</height>
+                                <control type="label">
+                                    <width>150</width>
+                                    <height>36</height>
+                                    <font>Tiny</font>
+                                    <textcolor>Dark1</textcolor>
+                                    <label>[B]$LOCALIZE[175][/B]</label>
+                                    <aligny>center</aligny>
+                                </control>
+                                <control type="label">
+                                    <left>180</left>
+                                    <width>100%</width>
+                                    <height>36</height>
+                                    <font>Tiny</font>
+                                    <textcolor>Dark2</textcolor>
+                                    <label fallback="19055">$INFO[ListItem.Property(Artist_Mood)]</label>
+                                    <aligny>center</aligny>
+                                </control>
+                            </control>
+                            <control type="group">
+                                <height>36</height>
+                                <control type="label">
+                                    <width>150</width>
+                                    <height>36</height>
+                                    <font>Tiny</font>
+                                    <textcolor>Dark1</textcolor>
+                                    <label>[B]$LOCALIZE[39025][/B]</label>
+                                    <aligny>center</aligny>
+                                </control>
+                                <control type="label">
+                                    <left>180</left>
+                                    <width>100%</width>
+                                    <height>36</height>
+                                    <font>Tiny</font>
+                                    <textcolor>Dark2</textcolor>
+                                    <label fallback="19055">$INFO[ListItem.Property(Artist_Gender)]</label>
+                                    <aligny>center</aligny>
+                                </control>
+                            </control>
+                            <control type="group">
+                                <height>36</height>
+                                <control type="label">
+                                    <width>150</width>
+                                    <height>36</height>
+                                    <font>Tiny</font>
+                                    <textcolor>Dark1</textcolor>
+                                    <label>[B]$LOCALIZE[21892][/B]</label>
+                                    <aligny>center</aligny>
+                                </control>
+                                <control type="label">
+                                    <left>180</left>
+                                    <width>100%</width>
+                                    <height>36</height>
+                                    <font>Tiny</font>
+                                    <textcolor>Dark2</textcolor>
+                                    <label fallback="19055">$INFO[ListItem.Property(Artist_Instrument)]</label>
+                                    <aligny>center</aligny>
+                                </control>
+                            </control>
                         </control>    
                         <control type="group">
                             <include>Animation.MusicFadeOut</include>
@@ -337,8 +409,8 @@
                             <visible>String.IsEmpty(Window.Property(musiccontent))</visible>
                             <control type="textbox">
                                 <right>0</right>
-                                <top>170</top>
-                                <height>435</height>
+                                <top>283</top>
+                                <height>325</height>
                                 <font>Tiny</font>
                                 <textcolor>Dark2</textcolor>
                                 <scroll>false</scroll>
@@ -780,6 +852,7 @@
                     <top>200</top>
                     <left>785</left>
                     <control type="label">
+                        <animation effect="slide" start="0,0" end="0,10" time="0" condition="String.IsEqual(ListItem.DBType,artist)">Conditional</animation>
                         <width>150</width>
                         <height>36</height>
                         <font>Tiny</font>
@@ -827,15 +900,6 @@
                                     <font>Tiny</font>                           
                                     <label>$INFO[ListItem.TrackNumber,,].  $INFO[ListItem.Label]  </label>
                                 </control>
-                                <control type="label">
-                                    <textcolor>Dark2</textcolor>
-                                    <height>50</height>
-                                    <width>160</width>
-                                    <font>Tiny</font>
-                                    <align>right</align>
-                                    <left>710</left>                           
-                                    <label>$INFO[ListItem.Duration]  </label>
-                                </control>
                             </control>
                         </itemlayout>
                         <focusedlayout height="36" width="1000">
@@ -849,16 +913,6 @@
                                     <font>Tiny</font>                           
                                     <label>$INFO[ListItem.TrackNumber,,].  $INFO[ListItem.Label]  </label>
                                 </control>  
-                                <control type="label">
-                                    <textcolor>$VAR[ColorHighlight]</textcolor>
-                                    <selectedcolor>$VAR[ColorHighlight]</selectedcolor>
-                                    <height>50</height>
-                                    <width>160</width>
-                                    <font>Tiny</font>
-                                    <align>right</align>
-                                    <left>710</left>                           
-                                    <label>$INFO[ListItem.Duration]  </label>
-                                </control>
                             </control>  
                             <control type="group">
                                 <visible>!Control.HasFocus(9009)</visible>
@@ -869,15 +923,6 @@
                                     <font>Tiny</font>                           
                                     <label>$INFO[ListItem.TrackNumber,,].  $INFO[ListItem.Label]  </label>
                                 </control>  
-                                <control type="label">
-                                    <textcolor>Dark2</textcolor>
-                                    <height>50</height>
-                                    <width>160</width>
-                                    <font>Tiny</font>
-                                    <align>right</align>
-                                    <left>710</left>                           
-                                    <label>$INFO[ListItem.Duration]  </label>
-                                </control>
                             </control>         
                         </focusedlayout>                     
                     </control>
