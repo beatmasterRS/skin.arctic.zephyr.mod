@@ -570,4 +570,70 @@
             </control> 
         </control> 
     </include>
+
+    <include name="most_played_song">
+        <control type="button" id ="9010">
+            <left>-2000</left>
+            <width>1</width>
+            <visible allowhiddenfocus="true">false</visible>
+            <onup>SetFocus(9551)</onup>
+            <onup>Up</onup>
+            <onup>SetFocus(9010)</onup>
+            <ondown>SetFocus(9551)</ondown>
+            <ondown>Down</ondown>
+            <ondown>SetFocus(9010)</ondown>
+            <onleft>SetFocus(9000)</onleft>
+            <onright>SetFocus(9000)</onright>
+            <onclick>PlayMedia($ESCINFO[Container(9551).ListItem.FileNameAndPath])</onclick>
+        </control>
+        <control type="list" id="9551">         
+            <left>180</left>
+            <top>0</top>
+            <right>SidePad</right>
+            <width>1000</width>
+            <height>50</height>
+            <onleft>9000</onleft>
+            <onright>62</onright>					
+            <onup>9551</onup>
+            <ondown>9551</ondown>
+            <viewtype label="">list</viewtype>
+            <pagecontrol>62</pagecontrol>
+            <orientation>vertical</orientation>		
+            <itemlayout height="36" width="1000">
+                <control type="group">
+                    <control type="label">
+                        <textcolor>Dark2</textcolor>
+                        <height>auto</height>
+                        <width>660</width>
+                        <font>Tiny</font>                           
+                        <label>$INFO[ListItem.Label]</label>
+                    </control>
+                </control>
+            </itemlayout>
+            <focusedlayout height="36" width="1000">
+                <control type="group">
+                    <visible>Control.HasFocus(9010)</visible>
+                    <control type="label">
+                        <textcolor>$VAR[ColorHighlight]</textcolor>
+                        <selectedcolor>$VAR[ColorHighlight]</selectedcolor>
+                        <height>auto</height>
+                        <width>660</width>
+                        <font>Tiny</font>                           
+                        <label>$INFO[ListItem.Label]</label>
+                    </control>  
+                </control>  
+                <control type="group">
+                    <visible>!Control.HasFocus(9010)</visible>
+                    <control type="label">
+                        <textcolor>Dark2</textcolor>
+                        <height>auto</height>
+                        <width>660</width>
+                        <font>Tiny</font>                           
+                        <label>$INFO[ListItem.Label]</label>
+                    </control>  
+                </control>         
+            </focusedlayout> 
+            <content sortorder="descending" limit="1" sortby="playcount">musicdb://songs/?xsp=%7B%22order%22%3A%7B%22direction%22%3A%22ascending%22%2C%22ignorefolders%22%3A0%2C%22method%22%3A%22songs%22%7D%2C%22rules%22%3A%7B%22and%22%3A%5B%7B%22field%22%3A%22artist%22%2C%22operator%22%3A%22contains%22%2C%22value%22%3A%5B%22$INFO[ListItem.Artist]%22%5D%7D%5D%7D%2C%22type%22%3A%22songs%22%7D</content>                  
+        </control>
+    </include>
 </includes>
