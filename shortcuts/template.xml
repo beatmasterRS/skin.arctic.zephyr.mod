@@ -8,6 +8,17 @@
 		<property name="sort" tag="property" attribute="name|widgetSort" />
 
         <controls>
+            <control type="button" id="4752">
+                <width>1</width>
+                <height>1</height>
+                <visible allowhiddenfocus="true">false</visible>
+                <ondown>300</ondown>
+                <onup>300</onup>
+                <onback>300</onback>
+                <onleft>Control.Move(301,-1)</onleft>
+                <onright>Control.Move(301,+1)</onright>
+                <onclick>RunScript(script.service.gto,action=infopopup&amp;blob=$INFO[Container(301).ListItem.Property(BlobId)])</onclick>
+            </control>
             <control type="list" id="301">
                 <skinshortcuts>visibility</skinshortcuts>
                 <description>Plugin Content Widget</description>
@@ -19,13 +30,14 @@
                 <oninfo condition="!IsEmpty(Container(301).ListItem.TvShowTitle)">RunScript(script.extendedinfo,info=extendedtvinfo,name=$INFO[Container(301).ListItem.TvShowTitle],imdb_id=$INFO[Container(301).ListItem.IMDBNumber])</oninfo>
                 <onup condition="IsEmpty(Container(300).ListItem.Property(widget))">303</onup>
                 <onup condition="!IsEmpty(Container(300).ListItem.Property(widget))">300</onup>
+                <onfocus condition="String.Contains(Container(300).ListItem.Property(widget),gto)">SetFocus(4752)</onfocus>
                 <ondown>300</ondown>
                 <onback>300</onback>
                 <onleft>301</onleft>
                 <onright>301</onright>
                 <preloaditems>2</preloaditems>
                 <orientation>horizontal</orientation>
-                <autoscroll time="10000">!Control.HasFocus(301)</autoscroll>
+                <autoscroll time="10000">!Control.HasFocus(301) + !Control.HasFocus(4752)</autoscroll>
                 <scrolltime tween="quadratic">400</scrolltime>
                 <itemlayout width="178" height="257" condition="!String.IsEqual(Container(300).ListItem.Property(widgetaspect),Square) + ![String.IsEqual(Container(300).ListItem.Property(widgetaspect),Fanart) | String.IsEqual(Container(300).ListItem.Property(widgetaspect),Thumbnail)]">
                     <control type="image">
@@ -77,7 +89,23 @@
                             <effect type="zoom" start="100" end="90" time="150" tween="sine" easing="inout" center="auto" />
                             <effect type="fade" start="100" end="0" time="150" tween="sine" easing="out" />
                         </animation>
-                    </control>
+                    </control> 
+                    <control type="image">
+                        <visible>Control.HasFocus(4752)</visible>
+                        <left>3</left>
+                        <top>3</top>
+                        <right>3</right>
+                        <bottom>3</bottom>
+                        <texture colordiffuse="$VAR[ColorSquares]" border="20">common/selectbox.png</texture>
+                        <animation type="Focus" condition="Control.HasFocus(4752)">
+                            <effect type="zoom" start="90" end="100" time="150" tween="sine" easing="inout" center="auto" />
+                            <effect type="fade" start="0" end="100" time="150" tween="sine" easing="in" />
+                        </animation>
+                        <animation type="Unfocus" condition="!Control.HasFocus(4752)">
+                            <effect type="zoom" start="100" end="90" time="150" tween="sine" easing="inout" center="auto" />
+                            <effect type="fade" start="100" end="0" time="150" tween="sine" easing="out" />
+                        </animation>
+                    </control>                   
                 </focusedlayout>
                 <itemlayout width="254" height="257" condition="String.IsEqual(Container(300).ListItem.Property(widgetaspect),Square)">
                     <control type="image">
@@ -138,6 +166,22 @@
                             <effect type="fade" start="100" end="0" time="150" tween="sine" easing="out" />
                         </animation>
                     </control>
+                    <control type="image">
+                        <visible>Control.HasFocus(4752)</visible>
+                        <left>3</left>
+                        <top>3</top>
+                        <right>3</right>
+                        <bottom>3</bottom>
+                        <texture colordiffuse="$VAR[ColorSquares]" border="20">common/selectbox.png</texture>
+                        <animation type="Focus" condition="Control.HasFocus(4752)">
+                            <effect type="zoom" start="90" end="100" time="150" tween="sine" easing="inout" center="auto" />
+                            <effect type="fade" start="0" end="100" time="150" tween="sine" easing="in" />
+                        </animation>
+                        <animation type="Unfocus" condition="!Control.HasFocus(4752)">
+                            <effect type="zoom" start="100" end="90" time="150" tween="sine" easing="inout" center="auto" />
+                            <effect type="fade" start="100" end="0" time="150" tween="sine" easing="out" />
+                        </animation>
+                    </control>
                 </focusedlayout>
                 <itemlayout width="445" height="257" condition="[String.IsEqual(Container(300).ListItem.Property(widgetaspect),Fanart) | String.IsEqual(Container(300).ListItem.Property(widgetaspect),Thumbnail)]">
                     <control type="image">
@@ -190,6 +234,22 @@
                             <effect type="fade" start="100" end="0" time="150" tween="sine" easing="out" />
                         </animation>
                     </control>
+                    <control type="image">
+                        <visible>Control.HasFocus(4752)</visible>
+                        <left>3</left>
+                        <top>3</top>
+                        <right>3</right>
+                        <bottom>3</bottom>
+                        <texture colordiffuse="$VAR[ColorSquares]" border="20">common/selectbox.png</texture>
+                        <animation type="Focus" condition="Control.HasFocus(4752)">
+                            <effect type="zoom" start="90" end="100" time="150" tween="sine" easing="inout" center="auto" />
+                            <effect type="fade" start="0" end="100" time="150" tween="sine" easing="in" />
+                        </animation>
+                        <animation type="Unfocus" condition="!Control.HasFocus(4752)">
+                            <effect type="zoom" start="100" end="90" time="150" tween="sine" easing="inout" center="auto" />
+                            <effect type="fade" start="100" end="0" time="150" tween="sine" easing="out" />
+                        </animation>
+                    </control>
                 </focusedlayout>
                 <content limit="$VAR[DefWidgetLimit]" target="$SKINSHORTCUTS[target]" sortby="$SKINSHORTCUTS[sortby]" sortorder="$SKINSHORTCUTS[sort]">$SKINSHORTCUTS[content]</content>
             </control>
@@ -202,7 +262,18 @@
 		<property name="sortby" tag="property" attribute="name|widgetSortby" />
 		<property name="sort" tag="property" attribute="name|widgetSort" />
         <controls>
-			<control type="wraplist" id="301">
+            <control type="button" id="4752">
+                <width>1</width>
+                <height>1</height>
+                <visible allowhiddenfocus="true">false</visible>
+                <ondown>300</ondown>
+                <onup>300</onup>
+                <onback>300</onback>
+                <onleft>Control.Move(301,-1)</onleft>
+                <onright>Control.Move(301,+1)</onright>
+                <onclick>RunScript(script.service.gto,action=infopopup&amp;blob=$INFO[Container(301).ListItem.Property(BlobId)])</onclick>
+            </control>
+			<control type="wraplist" id="301">               
                 <skinshortcuts>visibility</skinshortcuts>
                 <description>Widget</description>
                 <width>1</width>
@@ -212,12 +283,13 @@
                 <onup condition="IsEmpty(Container(300).ListItem.Property(widget))">303</onup>
                 <onup condition="!IsEmpty(Container(300).ListItem.Property(widget))">300</onup>
                 <ondown>300</ondown>
+                <onfocus condition="String.Contains(Container(300).ListItem.Property(widget),gto)">SetFocus(4752)</onfocus>
                 <onback>300</onback>
                 <onleft>301</onleft>
                 <onright>301</onright>
                 <preloaditems>2</preloaditems>
                 <orientation>horizontal</orientation>
-                <autoscroll time="10000">!Control.HasFocus(301)</autoscroll>
+                <autoscroll time="10000">!Control.HasFocus(301) + !Control.HasFocus(4752)</autoscroll>
                 <scrolltime tween="quadratic">0</scrolltime>
                 <include>Animation.FadeIn</include>
                 <include>Animation.FadeOut</include>
@@ -228,7 +300,7 @@
                 <content limit="$VAR[DefWidgetLimit]" target="$SKINSHORTCUTS[target]" sortby="$SKINSHORTCUTS[sortby]" sortorder="$SKINSHORTCUTS[sort]">$SKINSHORTCUTS[content]</content>
             </control>
         </controls>
-    </other>
+    </other>    
     <other include="widget-vertical">
         <property name="content" tag="property" attribute="name|widgetPath" />
         <property name="content">$VAR[DefWidgetContent]</property>
@@ -237,17 +309,29 @@
 		<property name="sort" tag="property" attribute="name|widgetSort" />
         <property name="banner" tag="property" attribute="name|widgetBanner" />
         <controls>
+            <control type="button" id="4752">
+                <width>1</width>
+                <height>1</height>
+                <visible allowhiddenfocus="true">false</visible>
+                <ondown>300</ondown>
+                <onup>300</onup>
+                <onback>300</onback>
+                <onleft>Control.Move(301,-1)</onleft>
+                <onright>Control.Move(301,+1)</onright>
+                <onclick>RunScript(script.service.gto,action=infopopup&amp;blob=$INFO[Container(301).ListItem.Property(BlobId)])</onclick>
+            </control>
             <control type="fixedlist" id="301">
                 <skinshortcuts>visibility</skinshortcuts>
                 <visible>!String.Contains(Container(300).ListItem.Property(widget),Weather)</visible>
-                <animation effect="fade" start="100" end="66" time="400" condition="!Control.HasFocus(301)">Conditional</animation>
+                <animation effect="fade" start="100" end="66" time="400" condition="!Control.HasFocus(301) + !Control.HasFocus(4752)">Conditional</animation>
                 <!--<autoscroll time="10000">!Control.HasFocus(301)</autoscroll>-->
-				<autoscroll time="10000">!Control.HasFocus(301) + !Skin.HasSetting(NoAutoScroll)</autoscroll>
+				<autoscroll time="10000">!Control.HasFocus(301) + !Control.HasFocus(4752) + !Skin.HasSetting(NoAutoScroll)</autoscroll>
                 <top>330</top>
                 <left>518</left>
                 <width>1876</width>
                 <height>325</height>
                 <onright>noop</onright>
+                <onfocus condition="String.Contains(Container(300).ListItem.Property(widget),gto)">SetFocus(4752)</onfocus>
 				<!--<onback>300</onback>-->
 				<onback condition="!Integer.IsEqual(Container(301).Position,0) | Container(301).HasPrevious">PageUp</onback>
 				<onback condition="!Integer.IsEqual(Container(301).Position,0) | Container(301).HasPrevious">PageUp</onback>
@@ -419,7 +503,22 @@
                             <effect type="fade" start="100" end="0" time="150" tween="sine" easing="out" />
                         </animation>
                     </control>
-                      
+                    <control type="image">
+                        <left>3</left>
+                        <top>3</top>
+                        <right>3</right>
+                        <bottom>3</bottom>
+                        <texture colordiffuse="$VAR[ColorSquares]" border="20">common/selectbox.png</texture>
+                        <visible>Control.HasFocus(4752)</visible>
+                        <animation type="Focus" condition="Control.HasFocus(4752)">
+                            <effect type="zoom" start="90" end="100" time="150" tween="sine" easing="inout" center="auto" />
+                            <effect type="fade" start="0" end="100" time="150" tween="sine" easing="in" />
+                        </animation>
+                        <animation type="Unfocus" condition="!Control.HasFocus(4752)">
+                            <effect type="zoom" start="100" end="90" time="150" tween="sine" easing="inout" center="auto" />
+                            <effect type="fade" start="100" end="0" time="150" tween="sine" easing="out" />
+                        </animation>
+                    </control>  
                 </focusedlayout>
                 <focusedlayout height="325" width="325" condition="String.IsEqual(Container(300).ListItem.Property(widgetaspect),Square)">
                     <control type="image">
@@ -471,7 +570,22 @@
                             <effect type="fade" start="100" end="0" time="150" tween="sine" easing="out" />
                         </animation>
                     </control>
-                      
+                    <control type="image">
+                        <left>3</left>
+                        <top>3</top>
+                        <right>3</right>
+                        <bottom>3</bottom>
+                        <texture colordiffuse="$VAR[ColorSquares]" border="20">common/selectbox.png</texture>
+                        <visible>Control.HasFocus(4752)</visible>
+                        <animation type="Focus" condition="Control.HasFocus(4752)">
+                            <effect type="zoom" start="90" end="100" time="150" tween="sine" easing="inout" center="auto" />
+                            <effect type="fade" start="0" end="100" time="150" tween="sine" easing="in" />
+                        </animation>
+                        <animation type="Unfocus" condition="!Control.HasFocus(4752)">
+                            <effect type="zoom" start="100" end="90" time="150" tween="sine" easing="inout" center="auto" />
+                            <effect type="fade" start="100" end="0" time="150" tween="sine" easing="out" />
+                        </animation>
+                    </control>  
                 </focusedlayout>
                 <focusedlayout height="325" width="562" condition="String.IsEqual(Container(300).ListItem.Property(widgetaspect),Thumbnail) | String.IsEqual(Container(300).ListItem.Property(widgetaspect),Fanart)">
                     <control type="image">
@@ -523,7 +637,22 @@
                             <effect type="fade" start="100" end="0" time="150" tween="sine" easing="out" />
                         </animation>
                     </control>
-                      
+                    <control type="image">
+                        <left>3</left>
+                        <top>3</top>
+                        <right>3</right>
+                        <bottom>3</bottom>
+                        <texture colordiffuse="$VAR[ColorSquares]" border="20">common/selectbox.png</texture>
+                        <visible>Control.HasFocus(4752)</visible>
+                        <animation type="Focus" condition="Control.HasFocus(4752)">
+                            <effect type="zoom" start="90" end="100" time="150" tween="sine" easing="inout" center="auto" />
+                            <effect type="fade" start="0" end="100" time="150" tween="sine" easing="in" />
+                        </animation>
+                        <animation type="Unfocus" condition="!Control.HasFocus(4752)">
+                            <effect type="zoom" start="100" end="90" time="150" tween="sine" easing="inout" center="auto" />
+                            <effect type="fade" start="100" end="0" time="150" tween="sine" easing="out" />
+                        </animation>
+                    </control>  
                 </focusedlayout>
                 <content limit="$VAR[DefWidgetLimit]" target="$SKINSHORTCUTS[target]" sortby="$SKINSHORTCUTS[sortby]" sortorder="$SKINSHORTCUTS[sort]">$SKINSHORTCUTS[content]</content>
             </control>

@@ -379,6 +379,7 @@
         <value>$INFO[Container(301).ListItem.Label]</value>
     </variable>
     <variable name="WidgetPlot">
+        <value condition="String.Contains(Container(300).ListItem.Property(widget),gto)">$INFO[Container(301).ListItem.Plot]</value>
         <value condition="String.IsEqual(Container(300).ListItem.Property(widget),NextAired)">$INFO[Container(301).ListItem.Label2,,[CR]]$INFO[Container(301).ListItem.Property(Plot)]</value>
         <value condition="[String.Contains(Container(300).ListItem.Property(widgetType),music) | String.Contains(Container(300).ListItem.Property(widgetType),albums) | String.Contains(Container(300).ListItem.Property(widgetType),artists) | String.Contains(Container(300).ListItem.Property(widgetType),songs)] + !String.IsEmpty(Container(301).ListItem.Property(Album_Description))">$INFO[Container(301).ListItem.Property(Album_Description)]</value>
         <value condition="[String.Contains(Container(300).ListItem.Property(widgetType),music) | String.Contains(Container(300).ListItem.Property(widgetType),albums) | String.Contains(Container(300).ListItem.Property(widgetType),artists) | String.Contains(Container(300).ListItem.Property(widgetType),songs)] + !String.IsEmpty(Container(301).ListItem.Property(Artist_Description))">$INFO[Container(301).ListItem.Property(Artist_Description)]</value>
@@ -388,6 +389,7 @@
         <value>$LOCALIZE[19055]</value>
     </variable>
     <variable name="WidgetSubLabel">
+        <value condition="String.Contains(Container(300).ListItem.Property(widget),gto) + [Control.HasFocus(4752) | Control.HasFocus(300) | Control.HasFocus(302)]">$INFO[Container(301).ListItem.Label2]$INFO[Container(301).ListItem.Property(StartTime),  •  ] - $INFO[Container(301).ListItem.Property(EndTime)]</value>
         <value condition="String.IsEqual(Container(300).ListItem.Property(widget),NextAired)"></value>
         <value condition="[String.Contains(Container(300).ListItem.Property(widgetType),music) | String.Contains(Container(300).ListItem.Property(widgetType),albums) | String.Contains(Container(300).ListItem.Property(widgetType),artists) | String.Contains(Container(300).ListItem.Property(widgetType),songs)]">$INFO[Container(301).ListItem.Artist]$INFO[Container(301).ListItem.Year,  •  ,]</value>
 			
@@ -570,6 +572,12 @@
 		<value condition="String.IsEqual(Container(211).ListItem.Property(widgetBanner),no)">$LOCALIZE[106]</value>
 		<value>no</value>
 	</variable>
+    
+    <variable name="LabelGerman">
+		<value condition="String.IsEqual(Container(211).ListItem.Property(widgetGerman),true)">$LOCALIZE[107]</value>
+		<value condition="String.IsEqual(Container(211).ListItem.Property(widgetGerman),false)">$LOCALIZE[106]</value>
+		<value>kein Wert</value>
+	</variable>
 	
 	<variable name="LabelSortBy">
 		<value condition="String.IsEqual(Container(211).ListItem.Property(widgetSortby),lastplayed)">$LOCALIZE[568]</value>
@@ -684,6 +692,11 @@
 	</variable>
     
     <variable name="DialogInfoLabel">
+        <value condition="Control.HasFocus(20) + Window.IsVisible(skin.arctic.zephyr.mod.script-gto-info.xml)">$ADDON[script.service.gto 30107]</value>
+        <value condition="Control.HasFocus(21) + Window.IsVisible(skin.arctic.zephyr.mod.script-gto-info.xml)">$ADDON[script.service.gto 30108]</value>
+        <value condition="Control.HasFocus(22) + Window.IsVisible(skin.arctic.zephyr.mod.script-gto-info.xml)">$ADDON[script.service.gto 30112]</value>
+        <value condition="Control.HasFocus(23) + Window.IsVisible(skin.arctic.zephyr.mod.script-gto-info.xml)">$LOCALIZE[186]</value>
+        
         <value condition="Control.HasFocus(13) + Window.IsVisible(DialogAddonInfo.xml)">$LOCALIZE[21340]</value>
         <value condition="Control.HasFocus(10) + Window.IsVisible(DialogAddonInfo.xml)">$LOCALIZE[24996]</value>
         
@@ -837,13 +850,13 @@
         <value condition="String.IsEqual(Window.Property(videoinfo),5) + Window.IsVisible(script-embuary-video.xml)">$LOCALIZE[37717] $INFO[Container(10051).ListItem.Label]</value>
         <value condition="String.IsEqual(Window.Property(videoinfo),6) + Window.IsVisible(script-embuary-video.xml)">$LOCALIZE[37718] $INFO[Container(10051).ListItem.Label]</value>
         
-        <value condition="String.IsEqual(Window.Property(moviecontent),1)">$LOCALIZE[37665] $INFO[ListItem.Label]</value>
-        <value condition="String.IsEqual(Window.Property(moviecontent),2)">$LOCALIZE[37673] $INFO[ListItem.Label]</value>
+        <value condition="String.IsEqual(Window.Property(moviecontent),1)">$LOCALIZE[37665] $INFO[ListItem.Title]</value>
+        <value condition="String.IsEqual(Window.Property(moviecontent),2)">$LOCALIZE[37673] $INFO[ListItem.Title]</value>
         <value condition="String.IsEqual(Window.Property(moviecontent),3)">$LOCALIZE[37684] $INFO[ListItem.Studio]</value>
-        <value condition="String.IsEqual(Window.Property(moviecontent),4)">$LOCALIZE[37675] $INFO[ListItem.Label]</value>
-        <value condition="String.IsEqual(Window.Property(moviecontent),5)">$LOCALIZE[37674] $INFO[ListItem.Label]</value>
-        <value condition="String.IsEqual(Window.Property(moviecontent),6)">$LOCALIZE[37666] $INFO[ListItem.Label]</value>
-        <value>$INFO[ListItem.Label]</value>
+        <value condition="String.IsEqual(Window.Property(moviecontent),4)">$LOCALIZE[37675] $INFO[ListItem.Title]</value>
+        <value condition="String.IsEqual(Window.Property(moviecontent),5)">$LOCALIZE[37674] $INFO[ListItem.Title]</value>
+        <value condition="String.IsEqual(Window.Property(moviecontent),6)">$LOCALIZE[37666] $INFO[ListItem.Title]</value>
+        <value>$INFO[ListItem.Title]</value>
     </variable>
     
     <variable name="LabelWIPDialogVideoInfoTagline">
@@ -917,4 +930,9 @@
     <variable name="LabelExtendedInfoRatingLabel">
         <value condition="!String.IsEmpty(Container(10051).ListItem.Rating)">$INFO[Container(10051).ListItem.Rating] $INFO[Container(10051).ListItem.Property(Votes.IMDB),(, $LOCALIZE[205])]</value>
 	</variable>
+    
+    <variable name="BackgroundBlurLabel">
+        <value condition="!String.IsEmpty(Skin.String(BackgroundBlur)">$INFO[Skin.String(BackgroundBlur)]</value>
+        <value>100</value>
+    </variable>
 </includes>
