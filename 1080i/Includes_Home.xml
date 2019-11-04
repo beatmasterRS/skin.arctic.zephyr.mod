@@ -85,7 +85,8 @@
                 <texture background="true">$VAR[ClearLogoHome]</texture>
                 <animation effect="fade" start="100" end="0" time="500">VisibleChange</animation>
                 <animation effect="fade" start="0" end="0,250" time="150">WindowClose</animation>
-				<animation effect="slide" end="0,-30" start="0,0" time="1" reversible="false" condition="Skin.HasSetting(home.oldmenuheight)">Conditional</animation>
+				<animation effect="slide" end="0,-30" start="0,0" time="1" reversible="false" condition="Skin.HasSetting(home.oldmenuheight) | Skin.HasSetting(home.modernwidgets)">Conditional</animation>
+                <animation effect="slide" end="0,-260" start="0,0" time="1" reversible="false" condition="Skin.HasSetting(home.modernwidgets)">Conditional</animation>
             </control>
 
 
@@ -604,7 +605,7 @@
     <include name="HomeWidgetInfo">
         <!-- Widget Info -->
         <control type="group">
-		<animation effect="slide" end="0,-30" start="0,0" time="1" reversible="false" condition="Skin.HasSetting(home.oldmenuheight)">Conditional</animation>
+		<animation effect="slide" end="0,-30" start="0,0" time="1" reversible="false" condition="Skin.HasSetting(home.oldmenuheight) + !Skin.HasSetting(home.modernwidgets)">Conditional</animation>
             <animation type="WindowClose">
                 <effect type="fade" start="100" end="0" time="150"/>
             </animation>
@@ -615,6 +616,7 @@
             <!-- Normal Widget -->
             <control type="group">
                 <visible>!Container(301).IsUpdating</visible>
+                <visible>!Skin.HasSetting(home.modernwidgets)</visible>
                 <visible>Integer.IsGreater(Container(301).NumItems,0)</visible>
                 <visible>!String.Contains(Container(300).ListItem.Property(widget),Weather)</visible>
                 <visible>!String.IsEqual(Container(300).ListItem.Property(widgetaspect),Square) + !String.IsEqual(Container(300).ListItem.Property(widgetaspect),Thumbnail) + !String.IsEqual(Container(300).ListItem.Property(widgetaspect),Fanart)</visible>
@@ -770,6 +772,7 @@
             <!-- Square Widget -->
             <control type="group">
                 <visible>!Container(301).IsUpdating</visible>
+                <visible>!Skin.HasSetting(home.modernwidgets)</visible>
                 <visible>!Skin.HasSetting(home.dontautoshowwidget) | Control.HasFocus(301)</visible>
                 <visible>!String.Contains(Container(300).ListItem.Property(widget),Weather)</visible>
                 <visible>String.IsEqual(Container(300).ListItem.Property(widgetaspect),Square)</visible>
@@ -959,6 +962,7 @@
             <!-- Album Widget -->
             <control type="group">
                 <visible>!Container(301).IsUpdating</visible>
+                <visible>!Skin.HasSetting(home.modernwidgets)</visible>
                 <visible>!Skin.HasSetting(home.dontautoshowwidget) | Control.HasFocus(301)</visible>
                 <visible>!String.Contains(Container(300).ListItem.Property(widget),Weather)</visible>
                 <visible>String.IsEqual(Container(300).ListItem.Property(widgetaspect),Fanart) | String.IsEqual(Container(300).ListItem.Property(widgetaspect),Thumbnail)</visible>
@@ -1107,6 +1111,382 @@
 				</control>
             </control>
             
+            
+            
+            <!-- New modern Widget Poster-->
+            <control type="group">
+                <visible>!Container(301).IsUpdating</visible>
+                <visible>!Skin.HasSetting(home.dontautoshowwidget) | Control.HasFocus(301)</visible>
+                <visible>!String.Contains(Container(300).ListItem.Property(widget),Weather)</visible>
+                <visible>Skin.HasSetting(home.modernwidgets)</visible>
+                <visible>!String.IsEqual(Container(300).ListItem.Property(widgetaspect),Square) + !String.IsEqual(Container(300).ListItem.Property(widgetaspect),Thumbnail) + !String.IsEqual(Container(300).ListItem.Property(widgetaspect),Fanart)</visible>
+                <visible>![Window.IsVisible(home) + !String.IsEmpty(Skin.String(home.slideshowpath)) + String.IsEmpty(Container(300).ListItem.Property(widget))] + [String.IsEmpty(Container(300).ListItem.Property(Background)) | !String.IsEmpty(Container(300).ListItem.Property(widget))]</visible>
+                <visible>!Player.HasVideo | !Skin.HasSetting(global.showvideo)</visible>
+                <include>Animation.FadeIn</include>
+                <animation effect="slide" start="0" end="0,160" time="300" tween="back" reversible="false" easing="out" condition="[Control.HasFocus(301) | Control.HasFocus(4752)]">Conditional</animation>
+                <animation effect="slide" end="0" start="0,160" time="150" reversible="false" condition="[!Control.HasFocus(301) + !Control.HasFocus(4752)]">Conditional</animation>  
+                <left>-10</left>
+                <bottom>150</bottom>
+                <width>1940</width>
+                <height>339</height>
+                <control type="image">
+					<left>4</left>
+					<top>4</top>
+					<right>9</right>
+					<bottom>9</bottom>                         
+					<texture colordiffuse="BoxWidget" background="true">common/box3white.png</texture> 
+                    <animation effect="fade" start="100" end="30" time="0" condition="true">Conditional</animation>  
+					<visible>!Skin.HasSetting(thumbnails.white)</visible>                        
+				</control>
+                <control type="image">
+                    <top>5</top>
+                    <left>5</left>
+                    <right>10</right>
+                    <height>324</height>
+                    <animation effect="fade" start="100" end="90" time="200" condition="true">Conditional</animation>
+                    <texture border="5" colordiffuse="Background">common/box.png</texture>
+                </control>				
+                <control type="image">
+                    <left>80</left>
+                    <top>5</top>
+                    <width>216</width>
+                    <height>324</height>
+                    <fadetime>350</fadetime>
+                    <aspectratio scalediffuse="false">scale</aspectratio>
+                    <texture diffuse="diffuse/widgetposter.png" fallback="DefaultAddonNone.png">$VAR[WidgetImage]</texture>
+                </control>
+      			<control type="group">
+                    <right>50</right>
+				    <visible>Skin.HasSetting(hidewidgettitle)</visible>
+                    <control type="label">
+                        <left>329</left>
+                        <top>10</top>
+                        <right>40</right>
+                        <aligny>center</aligny>
+                        <height>80</height>
+                        <font>MediumBold</font>
+                        <textcolor>Dark1</textcolor>
+                        <selectedcolor>Dark1</selectedcolor>
+                        <label>$VAR[WidgetTitle]</label>
+                    </control>
+                    <control type="textbox">
+                        <left>329</left>
+                        <right>40</right>
+                        <top>100</top>
+                        <height>153</height>
+                        <font>Tiny</font>
+                        <align>justify</align>
+                        <include condition="Skin.HasSetting(widgets.autoscrollingplot)">ScrollTextWidget</include>
+                        <include condition="!Skin.HasSetting(widgets.autoscrollingplot)">NoScrollTextWidget</include>
+                        <textcolor>Dark2</textcolor>
+                        <selectedcolor>Dark2</selectedcolor>
+                        <shadowcolor>noop</shadowcolor>
+                        <label>$VAR[WidgetPlot]</label>			
+                    </control>
+				</control>
+				
+				<control type="group">
+                    <visible>!Skin.HasSetting(hidewidgettitle)</visible>
+                    <control type="label">
+                        <left>329</left>
+                        <top>5</top>
+                        <right>40</right>
+                        <aligny>center</aligny>
+                        <height>80</height>
+                        <font>TinyBold</font>
+                        <textcolor>Dark2</textcolor>
+                        <selectedcolor>Dark2</selectedcolor>
+                        <label>$VAR[WidgetLabel]</label>
+                    </control>
+                    <control type="label">
+                        <left>329</left>
+                        <top>55</top>
+                        <right>40</right>
+                        <aligny>center</aligny>
+                        <height>80</height>
+                        <font>MediumBold</font>
+                        <textcolor>Dark1</textcolor>
+                        <selectedcolor>Dark1</selectedcolor>
+                        <label>$VAR[WidgetTitle]</label>
+                    </control>
+                    <control type="textbox">
+                        <left>329</left>
+                        <right>40</right>
+                        <top>140</top>
+                        <height>117</height>
+                        <font>Tiny</font>
+                        <align>justify</align>
+                        <autoscroll>false</autoscroll>
+                        <textcolor>Dark2</textcolor>
+                        <selectedcolor>Dark2</selectedcolor>
+                        <shadowcolor>noop</shadowcolor>
+                        <label>$VAR[WidgetPlot]</label>
+                    </control>
+				</control>
+                <control type="label">
+                    <left>359</left>
+                    <right>90</right>
+                    <top>255</top>
+                    <bottom>324</bottom>
+                    <align>right</align>
+                    <autoscroll>false</autoscroll>
+                    <textcolor>Dark1</textcolor>
+                    <selectedcolor>Dark1</selectedcolor>
+                    <label>$VAR[WidgetSubLabel]</label>
+                    <font>Flag</font>
+                </control>			
+            </control> 
+            
+            
+            <!-- New modern Widget Fanart-->
+            <control type="group">
+                <visible>!Container(301).IsUpdating</visible>
+                <visible>!Skin.HasSetting(home.dontautoshowwidget) | Control.HasFocus(301)</visible>
+                <visible>!String.Contains(Container(300).ListItem.Property(widget),Weather)</visible>
+                <visible>Skin.HasSetting(home.modernwidgets)</visible>
+                <visible>String.IsEqual(Container(300).ListItem.Property(widgetaspect),Fanart) | String.IsEqual(Container(300).ListItem.Property(widgetaspect),Thumbnail)</visible>
+                <visible>![Window.IsVisible(home) + !String.IsEmpty(Skin.String(home.slideshowpath)) + String.IsEmpty(Container(300).ListItem.Property(widget))] + [String.IsEmpty(Container(300).ListItem.Property(Background)) | !String.IsEmpty(Container(300).ListItem.Property(widget))]</visible>
+                <visible>!Player.HasVideo | !Skin.HasSetting(global.showvideo)</visible>
+                <include>Animation.FadeIn</include>
+                <animation effect="slide" start="0" end="0,160" time="300" tween="back" reversible="false" easing="out" condition="[Control.HasFocus(301) | Control.HasFocus(4752)]">Conditional</animation>
+                <animation effect="slide" end="0" start="0,160" time="150" reversible="false" condition="[!Control.HasFocus(301) + !Control.HasFocus(4752)]">Conditional</animation>               
+                <left>-10</left>
+                <bottom>150</bottom>
+                <width>1940</width>
+                <height>339</height>
+                <control type="image">
+					<left>4</left>
+					<top>4</top>
+					<right>9</right>
+					<bottom>9</bottom>                         
+					<texture colordiffuse="BoxWidget" background="true">common/box3white.png</texture> 
+                    <animation effect="fade" start="100" end="30" time="0" condition="true">Conditional</animation>  
+					<visible>!Skin.HasSetting(thumbnails.white)</visible>                        
+				</control>
+                <control type="image">
+                    <top>5</top>
+                    <left>5</left>
+                    <right>10</right>
+                    <height>324</height>
+                    <animation effect="fade" start="100" end="90" time="200" condition="true">Conditional</animation>
+                    <texture border="5" colordiffuse="Background">common/box.png</texture>
+                </control>				
+                <control type="image">
+                    <left>80</left>
+                    <top>5</top>
+                    <width>576</width>
+                    <height>324</height>
+                    <fadetime>350</fadetime>
+                    <aspectratio scalediffuse="false">scale</aspectratio>
+                    <texture diffuse="diffuse/widgetposter.png" fallback="DefaultAddonNone.png">$VAR[WidgetThumbImageFeatured]</texture>
+                </control>
+      			<control type="group">
+                    <right>50</right>
+				    <visible>Skin.HasSetting(hidewidgettitle)</visible>
+                    <control type="label">
+                        <left>685</left>
+                        <top>10</top>
+                        <right>40</right>
+                        <aligny>center</aligny>
+                        <height>80</height>
+                        <font>MediumBold</font>
+                        <textcolor>Dark1</textcolor>
+                        <selectedcolor>Dark1</selectedcolor>
+                        <label>$VAR[WidgetTitle]</label>
+                    </control>
+                    <control type="textbox">
+                        <left>685</left>
+                        <right>40</right>
+                        <top>100</top>
+                        <height>153</height>
+                        <font>Tiny</font>
+                        <align>justify</align>
+                        <include condition="Skin.HasSetting(widgets.autoscrollingplot)">ScrollTextWidget</include>
+                        <include condition="!Skin.HasSetting(widgets.autoscrollingplot)">NoScrollTextWidget</include>
+                        <textcolor>Dark2</textcolor>
+                        <selectedcolor>Dark2</selectedcolor>
+                        <shadowcolor>noop</shadowcolor>
+                        <label>$VAR[WidgetPlot]</label>			
+                    </control>
+				</control>
+				
+				<control type="group">
+                    <visible>!Skin.HasSetting(hidewidgettitle)</visible>
+                    <control type="label">
+                        <left>685</left>
+                        <top>5</top>
+                        <right>40</right>
+                        <aligny>center</aligny>
+                        <height>80</height>
+                        <font>TinyBold</font>
+                        <textcolor>Dark2</textcolor>
+                        <selectedcolor>Dark2</selectedcolor>
+                        <label>$VAR[WidgetLabel]</label>
+                    </control>
+                    <control type="label">
+                        <left>685</left>
+                        <top>55</top>
+                        <right>40</right>
+                        <aligny>center</aligny>
+                        <height>80</height>
+                        <font>MediumBold</font>
+                        <textcolor>Dark1</textcolor>
+                        <selectedcolor>Dark1</selectedcolor>
+                        <label>$VAR[WidgetTitle]</label>
+                    </control>
+                    <control type="textbox">
+                        <left>685</left>
+                        <right>40</right>
+                        <top>140</top>
+                        <height>117</height>
+                        <font>Tiny</font>
+                        <align>justify</align>
+                        <autoscroll>false</autoscroll>
+                        <textcolor>Dark2</textcolor>
+                        <selectedcolor>Dark2</selectedcolor>
+                        <shadowcolor>noop</shadowcolor>
+                        <label>$VAR[WidgetPlot]</label>
+                    </control>
+				</control>
+                <control type="label">
+                    <left>685</left>
+                    <right>90</right>
+                    <top>255</top>
+                    <bottom>324</bottom>
+                    <align>right</align>
+                    <autoscroll>false</autoscroll>
+                    <textcolor>Dark1</textcolor>
+                    <selectedcolor>Dark1</selectedcolor>
+                    <label>$VAR[WidgetSubLabel]</label>
+                    <font>Flag</font>
+                </control>			
+            </control>
+            
+            
+            <!-- New modern Widget Square-->
+            <control type="group">
+                <visible>!Container(301).IsUpdating</visible>
+                <visible>!Skin.HasSetting(home.dontautoshowwidget) | Control.HasFocus(301)</visible>
+                <visible>!String.Contains(Container(300).ListItem.Property(widget),Weather)</visible>
+                <visible>Skin.HasSetting(home.modernwidgets)</visible>
+                <visible>String.IsEqual(Container(300).ListItem.Property(widgetaspect),Square)</visible>
+                <visible>![Window.IsVisible(home) + !String.IsEmpty(Skin.String(home.slideshowpath)) + String.IsEmpty(Container(300).ListItem.Property(widget))] + [String.IsEmpty(Container(300).ListItem.Property(Background)) | !String.IsEmpty(Container(300).ListItem.Property(widget))]</visible>
+                <visible>!Player.HasVideo | !Skin.HasSetting(global.showvideo)</visible>
+                <include>Animation.FadeIn</include>
+                <animation effect="slide" start="0" end="0,160" time="300" tween="back" reversible="false" easing="out" condition="[Control.HasFocus(301) | Control.HasFocus(4752)]">Conditional</animation>
+                <animation effect="slide" end="0" start="0,160" time="150" reversible="false" condition="[!Control.HasFocus(301) + !Control.HasFocus(4752)]">Conditional</animation>  
+                <left>-10</left>
+                <bottom>150</bottom>
+                <width>1940</width>
+                <height>339</height>
+                <control type="image">
+					<left>4</left>
+					<top>4</top>
+					<right>9</right>
+					<bottom>9</bottom>                         
+					<texture colordiffuse="BoxWidget" background="true">common/box3white.png</texture> 
+                    <animation effect="fade" start="100" end="30" time="0" condition="true">Conditional</animation>  
+					<visible>!Skin.HasSetting(thumbnails.white)</visible>                        
+				</control>
+                <control type="image">
+                    <top>5</top>
+                    <left>5</left>
+                    <right>10</right>
+                    <height>324</height>
+                    <animation effect="fade" start="100" end="90" time="200" condition="true">Conditional</animation>
+                    <texture border="5" colordiffuse="Background">common/box.png</texture>
+                </control>				
+                <control type="image">
+                    <left>80</left>
+                    <top>5</top>
+                    <width>324</width>
+                    <height>324</height>
+                    <fadetime>350</fadetime>
+                    <aspectratio scalediffuse="false">keep</aspectratio>
+                    <texture diffuse="diffuse/widgetposter.png" fallback="DefaultAddonNone.png">$VAR[WidgetImage]</texture>
+                </control>
+      			<control type="group">
+                    <right>50</right>
+				    <visible>Skin.HasSetting(hidewidgettitle)</visible>
+                    <control type="label">
+                        <left>435</left>
+                        <top>10</top>
+                        <right>40</right>
+                        <aligny>center</aligny>
+                        <height>80</height>
+                        <font>MediumBold</font>
+                        <textcolor>Dark1</textcolor>
+                        <selectedcolor>Dark1</selectedcolor>
+                        <label>$VAR[WidgetTitle]</label>
+                    </control>
+                    <control type="textbox">
+                        <left>435</left>
+                        <right>40</right>
+                        <top>100</top>
+                        <height>153</height>
+                        <font>Tiny</font>
+                        <align>justify</align>
+                        <include condition="Skin.HasSetting(widgets.autoscrollingplot)">ScrollTextWidget</include>
+                        <include condition="!Skin.HasSetting(widgets.autoscrollingplot)">NoScrollTextWidget</include>
+                        <textcolor>Dark2</textcolor>
+                        <selectedcolor>Dark2</selectedcolor>
+                        <shadowcolor>noop</shadowcolor>
+                        <label>$VAR[WidgetPlot]</label>			
+                    </control>
+				</control>
+				
+				<control type="group">
+                    <visible>!Skin.HasSetting(hidewidgettitle)</visible>
+                    <control type="label">
+                        <left>435</left>
+                        <top>5</top>
+                        <right>40</right>
+                        <aligny>center</aligny>
+                        <height>80</height>
+                        <font>TinyBold</font>
+                        <textcolor>Dark2</textcolor>
+                        <selectedcolor>Dark2</selectedcolor>
+                        <label>$VAR[WidgetLabel]</label>
+                    </control>
+                    <control type="label">
+                        <left>435</left>
+                        <top>55</top>
+                        <right>40</right>
+                        <aligny>center</aligny>
+                        <height>80</height>
+                        <font>MediumBold</font>
+                        <textcolor>Dark1</textcolor>
+                        <selectedcolor>Dark1</selectedcolor>
+                        <label>$VAR[WidgetTitle]</label>
+                    </control>
+                    <control type="textbox">
+                        <left>435</left>
+                        <right>40</right>
+                        <top>140</top>
+                        <height>117</height>
+                        <font>Tiny</font>
+                        <align>justify</align>
+                        <autoscroll>false</autoscroll>
+                        <textcolor>Dark2</textcolor>
+                        <selectedcolor>Dark2</selectedcolor>
+                        <shadowcolor>noop</shadowcolor>
+                        <label>$VAR[WidgetPlot]</label>
+                    </control>
+				</control>
+                <control type="label">
+                    <left>359</left>
+                    <right>90</right>
+                    <top>255</top>
+                    <bottom>324</bottom>
+                    <align>right</align>
+                    <autoscroll>false</autoscroll>
+                    <textcolor>Dark1</textcolor>
+                    <selectedcolor>Dark1</selectedcolor>
+                    <label>$VAR[WidgetSubLabel]</label>
+                    <font>Flag</font>
+                </control>			
+            </control> 
+                       
             <include>HomeWidgetUpdating</include>
         </control>
     </include>
@@ -1114,15 +1494,12 @@
     <include name="HomeRow">
         <!-- Home Row -->
         <control type="group">
-            
+            <animation effect="slide" start="0" end="0,30" time="150" condition="Skin.HasSetting(home.modernwidgets)">Conditional</animation>
             <animation effect="slide" start="0" end="0,250" time="150" condition="!Skin.HasSetting(home.classicwidgets) + [Control.HasFocus(301) | Control.HasFocus(4752)]">Conditional</animation>
             <animation effect="slide" start="0" end="0,250" time="150">WindowClose</animation>
             <animation effect="slide" end="0" start="0,250" time="150">WindowOpen</animation>
 			<control type="group">
-				<visible>!Skin.HasSetting(home.oldmenuheight)</visible>     
-				
-				
-				
+				<visible>!Skin.HasSetting(home.oldmenuheight) | Skin.HasSetting(home.modernwidgets)</visible>     
 				<control type="image" description="BottomBG">
 					<width>2000</width>
 					<height>15</height>
@@ -1135,9 +1512,6 @@
 					<bottom>24</bottom>
 					<texture flipy="true" colordiffuse="Background">common/shadow-50.png</texture>
 				</control>
-				
-				
-				
 				<control type="image" description="BottomBG">
 					<width>100%</width>
 					<height>160</height>
@@ -1169,7 +1543,7 @@
 				</control>
 			</control>	
 			<control type="group">
-				<visible>Skin.HasSetting(home.oldmenuheight)</visible> 
+				<visible>Skin.HasSetting(home.oldmenuheight) + !Skin.HasSetting(home.modernwidgets)</visible> 
 				<control type="image" description="BottomBG">
 					<width>2000</width>
 					<height>15</height>
@@ -1260,6 +1634,7 @@
                 <effect type="fade" start="0" end="100" time="250" delay="0" tween="cubic" easing="inout"/>
                 <effect type="slide" start="0,48" end="0" center="auto" tween="back" easing="out" time="400" delay="0"/>
             </animation>
+            <animation effect="slide" end="0,20" start="0,0" time="0" reversible="false" condition="Skin.HasSetting(home.modernwidgets)">Conditional</animation>
             
             <animation effect="fade" end="0" start="100" time="150" condition="!Control.HasFocus(302)" reversible="false">Conditional</animation>
             <include>Animation.FadeOut</include>
@@ -2008,7 +2383,7 @@
                         </control>
                         <control type="label">
                             <left>0</left>
-                            <top>45</top>
+                            <top>50</top>
                             <right>0</right>
                             <aligny>center</aligny>
                             <height>80</height>
@@ -2016,6 +2391,7 @@
                             <textcolor>Dark1</textcolor>
                             <selectedcolor>Dark1</selectedcolor>
                             <label>$VAR[WidgetTitle]</label>
+                            <width>85%</width>
                         </control>
                         <control type="textbox">
                             <left>0</left>
@@ -2077,7 +2453,7 @@
                         <control type="label">
                             <left>600</left>
                             <right>0</right>
-                            <top>25</top>
+                            <top>30</top>
                             <height>40</height>
                             <align>right</align>
                             <autoscroll>false</autoscroll>
