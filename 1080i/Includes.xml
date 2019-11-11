@@ -673,6 +673,7 @@
             <texture colordiffuse="Background">common/bg.jpg</texture>
         </control>
         <control type="multiimage" description="Fanart">
+            <visible>!Skin.HasSetting(EnableBlur)</visible>
             <include>GlobalBackgroundFade</include>
             <visible>!Skin.HasSetting(global.hidefanart)</visible>
             <include>Dimensions_Fullscreen</include>
@@ -685,12 +686,38 @@
             <animation effect="zoom" start="110" end="120" center="auto" time="10000" tween="sine" easing="inout" pulse="true" condition="Skin.HasSetting(Fanart.Animate)">Conditional</animation>
             <animation effect="slide" start="-20,-20" end="20,20" time="6000" tween="sine" easing="inout" pulse="true" condition="Skin.HasSetting(Fanart.Animate)">Conditional</animation>
         </control>
+        <control type="multiimage" description="Fanart">
+            <visible>Skin.HasSetting(EnableBlur)</visible>
+			<visible>!Skin.HasSetting(global.hidefanart)</visible>
+            <include>Dimensions_Fullscreen</include>
+            <include condition="!Skin.HasSetting(home.vertical)">Animation.FadeFromHome</include>
+            <animation effect="fade" end="0" start="100" time="350" tween="cubic" easing="inout" condition="Window.IsVisible(home)">WindowClose</animation>
+            <animation effect="fade" end="20" start="100" time="0" condition="Integer.IsEqual(Skin.String(BackgroundBlur),20)">Conditional</animation>
+            <animation effect="fade" end="40" start="100" time="0" condition="Integer.IsEqual(Skin.String(BackgroundBlur),40)">Conditional</animation>
+            <animation effect="fade" end="60" start="100" time="0" condition="Integer.IsEqual(Skin.String(BackgroundBlur),60)">Conditional</animation>
+            <animation effect="fade" end="80" start="100" time="0" condition="Integer.IsEqual(Skin.String(BackgroundBlur),80)">Conditional</animation>
+            <fadetime>600</fadetime>
+            <timeperimage>12000</timeperimage>
+            <randomize>true</randomize>
+            <aspectratio>scale</aspectratio>
+            <imagepath background="true">$INFO[Window(home).Property(ImageFilterFIVE)]</imagepath>
+            <animation effect="zoom" start="110" end="120" center="auto" time="10000" tween="sine" easing="inout" pulse="true" condition="Skin.HasSetting(Fanart.Animate)">Conditional</animation>
+            <animation effect="slide" start="-20,-20" end="20,20" time="6000" tween="sine" easing="inout" pulse="true" condition="Skin.HasSetting(Fanart.Animate)">Conditional</animation>
+        </control>
         <control type="image" description="FanartOverlay">
             <include>Dimensions_Fullscreen</include>
             <include condition="!Skin.HasSetting(home.vertical)">Animation.FadeFromHome</include>
             <texture colordiffuse="FloorFade">common/floor.png</texture>
+            <include condition="Skin.HasSetting(EnableBlur)">IncludeFloorFadeBlur</include>
+			<include condition="!Skin.HasSetting(EnableBlur)">IncludeFloorFade</include>
         </control>
-        
+        <control type="image" description="Background">
+            <visible>Skin.HasSetting(EnableBlur)</visible>
+            <include condition="!Skin.HasSetting(home.vertical)">Animation.FadeFromHome</include>
+            <include>Dimensions_Fullscreen</include>
+            <texture colordiffuse="Background">common/bg.jpg</texture>
+            <animation effect="fade" end="35" start="100" time="0" condition="true">Conditional</animation>
+        </control>
     </include>
 	
 	
