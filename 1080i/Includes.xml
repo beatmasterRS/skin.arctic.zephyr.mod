@@ -2966,7 +2966,7 @@
             
             <!-- Rating Button -->
             <control type="radiobutton" id ="9007"> 
-                <visible>!String.IsEqual(ListItem.DBType,artist)</visible>
+                <visible>!String.IsEqual(ListItem.DBType,artist) + String.IsEmpty(ListItem.UserRating)</visible>
                 <onfocus>ClearProperty(musiccontent)</onfocus>               
                 <onclick>SendClick(7)</onclick>
 				<include>buttondimensionssquare</include>
@@ -2976,6 +2976,18 @@
 				<textcolor>Dark4</textcolor>
 				<font>Null</font>
 			</control>
+            
+            <control type="radiobutton" id ="9110">
+                <visible>!String.IsEqual(ListItem.DBType,artist) + !String.IsEmpty(ListItem.UserRating)</visible>
+                <onfocus>ClearProperty(musiccontent)</onfocus>               
+                <onclick>SendClick(7)</onclick>
+				<include>buttondimensionssquare</include>
+				<include content="buttontextures">
+					<param name="icon" value="buttonsdialogs/rating_new.png" />
+				</include>
+				<textcolor>Dark4</textcolor>
+				<font>Null</font>
+			</control>	
             
             <!-- Setting Button -->
             <control type="radiobutton" id ="9008"> 
@@ -3112,7 +3124,17 @@
 					<param name="icon" value="buttonsdialogs/rating.png" />
 				</include>
 				<visible>Container.Content(movies) | Container.Content(tvshows) | Container.Content(episodes)</visible>
-				<visible>Control.IsEnabled(7)</visible>
+				<visible>Control.IsEnabled(7) + String.IsEmpty(ListItem.UserRating)</visible>
+			</control>	
+            <control type="radiobutton" id ="9110">
+                <onfocus>ClearProperty(moviecontent)</onfocus>
+                <onclick>SendClick(7)</onclick>              
+				<include>buttondimensions</include>
+				<include content="buttontextures">
+					<param name="icon" value="buttonsdialogs/rating_new.png" />
+				</include>
+				<visible>Container.Content(movies) | Container.Content(tvshows) | Container.Content(episodes)</visible>
+				<visible>Control.IsEnabled(7) + !String.IsEmpty(ListItem.UserRating)</visible>
 			</control>	
             
             <control type="radiobutton" id="49">
