@@ -8,7 +8,7 @@
     <controls>
 			
         <control type="group">
-			<visible>!Skin.HasSetting(osd.usethemeNewOSD)</visible>
+			<visible>!Skin.HasSetting(osd.usethemeNewOSD) + !Skin.HasSetting(osd.usethemeNewOSDSide)</visible>
             <height>74</height>
             <bottom>0</bottom>
             <animation type="WindowOpen">
@@ -138,7 +138,9 @@
                 <!--<include condition="!Skin.HasSetting(osd.usetheme)">OSDVideoControls</include>
                 <include condition="Skin.HasSetting(osd.usetheme)">OSDVideoControlsFlip</include>-->
             	<include>OSDVideoControlsFlip</include>
+                <animation effect="fade" start="0" end="100" time="500" delay="500">Visible</animation>
             </control>
+
             
             <control type="grouplist" id="102">
                 <top>13</top>
@@ -159,9 +161,141 @@
                 <include condition="!VideoPlayer.Content(livetv)">OSDVideosRight</include>
                 <include condition="VideoPlayer.Content(livetv)">OSDPVRRight</include>
             </control>
-        </control>
+        </control>     
+        
+        
+        <!-- SIDE OSD -->
+        <control type="group">
+			<visible>Skin.HasSetting(osd.usethemeNewOSDSide)</visible>
+            <animation effect="fade" start="100" end="90" time="200" condition="true">Conditional</animation>
+            <animation effect="fade" start="100" end="0" time="50" condition="Window.IsVisible(DialogPlayerProcessInfo.xml) + Skin.HasSetting(osd.usethemeNewOSDSide)">Conditional</animation>
+            <height>74</height>
+            <bottom>-10</bottom>
+            <animation type="WindowOpen">
+                <effect type="fade" start="0" end="100" time="150" delay="200"/>
+            </animation>
+            <animation type="WindowClose">
+                <effect type="fade" end="0" start="100" time="150"/>
+            </animation>
+            <animation type="Visible">
+                <effect type="fade" start="0" end="100" time="150" delay="200"/>
+            </animation>
+            <animation type="Hidden">
+                <effect type="fade" end="0" start="100" time="150"/>
+            </animation>
+			<animation effect="slide" start="0,0" end="0,-80" time="150" condition="Skin.HasSetting(osd.usethemeNewOSD)">Conditional</animation>
+            <!-- Sub Menu -->
+            <control type="group">
+                <visible allowhiddenfocus="true">ControlGroup(9300).HasFocus() | Control.HasFocus(3)</visible>
+                <include>Animation.SlideUp</include>
+                <include>Animation.FadeOut</include>
+                <bottom>102</bottom>
+                <centerleft>192</centerleft>
+                <width>316</width>
+                <height>212</height>
+                <control type="image">
+                    <description>background image</description>
+                    <width>100%</width>
+                    <height>100%</height>
+                    <colordiffuse>White100</colordiffuse>
+                    <texture border="16">common/rounded-shadow8.png</texture>
+                </control>
+                <control type="grouplist" id="9300">
+                    <include>Animation.FadeIn.Delay</include>
+                    <include>Animation.FadeOut</include>
+                    <top>16</top>
+                    <bottom>16</bottom>
+                    <left>8</left>
+                    <right>8</right>
+                    <onup>3</onup>
+                    <ondown>3</ondown>
+                    <onleft>3</onleft>
+                    <onright>3</onright>
+                    <itemgap>0</itemgap>
+                    <orientation>vertical</orientation>
+                    <scrolltime>200</scrolltime>
+                    <control type="button" id="9301" description="Download">
+                        <width>100%</width>
+                        <height>60</height>                        
+                        <include>DefContextButton</include>
+                        <label>33003</label>
+                        <onclick>ActivateWindow(SubtitleSearch)</onclick>
+                    </control>
+					<control type="button" id="9302">
+						<width>100%</width>
+                        <height>60</height>                        
+                        <include>DefContextButton</include>
+						<label>$LOCALIZE[10004]</label>
+						<onclick>ActivateWindow(osdsubtitlesettings)</onclick>						
+					</control>
+                    <control type="togglebutton" id="9303" description="Enable Subs">
+                        <width>100%</width>
+                        <height>60</height>                        
+                        <include>DefContextButton</include>
+                        <label>$LOCALIZE[305] $INFO[VideoPlayer.SubtitlesLanguage,[UPPERCASE],[/UPPERCASE]]</label>
+                        <altlabel>13106</altlabel>
+                        <onclick>NextSubtitle</onclick>
+                        <usealttexture>!VideoPlayer.SubtitlesEnabled</usealttexture>
+                    </control>
+                </control>          
+            </control>
+            <control type="grouplist" id="101">
+                <top>-15</top>
+                <left>32</left>
+                <width>640</width>
+                <height>48</height>
+                <itemgap>11</itemgap>
+                <orientation>horizontal</orientation>
+                <align>center</align>
+                <onleft>101</onleft>
+                <onright>101</onright>
+                <ondown>noop</ondown>
+                <control type="button" id="1">
+                    <description>Audio</description>
+                    <width>48</width>
+                    <height>48</height>
+                    <label></label>
+                    <font>noop</font>
+                    <onclick>ActivateWindow(124)</onclick>
+                    <include>DefOSDupDown</include>
+                    <texturefocus colordiffuse="$VAR[ColorHighlight]">osd/audio.png</texturefocus>
+                    <texturenofocus colordiffuse="Dark1">osd/audio.png</texturenofocus>
+                </control>
+                <control type="button" id="2">
+                    <description>Video Settings</description>
+                    <width>48</width>
+                    <height>48</height>
+                    <label></label>
+                    <font>noop</font>
+                    <onclick>ActivateWindow(123)</onclick>
+                    <include>DefOSDupDown</include>
+                    <texturefocus colordiffuse="$VAR[ColorHighlight]">osd/videosett.png</texturefocus>
+                    <texturenofocus colordiffuse="Dark1">osd/videosett.png</texturenofocus>
+                </control>                
+                <control type="button" id="3">
+                    <onup>9303</onup>
+                    <ondown>9301</ondown>
+                    <width>48</width>
+                    <height>48</height>
+                    <label></label>
+                    <font>noop</font>
+                    <onclick>Action(ShowSubtitles)</onclick>
+                    <include>DefOSDupDown</include>
+                    <texturefocus colordiffuse="$VAR[ColorHighlight]">osd/lyrics.png</texturefocus>
+                    <texturenofocus colordiffuse="Dark1">osd/lyrics.png</texturenofocus>
+                </control>
+            	<include>OSDVideoControlsFlip</include>
+                <include condition="!VideoPlayer.Content(livetv) + [VideoPlayer.HasMenu | [!VideoPlayer.Content(movies) + !VideoPlayer.Content(episodes)]]">OSDDVDMenuNewOSDSide</include>
+                <include condition="!VideoPlayer.HasMenu + VideoPlayer.Content(episodes)">OSDExtraInfoTVNewOSDSide</include>
+                <include condition="!VideoPlayer.HasMenu + VideoPlayer.Content(movies)">OSDExtraInfoMOVIESNewOSDSide</include>                
+                <include condition="!VideoPlayer.Content(livetv)">OSDVideosRightNewOSDSide</include>
+                <include condition="VideoPlayer.Content(livetv)">OSDPVRRightNewOSDSide</include>
+                <animation effect="fade" start="0" end="100" time="500" delay="500">Visible</animation>
+            </control>
+        </control>           
+        
 
-	<!-- NEW OSD -->
+	    <!-- NEW OSD -->
 		<control type="group">
 			<visible>Skin.HasSetting(osd.usethemeNewOSD)</visible>
             <height>74</height>

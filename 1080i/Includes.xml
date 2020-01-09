@@ -69,6 +69,16 @@
         <texturenofocus>-</texturenofocus>
         <texturefocus>-</texturefocus>
     </include>
+    
+    <include name="HiddenListControl">
+		<top>-10</top>
+		<width>1</width>
+		<height>1</height>
+		<viewtype label="">list</viewtype>
+		<orientation>horizontal</orientation>
+		<itemlayout height="1" width="1"/>
+		<focusedlayout height="1" width="1"/>
+	</include>
 
     <include name="Dimensions_Fullscreen">
         <posx>0</posx>
@@ -2920,12 +2930,10 @@
             <control type="radiobutton" id ="9004">
                 <visible>String.IsEqual(ListItem.DBType,artist)</visible>	
                 <onfocus condition="!String.IsEqual(Window.Property(musiccontent),2)">ClearProperty(musiccontent)</onfocus>
-                <onclick>SetProperty(musiccontent,2)</onclick>               
-                <onfocus condition="!Skin.HasSetting(dontclickonfocus)">SetProperty(musiccontent,2)</onfocus>
-                
+                <onclick>SetProperty(musiccontent,2)</onclick>                               
+                <onfocus condition="!Skin.HasSetting(dontclickonfocus)">SetProperty(musiccontent,2)</onfocus>                
                 <onfocus condition="!Skin.HasSetting(preloadcontent)">SetProperty(discography,1)</onfocus>
-                <onclick condition="!Skin.HasSetting(preloadcontent)">SetProperty(discography,1)</onclick>           
-                               
+                <onclick condition="!Skin.HasSetting(preloadcontent)">SetProperty(discography,1)</onclick>                                
 				<include>buttondimensionssquare</include>
 				<include content="buttontextures">
 					<param name="icon" value="buttonsdialogs/set.png" />
@@ -2935,9 +2943,8 @@
             <!-- Youtube Button -->	
             <control type="radiobutton" id ="9005">
                 <onfocus condition="!String.IsEqual(Window.Property(musiccontent),3)">ClearProperty(musiccontent)</onfocus>
-                <onclick>SetProperty(musiccontent,3)</onclick>               
-                <onfocus condition="!Skin.HasSetting(dontclickonfocus)">SetProperty(musiccontent,3)</onfocus>
-                
+                <onclick>SetProperty(musiccontent,3)</onclick>                              
+                <onfocus condition="!Skin.HasSetting(dontclickonfocus)">SetProperty(musiccontent,3)</onfocus>                
                 <onfocus condition="!Skin.HasSetting(preloadcontent)">SetProperty(musicyoutube,1)</onfocus>
                 <onclick condition="!Skin.HasSetting(preloadcontent)">SetProperty(musicyoutube,1)</onclick> 
                 
@@ -2967,6 +2974,8 @@
             <!-- Rating Button -->
             <control type="radiobutton" id ="9007"> 
                 <visible>!String.IsEqual(ListItem.DBType,artist) + String.IsEmpty(ListItem.UserRating)</visible>
+                <include>OnFocusOnClick</include>
+                <include>ClearOnFocusOnClick</include> 
                 <onfocus>ClearProperty(musiccontent)</onfocus>               
                 <onclick>SendClick(7)</onclick>
 				<include>buttondimensionssquare</include>
@@ -2979,6 +2988,8 @@
             
             <control type="radiobutton" id ="9110">
                 <visible>!String.IsEqual(ListItem.DBType,artist) + !String.IsEmpty(ListItem.UserRating)</visible>
+                <include>OnFocusOnClick</include> 
+                <include>ClearOnFocusOnClick</include>
                 <onfocus>ClearProperty(musiccontent)</onfocus>               
                 <onclick>SendClick(7)</onclick>
 				<include>buttondimensionssquare</include>
@@ -3106,9 +3117,8 @@
 
 			<control type="radiobutton" id ="1223">
                 <onfocus condition="!String.IsEqual(Window.Property(moviecontent),6)">ClearProperty(moviecontent)</onfocus>              
-                <onclick>SetProperty(moviecontent,6)</onclick>
-                <onfocus condition="!Skin.HasSetting(dontclickonfocus)">SetProperty(moviecontent,6)</onfocus>  
-                 
+                <onclick>SetProperty(moviecontent,6)</onclick>                
+                <onfocus condition="!Skin.HasSetting(dontclickonfocus)">SetProperty(moviecontent,6)</onfocus>                   
 				<include>buttondimensions</include>
 				<include content="buttontextures">
 					<param name="icon" value="buttonsdialogs/trailer.png" />
@@ -3118,7 +3128,9 @@
 			</control>	
             
             <control type="radiobutton" id ="7">
-                <onfocus>ClearProperty(moviecontent)</onfocus>              
+                <onfocus>ClearProperty(moviecontent)</onfocus>
+                <include>OnFocusOnClick</include> 
+                <include>ClearOnFocusOnClick</include>           
 				<include>buttondimensions</include>
 				<include content="buttontextures">
 					<param name="icon" value="buttonsdialogs/rating.png" />
@@ -3128,6 +3140,8 @@
 			</control>	
             <control type="radiobutton" id ="9110">
                 <onfocus>ClearProperty(moviecontent)</onfocus>
+                <include>OnFocusOnClick</include>
+                <include>ClearOnFocusOnClick</include> 
                 <onclick>SendClick(7)</onclick>              
 				<include>buttondimensions</include>
 				<include content="buttontextures">
@@ -3936,12 +3950,186 @@
             <property name="FanartTexture">$INFO[Skin.String(weather.icons.path),,/]$INFO[Window(Weather).Property(Hourly.16.FanartCode),,.png]</property>
             <property name="OutlookTexture">resource://resource.images.weathericons.default/$INFO[Window(Weather).Property(Hourly.16.FanartCode),,.png]</property>
             <visible>!String.IsEmpty(Window(Weather).Property(Hourly.16.Outlook))</visible>
-        </item> 
-        
-         
-                      
+        </item>           
+    </include> 
+    
+    <include name="OnFocusOnClick">
+        <onclick>SetProperty(SetUserRating,mixed,home)</onclick>
+        <onclick>SetProperty(SetUserRating2,mixed,home)</onclick>
+        <onfocus>SetProperty(SetUserRating,mixed,home)</onfocus>
+        <onfocus>SetProperty(SetUserRating2,mixed,home)</onfocus>
+    </include>
+    
+    <include name="ClearOnFocusOnClick">
+        <onunfocus>ClearProperty(SetUserRating,home)</onunfocus>
+        <onunfocus>ClearProperty(SetUserRating2,home)</onunfocus>
+    </include>
+    
+    <include name="DefDialogBackgroundRating">
+        <include>Animation.ZoomIn</include>
+        <centerleft>50%</centerleft>
+        <centertop>50%</centertop>
+        <height>310</height>
+        <width>468</width>
+        <control type="image">
+            <width>100%</width>
+            <height>100%</height>
+            <texture border="16" colordiffuse="White100">common/rounded-shadow8.png</texture>
+        </control>
+    </include> 
+    
+    <include name="DialogSelectUserRating">
+        <control id="3" type="list">
+            <onleft>noop</onleft>
+            <onright>noop</onright>
+            <onup>noop</onup>
+            <include>HiddenListControl</include>
+            <include>ClearOnFocusOnClick</include>
+        </control>
+        <control id="21" type="button">
+            <onleft condition="!String.IsEmpty(Container(3).ListItemNoWrap(-1).Label)">Control.Move(3,-1)</onleft>
+            <onright condition="!String.IsEmpty(Container(3).ListItemNoWrap(1).Label)">Control.Move(3,1)</onright>
+            <ondown condition="!String.IsEmpty(Container(3).ListItemNoWrap(-1).Label)">Control.Move(3,-1)</ondown>
+            <onup condition="!String.IsEmpty(Container(3).ListItemNoWrap(1).Label)">Control.Move(3,1)</onup>
+            <onclick>SetFocus(3)</onclick>
+            <onclick>Select</onclick>
+            <include>HiddenButton</include>
+        </control>
+        <control type="group">
+            <centerleft>50%</centerleft>
+            <centertop>50%</centertop>
+            <control type="textbox">
+                <top>110</top>
+                <left>38</left>
+                <right>30</right>
+                <height>86</height>
+                <font>Tiny</font>
+                <align>left</align>
+                <label>37741</label>
+            </control>
+            <control type="group">
+                <control type="grouplist">
+                    <centerleft>50%</centerleft>
+                    <top>210</top>
+                    <width>340</width>
+                    <height>45</height>
+                    <orientation>horizontal</orientation>
+                    <align>center</align>
+                    <itemgap>12</itemgap>
+                    <usecontrolcoords>true</usecontrolcoords>		
+                    <control type="image">	
+                        <width>45</width>
+                        <height>45</height>
+                        <centertop>50%</centertop>
+                        <texture colordiffuse="$VAR[ColorHighlight]">backg/$VAR[FlagstarSelect1].png</texture>		
+                    </control>
+                    <control type="image">			
+                        <width>45</width>
+                        <height>45</height>
+                        <centertop>50%</centertop>
+                        <texture colordiffuse="$VAR[ColorHighlight]">backg/$VAR[FlagstarSelect2].png</texture>			
+                    </control>
+                    <control type="image">				
+                        <width>45</width>
+                        <height>45</height>
+                        <centertop>50%</centertop>
+                        <texture colordiffuse="$VAR[ColorHighlight]">backg/$VAR[FlagstarSelect3].png</texture>		
+                    </control>
+                    <control type="image">			
+                        <width>45</width>
+                        <height>45</height>
+                        <centertop>50%</centertop>
+                        <texture colordiffuse="$VAR[ColorHighlight]">backg/$VAR[FlagstarSelect4].png</texture>				
+                    </control>
+                    <control type="image">			
+                        <width>45</width>
+                        <height>45</height>
+                        <centertop>50%</centertop>
+                        <texture colordiffuse="$VAR[ColorHighlight]">backg/$VAR[FlagstarSelect5].png</texture>		
+                    </control>			
+                </control>
+                <control type="group">
+                    <centerleft>50%</centerleft>
+                    <top>225</top>
+                    <width>330</width>
+                    <height>45</height>                            
+                    <align>center</align> 
+                    <include>Animation.DelayFadeIn</include>                    	
+                    <control type="image">                        
+                        <width>16</width>
+                        <height>16</height>
+                        <left>0</left>
+                        <texture colordiffuse="Black70" flipx="true">common/arrow-small-right.png</texture>                        
+                    </control> 
+                     <control type="image">   
+                        <width>16</width>
+                        <height>16</height>
+                        <right>0</right>
+                        <texture colordiffuse="Black70">common/arrow-small-right.png</texture>                        
+                    </control>                                                            
+                </control>                    
+            </control>                    
+        </control>
     </include>  
     
-    
-      
+    <include name="DialogSelect">
+        <control type="list" id="3">
+            <left>8</left>
+            <width>1064</width>
+            <posy>115</posy>
+            <height>759</height>
+            <onleft>5</onleft>
+            <onright>5</onright>
+            <onup>3</onup>
+            <ondown>3</ondown>
+            <itemlayout height="69" width="1064">
+                <control type="label">
+                    <left>30</left>
+                    <right>30</right>
+                    <font>Small</font>
+                    <textcolor>Black70</textcolor>
+                    <height>66</height>
+                    <aligny>center</aligny>
+                    <info>ListItem.Label</info>
+                </control>
+                <control type="label">
+                    <left>30</left>
+                    <right>30</right>
+                    <textcolor>Black70</textcolor>
+                    <align>right</align>
+                    <height>66</height>
+                    <aligny>center</aligny>
+                    <info>ListItem.Label2</info>
+                </control>
+            </itemlayout>
+
+            <focusedlayout height="69" width="1064">
+                <control type="image">
+                    <left>0</left>
+                    <right>0</right>
+                    <height>66</height>
+                    <texture border="5" colordiffuse="$VAR[ColorHighlight]">common/white.png</texture>
+                    <animation effect="fade" start="100" end="50" condition="!Control.HasFocus(3)">Conditional</animation>
+                </control>
+                <control type="label">
+                    <left>30</left>
+                    <right>30</right>
+                    <height>66</height>
+                    <font>Small</font>
+                    <aligny>center</aligny>
+                    <textcolor>Selected</textcolor>
+                    <info>ListItem.Label</info>
+                </control>
+                <control type="label">
+                    <left>30</left>
+                    <right>30</right>
+                    <align>right</align>
+                    <height>66</height>
+                    <aligny>center</aligny>
+                    <textcolor>Selected</textcolor>
+                    <info>ListItem.Label2</info>
+                </control>
+            </focusedlayout>
+        </control>
+    </include>   
 </includes>
