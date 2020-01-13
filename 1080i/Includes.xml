@@ -341,6 +341,17 @@
                 <include>Dimensions_Fullscreen</include>
             </control>
             <control type="multiimage">
+                <!-- AS 3 -->
+                <aspectratio>scale</aspectratio>
+                <include>Dimensions_Fullscreen</include>
+                <fadetime>600</fadetime>
+                <imagepath background="true">$INFO[Window(Visualisation).Property(ArtistSlideshow.Image)]</imagepath>
+                <visible>System.HasAddon(script.artistslideshow) + !Skin.HasSetting(ArtistSlideShow.Disabled)</visible>
+                <animation effect="fade" start="100" end="65" time="0" condition="Skin.HasSetting(OSDVisualisation.ShowFanart)">Conditional</animation>
+                <animation effect="zoom" start="110" end="130" center="auto" time="10000" tween="sine" easing="inout" pulse="true" condition="Skin.HasSetting(ArtistSlideshow.Animate)">Conditional</animation>
+                <animation effect="slide" start="-30,-30" end="30,30" time="6000" tween="sine" easing="inout" pulse="true" condition="Skin.HasSetting(ArtistSlideshow.Animate)">Conditional</animation>
+            </control> 
+            <!--<control type="multiimage">
                 <aspectratio>scale</aspectratio>
                 <include>Dimensions_Fullscreen</include>
                 <timeperimage>10000</timeperimage>
@@ -352,7 +363,7 @@
                 <animation effect="fade" start="100" end="65" time="0" condition="Skin.HasSetting(OSDVisualisation.ShowFanart)">Conditional</animation>
                 <animation effect="zoom" start="110" end="130" center="auto" time="10000" tween="sine" easing="inout" pulse="true" condition="Skin.HasSetting(ArtistSlideshow.Animate)">Conditional</animation>
                 <animation effect="slide" start="-30,-30" end="30,30" time="6000" tween="sine" easing="inout" pulse="true" condition="Skin.HasSetting(ArtistSlideshow.Animate)">Conditional</animation>
-            </control>
+            </control>-->
         </control>
     </include>
 	
@@ -2884,16 +2895,20 @@
 			<right>SidePad</right>
 			<include>listdimensions</include>
 			<orientation>horizontal</orientation>
-            <ondown>9601</ondown>
+            <ondown condition="Control.HasFocus(9002) + String.IsEqual(Window.Property(ShowDisc),1) + !String.IsEmpty(ListItem.Art(discart))">ClearProperty(ShowDisc)</ondown>   
+            <ondown condition="!String.IsEqual(Window.Property(ShowDisc),1)">9601</ondown>
             <onup condition="String.IsEqual(Window.Property(musiccontent),2)">9501</onup>
             <onup condition="String.IsEqual(Window.Property(musiccontent),3)">9502</onup>
             <onup condition="String.IsEqual(Window.Property(musiccontent),4)">95031</onup>
             <onup condition="String.IsEqual(Window.Property(musiccontent),1)">9009</onup>
+            <onup condition="Control.HasFocus(9002) + !String.IsEqual(Window.Property(ShowDisc),1) + !String.IsEmpty(ListItem.Art(discart))">SetProperty(ShowDisc,1)</onup>
+            <onup condition="Control.HasFocus(9002) + String.IsEqual(Window.Property(ShowDisc),1) + !String.IsEmpty(ListItem.Art(discart))">ClearProperty(ShowDisc)</onup>
             <onup condition="String.IsEmpty(Window.Property(musiccontent))">9010</onup>
       
             <control type="radiobutton" id ="9001">
                 <visible>[String.IsEqual(ListItem.DBType,album) | String.IsEqual(ListItem.DBType,song)]</visible>	
-                <onfocus>ClearProperty(musiccontent)</onfocus>             
+                <onfocus>ClearProperty(musiccontent)</onfocus> 
+                <onfocus>ClearProperty(ShowDisc)</onfocus>            
                 <onclick condition="String.IsEqual(ListItem.DBType,song)">PlayMedia($INFO[ListItem.FileNameAndPath])</onclick>               
                 <onclick condition="String.IsEqual(ListItem.DBType,album) + !String.IsEmpty(ListItem.FolderPath)">PlayMedia($INFO[ListItem.FileNameAndPath])</onclick> 
                 <onclick condition="!System.HasAddon(script.playalbum) + String.IsEqual(ListItem.DBType,album) + String.IsEmpty(ListItem.FolderPath)">InstallAddon(script.playalbum)</onclick>
@@ -2918,6 +2933,7 @@
             <control type="radiobutton" id ="9003">
                 <visible>String.IsEqual(ListItem.DBType,album)</visible>
                 <onfocus condition="!String.IsEqual(Window.Property(musiccontent),1)">ClearProperty(musiccontent)</onfocus>
+                <onfocus>ClearProperty(ShowDisc)</onfocus>
                 <onclick>SetProperty(musiccontent,1)</onclick>              
                 <onfocus condition="!Skin.HasSetting(dontclickonfocus)">SetProperty(musiccontent,1)</onfocus>
 				<include>buttondimensionssquare</include>
@@ -2930,6 +2946,7 @@
             <control type="radiobutton" id ="9004">
                 <visible>String.IsEqual(ListItem.DBType,artist)</visible>	
                 <onfocus condition="!String.IsEqual(Window.Property(musiccontent),2)">ClearProperty(musiccontent)</onfocus>
+                <onfocus>ClearProperty(ShowDisc)</onfocus>
                 <onclick>SetProperty(musiccontent,2)</onclick>                               
                 <onfocus condition="!Skin.HasSetting(dontclickonfocus)">SetProperty(musiccontent,2)</onfocus>                
                 <onfocus condition="!Skin.HasSetting(preloadcontent)">SetProperty(discography,1)</onfocus>
@@ -2943,6 +2960,7 @@
             <!-- Youtube Button -->	
             <control type="radiobutton" id ="9005">
                 <onfocus condition="!String.IsEqual(Window.Property(musiccontent),3)">ClearProperty(musiccontent)</onfocus>
+                <onfocus>ClearProperty(ShowDisc)</onfocus>
                 <onclick>SetProperty(musiccontent,3)</onclick>                              
                 <onfocus condition="!Skin.HasSetting(dontclickonfocus)">SetProperty(musiccontent,3)</onfocus>                
                 <onfocus condition="!Skin.HasSetting(preloadcontent)">SetProperty(musicyoutube,1)</onfocus>
@@ -3020,8 +3038,9 @@
 			<bottom>224</bottom>
 			<left>568</left>
 			<right>83</right>
-			<include>listdimensions</include>    
-            <ondown>9601</ondown>
+			<include>listdimensions</include> 
+            <ondown condition="String.IsEqual(Window.Property(moviecontent),1) + String.IsEqual(Window.Property(ShowDisc),1) + String.IsEqual(ListItem.DBType,movie) + !String.IsEmpty(ListItem.Art(discart))">ClearProperty(ShowDisc)</ondown>   
+            <ondown condition="!String.IsEqual(Window.Property(ShowDisc),1)">9601</ondown>
             <onfocus>SetProperty(test,1,Home)</onfocus>     
 			<orientation>horizontal</orientation>
             
@@ -3030,10 +3049,14 @@
             <onup condition="String.IsEqual(Window.Property(moviecontent),4)">9504</onup>
             <onup condition="String.IsEqual(Window.Property(moviecontent),5)">95051</onup>
             <onup condition="String.IsEqual(Window.Property(moviecontent),6)">7011</onup>
+            <!--<onup condition="String.IsEqual(Window.Property(moviecontent),1) + String.IsEqual(ListItem.DBType,movie) + !String.IsEmpty(ListItem.Art(discart))">9607</onup>-->
+            <onup condition="String.IsEqual(Window.Property(moviecontent),1) + !String.IsEqual(Window.Property(ShowDisc),1) + String.IsEqual(ListItem.DBType,movie) + !String.IsEmpty(ListItem.Art(discart))">SetProperty(ShowDisc,1)</onup>
+            <onup condition="String.IsEqual(Window.Property(moviecontent),1) + String.IsEqual(Window.Property(ShowDisc),1) + String.IsEqual(ListItem.DBType,movie) + !String.IsEmpty(ListItem.Art(discart))">ClearProperty(ShowDisc)</onup>
             <onup condition="String.IsEmpty(Window.Property(moviecontent))">50</onup>
             
 			<control type="radiobutton" id ="8">
                 <onfocus>ClearProperty(moviecontent)</onfocus>
+                <onfocus>ClearProperty(ShowDisc)</onfocus>
 				<onclick>Dialog.Close(1132)</onclick>                           
 				<include>buttondimensions</include>
 				<texturenofocus colordiffuse="Dark4" border="0">common/box.png</texturenofocus>
@@ -3053,7 +3076,56 @@
 				<include>buttondimensions</include>               
 				<include content="buttontextures">
 					<param name="icon" value="buttonsdialogs/info.png" />
-				</include>											
+				</include>										
+			</control>
+            
+            <control type="radiobutton" id ="11">
+                <onfocus>ClearProperty(moviecontent)</onfocus> 
+                <onfocus>ClearProperty(ShowDisc)</onfocus>                             
+				<include>buttondimensions</include>
+				<include content="buttontextures">
+					<param name="icon" value="buttonsdialogs/trailer.png" />
+				</include>
+				<visible>!String.IsEmpty(ListItem.Trailer) + !Skin.HasSetting(PlayTrailerWindowed)</visible>			
+			</control>
+
+			<control type="radiobutton" id ="1223">
+                <onfocus condition="!String.IsEqual(Window.Property(moviecontent),6)">ClearProperty(moviecontent)</onfocus>
+                <onfocus>ClearProperty(ShowDisc)</onfocus>              
+                <onclick>SetProperty(moviecontent,6)</onclick>                
+                <onfocus condition="!Skin.HasSetting(dontclickonfocus)">SetProperty(moviecontent,6)</onfocus>                   
+				<include>buttondimensions</include>
+				<include content="buttontextures">
+					<param name="icon" value="buttonsdialogs/trailer.png" />
+				</include>
+				<visible>!String.IsEmpty(ListItem.Trailer) + Skin.HasSetting(PlayTrailerWindowed)</visible>	
+				<onclick>PlayMedia($INFO[ListItem.Trailer],1)</onclick>		
+			</control>	
+            
+            <control type="radiobutton" id ="7">
+                <onfocus>ClearProperty(moviecontent)</onfocus>
+                <onfocus>ClearProperty(ShowDisc)</onfocus>
+                <include>OnFocusOnClick</include> 
+                <include>ClearOnFocusOnClick</include>           
+				<include>buttondimensions</include>
+				<include content="buttontextures">
+					<param name="icon" value="buttonsdialogs/rating.png" />
+				</include>
+				<visible>Container.Content(movies) | Container.Content(tvshows) | Container.Content(episodes)</visible>
+				<visible>Control.IsEnabled(7) + String.IsEmpty(ListItem.UserRating)</visible>
+			</control>	
+            <control type="radiobutton" id ="9110">
+                <onfocus>ClearProperty(moviecontent)</onfocus>
+                <onfocus>ClearProperty(ShowDisc)</onfocus>
+                <include>OnFocusOnClick</include>
+                <include>ClearOnFocusOnClick</include> 
+                <onclick>SendClick(7)</onclick>              
+				<include>buttondimensions</include>
+				<include content="buttontextures">
+					<param name="icon" value="buttonsdialogs/rating_new.png" />
+				</include>
+				<visible>Container.Content(movies) | Container.Content(tvshows) | Container.Content(episodes)</visible>
+				<visible>Control.IsEnabled(7) + !String.IsEmpty(ListItem.UserRating)</visible>
 			</control>	
             
 			<control type="radiobutton" id ="9002">
@@ -3104,52 +3176,7 @@
 				<include content="buttontextures">
 					<param name="icon" value="buttonsdialogs/image.png" />
 				</include>
-    		</control>	
-            
-            <control type="radiobutton" id ="11">
-                <onfocus>ClearProperty(moviecontent)</onfocus>                              
-				<include>buttondimensions</include>
-				<include content="buttontextures">
-					<param name="icon" value="buttonsdialogs/trailer.png" />
-				</include>
-				<visible>!String.IsEmpty(ListItem.Trailer) + !Skin.HasSetting(PlayTrailerWindowed)</visible>			
-			</control>
-
-			<control type="radiobutton" id ="1223">
-                <onfocus condition="!String.IsEqual(Window.Property(moviecontent),6)">ClearProperty(moviecontent)</onfocus>              
-                <onclick>SetProperty(moviecontent,6)</onclick>                
-                <onfocus condition="!Skin.HasSetting(dontclickonfocus)">SetProperty(moviecontent,6)</onfocus>                   
-				<include>buttondimensions</include>
-				<include content="buttontextures">
-					<param name="icon" value="buttonsdialogs/trailer.png" />
-				</include>
-				<visible>!String.IsEmpty(ListItem.Trailer) + Skin.HasSetting(PlayTrailerWindowed)</visible>	
-				<onclick>PlayMedia($INFO[ListItem.Trailer],1)</onclick>		
-			</control>	
-            
-            <control type="radiobutton" id ="7">
-                <onfocus>ClearProperty(moviecontent)</onfocus>
-                <include>OnFocusOnClick</include> 
-                <include>ClearOnFocusOnClick</include>           
-				<include>buttondimensions</include>
-				<include content="buttontextures">
-					<param name="icon" value="buttonsdialogs/rating.png" />
-				</include>
-				<visible>Container.Content(movies) | Container.Content(tvshows) | Container.Content(episodes)</visible>
-				<visible>Control.IsEnabled(7) + String.IsEmpty(ListItem.UserRating)</visible>
-			</control>	
-            <control type="radiobutton" id ="9110">
-                <onfocus>ClearProperty(moviecontent)</onfocus>
-                <include>OnFocusOnClick</include>
-                <include>ClearOnFocusOnClick</include> 
-                <onclick>SendClick(7)</onclick>              
-				<include>buttondimensions</include>
-				<include content="buttontextures">
-					<param name="icon" value="buttonsdialogs/rating_new.png" />
-				</include>
-				<visible>Container.Content(movies) | Container.Content(tvshows) | Container.Content(episodes)</visible>
-				<visible>Control.IsEnabled(7) + !String.IsEmpty(ListItem.UserRating)</visible>
-			</control>	
+    		</control>	            	
             
             <control type="radiobutton" id="49">
                 <onfocus>ClearProperty(moviecontent)</onfocus>                                 
