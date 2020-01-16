@@ -109,6 +109,14 @@
                         <label>$LOCALIZE[37525]</label>
                         <onright>9800</onright>
                     </control>
+                    
+                    <control type="togglebutton" id="9113" description="Supported Addons">
+                        <usealttexture>ControlGroup(9100).HasFocus(9113)</usealttexture>
+                        <alttexturenofocus colordiffuse="$VAR[ColorHighlight]">common/white.png</alttexturenofocus>
+                        <include>DefSettingsButton</include>
+                        <label>37524</label>
+                        <onright>11000</onright>
+                    </control>
 
 					<control type="togglebutton" id="9112" description="Backup / Restore">
                         <usealttexture>ControlGroup(9100).HasFocus(9112)</usealttexture>
@@ -116,7 +124,7 @@
                         <include>DefSettingsButton</include>
                         <label>$LOCALIZE[31001]</label>
                         <onright>9700</onright>
-                    </control>					
+                    </control>			
                 </control>
                 
                 
@@ -213,14 +221,7 @@
                             <onclick condition="String.IsEqual(Skin.String(WidgetLimit),50)">Skin.SetString(WidgetLimit,$LOCALIZE[37030])</onclick>
                             <onclick condition="String.IsEqual(Skin.String(WidgetLimit),25)">Skin.SetString(WidgetLimit,50)</onclick>
                             <onclick condition="!String.IsEqual(Skin.String(WidgetLimit),$LOCALIZE[37030]) + !String.IsEqual(Skin.String(WidgetLimit),25) + !String.IsEqual(Skin.String(WidgetLimit),50)">Skin.SetString(WidgetLimit,25)</onclick>
-                        </control>                    
-                        <!-- <control type="button" id="9212" description="Reset Home to Defaults">
-                            <width>1310</width>
-                            <visible>ControlGroup(9100).HasFocus(9101)</visible>
-                            <include>DefSettingsButton</include>
-                            <label>31132</label>
-                            <onclick>RunScript(script.skinshortcuts,type=resetall)</onclick>
-                        </control> -->
+                        </control>                        
                         <control type="radiobutton" id="9843" description="Show slideshow instead of fanart">
                             <width>1310</width>
                             <visible>ControlGroup(9100).HasFocus(9101)</visible>
@@ -472,23 +473,6 @@
                             <onclick>Skin.ToggleSetting(osd.usetheme)</onclick>
                             <onclick>ReloadSkin()</onclick>
                         </control>-->					
-                        <!--<control type="radiobutton" id="9233" description="Match theme">
-                            <width>1310</width>
-                            <visible>ControlGroup(9100).HasFocus(9103)</visible>
-                            <include>DefSettingsButton</include>
-                            <label>31196</label>
-                            <selected>!Skin.HasSetting(osd.usetheme)</selected>
-                            <onclick>Skin.ToggleSetting(osd.usetheme)</onclick>
-                            <onclick>ReloadSkin()</onclick>
-                        </control>-->
-                        <!--<control type="radiobutton" id="9234" description="Match theme">
-                            <width>1310</width>
-                            <visible>ControlGroup(9100).HasFocus(9103)</visible>
-                            <include>DefSettingsButton</include>
-                            <label>37609</label>
-                            <selected>Skin.HasSetting(osd.usethemeNewOSD)</selected>
-                            <onclick>Skin.ToggleSetting(osd.usethemeNewOSD)</onclick>
-                        </control>-->
                         <!-- GLOBAL -->
                         <control type="button" id="9201">
                             <width>1310</width>
@@ -694,6 +678,7 @@
                             <label>37535</label>
                             <selected>Skin.HasSetting(musicosd.showvideolyrics)</selected>
                             <onclick>Skin.ToggleSetting(musicosd.showvideolyrics)</onclick>
+                            <onclick condition="!System.HasAddon(script.cu.lrclyrics)">InstallAddon(script.cu.lrclyrics)</onclick>
                         </control>
                         <control type="radiobutton" id="9233">
                             <width>1310</width>
@@ -915,6 +900,13 @@
                             <label>$LOCALIZE[31003]</label>
                             <onclick>RunScript(script.skin.helper.service,action=restore)</onclick>
                         </control>
+                        <control type="button" id="9441" description="Reset Skin to Defaults">
+                            <width>1310</width>
+                            <visible>ControlGroup(9100).HasFocus(9112)</visible>
+                            <include>DefSettingsButton</include>
+                            <label>37766</label>
+                            <onclick>ActivateWindow(1265)</onclick>
+                        </control>                         
                     </control>
                         
                         
@@ -1016,81 +1008,82 @@
                             <selected>Skin.HasSetting(DebugInfoGrid)</selected>
                             <enable>Skin.HasSetting(DebugInfo)</enable>
                         </control>
-                    </control>
+                    </control>    
     
     
-    <!--
-                        <control type="radiobutton" id="9541">
+                    <!-- SUPPORTED ADDONS -->
+                    <control type="grouplist" id="11000">
+                        <description>Control Area</description>
+                        <itemgap>0</itemgap>
+                        <onleft>9100</onleft>
+                        <onup>11000</onup>
+                        <ondown>11000</ondown>
+                        <orientation>vertical</orientation>
+                        <visible allowhiddenfocus="true">ControlGroup(9100).HasFocus(9113)</visible>     
+                        <control type="radiobutton" id="11001">
                             <width>1310</width>
-                            <visible>ControlGroup(9100).HasFocus(9109)</visible>
+                            <visible>ControlGroup(9100).HasFocus(9113)</visible>
                             <include>DefSettingsButton</include>
                             <label>script.module.metadatautils $INFO[System.AddonVersion(script.module.metadatautils),(,)]</label>
                             <selected>System.HasAddon(script.module.metadatautils)</selected>
                             <onclick condition="!System.HasAddon(script.module.metadatautils)">InstallAddon(script.module.metadatautils)</onclick>
                             <onclick condition="System.HasAddon(script.module.metadatautils)">Addon.OpenSettings(script.module.metadatautils)</onclick> 
                         </control> 
-                        <control type="radiobutton" id="9542">
+                        <control type="radiobutton" id="11002">
                             <width>1310</width>
-                            <visible>ControlGroup(9100).HasFocus(9109)</visible>
+                            <visible>ControlGroup(9100).HasFocus(9113)</visible>
                             <include>DefSettingsButton</include>
                             <label>script.colorbox $INFO[System.AddonVersion(script.colorbox),(,)]</label>
                             <selected>System.HasAddon(script.colorbox)</selected> 
                             <onclick condition="!System.HasAddon(script.colorbox)">InstallAddon(script.colorbox)</onclick>
                             <onclick condition="System.HasAddon(script.colorbox)">Addon.OpenSettings(script.colorbox)</onclick>                 
                         </control>
-                        <control type="radiobutton" id="9543">
+                        <control type="radiobutton" id="11005">
                             <width>1310</width>
-                            <visible>ControlGroup(9100).HasFocus(9109)</visible>
+                            <visible>ControlGroup(9100).HasFocus(9113)</visible>
                             <include>DefSettingsButton</include>
                             <label>script.skin.helper.colorpicker $INFO[System.AddonVersion(script.skin.helper.colorpicker),(,)]</label>
                             <selected>System.HasAddon(script.skin.helper.colorpicker)</selected> 
                             <onclick condition="!System.HasAddon(script.skin.helper.colorpicker)">InstallAddon(script.skin.helper.colorpicker)</onclick>
                             <onclick condition="System.HasAddon(script.skin.helper.colorpicker)">Addon.OpenSettings(script.skin.helper.colorpicker)</onclick>                 
                         </control>  
-                        <control type="radiobutton" id="9545">
+                        <control type="radiobutton" id="11006">
                             <width>1310</width>
-                            <visible>ControlGroup(9100).HasFocus(9109)</visible>
+                            <visible>ControlGroup(9100).HasFocus(9113)</visible>
                             <include>DefSettingsButton</include>
                             <label>script.skin.helper.service $INFO[System.AddonVersion(script.skin.helper.service),(,)]</label>
                             <selected>System.HasAddon(script.skin.helper.service)</selected>  
                             <onclick condition="!System.HasAddon(script.skin.helper.service)">InstallAddon(plugin://script.skin.helper.service)</onclick>
                             <onclick condition="System.HasAddon(script.skin.helper.service)">Addon.OpenSettings(script.skin.helper.service)</onclick>                 
                         </control>  
-                        <control type="radiobutton" id="9546">
+                        <control type="radiobutton" id="11007">
                             <width>1310</width>
-                            <visible>ControlGroup(9100).HasFocus(9109)</visible>
+                            <visible>ControlGroup(9100).HasFocus(9113)</visible>
                             <include>DefSettingsButton</include>
                             <label>script.extendedinfo $INFO[System.AddonVersion(script.extendedinfo),(,)]</label>
                             <selected>System.HasAddon(script.extendedinfo)</selected> 
                             <onclick condition="!System.HasAddon(script.extendedinfo)">InstallAddon(script.extendedinfo)</onclick>
                             <onclick condition="System.HasAddon(script.extendedinfo)">Addon.OpenSettings(script.extendedinfo)</onclick>                 
-                        </control>                    
-                        -->
-                        <!--<control type="radiobutton" id="9601" description="Match theme">
+                        </control>
+                        <control type="radiobutton" id="11008">
                             <width>1310</width>
-                            <visible>ControlGroup(9100).HasFocus(9123)</visible>
+                            <visible>ControlGroup(9100).HasFocus(9113)</visible>
                             <include>DefSettingsButton</include>
-                            <label>37609</label>
-                            <selected>Skin.HasSetting(osd.usethemeNewOSD)</selected>
-                            <onclick>Skin.ToggleSetting(osd.usethemeNewOSD)</onclick>
-                        </control>-->
-                        <!--<control type="radiobutton" id="9229" description="Alternative DVD">
+                            <label>script.globalsearch $INFO[System.AddonVersion(script.globalsearch),(,)]</label>
+                            <selected>System.HasAddon(script.extendedinfo)</selected> 
+                            <onclick condition="!System.HasAddon(script.globalsearch)">InstallAddon(script.globalsearch)</onclick>
+                            <onclick condition="System.HasAddon(script.globalsearch)">Addon.OpenSettings(script.globalsearch)</onclick>                 
+                        </control>
+                        <control type="radiobutton" id="11009">
                             <width>1310</width>
-                            <visible>ControlGroup(9100).HasFocus(9108)</visible>
+                            <visible>ControlGroup(9100).HasFocus(9113)</visible>
                             <include>DefSettingsButton</include>
-                            <label>Fake DVD</label>
-                            <selected>Skin.HasSetting(fakedvd)</selected>
-                            <onclick>Skin.ToggleSetting(fakedvd)</onclick>
-                        </control>-->
-                        <!--<control type="radiobutton" id="9311" description="FlagsSquares">
-                            <width>1310</width>
-                            <visible>ControlGroup(9100).HasFocus(9108)</visible>
-                            <include>DefSettingsButton</include>
-                            <label>Media-Flag Symbol anzeigen (alternativ)</label>
-                            <selected>Skin.HasSetting(furniture.flagsquares)</selected>
-                            <onclick>Skin.ToggleSetting(furniture.flagsquares)</onclick>
-                            <onclick>Skin.Reset(furniture.flagicons)</onclick>
-                        </control>-->
+                            <label>script.cu.lrclyrics $INFO[System.AddonVersion(script.cu.lrclyrics),(,)]</label>
+                            <selected>System.HasAddon(script.cu.lrclyrics)</selected> 
+                            <onclick condition="!System.HasAddon(script.cu.lrclyrics)">InstallAddon(script.cu.lrclyrics)</onclick>
+                            <onclick condition="System.HasAddon(script.cu.lrclyrics)">Addon.OpenSettings(script.cu.lrclyrics)</onclick>                 
+                        </control>                
+                    </control>
                         
                         
                     <!-- Furniture -->
@@ -1259,7 +1252,7 @@
                             <selected>Skin.HasSetting(furniture.overlayinfo)</selected>
                             <onclick>Skin.ToggleSetting(furniture.overlayinfo)</onclick>
                         </control>		
-                        <!--<control type="button" id="9250">
+                        <!--<control type="button" id="9274">
                             <include>DefSettingsButton</include>
                             <align>left</align>
                             <label>37654</label>
