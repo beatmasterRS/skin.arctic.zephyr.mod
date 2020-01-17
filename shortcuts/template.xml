@@ -17,7 +17,11 @@
                 <onback>300</onback>
                 <onleft>Control.Move(301,-1)</onleft>
                 <onright>Control.Move(301,+1)</onright>
-                <onclick>RunScript(script.service.gto,action=infopopup&amp;blob=$INFO[Container(301).ListItem.Property(BlobId)])</onclick>
+                <onclick condition="String.Contains(Container(300).ListItem.Property(widget),gto)">RunScript(script.service.gto,action=infopopup&amp;blob=$INFO[Container(301).ListItem.Property(BlobId)])</onclick>
+                <onclick condition="!String.Contains(Container(300).ListItem.Property(widget),gto)">SetFocus(301)</onclick>
+                <onclick condition="!String.Contains(Container(300).ListItem.Property(widget),gto)">Select</onclick>
+
+                <oninfo condition="String.Contains(Container(300).ListItem.Property(widget),RandomActors)">RunScript(script.embuary.info,call=person,query='"$INFO[Container(301).ListItem.Label]"')</oninfo>
             </control>
             <control type="list" id="301">
                 <skinshortcuts>visibility</skinshortcuts>
@@ -30,7 +34,7 @@
                 <oninfo condition="!IsEmpty(Container(301).ListItem.TvShowTitle)">RunScript(script.extendedinfo,info=extendedtvinfo,name=$INFO[Container(301).ListItem.TvShowTitle],imdb_id=$INFO[Container(301).ListItem.IMDBNumber])</oninfo>
                 <onup condition="IsEmpty(Container(300).ListItem.Property(widget))">303</onup>
                 <onup condition="!IsEmpty(Container(300).ListItem.Property(widget))">300</onup>
-                <onfocus condition="String.Contains(Container(300).ListItem.Property(widget),gto)">SetFocus(4752)</onfocus>
+                <onfocus condition="String.Contains(Container(300).ListItem.Property(widget),gto) | String.Contains(Container(300).ListItem.Property(widget),RandomActors)">SetFocus(4752)</onfocus>
                 <ondown>300</ondown>
                 <onback>300</onback>
                 <onleft>301</onleft>
@@ -271,7 +275,10 @@
                 <onback>300</onback>
                 <onleft>Control.Move(301,-1)</onleft>
                 <onright>Control.Move(301,+1)</onright>
-                <onclick>RunScript(script.service.gto,action=infopopup&amp;blob=$INFO[Container(301).ListItem.Property(BlobId)])</onclick>
+                <onclick condition="String.Contains(Container(300).ListItem.Property(widget),gto)">RunScript(script.service.gto,action=infopopup&amp;blob=$INFO[Container(301).ListItem.Property(BlobId)])</onclick>
+                <onclick condition="!String.Contains(Container(300).ListItem.Property(widget),gto)">SetFocus(301)</onclick>
+                <onclick condition="!String.Contains(Container(300).ListItem.Property(widget),gto)">Select</onclick>
+                <oninfo condition="String.Contains(Container(300).ListItem.Property(widget),RandomActors)">RunScript(script.embuary.info,call=person,query='"$INFO[Container(301).ListItem.Label]"')</oninfo>
             </control>
 			<control type="wraplist" id="301">               
                 <skinshortcuts>visibility</skinshortcuts>
@@ -283,7 +290,7 @@
                 <onup condition="IsEmpty(Container(300).ListItem.Property(widget))">303</onup>
                 <onup condition="!IsEmpty(Container(300).ListItem.Property(widget))">300</onup>
                 <ondown>300</ondown>
-                <onfocus condition="String.Contains(Container(300).ListItem.Property(widget),gto)">SetFocus(4752)</onfocus>
+                <onfocus condition="String.Contains(Container(300).ListItem.Property(widget),gto) | String.Contains(Container(300).ListItem.Property(widget),RandomActors)">SetFocus(4752)</onfocus>
                 <onback>300</onback>
                 <onleft>301</onleft>
                 <onright>301</onright>
@@ -318,7 +325,10 @@
                 <onback>300</onback>
                 <onleft>Control.Move(301,-1)</onleft>
                 <onright>Control.Move(301,+1)</onright>
-                <onclick>RunScript(script.service.gto,action=infopopup&amp;blob=$INFO[Container(301).ListItem.Property(BlobId)])</onclick>
+                <onclick condition="String.Contains(Container(300).ListItem.Property(widget),gto)">RunScript(script.service.gto,action=infopopup&amp;blob=$INFO[Container(301).ListItem.Property(BlobId)])</onclick>
+                <onclick condition="!String.Contains(Container(300).ListItem.Property(widget),gto)">SetFocus(301)</onclick>
+                <onclick condition="!String.Contains(Container(300).ListItem.Property(widget),gto)">Select</onclick>
+                <oninfo condition="String.Contains(Container(300).ListItem.Property(widget),RandomActors)">RunScript(script.embuary.info,call=person,query='"$INFO[Container(301).ListItem.Label]"')</oninfo>
             </control>
             <control type="fixedlist" id="301">
                 <skinshortcuts>visibility</skinshortcuts>
@@ -331,7 +341,7 @@
                 <width>1876</width>
                 <height>325</height>
                 <onright>noop</onright>
-                <onfocus condition="String.Contains(Container(300).ListItem.Property(widget),gto)">SetFocus(4752)</onfocus>
+                <onfocus condition="String.Contains(Container(300).ListItem.Property(widget),gto) | String.Contains(Container(300).ListItem.Property(widget),RandomActors)">SetFocus(4752)</onfocus>
 				<!--<onback>300</onback>-->
 				<onback condition="!Integer.IsEqual(Container(301).Position,0) | Container(301).HasPrevious">PageUp</onback>
 				<onback condition="!Integer.IsEqual(Container(301).Position,0) | Container(301).HasPrevious">PageUp</onback>
@@ -552,6 +562,8 @@
                         <aspectratio aligny="top">keep</aspectratio>
                         <texture>$VAR[PercentWatched]</texture>
                         <visible>!String.IsEqual(ListItem.Label,..)</visible>
+
+
                         <visible>String.IsEqual(ListItem.Overlay,OverlayWatched.png)</visible>
                     </control>
                     <control type="image">
