@@ -392,7 +392,9 @@
     <variable name="WidgetSubLabel">
         <value condition="String.Contains(Container(300).ListItem.Property(widget),gto) + [Control.HasFocus(4752) | Control.HasFocus(300) | Control.HasFocus(302)]">$INFO[Container(301).ListItem.Label2]$INFO[Container(301).ListItem.Property(StartTime),  •  ] - $INFO[Container(301).ListItem.Property(EndTime)]</value>
         <value condition="String.IsEqual(Container(300).ListItem.Property(widget),NextAired)"></value>
-        <value condition="[String.Contains(Container(300).ListItem.Property(widgetType),music) | String.Contains(Container(300).ListItem.Property(widgetType),albums) | String.Contains(Container(300).ListItem.Property(widgetType),artists) | String.Contains(Container(300).ListItem.Property(widgetType),songs)]">$INFO[Container(301).ListItem.Artist]$INFO[Container(301).ListItem.Year,  •  ,]</value>
+        <value condition="String.Contains(Container(300).ListItem.Property(widgetType),artists) + !String.IsEmpty(Container(301).ListItem.Property(Artist_Style))">$INFO[Container(301).ListItem.Property(Artist_Style)]</value>
+        <value condition="String.Contains(Container(300).ListItem.Property(widgetType),artists) + String.IsEmpty(Container(301).ListItem.Property(Artist_Style))">$INFO[Container(301).ListItem.Artist]</value>
+        <value condition="[String.Contains(Container(300).ListItem.Property(widgetType),music) | String.Contains(Container(300).ListItem.Property(widgetType),albums) | String.Contains(Container(300).ListItem.Property(widgetType),songs)]">$INFO[Container(301).ListItem.Artist]$INFO[Container(301).ListItem.Year,  •  ,]</value>
 			
         <value condition="!String.IsEqual(Container(301).ListItem.Title,Container(301).ListItem.TvShowTitle) + !String.IsEmpty(Container(301).ListItem.TvShowTitle) + !Skin.HasSetting(NewTime)">$INFO[Container(301).ListItem.TvShowTitle,,  •  ]$INFO[Container(301).ListItem.Premiered,,  •  ]$INFO[Container(301).ListItem.Duration(mins),, $LOCALIZE[31102]  •  ]$INFO[Container(301).ListItem.Rating]</value>
 		<value condition="!String.IsEqual(Container(301).ListItem.Title,Container(301).ListItem.TvShowTitle) + !String.IsEmpty(Container(301).ListItem.TvShowTitle) + Skin.HasSetting(NewTime) + Integer.IsGreater(Container(301).ListItem.Duration(h),0)">$INFO[Container(301).ListItem.TvShowTitle,,  •  ]$INFO[Container(301).ListItem.Premiered,,  •  ]$INFO[Container(301).ListItem.Duration(h),,$LOCALIZE[37615]] $INFO[Container(301).ListItem.Duration(m),,$LOCALIZE[37616]  •  ]$INFO[Container(301).ListItem.Rating]</value>
@@ -505,15 +507,11 @@
     <variable name="PlayerBigTitle">
         <value condition="!Player.HasVideo">$INFO[MusicPlayer.Artist]</value>
         <value condition="VideoPlayer.Content(movies)">$INFO[VideoPlayer.Title]</value>
-        <value condition="VideoPlayer.Content(episodes)">$INFO[VideoPlayer.TvShowTitle] - S0$INFO[VideoPlayer.Season]E$INFO[VideoPlayer.Episode]</value>
-        
+        <value condition="VideoPlayer.Content(episodes)">$INFO[VideoPlayer.TvShowTitle] - S0$INFO[VideoPlayer.Season]E$INFO[VideoPlayer.Episode]</value>        
 		<value condition="!String.IsEmpty(VideoPlayer.Title)">$INFO[VideoPlayer.Title]</value>
 		<value>$LOCALIZE[19055]</value>
     </variable>
-	<variable name="PlayerBigTitlePvr">
-        
-		<value>$INFO[VideoPlayer.Title]</value>
-    </variable>
+
     <variable name="PlayerPlotBox">
         <value condition="!Player.HasVideo">$INFO[MusicPlayer.Album,, ]$INFO[MusicPlayer.Year,(,)]</value>
         <value>$INFO[VideoPlayer.Plot]</value>
@@ -705,7 +703,7 @@
         
         <value condition="Control.HasFocus(9001) + Window.IsVisible(Custom_MovieSets.xml)">$LOCALIZE[208]</value>
         <value condition="Control.HasFocus(9005) + Window.IsVisible(Custom_MovieSets.xml)">$LOCALIZE[37695]</value>
-        <value condition="Control.HasFocus(9007) + Window.IsVisible(Custom_MovieSets.xml)">$LOCALIZE[5]</value>
+        <value condition="Control.HasFocus(9007) + Window.IsVisible(Custom_MovieSets.xml)">$LOCALIZE[16106]</value>
         
         <value condition="Control.HasFocus(9001) + Window.IsVisible(script-embuary-person.xml) + Skin.HasSetting(wipinfo)">$LOCALIZE[37693]</value>
         <value condition="Control.HasFocus(9002) + Window.IsVisible(script-embuary-person.xml) + Skin.HasSetting(wipinfo)">$LOCALIZE[37677]</value>
