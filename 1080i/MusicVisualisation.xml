@@ -208,6 +208,24 @@
 				<textcolor>$VAR[OSDPanelWhite70]</textcolor>
 				<label>$INFO[Player.Time]$INFO[Player.Duration,  /  ,]</label>
 			</control>	
+            <control type="image">
+                <!--<visible>!Skin.HasSetting(osd.artistinfos)</visible>-->
+                <visible>!Window.IsVisible(musicosd)</visible>
+                <visible>Player.Seeking | Player.DisplayAfterSeek | Player.Paused | Player.Forwarding | Player.Rewinding | Player.ShowInfo</visible>
+                <right>80</right>
+                <bottom>110</bottom>
+                <width>500</width>
+                <height>281</height>
+                <texture>$VAR[PlayerClearart]</texture>
+                <aspectratio align="right" aligny="bottom">keep</aspectratio>
+                <include>Animation.FadeIn</include>
+                <include>Animation.FadeOut</include>
+                
+                <animation effect="fade" start="100" end="0" time="150" condition="Window.IsVisible(script-cu-lrclyrics-main.xml) + Skin.HasSetting(hideseekbaronlyrics)">Conditional</animation>
+                <animation effect="fade" start="100" end="0" time="0" condition="Skin.HasSetting(osd.artistinfos) + !Skin.HasSetting(osd.usethemeNewOSD)">Conditional</animation>
+                <animation effect="slide" start="0" end="-35,-100" time="150" condition="Skin.HasSetting(osd.usethemeNewOSD)">Conditional</animation>
+                <animation effect="slide" start="0,0" end="0,-70" time="150" condition="Skin.HasSetting(osd.artistinfos)">Conditional</animation>
+            </control>
 			<control type="grouplist">
 				<animation effect="slide" start="0,0" end="0,-70" time="150" condition="Skin.HasSetting(osd.artistinfos)">Conditional</animation>
 				<visible>Skin.HasSetting(osd.usethemeNewOSD)</visible>
@@ -681,6 +699,12 @@
 			<animation effect="slide" start="0,0" end="0,137" time="150" condition="Skin.HasSetting(osd.usethemeNewOSD)">Conditional</animation>
 			<animation effect="slide" start="0,0" end="50,0" time="0" condition="Skin.HasSetting(osd.usethemeNewOSD)">Conditional</animation>
 			<animation effect="slide" start="0,0" end="0,-40" time="150" condition="Skin.HasSetting(osd.artistinfos) + Skin.HasSetting(osd.usethemeNewOSD)">Conditional</animation>
+            <animation type="Conditional" condition="Window.IsVisible(script-cu-lrclyrics-main.xml) + Skin.HasSetting(hideseekbaronlyrics) + !Skin.HasSetting(osd.usethemeNewOSD)">
+                <effect type="slide" start="0,0" end="-480,0" tween="sine" easing="out" time="300" delay="500" />
+            </animation>
+            <animation type="Conditional" condition="Window.IsVisible(script-cu-lrclyrics-main.xml) + Skin.HasSetting(hideseekbaronlyrics) + Skin.HasSetting(osd.usethemeNewOSD)">
+                <effect type="slide" start="0,0" end="-520,0" tween="sine" easing="out" time="300" delay="500" />
+            </animation>
 			<control type="group">
 				<visible>Integer.IsGreater(MusicPlayer.Time,0)</visible>
 				<visible>Player.ShowInfo</visible>
@@ -735,6 +759,12 @@
 		</control>
 		<control type="group">
 			<visible>!Skin.HasSetting(AlternativeCd) + Skin.HasSetting(ShowMusicCd)</visible>
+            <animation type="Conditional" condition="Window.IsVisible(script-cu-lrclyrics-main.xml) + Skin.HasSetting(hideseekbaronlyrics) + !Skin.HasSetting(osd.usethemeNewOSD)">
+                <effect type="slide" start="0,0" end="-480,0" tween="sine" easing="out" time="300" delay="500" />
+            </animation>
+            <animation type="Conditional" condition="Window.IsVisible(script-cu-lrclyrics-main.xml) + Skin.HasSetting(hideseekbaronlyrics) + Skin.HasSetting(osd.usethemeNewOSD)">
+                <effect type="slide" start="0,0" end="-520,0" tween="sine" easing="out" time="300" delay="500" />
+            </animation>
 			<animation effect="slide" start="0,0" end="0,142" time="150" condition="Skin.HasSetting(osd.usethemeNewOSD)">Conditional</animation>
 			<animation effect="slide" start="0,0" end="50,0" time="0" condition="Skin.HasSetting(osd.usethemeNewOSD)">Conditional</animation>
 			<control type="group">
