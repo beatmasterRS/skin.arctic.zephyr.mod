@@ -407,8 +407,10 @@
     <variable name="ClearLogoTopVar">
         <value condition="!String.IsEmpty(ListItem.Art(clearlogo))">$INFO[ListItem.Art(clearlogo)]</value>
         <value condition="!String.IsEmpty(ListItem.Art(tvshow.clearlogo))">$INFO[ListItem.Art(tvshow.clearlogo)]</value>
+        <value condition="!String.IsEmpty(ListItem.Art(artist.clearlogo))">$INFO[ListItem.Art(artist.clearlogo)]</value>
         <value condition="!String.IsEmpty(Container(9500).ListItem.Art(clearlogo))">$INFO[Container(9500).ListItem.Art(clearlogo)]</value>
         <value condition="!String.IsEmpty(Container(9500).ListItem.Art(tvshow.clearlogo))">$INFO[Container(9500).ListItem.Art(tvshow.clearlogo)]</value>
+        <value condition="!String.IsEmpty(Container(9500).ListItem.Art(artist.clearlogo))">$INFO[Container(9500).ListItem.Art(artist.clearlogo)]</value>
     </variable>
     
     
@@ -4007,7 +4009,44 @@
         </control>
     </include>
 	
+    <include name="AlbumCount">
+        <control type="group">
+            <visible>Container.Content(albums)</visible>
+            <centertop>50%</centertop>
+            <width>70</width>
+            <height>40</height>
+            <control type="image" description="button back">
+                <width>45</width>
+                <height>45</height>
+                <left>10</left>
+                <align>center</align>
+                <texture border="0" colordiffuse="Dark1">common/circle.png</texture>
+            </control>
+            <control type="label">
+                <width>45</width>
+                <height>40</height>
+                <align>center</align>
+                <left>10</left>
+                <centertop>53%</centertop>
+                <label>$INFO[Container(5014).NumItems]</label>
+                <font>Tiny44</font>
+                <textcolor>Dark1</textcolor>
+            </control>
+        </control>
+    </include>
+    
 	<include name="Furniture_Flags_Audio">
+        <!-- Fakelist Container for Album Count -->
+        <control type="list" id="5014">
+			<visible>Container.Content(songs) | Container.Content(albums)</visible>
+            <top>-3000</top>
+			<left>-3000</left>
+			<width>1</width>
+			<height>1</height>
+			<itemlayout/>
+			<focusedlayout/>
+            <content>$INFO[Container.ListItem.FolderPath]</content>            
+        </control>
         <control type="grouplist">	
             <include>Animation.FurnitureVisible</include>
 			<visible>!Skin.HasSetting(furniture.coloredicons)</visible>	
@@ -4028,6 +4067,7 @@
             <align>left</align>
             <itemgap>5</itemgap>
             <usecontrolcoords>true</usecontrolcoords>
+            <include>AlbumCount</include>
             <control type="image">
                 <width>64</width>
                 <height>64</height>
@@ -4147,10 +4187,7 @@
                 <textcolor>Dark1</textcolor>            
             </control>
         </control>
-		
-		
-		
-		
+
 		<control type="grouplist">
             <include>Animation.FurnitureVisible</include>	
 			<visible>Skin.HasSetting(furniture.coloredicons)</visible>	
@@ -4171,6 +4208,7 @@
             <align>left</align>
             <itemgap>5</itemgap>
             <usecontrolcoords>true</usecontrolcoords>
+            <include>AlbumCount</include>
             <control type="image">
                 <width>64</width>
                 <height>64</height>
