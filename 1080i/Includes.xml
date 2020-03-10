@@ -2831,6 +2831,7 @@
             <onup condition="String.IsEqual(Window.Property(musiccontent),3)">9502</onup>
             <onup condition="String.IsEqual(Window.Property(musiccontent),4)">95031</onup>
             <onup condition="String.IsEqual(Window.Property(musiccontent),1)">9009</onup>
+            <onup condition="String.IsEqual(Window.Property(musiccontent),8) + Integer.IsGreater(Container(9508).NumItems,1)">9508</onup>
             <onup condition="Control.HasFocus(9002) + !String.IsEqual(Window.Property(ShowDisc),1) + !String.IsEmpty(ListItem.Art(discart))">SetProperty(ShowDisc,1)</onup>
             <onup condition="Control.HasFocus(9002) + String.IsEqual(Window.Property(ShowDisc),1) + !String.IsEmpty(ListItem.Art(discart))">ClearProperty(ShowDisc)</onup>
             <onup condition="String.IsEmpty(Window.Property(musiccontent))">9010</onup>
@@ -2901,7 +2902,6 @@
 					<param name="icon" value="buttonsdialogs/youtube.png" />
 				</include>
 			</control>
-
             
             <!-- Fanart Button -->	
 			<control type="radiobutton" id ="9006">
@@ -2932,8 +2932,7 @@
 				</include>
 				<textcolor>Dark4</textcolor>
 				<font>Null</font>
-			</control>
-            
+			</control>            
             <control type="radiobutton" id ="9110">
                 <visible>!String.IsEqual(ListItem.DBType,artist) + !String.IsEmpty(ListItem.UserRating)</visible>
                 <include>OnFocusOnClick</include> 
@@ -2946,7 +2945,23 @@
 				</include>
 				<textcolor>Dark4</textcolor>
 				<font>Null</font>
-			</control>	
+			</control>
+            
+            <!-- More Of Artist Button -->	
+			<control type="radiobutton" id ="9009">
+                <visible>String.IsEqual(ListItem.DBType,song)</visible>
+                <onfocus condition="!String.IsEqual(Window.Property(musiccontent),8)">ClearProperty(musiccontent)</onfocus>
+                <onclick>SetProperty(musiccontent,8)</onclick>              
+                <onfocus condition="!Skin.HasSetting(dontclickonfocus)">SetProperty(musiccontent,8)</onfocus>
+				<font>Button</font>
+				<textcolor>Dark2</textcolor>
+				<include>buttondimensionssquare</include>
+				<texturenofocus colordiffuse="Dark4" border="0">common/boxsquare.png</texturenofocus>
+				<texturefocus colordiffuse="$VAR[ColorHighlight]" border="0">common/boxsquare.png</texturefocus>
+				<include content="buttontextures">
+					<param name="icon" value="buttonsdialogs/more.png" />
+				</include>
+			</control>
             
             <!-- Setting Button -->
             <control type="radiobutton" id ="9008"> 
@@ -4308,4 +4323,14 @@
         <value condition="Skin.HasSetting(osd.usethemeNewOSD)">$VAR[OSDPanelWhite30]</value>
         <value>BoxNotification</value>
     </variable>
+    
+    <variable name="MoreOfArtistContent">
+        <value condition="!String.IsEmpty(ListItem.Artist) + !String.IsEqual(ListItem.Artist,) + !String.IsEqual(ListItem.Artist, )">musicdb://songs/?xsp=%7B%22order%22%3A%7B%22ignorefolders%22%3A0%2C%22method%22%3A%22songs%22%7D%2C%22rules%22%3A%7B%22and%22%3A%5B%7B%22field%22%3A%22artist%22%2C%22operator%22%3A%22contains%22%2C%22value%22%3A%5B%22$INFO[ListItem.Artist]%22%5D%7D%5D%7D%2C%22type%22%3A%22songs%22%7D</value>
+    </variable>
+    
+    <variable name="StorageIconLabel">
+        <value condition="ListItem.IsPlaying">&#62811;</value>
+        <value>&#xf4ea;</value>
+    </variable>
+    
 </includes>
