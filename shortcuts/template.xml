@@ -20,7 +20,6 @@
                 <onclick condition="String.Contains(Container(300).ListItem.Property(widget),gto)">RunScript(script.service.gto,action=infopopup&amp;blob=$INFO[Container(301).ListItem.Property(BlobId)])</onclick>
                 <onclick condition="!String.Contains(Container(300).ListItem.Property(widget),gto)">SetFocus(301)</onclick>
                 <onclick condition="!String.Contains(Container(300).ListItem.Property(widget),gto)">Select</onclick>
-
                 <oninfo condition="String.Contains(Container(300).ListItem.Property(widget),RandomActors)">RunScript(script.embuary.info,call=person,query='"$INFO[Container(301).ListItem.Label]"')</oninfo>
             </control>
             <control type="list" id="301">
@@ -307,7 +306,1041 @@
                 <content limit="$VAR[DefWidgetLimit]" target="$SKINSHORTCUTS[target]" sortby="$SKINSHORTCUTS[sortby]" sortorder="$SKINSHORTCUTS[sort]">$SKINSHORTCUTS[content]</content>
             </control>
         </controls>
+    </other> 
+    
+    <!-- Widget Submenu -->
+    <other include="widget-vertical.1.submenu">
+        <property name="id" tag="mainmenuid" />
+        <property name="content" tag="property" attribute="name|widgetPath" />
+        <property name="content">$VAR[DefWidgetContent]</property>
+        <property name="target" tag="property" attribute="name|widgetTarget" />
+		<property name="sortby" tag="property" attribute="name|widgetSortby" />
+		<property name="sort" tag="property" attribute="name|widgetSort" />
+        <property name="banner" tag="property" attribute="name|widgetBanner" />
+        <property name="mainmenuid" tag="property" attribute="name|mainmenuid" />
+        <property name="widgetlisttype" tag="property" attribute="name|widgetListType" />
+        <property name="widgetlisttype">fixedlist</property> 
+        <property name="widgetclearlogothumb" tag="property" attribute="name|widgetClearLogoThumb" value="yes">true</property>
+        <property name="widgetclearlogothumb" tag="property" attribute="name|widgetClearLogoThumb" value="no">false</property>
+        <property name="widgetclearlogothumb">true</property>       
+        <controls>            
+            <control type="group" id="301$SKINSHORTCUTS[id]217"> 
+                <control type="grouplist">                
+                    <visible>Skin.HasSetting(home.vertical.widgets.submenu)</visible>
+                    <visible>Integer.IsGreater(Container(301$SKINSHORTCUTS[id]17).NumItems,0) | Container(301$SKINSHORTCUTS[id]17).IsUpdating</visible>
+                    <skinshortcuts>visibility</skinshortcuts>
+                    <include>widget.title.include</include>
+                    <control type="label">                            
+                        <height>38</height>
+                        <font>SmallNavi</font>
+                        <width>auto</width>                                                               
+                        <textcolor>Dark1</textcolor>
+                        <label>$VAR[WidgetLabelWidgetsSubmenu]</label>                                                      
+                    </control>                
+                    <include content="widget.title.label">
+                        <param name="focusid" value="301$SKINSHORTCUTS[id]17" />
+                    </include>                
+                    <include content="widget.title.label.loading">
+                        <param name="focusid" value="301$SKINSHORTCUTS[id]17" />
+                        <param name="condition" value="!String.Contains(Container(300).ListItem.Property(widget),Weather)" />
+                    </include>               
+                </control> 
+            </control>  
+            <control type="list" id="301$SKINSHORTCUTS[id]17">
+                <include>DefVerticalWidgetsContainerTop</include>
+                <visible>Skin.HasSetting(home.vertical.widgets.submenu)</visible>
+                <visible>Integer.IsGreater(Container(301$SKINSHORTCUTS[id]17).NumItems,0) | Container(301$SKINSHORTCUTS[id]17).IsUpdating</visible>
+                <skinshortcuts>visibility</skinshortcuts>
+                <include>Animation.Vertical.Widgets.Container</include>
+                <include condition="Skin.HasSetting(home.vertical.widgets.submenu.mini) | [!Skin.HasSetting(home.vertical.widgets.submenu.poster) + !Skin.HasSetting(home.vertical.widgets.submenu.square) +!Skin.HasSetting(home.vertical.widgets.submenu.fanart) + !Skin.HasSetting(home.vertical.widgets.submenu.mini)]">DefWidgetContainerHeight</include>           
+                <include content="DefVerticalWidgetsInclude">
+                    <param name="id" value="301$SKINSHORTCUTS[id]17" />
+                </include>    
+                <itemlayout height="100" width="100" condition="Skin.HasSetting(home.vertical.widgets.submenu.mini) | [!Skin.HasSetting(home.vertical.widgets.submenu.poster) + !Skin.HasSetting(home.vertical.widgets.submenu.square) +!Skin.HasSetting(home.vertical.widgets.submenu.fanart) + !Skin.HasSetting(home.vertical.widgets.submenu.mini)]">
+                    <include content="include.widget.square">
+                        <param name="focustest" value="301$SKINSHORTCUTS[id]1" />
+                    </include>
+                </itemlayout>                 
+                <itemlayout height="325" width="222" condition="Skin.HasSetting(home.vertical.widgets.submenu.poster)">
+                    <include>include.widget.poster</include>
+                </itemlayout>
+                <itemlayout height="325" width="325" condition="Skin.HasSetting(home.vertical.widgets.submenu.square)">
+                    <include>include.widget.square</include>
+                </itemlayout>
+                <itemlayout height="325" width="562" condition="Skin.HasSetting(home.vertical.widgets.submenu.fanart)">
+                    <include>include.widget.fanart</include>
+                </itemlayout>
+                <focusedlayout height="100" width="100" condition="Skin.HasSetting(home.vertical.widgets.submenu.mini) | [!Skin.HasSetting(home.vertical.widgets.submenu.poster) + !Skin.HasSetting(home.vertical.widgets.submenu.square) +!Skin.HasSetting(home.vertical.widgets.submenu.fanart) + !Skin.HasSetting(home.vertical.widgets.submenu.mini)]">
+                    <include content="include.widget.square.focus">
+                        <param name="id" value="301$SKINSHORTCUTS[id]17" />
+                    </include> 
+                </focusedlayout>
+                <focusedlayout height="325" width="222" condition="Skin.HasSetting(home.vertical.widgets.submenu.poster)">
+                    <include content="include.widget.poster.focus">
+                        <param name="id" value="301$SKINSHORTCUTS[id]17" />
+                    </include>
+                </focusedlayout>
+                <focusedlayout height="325" width="325" condition="Skin.HasSetting(home.vertical.widgets.submenu.square)">
+                    <include content="include.widget.square.focus">
+                        <param name="id" value="301$SKINSHORTCUTS[id]17" />
+                    </include> 
+                </focusedlayout>
+                <focusedlayout height="325" width="562" condition="Skin.HasSetting(home.vertical.widgets.submenu.fanart)">
+                    <include content="include.widget.fanart.focus">
+                        <param name="id" value="301$SKINSHORTCUTS[id]17" />
+                    </include> 
+                </focusedlayout>               
+                <include>contentinclude-submenu</include>
+            </control>
+        </controls>
     </other>    
+    
+    <!-- Widget InfoSub -->
+    <other include="widget-infosub">
+        <property name="id" tag="mainmenuid" />
+        <property name="content" tag="property" attribute="name|widgetPath" />
+        <property name="content">$VAR[DefWidgetContent]</property>
+        <property name="target" tag="property" attribute="name|widgetTarget" />
+		<property name="sortby" tag="property" attribute="name|widgetSortby" />
+		<property name="sort" tag="property" attribute="name|widgetSort" />
+        <property name="banner" tag="property" attribute="name|widgetBanner" />
+        <property name="mainmenuid" tag="property" attribute="name|mainmenuid" />
+        <property name="widgetauto" tag="property" attribute="name|widgetAuto" value="$NUMBER[5000]">5000</property>
+        <property name="widgetauto" tag="property" attribute="name|widgetAuto" value="$NUMBER[7000]">7000</property>
+        <property name="widgetauto" tag="property" attribute="name|widgetAuto" value="$NUMBER[10000]">10000</property>
+        <property name="widgetauto" tag="property" attribute="name|widgetAuto" value="$NUMBER[15000]">15000</property>
+        <property name="widgetauto" tag="property" attribute="name|widgetAuto" value="$NUMBER[20000]">20000</property>
+        <property name="widgetauto" tag="property" attribute="name|widgetAuto" value="$NUMBER[25000]">25000</property>
+        <property name="widgetlisttype" tag="property" attribute="name|widgetListType" />
+        <property name="widgetlisttype">fixedlist</property> 
+        <property name="widgetclearlogothumb" tag="property" attribute="name|widgetClearLogoThumb" value="yes">true</property>
+        <property name="widgetclearlogothumb" tag="property" attribute="name|widgetClearLogoThumb" value="no">false</property>
+        <property name="widgetclearlogothumb">true</property>       
+        <controls>            
+            <control type="group">
+                <skinshortcuts>visibility</skinshortcuts>
+                <include content="InfoSub">
+                    <param name="id" value="301$SKINSHORTCUTS[id]1" />
+                </include>
+            </control>
+        </controls>
+    </other>    
+    
+    <!-- Widget 1 -->
+    <other include="widget-vertical.1">
+        <property name="id" tag="mainmenuid" />
+        <property name="content" tag="property" attribute="name|widgetPath" />
+        <property name="content">$VAR[DefWidgetContent]</property>
+        <property name="target" tag="property" attribute="name|widgetTarget" />
+		<property name="sortby" tag="property" attribute="name|widgetSortby" />
+		<property name="sort" tag="property" attribute="name|widgetSort" />
+        <property name="banner" tag="property" attribute="name|widgetBanner" />
+        <property name="mainmenuid" tag="property" attribute="name|mainmenuid" />
+        <property name="widgetauto" tag="property" attribute="name|widgetAuto" value="$NUMBER[5000]">5000</property>
+        <property name="widgetauto" tag="property" attribute="name|widgetAuto" value="$NUMBER[7000]">7000</property>
+        <property name="widgetauto" tag="property" attribute="name|widgetAuto" value="$NUMBER[10000]">10000</property>
+        <property name="widgetauto" tag="property" attribute="name|widgetAuto" value="$NUMBER[15000]">15000</property>
+        <property name="widgetauto" tag="property" attribute="name|widgetAuto" value="$NUMBER[20000]">20000</property>
+        <property name="widgetauto" tag="property" attribute="name|widgetAuto" value="$NUMBER[25000]">25000</property>
+        <property name="widgetlisttype" tag="property" attribute="name|widgetListType" />
+        <property name="widgetlisttype">fixedlist</property> 
+        <property name="widgetclearlogothumb" tag="property" attribute="name|widgetClearLogoThumb" value="yes">true</property>
+        <property name="widgetclearlogothumb" tag="property" attribute="name|widgetClearLogoThumb" value="no">false</property>
+        <property name="widgetclearlogothumb">true</property>       
+        <controls>            
+            <control type="group" id="301$SKINSHORTCUTS[id]21"> 
+                <control type="grouplist">                    
+                    <visible>!String.Contains(Container(300).ListItem.Property(widget),Weather)</visible>
+                    <visible>Integer.IsGreater(Container(301$SKINSHORTCUTS[id]1).NumItems,0) | Container(301$SKINSHORTCUTS[id]1).IsUpdating</visible>
+                    <skinshortcuts>visibility</skinshortcuts>
+                    <include>widget.title.include</include>
+                    <control type="label">                            
+                        <height>38</height>
+                        <font>SmallNavi</font>
+                        <width>auto</width>                                                               
+                        <textcolor>Dark1</textcolor>
+                        <label>$VAR[WidgetLabelWidgets1]</label>                                                      
+                    </control>                
+                    <include content="widget.title.label">
+                        <param name="focusid" value="301$SKINSHORTCUTS[id]1" />
+                    </include>                
+                    <include content="widget.title.label.loading">
+                        <param name="focusid" value="301$SKINSHORTCUTS[id]1" />
+                        <param name="condition" value="!String.Contains(Container(300).ListItem.Property(widget),Weather)" />
+                    </include>               
+                </control>
+            </control>  
+            <control type="$SKINSHORTCUTS[widgetlisttype]" id="301$SKINSHORTCUTS[id]1">
+                <include>DefVerticalWidgetsContainerTop</include>                
+                <visible>!String.Contains(Container(300).ListItem.Property(widget),Weather)</visible>
+                <visible>Integer.IsGreater(Container(301$SKINSHORTCUTS[id]1).NumItems,0) | Container(301$SKINSHORTCUTS[id]1).IsUpdating</visible>
+                <skinshortcuts>visibility</skinshortcuts>
+                <include>Animation.Vertical.Widgets.Container</include>
+				<include content="widget.autoscroll.time">
+                    <param name="id" value="301$SKINSHORTCUTS[id]1" />
+                    <param name="AutoTime" value="$SKINSHORTCUTS[widgetauto]" />
+                    <param name="AutoScrollCondition" value="!Control.HasFocus(301$SKINSHORTCUTS[id]1) + !Control.HasFocus(4752) + !String.IsEmpty(Container(300).ListItem.Property(widgetAuto)) + !String.IsEqual(Container(300).ListItem.Property(widgetListType),list) + System.IdleTime(1)" />
+                </include>            
+                <include content="DefVerticalWidgetsInclude">
+                    <param name="id" value="301$SKINSHORTCUTS[id]1" />
+                </include>                
+                <itemlayout height="325" width="222" condition="!String.IsEqual(Container(300).ListItem.Property(widgetaspect),Square) + ![String.IsEqual(Container(300).ListItem.Property(widgetaspect),Fanart) | String.IsEqual(Container(300).ListItem.Property(widgetaspect),Thumbnail)]">
+                    <include content="include.widget.poster">
+                        <param name="focustest" value="301$SKINSHORTCUTS[id]1" />
+                        <param name="id" value="301$SKINSHORTCUTS[id]1" />
+                    </include>
+                </itemlayout>
+                <itemlayout height="325" width="325" condition="String.IsEqual(Container(300).ListItem.Property(widgetaspect),Square)">
+                    <include content="include.widget.square">
+                        <param name="id" value="301$SKINSHORTCUTS[id]1" />
+                    </include> 
+                </itemlayout>
+                <itemlayout height="325" width="562" condition="String.IsEqual(Container(300).ListItem.Property(widgetaspect),Fanart)">
+                    <include content="include.widget.fanart">
+                        <param name="id" value="301$SKINSHORTCUTS[id]1" />
+                    </include> 
+                </itemlayout>
+                <itemlayout height="325" width="562" condition="String.IsEqual(Container(300).ListItem.Property(widgetaspect),Thumbnail)">
+                    <include content="include.widget.thumb">
+                        <param name="clearlogo" value="$SKINSHORTCUTS[widgetclearlogothumb]" />
+                        <param name="id" value="301$SKINSHORTCUTS[id]1" />
+                    </include>
+                </itemlayout>
+                <focusedlayout height="325" width="222" condition="!String.IsEqual(Container(300).ListItem.Property(widgetaspect),Square) + ![String.IsEqual(Container(300).ListItem.Property(widgetaspect),Fanart) | String.IsEqual(Container(300).ListItem.Property(widgetaspect),Thumbnail)]">
+                    <include content="include.widget.poster.focus">
+                        <param name="id" value="301$SKINSHORTCUTS[id]1" />
+                    </include> 
+                </focusedlayout>
+                <focusedlayout height="325" width="325" condition="String.IsEqual(Container(300).ListItem.Property(widgetaspect),Square)">
+                    <include content="include.widget.square.focus">
+                        <param name="id" value="301$SKINSHORTCUTS[id]1" />
+                    </include>  
+                </focusedlayout>
+                <focusedlayout height="325" width="562" condition="String.IsEqual(Container(300).ListItem.Property(widgetaspect),Fanart)">
+                    <include content="include.widget.fanart.focus">
+                        <param name="id" value="301$SKINSHORTCUTS[id]1" />
+                    </include>   
+                </focusedlayout>
+                <focusedlayout height="325" width="562" condition="String.IsEqual(Container(300).ListItem.Property(widgetaspect),Thumbnail)">
+                    <include content="include.widget.thumb.focus">
+                        <param name="id" value="301$SKINSHORTCUTS[id]1" />
+                        <param name="clearlogo" value="$SKINSHORTCUTS[widgetclearlogothumb]" />
+                    </include>   
+                </focusedlayout>
+                <content limit="$VAR[DefWidgetLimit]" target="$SKINSHORTCUTS[target]" sortby="$SKINSHORTCUTS[sortby]" sortorder="$SKINSHORTCUTS[sort]">$SKINSHORTCUTS[content]</content>
+            </control>
+        </controls>
+    </other>
+
+    <!-- Widget 2 -->
+    <other include="widget-vertical.2">
+        <property name="id" tag="mainmenuid" />
+        <property name="content" tag="property" attribute="name|widgetPath.2" />
+        <property name="content">$VAR[DefWidgetContent]</property>
+        <property name="target" tag="property" attribute="name|widgetTarget.2" />
+		<property name="sortby" tag="property" attribute="name|widgetSortby.2" />
+		<property name="sort" tag="property" attribute="name|widgetSort.2" />
+        <property name="banner" tag="property" attribute="name|widgetBanner.2" />
+        <property name="enable" tag="property" attribute="name|widgetEnable.2" />
+        <property name="widgetauto" tag="property" attribute="name|widgetAuto.2" value="$NUMBER[5000]">5000</property>
+        <property name="widgetauto" tag="property" attribute="name|widgetAuto.2" value="$NUMBER[7000]">7000</property>
+        <property name="widgetauto" tag="property" attribute="name|widgetAuto.2" value="$NUMBER[10000]">10000</property>
+        <property name="widgetauto" tag="property" attribute="name|widgetAuto.2" value="$NUMBER[15000]">15000</property>
+        <property name="widgetauto" tag="property" attribute="name|widgetAuto.2" value="$NUMBER[20000]">20000</property>
+        <property name="widgetauto" tag="property" attribute="name|widgetAuto.2" value="$NUMBER[25000]">25000</property>
+        <property name="widgetlisttype" tag="property" attribute="name|widgetListType" />
+        <property name="widgetlisttype">fixedlist</property>
+        <property name="widgetclearlogothumb" tag="property" attribute="name|widgetClearLogoThumb.2" value="yes">true</property>
+        <property name="widgetclearlogothumb" tag="property" attribute="name|widgetClearLogoThumb.2" value="no">false</property>
+        <property name="widgetclearlogothumb">true</property>
+        <controls>
+            <control type="group" id="301$SKINSHORTCUTS[id]22">            
+                <control type="grouplist">                
+                    <visible>String.Contains(Container(300).ListItem.Property(widgetEnable.2),yes)</visible>
+                    <visible>!String.Contains(Container(300).ListItem.Property(widget.2),Weather)</visible>
+                    <visible>Integer.IsGreater(Container(301$SKINSHORTCUTS[id]2).NumItems,0) | Container(301$SKINSHORTCUTS[id]2).IsUpdating</visible>
+                    <skinshortcuts>visibility</skinshortcuts>
+                    <include>widget.title.include</include>
+                    <control type="label">                            
+                        <height>38</height>
+                        <font>SmallNavi</font>
+                        <width>auto</width>                                                               
+                        <textcolor>Dark1</textcolor>
+                        <label>$VAR[WidgetLabelWidgets2]</label>                                                     
+                    </control>                
+                    <include content="widget.title.label">
+                        <param name="focusid" value="301$SKINSHORTCUTS[id]2" />
+                    </include> 
+                    <include content="widget.title.label.loading">
+                        <param name="focusid" value="301$SKINSHORTCUTS[id]2" />
+                        <param name="condition" value="!String.Contains(Container(300).ListItem.Property(widget.2),Weather)" />                     
+                    </include>               
+                </control>
+            </control>
+            <control type="$SKINSHORTCUTS[widgetlisttype]" id="301$SKINSHORTCUTS[id]2">
+                <include>DefVerticalWidgetsContainerTop</include>
+                <skinshortcuts>visibility</skinshortcuts>
+                <visible>!String.Contains(Container(300).ListItem.Property(widget.2),Weather)</visible>
+                <visible>String.Contains(Container(300).ListItem.Property(widgetEnable.2),yes)</visible>
+                <visible>Integer.IsGreater(Container(301$SKINSHORTCUTS[id]2).NumItems,0) | Container(301$SKINSHORTCUTS[id]2).IsUpdating</visible>
+                <include>Animation.Vertical.Widgets.Container</include>
+				<include content="widget.autoscroll.time">
+                    <param name="id" value="301$SKINSHORTCUTS[id]2" />
+                    <param name="AutoTime" value="$SKINSHORTCUTS[widgetauto]" />
+                    <param name="AutoScrollCondition" value="!Control.HasFocus(301$SKINSHORTCUTS[id]2) + !Control.HasFocus(4752) + !String.IsEmpty(Container(300).ListItem.Property(widgetAuto.2)) + !String.IsEqual(Container(300).ListItem.Property(widgetListType),list) + System.IdleTime(1)" />
+                </include>               
+                <include content="DefVerticalWidgetsInclude">
+                    <param name="id" value="301$SKINSHORTCUTS[id]2" />
+                </include> 
+                <itemlayout height="325" width="222" condition="!String.IsEqual(Container(300).ListItem.Property(widgetaspect.2),Square) + ![String.IsEqual(Container(300).ListItem.Property(widgetaspect.2),Fanart) | String.IsEqual(Container(300).ListItem.Property(widgetaspect.2),Thumbnail)]">
+                    <include content="include.widget.poster">
+                        <param name="focustest" value="301$SKINSHORTCUTS[id]2" />
+                        <param name="id" value="301$SKINSHORTCUTS[id]2" />
+                    </include>
+                </itemlayout>
+                <itemlayout height="325" width="325" condition="String.IsEqual(Container(300).ListItem.Property(widgetaspect.2),Square)">
+                    <include content="include.widget.square">
+                        <param name="id" value="301$SKINSHORTCUTS[id]2" />
+                    </include> 
+                </itemlayout>
+                <itemlayout height="325" width="562" condition="String.IsEqual(Container(300).ListItem.Property(widgetaspect.2),Fanart)">
+                    <include content="include.widget.fanart">
+                        <param name="id" value="301$SKINSHORTCUTS[id]2" />
+                    </include> 
+                </itemlayout>
+                <itemlayout height="325" width="562" condition="String.IsEqual(Container(300).ListItem.Property(widgetaspect.2),Thumbnail)">
+                    <include content="include.widget.thumb">
+                        <param name="clearlogo" value="$SKINSHORTCUTS[widgetclearlogothumb]" />
+                        <param name="id" value="301$SKINSHORTCUTS[id]2" />
+                    </include>
+                </itemlayout>
+                <focusedlayout height="325" width="222" condition="!String.IsEqual(Container(300).ListItem.Property(widgetaspect.2),Square) + ![String.IsEqual(Container(300).ListItem.Property(widgetaspect.2),Fanart) | String.IsEqual(Container(300).ListItem.Property(widgetaspect.2),Thumbnail)]">
+                    <include content="include.widget.poster.focus">
+                        <param name="id" value="301$SKINSHORTCUTS[id]2" />
+                    </include>
+                </focusedlayout>
+                <focusedlayout height="325" width="325" condition="String.IsEqual(Container(300).ListItem.Property(widgetaspect.2),Square)">
+                    <include content="include.widget.square.focus">
+                        <param name="id" value="301$SKINSHORTCUTS[id]2" />
+                    </include> 
+                </focusedlayout>
+                <focusedlayout height="325" width="562" condition="String.IsEqual(Container(300).ListItem.Property(widgetaspect.2),Fanart)">
+                    <include content="include.widget.fanart.focus">
+                        <param name="id" value="301$SKINSHORTCUTS[id]2" />
+                    </include> 
+                </focusedlayout>
+                <focusedlayout height="325" width="562" condition="String.IsEqual(Container(300).ListItem.Property(widgetaspect.2),Thumbnail)">
+                    <include content="include.widget.thumb.focus">
+                        <param name="id" value="301$SKINSHORTCUTS[id]2" />
+                        <param name="clearlogo" value="$SKINSHORTCUTS[widgetclearlogothumb]" />
+                    </include> 
+                </focusedlayout>
+                <content limit="$VAR[DefWidgetLimit]" target="$SKINSHORTCUTS[target]" sortby="$SKINSHORTCUTS[sortby]" sortorder="$SKINSHORTCUTS[sort]">$SKINSHORTCUTS[content]</content>
+            </control>
+        </controls>
+    </other>    
+    
+    <!-- Widget 3 -->
+    <other include="widget-vertical.3">
+        <property name="id" tag="mainmenuid" />
+        <property name="content" tag="property" attribute="name|widgetPath.3" />
+        <property name="content">$VAR[DefWidgetContent]</property>
+        <property name="target" tag="property" attribute="name|widgetTarget.3" />
+        <property name="name" tag="property" attribute="name|widgetName.3" />
+		<property name="sortby" tag="property" attribute="name|widgetSortby.3" />
+		<property name="sort" tag="property" attribute="name|widgetSort.3" />
+        <property name="banner" tag="property" attribute="name|widgetBanner.3" />
+        <property name="widgetauto" tag="property" attribute="name|widgetAuto.3" value="$NUMBER[5000]">5000</property>
+        <property name="widgetauto" tag="property" attribute="name|widgetAuto.3" value="$NUMBER[7000]">7000</property>
+        <property name="widgetauto" tag="property" attribute="name|widgetAuto.3" value="$NUMBER[10000]">10000</property>
+        <property name="widgetauto" tag="property" attribute="name|widgetAuto.3" value="$NUMBER[15000]">15000</property>
+        <property name="widgetauto" tag="property" attribute="name|widgetAuto.3" value="$NUMBER[20000]">20000</property>
+        <property name="widgetauto" tag="property" attribute="name|widgetAuto.3" value="$NUMBER[25000]">25000</property>
+        <property name="widgetlisttype" tag="property" attribute="name|widgetListType" />
+        <property name="widgetlisttype">fixedlist</property>
+        <property name="widgetclearlogothumb" tag="property" attribute="name|widgetClearLogoThumb.3" value="yes">true</property>
+        <property name="widgetclearlogothumb" tag="property" attribute="name|widgetClearLogoThumb.3" value="no">false</property>
+        <property name="widgetclearlogothumb">true</property>
+        <controls>
+            <control type="group" id="301$SKINSHORTCUTS[id]23">            
+                <control type="grouplist">                
+                    <visible>String.Contains(Container(300).ListItem.Property(widgetEnable.3),yes)</visible>
+                    <visible>!String.Contains(Container(300).ListItem.Property(widget.3),Weather)</visible>
+                    <visible>Integer.IsGreater(Container(301$SKINSHORTCUTS[id]3).NumItems,0) | Container(301$SKINSHORTCUTS[id]3).IsUpdating</visible>
+                    <skinshortcuts>visibility</skinshortcuts>
+                    <include>widget.title.include</include>
+                    <control type="label">                            
+                        <height>38</height>
+                        <font>SmallNavi</font>
+                        <width>auto</width>                                                               
+                        <textcolor>Dark1</textcolor>
+                        <label>$VAR[WidgetLabelWidgets3]</label>                                                     
+                    </control>                
+                    <include content="widget.title.label">
+                        <param name="focusid" value="301$SKINSHORTCUTS[id]3" />
+                    </include>
+                    <include content="widget.title.label.loading">
+                        <param name="focusid" value="301$SKINSHORTCUTS[id]3" />
+                        <param name="condition" value="!String.Contains(Container(300).ListItem.Property(widget.3),Weather)" />
+                    </include>                
+                </control> 
+            </control>
+            <control type="$SKINSHORTCUTS[widgetlisttype]" id="301$SKINSHORTCUTS[id]3">
+                <include>DefVerticalWidgetsContainerTop</include>
+                <skinshortcuts>visibility</skinshortcuts>
+                <visible>!String.Contains(Container(300).ListItem.Property(widget.3),Weather)</visible>
+                <visible>String.Contains(Container(300).ListItem.Property(widgetEnable.3),yes)</visible>
+                <visible>Integer.IsGreater(Container(301$SKINSHORTCUTS[id]3).NumItems,0) | Container(301$SKINSHORTCUTS[id]3).IsUpdating</visible>
+                <include>Animation.Vertical.Widgets.Container</include>
+				<include content="widget.autoscroll.time">
+                    <param name="id" value="301$SKINSHORTCUTS[id]3" />
+                    <param name="AutoTime" value="$SKINSHORTCUTS[widgetauto]" />
+                    <param name="AutoScrollCondition" value="!Control.HasFocus(301$SKINSHORTCUTS[id]3) + !Control.HasFocus(4752) + !String.IsEmpty(Container(300).ListItem.Property(widgetAuto.3)) + !String.IsEqual(Container(300).ListItem.Property(widgetListType),list) + System.IdleTime(1)" />
+                </include>                
+                <include>Animation.Vertical.Widgets</include>  
+                <include content="DefVerticalWidgetsInclude">
+                    <param name="id" value="301$SKINSHORTCUTS[id]3" />
+                </include> 
+                <itemlayout height="325" width="222" condition="!String.IsEqual(Container(300).ListItem.Property(widgetaspect.3),Square) + ![String.IsEqual(Container(300).ListItem.Property(widgetaspect.3),Fanart) | String.IsEqual(Container(300).ListItem.Property(widgetaspect.3),Thumbnail)]">
+                    <include>include.widget.poster</include>
+                </itemlayout>
+                <itemlayout height="325" width="325" condition="String.IsEqual(Container(300).ListItem.Property(widgetaspect.3),Square)">
+                    <include>include.widget.square</include>
+                </itemlayout>
+                <itemlayout height="325" width="562" condition="String.IsEqual(Container(300).ListItem.Property(widgetaspect.3),Fanart)">
+                    <include>include.widget.fanart</include>
+                </itemlayout>
+                <itemlayout height="325" width="562" condition="String.IsEqual(Container(300).ListItem.Property(widgetaspect.3),Thumbnail)">
+                    <include content="include.widget.thumb">
+                        <param name="clearlogo" value="$SKINSHORTCUTS[widgetclearlogothumb]" />
+                    </include>
+                </itemlayout>
+                <focusedlayout height="325" width="222" condition="!String.IsEqual(Container(300).ListItem.Property(widgetaspect.3),Square) + ![String.IsEqual(Container(300).ListItem.Property(widgetaspect.3),Fanart) | String.IsEqual(Container(300).ListItem.Property(widgetaspect.3),Thumbnail)]">
+                    <include content="include.widget.poster.focus">
+                        <param name="id" value="301$SKINSHORTCUTS[id]3" />
+                    </include> 
+                </focusedlayout>
+                <focusedlayout height="325" width="325" condition="String.IsEqual(Container(300).ListItem.Property(widgetaspect.3),Square)">
+                    <include content="include.widget.square.focus">
+                        <param name="id" value="301$SKINSHORTCUTS[id]3" />
+                    </include>  
+                </focusedlayout>
+                <focusedlayout height="325" width="562" condition="String.IsEqual(Container(300).ListItem.Property(widgetaspect.3),Fanart)">
+                    <include content="include.widget.fanart.focus">
+                        <param name="id" value="301$SKINSHORTCUTS[id]3" />
+                    </include>  
+                </focusedlayout>
+                <focusedlayout height="325" width="562" condition="String.IsEqual(Container(300).ListItem.Property(widgetaspect.3),Thumbnail)">
+                    <include content="include.widget.thumb.focus">
+                        <param name="id" value="301$SKINSHORTCUTS[id]3" />
+                        <param name="clearlogo" value="$SKINSHORTCUTS[widgetclearlogothumb]" />
+                    </include>  
+                </focusedlayout>
+                <content limit="$VAR[DefWidgetLimit]" target="$SKINSHORTCUTS[target]" sortby="$SKINSHORTCUTS[sortby]" sortorder="$SKINSHORTCUTS[sort]">$SKINSHORTCUTS[content]</content>
+            </control>
+        </controls>
+    </other>
+    
+    <!-- Widget 4 -->
+    <other include="widget-vertical.4">
+        <property name="id" tag="mainmenuid" />
+        <property name="content" tag="property" attribute="name|widgetPath.4" />
+        <property name="content">$VAR[DefWidgetContent]</property>
+        <property name="target" tag="property" attribute="name|widgetTarget.4" />
+        <property name="name" tag="property" attribute="name|widgetName.4" />
+		<property name="sortby" tag="property" attribute="name|widgetSortby.4" />
+		<property name="sort" tag="property" attribute="name|widgetSort.4" />
+        <property name="banner" tag="property" attribute="name|widgetBanner.4" />
+        <property name="widgetauto" tag="property" attribute="name|widgetAuto.4" value="$NUMBER[5000]">5000</property>
+        <property name="widgetauto" tag="property" attribute="name|widgetAuto.4" value="$NUMBER[7000]">7000</property>
+        <property name="widgetauto" tag="property" attribute="name|widgetAuto.4" value="$NUMBER[10000]">10000</property>
+        <property name="widgetauto" tag="property" attribute="name|widgetAuto.4" value="$NUMBER[15000]">15000</property>
+        <property name="widgetauto" tag="property" attribute="name|widgetAuto.4" value="$NUMBER[20000]">20000</property>
+        <property name="widgetauto" tag="property" attribute="name|widgetAuto.4" value="$NUMBER[25000]">25000</property>
+        <property name="widgetlisttype" tag="property" attribute="name|widgetListType" />
+        <property name="widgetlisttype">fixedlist</property>
+        <property name="widgetclearlogothumb" tag="property" attribute="name|widgetClearLogoThumb.4" value="yes">true</property>
+        <property name="widgetclearlogothumb" tag="property" attribute="name|widgetClearLogoThumb.4" value="no">false</property>
+        <property name="widgetclearlogothumb">true</property>
+        <controls>
+            <control type="group" id="301$SKINSHORTCUTS[id]24">
+                <control type="grouplist">                
+                    <visible>String.Contains(Container(300).ListItem.Property(widgetEnable.4),yes)</visible>
+                    <visible>!String.Contains(Container(300).ListItem.Property(widget.4),Weather)</visible>
+                    <visible>Integer.IsGreater(Container(301$SKINSHORTCUTS[id]4).NumItems,0) | Container(301$SKINSHORTCUTS[id]4).IsUpdating</visible>
+                    <skinshortcuts>visibility</skinshortcuts>
+                    <include>widget.title.include</include>
+                    <control type="label">                            
+                        <height>38</height>
+                        <font>SmallNavi</font>
+                        <width>auto</width>                                                               
+                        <textcolor>Dark1</textcolor>
+                        <label>$VAR[WidgetLabelWidgets4]</label>                                                       
+                    </control>                
+                    <include content="widget.title.label">
+                        <param name="focusid" value="301$SKINSHORTCUTS[id]4" />
+                    </include> 
+                    <include content="widget.title.label.loading">
+                        <param name="focusid" value="301$SKINSHORTCUTS[id]4" />
+                        <param name="condition" value="!String.Contains(Container(300).ListItem.Property(widget.4),Weather)" />
+                    </include>               
+                </control> 
+            </control>
+            <control type="$SKINSHORTCUTS[widgetlisttype]" id="301$SKINSHORTCUTS[id]4">
+                <include>DefVerticalWidgetsContainerTop</include>
+                <skinshortcuts>visibility</skinshortcuts>
+                <visible>!String.Contains(Container(300).ListItem.Property(widget.4),Weather)</visible>
+                <visible>String.Contains(Container(300).ListItem.Property(widgetEnable.4),yes)</visible>
+                <visible>Integer.IsGreater(Container(301$SKINSHORTCUTS[id]4).NumItems,0) | Container(301$SKINSHORTCUTS[id]4).IsUpdating</visible>
+                <include>Animation.Vertical.Widgets.Container</include>
+				<include content="widget.autoscroll.time">
+                    <param name="id" value="301$SKINSHORTCUTS[id]4" />
+                    <param name="AutoTime" value="$SKINSHORTCUTS[widgetauto]" />
+                    <param name="AutoScrollCondition" value="!Control.HasFocus(301$SKINSHORTCUTS[id]4) + !Control.HasFocus(4752) + !String.IsEmpty(Container(300).ListItem.Property(widgetAuto.4)) + !String.IsEqual(Container(300).ListItem.Property(widgetListType),list) + System.IdleTime(1)" />
+                </include>               
+                <include content="DefVerticalWidgetsInclude">
+                    <param name="id" value="301$SKINSHORTCUTS[id]4" />
+                </include> 
+                <itemlayout height="325" width="222" condition="!String.IsEqual(Container(300).ListItem.Property(widgetaspect.4),Square) + ![String.IsEqual(Container(300).ListItem.Property(widgetaspect.4),Fanart) | String.IsEqual(Container(300).ListItem.Property(widgetaspect.4),Thumbnail)]">
+                    <include>include.widget.poster</include>
+                </itemlayout>
+                <itemlayout height="325" width="325" condition="String.IsEqual(Container(300).ListItem.Property(widgetaspect.4),Square)">
+                    <include>include.widget.square</include>
+                </itemlayout>
+                <itemlayout height="325" width="562" condition="String.IsEqual(Container(300).ListItem.Property(widgetaspect.4),Fanart)">
+                    <include>include.widget.fanart</include>
+                </itemlayout>
+                <itemlayout height="325" width="562" condition="String.IsEqual(Container(300).ListItem.Property(widgetaspect.4),Thumbnail)">
+                    <include content="include.widget.thumb">
+                        <param name="clearlogo" value="$SKINSHORTCUTS[widgetclearlogothumb]" />
+                    </include>
+                </itemlayout>
+                <focusedlayout height="325" width="222" condition="!String.IsEqual(Container(300).ListItem.Property(widgetaspect.4),Square) + ![String.IsEqual(Container(300).ListItem.Property(widgetaspect.4),Fanart) | String.IsEqual(Container(300).ListItem.Property(widgetaspect.4),Thumbnail)]">
+                    <include content="include.widget.poster.focus">
+                        <param name="id" value="301$SKINSHORTCUTS[id]4" />
+                    </include> 
+                </focusedlayout>
+                <focusedlayout height="325" width="325" condition="String.IsEqual(Container(300).ListItem.Property(widgetaspect.4),Square)">
+                    <include content="include.widget.square.focus">
+                        <param name="id" value="301$SKINSHORTCUTS[id]4" />
+                    </include>  
+                </focusedlayout>
+                <focusedlayout height="325" width="562" condition="String.IsEqual(Container(300).ListItem.Property(widgetaspect.4),Fanart)">
+                    <include content="include.widget.fanart.focus">
+                        <param name="id" value="301$SKINSHORTCUTS[id]4" />
+                    </include>  
+                </focusedlayout>
+                <focusedlayout height="325" width="562" condition="String.IsEqual(Container(300).ListItem.Property(widgetaspect.4),Thumbnail)">
+                    <include content="include.widget.thumb.focus">
+                        <param name="id" value="301$SKINSHORTCUTS[id]4" />
+                        <param name="clearlogo" value="$SKINSHORTCUTS[widgetclearlogothumb]" />
+                    </include>  
+                </focusedlayout>
+                <content limit="$VAR[DefWidgetLimit]" target="$SKINSHORTCUTS[target]" sortby="$SKINSHORTCUTS[sortby]" sortorder="$SKINSHORTCUTS[sort]">$SKINSHORTCUTS[content]</content>
+            </control>
+        </controls>
+    </other>
+    
+    <!-- Widget 5 -->
+    <other include="widget-vertical.5">
+        <property name="id" tag="mainmenuid" />
+        <property name="content" tag="property" attribute="name|widgetPath.5" />
+        <property name="content">$VAR[DefWidgetContent]</property>
+        <property name="target" tag="property" attribute="name|widgetTarget.5" />
+        <property name="name" tag="property" attribute="name|widgetName.5" />
+		<property name="sortby" tag="property" attribute="name|widgetSortby.5" />
+		<property name="sort" tag="property" attribute="name|widgetSort.5" />
+        <property name="banner" tag="property" attribute="name|widgetBanner.5" />
+        <property name="widgetauto" tag="property" attribute="name|widgetAuto.5" value="$NUMBER[5000]">5000</property>
+        <property name="widgetauto" tag="property" attribute="name|widgetAuto.5" value="$NUMBER[7000]">7000</property>
+        <property name="widgetauto" tag="property" attribute="name|widgetAuto.5" value="$NUMBER[10000]">10000</property>
+        <property name="widgetauto" tag="property" attribute="name|widgetAuto.5" value="$NUMBER[15000]">15000</property>
+        <property name="widgetauto" tag="property" attribute="name|widgetAuto.5" value="$NUMBER[20000]">20000</property>
+        <property name="widgetauto" tag="property" attribute="name|widgetAuto.5" value="$NUMBER[25000]">25000</property>
+        <property name="widgetlisttype" tag="property" attribute="name|widgetListType" />
+        <property name="widgetlisttype">fixedlist</property>
+        <property name="widgetclearlogothumb" tag="property" attribute="name|widgetClearLogoThumb.5" value="yes">true</property>
+        <property name="widgetclearlogothumb" tag="property" attribute="name|widgetClearLogoThumb.5" value="no">false</property>
+        <property name="widgetclearlogothumb">true</property>
+        <controls>
+            <control type="group" id="301$SKINSHORTCUTS[id]25"> 
+                <control type="grouplist">                
+                    <visible>String.Contains(Container(300).ListItem.Property(widgetEnable.5),yes)</visible>
+                    <visible>!String.Contains(Container(300).ListItem.Property(widget.5),Weather)</visible>
+                    <visible>Integer.IsGreater(Container(301$SKINSHORTCUTS[id]5).NumItems,0) | Container(301$SKINSHORTCUTS[id]5).IsUpdating</visible>
+                    <skinshortcuts>visibility</skinshortcuts>
+                    <include>widget.title.include</include>
+                    <control type="label">                            
+                        <height>38</height>
+                        <font>SmallNavi</font>
+                        <width>auto</width>                                                               
+                        <textcolor>Dark1</textcolor>
+                        <label>$VAR[WidgetLabelWidgets5]</label>                                                       
+                    </control>                
+                    <include content="widget.title.label">
+                        <param name="focusid" value="301$SKINSHORTCUTS[id]5" />
+                    </include> 
+                    <include content="widget.title.label.loading">
+                        <param name="focusid" value="301$SKINSHORTCUTS[id]5" />
+                        <param name="condition" value="!String.Contains(Container(300).ListItem.Property(widget.5),Weather)" />
+                    </include>               
+                </control> 
+            </control>
+            <control type="$SKINSHORTCUTS[widgetlisttype]" id="301$SKINSHORTCUTS[id]5">
+                <include>DefVerticalWidgetsContainerTop</include>
+                <skinshortcuts>visibility</skinshortcuts>
+                <visible>!String.Contains(Container(300).ListItem.Property(widget.5),Weather)</visible>
+                <visible>String.Contains(Container(300).ListItem.Property(widgetEnable.5),yes)</visible>
+                <visible>Integer.IsGreater(Container(301$SKINSHORTCUTS[id]5).NumItems,0) | Container(301$SKINSHORTCUTS[id]5).IsUpdating</visible>
+                <include>Animation.Vertical.Widgets.Container</include>
+				<include content="widget.autoscroll.time">
+                    <param name="id" value="301$SKINSHORTCUTS[id]5" />
+                    <param name="AutoTime" value="$SKINSHORTCUTS[widgetauto]" />
+                    <param name="AutoScrollCondition" value="!Control.HasFocus(301$SKINSHORTCUTS[id]5) + !Control.HasFocus(4752) + !String.IsEmpty(Container(300).ListItem.Property(widgetAuto.5)) + !String.IsEqual(Container(300).ListItem.Property(widgetListType),list) + System.IdleTime(1)" />
+                </include>               
+                <include content="DefVerticalWidgetsInclude">
+                    <param name="id" value="301$SKINSHORTCUTS[id]5" />
+                </include> 
+                <itemlayout height="325" width="222" condition="!String.IsEqual(Container(300).ListItem.Property(widgetaspect.5),Square) + ![String.IsEqual(Container(300).ListItem.Property(widgetaspect.5),Fanart) | String.IsEqual(Container(300).ListItem.Property(widgetaspect.5),Thumbnail)]">
+                    <include>include.widget.poster</include>
+                </itemlayout>
+                <itemlayout height="325" width="325" condition="String.IsEqual(Container(300).ListItem.Property(widgetaspect.5),Square)">
+                    <include>include.widget.square</include>
+                </itemlayout>
+                <itemlayout height="325" width="562" condition="String.IsEqual(Container(300).ListItem.Property(widgetaspect.5),Fanart)">
+                    <include>include.widget.fanart</include>
+                </itemlayout>
+                <itemlayout height="325" width="562" condition="String.IsEqual(Container(300).ListItem.Property(widgetaspect.5),Thumbnail)">
+                    <include content="include.widget.thumb">
+                        <param name="clearlogo" value="$SKINSHORTCUTS[widgetclearlogothumb]" />
+                    </include>
+                </itemlayout>
+                <focusedlayout height="325" width="222" condition="!String.IsEqual(Container(300).ListItem.Property(widgetaspect.5),Square) + ![String.IsEqual(Container(300).ListItem.Property(widgetaspect.5),Fanart) | String.IsEqual(Container(300).ListItem.Property(widgetaspect.5),Thumbnail)]">
+                    <include content="include.widget.poster.focus">
+                        <param name="id" value="301$SKINSHORTCUTS[id]5" />
+                    </include> 
+                </focusedlayout>
+                <focusedlayout height="325" width="325" condition="String.IsEqual(Container(300).ListItem.Property(widgetaspect.5),Square)">
+                    <include content="include.widget.square.focus">
+                        <param name="id" value="301$SKINSHORTCUTS[id]5" />
+                    </include>  
+                </focusedlayout>
+                <focusedlayout height="325" width="562" condition="String.IsEqual(Container(300).ListItem.Property(widgetaspect.5),Fanart)">
+                    <include content="include.widget.fanart.focus">
+                        <param name="id" value="301$SKINSHORTCUTS[id]5" />
+                    </include>  
+                </focusedlayout>
+                <focusedlayout height="325" width="562" condition="String.IsEqual(Container(300).ListItem.Property(widgetaspect.5),Thumbnail)">
+                    <include content="include.widget.thumb.focus">
+                        <param name="id" value="301$SKINSHORTCUTS[id]5" />
+                        <param name="clearlogo" value="$SKINSHORTCUTS[widgetclearlogothumb]" />
+                    </include>  
+                </focusedlayout>
+                <content limit="$VAR[DefWidgetLimit]" target="$SKINSHORTCUTS[target]" sortby="$SKINSHORTCUTS[sortby]" sortorder="$SKINSHORTCUTS[sort]">$SKINSHORTCUTS[content]</content>
+            </control>
+        </controls>
+    </other>
+
+    <!-- Weather Widget 1 -->    
+    <other include="widget-vertical.144">
+        <property name="id" tag="mainmenuid" />
+        <property name="content" tag="property" attribute="name|widgetPath" value="weatherdaily">Weatherdaily</property>
+        <property name="content" tag="property" attribute="name|widgetPath" value="weatherhourly">Weatherhourly</property>
+        <property name="content">$VAR[DefWidgetContent]</property>
+        <property name="target" tag="property" attribute="name|widgetTarget" />
+		<property name="sortby" tag="property" attribute="name|widgetSortby" />
+		<property name="sort" tag="property" attribute="name|widgetSort" />
+        <property name="banner" tag="property" attribute="name|widgetBanner" />
+        <property name="widgetauto" tag="property" attribute="name|widgetAuto" value="$NUMBER[5000]">5000</property>
+        <property name="widgetauto" tag="property" attribute="name|widgetAuto" value="$NUMBER[7000]">7000</property>
+        <property name="widgetauto" tag="property" attribute="name|widgetAuto" value="$NUMBER[10000]">10000</property>
+        <property name="widgetauto" tag="property" attribute="name|widgetAuto" value="$NUMBER[15000]">15000</property>
+        <property name="widgetauto" tag="property" attribute="name|widgetAuto" value="$NUMBER[20000]">20000</property>
+        <property name="widgetauto" tag="property" attribute="name|widgetAuto" value="$NUMBER[25000]">25000</property>
+        <property name="widgetlisttype" tag="property" attribute="name|widgetListType" />
+        <property name="widgetlisttype">fixedlist</property>
+        <controls>
+            <control type="group" id="301$SKINSHORTCUTS[id]31">
+                <control type="grouplist">                
+                    <visible>String.Contains(Container(300).ListItem.Property(widget),Weather)</visible>
+                    <skinshortcuts>visibility</skinshortcuts>
+                    <include>widget.title.include</include>
+                    <control type="label">                            
+                        <height>38</height>
+                        <font>SmallNavi</font>
+                        <width>auto</width>                                                               
+                        <textcolor>Dark1</textcolor>
+                        <label>$VAR[WidgetLabelWidgets1]</label>                                                      
+                    </control> 
+                    <include content="widget.title.label.loading.weather">
+                        <param name="condition" value="[String.Contains(Weather.Temperature,e) | String.Contains(Weather.Temperature,u)  | String.Contains(Weather.Temperature,i)  | String.Contains(Weather.Temperature,a)] + String.Contains(Container(300).ListItem.Property(widget),Weather)" />
+                    </include>                              
+                </control>
+            </control>
+            <control type="$SKINSHORTCUTS[widgetlisttype]" id="301$SKINSHORTCUTS[id]94">
+                <include>DefVerticalWidgetsContainerTop</include>
+                <skinshortcuts>visibility</skinshortcuts>
+                <visible>String.Contains(Container(300).ListItem.Property(widget),Weather)</visible>
+                <include>Animation.Vertical.Widgets.Container</include>
+				<include content="widget.autoscroll.time">
+                    <param name="id" value="301$SKINSHORTCUTS[id]94" />
+                    <param name="AutoTime" value="$SKINSHORTCUTS[widgetauto]" />
+                    <param name="AutoScrollCondition" value="!Control.HasFocus(301$SKINSHORTCUTS[id]94) + !Control.HasFocus(4752) + !String.IsEmpty(Container(300).ListItem.Property(widgetAuto)) + !String.IsEqual(Container(300).ListItem.Property(widgetListType),list) + System.IdleTime(1)" />
+                </include>                
+                <include content="DefVerticalWidgetsWeatherInclude">
+                    <param name="id" value="301$SKINSHORTCUTS[id]94" />
+                </include>
+                <itemlayout height="325" width="222" condition="String.IsEqual(Container(300).ListItem.Property(widgetaspect),Poster) | String.IsEmpty(Container(300).ListItem.Property(widgetaspect))">              
+                    <include>weatherlayoutwidgetsvertical.poster</include>
+                </itemlayout>
+                <itemlayout height="325" width="355" condition="!String.IsEqual(Container(300).ListItem.Property(widgetaspect),Fanart) + !String.IsEqual(Container(300).ListItem.Property(widgetaspect),Thumbnail) + !String.IsEqual(Container(300).ListItem.Property(widgetaspect),Poster) + !String.IsEmpty(Container(300).ListItem.Property(widgetaspect))">               
+                    <include>weatherlayoutwidgetsvertical.square</include>
+                </itemlayout>
+                <itemlayout height="325" width="591" condition="String.IsEqual(Container(300).ListItem.Property(widgetaspect),Fanart) | String.IsEqual(Container(300).ListItem.Property(widgetaspect),Thumbnail)">
+                    <include>weatherlayoutwidgetsvertical.fanart</include>
+                </itemlayout>
+                <focusedlayout height="325" width="222" condition="String.IsEqual(Container(300).ListItem.Property(widgetaspect),Poster) | String.IsEmpty(Container(300).ListItem.Property(widgetaspect))">
+                    <include content="weatherlayoutwidgetsvertical.poster.focus">
+                        <param name="id" value="301$SKINSHORTCUTS[id]94" />
+                    </include>
+                </focusedlayout>
+                <focusedlayout height="325" width="355" condition="!String.IsEqual(Container(300).ListItem.Property(widgetaspect),Fanart) + !String.IsEqual(Container(300).ListItem.Property(widgetaspect),Thumbnail) + !String.IsEqual(Container(300).ListItem.Property(widgetaspect),Poster) + !String.IsEmpty(Container(300).ListItem.Property(widgetaspect))">
+                    <include content="weatherlayoutwidgetsvertical.square.focus">
+                        <param name="id" value="301$SKINSHORTCUTS[id]94" />
+                    </include>
+                </focusedlayout>
+                <focusedlayout height="325" width="591" condition="String.IsEqual(Container(300).ListItem.Property(widgetaspect),Fanart) | String.IsEqual(Container(300).ListItem.Property(widgetaspect),Thumbnail)">
+                    <include content="weatherlayoutwidgetsvertical.fanart.focus">
+                        <param name="id" value="301$SKINSHORTCUTS[id]94" />
+                    </include>
+                </focusedlayout>
+                <content>
+                    <include>$SKINSHORTCUTS[content]</include>                          
+                </content> 
+            </control>
+        </controls>
+    </other> 
+    
+    <!-- Weather Widget 2 -->   
+    <other include="widget-vertical.255">
+        <property name="id" tag="mainmenuid" />
+        <property name="content" tag="property" attribute="name|widgetPath.2" value="weatherdaily">Weatherdaily</property>
+        <property name="content" tag="property" attribute="name|widgetPath.2" value="weatherhourly">Weatherhourly</property>
+        <property name="content">$VAR[DefWidgetContent]</property>
+        <property name="target" tag="property" attribute="name|widgetTarget.2" />
+		<property name="sortby" tag="property" attribute="name|widgetSortby.2" />
+		<property name="sort" tag="property" attribute="name|widgetSort.2" />
+        <property name="banner" tag="property" attribute="name|widgetBanner.2" />
+        <property name="widgetauto" tag="property" attribute="name|widgetAuto.2" value="$NUMBER[5000]">5000</property>
+        <property name="widgetauto" tag="property" attribute="name|widgetAuto.2" value="$NUMBER[7000]">7000</property>
+        <property name="widgetauto" tag="property" attribute="name|widgetAuto.2" value="$NUMBER[10000]">10000</property>
+        <property name="widgetauto" tag="property" attribute="name|widgetAuto.2" value="$NUMBER[15000]">15000</property>
+        <property name="widgetauto" tag="property" attribute="name|widgetAuto.2" value="$NUMBER[20000]">20000</property>
+        <property name="widgetauto" tag="property" attribute="name|widgetAuto.2" value="$NUMBER[25000]">25000</property>
+        <property name="widgetlisttype" tag="property" attribute="name|widgetListType" />
+        <property name="widgetlisttype">fixedlist</property>
+        <controls>
+            <control type="group" id="301$SKINSHORTCUTS[id]32">  
+                <control type="grouplist">                
+                    <visible>String.Contains(Container(300).ListItem.Property(widget.2),Weather) + String.Contains(Container(300).ListItem.Property(widgetEnable.2),yes)</visible>
+                    <skinshortcuts>visibility</skinshortcuts>
+                    <include>widget.title.include</include>
+                    <control type="label">                            
+                        <height>38</height>
+                        <font>SmallNavi</font>
+                        <width>auto</width>                                                               
+                        <textcolor>Dark1</textcolor>
+                        <label>$VAR[WidgetLabelWidgets2]</label>                                                      
+                    </control> 
+                    <include content="widget.title.label.loading.weather">
+                        <param name="condition" value="[String.Contains(Weather.Temperature,e) | String.Contains(Weather.Temperature,u)  | String.Contains(Weather.Temperature,i)  | String.Contains(Weather.Temperature,a)] + String.Contains(Container(300).ListItem.Property(widget.2),Weather)" />
+                    </include>                               
+                </control>
+            </control>
+            <control type="$SKINSHORTCUTS[widgetlisttype]" id="301$SKINSHORTCUTS[id]255">
+                <include>DefVerticalWidgetsContainerTop</include>
+                <skinshortcuts>visibility</skinshortcuts>
+                <visible>String.Contains(Container(300).ListItem.Property(widget.2),Weather) + String.Contains(Container(300).ListItem.Property(widgetEnable.2),yes)</visible>
+                <include>Animation.Vertical.Widgets.Container</include>
+				<include content="widget.autoscroll.time">
+                    <param name="id" value="301$SKINSHORTCUTS[id]255" />
+                    <param name="AutoTime" value="$SKINSHORTCUTS[widgetauto]" />
+                    <param name="AutoScrollCondition" value="!Control.HasFocus(301$SKINSHORTCUTS[id]255) + !Control.HasFocus(4752) + !String.IsEmpty(Container(300).ListItem.Property(widgetAuto.2)) + !String.IsEqual(Container(300).ListItem.Property(widgetListType),list) + System.IdleTime(1)" />
+                </include>                  
+                <include content="DefVerticalWidgetsWeatherInclude">
+                    <param name="id" value="301$SKINSHORTCUTS[id]255" />
+                </include>               
+                <itemlayout height="325" width="222" condition="String.IsEqual(Container(300).ListItem.Property(widgetaspect.2),Poster) | String.IsEmpty(Container(300).ListItem.Property(widgetaspect.2))">
+                    <include>weatherlayoutwidgetsvertical.poster</include>
+                </itemlayout>
+                <itemlayout height="325" width="355" condition="!String.IsEqual(Container(300).ListItem.Property(widgetaspect.2),Fanart) + !String.IsEqual(Container(300).ListItem.Property(widgetaspect.2),Thumbnail) + !String.IsEqual(Container(300).ListItem.Property(widgetaspect.2),Poster) + !String.IsEmpty(Container(300).ListItem.Property(widgetaspect.2))">               
+                    <include>weatherlayoutwidgetsvertical.square</include>
+                </itemlayout>
+                <itemlayout height="325" width="591" condition="String.IsEqual(Container(300).ListItem.Property(widgetaspect.2),Fanart) | String.IsEqual(Container(300).ListItem.Property(widgetaspect.2),Thumbnail)">
+                    <include>weatherlayoutwidgetsvertical.fanart</include>
+                </itemlayout>
+                <focusedlayout height="325" width="222" condition="String.IsEqual(Container(300).ListItem.Property(widgetaspect.2),Poster) | String.IsEmpty(Container(300).ListItem.Property(widgetaspect.2))">
+                    <include content="weatherlayoutwidgetsvertical.poster.focus">
+                        <param name="id" value="301$SKINSHORTCUTS[id]255" />
+                    </include>
+                </focusedlayout>
+                <focusedlayout height="325" width="355" condition="!String.IsEqual(Container(300).ListItem.Property(widgetaspect.2),Fanart) + !String.IsEqual(Container(300).ListItem.Property(widgetaspect.2),Thumbnail) + !String.IsEqual(Container(300).ListItem.Property(widgetaspect.2),Poster) + !String.IsEmpty(Container(300).ListItem.Property(widgetaspect.2))">
+                    <include content="weatherlayoutwidgetsvertical.square.focus">
+                        <param name="id" value="301$SKINSHORTCUTS[id]255" />
+                    </include>
+                </focusedlayout>
+                <focusedlayout height="325" width="591" condition="String.IsEqual(Container(300).ListItem.Property(widgetaspect.2),Fanart) | String.IsEqual(Container(300).ListItem.Property(widgetaspect.2),Thumbnail)">
+                    <include content="weatherlayoutwidgetsvertical.fanart.focus">
+                        <param name="id" value="301$SKINSHORTCUTS[id]255" />
+                    </include>
+                </focusedlayout>
+                <content>
+                    <include>$SKINSHORTCUTS[content]</include>                          
+                </content> 
+            </control>
+        </controls>
+    </other>
+    
+    <!-- Weather Widget 3 -->
+    <other include="widget-vertical.355">
+        <property name="id" tag="mainmenuid" />
+        <property name="content" tag="property" attribute="name|widgetPath.3" value="weatherdaily">Weatherdaily</property>
+        <property name="content" tag="property" attribute="name|widgetPath.3" value="weatherhourly">Weatherhourly</property>
+        <property name="content">$VAR[DefWidgetContent]</property>
+        <property name="target" tag="property" attribute="name|widgetTarget.3" />
+		<property name="sortby" tag="property" attribute="name|widgetSortby.3" />
+		<property name="sort" tag="property" attribute="name|widgetSort.3" />
+        <property name="banner" tag="property" attribute="name|widgetBanner.3" />
+        <property name="widgetauto" tag="property" attribute="name|widgetAuto.3" value="$NUMBER[5000]">5000</property>
+        <property name="widgetauto" tag="property" attribute="name|widgetAuto.3" value="$NUMBER[7000]">7000</property>
+        <property name="widgetauto" tag="property" attribute="name|widgetAuto.3" value="$NUMBER[10000]">10000</property>
+        <property name="widgetauto" tag="property" attribute="name|widgetAuto.3" value="$NUMBER[15000]">15000</property>
+        <property name="widgetauto" tag="property" attribute="name|widgetAuto.3" value="$NUMBER[20000]">20000</property>
+        <property name="widgetauto" tag="property" attribute="name|widgetAuto.3" value="$NUMBER[25000]">25000</property>
+        <property name="widgetlisttype" tag="property" attribute="name|widgetListType" />
+        <property name="widgetlisttype">fixedlist</property>
+        <controls>
+            <control type="group" id="301$SKINSHORTCUTS[id]33">
+                <control type="grouplist">                
+                    <visible>String.Contains(Container(300).ListItem.Property(widget.3),Weather) + String.Contains(Container(300).ListItem.Property(widgetEnable.3),yes)</visible>
+                    <skinshortcuts>visibility</skinshortcuts>
+                    <include>widget.title.include</include>
+                    <control type="label">                            
+                        <height>38</height>
+                        <font>SmallNavi</font>
+                        <width>auto</width>                                                               
+                        <textcolor>Dark1</textcolor>
+                        <label>$VAR[WidgetLabelWidgets3]</label>                                                      
+                    </control> 
+                    <include content="widget.title.label.loading.weather">
+                        <param name="condition" value="[String.Contains(Weather.Temperature,e) | String.Contains(Weather.Temperature,u)  | String.Contains(Weather.Temperature,i)  | String.Contains(Weather.Temperature,a)] + String.Contains(Container(300).ListItem.Property(widget.3),Weather)" />
+                    </include>                               
+                </control>
+            </control>
+            <control type="$SKINSHORTCUTS[widgetlisttype]" id="301$SKINSHORTCUTS[id]355">
+                <include>DefVerticalWidgetsContainerTop</include>
+                <skinshortcuts>visibility</skinshortcuts>
+                <visible>String.Contains(Container(300).ListItem.Property(widget.3),Weather) + String.Contains(Container(300).ListItem.Property(widgetEnable.3),yes)</visible>
+                <include>Animation.Vertical.Widgets.Container</include>
+				<include content="widget.autoscroll.time">
+                    <param name="id" value="301$SKINSHORTCUTS[id]355" />
+                    <param name="AutoTime" value="$SKINSHORTCUTS[widgetauto]" />
+                    <param name="AutoScrollCondition" value="!Control.HasFocus(301$SKINSHORTCUTS[id]355) + !Control.HasFocus(4752) + !String.IsEmpty(Container(300).ListItem.Property(widgetAuto.3)) + !String.IsEqual(Container(300).ListItem.Property(widgetListType),list) + System.IdleTime(1)" />
+                </include>                
+                <include content="DefVerticalWidgetsWeatherInclude">
+                    <param name="id" value="301$SKINSHORTCUTS[id]355" />
+                </include>                
+                <itemlayout height="325" width="222" condition="String.IsEqual(Container(300).ListItem.Property(widgetaspect.3),Poster) | String.IsEmpty(Container(300).ListItem.Property(widgetaspect.3))">
+                    <include>weatherlayoutwidgetsvertical.poster</include>
+                </itemlayout>
+                <itemlayout height="325" width="355" condition="!String.IsEqual(Container(300).ListItem.Property(widgetaspect.3),Fanart) + !String.IsEqual(Container(300).ListItem.Property(widgetaspect.3),Thumbnail) + !String.IsEqual(Container(300).ListItem.Property(widgetaspect.3),Poster) + !String.IsEmpty(Container(300).ListItem.Property(widgetaspect.3))">               
+                    <include>weatherlayoutwidgetsvertical.square</include>
+                </itemlayout>
+                <itemlayout height="325" width="591" condition="String.IsEqual(Container(300).ListItem.Property(widgetaspect.3),Fanart) | String.IsEqual(Container(300).ListItem.Property(widgetaspect.3),Thumbnail)">
+                    <include>weatherlayoutwidgetsvertical.fanart</include>
+                </itemlayout>
+                <focusedlayout height="325" width="222" condition="String.IsEqual(Container(300).ListItem.Property(widgetaspect.3),Poster) | String.IsEmpty(Container(300).ListItem.Property(widgetaspect.3))">
+                    <include content="weatherlayoutwidgetsvertical.poster.focus">
+                        <param name="id" value="301$SKINSHORTCUTS[id]355" />
+                    </include>
+                </focusedlayout>
+                <focusedlayout height="325" width="355" condition="!String.IsEqual(Container(300).ListItem.Property(widgetaspect.3),Fanart) + !String.IsEqual(Container(300).ListItem.Property(widgetaspect.3),Thumbnail) + !String.IsEqual(Container(300).ListItem.Property(widgetaspect.3),Poster) + !String.IsEmpty(Container(300).ListItem.Property(widgetaspect.3))">
+                    <include content="weatherlayoutwidgetsvertical.square.focus">
+                        <param name="id" value="301$SKINSHORTCUTS[id]355" />
+                    </include>
+                </focusedlayout>
+                <focusedlayout height="325" width="591" condition="String.IsEqual(Container(300).ListItem.Property(widgetaspect.3),Fanart) | String.IsEqual(Container(300).ListItem.Property(widgetaspect.3),Thumbnail)">
+                    <include content="weatherlayoutwidgetsvertical.fanart.focus">
+                        <param name="id" value="301$SKINSHORTCUTS[id]355" />
+                    </include>
+                </focusedlayout>
+                <content>
+                    <include>$SKINSHORTCUTS[content]</include>                          
+                </content> 
+            </control>
+        </controls>
+    </other>
+    
+    <!-- Weather Widget 4 -->
+    <other include="widget-vertical.455">
+        <property name="id" tag="mainmenuid" />
+        <property name="content" tag="property" attribute="name|widgetPath.4" value="weatherdaily">Weatherdaily</property>
+        <property name="content" tag="property" attribute="name|widgetPath.4" value="weatherhourly">Weatherhourly</property>
+        <property name="content">$VAR[DefWidgetContent]</property>
+        <property name="target" tag="property" attribute="name|widgetTarget.4" />
+		<property name="sortby" tag="property" attribute="name|widgetSortby.4" />
+		<property name="sort" tag="property" attribute="name|widgetSort.4" />
+        <property name="banner" tag="property" attribute="name|widgetBanner.4" />
+        <property name="widgetauto" tag="property" attribute="name|widgetAuto.4" value="$NUMBER[5000]">5000</property>
+        <property name="widgetauto" tag="property" attribute="name|widgetAuto.4" value="$NUMBER[7000]">7000</property>
+        <property name="widgetauto" tag="property" attribute="name|widgetAuto.4" value="$NUMBER[10000]">10000</property>
+        <property name="widgetauto" tag="property" attribute="name|widgetAuto.4" value="$NUMBER[15000]">15000</property>
+        <property name="widgetauto" tag="property" attribute="name|widgetAuto.4" value="$NUMBER[20000]">20000</property>
+        <property name="widgetauto" tag="property" attribute="name|widgetAuto.4" value="$NUMBER[25000]">25000</property>
+        <property name="widgetlisttype" tag="property" attribute="name|widgetListType" />
+        <property name="widgetlisttype">fixedlist</property>
+        <controls>
+            <control type="group" id="301$SKINSHORTCUTS[id]34">
+                <control type="grouplist">                
+                    <visible>String.Contains(Container(300).ListItem.Property(widget.4),Weather) + String.Contains(Container(300).ListItem.Property(widgetEnable.4),yes)</visible>
+                    <skinshortcuts>visibility</skinshortcuts>
+                    <include>widget.title.include</include>
+                    <control type="label">                            
+                        <height>38</height>
+                        <font>SmallNavi</font>
+                        <width>auto</width>                                                               
+                        <textcolor>Dark1</textcolor>
+                        <label>$VAR[WidgetLabelWidgets4]</label>                                                      
+                    </control>  
+                    <include content="widget.title.label.loading.weather">
+                        <param name="condition" value="[String.Contains(Weather.Temperature,e) | String.Contains(Weather.Temperature,u)  | String.Contains(Weather.Temperature,i)  | String.Contains(Weather.Temperature,a)] + String.Contains(Container(300).ListItem.Property(widget.4),Weather)" />
+                    </include>                              
+                </control>
+            </control>
+            <control type="$SKINSHORTCUTS[widgetlisttype]" id="301$SKINSHORTCUTS[id]455">
+                <include>DefVerticalWidgetsContainerTop</include>
+                <skinshortcuts>visibility</skinshortcuts>
+                <visible>String.Contains(Container(300).ListItem.Property(widget.4),Weather) + String.Contains(Container(300).ListItem.Property(widgetEnable.4),yes)</visible>
+                <include>Animation.Vertical.Widgets.Container</include>
+				<include content="widget.autoscroll.time">
+                    <param name="id" value="301$SKINSHORTCUTS[id]455" />
+                    <param name="AutoTime" value="$SKINSHORTCUTS[widgetauto]" />
+                    <param name="AutoScrollCondition" value="!Control.HasFocus(301$SKINSHORTCUTS[id]455) + !Control.HasFocus(4752) + !String.IsEmpty(Container(300).ListItem.Property(widgetAuto.4)) + !String.IsEqual(Container(300).ListItem.Property(widgetListType),list) + System.IdleTime(1)" />
+                </include>                 
+                <include content="DefVerticalWidgetsWeatherInclude">
+                    <param name="id" value="301$SKINSHORTCUTS[id]455" />
+                </include>                
+                <itemlayout height="325" width="222" condition="String.IsEqual(Container(300).ListItem.Property(widgetaspect.4),Poster) | String.IsEmpty(Container(300).ListItem.Property(widgetaspect.4))">
+                    <include>weatherlayoutwidgetsvertical.poster</include>
+                </itemlayout>
+                <itemlayout height="325" width="355" condition="!String.IsEqual(Container(300).ListItem.Property(widgetaspect.4),Fanart) + !String.IsEqual(Container(300).ListItem.Property(widgetaspect.4),Thumbnail) + !String.IsEqual(Container(300).ListItem.Property(widgetaspect.4),Poster) + !String.IsEmpty(Container(300).ListItem.Property(widgetaspect.4))">               
+                    <include>weatherlayoutwidgetsvertical.square</include>
+                </itemlayout>
+                <itemlayout height="325" width="591" condition="String.IsEqual(Container(300).ListItem.Property(widgetaspect.4),Fanart) | String.IsEqual(Container(300).ListItem.Property(widgetaspect.4),Thumbnail)">
+                    <include>weatherlayoutwidgetsvertical.fanart</include>
+                </itemlayout>
+                <focusedlayout height="325" width="222" condition="String.IsEqual(Container(300).ListItem.Property(widgetaspect.4),Poster) | String.IsEmpty(Container(300).ListItem.Property(widgetaspect.4))">
+                    <include content="weatherlayoutwidgetsvertical.poster.focus">
+                        <param name="id" value="301$SKINSHORTCUTS[id]455" />
+                    </include>
+                </focusedlayout>
+                <focusedlayout height="325" width="355" condition="!String.IsEqual(Container(300).ListItem.Property(widgetaspect.4),Fanart) + !String.IsEqual(Container(300).ListItem.Property(widgetaspect.4),Thumbnail) + !String.IsEqual(Container(300).ListItem.Property(widgetaspect.4),Poster) + !String.IsEmpty(Container(300).ListItem.Property(widgetaspect.4))">
+                    <include content="weatherlayoutwidgetsvertical.square.focus">
+                        <param name="id" value="301$SKINSHORTCUTS[id]455" />
+                    </include>
+                </focusedlayout>
+                <focusedlayout height="325" width="591" condition="String.IsEqual(Container(300).ListItem.Property(widgetaspect.4),Fanart) | String.IsEqual(Container(300).ListItem.Property(widgetaspect.4),Thumbnail)">
+                    <include content="weatherlayoutwidgetsvertical.fanart.focus">
+                        <param name="id" value="301$SKINSHORTCUTS[id]455" />
+                    </include>
+                </focusedlayout>
+                <content>
+                    <include>$SKINSHORTCUTS[content]</include>                          
+                </content> 
+            </control>
+        </controls>
+    </other>
+    
+    <!-- Weather Widget 5 -->
+    <other include="widget-vertical.555">
+        <property name="id" tag="mainmenuid" />
+        <property name="content" tag="property" attribute="name|widgetPath.5" value="weatherdaily">Weatherdaily</property>
+        <property name="content" tag="property" attribute="name|widgetPath.5" value="weatherhourly">Weatherhourly</property>
+        <property name="content">$VAR[DefWidgetContent]</property>
+        <property name="target" tag="property" attribute="name|widgetTarget.5" />
+		<property name="sortby" tag="property" attribute="name|widgetSortby.5" />
+		<property name="sort" tag="property" attribute="name|widgetSort.5" />
+        <property name="banner" tag="property" attribute="name|widgetBanner.5" />
+        <property name="widgetauto" tag="property" attribute="name|widgetAuto.5" value="$NUMBER[5000]">5000</property>
+        <property name="widgetauto" tag="property" attribute="name|widgetAuto.5" value="$NUMBER[7000]">7000</property>
+        <property name="widgetauto" tag="property" attribute="name|widgetAuto.5" value="$NUMBER[10000]">10000</property>
+        <property name="widgetauto" tag="property" attribute="name|widgetAuto.5" value="$NUMBER[15000]">15000</property>
+        <property name="widgetauto" tag="property" attribute="name|widgetAuto.5" value="$NUMBER[20000]">20000</property>
+        <property name="widgetauto" tag="property" attribute="name|widgetAuto.5" value="$NUMBER[25000]">25000</property>
+        <property name="widgetlisttype" tag="property" attribute="name|widgetListType" />
+        <property name="widgetlisttype">fixedlist</property>
+        <controls>
+            <control type="group" id="301$SKINSHORTCUTS[id]35"> 
+                <control type="grouplist">                
+                    <visible>String.Contains(Container(300).ListItem.Property(widget.5),Weather) + String.Contains(Container(300).ListItem.Property(widgetEnable.5),yes)</visible>
+                    <skinshortcuts>visibility</skinshortcuts>
+                    <include>widget.title.include</include>
+                    <control type="label">                            
+                        <height>38</height>
+                        <font>SmallNavi</font>
+                        <width>auto</width>                                                               
+                        <textcolor>Dark1</textcolor>
+                        <label>$VAR[WidgetLabelWidgets5]</label>                                                      
+                    </control>  
+                    <include content="widget.title.label.loading.weather">
+                        <param name="condition" value="[String.Contains(Weather.Temperature,e) | String.Contains(Weather.Temperature,u)  | String.Contains(Weather.Temperature,i)  | String.Contains(Weather.Temperature,a)] + String.Contains(Container(300).ListItem.Property(widget.5),Weather)" />
+                    </include>                              
+                </control>
+            </control>
+            <control type="$SKINSHORTCUTS[widgetlisttype]" id="301$SKINSHORTCUTS[id]555">
+                <include>DefVerticalWidgetsContainerTop</include>
+                <skinshortcuts>visibility</skinshortcuts>
+                <visible>String.Contains(Container(300).ListItem.Property(widget.5),Weather) + String.Contains(Container(300).ListItem.Property(widgetEnable.5),yes)</visible>
+                <include>Animation.Vertical.Widgets.Container</include>
+				<include content="widget.autoscroll.time">
+                    <param name="id" value="301$SKINSHORTCUTS[id]555" />
+                    <param name="AutoTime" value="$SKINSHORTCUTS[widgetauto]" />
+                    <param name="AutoScrollCondition" value="!Control.HasFocus(301$SKINSHORTCUTS[id]555) + !Control.HasFocus(4752) + !String.IsEmpty(Container(300).ListItem.Property(widgetAuto.5)) + !String.IsEqual(Container(300).ListItem.Property(widgetListType),list) + System.IdleTime(1)" />
+                </include>                 
+                <include content="DefVerticalWidgetsWeatherInclude">
+                    <param name="id" value="301$SKINSHORTCUTS[id]555" />
+                </include>               
+                <itemlayout height="325" width="222" condition="String.IsEqual(Container(300).ListItem.Property(widgetaspect.5),Poster) | String.IsEmpty(Container(300).ListItem.Property(widgetaspect.45))">
+                    <include>weatherlayoutwidgetsvertical.poster</include>
+                </itemlayout>
+                <itemlayout height="325" width="355" condition="!String.IsEqual(Container(300).ListItem.Property(widgetaspect.5),Fanart) + !String.IsEqual(Container(300).ListItem.Property(widgetaspect.5),Thumbnail) + !String.IsEqual(Container(300).ListItem.Property(widgetaspect.5),Poster) + !String.IsEmpty(Container(300).ListItem.Property(widgetaspect.5))">               
+                    <include>weatherlayoutwidgetsvertical.square</include>
+                </itemlayout>
+                <itemlayout height="325" width="591" condition="String.IsEqual(Container(300).ListItem.Property(widgetaspect.5),Fanart) | String.IsEqual(Container(300).ListItem.Property(widgetaspect.5),Thumbnail)">
+                    <include>weatherlayoutwidgetsvertical.fanart</include>
+                </itemlayout>
+                <focusedlayout height="325" width="222" condition="String.IsEqual(Container(300).ListItem.Property(widgetaspect.5),Poster) | String.IsEmpty(Container(300).ListItem.Property(widgetaspect.5))">
+                    <include content="weatherlayoutwidgetsvertical.poster.focus">
+                        <param name="id" value="301$SKINSHORTCUTS[id]555" />
+                    </include>
+                </focusedlayout>
+                <focusedlayout height="325" width="355" condition="!String.IsEqual(Container(300).ListItem.Property(widgetaspect.5),Fanart) + !String.IsEqual(Container(300).ListItem.Property(widgetaspect.5),Thumbnail) + !String.IsEqual(Container(300).ListItem.Property(widgetaspect.5),Poster) + !String.IsEmpty(Container(300).ListItem.Property(widgetaspect.5))">
+                    <include content="weatherlayoutwidgetsvertical.square.focus">
+                        <param name="id" value="301$SKINSHORTCUTS[id]555" />
+                    </include>
+                </focusedlayout>
+                <focusedlayout height="325" width="591" condition="String.IsEqual(Container(300).ListItem.Property(widgetaspect.5),Fanart) | String.IsEqual(Container(300).ListItem.Property(widgetaspect.5),Thumbnail)">
+                    <include content="weatherlayoutwidgetsvertical.fanart.focus">
+                        <param name="id" value="301$SKINSHORTCUTS[id]555" />
+                    </include>
+                </focusedlayout>
+                <content>
+                    <include>$SKINSHORTCUTS[content]</include>                          
+                </content> 
+            </control>
+        </controls>
+    </other>
+    
     <other include="widget-vertical">
         <property name="content" tag="property" attribute="name|widgetPath" />
         <property name="content">$VAR[DefWidgetContent]</property>

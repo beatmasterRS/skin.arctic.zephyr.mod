@@ -180,6 +180,24 @@
                             <width>1310</width>
                             <visible>ControlGroup(9100).HasFocus(9101)</visible>
                             <include>DefSettingsButton</include>
+                            <label>Multi-Widgets</label>
+                            <selected>Skin.HasSetting(home.vertical.widgets)</selected>
+                            <onclick>Skin.ToggleSetting(home.vertical.widgets)</onclick>
+                            <visible>Skin.HasSetting(home.vertical) | [!Skin.HasSetting(home.vertical) + !Skin.HasSetting(home.classicwidgets)] + ![!Skin.HasSetting(home.vertical) + !Skin.HasSetting(home.classicwidgets) + !Skin.HasSetting(home.modernwidgets)]</visible>
+                        </control>
+                        <control type="radiobutton" id="9806" description="Flags">
+                            <width>1310</width>
+                            <visible>ControlGroup(9100).HasFocus(9101)</visible>
+                            <include>DefSettingsButton</include>
+                            <label>31154</label>
+                            <selected>!Skin.HasSetting(hide.furniture.flags.vertical.widgets)</selected>
+                            <onclick>Skin.ToggleSetting(hide.furniture.flags.vertical.widgets)</onclick>
+                            <visible>[Skin.HasSetting(home.vertical) + Skin.HasSetting(home.vertical.widgets)]</visible>
+                        </control>                                                                      
+                        <control type="radiobutton" id="9809" description="Show Icons">
+                            <width>1310</width>
+                            <visible>ControlGroup(9100).HasFocus(9101)</visible>
+                            <include>DefSettingsButton</include>
                             <label>31190</label>
                             <selected>Skin.HasSetting(home.showicons)</selected>
                             <onclick>Skin.ToggleSetting(home.showicons)</onclick>
@@ -191,7 +209,8 @@
                             <label>37541</label>
                             <selected>Skin.HasSetting(home.oldmenuheight)</selected>
                             <onclick>Skin.ToggleSetting(home.oldmenuheight)</onclick>
-                            <enable>!Skin.HasSetting(home.vertical) + !Skin.HasSetting(home.classicwidgets) + !Skin.HasSetting(home.modernwidgets)</enable>                   
+                            <onclick condition="Skin.HasSetting(home.modernwidgets) + Skin.HasSetting(home.vertical.widgets) + !Skin.HasSetting(home.oldmenuheight)">Skin.Reset(home.showheader)</onclick>
+                            <enable>[!Skin.HasSetting(home.vertical) + !Skin.HasSetting(home.classicwidgets) + !Skin.HasSetting(home.modernwidgets)] | [Skin.HasSetting(home.modernwidgets) + Skin.HasSetting(home.vertical.widgets)]</enable>                   
                         </control> 
                         <control type="radiobutton" id="9815" description="Show Header">
                             <width>1310</width>
@@ -200,10 +219,10 @@
                             <label>$LOCALIZE[31115] ($LOCALIZE[10000])</label>
                             <selected>Skin.HasSetting(home.showheader)</selected>
                             <onclick>Skin.ToggleSetting(home.showheader)</onclick>
-                            <!--<enable>!Skin.HasSetting(home.vertical)</enable>-->
+                            <enable>![Skin.HasSetting(home.modernwidgets) + Skin.HasSetting(home.vertical.widgets) + Skin.HasSetting(home.oldmenuheight)]</enable>
                             <!--<visible>!Skin.HasSetting(home.vertical)</visible>-->
-                        </control>                   
-                        <control type="button" id="9816">
+                        </control>                 
+                        <control type="button" id="9818">
                             <width>1310</width>
                             <visible>ControlGroup(9100).HasFocus(9101)</visible>
                             <textoffsetx>20</textoffsetx>
@@ -212,7 +231,10 @@
                             <include>DefSettingsButtonNew</include>
                             <label>37751</label>
                             <enable>false</enable>                    
-                        </control>                    
+                        </control> 
+                        
+                        
+                                           
                         <control type="button" id="9841" description="Set Slideshow Path">
                             <width>1310</width>
                             <visible>ControlGroup(9100).HasFocus(9101)</visible>
@@ -240,7 +262,7 @@
                             <selected>Skin.HasSetting(home.dontshowfanart)</selected>
                             <onclick>Skin.ToggleSetting(home.dontshowfanart)</onclick>
                         </control>                    
-                        <control type="radiobutton" id="9845" description="Classic Widget Auto show">
+                        <control type="radiobutton" id="9844" description="Classic Widget Auto show">
                             <width>1310</width>
                             <visible>ControlGroup(9100).HasFocus(9101)</visible>
                             <include>DefSettingsButton</include>
@@ -250,7 +272,7 @@
                             <selected>Skin.HasSetting(home.dontautoshowwidget)</selected>
                             <onclick>Skin.ToggleSetting(home.dontautoshowwidget)</onclick>
                         </control>
-                        <control type="radiobutton" id="9847" description="Allow Widget Reloading">
+                        <control type="radiobutton" id="9845" description="Allow Widget Reloading">
                             <width>1310</width>
                             <visible>ControlGroup(9100).HasFocus(9101)</visible>
                             <include>DefSettingsButton</include>
@@ -261,7 +283,32 @@
                             <!--<label>31274</label>
                             <selected>Skin.HasSetting(NoPersistentWidgets)</selected>
                             <onclick>Skin.ToggleSetting(NoPersistentWidgets)</onclick>-->
-                        </control>                    
+                        </control>
+                        <control type="radiobutton" id="9846">
+                            <width>1310</width>
+                            <visible>ControlGroup(9100).HasFocus(9101)</visible>
+                            <include>DefSettingsButton</include>
+                            <label>37800</label>
+                            <selected>Skin.HasSetting(home.vertical.widgets.submenu)</selected>
+                            <onclick>Skin.ToggleSetting(home.vertical.widgets.submenu)</onclick>
+                            <visible>[Skin.HasSetting(home.vertical) | Skin.HasSetting(home.modernwidgets)] + Skin.HasSetting(home.vertical.widgets)</visible>
+                        </control>                        
+                        <control type="button" id="9847" description="Show Icons">
+                            <width>1310</width>
+                            <visible>ControlGroup(9100).HasFocus(9101)</visible>
+                            <include>DefSettingsButton</include>
+                            <label>    $LOCALIZE[1034] $LOCALIZE[31261]</label>
+                            <label2>$VAR[LabelWidgetSubmenuType]</label2>                            
+                            <onclick condition="!Skin.HasSetting(home.vertical.widgets.submenu.poster) + !Skin.HasSetting(home.vertical.widgets.submenu.square) +!Skin.HasSetting(home.vertical.widgets.submenu.fanart)">Skin.SetBool(home.vertical.widgets.submenu.poster)</onclick>
+                            <onclick condition="Skin.HasSetting(home.vertical.widgets.submenu.poster)">Skin.SetBool(home.vertical.widgets.submenu.square)</onclick>
+                            <onclick condition="Skin.HasSetting(home.vertical.widgets.submenu.poster)">Skin.Reset(home.vertical.widgets.submenu.poster)</onclick>                            
+                            <onclick condition="Skin.HasSetting(home.vertical.widgets.submenu.square)">Skin.SetBool(home.vertical.widgets.submenu.fanart)</onclick>
+                            <onclick condition="Skin.HasSetting(home.vertical.widgets.submenu.square)">Skin.Reset(home.vertical.widgets.submenu.square)</onclick>                            
+                            <onclick condition="Skin.HasSetting(home.vertical.widgets.submenu.fanart)">Skin.Reset(home.vertical.widgets.submenu.fanart)</onclick>                                                    
+                            <onclick condition="!Skin.HasSetting(home.vertical.widgets.submenu.poster) + !Skin.HasSetting(home.vertical.widgets.submenu.square) +!Skin.HasSetting(home.vertical.widgets.submenu.fanart)">Skin.Reset(home.vertical.widgets.submenu.fanart)</onclick> 
+                            <visible>[Skin.HasSetting(home.vertical) | Skin.HasSetting(home.modernwidgets)] + Skin.HasSetting(home.vertical.widgets)</visible>
+                            <enable>[Skin.HasSetting(home.vertical) | Skin.HasSetting(home.modernwidgets)] + Skin.HasSetting(home.vertical.widgets) + Skin.HasSetting(home.vertical.widgets.submenu)</enable>
+                        </control>                                             
                         <control type="radiobutton" id="9848">
                             <width>1310</width>
                             <visible>ControlGroup(9100).HasFocus(9101)</visible>
@@ -788,14 +835,16 @@
                             <label>37660</label>                   
                             <selected>Skin.HasSetting(PlayTrailerWindowed)</selected>
                             <onclick>Skin.ToggleSetting(PlayTrailerWindowed)</onclick>
-                        </control>
-                        <control type="radiobutton" id="9309">
-                            <width>1310</width>
-                            <visible>ControlGroup(9100).HasFocus(9109)</visible>
+                        </control>                        
+                        <control type="button" id="9311" description="SELECT INFO">					
                             <include>DefSettingsButton</include>
-                            <label>37520</label>                   
-                            <selected>Skin.HasSetting(show.studiologos)</selected>
-                            <onclick>Skin.ToggleSetting(show.studiologos)</onclick>
+                            <visible>ControlGroup(9100).HasFocus(9109)</visible>
+                            <label>37797</label>
+                            <label2>$VAR[InfoTypeLabelTexture]</label2>
+                            <onclick condition="!Skin.HasSetting(show.studiologos) + !Skin.HasSetting(show.clearart)">Skin.ToggleSetting(show.clearart)</onclick>                                              
+                            <onclick condition="Skin.HasSetting(show.clearart)">Skin.ToggleSetting(show.studiologos)</onclick>
+                            <onclick condition="Skin.HasSetting(show.clearart)">Skin.Reset(show.clearart)</onclick>                                            
+                            <onclick condition="Skin.HasSetting(show.studiologos)">Skin.Reset(show.studiologos)</onclick>                  
                         </control>
                     </control>
                         
@@ -954,7 +1003,7 @@
                             <width>1310</width>
                             <visible>ControlGroup(9100).HasFocus(9111)</visible>
                             <include>DefSettingsButton</include>
-                            <label>Movie Genre Icons</label>
+                            <label>37802</label>
                             <label2>$VAR[Label_GenreIcons]</label2>
                             <onclick>RunScript(script.image.resource.select,property=genre.icons&amp;type=resource.images.moviegenreicons)</onclick>	
                         </control>					 
@@ -962,7 +1011,7 @@
                             <width>1310</width>
                             <visible>ControlGroup(9100).HasFocus(9111)</visible>
                             <include>DefSettingsButton</include>
-                            <label>Studio Icons</label>
+                            <label>37803</label>
                             <label2>$VAR[Label_StudioIcons]</label2>
                             <onclick>RunScript(script.image.resource.select,property=studio.logos&amp;type=resource.images.studios)</onclick>
                         </control>					
@@ -970,7 +1019,7 @@
                             <width>1310</width>
                             <visible>ControlGroup(9100).HasFocus(9111)</visible>
                             <include>DefSettingsButton</include>
-                            <label>Record Label Icons</label>
+                            <label>37804</label>
                             <label2>$VAR[Label_RecordLabelIcons]</label2>
                             <onclick>RunScript(script.image.resource.select,property=recordlabel.logos&amp;type=resource.images.recordlabels)</onclick>
                         </control> 
@@ -1481,6 +1530,14 @@
                             <onclick>SetProperty(Dialog.2.Label,$LOCALIZE[31271])</onclick>
                             <onclick>SetProperty(Dialog.2.BuiltIn,Skin.SetImage(startupfanart.fallback))</onclick>
                             <onclick>RunScript(script.embuary.helper,action=createselect,header=$LOCALIZE[37716])</onclick>  
+                        </control>
+                        <control type="radiobutton" id="12007">
+                            <width>1310</width>
+                            <visible>ControlGroup(9100).HasFocus(9107)</visible>
+                            <include>DefSettingsButton</include>
+                            <label>37806</label>                   
+                            <selected>Skin.HasSetting(music.gotofullscreen)</selected>
+                            <onclick>Skin.ToggleSetting(music.gotofullscreen)</onclick>
                         </control>
                         <!--<control type="radiobutton" id="9274">
                             <width>1310</width>

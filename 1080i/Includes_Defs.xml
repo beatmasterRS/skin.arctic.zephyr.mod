@@ -35,7 +35,7 @@
         <value condition="!String.IsEmpty(Container(300).ListItem.Property(Background))">noop</value>
         <value condition="!String.IsEmpty(Skin.String(home.slideshowpath)) + String.IsEmpty(Container(300).ListItem.Property(widget))">noop</value>
         <value condition="!String.IsEmpty(Skin.String(home.fallbackwidget))">$INFO[Skin.String(home.fallbackwidget)]</value>
-        <value condition="System.HasAddon(service.library.data.provider)">plugin://service.library.data.provider?type=randommovies&amp;reload=$INFO[Window.Property(randommovies)]</value>
+        <value condition="System.HasAddon(service.library.data.provider) + ![Skin.HasSetting(home.vertical) + Skin.HasSetting(home.vertical.widgets)] + ![Skin.HasSetting(home.modernwidgets)  + Skin.HasSetting(home.vertical.widgets)]">plugin://service.library.data.provider?type=randommovies&amp;reload=$INFO[Window.Property(randommovies)]</value>
         <value>special://skin/extras/playlists/RandomMovies.xsp</value>
     </variable>
 
@@ -1850,8 +1850,7 @@
             <label>$INFO[ListItem.Label] $INFO[ListItem.Year,(,)]</label>
             <animation effect="fade" start="0" end="100" time="650" tween="cubic" easing="inout" delay="200" reversible="false">Focus</animation>
             <animation effect="fade" start="100" end="0" time="0" delay="0">UnFocus</animation>
-        </control>
-        
+        </control>        
         <control type="label">
             <left>$PARAM[labeltwoleft]</left>
             <bottom>$PARAM[labeltwobottom]</bottom>
@@ -1867,6 +1866,87 @@
         </control>
         </definition>
     </include>
-       
-
+    
+    <!-- Includes defs for vertival multi widgets START -->
+    <include name="DefVerticalWidgetsInclude">
+        <left>518</left>
+        <width>1900</width>
+        <height>325</height>
+        <onfocus>SetProperty(SkinHelper.WidgetContainer,$PARAM[id],Home)</onfocus>
+        <onback condition="!Integer.IsEqual(Container($PARAM[id]).Position,0) | Container($PARAM[id]).HasPrevious">PageUp</onback>
+        <onback condition="!Integer.IsEqual(Container($PARAM[id]).Position,0) | Container($PARAM[id]).HasPrevious">PageUp</onback>
+        <onback condition="!Integer.IsEqual(Container($PARAM[id]).Position,0) | Container($PARAM[id]).HasPrevious">PageUp</onback>
+        <onback condition="Integer.IsEqual(Container($PARAM[id]).Position,0) + !Container($PARAM[id]).HasPrevious">300</onback>
+        <onleft>300</onleft>
+        <preloaditems>0</preloaditems>
+        <include>Animation.Vertical.Widgets</include>             
+        <oninfo condition="IsEmpty(Container($PARAM[id]).ListItem.TvShowTitle) + IsEmpty(Container($PARAM[id]).ListItem.Artist)">RunScript(script.extendedinfo,info=extendedinfo,name=$INFO[Container($PARAM[id]).ListItem.Title],imdb_id=$INFO[Container($PARAM[id]).ListItem.IMDBNumber])</oninfo>
+        <oninfo condition="!IsEmpty(Container($PARAM[id]).ListItem.TvShowTitle)">RunScript(script.extendedinfo,info=extendedtvinfo,name=$INFO[Container($PARAM[id]).ListItem.TvShowTitle],imdb_id=$INFO[Container($PARAM[id]).ListItem.IMDBNumber])</oninfo>
+        <focusposition>0</focusposition>
+        <orientation>horizontal</orientation>        
+        <scrolltime tween="quadratic">400</scrolltime>
+    </include>    
+    <include name="DefVerticalWidgetsWeatherInclude">
+        <left>518</left>
+        <width>1876</width>
+        <height>325</height>
+        <onfocus>SetProperty(SkinHelper.WidgetContainer,$PARAM[id],Home)</onfocus>
+        <onback condition="!Integer.IsEqual(Container($PARAM[id]).Position,0) | Container($PARAM[id]).HasPrevious">PageUp</onback>
+        <onback condition="!Integer.IsEqual(Container($PARAM[id]).Position,0) | Container($PARAM[id]).HasPrevious">PageUp</onback>
+        <onback condition="!Integer.IsEqual(Container($PARAM[id]).Position,0) | Container($PARAM[id]).HasPrevious">PageUp</onback>
+        <onback condition="Integer.IsEqual(Container($PARAM[id]).Position,0) + !Container($PARAM[id]).HasPrevious">300</onback>
+        <onleft>300</onleft>
+        <preloaditems>0</preloaditems>
+        <include>Animation.Vertical.Widgets</include>             
+        <focusposition>0</focusposition>
+        <orientation>horizontal</orientation>
+        <scrolltime tween="quadratic">400</scrolltime>
+        <onclick>ActivateWindow(Weather)</onclick>
+    </include>    
+    <include name="DefVerticalWidgetsGroupTop">
+        <top>10</top>
+    </include>    
+    <include name="DefVerticalWidgetsContainerTop">
+        <top>60</top>
+    </include>
+    <include name="DefWidgetContainerHeight">
+        <height>100</height>
+    </include> 
+    <include name="DefWidgetContainerHeightNormal">
+        <height>325</height>
+    </include>  
+    <include name="contentinclude">
+        <content limit="$PARAM[DefWidgetLimit]" target="$PARAM[target]" sortby="$PARAM[sortby]" sortorder="$PARAM[sort]">$PARAM[content]</content>
+    </include> 
+    <include name="contentincludeweather">
+        <content>>$PARAM[content]</content>
+    </include>    
+    <include name="contentinclude-submenu">
+        <content><include>skinshortcuts-submenu</include></content>
+    </include>  
+    <include name="LabelTopInfoSubDefinition">
+        <font>MediumBold</font>
+        <width>100%</width>
+        <align>left</align>
+        <textcolor>Dark1</textcolor>
+    </include>    
+    <include name="PlotInfoSubDefinition">
+        <font>Tiny</font>
+        <width>100%</width>
+        <height min="36" max="212">auto</height>
+        <align>left</align>
+        <textcolor>Dark2</textcolor>
+        <include condition="Skin.HasSetting(widgets.autoscrollingplot)">ScrollTextWidget</include>
+        <include condition="!Skin.HasSetting(widgets.autoscrollingplot)">NoScrollTextWidget</include>
+    </include>    
+    <include name="LabelInfoSubDefinition">
+        <font>Tiny</font>
+        <width>100%</width>
+        <height>36</height>
+        <align>left</align>
+        <textcolor>Dark2</textcolor>
+    </include> 
+    <!-- Includes defs for vertival multi widgets END -->
+    
+    
 </includes>

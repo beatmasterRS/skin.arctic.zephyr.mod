@@ -1,7 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!-- Foundation -->
 <window id="0">
-    <defaultcontrol always="true">300</defaultcontrol>    
+    <include condition="![Skin.HasSetting(home.vertical) + Skin.HasSetting(home.vertical.widgets)] + ![Skin.HasSetting(home.modernwidgets) + Skin.HasSetting(home.vertical.widgets)]">defaultcontroltrue</include>     
+    <include condition="[Skin.HasSetting(home.vertical) + Skin.HasSetting(home.vertical.widgets)] | [Skin.HasSetting(home.modernwidgets) + Skin.HasSetting(home.vertical.widgets)]">defaultcontrolfalse</include>
     <onload>RunScript(script.favourites)</onload>
     <onload>SetProperty(SkinHelper.WidgetContainer,300)</onload>
     <onload>SetProperty(SkinHelper.WidgetContainer,301)</onload> 
@@ -19,14 +20,16 @@
     <onload condition="!Skin.HasSetting(firststartblurfade)">Skin.SetBool(firststartblurfade)</onload>
     <controls>
         <include>GlobalBackground</include>                
-        <include condition="Skin.HasSetting(home.vertical)">HomeVerticalMenu</include>        
+        <include condition="Skin.HasSetting(home.vertical) + Skin.HasSetting(home.vertical.widgets)">HomeVerticalMenuWidgets</include>
+        <include condition="Skin.HasSetting(home.vertical) + !Skin.HasSetting(home.vertical.widgets)">HomeVerticalMenu</include> 
+        <include condition="!Skin.HasSetting(home.vertical) + !Skin.HasSetting(home.classicwidgets) + Skin.HasSetting(home.modernwidgets) + Skin.HasSetting(home.vertical.widgets)">HomeWidgetInfoWidgets</include>       
         <include condition="!Skin.HasSetting(home.vertical)">HomeHeader</include>
         <include condition="!Skin.HasSetting(home.vertical)">HomeNextRecording</include>
         <include condition="!Skin.HasSetting(home.vertical) + !Skin.HasSetting(home.showclearlogotopright) + !Skin.HasSetting(home.modernwidgets)">HomeWeatherWidget</include>
         <include condition="!Skin.HasSetting(home.vertical)">HomeNowPlaying</include>
-        <include condition="!Skin.HasSetting(home.vertical)">HomeBackgroundPlaylist</include>
+        <include>HomeBackgroundPlaylist</include>
         <include condition="!Skin.HasSetting(home.vertical) + !Skin.HasSetting(home.classicwidgets)">HomeRow</include>
-        <include condition="!Skin.HasSetting(home.vertical) + !Skin.HasSetting(home.classicwidgets)">HomeWidgetInfo</include>
+        <include condition="!Skin.HasSetting(home.vertical) + !Skin.HasSetting(home.classicwidgets) + ![Skin.HasSetting(home.modernwidgets) + Skin.HasSetting(home.vertical.widgets)]">HomeWidgetInfo</include>        
         <include condition="!Skin.HasSetting(home.vertical) + Skin.HasSetting(home.classicwidgets)">HomeClassicWidgets</include>        
         <include condition="!Skin.HasSetting(home.vertical) + Skin.HasSetting(home.submenu2) + !Skin.HasSetting(home.showicons)">HomeSubMenu2</include>
         <include condition="!Skin.HasSetting(home.vertical) + [!Skin.HasSetting(home.submenu2) | Skin.HasSetting(home.showicons)]">HomeSubMenu</include>        
@@ -42,10 +45,17 @@
             <include condition="!Skin.HasSetting(home.vertical)">Furniture_Clock</include>
             <include condition="!Skin.HasSetting(home.vertical)">Furniture_Weather</include>
         </control>
+        <control type="group">
+            <include>Animation.FadeIn</include>
+            <include>Animation.FadeOut</include>
+            <visible>Window.IsVisible(home) + [Skin.HasSetting(home.vertical) + Skin.HasSetting(home.vertical.widgets)]</visible>
+			<include>Furniture_Flags</include>
+            <include>Furniture_Flags_Audio</include>
+        </control>
 		<control type="group">
             <visible>[!Window.IsVisible(DialogVideoInfo.xml) + !String.Contains(Container(300).ListItem.Property(widget),Weather)] | [!Window.IsVisible(DialogVideoInfo.xml) + String.Contains(Container(300).ListItem.Property(widget),Weather) + String.IsEmpty(Skin.String(weather.fanart.path))]</visible>
             <visible>!Window.IsVisible(DialogMusicInfo.xml)</visible>
-			<include>HomeClearLogo</include>
+			<include condition="![Skin.HasSetting(home.vertical) + Skin.HasSetting(home.vertical.widgets)]">HomeClearLogo</include>
 		</control>
     </controls>
 </window>
