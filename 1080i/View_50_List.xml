@@ -414,11 +414,11 @@
                     <pagecontrol>60</pagecontrol>
                     <viewtype label="535">list</viewtype>
                     <scrolltime>200</scrolltime>
-                    <itemlayout width="ListSquareW" height="64">
+                    <itemlayout condition="!Skin.HasSetting(511ListInfo)" width="ListSquareW" height="64">
                         <include>50itemlayout_square_playlist</include>
                     </itemlayout>
 
-                    <focusedlayout width="ListSquareW" height="64">
+                    <focusedlayout condition="!Skin.HasSetting(511ListInfo)" width="ListSquareW" height="64">
                         <control type="group">
                             <visible>!Control.HasFocus(60)</visible>
                             <include>50focuslayout_square_playlist</include>
@@ -428,6 +428,21 @@
                             <include>50itemlayout_square_playlist</include>
                         </control>
                     </focusedlayout>
+                    
+                    <itemlayout condition="Skin.HasSetting(511ListInfo)" width="ListSquareW" height="90">
+                        <include>50itemlayout_square_playlist_info</include>
+                    </itemlayout>
+                    <focusedlayout condition="Skin.HasSetting(511ListInfo)" width="ListSquareW" height="90">
+                        <control type="group">
+                            <visible>!Control.HasFocus(60)</visible>
+                            <include>50focuslayout_square_playlist_info</include>
+                        </control>
+                        <control type="group">
+                            <visible>Control.HasFocus(60)</visible>
+                            <include>50itemlayout_square_playlist_info</include>
+                        </control>
+                    </focusedlayout>
+                    
                 </control>
                 <include>Furniture_Scrollbar</include>
             </control>
@@ -1193,6 +1208,132 @@
             <label>$INFO[ListItem.Duration]</label>
         </control>
     </include>	
+    
+    
+    <include name="50itemlayout_square_playlist_info">
+        <control type="image">
+            <left>25</left>
+            <centertop>27</centertop>
+            <width>32</width>
+            <height>32</height>
+            <aspectratio aligny="top">keep</aspectratio>
+            <texture colordiffuse="Dark1">indicator/playlist.png</texture>
+            <visible>ListItem.IsPlaying</visible>
+        </control>
+        <control type="label">
+            <posx>30</posx>
+            <top>-5</top>
+            <width>auto</width>
+            <aligny>center</aligny>
+            <height>64</height>
+            <font>SmallNavi</font>
+            <label>$INFO[ListItem.Label]</label>
+            <textcolor>Dark1</textcolor>
+            <selectedcolor>Dark1</selectedcolor>
+            <visible>!ListItem.IsPlaying</visible>
+        </control>
+        <control type="label">
+            <posx>78</posx>
+            <top>-5</top>
+            <width>auto</width>
+            <aligny>center</aligny>
+            <height>64</height>
+            <font>SmallNavi</font>
+            <label>$INFO[ListItem.Label]</label>
+            <textcolor>Dark1</textcolor>
+            <selectedcolor>Dark1</selectedcolor>
+            <visible>ListItem.IsPlaying</visible>
+        </control>
+        <control type="label">
+            <right>45</right>
+            <top>-5</top>
+            <width>500</width>
+            <aligny>center</aligny>
+            <height>64</height>
+            <align>right</align>
+            <font>SmallNavi</font>
+            <textcolor>Dark1</textcolor>
+            <selectedcolor>Dark1</selectedcolor>
+            <label>$INFO[ListItem.Duration]</label>
+        </control>
+        <control type="label">
+            <top>28</top>
+            <posx>30</posx>
+            <width>auto</width>
+            <aligny>center</aligny>
+            <height>64</height>
+            <font>Small24</font>
+            <label>$VAR[LabelPlaylist]</label>
+            <textcolor>Dark2</textcolor>
+            <selectedcolor>Dark1</selectedcolor>
+        </control>			
+    </include>
+    <include name="50focuslayout_square_playlist_info">
+        <control type="image">                                
+            <width>100%</width>
+            <height>100%</height>
+            <texture border="8" colordiffuse="Dark1">common/box.png</texture>
+			<include>ListViewScrollAnim</include>
+        </control>
+        <control type="image">
+            <left>25</left>
+            <centertop>27</centertop>
+            <width>32</width>
+            <height>32</height>
+            <aspectratio aligny="top">keep</aspectratio>
+            <texture colordiffuse="Light1">indicator/playlist.png</texture>
+            <visible>ListItem.IsPlaying</visible>
+        </control>
+        <control type="label">
+            <posx>30</posx>
+            <top>-5</top>
+            <width>auto</width>
+            <aligny>center</aligny>
+            <height>64</height>
+            <font>SmallNavi</font>
+            <label>$INFO[ListItem.Label]</label>
+            <textcolor>Light1</textcolor>
+            <selectedcolor>Light1</selectedcolor>
+            <visible>!ListItem.IsPlaying</visible>
+        </control>
+        <control type="label">
+            <posx>78</posx>
+            <top>-5</top>
+            <width>auto</width>
+            <aligny>center</aligny>
+            <height>64</height>
+            <font>SmallNavi</font>
+            <label>$INFO[ListItem.Label]</label>
+            <textcolor>Light1</textcolor>
+            <selectedcolor>Light1</selectedcolor>
+            <visible>ListItem.IsPlaying</visible>
+        </control>
+		<control type="label">
+            <right>45</right>
+            <top>-5</top>
+            <width>500</width>
+            <aligny>center</aligny>
+            <height>64</height>
+            <align>right</align>
+            <font>SmallNavi</font>
+            <textcolor>Light1</textcolor>
+            <selectedcolor>Light1</selectedcolor>
+            <label>$INFO[ListItem.Duration]</label>
+        </control>
+        <control type="label">
+            <top>28</top>
+            <posx>30</posx>
+            <width>auto</width>
+            <aligny>center</aligny>
+            <height>64</height>
+            <align>left</align>
+            <font>Small24</font>
+            <textcolor>Light2</textcolor>
+            <selectedcolor>Light2</selectedcolor>
+            <label>$VAR[LabelPlaylist]</label>
+        </control>			
+    </include>	
+    
 	<include name="50focuslayout_info">
         <control type="image">                                
             <width>100%</width>
