@@ -3079,7 +3079,7 @@
 				<visible>!String.IsEmpty(ListItem.IMDBNumber) + Skin.HasSetting(Use.IMDB.Trailer) + System.HasAddon(plugin.video.imdb.trailers) + !Skin.HasSetting(PlayTrailerWindowed)</visible>	
                 <onclick>Dialog.Close(2003)</onclick>
                 <onclick>PlayMedia(plugin://plugin.video.imdb.trailers/?action=play_id&imdb=$INFO[ListItem.IMDBNumber])</onclick>			
-			</control>            
+			</control>      
             
             <control type="radiobutton" id ="11">
                 <onfocus>ClearProperty(moviecontent)</onfocus> 
@@ -3117,6 +3117,7 @@
 				<visible>Container.Content(movies) | Container.Content(tvshows) | Container.Content(episodes)</visible>
 				<visible>Control.IsEnabled(7) + String.IsEmpty(ListItem.UserRating)</visible>
 			</control>	
+            
             <control type="radiobutton" id ="9110">
                 <onfocus>ClearProperty(moviecontent)</onfocus>
                 <onfocus>ClearProperty(ShowDisc)</onfocus>
@@ -3129,7 +3130,22 @@
 				</include>
 				<visible>Container.Content(movies) | Container.Content(tvshows) | Container.Content(episodes)</visible>
 				<visible>Control.IsEnabled(7) + !String.IsEmpty(ListItem.UserRating)</visible>
-			</control>	
+			</control>
+
+            <control type="radiobutton" id ="1236">
+                <onfocus>ClearProperty(moviecontent)</onfocus>
+                <onfocus>ClearProperty(ShowDisc)</onfocus>
+                <include>OnFocusOnClick</include> 
+                <include>ClearOnFocusOnClick</include>           
+				<include>buttondimensions</include>
+				<include content="buttontextures">
+					<param name="icon" value="buttonsdialogs/more.png" />
+				</include>
+				<visible>System.HasAddon(plugin.video.specialfeatures)</visible>
+                <visible>String.IsEqual(Window(home).Property(SpecialFeatures.Visible),true)</visible>
+                <onclick>Action(close)</onclick>
+                <onclick>RunScript(plugin.video.specialfeatures,listitem)</onclick>
+			</control>            	
             
 			<control type="radiobutton" id ="9002">
                 <visible>String.IsEqual(ListItem.DBType,movie) | String.IsEqual(ListItem.DBType,tvshow)</visible>
