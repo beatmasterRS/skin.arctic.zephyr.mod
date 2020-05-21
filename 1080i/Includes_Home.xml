@@ -5773,7 +5773,7 @@
             <control type="textbox">
                 <include>PlotInfoSubDefinition</include>
                 <label>$INFO[Container($PARAM[id]).ListItem.Plot]</label>
-                <visible>[String.IsEqual(Container($PARAM[id]).ListItem.DBType,movie) | String.IsEqual(Container($PARAM[id]).ListItem.DBType,episode) | String.IsEqual(Container($PARAM[id]).ListItem.DBType,tvshow)] + !String.IsEmpty(Container($PARAM[id]).ListItem.Plot)</visible> 
+                <visible>[String.IsEqual(Container($PARAM[id]).ListItem.DBType,set) | String.IsEqual(Container($PARAM[id]).ListItem.DBType,movie) | String.IsEqual(Container($PARAM[id]).ListItem.DBType,episode) | String.IsEqual(Container($PARAM[id]).ListItem.DBType,tvshow)] + !String.IsEmpty(Container($PARAM[id]).ListItem.Plot)</visible> 
             </control>
             <control type="textbox">
                 <include>PlotInfoSubDefinition</include>
@@ -5809,6 +5809,16 @@
     </include>
 
     <include name="LabelInfoSub">
+        <control type="list" id="5015">
+            <visible>String.IsEqual(Container($PARAM[id]).ListItem.DBType,set)</visible>
+            <top>-3000</top>
+            <left>-3000</left>
+            <width>1</width>
+            <height>1</height>
+            <itemlayout/>
+            <focusedlayout/>
+            <content>videodb://movies/sets/$INFO[Container($PARAM[id]).ListItem.DBID]/?setid=$INFO[Container($PARAM[id]).ListItem.DBID]</content>            
+        </control>
         <control type="grouplist">
             <orientation>vertical</orientation>
             <itemgap>0</itemgap>
@@ -5821,6 +5831,11 @@
                 <include>LabelInfoSubDefinition</include>                     
                 <label>$INFO[Container($PARAM[id]).ListItem.Year,,  •  ]$INFO[Container($PARAM[id]).ListItem.Duration(mins),, $LOCALIZE[31102]]$INFO[Container($PARAM[id]).ListItem.Rating,  •  ]$VAR[RtMclabelMultiWidgets]</label>
                 <visible>String.IsEqual(Container($PARAM[id]).ListItem.DBType,movie) | String.IsEqual(Container($PARAM[id]).ListItem.DBType,episode)</visible> 
+            </control>
+            <control type="label">
+                <include>LabelInfoSubDefinition</include>                     
+                <label>$INFO[Container($PARAM[id]).ListItem.Year]$INFO[Container(5015).NumItems,  •  , $LOCALIZE[342]]$INFO[Container($PARAM[id]).ListItem.Rating,  •  ]</label>
+                <visible>String.IsEqual(Container($PARAM[id]).ListItem.DBType,set)</visible> 
             </control>
             <control type="label">
                 <include>LabelInfoSubDefinition</include>
