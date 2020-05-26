@@ -2885,7 +2885,7 @@
             <onup condition="String.IsEmpty(Window.Property(musiccontent))">9010</onup>
       
             <control type="radiobutton" id ="9001">
-                <visible>[String.IsEqual(ListItem.DBType,album) | String.IsEqual(ListItem.DBType,song)]</visible>	
+                <visible>[String.IsEqual(ListItem.DBType,album) | String.IsEqual(ListItem.DBType,song)] + !ListItem.IsPlaying</visible>	
                 <onfocus>ClearProperty(musiccontent)</onfocus> 
                 <onfocus>ClearProperty(ShowDisc)</onfocus>            
                 <onclick condition="String.IsEqual(ListItem.DBType,song)">PlayMedia($INFO[ListItem.FileNameAndPath])</onclick>               
@@ -2896,6 +2896,22 @@
 				<include content="buttontextures">
 					<param name="icon" value="buttonsdialogs/play.png" />
 				</include>			
+			</control>
+            
+            <control type="radiobutton" id ="9201">
+                <visible>[String.IsEqual(ListItem.DBType,album) | String.IsEqual(ListItem.DBType,song)] + ListItem.IsPlaying</visible>	
+                <onfocus>ClearProperty(musiccontent)</onfocus> 
+                <onfocus>ClearProperty(ShowDisc)</onfocus>                          
+				<include>buttondimensionssquare</include>
+                <onclick condition="Player.Playing">Pause</onclick>
+                <onclick condition="!Player.Playing">Play</onclick>
+				<texturenofocus colordiffuse="Dark4" border="0">common/boxsquare.png</texturenofocus>
+				<texturefocus colordiffuse="$VAR[ColorHighlight]" border="0">common/boxsquare.png</texturefocus>
+				<textureradioonfocus colordiffuse="FFFFFFFF">buttonsdialogs/pause.png</textureradioonfocus>
+				<textureradioonnofocus colordiffuse="FFFFFFFF">buttonsdialogs/pause.png</textureradioonnofocus>
+				<textureradioofffocus colordiffuse="FFFFFFFF">buttonsdialogs/continue.png</textureradioofffocus>
+				<textureradiooffnofocus colordiffuse="FFFFFFFF">buttonsdialogs/continue.png</textureradiooffnofocus>
+				<selected>Player.Playing</selected>			
 			</control>
 
             <!-- Info (Startseite) Button -->
@@ -3058,7 +3074,24 @@
 				<textureradioonnofocus colordiffuse="FFFFFFFF">buttonsdialogs/continue.png</textureradioonnofocus>
 				<textureradioofffocus colordiffuse="FFFFFFFF">buttonsdialogs/play.png</textureradioofffocus>
 				<textureradiooffnofocus colordiffuse="FFFFFFFF">buttonsdialogs/play.png</textureradiooffnofocus>
-				<selected>ListItem.IsResumable</selected>				
+				<selected>ListItem.IsResumable</selected>
+                <visible>!ListItem.IsPlaying</visible>				
+			</control> 
+            
+            <control type="radiobutton" id ="9201">
+                <onfocus>ClearProperty(moviecontent)</onfocus>
+                <onfocus>ClearProperty(ShowDisc)</onfocus>                           
+				<include>buttondimensions</include>
+                <onclick condition="Player.Playing">Pause</onclick>
+                <onclick condition="!Player.Playing">Play</onclick>
+				<texturenofocus colordiffuse="Dark4" border="0">common/boxsquare.png</texturenofocus>
+				<texturefocus colordiffuse="$VAR[ColorHighlight]" border="0">common/boxsquare.png</texturefocus>
+				<textureradioonfocus colordiffuse="FFFFFFFF">buttonsdialogs/pause.png</textureradioonfocus>
+				<textureradioonnofocus colordiffuse="FFFFFFFF">buttonsdialogs/pause.png</textureradioonnofocus>
+				<textureradioofffocus colordiffuse="FFFFFFFF">buttonsdialogs/continue.png</textureradioofffocus>
+				<textureradiooffnofocus colordiffuse="FFFFFFFF">buttonsdialogs/continue.png</textureradiooffnofocus>
+				<selected>Player.Playing</selected>
+                <visible>ListItem.IsPlaying</visible>				
 			</control> 
 
 			<control type="radiobutton" id ="9001">
