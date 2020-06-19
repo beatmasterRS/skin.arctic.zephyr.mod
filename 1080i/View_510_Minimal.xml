@@ -6,7 +6,7 @@
         <visible>Container.Content(movies) | Container.Content(tvshows) | Container.Content(seasons) | Container.Content(episodes)</visible> 
         <top>600</top>
         <left>-110</left>
-        <width>2570</width>
+        <width>2690</width>
         <height>395</height>
         <onup condition="!Skin.HasSetting(global.kioskmode)">9000</onup>
         <ondown>1651</ondown>
@@ -16,10 +16,12 @@
         <focusposition>2</focusposition>
         <viewtype label="37590">list</viewtype>
         <scrolltime tween="quadratic">400</scrolltime>
-        <animation effect="slide" start="0,0" end="-48,-38" time="200" condition="Skin.HasSetting(Zoom510)">Conditional</animation>
-        <animation effect="slide" start="0,0" end="-55,0" time="200" condition="Skin.HasSetting(Zoom510) + [Container.Content(episodes) | Container.Content(seasons)]">Conditional</animation>
+        <animation effect="slide" start="0,0" end="-120,-50" time="200" condition="String.IsEqual(Skin.String(IconSize),2)">Conditional</animation>
+        <animation effect="slide" start="0,0" end="-48,-38" time="200" condition="String.IsEqual(Skin.String(IconSize),1)">Conditional</animation>
+        <animation effect="slide" start="0,0" end="-55,0" time="200" condition="String.IsEqual(Skin.String(IconSize),1) + [Container.Content(episodes) | Container.Content(seasons)]">Conditional</animation>
+        <animation effect="slide" start="0,0" end="-45,0" time="200" condition="String.IsEqual(Skin.String(IconSize),2) + [Container.Content(episodes) | Container.Content(seasons)]">Conditional</animation>
         <animation effect="slide" start="0,0" end="-383,0" time="200" condition="Container.Content(episodes) | Container.Content(seasons)">Conditional</animation>
-        <itemlayout height="255" width="352" condition="[Container.Content(episodes) | Container.Content(seasons)] + !Skin.HasSetting(Zoom510)">
+        <itemlayout height="255" width="352" condition="[Container.Content(episodes) | Container.Content(seasons)] + String.IsEmpty(Skin.String(IconSize))">
             <control type="image">
                 <left>2</left>
                 <top>-3</top>
@@ -67,7 +69,7 @@
                 <label>$INFO[ListItem.Label]</label>						
             </control>
         </itemlayout>
-        <itemlayout height="285" width="405" condition="[Container.Content(episodes) | Container.Content(seasons)] + Skin.HasSetting(Zoom510)">
+        <itemlayout height="285" width="405" condition="[Container.Content(episodes) | Container.Content(seasons)] + String.IsEqual(Skin.String(IconSize),1)">
             <control type="image">
                 <left>2</left>
                 <top>-3</top>
@@ -115,7 +117,55 @@
                 <label>$INFO[ListItem.Label]</label>						
             </control>
         </itemlayout>
-        <itemlayout height="287" width="160" condition="[!Container.Content(episodes) + !Container.Content(seasons)] + !Skin.HasSetting(Zoom510)">
+        <itemlayout height="327" width="465" condition="[Container.Content(episodes) | Container.Content(seasons)] + String.IsEqual(Skin.String(IconSize),2)">
+            <control type="image">
+                <left>2</left>
+                <top>-3</top>
+                <right>-5</right>
+                <bottom>51</bottom>
+                <texture border="10">common/$VAR[nofocus-shadow10]</texture>
+            </control>
+            <control type="image">
+                <left>9</left>
+                <top>4</top>
+                <right>4</right>
+                <bottom>59</bottom>                          
+                <texture colordiffuse="Box2" border="4" background="true">common/box21.png</texture>   
+                <visible>!Skin.HasSetting(thumbnails.white)</visible>                        
+            </control>
+            <control type="image">
+                <left>10</left>
+                <top>5</top>
+                <width>450</width>
+                <height>262</height>
+                <bottom>80</bottom>
+                <aspectratio scalediffuse="false">scale</aspectratio>
+                <texture diffuse="diffuse/wall.png" background="true">$VAR[FanartImage]</texture>
+            </control>
+            <control type="label">
+                <align>center</align>
+                <aligny>center</aligny>
+                <width>50</width>
+                <right>0</right>
+                <top>0</top>
+                <height>50</height>
+                <textcolor>$VAR[WatchedLabelPosterColor]</textcolor>
+                <font>SymbolPoster</font>
+                <label>$VAR[WatchedLabelPoster]</label>
+                <visible>!String.IsEqual(ListItem.Label,..)</visible>
+            </control>
+            <control type="label">
+                <top>265</top>
+                <width>320</width>
+                <height>50</height>
+                <left>20</left>  
+                <font>Small333</font>
+                <textcolor>Dark1</textcolor>
+                <visible>!String.IsEqual(ListItem.Label,..)</visible>
+                <label>$INFO[ListItem.Label]</label>						
+            </control>
+        </itemlayout>
+        <itemlayout height="287" width="160" condition="[!Container.Content(episodes) + !Container.Content(seasons)] + String.IsEmpty(Skin.String(IconSize))">
             <control type="image">
                 <left>2</left>
                 <top>-3</top>
@@ -153,7 +203,7 @@
                 <visible>!String.IsEqual(ListItem.Label,..)</visible>
             </control>
         </itemlayout>
-        <itemlayout height="287" width="190" condition="[!Container.Content(episodes) + !Container.Content(seasons)] + Skin.HasSetting(Zoom510)">
+        <itemlayout height="287" width="190" condition="[!Container.Content(episodes) + !Container.Content(seasons)] + String.IsEqual(Skin.String(IconSize),1)">
             <control type="image">
                 <left>2</left>
                 <top>-3</top>
@@ -192,7 +242,46 @@
             </control>
         </itemlayout>
         
-        <focusedlayout height="255" width="352" condition="[Container.Content(episodes) | Container.Content(seasons)] + !Skin.HasSetting(Zoom510)">
+        <itemlayout height="327" width="225" condition="[!Container.Content(episodes) + !Container.Content(seasons)] + String.IsEqual(Skin.String(IconSize),2)">
+            <control type="image">
+                <left>2</left>
+                <top>-3</top>
+                <right>1</right>
+                <bottom>6</bottom>
+                <texture border="10">common/$VAR[nofocus-shadow10]</texture>
+            </control>
+            <control type="image">
+                <left>9</left>
+                <top>4</top>
+                <right>12</right>
+                <bottom>14</bottom>                          
+                <texture colordiffuse="Box2" border="4" background="true">common/box21.png</texture>    
+                <visible>!Skin.HasSetting(thumbnails.white)</visible>                        
+            </control>
+            <control type="image">
+                <left>10</left>
+                <top>5</top>
+                <width>202</width>
+                <height>307</height>
+                <bottom>80</bottom>
+                <aspectratio scalediffuse="false">scale</aspectratio>
+                <texture diffuse="diffuse/wall.png" background="true">$VAR[PosterImage]</texture>
+            </control>
+            <control type="label">
+                <align>center</align>
+                <aligny>center</aligny>
+                <width>50</width>
+                <right>5</right>
+                <top>0</top>
+                <height>50</height>
+                <textcolor>$VAR[WatchedLabelPosterColor]</textcolor>
+                <font>SymbolPoster</font>
+                <label>$VAR[WatchedLabelPoster]</label>
+                <visible>!String.IsEqual(ListItem.Label,..)</visible>
+            </control>
+        </itemlayout>
+        
+        <focusedlayout height="255" width="352" condition="[Container.Content(episodes) | Container.Content(seasons)] + String.IsEmpty(Skin.String(IconSize))">
             <control type="group">			
                 <animation center="80,168" easing="inout" effect="zoom" end="120" start="100" time="300" tween="sine">Focus</animation>
                 <animation center="80,168" easing="inout" effect="zoom" end="100" start="120" time="300" tween="sine">UnFocus</animation>	
@@ -260,7 +349,7 @@
                 </animation>							
             </control>
         </focusedlayout>
-        <focusedlayout height="285" width="405" condition="[Container.Content(episodes) | Container.Content(seasons)] + Skin.HasSetting(Zoom510)">
+        <focusedlayout height="285" width="405" condition="[Container.Content(episodes) | Container.Content(seasons)] + String.IsEqual(Skin.String(IconSize),1)">
             <control type="group">			
                 <animation center="80,168" easing="inout" effect="zoom" end="120" start="100" time="300" tween="sine">Focus</animation>
                 <animation center="80,168" easing="inout" effect="zoom" end="100" start="120" time="300" tween="sine">UnFocus</animation>	
@@ -328,7 +417,75 @@
                 </animation>						
             </control>
         </focusedlayout>
-        <focusedlayout height="287" width="160" condition="[!Container.Content(episodes) +  !Container.Content(seasons)] + !Skin.HasSetting(Zoom510)">
+        <focusedlayout height="327" width="465" condition="[Container.Content(episodes) | Container.Content(seasons)] + String.IsEqual(Skin.String(IconSize),2)">
+            <control type="group">			
+                <animation center="370,168" easing="inout" effect="zoom" end="120" start="100" time="300" tween="sine">Focus</animation>
+                <animation center="370,168" easing="inout" effect="zoom" end="100" start="120" time="300" tween="sine">UnFocus</animation>	
+                <control type="image">
+                    <left>2</left>
+                    <top>-3</top>
+                    <right>-5</right>
+                    <bottom>51</bottom>
+                    <texture border="10">common/$VAR[nofocus-shadow10]</texture>
+                </control>
+                <control type="image">
+                    <left>9</left>
+                    <top>4</top>
+                    <right>4</right>
+                    <bottom>59</bottom>                          
+                    <texture colordiffuse="Box2" border="4" background="true">common/box21.png</texture>   
+                    <visible>!Skin.HasSetting(thumbnails.white)</visible>                        
+                </control>
+                <control type="image">
+                    <right>-48</right>
+                    <top>2</top>
+                    <width>505.33</width>                    
+                    <bottom>28</bottom>
+                    <texture colordiffuse="$VAR[ColorSquares]" border="20">common/selectbox.png</texture>
+                    <animation effect="zoom" end="90" start="100" time="0" condition="true">Conditional</animation>
+                    <animation center="auto" condition="Control.HasFocus(510)" effect="fade" end="100" start="0" time="250">Focus</animation>
+                    <animation center="auto" condition="Control.HasFocus(510)" effect="fade" end="0" start="100" time="50">UnFocus</animation>
+                </control>
+                <control type="image">
+                    <left>10</left>
+                    <top>5</top>
+                    <width>450</width>
+                    <height>262</height>
+                    <bottom>80</bottom>
+                    <aspectratio scalediffuse="false">scale</aspectratio>
+                    <texture diffuse="diffuse/wall.png" background="true">$VAR[FanartImage]</texture>
+                </control>
+                <control type="label">
+                    <align>center</align>
+                    <aligny>center</aligny>
+                    <width>50</width>
+                    <right>0</right>
+                    <top>0</top>
+                    <height>50</height>
+                    <textcolor>$VAR[WatchedLabelPosterColor]</textcolor>
+                    <font>SymbolPoster</font>
+                    <label>$VAR[WatchedLabelPoster]</label>
+                    <visible>!String.IsEqual(ListItem.Label,..)</visible>
+                </control>
+            </control>
+            <control type="label">
+                <top>270</top>
+                <width>330</width>
+                <height>50</height>
+                <left>20</left>  
+                <font>Small333</font>
+                <textcolor>Dark1</textcolor>
+                <visible>!String.IsEqual(ListItem.Label,..)</visible>
+                <label>$INFO[ListItem.Label]</label>
+                <animation type="Focus">
+                    <effect type="slide" start="0,-5" end="-70,20" time="250" tween="sine" center="auto" />
+                </animation>
+                <animation type="UnFocus">
+                    <effect type="slide" start="-70,20" end="0,-5" time="250" tween="sine" center="auto" />
+                </animation>						
+            </control>
+        </focusedlayout>
+        <focusedlayout height="287" width="160" condition="[!Container.Content(episodes) +  !Container.Content(seasons)] + String.IsEmpty(Skin.String(IconSize))">
             <control type="group">			
                 <animation center="70,168" easing="inout" effect="zoom" end="120" start="100" time="300" tween="sine">Focus</animation>
                 <animation center="70,168" easing="inout" effect="zoom" end="100" start="120" time="300" tween="sine">UnFocus</animation>	
@@ -341,7 +498,7 @@
                 </control>
                 <control type="image">	
                     <visible>!String.IsEqual(ListItem.Label,..)</visible> 
-                    <visible>Skin.HasSetting(ShowDiscart510) + !Skin.HasSetting(Zoom510)</visible>                   
+                    <visible>Skin.HasSetting(ShowDiscart510) + String.IsEmpty(Skin.String(IconSize))</visible>                   
                     <top>12</top>
                     <right>8</right>
                     <width>139</width>
@@ -402,7 +559,7 @@
                 </control>
             </control>
         </focusedlayout>
-        <focusedlayout height="287" width="190" condition="[!Container.Content(episodes) +  !Container.Content(seasons)] + Skin.HasSetting(Zoom510)">
+        <focusedlayout height="287" width="190" condition="[!Container.Content(episodes) +  !Container.Content(seasons)] + String.IsEqual(Skin.String(IconSize),1)">
             <control type="group">			
                 <animation center="127,168" easing="inout" effect="zoom" end="120" start="100" time="300" tween="sine">Focus</animation>
                 <animation center="127,168" easing="inout" effect="zoom" end="100" start="120" time="300" tween="sine">UnFocus</animation>	
@@ -453,6 +610,57 @@
                 </control>
             </control>
         </focusedlayout>
+        <focusedlayout height="327" width="222" condition="[!Container.Content(episodes) +  !Container.Content(seasons)] + String.IsEqual(Skin.String(IconSize),2)">
+            <control type="group">			
+                <animation center="127,168" easing="inout" effect="zoom" end="120" start="100" time="300" tween="sine">Focus</animation>
+                <animation center="127,168" easing="inout" effect="zoom" end="100" start="120" time="300" tween="sine">UnFocus</animation>	
+                <control type="image">
+                    <left>2</left>
+                    <top>-3</top>
+                    <right>0</right>
+                    <bottom>6</bottom>
+                    <texture border="10">common/$VAR[nofocus-shadow10]</texture>
+                </control>
+                <control type="image">
+                    <left>9</left>
+                    <top>4</top>
+                    <right>12</right>
+                    <bottom>14</bottom>                          
+                    <texture colordiffuse="Box2" border="4" background="true">common/box21.png</texture>   
+                    <visible>!Skin.HasSetting(thumbnails.white)</visible>                        
+                </control>
+                <control type="image">
+                    <left>8</left>
+                    <top>2</top>
+                    <right>7</right>
+                    <bottom>12</bottom>
+                    <texture colordiffuse="$VAR[ColorSquares]" border="20">common/selectbox.png</texture>
+                    <animation center="auto" condition="Control.HasFocus(510)" effect="fade" end="100" start="0" time="250">Focus</animation>
+                    <animation center="auto" condition="Control.HasFocus(510)" effect="fade" end="0" start="100" time="50">UnFocus</animation>
+                </control>                 
+                <control type="image">
+                    <left>10</left>
+                    <top>5</top>
+                    <width>203</width>
+                    <height>307</height>
+                    <bottom>80</bottom>
+                    <aspectratio scalediffuse="false">scale</aspectratio>
+                    <texture diffuse="diffuse/wall.png" background="true">$VAR[PosterImage]</texture>
+                </control>
+                <control type="label">
+                    <align>center</align>
+                    <aligny>center</aligny>
+                    <width>50</width>
+                    <right>0</right>
+                    <top>0</top>
+                    <height>50</height>
+                    <textcolor>$VAR[WatchedLabelPosterColor]</textcolor>
+                    <font>SymbolPoster</font>
+                    <label>$VAR[WatchedLabelPoster]</label>
+                    <visible>!String.IsEqual(ListItem.Label,..)</visible>
+                </control>
+            </control>
+        </focusedlayout>
     </include>
     <include name="510Wrap"><control type="wraplist" id="510"><include>510Content</include></control></include>
     <include name="510Fixed"><control type="fixedlist" id="510"><include>510Content</include></control></include>
@@ -467,7 +675,7 @@
 				<left>210</left>
 				<top>40</top>
 				<width>520</width>
-				<animation effect="slide" start="0,0" end="0,-30" time="200" condition="Skin.HasSetting(ShowDiscart510) + !Skin.HasSetting(Zoom510)">Conditional</animation>
+				<animation effect="slide" start="0,0" end="0,-30" time="200" condition="Skin.HasSetting(ShowDiscart510) + String.IsEmpty(Skin.String(IconSize))">Conditional</animation>
 				<animation effect="slide" start="0,0" end="0,20" time="200" condition="Skin.HasSetting(ShowClearart510)">Conditional</animation>	
 				<control type="image" description="clearlogo">
 					<visible>Skin.HasSetting(ShowClearart510) + !String.IsEmpty(ListItem.Art(clearlogo))</visible>
@@ -496,7 +704,18 @@
 					<label>$VAR[509_Row_3]</label>				
 				</control>
 				<control type="textbox">
-					<visible>Skin.HasSetting(ShowDiscart510) | Skin.HasSetting(Zoom510)</visible>
+					<visible>[Skin.HasSetting(ShowDiscart510) | String.IsEqual(Skin.String(IconSize),1)] + !String.IsEqual(Skin.String(IconSize),2)</visible>
+					<animation effect="slide" start="0,0" end="0,-10" time="200" condition="Skin.HasSetting(ShowDiscart510) + Skin.HasSetting(ShowClearart510)">Conditional</animation>				
+					<top>300</top>
+					<bottom>17</bottom>
+					<font>Tiny</font>
+					<height>140</height>
+					<textcolor>Dark2</textcolor>
+					<selectedcolor>Dark2</selectedcolor>
+					<label>$INFO[ListItem.Plot]</label>				
+				</control>
+                <control type="textbox">
+					<visible>String.IsEqual(Skin.String(IconSize),2)</visible>
 					<animation effect="slide" start="0,0" end="0,-10" time="200" condition="Skin.HasSetting(ShowDiscart510) + Skin.HasSetting(ShowClearart510)">Conditional</animation>				
 					<top>300</top>
 					<bottom>17</bottom>
@@ -507,7 +726,7 @@
 					<label>$INFO[ListItem.Plot]</label>				
 				</control>
 				<control type="textbox">	
-					<visible>!Skin.HasSetting(ShowDiscart510) + !Skin.HasSetting(Zoom510)</visible>			
+					<visible>!Skin.HasSetting(ShowDiscart510) + String.IsEmpty(Skin.String(IconSize))</visible>			
 					<top>300</top>
 					<bottom>17</bottom>
 					<font>Tiny</font>
@@ -534,14 +753,16 @@
 					<font>Small</font>
 					<label>$INFO[ListItem.Duration(mins)]</label>
 				</control>	
-			</control>            
-            <include condition="!Skin.HasSetting(53poster.nowrap)">510Wrap</include>
-            <include condition="Skin.HasSetting(53poster.nowrap)">510Fixed</include>
-			<control type="scrollbar" id="1651">
+			</control>
+            <control type="scrollbar" id="1651">
+                <bottom>200</bottom>
 				<include content="scrollbar_hor">
 					<param name="scrollid" value="1651" />
 				</include>
-			</control>	
+			</control>	            
+            <include condition="!Skin.HasSetting(53poster.nowrap)">510Wrap</include>
+            <include condition="Skin.HasSetting(53poster.nowrap)">510Fixed</include>
+			
 		</control>			
     </include>
 </includes>
