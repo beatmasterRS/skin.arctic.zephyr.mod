@@ -9,6 +9,7 @@
 			<include>ViewSlideForJumpBar</include> 
             <visible>Control.IsVisible(509)</visible>
 			<control type="label">
+                <visible>[!Skin.HasSetting(509clearlogo) | Skin.HasSetting(509fanart)] | [String.IsEmpty(ListItem.Art(clearlogo)) + Skin.HasSetting(509clearlogo)]</visible>
 				<top>180</top>
                 <include condition="!Skin.HasSetting(509NoCenter)">CenterInfo</include>
 				<left>80</left>
@@ -16,12 +17,24 @@
 				<textcolor>Dark1</textcolor>
 				<font>SmallBold</font>
 				<label fallback="19055">$INFO[ListItem.Title]</label>
-			</control>	
+			</control>
+            <control type="image" description="clearlogo">
+                <animation effect="slide" start="0,0" end="-725,0" time="200" condition="Skin.HasSetting(509NoCenter)">Conditional</animation>
+                <visible>!String.IsEmpty(ListItem.Art(clearlogo)) + [Skin.HasSetting(509clearlogo) + !Skin.HasSetting(509fanart)]</visible>
+                <top>-550</top>
+                <width>275</width>	
+                <left>805</left>
+                <aspectratio scalediffuse="true" align="center">keep</aspectratio>
+                <texture background="true">$INFO[ListItem.Art(clearlogo)]</texture>
+                <include>Animation.ViHi2</include>
+                <fadetime>100</fadetime>
+            </control>	
 			
 			
 			
 			<control type="group">
-				<visible>!String.IsEqual(ListItem.Label,..)</visible>                
+				<visible>!String.IsEqual(ListItem.Label,..)</visible> 
+                <visible>[!Skin.HasSetting(509clearlogo) | Skin.HasSetting(509fanart)] | [String.IsEmpty(ListItem.Art(clearlogo)) + Skin.HasSetting(509clearlogo)]</visible>             
 				<top>250</top>				
 				<control type="label">
                     <include condition="!Skin.HasSetting(509NoCenter)">CenterInfo</include>
@@ -40,7 +53,7 @@
 					<textcolor>Dark2</textcolor>
 					<label>$VAR[509_Row_2]</label>                       
                 </control>
-			</control>	
+			</control>
 
 			<control type="list" id="509">
 				<oninfo condition="ListItem.IsCollection">ActivateWindow(1132)</oninfo>
