@@ -9,23 +9,22 @@
 			<include>ViewSlideForJumpBar</include> 
             <visible>Control.IsVisible(514)</visible>
             <control type="group">
-                <!--<animation type="Conditional" condition="Container.Content(albums) | [Container.Content(movies) + Skin.HasSetting(NotShowClearart514)]">                  
-                    <effect type="slide" start="0,0" end="0,-33" time="0" />                
-                </animation>-->
                 <control type="label">
-                    <top>605</top>
+                    <visible>[Skin.HasSetting(NotShowClearart514)] | [[String.IsEmpty(ListItem.Art(clearlogo)) + String.IsEmpty(ListItem.Art(artist.clearlogo)) + String.IsEmpty(ListItem.Art(tvshow.clearlogo))] + !Skin.HasSetting(NotShowClearart514)]</visible>
+                    <top>220</top>
+                    <include condition="!Skin.HasSetting(514NoCenter)">CenterInfo</include>
                     <left>80</left>
                     <description>Header Label</description>
                     <textcolor>Dark1</textcolor>
                     <font>SmallBold</font>
-                    <include>Animation.ViHi2</include>
-                    <label fallback="19055">$INFO[ListItem.Label]</label>
-                </control>	
+                    <label fallback="19055">$INFO[ListItem.Title]</label>
+                </control>                
                 <control type="image" description="clearlogo">
+                    <animation effect="slide" start="0,0" end="-735,0" time="200" condition="Skin.HasSetting(514NoCenter)">Conditional</animation>
                     <visible>!Skin.HasSetting(NotShowClearart514) + [!String.IsEmpty(ListItem.Art(clearlogo)) | !String.IsEmpty(ListItem.Art(artist.clearlogo)) | !String.IsEmpty(ListItem.Art(tvshow.clearlogo))]</visible>
-                    <top>190</top>
-                    <left>80</left>
-                    <height>100</height>	
+                    <top>180</top>
+                    <width>275</width>	
+                    <left>815</left>	
                     <aspectratio align="left" aligny="top">keep</aspectratio>
                     <texture background="true">$VAR[ClearLogoTopVar]</texture>
                     <include>Animation.ViHi2</include>
@@ -34,15 +33,42 @@
                 <control type="grouplist">
                     <visible>!String.IsEqual(ListItem.Label,..)</visible>
                     <left>80</left>
-                    <top>680</top>
+                    <top>620</top>
                     <height>600</height>			
                     <itemgap>0</itemgap>
                     <orientation>vertical</orientation>	
+                    <control type="label">
+                        <visible>Container.Content(movies)</visible>				
+                        <height>36</height>
+                        <font>Tiny</font>
+                        <animation effect="slide" start="0,0" end="100,0" time="200" condition="!Skin.HasSetting(514NoCenter)">Conditional</animation>
+                        <include condition="!Skin.HasSetting(514NoCenter)">CenterInfo</include>
+                        <textcolor>Dark2</textcolor>
+                        <label fallback="19055">$INFO[ListItem.Tagline]</label>                        
+                    </control>
+                    <control type="label">
+                        <visible>Container.Content(tvshows)</visible>				
+                        <height>36</height>
+                        <font>Tiny</font>
+                        <animation effect="slide" start="0,0" end="100,0" time="200" condition="!Skin.HasSetting(514NoCenter)">Conditional</animation>
+                        <include condition="!Skin.HasSetting(514NoCenter)">CenterInfo</include>
+                        <textcolor>Dark2</textcolor>
+                        <label>$INFO[ListItem.Episode,, $LOCALIZE[20360]]$INFO[ListItem.Property(UnWatchedEpisodes),  •  , $LOCALIZE[16101]]$INFO[ListItem.Duration(mins),  •  , $LOCALIZE[31102]]$INFO[ListItem.Rating,  •  ]</label>                        
+                    </control>
+                    <control type="label">	
+                        <visible>Container.Content(movies) | Container.Content(tvshows)</visible>			
+                        <height>20</height>
+                        <font>Tiny</font>
+                        <textcolor>Dark2</textcolor>
+                        <label></label> 
+                    </control>                     
                     <control type="textbox">				
                         <visible>[!String.IsEmpty(ListItem.Property(Artist_Description)) + Container.Content(artists)] | [!String.IsEmpty(ListItem.Property(Album_Description)) + Container.Content(albums)] | Container.Content(movies) | Container.Content(tvshows)</visible>
                         <left>80</left>
+                        <include condition="!Skin.HasSetting(514NoCenter)">CenterInfo</include>
+                        <animation effect="slide" start="0,0" end="100,0" time="200" condition="!Skin.HasSetting(514NoCenter)">Conditional</animation>
                         <font>Tiny</font>
-                        <height>110</height>
+                        <height min="72" max="110">auto</height>
                         <textcolor>Dark2</textcolor>
                         <selectedcolor>Dark2</selectedcolor>
                         <label>$VAR[LabelArtistAlbumDescription]</label>		
@@ -57,6 +83,8 @@
                     <control type="label">				
                         <height>36</height>
                         <font>Tiny</font>
+                        <animation effect="slide" start="0,0" end="100,0" time="200" condition="!Skin.HasSetting(514NoCenter)">Conditional</animation>
+                        <include condition="!Skin.HasSetting(514NoCenter)">CenterInfo</include>
                         <textcolor>Dark2</textcolor>
                         <label fallback="19055">$VAR[LabelArtistAlbum]</label> 
                     </control>  

@@ -8,27 +8,43 @@
 			<visible>Control.IsVisible(504)</visible>
 			<include>JumpBarHorizontal</include>
 			<include>ViewSlideForJumpBar</include> 		
-			<control type="label">
-				<top>180</top>
-				<left>SidePad</left>
+            
+            <control type="label">
+                <visible>!Skin.HasSetting(504clearlogo) | [String.IsEmpty(ListItem.Art(clearlogo)) + Skin.HasSetting(504clearlogo)]</visible>
+                <animation effect="slide" start="0,0" end="0,15" time="200" condition="String.IsEqual(Skin.String(NetflixIconSize),1)">Conditional</animation>
+				<top>245</top>
+				<left>80</left>
 				<description>Header Label</description>
 				<textcolor>Dark1</textcolor>
 				<font>SmallBold</font>
 				<label fallback="19055">$INFO[ListItem.Title]</label>
-			</control>	
+			</control>
+            <control type="image" description="clearlogo">
+                <visible>!String.IsEmpty(ListItem.Art(clearlogo)) + Skin.HasSetting(504clearlogo)</visible>
+                <top>-560</top>
+                <width>275</width>	
+                <left>80</left>
+                <aspectratio scalediffuse="true" align="center">keep</aspectratio>
+                <texture background="true">$INFO[ListItem.Art(clearlogo)]</texture>
+                <include>Animation.ViHi2</include>
+                <fadetime>100</fadetime>
+            </control>            
+            
 			<control type="grouplist">
-                <animation effect="slide" start="0,0" end="0,15" time="200" condition="String.IsEqual(Skin.String(NetflixIconSize),1)">Conditional</animation>
+                <animation effect="slide" start="0,0" end="0,18" time="200" condition="String.IsEqual(Skin.String(NetflixIconSize),1)">Conditional</animation>
+                <!--<animation effect="slide" start="0,0" end="0,2" time="0" condition="Skin.HasSetting(504clearlogo) + ![String.IsEmpty(ListItem.Art(clearlogo)) + Skin.HasSetting(504clearlogo)]">Conditional</animation>-->
 				<left>SidePad</left>
-				<top>250</top>			
+				<top>320</top>			
 				<itemgap>0</itemgap>
-					<visible>!String.IsEqual(ListItem.Label,..)</visible>	
-				<control type="label">				
+				<visible>!String.IsEqual(ListItem.Label,..)</visible>	
+				<control type="label">                   	                    			
 					<height>36</height>
 					<font>Tiny</font>
 					<textcolor>Dark2</textcolor>
 					<label fallback="19055">$VAR[504_Row_1]</label>				
 				</control>
 				<control type="label">
+                    <visible>String.IsEmpty(Skin.String(NetflixIconSize))</visible>
 					<width>1100</width>
 					<height>36</height>
 					<font>Tiny</font>
@@ -36,6 +52,7 @@
 					<label fallback="19055">$VAR[504_Row_2]</label>                        
                 </control>
 				<control type="label">
+                    <visible>String.IsEmpty(Skin.String(NetflixIconSize))</visible>	
 					<width>100%</width>
 					<height>36</height>
 					<font>Tiny</font>
@@ -47,8 +64,8 @@
                 <include>Animation.FadeIn</include>
                 <include>Animation.FadeOut</include>
                 <visible>!Skin.HasSetting(discartfanart)</visible>
-                <animation effect="slide" start="0,0" end="0,29" time="200" condition="String.IsEqual(Skin.String(NetflixIconSize),1)">Conditional</animation>				
-				<top>376</top>
+                <animation effect="slide" start="0,0" end="0,-56" time="200" condition="String.IsEqual(Skin.String(NetflixIconSize),1)">Conditional</animation>				
+				<top>450</top>
 				<bottom>17</bottom>
 				<left>SidePad</left>
 				<font>Tiny</font>
@@ -56,14 +73,14 @@
 				<textcolor>Dark1</textcolor>
 				<selectedcolor>Dark1</selectedcolor>
 				<label>$INFO[ListItem.Plot]</label>			
-				<width>1450</width>	
+				<width>1480</width>	
 			</control>
             <control type="textbox">
                 <visible>Skin.HasSetting(discartfanart)</visible>
                 <include>Animation.FadeIn</include>
                 <include>Animation.FadeOut</include>
-                <animation effect="slide" start="0,0" end="0,29" time="200" condition="String.IsEqual(Skin.String(NetflixIconSize),1)">Conditional</animation>				
-				<top>376</top>
+                <animation effect="slide" start="0,0" end="0,-56" time="200" condition="String.IsEqual(Skin.String(NetflixIconSize),1)">Conditional</animation>			
+				<top>450</top>
 				<bottom>17</bottom>
 				<left>SidePad</left>
 				<font>Tiny</font>
@@ -71,88 +88,13 @@
 				<textcolor>Dark1</textcolor>
 				<selectedcolor>Dark1</selectedcolor>
 				<label>$INFO[ListItem.Plot]</label>			
-				<width>1350</width>	
+				<width>1420</width>	
 			</control>
+            
 			<control type="group">
-                <visible>String.IsEmpty(Skin.String(NetflixIconSize))</visible>
-				<left>SidePad</left>
-				<top>40</top>
-				<width>1050</width>
-				<visible>!String.IsEqual(ListItem.Label,..) </visible>
-				<visible>!Skin.HasSetting(furniture.numericrating)</visible>
-				<control type="image">
-				<posx>0</posx>
-					<width>40</width>
-					<height>40</height>
-					<centertop>50%</centertop>
-					<texture colordiffuse="$VAR[ColorHighlight]">backg/$VAR[Flagstar1].png</texture>
-				</control>
-				<control type="image">
-					<posx>50</posx>
-					<width>40</width>
-					<height>40</height>
-					<centertop>50%</centertop>
-					<texture colordiffuse="$VAR[ColorHighlight]">backg/$VAR[Flagstar2].png</texture>					
-				</control>
-				<control type="image">
-					<posx>100</posx>
-					<width>40</width>
-					<height>40</height>
-					<centertop>50%</centertop>
-					<texture colordiffuse="$VAR[ColorHighlight]">backg/$VAR[Flagstar3].png</texture>					
-				</control>
-				<control type="image">
-					<posx>150</posx>
-					<width>40</width>
-					<height>40</height>
-					<centertop>50%</centertop>
-					<texture colordiffuse="$VAR[ColorHighlight]">backg/$VAR[Flagstar4].png</texture>					
-				</control>
-				<control type="image">
-					<posx>200</posx>
-					<width>40</width>
-					<height>40</height>
-					<centertop>50%</centertop>
-					<texture colordiffuse="$VAR[ColorHighlight]">backg/$VAR[Flagstar5].png</texture>				
-				</control>				
-				<control type="label">
-					<left>260</left>
-					<top>488</top>
-					<width>450</width>
-					<font>Small333</font>
-					<textcolor>Dark1</textcolor>
-					<label>$INFO[ListItem.RatingAndVotes]</label>
-					<selectedcolor>Dark1</selectedcolor>
-                </control>
-			</control> 
-			<control type="group">
-                <visible>String.IsEmpty(Skin.String(NetflixIconSize))</visible>
-				<left>SidePad</left>
-				<top>80</top>
-				<width>1050</width>
-				<visible>!String.IsEqual(ListItem.Label,..) </visible>
-				<visible>Skin.HasSetting(furniture.numericrating)</visible>
-				<control type="image">
-					<top>465</top>
-					<width>40</width>
-					<height>40</height>
-					<centertop>50%</centertop>
-					<texture colordiffuse="$VAR[ColorHighlight]">backg/$VAR[Flagstar1].png</texture>
-				</control>							
-				<control type="label">
-					<left>50</left>
-					<top>452</top>
-					<width>450</width>
-					<font>Small333</font>
-					<textcolor>Dark1</textcolor>
-					<label>$INFO[ListItem.RatingAndVotes]</label>
-					<selectedcolor>Dark1</selectedcolor>
-                </control>
-			</control> 
-			<control type="group">		
+                <visible>String.IsEmpty(Skin.String(NetflixIconSize))</visible>			
 				<left>1586</left>
-				<top>214</top>
-                <animation effect="slide" start="0,0" end="0,-14" time="200" condition="String.IsEqual(Skin.String(NetflixIconSize),1)">Conditional</animation>	
+				<top>225</top>
 				<control type="image">	
 					<visible>!String.IsEqual(ListItem.Label,..)  + !String.IsEmpty(ListItem.Art(discart)) + Skin.HasSetting(discartfanart)</visible>                    <top>8</top>
                     <right>90</right>
@@ -177,17 +119,9 @@
 					<left>-11</left>
 					<top>-9</top>
 					<right>80</right>
-					<bottom>496</bottom>
+					<bottom>485</bottom>
 					<texture border="10">common/$VAR[nofocus-shadow10]</texture>
-				</control>
-				<control type="image">
-					<left>-1</left>
-					<top>-1</top>	
-					<width>245</width>
-					<height>362</height>                           
-					<texture border="4" colordiffuse="Box2" background="true">common/box21.png</texture>   
-					<visible>!Skin.HasSetting(thumbnails.white)</visible>                        
-				</control>
+				</control>				
 				<control type="image">								
 					<width>243</width>
 					<height>360</height>
@@ -195,11 +129,68 @@
 					<aspectratio aligny="center" align="center" scalediffuse="false">scale</aspectratio>
 					<texture diffuse="diffuse/listposter.png" background="true">$VAR[PosterImage]</texture>		
 				</control>
+                <control type="image">
+					<left>-1</left>
+					<top>-1</top>	
+					<width>245</width>
+					<height>362</height>                           
+					<texture border="4" colordiffuse="Box2" background="true">common/box21.png</texture>   
+					<visible>!Skin.HasSetting(thumbnails.white)</visible>                        
+				</control>
+		    </control>
+            
+            <control type="group">	
+                <visible>!String.IsEmpty(Skin.String(NetflixIconSize))</visible>		
+				<left>1614</left>
+				<top>200</top>
+				<control type="image">	
+					<visible>!String.IsEqual(ListItem.Label,..)  + !String.IsEmpty(ListItem.Art(discart)) + Skin.HasSetting(discartfanart)</visible>                    
+                    <top>8</top>
+                    <right>82</right>
+                    <width>222</width>
+                    <height>222</height>
+                    <fadetime>1000</fadetime>				
+                    <texture>$INFO[ListItem.Art(discart)]</texture>
+					<animation type="Conditional" condition="!Container(504).OnNext + !Container(504).OnPrevious" reversible="false">                  
+				   		<effect type="fade" start="0" end="100" time="50" delay="500" />                
+					</animation> 
+                    <animation type="Conditional" condition="!Container(504).OnNext + !Container(504).OnPrevious" reversible="false">                  
+				   		<effect type="slide" start="0,0" end="-118,0" time="500" delay="1000" tween="cubic" />                
+					</animation>
+					<animation type="Visible" reversible="false">                  
+				   		<effect type="fade" start="0" end="100" time="1500" tween="cubic" />                
+					</animation>
+					<animation type="Hidden" reversible="false">                  
+				   		<effect type="fade" start="100" end="0" time="500" tween="cubic" />                
+					</animation>
+                </control>
+				<control type="image">
+					<left>-11</left>
+					<top>-9</top>
+					<right>73</right>
+					<bottom>540</bottom>
+					<texture border="10">common/$VAR[nofocus-shadow10]</texture>
+				</control>				
+				<control type="image">								
+					<width>222</width>
+					<height>330</height>
+					<fadetime>200</fadetime>
+					<aspectratio aligny="center" align="center" scalediffuse="false">scale</aspectratio>
+					<texture diffuse="diffuse/listposter.png" background="true">$VAR[PosterImage]</texture>		
+				</control>
+                <control type="image">
+					<left>-1</left>
+					<top>-1</top>	
+					<width>224</width>
+					<height>332</height>                           
+					<texture border="4" colordiffuse="Box2" background="true">common/box21.png</texture>   
+					<visible>!Skin.HasSetting(thumbnails.white)</visible>                        
+				</control>
 		    </control>
 			<control type="list" id="504">	
 				<oninfo condition="ListItem.IsCollection">ActivateWindow(1132)</oninfo>		
-				<top>610</top>
-                <animation effect="slide" start="0,0" end="0,-35" time="200" condition="String.IsEqual(Skin.String(NetflixIconSize),1)">Conditional</animation>
+				<top>620</top>
+                <animation effect="slide" start="0,0" end="0,-55" time="200" condition="String.IsEqual(Skin.String(NetflixIconSize),1)">Conditional</animation>
 				<right>SidePad</right>
 				<left>70</left>			
 				<visible>Container.Content(movies) | Container.Content(tvshows) | Container.Content(episodes) | Container.Content(seasons)</visible>               
@@ -211,7 +202,7 @@
 				<orientation>horizontal</orientation>
 				<viewtype label="37517">wraplist</viewtype>
 				<scrolltime tween="quadratic">400</scrolltime>
-				<itemlayout height="305" width="442" condition="String.IsEqual(Skin.String(NetflixIconSize),1)">
+				<itemlayout height="305" width="444" condition="String.IsEqual(Skin.String(NetflixIconSize),1)">
 					<control type="image">
                         <left>2</left>
                         <top>0</top>
@@ -238,7 +229,7 @@
                     </control>
 					<control type="label">
 						<top>245</top>
-						<width>300</width>
+						<width>400</width>
 						<height>50</height>
 						<left>20</left>  
 						<font>Small333</font>
@@ -271,7 +262,7 @@
                         <visible>!String.IsEqual(ListItem.Label,..)</visible>
                     </control>
 				</itemlayout>
-				<focusedlayout height="305" width="442" condition="String.IsEqual(Skin.String(NetflixIconSize),1)">
+				<focusedlayout height="305" width="444" condition="String.IsEqual(Skin.String(NetflixIconSize),1)">
 					 <control type="image">
                         <left>2</left>
                         <top>0</top>
@@ -331,7 +322,7 @@
                     </control>
 					<control type="label">
 						<top>245</top>
-						<width>300</width>
+						<width>400</width>
 						<height>50</height>
 						<left>20</left>  
 						<font>Small333</font>
@@ -479,9 +470,9 @@
 				</include>
 			</control>
 			<control type="image">
-				<animation effect="slide" start="0,0" end="0,-14" time="200" condition="String.IsEqual(Skin.String(NetflixIconSize),1)">Conditional</animation>	
+				<animation effect="slide" start="0,0" end="0,-25" time="200" condition="String.IsEqual(Skin.String(NetflixIconSize),1)">Conditional</animation>	
 				<include>Animation.DelayFadeIn</include>
-				<top>710</top>
+				<top>713</top>
 				<left>56</left>
 				<width>16</width>
 				<height>16</height>
@@ -489,9 +480,9 @@
 				<animation effect="zoom" center="auto" pulse="true" start="100" end="170" time="200" delay="2000" condition="String.IsEqual(ListItem.Label,..)">Conditional</animation>
 			</control>
 			<control type="image">
-				<animation effect="slide" start="0,0" end="0,-14" time="200" condition="String.IsEqual(Skin.String(NetflixIconSize),1)">Conditional</animation>	
+				<animation effect="slide" start="0,0" end="0,-25" time="200" condition="String.IsEqual(Skin.String(NetflixIconSize),1)">Conditional</animation>	
 				<include>Animation.DelayFadeIn</include>
-				<top>710</top>			
+				<top>713</top>			
 				<left>1843</left>
 				<width>16</width>
 				<height>16</height>
