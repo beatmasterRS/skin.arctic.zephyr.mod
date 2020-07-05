@@ -38,6 +38,7 @@
                     <bottom>10</bottom>
                     <left>30</left>
                     <right>30</right>
+                    <visible>!Skin.HasSetting(pvr.fullepg)</visible>
                     <control type="group">
 						<orientation>horizontal</orientation>
 						<width>1460</width>
@@ -82,29 +83,93 @@
                         <aspectratio align="right" aligny="center">keep</aspectratio>
                         <texture>$INFO[ListItem.Icon]</texture>
                     </control>
-					<!--<control type="image">
-						<visible>!String.IsEqual(Container(10).ListItem.Icon,ListItem.Icon) + !String.IsEmpty(ListItem.Icon)</visible>
-                        <left>1490</left>
-                        <top>1</top>
-                        <height>40</height>
-                        <bottom>5</bottom>
-                        <aspectratio align="left" aligny="center">keep</aspectratio>
-                        <texture>$INFO[Container(10).ListItem.Icon]</texture>
-                    </control>-->
+                </control> 
+                
+                <control type="radiobutton" id ="11441">
+                    <top>11</top>
+                    <right>0</right>
+                    <font>Button</font>
+                    <textcolor>Dark2</textcolor>
+                    <width>80</width>
+                    <height>80</height>
+                    <radioposx>20</radioposx>
+                    <radioposy>18</radioposy>
+                    <radiowidth>48</radiowidth>
+                    <onup>10</onup>
+                    <ondown>10</ondown>
+                    <onleft>11</onleft>
+                    <onclick>SetFocus(9000)</onclick>
+                    <onright>SetFocus(11,0,absolute)</onright>
+                    <visible>!Control.HasFocus(10)</visible>
+                    <include>Animation.FadeIn</include>
+                    <include>Animation.FadeOut</include>
+                    <texturenofocus colordiffuse="Dark4" border="0">buttonsdialogs/boxsquare.png</texturenofocus>
+                    <texturefocus colordiffuse="$VAR[ColorHighlight]" border="0">buttonsdialogs/boxsquare.png</texturefocus>
+                    <textureradioonfocus colordiffuse="$VAR[ColorHighlight]">buttonsdialogs/settings.png</textureradioonfocus>
+                    <textureradioonnofocus colordiffuse="FFFFFFFF">buttonsdialogs/settings.png</textureradioonnofocus>
+                    <textureradioofffocus colordiffuse="$VAR[ColorHighlight]">buttonsdialogs/settings.png</textureradioofffocus>
+                    <textureradiooffnofocus colordiffuse="FFFFFFFF">buttonsdialogs/settings.png</textureradiooffnofocus>
                 </control>                
+                
+                <control type="list" id="11">
+                    <top>11</top>
+                    <height>100</height>
+                    <left>0</left>
+                    <right>SidePad</right>
+                    <onup condition="!Skin.HasSetting(global.kioskmode)">9000</onup>
+                    <onright>11441</onright>
+                    <onleft>11441</onleft>
+                    <width>1650</width>
+                    <onup>10</onup>
+                    <ondown>10</ondown>
+                    <visible allowhiddenfocus="true">!Control.HasFocus(10) | ControlGroup(9000).HasFocus()</visible>
+                    <include>Animation.FadeIn</include>
+                    <include>Animation.FadeOut</include>
+                    <orientation>horizontal</orientation>
+                    <viewtype label="535">list</viewtype>
+                    <scrolltime tween="quadratic">400</scrolltime>
+                    <itemlayout width="275" height="54">
+                        <include>11epglayout</include>
+                    </itemlayout>					                   
+                    <focusedlayout width="275" height="54">
+                        <control type="group">
+                            <visible>Control.HasFocus(11) + !Control.HasFocus(10)</visible>
+                            <include>11focusepglayout</include>
+                        </control>
+                        <control type="group">
+                            <visible>!Control.HasFocus(11) + !Control.HasFocus(10)</visible>
+                            <include>11epglayout</include>
+                        </control>
+                    </focusedlayout>
+                </control>
+          
                 <control type="epggrid" id="10" description="EPG">     
                     <left>0</left>
                     <top>0</top>
-                    <width>1760</width>
-                    <height>490</height>
+                    <width>1760</width>                    
+                    <include content="def_height" condition="Skin.HasSetting(pvr.fullepg)">
+                        <param name="height" value="630" />
+                    </include>
+                    <include content="def_height" condition="!Skin.HasSetting(pvr.fullepg)">
+                        <param name="height" value="490" />
+                    </include>                    
+                    <include content="def_progresstexture" condition="Skin.HasSetting(pvr.fullepg)">
+                        <param name="progresstexture" value="pvr/progressline2.png" />
+                    </include>
+                    <include content="def_progresstexture" condition="!Skin.HasSetting(pvr.fullepg)">
+                        <param name="progresstexture" value="pvr/progressline.png" />
+                    </include>                    
                     <onleft>28</onleft>
-                    <viewtype label="19069">list</viewtype>
-                    <progresstexture border="5" colordiffuse="bf777777">pvr/progressline.png</progresstexture>
+                    <onup>11</onup>
+                    <viewtype label="19069">list</viewtype>                    
                     <scrolltime tween="quadratic">300</scrolltime>
                     <timeblocks>40</timeblocks>
                     <rulerunit>6</rulerunit>
                     <rulerlayout height="70" width="260">
                         <control type="label" id="2">
+                            <include>Animation.FadeIn</include>
+                            
+                            <visible>Control.HasFocus(10)</visible>
                             <posx>10</posx>
                             <posy>30</posy>
                             <width>200</width>
@@ -196,6 +261,7 @@
                         <control type="image">
                             <width>458</width>
                             <height>69</height>
+                            <visible>!Control.HasFocus(11) + !Control.HasFocus(11441)</visible>
                             <texture border="12" colordiffuse="$VAR[ColorHighlight]">common/white.png</texture>
                         </control>
                         <control type="image">
@@ -290,15 +356,24 @@
                     </itemlayout>
                     <focusedlayout height="70" width="260">        				
 						<control type="image" id="2">
+                            <width>259</width>
+                            <height>69</height>
+                            <texture border="5">common/white.png</texture>
+                            <visible>Control.HasFocus(11) | Control.HasFocus(11441)</visible>
+                            <colordiffuse>Black12</colordiffuse>
+                        </control>
+                        <control type="image" id="2">
                             <width>258</width>
                             <height>69</height>
+                            <visible>!Control.HasFocus(11) + !Control.HasFocus(11441)</visible>
                             <texture border="5">common/white.png</texture>                            
-                        </control> 
+                        </control>                         
                         <control type="image" id="2">
                             <width>256</width>
                             <height>67</height>
 							<left>1</left>
 							<top>1</top>
+                            <visible>!Control.HasFocus(11) + !Control.HasFocus(11441)</visible>
                             <texture border="5">common/white.png</texture>
                             <colordiffuse>$VAR[ColorHighlight]</colordiffuse>
                         </control> 
