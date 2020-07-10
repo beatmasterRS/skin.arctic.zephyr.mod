@@ -2920,9 +2920,10 @@
                 <visible>[String.IsEqual(ListItem.DBType,album) | String.IsEqual(ListItem.DBType,song)] + !ListItem.IsPlaying</visible>	
                 <onfocus>ClearProperty(musiccontent)</onfocus> 
                 <onfocus>ClearProperty(ShowDisc)</onfocus>            
-                <onclick condition="String.IsEqual(ListItem.DBType,song)">PlayMedia($INFO[ListItem.FileNameAndPath])</onclick>               
-                <onclick condition="String.IsEqual(ListItem.DBType,album) + !String.IsEmpty(ListItem.FolderPath)">PlayMedia($INFO[ListItem.FolderPath],isdir)</onclick>
-		
+                <onclick condition="String.IsEqual(ListItem.DBType,song)">PlayMedia($INFO[ListItem.FileNameAndPath])</onclick>                
+                <onclick condition="!System.HasAddon(script.playalbum) + String.IsEqual(ListItem.DBType,album) + String.IsEmpty(ListItem.FolderPath)">InstallAddon(script.playalbum)</onclick>
+                <onclick condition="System.HasAddon(script.playalbum) + String.IsEqual(ListItem.DBType,album) + String.IsEmpty(ListItem.FolderPath)">RunScript(script.playalbum,albumid=$INFO[ListItem.DBID])</onclick>          		             
+                <onclick condition="String.IsEqual(ListItem.DBType,album) + !String.IsEmpty(ListItem.FolderPath)">PlayMedia($INFO[ListItem.FolderPath],isdir)</onclick>		
 				<include>buttondimensionssquare</include>
 				<include content="buttontextures">
 					<param name="icon" value="buttonsdialogs/play.png" />
