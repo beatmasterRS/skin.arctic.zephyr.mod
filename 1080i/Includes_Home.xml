@@ -1638,6 +1638,7 @@
     <include name="def_weatherfanart.widgets">
         <param name="bordertopbottom" value="$PARAM[bordertopbottom]" default="10" />
         <param name="borderleftright" value="$PARAM[borderleftright]" default="10" />
+        <param name="FanartCode" value="$PARAM[FanartCode]" default="" />
         <definition>
         <control type="image">
             <top>$PARAM[bordertopbottom]</top>
@@ -1648,7 +1649,7 @@
             <animation effect="fade" start="100" end="90" condition="true">Conditional</animation>
         </control>
         <control type="multiimage" description="Fanart">
-            <visible>!Skin.HasSetting(weather.hidefanart) + Skin.HasSetting(weather.fanart.widgets) + String.Contains(Skin.String(weather.fanart.path),multi) + !String.IsEmpty(Skin.String(weather.fanart.path))</visible>
+            <visible>!Skin.HasSetting(weather.hidefanart) + !Skin.HasSetting(weather.fanart.widgets) + String.Contains(Skin.String(weather.fanart.path),multi) + !String.IsEmpty(Skin.String(weather.fanart.path))</visible>
             <top>$PARAM[bordertopbottom]</top>
             <left>$PARAM[borderleftright]</left>
             <right>$PARAM[borderleftright]</right>
@@ -1658,17 +1659,17 @@
             <randomize>true</randomize>
             <aspectratio>scale</aspectratio>
             <animation effect="fade" start="100" end="10" condition="true">Conditional</animation>
-            <imagepath background="true">$INFO[Skin.String(weather.fanart.path)]$INFO[ListItem.Property(FanartCode)]/</imagepath>
+            <imagepath background="true">$INFO[Skin.String(weather.fanart.path)]$PARAM[FanartCode]$INFO[ListItem.Property(FanartCode)]/</imagepath>
         </control>
         <control type="image" description="Fanart">
-            <visible>!Skin.HasSetting(weather.hidefanart) + Skin.HasSetting(weather.fanart.widgets) + !String.Contains(Skin.String(weather.fanart.path),multi) + !String.IsEmpty(Skin.String(weather.fanart.path))</visible>
+            <visible>!Skin.HasSetting(weather.hidefanart) + !Skin.HasSetting(weather.fanart.widgets) + !String.Contains(Skin.String(weather.fanart.path),multi) + !String.IsEmpty(Skin.String(weather.fanart.path))</visible>
             <top>$PARAM[bordertopbottom]</top>
             <left>$PARAM[borderleftright]</left>
             <right>$PARAM[borderleftright]</right>
             <bottom>$PARAM[bordertopbottom]</bottom>
             <aspectratio>scale</aspectratio>
             <animation effect="fade" start="100" end="10" condition="true">Conditional</animation>
-            <texture background="true">$INFO[Skin.String(weather.fanart.path)]$INFO[ListItem.Property(FanartCode)].jpg</texture>
+            <texture background="true">$INFO[Skin.String(weather.fanart.path)]$PARAM[FanartCode]$INFO[ListItem.Property(FanartCode)].jpg</texture>
         </control>
         </definition>
     </include>
@@ -3116,6 +3117,7 @@
                                     <texture border="5" colordiffuse="Light3" diffuse="diffuse/wall-fanart.png">common/box.png</texture>
                                 </control>
                                 <include content="def_weatherfanart.widgets">
+                                    <param name="FanartCode" value="$INFO[Window(Weather).Property(Day0.FanartCode)]" />
                                     <param name="bordertopbottom" value="9" />
                                     <param name="borderleftright" value="9" />
                                 </include>
@@ -3201,6 +3203,7 @@
                                     <texture border="5" colordiffuse="Light3" diffuse="diffuse/wall-fanart.png">common/box.png</texture>
                                 </control>
                                 <include content="def_weatherfanart.widgets">
+                                    <param name="FanartCode" value="$INFO[Window(Weather).Property(Day1.FanartCode)]" />
                                     <param name="bordertopbottom" value="9" />
                                     <param name="borderleftright" value="9" />
                                 </include>
@@ -3286,6 +3289,7 @@
                                     <texture border="5" colordiffuse="Light3" diffuse="diffuse/wall-fanart.png">common/box.png</texture>
                                 </control>
                                 <include content="def_weatherfanart.widgets">
+                                    <param name="FanartCode" value="$INFO[Window(Weather).Property(Day2.FanartCode)]" />
                                     <param name="bordertopbottom" value="9" />
                                     <param name="borderleftright" value="9" />
                                 </include>
@@ -3718,7 +3722,7 @@
         <include>Furniture_Weather</include>
         <include>Furniture_Flags</include> 
         <control type="group">
-            <animation effect="slide" start="0" end="-450" time="300" delay="0" center="auto" tween="sine" easing="out" condition="Control.HasFocus(301) | Control.HasFocus(4752)">Conditional</animation>
+            <animation effect="slide" start="0" end="-350" time="300" delay="0" center="auto" tween="sine" easing="out" condition="Control.HasFocus(301) | Control.HasFocus(4752)">Conditional</animation>
             
             <!-- LEFT SIDE -->
             <control type="group">
@@ -3750,7 +3754,7 @@
                     <include>Animation.FadeIn</include>
                     <include>Animation.FadeOut</include>
                     <description>Home Wraplist</description>
-                    <left>SidePad</left>
+                    <left>-20</left>
                     <top>PosterPad</top>
                     <width>PosterW</width>
                     <height>720</height>
@@ -3835,7 +3839,7 @@
                     <include>Animation.FadeIn</include>
                     <include>Animation.FadeOut</include>
                     <description>Home Wraplist</description>
-                    <left>SidePad</left>
+                    <left>-20</left>
                     <top>PosterPad</top>
                     <width>PosterW</width>
                     <height>720</height>
@@ -3878,6 +3882,7 @@
 
             <!-- RIGHT SIDE -->
             <control type="group">
+                <left>-100</left>
                 <visible>!Window.IsVisible(script-script.extendedinfo-VideoList.xml) + !Window.IsVisible(skin.arctic.zephyr.mod.script-gto-info.xml) + !Window.IsVisible(script-globalsearch-main.xml) + !Window.IsVisible(script-globalsearch-infodialog.xml) + !Window.IsVisible(DialogAddonInfo.xml) + !Window.IsVisible(DialogPVRRecordingInfo.xml) + !Window.IsVisible(DialogPVRGuideInfo.xml) + !Window.IsVisible(DialogMusicInfo.xml) + !Window.IsVisible(DialogVideoInfo.xml) + !Window.IsVisible(script-script.extendedinfo-DialogInfo.xml) + !Window.IsVisible(script-script.extendedinfo-DialogVideoInfo.xml)</visible>
                 <animation type="WindowOpen" reversible="false">
                     <effect type="fade" start="0" end="100" time="300" tween="sine" easing="in" />
@@ -3984,7 +3989,7 @@
 						<visible>!Skin.HasSetting(hidewidgettitle) + !String.Contains(Container(300).ListItem.Property(widget),Weather) + !String.Contains(Container(300).ListItem.Property(widgetBanner),yes)</visible>
                         <font>TinyBold</font>
                         <right>70</right>
-                        <width>1322</width>
+                        <width>1422</width>
                         <top>256</top>
                         <align>left</align>
                         <textcolor>Dark1</textcolor>
@@ -3999,7 +4004,7 @@
                         <include>Animation.FadeIn</include>
                         <include>Animation.FadeOut</include>
                         <right>70</right>
-                        <width>1322</width>
+                        <width>1422</width>
                         <orientation>vertical</orientation>
                         <top>672</top>
                         <itemgap>10</itemgap>
@@ -4034,7 +4039,7 @@
                         <include>Animation.FadeIn</include>
                         <include>Animation.FadeOut</include>
                         <right>70</right>
-                        <width>1322</width>
+                        <width>1422</width>
                         <orientation>vertical</orientation>
                         <top>822</top>
                         <itemgap>-20</itemgap>
@@ -4065,7 +4070,7 @@
                             <orientation>horizontal</orientation>
                             <itemgap>0</itemgap>
                             <control type="group">
-                                <width>666</width>
+                                <width>716</width>
                                 <height>100%</height>
                                 <control type="image">
                                     <left>0</left>
@@ -4082,6 +4087,7 @@
                                     <texture border="5" colordiffuse="Panel">common/box.png</texture>
                                 </control>
                                 <include content="def_weatherfanart.widgets">
+                                    <param name="FanartCode" value="$INFO[Window(Weather).Property(Day0.FanartCode)]" />
                                     <param name="bordertopbottom" value="9" />
                                     <param name="borderleftright" value="9" />
                                 </include>
@@ -4170,7 +4176,7 @@
                                 </control>
                             </control>
                             <control type="group">
-                                <width>666</width>
+                                <width>716</width>
                                 <height>100%</height>
                                 <control type="image">
                                     <left>0</left>
@@ -4187,6 +4193,7 @@
                                     <texture border="5" colordiffuse="Panel">common/box.png</texture>
                                 </control>
                                 <include content="def_weatherfanart.widgets">
+                                    <param name="FanartCode" value="$INFO[Window(Weather).Property(Day1.FanartCode)]" />
                                     <param name="bordertopbottom" value="9" />
                                     <param name="borderleftright" value="9" />
                                 </include>
@@ -4283,7 +4290,7 @@
                             <orientation>horizontal</orientation>
                             <itemgap>0</itemgap>                            
                             <control type="group">
-                                <width>666</width>
+                                <width>716</width>
                                 <height>100%</height>
                                 <control type="image">
                                     <left>0</left>
@@ -4300,6 +4307,7 @@
                                     <texture border="5" colordiffuse="Panel">common/box.png</texture>
                                 </control>
                                 <include content="def_weatherfanart.widgets">
+                                    <param name="FanartCode" value="$INFO[Window(Weather).Property(Day2.FanartCode)]" />
                                     <param name="bordertopbottom" value="9" />
                                     <param name="borderleftright" value="9" />
                                 </include>
@@ -4388,7 +4396,7 @@
                                 </control>
                             </control>
                             <control type="group">
-                                <width>666</width>
+                                <width>716</width>
                                 <height>100%</height>
                                 <control type="image">
                                     <left>0</left>
@@ -4405,6 +4413,7 @@
                                     <texture border="5" colordiffuse="Panel">common/box.png</texture>
                                 </control>
                                 <include content="def_weatherfanart.widgets">
+                                    <param name="FanartCode" value="$INFO[Window(Weather).Property(Day3.FanartCode)]" />
                                     <param name="bordertopbottom" value="9" />
                                     <param name="borderleftright" value="9" />
                                 </include>
@@ -4515,7 +4524,9 @@
         <include>Furniture_Flags</include> 
         <include>WidgetsNavigationArrows</include>
         <control type="group">
-            <animation effect="slide" start="0" end="-450" time="300" delay="0" center="auto" tween="sine" easing="out" condition="[!Control.HasFocus(300) + !Control.HasFocus(302)] | Control.HasFocus(4752)">Conditional</animation>
+            <animation effect="slide" start="0" end="-100" time="0" delay="0" condition="true">Conditional</animation>
+
+            <animation effect="slide" start="0" end="-350" time="300" delay="0" center="auto" tween="sine" easing="out" condition="[!Control.HasFocus(300) + !Control.HasFocus(302)] | Control.HasFocus(4752)">Conditional</animation>
             <!-- LEFT SIDE -->
             <control type="group">
                 <visible>!Window.IsVisible(script-script.extendedinfo-VideoList.xml) + !Window.IsVisible(skin.arctic.zephyr.mod.script-gto-info.xml) + !Window.IsVisible(script-globalsearch-main.xml) + !Window.IsVisible(script-globalsearch-infodialog.xml) + !Window.IsVisible(DialogAddonInfo.xml) + !Window.IsVisible(DialogPVRRecordingInfo.xml) + !Window.IsVisible(DialogPVRGuideInfo.xml) + !Window.IsVisible(DialogMusicInfo.xml) + !Window.IsVisible(DialogVideoInfo.xml) + !Window.IsVisible(script-script.extendedinfo-DialogInfo.xml) + !Window.IsVisible(script-script.extendedinfo-DialogVideoInfo.xml)</visible>
@@ -5579,7 +5590,7 @@
             <include>Animation.Vertical.Widgets</include>
             <control type="grouplist">                       
                 <left>530</left>
-                <width>1322</width>
+                <width>1422</width>
                 <orientation>vertical</orientation>
                 <top>523</top>
                 <itemgap>15</itemgap>              
@@ -5610,7 +5621,7 @@
             <include>Animation.Vertical.Widgets</include>
             <control type="grouplist">                        
                 <left>530</left>
-                <width>1322</width>
+                <width>1422</width>
                 <orientation>vertical</orientation>
                 <top>683</top>
                 <itemgap>15</itemgap>
@@ -5669,7 +5680,7 @@
                     <animation effect="fade" start="100" end="90" condition="true">Conditional</animation>
                 </control>
                 <control type="multiimage" description="Fanart">
-                    <visible>!Skin.HasSetting(weather.hidefanart) + Skin.HasSetting(weather.fanart.widgets) + String.Contains(Skin.String(weather.fanart.path),multi) + !String.IsEmpty(Skin.String(weather.fanart.path))</visible>
+                    <visible>!Skin.HasSetting(weather.hidefanart) + !Skin.HasSetting(weather.fanart.widgets) + String.Contains(Skin.String(weather.fanart.path),multi) + !String.IsEmpty(Skin.String(weather.fanart.path))</visible>
                     <top>10</top>
                     <left>10</left>
                     <right>10</right>
@@ -5682,7 +5693,7 @@
                     <imagepath background="true">$INFO[Skin.String(weather.fanart.path)]$INFO[Window(weather).Property(Current.FanartCode)]/</imagepath>
                 </control>
                 <control type="image" description="Fanart">
-                    <visible>!Skin.HasSetting(weather.hidefanart) + Skin.HasSetting(weather.fanart.widgets) + !String.Contains(Skin.String(weather.fanart.path),multi) + !String.IsEmpty(Skin.String(weather.fanart.path))</visible>
+                    <visible>!Skin.HasSetting(weather.hidefanart) + !Skin.HasSetting(weather.fanart.widgets) + !String.Contains(Skin.String(weather.fanart.path),multi) + !String.IsEmpty(Skin.String(weather.fanart.path))</visible>
                     <top>10</top>
                     <left>10</left>
                     <right>10</right>
@@ -5813,7 +5824,7 @@
     <include name="PlotInfoSub">
         <control type="grouplist">
             <height min="$PARAM[plotminheight]" max="$PARAM[plotmaxheight]">auto</height>
-            <width>1322</width>
+            <width>1422</width>
             <orientation>vertical</orientation>
             <itemgap>0</itemgap>
             <control type="textbox">
