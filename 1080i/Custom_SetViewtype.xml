@@ -4,7 +4,10 @@
     
     <onload condition="String.IsEqual(Container.Viewmode, $LOCALIZE[37619])">SetFocus(3125)</onload>
 	<onload condition="String.IsEqual(Container.Viewmode, $LOCALIZE[31265])">SetFocus(3121)</onload>
-	<onload condition="String.IsEqual(Container.Viewmode, $LOCALIZE[37590])">SetFocus(3122)</onload>
+    
+	<onload condition="String.IsEqual(Container.Viewmode, $LOCALIZE[37590]) + !Container.Content(seasons) + !Container.Content(episodes)">SetFocus(3122)</onload>
+    <onload condition="String.IsEqual(Container.Viewmode, $LOCALIZE[37590]) + [Container.Content(seasons) | Container.Content(episodes)]">SetFocus(3101)</onload>
+    
 	<onload condition="String.IsEqual(Container.Viewmode, $LOCALIZE[37537])">SetFocus(3123)</onload>
 	<onload condition="String.IsEqual(Container.Viewmode, $LOCALIZE[37517])">SetFocus(3124)</onload>
 	<onload condition="String.IsEqual(Container.Viewmode, $LOCALIZE[544])">SetFocus(3139)</onload>
@@ -132,6 +135,16 @@
                     <onclick>Container.SetViewMode(510)</onclick>
 					<onclick>Close</onclick> 
                     <enable>!Container.Content(videos) + !Container.Content(actors)</enable> 
+                    <visible>!Container.Content(seasons) + !Container.Content(episodes)</visible> 
+                </control>
+                <control type="button" id="3101">
+				    <width>413</width>
+                    <include>DefContextButton</include>
+                    <label>37590</label>
+					<align>left</align>
+                    <onclick>Container.SetViewMode(520)</onclick>
+					<onclick>Close</onclick> 
+                    <visible>Container.Content(seasons) | Container.Content(episodes)</visible> 
                 </control>
                 <control type="button" id="3142">
 				    <width>413</width>
@@ -517,6 +530,15 @@
 				<texture border="5">special://skin/extras/views/$VAR[ColorTheme]50.jpg</texture>
 			</control>	
 			<control type="image">
+				<visible>ControlGroup(9001).HasFocus(3101)</visible>
+				<description>Thumb image</description>
+				<left>1036</left>
+				<top>196</top>
+				<width>780</width>
+				<height>439</height>
+				<texture border="5">special://skin/extras/views/$VAR[ColorTheme]520.jpg</texture>
+			</control>
+            <control type="image">
 				<visible>ControlGroup(9001).HasFocus(3122)</visible>
 				<description>Thumb image</description>
 				<left>1036</left>
