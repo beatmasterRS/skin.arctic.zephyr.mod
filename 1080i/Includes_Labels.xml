@@ -513,7 +513,8 @@
 		<value condition="!String.IsEqual(Container(301).ListItem.Title,Container(301).ListItem.TvShowTitle) + !String.IsEmpty(Container(301).ListItem.TvShowTitle) + Skin.HasSetting(NewTime) + Integer.IsGreater(Container(301).ListItem.Duration(h),0)">$INFO[Container(301).ListItem.TvShowTitle,,  •  ]$INFO[Container(301).ListItem.Premiered,,  •  ]$INFO[Container(301).ListItem.Duration(h),,$LOCALIZE[37615]] $INFO[Container(301).ListItem.Duration(m),,$LOCALIZE[37616]  •  ]$INFO[Container(301).ListItem.Rating]$VAR[RtMclabel]</value>
 		<value condition="!String.IsEqual(Container(301).ListItem.Title,Container(301).ListItem.TvShowTitle) + !String.IsEmpty(Container(301).ListItem.TvShowTitle) + Skin.HasSetting(NewTime) + !Integer.IsGreater(Container(301).ListItem.Duration(h),0)">$INFO[Container(301).ListItem.TvShowTitle,,  •  ]$INFO[Container(301).ListItem.Premiered,,  •  ]$INFO[Container(301).ListItem.Duration(mins),,$LOCALIZE[37616]  •  ]$INFO[Container(301).ListItem.Rating]$VAR[RtMclabel]</value>
 		
-		<value condition="!String.IsEqual(Container(301).ListItem.Title,Container(301).ListItem.TvShowTitle) + String.IsEmpty(Container(301).ListItem.TvShowTitle) + !Skin.HasSetting(NewTime)">$INFO[Container(301).ListItem.Year,,  •  ]$INFO[Container(301).ListItem.Duration(mins),, $LOCALIZE[31102]]$INFO[Container(301).ListItem.Rating,  •  ]$VAR[RtMclabel]</value>
+        <value condition="!String.IsEqual(Container(301).ListItem.Title,Container(301).ListItem.TvShowTitle) + String.IsEmpty(Container(301).ListItem.TvShowTitle) + !Skin.HasSetting(NewTime) + String.IsEqual(Container(301).ListItem.DBType,set)">$INFO[Container(301).ListItem.Year,,  •  ]$INFO[Container(44321).NumItems,, $LOCALIZE[342]]$INFO[Container(301).ListItem.Rating,  •  ]$VAR[RtMclabel]</value>
+		<value condition="!String.IsEqual(Container(301).ListItem.Title,Container(301).ListItem.TvShowTitle) + String.IsEmpty(Container(301).ListItem.TvShowTitle) + !Skin.HasSetting(NewTime) + !String.IsEqual(Container(301).ListItem.DBType,set)">$INFO[Container(301).ListItem.Year,,  •  ]$INFO[Container(301).ListItem.Duration(mins),, $LOCALIZE[31102]]$INFO[Container(301).ListItem.Rating,  •  ]$VAR[RtMclabel]</value>
 		<value condition="!String.IsEqual(Container(301).ListItem.Title,Container(301).ListItem.TvShowTitle) + String.IsEmpty(Container(301).ListItem.TvShowTitle) + Skin.HasSetting(NewTime) + Integer.IsGreater(Container(301).ListItem.Duration(h),0)">$INFO[Container(301).ListItem.Year,,  •  ]$INFO[Container(301).ListItem.Duration(h),,$LOCALIZE[37615]] $INFO[Container(301).ListItem.Duration(m),,$LOCALIZE[37616]]$INFO[Container(301).ListItem.Rating,  •  ]$VAR[RtMclabel]</value>
 		<value condition="!String.IsEqual(Container(301).ListItem.Title,Container(301).ListItem.TvShowTitle) + String.IsEmpty(Container(301).ListItem.TvShowTitle) + Skin.HasSetting(NewTime) + !Integer.IsGreater(Container(301).ListItem.Duration(h),0)">$INFO[Container(301).ListItem.Year,,  •  ]$INFO[Container(301).ListItem.Duration(mins),,$LOCALIZE[37616]]$INFO[Container(301).ListItem.Rating,  •  ]$VAR[RtMclabel]</value>
 			
@@ -642,11 +643,14 @@
     </variable>
 
     <variable name="LabelHomeWidgetStyle">
-        <value condition="Skin.HasSetting(home.modernwidgets)">$LOCALIZE[37731]</value>
+        <value condition="Skin.HasSetting(home.modernwidgets) + !Skin.HasSetting(home.vertical.widgets)">$LOCALIZE[37731]</value>
+        <value condition="Skin.HasSetting(home.modernwidgets) + Skin.HasSetting(home.vertical.widgets)">$LOCALIZE[37731] $LOCALIZE[37863]</value>
         <value condition="!Skin.HasSetting(home.classicwidgets) + !Skin.HasSetting(home.vertical)">$LOCALIZE[31248]</value>
-        <value condition="!Skin.HasSetting(home.classicwidgets) + Skin.HasSetting(home.vertical)">$LOCALIZE[31250]</value>
+        <value condition="!Skin.HasSetting(home.classicwidgets) + Skin.HasSetting(home.vertical) + !Skin.HasSetting(home.vertical.widgets)">$LOCALIZE[31250]</value>
+        <value condition="!Skin.HasSetting(home.classicwidgets) + Skin.HasSetting(home.vertical) + Skin.HasSetting(home.vertical.widgets)">$LOCALIZE[31250] $LOCALIZE[37863]</value>
         <value condition="Skin.HasSetting(home.classicwidgets)">$LOCALIZE[31249]</value>
     </variable>
+    
     <variable name="OSDChapterLabel" description="Chapter label in  DialogSeekBar">
       <value condition="Player.ChapterCount + !String.IsEmpty(Player.ChapterName)">$INFO[Player.ChapterName]  -  $INFO[Player.Chapter]$INFO[Player.ChapterCount, / ]</value>
       <value condition="Player.ChapterCount">$LOCALIZE[21396]  -  $INFO[Player.Chapter]$INFO[Player.ChapterCount, / ]</value>
