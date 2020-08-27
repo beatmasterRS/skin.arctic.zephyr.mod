@@ -6,6 +6,18 @@
         <value>Highlight</value>
     </variable>
     
+    <variable name="ColorHighlight2">
+		<value condition="String.IsEqual(Skin.String(focuscolor2.name),none)">$VAR[ColorSelectBar]</value>
+        <value condition="!String.IsEmpty(Skin.String(focuscolor2.name))">$INFO[Skin.String(focuscolor2.name)]</value>
+        <value>$VAR[ColorSelectBar]</value>
+    </variable>
+    
+    <variable name="ColorHighlightSelectbox2">
+		<value condition="String.IsEqual(Skin.String(squarecolor2.name),none)">$VAR[ColorSquares]</value>
+        <value condition="!String.IsEmpty(Skin.String(squarecolor2.name))">$INFO[Skin.String(squarecolor2.name)]</value>
+        <value>$VAR[ColorSquares]</value>
+    </variable>
+    
 	<variable name="ColorStars">
 		<value condition="String.IsEqual(Skin.String(starscolor.name),none)">ColoredStars</value>
         <value condition="!String.IsEmpty(Skin.String(starscolor.name))">$INFO[Skin.String(starscolor.name)]</value>
@@ -592,16 +604,16 @@
         <alttexturefocus colordiffuse="$VAR[ColorHighlight]" border="16">common/white.png</alttexturefocus>
         <texturefocus colordiffuse="$VAR[ColorHighlight]" border="16">common/white.png</texturefocus>
     </include>
-	
-	<include name="DefContextButtonColorbox">
-        <radioposx>1245</radioposx>
+    
+    <include name="DefContextButtonColorbox2">
+        <radioposx>5</radioposx>
         <width>1310</width>
         <height>70</height>
         <font>Small</font>
 		<align>left</align>
         <textcolor>PanelWhite100</textcolor>
-        <textureradiofocus colordiffuse="$PARAM[colorcode]">buttons/colorbox.png</textureradiofocus>
-        <textureradionofocus colordiffuse="$PARAM[colorcode]">buttons/colorbox.png</textureradionofocus>
+        <textureradiofocus colordiffuse="$PARAM[colorcode]">common/gradient-colorbox.png</textureradiofocus>
+        <textureradionofocus colordiffuse="$PARAM[colorcode]">common/gradient-colorbox.png</textureradionofocus>
         <focusedcolor>Selected</focusedcolor>
         <alttexturefocus colordiffuse="$VAR[ColorHighlight]" border="16">common/white.png</alttexturefocus>
         <texturefocus colordiffuse="$VAR[ColorHighlight]" border="16">common/white.png</texturefocus>
@@ -2321,4 +2333,57 @@
             <animation effect="rotate" center="auto" time="6000" end="-360" condition="true" loop="true">Conditional</animation>
         </control>
     </include>
+    
+    <include name="Button4752">
+        <control type="button" id="4752">
+            <width>1</width>
+            <height>1</height>
+            <visible allowhiddenfocus="true">false</visible>
+            <ondown>300</ondown>
+            <onup>300</onup>
+            <onback>300</onback>
+            <onleft>Control.Move(301,-1)</onleft>
+            <onright>Control.Move(301,+1)</onright>
+            <onclick condition="String.Contains(Container(300).ListItem.Property(widget),gto)">RunScript(script.service.gto,action=infopopup&amp;blob=$INFO[Container(301).ListItem.Property(BlobId)])</onclick>
+            <onclick condition="!String.Contains(Container(300).ListItem.Property(widget),gto)">SetFocus(301)</onclick>
+            <onclick condition="!String.Contains(Container(300).ListItem.Property(widget),gto)">Select</onclick>
+            <oninfo condition="String.Contains(Container(300).ListItem.Property(widget),RandomActors)">RunScript(script.embuary.info,call=person,query='"$INFO[Container(301).ListItem.Label]"')</oninfo>
+        </control>
+    </include>
+    
+    <include name="Def_Selectbox">
+        <control type="image">
+            <visible>Control.HasFocus($PARAM[FocusId])</visible>
+            <left>3</left>
+            <top>3</top>
+            <right>3</right>
+            <bottom>3</bottom>
+            <texture colordiffuse="$VAR[ColorSquares]" border="20">common/selectbox.png</texture>
+            <animation type="Focus" condition="Control.HasFocus($PARAM[FocusId])">
+                <effect type="zoom" start="90" end="100" time="150" tween="sine" easing="inout" center="auto" />
+                <effect type="fade" start="0" end="100" time="150" tween="sine" easing="in" />
+            </animation>
+            <animation type="Unfocus" condition="!Control.HasFocus($PARAM[FocusId])">
+                <effect type="zoom" start="100" end="90" time="150" tween="sine" easing="inout" center="auto" />
+                <effect type="fade" start="100" end="0" time="150" tween="sine" easing="out" />
+            </animation>
+        </control>
+        <control type="image">
+            <visible>Control.HasFocus($PARAM[FocusId])</visible>
+            <left>3</left>
+            <top>3</top>
+            <right>3</right>
+            <bottom>3</bottom>
+            <texture colordiffuse="$VAR[ColorHighlightSelectbox2]" border="20">common/gradient-selectbox.png</texture>
+            <animation type="Focus" condition="Control.HasFocus($PARAM[FocusId])">
+                <effect type="zoom" start="90" end="100" time="150" tween="sine" easing="inout" center="auto" />
+                <effect type="fade" start="0" end="100" time="150" tween="sine" easing="in" />
+            </animation>
+            <animation type="Unfocus" condition="!Control.HasFocus($PARAM[FocusId])">
+                <effect type="zoom" start="100" end="90" time="150" tween="sine" easing="inout" center="auto" />
+                <effect type="fade" start="100" end="0" time="150" tween="sine" easing="out" />
+            </animation>
+        </control>
+    </include>
+    
 </includes>
