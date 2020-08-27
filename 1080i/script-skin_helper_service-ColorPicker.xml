@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <window>
 	<defaultcontrol always="true">9000</defaultcontrol>
+    <onunload>ClearProperty(gradient,home)</onunload>
 	<controls>
     	<control type="group">
 		<animation effect="fade" start="100" end="0" time="500" delay="0" tween="quadratic">WindowClose</animation>
@@ -12,7 +13,8 @@
 			<height>638</height>		
 			<texture colordiffuse="Panel">common/bg.jpg</texture>
 			<visible>String.IsEmpty(Skin.String(StartupPlaylist))</visible>
-		</control>		
+		</control>	
+
         <!--Header-->
 		<control type="group">
 			<left>80</left>
@@ -36,17 +38,17 @@
 			</control>
 			<control type="label">
 				<left>30</left>
-				<right>30</right>
+				<width>400</width>
 				<posy>77</posy>
 				<height>30</height>
 				<font>Tiny</font>
 				<textcolor>PanelWhite70</textcolor>
-				<scroll>true</scroll>
+				<scroll>false</scroll>
 				<align>left</align>
 				<textoffsetx>0</textoffsetx>
 				<texturenofocus>noop</texturenofocus>
 				<texturefocus>noop</texturefocus>
-				<label>37641</label>
+				<label>$VAR[ColorPickerInfo]</label>
 			</control>
 		</control>
 		<control type="grouplist" id="9000">
@@ -122,7 +124,70 @@
 				<texturenofocus colordiffuse="black" border="5">panel_trans.png</texturenofocus>
 			</control>
 		</control>
-		<control type="grouplist" id="9099">
+		
+        <control type="group">
+            <width>498</width>
+            <height>66</height>
+			<top>560</top>            
+            <visible>String.IsEqual(Window(home).Property(gradient),selectbox) | String.IsEqual(Window(home).Property(gradient),bar)</visible>            
+            <control type="label">
+				<left>110</left>
+                <width>410</width>
+                <top>15</top>
+                <height>30</height>
+                <font>Small</font>
+				<textcolor>white</textcolor>
+                <label>$LOCALIZE[37865]:</label>
+			</control>
+            <control type="group">
+                <visible>String.IsEqual(Window(home).Property(gradient),selectbox)</visible>   
+                <left>318</left>
+                <control type="image">                                
+                    <width>100%</width>
+                    <height>100%</height>
+                    <texture border="5" colordiffuse="$VAR[ColorSquares]">common/white.png</texture>                        
+                </control>            
+                <control type="image">                                
+                    <width>100%</width>
+                    <height>100%</height>
+                    <texture border="5" diffuse="common/gradient-box-wide2.png">$INFO[Container(3110).ListItem.Icon]</texture>
+                    <aspectratio>stretch</aspectratio> 
+                    <visible>Control.HasFocus(3110)</visible>                    
+                </control>
+                <control type="image">                                
+                    <width>100%</width>
+                    <height>100%</height>
+                    <texture border="5" colordiffuse="$INFO[Window.Property(colorstring)]">common/gradient-box-wide2.png</texture>
+                    <aspectratio>stretch</aspectratio> 
+                    <visible>!Control.HasFocus(3110)</visible>                    
+                </control>
+            </control>
+            <control type="group">
+                <visible>String.IsEqual(Window(home).Property(gradient),bar)</visible>   
+                <left>318</left>
+                <control type="image">                                
+                    <width>100%</width>
+                    <height>100%</height>
+                    <texture border="5" colordiffuse="$VAR[ColorSelectBar]">common/white.png</texture>                        
+                </control>            
+                <control type="image">                                
+                    <width>100%</width>
+                    <height>100%</height>
+                    <texture border="5" diffuse="common/gradient-box-wide2.png">$INFO[Container(3110).ListItem.Icon]</texture>
+                    <aspectratio>stretch</aspectratio> 
+                    <visible>Control.HasFocus(3110)</visible>                    
+                </control>
+                <control type="image">                                
+                    <width>100%</width>
+                    <height>100%</height>
+                    <texture border="5" colordiffuse="$INFO[Window.Property(colorstring)]">common/gradient-box-wide2.png</texture>
+                    <aspectratio>stretch</aspectratio> 
+                    <visible>!Control.HasFocus(3110)</visible>                    
+                </control>
+            </control>
+        </control>
+        
+        <control type="grouplist" id="9099">
 			<left>110</left>
 			<top>760</top>
 			<onright>3110</onright>
