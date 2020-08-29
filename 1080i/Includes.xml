@@ -4299,6 +4299,12 @@
                     <texture border="5" colordiffuse="$VAR[ColorHighlight]">common/white.png</texture>
                     <animation effect="fade" start="100" end="0" condition="!Control.HasFocus(3)">Conditional</animation>
                 </control>
+                <control type="image">                                
+                    <width>100%</width>
+                    <height>100%</height>
+                    <texture border="8" colordiffuse="$VAR[ColorHighlightOtherBar]">common/gradient-box-wide-cut.png</texture>
+                    <animation effect="fade" start="100" end="0" condition="!Control.HasFocus(3)">Conditional</animation>                   
+                </control>  
                 <control type="label">
                     <left>30</left>
                     <right>30</right>
@@ -4377,14 +4383,11 @@
                         <textcolor>Dark2</textcolor>
                         <label>16106</label>
                     </control>                    
-                    <control type="image">
-                        <top>15</top>
-                        <left>15</left>
-                        <width>40</width>
-                        <height>40</height>
-                        <colordiffuse>$VAR[ColorKodiLogo]</colordiffuse>
-                        <texture>buttons/kodi-logo.png</texture>
-                    </control>                    
+                    <include content="Kodi_Logo">
+                        <param name="dimensions" value="40" />
+                        <param name="top" value="15" />
+                        <param name="left" value="15" />
+                    </include>                   
                     <!-- Lines -->
                     <control type="image">
                         <top>70</top>
@@ -4417,6 +4420,19 @@
                         <height>16</height>
                         <texture colordiffuse="White70" flipy="false">common/arrow-small.png</texture>
                     </control>
+                </control>
+                
+                <control type="image">
+                    <top>90</top>
+                    <left></left>
+                    <height>70</height>
+                    <width>450</width>
+                    <texture colordiffuse="$VAR[ColorSelectOtherBar]">common/white.png</texture>
+                    <visible>ControlGroup(9400).HasFocus()</visible>
+                    <animation effect="slide" end="0,70" time="0" condition="Integer.IsGreater(Container(9400).Position,0)">Conditional</animation>
+                    <animation effect="slide" end="0,70" time="0" condition="Integer.IsGreater(Container(9400).Position,1)">Conditional</animation>
+                    <animation effect="slide" end="0,70" time="0" condition="Integer.IsGreater(Container(9400).Position,2)">Conditional</animation>
+                    <animation effect="slide" end="0,70" time="0" condition="Integer.IsGreater(Container(9400).Position,3)">Conditional</animation>
                 </control>			
                 <control type="grouplist" id="9400">
                     <top>90</top>
@@ -4425,9 +4441,10 @@
                     <onright>9000</onright>
                     <usecontrolcoords>true</usecontrolcoords>
                     <itemgap>0</itemgap>
+                    <scrolltime>0</scrolltime>
                     <control type="button" id="92">         
                         <description>Filter</description>
-                        <include>DefContextButton</include>
+                        <include>DefContextButtonGradient</include>
                         <label>184</label>
                         <align>left</align>
                         <onclick>SendClick(6)</onclick>
@@ -4435,7 +4452,7 @@
                     </control>
                     <control type="button" id="93">         
                         <description>Filter</description>
-                        <include>DefContextButton</include>
+                        <include>DefContextButtonGradient</include>
                         <label>37725</label>
                         <align>left</align>
                         <onclick>SendClick(10)</onclick>
@@ -4443,7 +4460,7 @@
                     </control>
                     <control type="button" id="94">         
                         <description>Filter</description>
-                        <include>DefContextButton</include>
+                        <include>DefContextButtonGradient</include>
                         <label>37726</label>
                         <align>left</align>
                         <onclick condition="String.IsEqual(ListItem.DBType,tvshow)">RunScript(script.artwork.beef, mode=gui, mediatype=tvshow, dbid=$INFO[ListItem.DBID])</onclick>
@@ -4459,7 +4476,7 @@
                     </control>
                     <control type="button" id="95">         
                         <description>Filter</description>
-                        <include>DefContextButton</include>
+                        <include>DefContextButtonGradient</include>
                         <label>37724</label>
                         <align>left</align>
                         <onclick condition="String.IsEqual(ListItem.DBType,tvshow)">RunScript(script.artwork.beef, mode=auto, mediatype=tvshow, dbid=$INFO[ListItem.DBID])</onclick>
@@ -4473,16 +4490,9 @@
                         <visible>system.hasaddon(script.artwork.beef)</visible>
                         <visible>Skin.HasSetting(wipinfo)</visible>
                     </control>
-                    <control type="image" id="96">
-                        <width>390</width>
-                        <height>1</height>
-                        <texture colordiffuse="Black12">common/white.png</texture>
-                        <left>30</left>
-                        <visible>Skin.HasSetting(wipinfo)</visible>
-                    </control>
                     <control type="button" id="97" description="SELECT INFO">
                         <align>left</align>					
-                        <include>DefContextButton</include>
+                        <include>DefContextButtonGradient</include>
                         <label>37746</label>
                         <label2>$VAR[InfoTypeLabel]</label2>
                         <onclick condition="!Skin.HasSetting(wipinfo)">Skin.ToggleSetting(wipinfo)</onclick>                    
@@ -4491,7 +4501,7 @@
                     </control>
                     <control type="radiobutton" id="98">         
                         <description>Filter</description>
-                        <include>DefContextButton</include>
+                        <include>DefContextButtonGradient</include>
                         <label>37705</label>
                         <align>left</align>
                         <selected>Skin.HasSetting(preloadcontent)</selected>
@@ -4500,7 +4510,7 @@
                     </control>
                     <control type="radiobutton" id="99">         
                         <description>Filter</description>
-                        <include>DefContextButton</include>
+                        <include>DefContextButtonGradient</include>
                         <label>37706</label>
                         <align>left</align>
                         <selected>Skin.HasSetting(dontclickonfocus)</selected>
@@ -4517,6 +4527,7 @@
     </include>
     <include name="CustomSettingsTopWIP">
         <top>319</top>
+        <height>440</height>
     </include>
     <include name="CustomSettingsTopArrow">
         <posy>485</posy>
@@ -4580,7 +4591,7 @@
             <label2>$VAR[LabelWidgetShortcutsName]</label2>
             <texturenofocus colordiffuse="Black12" border="5">common/box.png</texturenofocus>
             <align>left</align>
-            <include>DefDialogButtons</include>
+            <include>DefDialogButtonsGradient</include>
             <onclick>SetProperty(skinshortcuts-Widget,1,Home)</onclick>
             <onclick>SetFocus(9451)</onclick> 
             <visible>String.IsEqual(Window.Property(groupname),mainmenu)</visible>            
@@ -4593,7 +4604,7 @@
             <label2>$VAR[LabelWidgetShortcutsName2]</label2>
             <texturenofocus colordiffuse="Black12" border="5">common/box.png</texturenofocus>
             <align>left</align>
-            <include>DefDialogButtons</include>
+            <include>DefDialogButtonsGradient</include>
             <onclick>SetProperty(skinshortcuts-Widget,2,Home)</onclick>
             <onclick>SetFocus(4197)</onclick>
             <animation effect="fade" start="100" end="50" time="0" condition="!String.Contains(Container(211).ListItem.Property(widgetEnable.2),yes)">Conditional</animation>
@@ -4608,7 +4619,7 @@
             <label2>$VAR[LabelWidgetShortcutsName3]</label2>
             <texturenofocus colordiffuse="Black12" border="5">common/box.png</texturenofocus>
             <align>left</align>
-            <include>DefDialogButtons</include>
+            <include>DefDialogButtonsGradient</include>
             <onclick>SetProperty(skinshortcuts-Widget,3,Home)</onclick>
             <onclick>SetFocus(4198)</onclick>
             <animation effect="fade" start="100" end="50" time="0" condition="!String.Contains(Container(211).ListItem.Property(widgetEnable.3),yes)">Conditional</animation>
@@ -4623,7 +4634,7 @@
             <label2>$VAR[LabelWidgetShortcutsName4]</label2>
             <texturenofocus colordiffuse="Black12" border="5">common/box.png</texturenofocus>
             <align>left</align>
-            <include>DefDialogButtons</include>
+            <include>DefDialogButtonsGradient</include>
             <onclick>SetProperty(skinshortcuts-Widget,4,Home)</onclick>
             <onclick>SetFocus(4199)</onclick>
             <animation effect="fade" start="100" end="50" time="0" condition="!String.Contains(Container(211).ListItem.Property(widgetEnable.4),yes)">Conditional</animation>
@@ -4638,7 +4649,7 @@
             <label2>$VAR[LabelWidgetShortcutsName5]</label2>
             <texturenofocus colordiffuse="Black12" border="5">common/box.png</texturenofocus>
             <align>left</align>
-            <include>DefDialogButtons</include>
+            <include>DefDialogButtonsGradient</include>
             <onclick>SetProperty(skinshortcuts-Widget,5,Home)</onclick>
             <onclick>SetFocus(4590)</onclick>
             <animation effect="fade" start="100" end="50" time="0" condition="!String.Contains(Container(211).ListItem.Property(widgetEnable.5),yes)">Conditional</animation>

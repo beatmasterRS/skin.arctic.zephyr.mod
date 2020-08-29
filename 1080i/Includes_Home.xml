@@ -2767,7 +2767,12 @@
                     <control type="image">
                         <width>100%</width>
                         <height>100%</height>
-                        <texture colordiffuse="$VAR[ColorHighlight]">common/white.png</texture>
+                        <texture colordiffuse="$VAR[ColorSelectOtherBar]">common/white.png</texture>
+                    </control>
+                    <control type="image">                                
+                        <width>100%</width>
+                        <height>100%</height>
+                        <texture border="8" colordiffuse="$VAR[ColorHighlightOtherBar]">common/gradient-box-wide.png</texture>                  
                     </control>
                     <control type="label">
                         <align>center</align>
@@ -3629,6 +3634,7 @@
                 <textcolor>$VAR[ColorHighlight]</textcolor>
                 <font>Home</font>
                 <label>$INFO[ListItem.Label]</label>
+                <animation effect="fade" start="100" end="75" delay="0" time="250" condition="!Control.HasFocus(300) + !Control.HasFocus(302) + $EXP[HomeIsModernMultiWidgets]">Conditional</animation> 
             </control>
             <!--<control type="image">
                 <top>55</top>
@@ -5564,6 +5570,8 @@
     
     <include name="widget.title.label">        
         <control type="label">
+            <left>-40</left>
+            <align>left</align>
             <height>38</height>
             <font>SmallNavi</font>
             <width>auto</width>                                                               
@@ -5572,9 +5580,11 @@
             <include>Animation.Vertical.Widgets.Title</include> 
             <visible>Control.HasFocus($PARAM[focusid])</visible> 
             <visible>!String.StartsWith(ListItem.FolderPath,pvr://)</visible>
-            <visible>String.IsEqual(Container($PARAM[focusid]).ListItem.DBType,episode)</visible> 
+            <visible>String.IsEqual(Container($PARAM[focusid]).ListItem.DBType,episode)</visible>             
         </control>
-        <control type="label">                            
+        <control type="label"> 
+            <left>-40</left>
+            <align>left</align>                           
             <height>38</height>
             <font>SmallNavi</font>
             <width>auto</width>                                                               
@@ -5584,7 +5594,9 @@
             <visible>Control.HasFocus($PARAM[focusid])</visible> 
             <visible>!String.IsEqual(Container($PARAM[focusid]).ListItem.DBType,episode)</visible>                                                     
         </control>         
-        <control type="label">                            
+        <control type="label"> 
+            <left>-40</left> 
+            <align>left</align>                          
             <height>38</height>
             <font>SmallNavi</font>
             <width>auto</width>                                                               
@@ -5592,9 +5604,11 @@
             <label>$INFO[Container(44023).NumItems, •  , $LOCALIZE[342]]</label>
             <include>Animation.Vertical.Widgets.Title</include> 
             <visible>Control.HasFocus($PARAM[focusid])</visible> 
-            <visible>ListItem.IsCollection + [String.Contains(Container(300).ListItem.Property(widgetEnable.5),yes) | String.Contains(Container(300).ListItem.Property(widgetEnable.4),yes) | String.Contains(Container(300).ListItem.Property(widgetEnable.3),yes) | String.Contains(Container(300).ListItem.Property(widgetEnable.2),yes)]</visible>                                                     
+            <visible>ListItem.IsCollection + [String.Contains(Container(300).ListItem.Property(widgetEnable.5),yes) | String.Contains(Container(300).ListItem.Property(widgetEnable.4),yes) | String.Contains(Container(300).ListItem.Property(widgetEnable.3),yes) | String.Contains(Container(300).ListItem.Property(widgetEnable.2),yes)]</visible>                                                    
         </control>
-        <control type="label">                            
+        <control type="label"> 
+            <left>-40</left>  
+            <align>left</align>                         
             <height>38</height>
             <font>SmallNavi</font>
             <width>auto</width>                                                               
@@ -5640,13 +5654,12 @@
         <orientation>horizontal</orientation>
         <itemgap>10</itemgap>
         <include>Animation.Vertical.Widgets.Label</include> 
-        <control type="image">                                
-            <width>30</width>
-            <height>30</height>
-            <colordiffuse>$VAR[ColorKodiLogo]</colordiffuse>
-            <texture>buttons/kodi-logo.png</texture>
-            <animation effect="slide" start="0" end="0,5" time="0" condition="true">Conditional</animation>
-        </control>
+        <include content="Kodi_Logo_Home">
+            <param name="dimensions" value="30" />
+            <param name="top" value="5" />
+            <param name="left" value="0" />
+            <param name="left-gradient" value="-40" />
+        </include>
     </include>
     
     <include name="widget.autoscroll.time">
@@ -5881,13 +5894,11 @@
                     <left>0</left>
                     <orientation>horizontal</orientation>
                     <itemgap>10</itemgap>                                
-                    <control type="image">                                
-                        <width>30</width>
-                        <height>30</height>
-                        <colordiffuse>$VAR[ColorKodiLogo]</colordiffuse>
-                        <animation effect="slide" start="0" end="0,5" time="0" condition="true">Conditional</animation>
-                        <texture>buttons/kodi-logo.png</texture>
-                    </control>
+                    <include content="Kodi_Logo_Home">
+                        <param name="dimensions" value="30" />
+                        <param name="top" value="5" />
+                        <param name="left" value="0" />
+                    </include>
                     <control type="label" id="90244">                            
                         <height>38</height>
                         <font>SmallNavi</font>

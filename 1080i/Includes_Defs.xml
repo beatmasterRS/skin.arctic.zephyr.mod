@@ -33,7 +33,7 @@
 	<variable name="ColorSquares">
 		<value condition="String.IsEqual(Skin.String(squarecolor.name),none)">$VAR[ColorHighlight]</value>
         <value condition="!String.IsEmpty(Skin.String(squarecolor.name))">$INFO[Skin.String(squarecolor.name)]</value>
-		<value>Highlight</value>
+		<value>$VAR[ColorHighlight]</value>
     </variable>
 	
 	<variable name="ColorUserrating">
@@ -46,6 +46,18 @@
 		<value condition="String.IsEqual(Skin.String(selectbarcolor.name),none)">Dark1</value>
         <value condition="!String.IsEmpty(Skin.String(selectbarcolor.name))">$INFO[Skin.String(selectbarcolor.name)]</value>
 		<value>Dark1</value>
+    </variable>
+    
+    <variable name="ColorSelectOtherBar">
+		<value condition="String.IsEqual(Skin.String(selectotherbarcolor.name),none)">$VAR[ColorHighlight]</value>
+        <value condition="!String.IsEmpty(Skin.String(selectotherbarcolor.name))">$INFO[Skin.String(selectotherbarcolor.name)]</value>
+		<value>$VAR[ColorHighlight]</value>
+    </variable>
+    
+    <variable name="ColorHighlightOtherBar">
+		<value condition="String.IsEqual(Skin.String(focuscolorotherbar.name),none)">$VAR[ColorSelectOtherBar]</value>
+        <value condition="!String.IsEmpty(Skin.String(focuscolorotherbar.name))">$INFO[Skin.String(focuscolorotherbar.name)]</value>
+        <value>$VAR[ColorSelectOtherBar]</value>
     </variable>
     
     <variable name="DefWidgetContent">
@@ -396,14 +408,11 @@
             <align>left</align>
 			<textcolor>Dark2</textcolor>
         </control>		
-		<control type="image">
-			<top>15</top>
-			<left>17</left>
-			<width>40</width>
-			<height>40</height>
-			<colordiffuse>$VAR[ColorKodiLogo]</colordiffuse>
-			<texture>buttons/kodi-logo.png</texture>
-		</control>
+        <include content="Kodi_Logo">
+            <param name="dimensions" value="40" />
+            <param name="top" value="15" />
+            <param name="left" value="17" />
+        </include>
         		
 		<!-- Lines -->
 		<control type="image">
@@ -454,14 +463,11 @@
             <align>left</align>
 			<textcolor>Dark2</textcolor>
         </control>		
-		<control type="image">
-			<top>15</top>
-			<left>17</left>
-			<width>40</width>
-			<height>40</height>
-			<colordiffuse>$VAR[ColorKodiLogo]</colordiffuse>
-			<texture>buttons/kodi-logo.png</texture>
-		</control>
+        <include content="Kodi_Logo">
+            <param name="dimensions" value="40" />
+            <param name="top" value="15" />
+            <param name="left" value="17" />
+        </include>
 		
 		<!-- Lines -->
 		<control type="image">
@@ -577,6 +583,29 @@
         <texturefocus colordiffuse="$VAR[ColorHighlight]" border="16">common/white.png</texturefocus>
     </include>
     
+    <include name="DefContextButtonGradient">
+        <radioposx>393</radioposx>
+        <width>450</width>
+        <height>70</height>
+        <font>Tiny</font>
+        <textcolor>Black70</textcolor>
+        <textureradiofocus colordiffuse="Black70">buttons/radio-on.png</textureradiofocus>
+        <textureradionofocus colordiffuse="Black30">buttons/radio-off.png</textureradionofocus>
+        <focusedcolor>Selected</focusedcolor>
+        <alttexturefocus colordiffuse="$VAR[ColorHighlightOtherBar]" border="5">common/gradient-box-wide-cut.png</alttexturefocus>
+        <texturefocus colordiffuse="$VAR[ColorHighlightOtherBar]" border="5">common/gradient-box-wide-cut.png</texturefocus>
+    </include>
+    
+    
+    <include name="DefDialogButtonsGradient">
+        <width>300</width>
+        <font>Button</font>
+        <textcolor>Black70</textcolor>
+        <height>70</height>
+        <texturefocus colordiffuse="$VAR[ColorHighlightOtherBar]" border="5">common/gradient-box-wide.png</texturefocus>
+    </include>
+    
+    
 	<include name="DefContextButtonBlur">
         <radioposx>392</radioposx>
         <width>450</width>
@@ -601,8 +630,8 @@
         <textureradiofocus colordiffuse="$PARAM[colorcode]">buttons/colorbox.png</textureradiofocus>
         <textureradionofocus colordiffuse="$PARAM[colorcode]">buttons/colorbox.png</textureradionofocus>
         <focusedcolor>Selected</focusedcolor>
-        <alttexturefocus colordiffuse="$VAR[ColorHighlight]" border="16">common/white.png</alttexturefocus>
-        <texturefocus colordiffuse="$VAR[ColorHighlight]" border="16">common/white.png</texturefocus>
+        <alttexturefocus colordiffuse="$VAR[ColorHighlightOtherBar]" border="5">common/gradient-box-wide.png</alttexturefocus>
+        <texturefocus colordiffuse="$VAR[ColorHighlightOtherBar]" border="5">common/gradient-box-wide.png</texturefocus>
     </include>
     
     <include name="DefContextButtonColorbox2">
@@ -647,6 +676,23 @@
         <textureradionofocus colordiffuse="PanelWhite70">buttons/radio-off.png</textureradionofocus>
         <texturefocus colordiffuse="$VAR[ColorHighlight]">common/white.png</texturefocus>
         <alttexturefocus colordiffuse="$VAR[ColorHighlight]">common/white.png</alttexturefocus>
+    </include>
+    
+    <include name="DefSettingsButtonGradient">
+        <align>left</align>
+        <font>Small</font>
+        <textcolor>PanelWhite100</textcolor>
+        <disabledcolor>PanelWhite12</disabledcolor>
+        <height>70</height>
+        <textureup flipy="true" colordiffuse="FF404040">buttons/spin-down.png</textureup>
+        <texturedown colordiffuse="PanelWhite30">buttons/spin-down.png</texturedown>
+        <textureupfocus flipy="true" colordiffuse="PanelWhite100">buttons/spin-down.png</textureupfocus>
+        <texturedownfocus colordiffuse="PanelWhite100">buttons/spin-down.png</texturedownfocus>
+        <textureradiofocus colordiffuse="PanelWhite70">buttons/radio-on.png</textureradiofocus>
+        <textureradionofocus colordiffuse="PanelWhite70">buttons/radio-off.png</textureradionofocus>
+        <focusedcolor>Selected</focusedcolor>
+        <alttexturefocus colordiffuse="$VAR[ColorHighlightOtherBar]" border="5">common/gradient-box-wide-cut.png</alttexturefocus>
+        <texturefocus colordiffuse="$VAR[ColorHighlightOtherBar]" border="5">common/gradient-box-wide-cut.png</texturefocus>
     </include>
     
     <include name="DefSettingsButtonNew">
@@ -923,7 +969,7 @@
     
     <include name="Def9000MusicSide">
         <control type="button" id="9001">
-            <include>DefContextButton</include>
+            <include>DefContextButtonGradient</include>
             <label>$LOCALIZE[582]: $INFO[Container.Viewmode]</label>			
             <align>left</align>
             <onclick>ActivateWindow(1153)</onclick>
@@ -931,25 +977,25 @@
         </control>
         <control type="button" id="2">
             <description>View</description>
-            <include>DefContextButton</include>
+            <include>DefContextButtonGradient</include>
             <align>left</align>
             <visible>Skin.HasSetting(views.oldselector)</visible>
         </control>
         <control type="button" id="3">
             <description>Sort</description>
-            <include>DefContextButton</include>
+            <include>DefContextButtonGradient</include>
             <align>left</align>
         </control>
         <control type="togglebutton" id="4">
             <description>Ascending</description>
-            <include>DefContextButton</include>
+            <include>DefContextButtonGradient</include>
             <align>left</align>
             <label>584</label>
             <altlabel>585</altlabel>
         </control>
         <control type="button" id="7">
             <description>Playlist</description>
-            <include>DefContextButton</include>
+            <include>DefContextButtonGradient</include>
             <align>left</align>
             <label>136</label>
             <onclick>SetFocus(50)</onclick>
@@ -958,7 +1004,7 @@
         </control>        
         <control type="button" id="9098">
             <description>Now Playing</description>
-            <include>DefContextButton</include>
+            <include>DefContextButtonGradient</include>
             <label>13350</label>
             <align>left</align>
             <onclick>ActivateWindow(MusicPlaylist)</onclick>
@@ -2200,7 +2246,7 @@
         <control type="radiobutton" id="$PARAM[id]">
             <width>1310</width>
             <visible>$PARAM[visible]</visible>
-            <include>DefSettingsButton</include>
+            <include>DefSettingsButtonGradient</include>
             <label>$PARAM[addonname] $INFO[System.AddonVersion($PARAM[addonname]),(,)]</label>
             <selected>System.HasAddon($PARAM[addonname])</selected> 
             <onclick condition="!System.HasAddon($PARAM[addonname])">InstallAddon($PARAM[addonname])</onclick>
@@ -2387,6 +2433,172 @@
                 <visible>!Control.HasFocus(3110)</visible>                    
             </control>
         </control>    
+    </include>
+    
+    <include name="Def_Gradient_Settings_Image">
+        <param name="top" value="$PARAM[top]" default="140" />
+        <param name="left" value="$PARAM[left]" default="450" />
+        <param name="width" value="$PARAM[width]" default="1310" />
+        <param name="height" value="$PARAM[height]" default="70" />
+        <param name="slide" value="$PARAM[slide]" default="70" />
+        <param name="border" value="$PARAM[border]" default="5" />
+        <param name="image" value="$PARAM[image]" default="common/white.png" />
+        <definition>
+            <control type="image">
+                <top>$PARAM[top]</top>
+                <left>$PARAM[left]</left>
+                <height>$PARAM[height]</height>
+                <width>$PARAM[width]</width>
+                <texture colordiffuse="$VAR[ColorSelectOtherBar]" border="$PARAM[border]">$PARAM[image]</texture>
+                <visible>ControlGroup($PARAM[controlid]).HasFocus()</visible>
+                <include>Animation.FadeIn.Gradient</include>
+                <animation effect="slide" end="0,$PARAM[slide]" time="0" condition="Integer.IsGreater(Container($PARAM[controlid]).Position,0)">Conditional</animation>
+                <animation effect="slide" end="0,$PARAM[slide]" time="0" condition="Integer.IsGreater(Container($PARAM[controlid]).Position,1)">Conditional</animation>
+                <animation effect="slide" end="0,$PARAM[slide]" time="0" condition="Integer.IsGreater(Container($PARAM[controlid]).Position,2)">Conditional</animation>
+                <animation effect="slide" end="0,$PARAM[slide]" time="0" condition="Integer.IsGreater(Container($PARAM[controlid]).Position,3)">Conditional</animation>
+                <animation effect="slide" end="0,$PARAM[slide]" time="0" condition="Integer.IsGreater(Container($PARAM[controlid]).Position,4)">Conditional</animation>
+                <animation effect="slide" end="0,$PARAM[slide]" time="0" condition="Integer.IsGreater(Container($PARAM[controlid]).Position,5)">Conditional</animation>
+            </control>
+        </definition>
+    </include>
+    
+    <include name="Def_Gradient_Settings_Image_Shortcuts">
+        <param name="top" value="$PARAM[top]" default="113" />
+        <param name="left" value="$PARAM[left]" default="630" />
+        <param name="width" value="$PARAM[width]" default="820" />
+        <param name="height" value="$PARAM[height]" default="66" />
+        <param name="slide" value="$PARAM[slide]" default="69" />
+        <param name="border" value="$PARAM[border]" default="5" />
+        <param name="image" value="$PARAM[image]" default="common/box.png" />
+        <definition>
+            <control type="image">
+                <top>$PARAM[top]</top>
+                <left>$PARAM[left]</left>
+                <height>$PARAM[height]</height>
+                <width>$PARAM[width]</width>                
+                <texture colordiffuse="$VAR[ColorSelectOtherBar]" border="$PARAM[border]">$PARAM[image]</texture>
+                <visible>ControlGroup($PARAM[controlid]).HasFocus()</visible>
+                <include>Animation.FadeIn.Gradient</include>
+                <animation effect="slide" end="0,$PARAM[slide]" time="0" condition="Integer.IsGreater(Container($PARAM[controlid]).Position,0)">Conditional</animation>
+                <animation effect="slide" end="0,$PARAM[slide]" time="0" condition="Integer.IsGreater(Container($PARAM[controlid]).Position,1)">Conditional</animation>
+                <animation effect="slide" end="0,$PARAM[slide]" time="0" condition="Integer.IsGreater(Container($PARAM[controlid]).Position,2)">Conditional</animation>
+                <animation effect="slide" end="0,$PARAM[slide]" time="0" condition="Integer.IsGreater(Container($PARAM[controlid]).Position,3)">Conditional</animation>
+                <animation effect="slide" end="0,$PARAM[slide]" time="0" condition="Integer.IsGreater(Container($PARAM[controlid]).Position,4)">Conditional</animation>
+                <animation effect="slide" end="0,$PARAM[slide]" time="0" condition="Integer.IsGreater(Container($PARAM[controlid]).Position,5)">Conditional</animation>
+                <animation effect="slide" end="0,$PARAM[slide]" time="0" condition="Integer.IsGreater(Container($PARAM[controlid]).Position,6)">Conditional</animation>
+            </control>
+        </definition>
+    </include>
+    
+    <include name="Def_Context_Subtitles_Gradient">
+        <control type="image">
+            <top>16</top>
+            <left>8</left>
+            <height>60</height>
+            <width>300</width>
+            <visible>ControlGroup($PARAM[controlid]).HasFocus()</visible>
+            <texture colordiffuse="$VAR[ColorSelectOtherBar]">common/white.png</texture>                
+            <animation effect="fade" start="100" end="100" delay="20" time="1">Visible</animation>                
+            <animation effect="slide" end="0,60" time="0" condition="Integer.IsGreater(Container($PARAM[controlid]).Position,0)">Conditional</animation>
+            <animation effect="slide" end="0,60" time="0" condition="Integer.IsGreater(Container($PARAM[controlid]).Position,1)">Conditional</animation>
+            <animation effect="slide" end="0,60" time="0" condition="Integer.IsGreater(Container($PARAM[controlid]).Position,2)">Conditional</animation>
+        </control>
+        <control type="grouplist" id="$PARAM[controlid]">
+            <include>Animation.FadeIn.Delay</include>
+            <include>Animation.FadeOut</include>
+            <top>16</top>
+            <bottom>16</bottom>
+            <left>8</left>
+            <right>8</right>
+            <onup>3</onup>
+            <ondown>3</ondown>
+            <onleft>3</onleft>
+            <onright>3</onright>
+            <itemgap>0</itemgap>
+            <orientation>vertical</orientation>
+            <scrolltime>200</scrolltime>
+            <control type="button" id="9301" description="Download">
+                <width>100%</width>
+                <height>60</height>                        
+                <include>DefContextButtonGradient</include>
+                <label>33003</label>
+                <onclick>ActivateWindow(SubtitleSearch)</onclick>
+            </control>
+            <control type="button" id="9302">
+                <width>100%</width>
+                <height>60</height>                        
+                <include>DefContextButtonGradient</include>
+                <label>$LOCALIZE[10004]</label>
+                <onclick>ActivateWindow(osdsubtitlesettings)</onclick>						
+            </control>
+            <control type="button" id="9304">
+                <width>100%</width>
+                <height>60</height>                        
+                <include>DefContextButtonGradient</include>
+                <label>$LOCALIZE[22006]</label>
+                <onclick>SubtitleDelay</onclick>
+                <enable>VideoPlayer.HasSubtitles + VideoPlayer.SubtitlesEnabled</enable>						
+            </control>
+            <control type="togglebutton" id="9303" description="Enable Subs">
+                <width>100%</width>
+                <height>60</height>                        
+                <include>DefContextButtonGradient</include>
+                <label>$LOCALIZE[305] $INFO[VideoPlayer.SubtitlesLanguage,[UPPERCASE],[/UPPERCASE]]</label>
+                <altlabel>13106</altlabel>
+                <onclick>NextSubtitle</onclick>
+                <usealttexture>!VideoPlayer.SubtitlesEnabled</usealttexture>
+            </control>
+        </control>  
+    </include>
+    
+    <include name="Kodi_Logo">
+        <param name="top" value="$PARAM[top]" default="15" />
+        <param name="left" value="$PARAM[left]" default="15" />
+        <param name="left-gradient" value="$PARAM[left-gradient]" default="0" />
+        <param name="dimensions" value="$PARAM[dimensions]" default="40" />
+        <definition>
+        <control type="image">
+            <top>$PARAM[top]</top>
+            <left>$PARAM[left]</left>
+            <width>$PARAM[dimensions]</width>
+            <height>$PARAM[dimensions]</height>
+            <colordiffuse>$VAR[ColorKodiLogo]</colordiffuse>
+            <texture>buttons/kodi-logo.png</texture>
+        </control>
+        <control type="image">
+            <top>$PARAM[top]</top>
+            <left>$PARAM[left]</left>
+            <width>$PARAM[dimensions]</width>
+            <height>$PARAM[dimensions]</height>
+            <colordiffuse>$VAR[ColorKodiLogoGradient]</colordiffuse>
+            <texture>buttons/kodi-logo-gradient.png</texture>
+        </control>
+        </definition>
+    </include>
+    
+    <include name="Kodi_Logo_Home">
+        <param name="top" value="$PARAM[top]" default="15" />
+        <param name="left" value="$PARAM[left]" default="15" />
+        <param name="left-gradient" value="$PARAM[left-gradient]" default="0" />
+        <param name="dimensions" value="$PARAM[dimensions]" default="40" />
+        <definition>
+        <control type="image">
+            <top>$PARAM[top]</top>
+            <left>$PARAM[left]</left>
+            <width>$PARAM[dimensions]</width>
+            <height>$PARAM[dimensions]</height>
+            <colordiffuse>$VAR[ColorKodiLogo]</colordiffuse>
+            <texture>buttons/kodi-logo.png</texture>
+        </control>
+        <control type="image">
+            <top>$PARAM[top]</top>
+            <left>$PARAM[left-gradient]</left>
+            <width>$PARAM[dimensions]</width>
+            <height>$PARAM[dimensions]</height>
+            <colordiffuse>$VAR[ColorKodiLogoGradient]</colordiffuse>
+            <texture>buttons/kodi-logo-gradient.png</texture>
+        </control>
+        </definition>
     </include>
     
 </includes>

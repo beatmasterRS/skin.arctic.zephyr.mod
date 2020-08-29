@@ -48,14 +48,7 @@
 				<label>5</label>
 			</control>
 			
-			<control type="image">
-				<top>15</top>
-				<left>15</left>
-				<width>40</width>
-				<height>40</height>
-				<colordiffuse>$VAR[ColorKodiLogo]</colordiffuse>
-				<texture>buttons/kodi-logo.png</texture>
-			</control>
+			<include>Kodi_Logo</include>
 			
 			<!-- Lines -->
 			<control type="image">
@@ -68,47 +61,57 @@
 				<texture>common/white.png</texture>
 			</control>
 		</control>
-		 <control type="grouplist" id="9000">
-                <height>1080</height>
-                <left>725</left>
-    			<top>500</top>
-                <onright>Dialog.Close(1110)</onright>
-				<onleft>Dialog.Close(1110)</onleft>	 
-                <control type="button" id="97">
-                    <description>Filter</description>
-                    <include>DefContextButton</include>
-                    <label>$LOCALIZE[250]:</label>
-					<label2 fallback="424">$INFO[Visualisation.Name]</label2>
-                    <align>left</align>                   
-                    <onclick>SendClick(500)</onclick>
-					<visible>!String.IsEmpty(Visualisation.Name)</visible>		
-                </control>
-				<control type="button" id="98">
-                    <description>Filter</description>
-                    <include>DefContextButton</include>
-                    <label>$LOCALIZE[250]:</label>
-					<label2>424</label2>
-                    <align>left</align>                   
-                    <onclick>SendClick(500)</onclick>
-					<visible>String.IsEmpty(Visualisation.Name)</visible>		
-                </control>
-				<control type="button" id="99">
-                    <description>Filter</description>
-                    <include>DefContextButton</include>
-                    <label>$LOCALIZE[24010]-$LOCALIZE[5]</label>
-                    <align>left</align>                   
-                    <onclick>Addon.Default.OpenSettings(xbmc.player.musicviz)</onclick>
-					<enable>!String.IsEmpty(Visualisation.Name)</enable>		
-                </control>			
-				<control type="button" id="100">
-                    <description>Filter</description>
-                    <include>DefContextButton</include>
-                    <align>left</align>
-                    <label>$LOCALIZE[13388]:</label>
-                    <label2>$INFO[Visualisation.Preset]</label2>
-					<onclick>ActivateWindow(visualisationpresetlist)</onclick>
-					<enable>Visualisation.HasPresets</enable>		
-                </control>
+        <control type="image">
+            <top>500</top>
+            <left>725</left>
+            <height>70</height>
+            <width>450</width>
+            <texture colordiffuse="$VAR[ColorSelectOtherBar]">common/white.png</texture>                
+            <visible>ControlGroup(9000).HasFocus()</visible>
+            <animation effect="slide" end="0,75" time="0" condition="Integer.IsGreater(Container(9000).Position,0)">Conditional</animation>
+            <animation effect="slide" end="0,75" time="0" condition="Integer.IsGreater(Container(9000).Position,1)">Conditional</animation>
+        </control> 
+		<control type="grouplist" id="9000">
+            <height>1080</height>
+            <left>725</left>
+            <top>500</top>
+            <onright>Dialog.Close(1110)</onright>
+            <onleft>Dialog.Close(1110)</onleft>	 
+            <control type="button" id="97">
+                <description>Filter</description>
+                <include>DefContextButtonGradient</include>
+                <label>$LOCALIZE[250]:</label>
+                <label2 fallback="424">$INFO[Visualisation.Name]</label2>
+                <align>left</align>                   
+                <onclick>SendClick(500)</onclick>
+                <visible>!String.IsEmpty(Visualisation.Name)</visible>		
             </control>
+            <control type="button" id="98">
+                <description>Filter</description>
+                <include>DefContextButtonGradient</include>
+                <label>$LOCALIZE[250]:</label>
+                <label2>424</label2>
+                <align>left</align>                   
+                <onclick>SendClick(500)</onclick>
+                <visible>String.IsEmpty(Visualisation.Name)</visible>		
+            </control>
+            <control type="button" id="99">
+                <description>Filter</description>
+                <include>DefContextButtonGradient</include>
+                <label>$LOCALIZE[24010]-$LOCALIZE[5]</label>
+                <align>left</align>                   
+                <onclick>Addon.Default.OpenSettings(xbmc.player.musicviz)</onclick>
+                <enable>!String.IsEmpty(Visualisation.Name)</enable>		
+            </control>			
+            <control type="button" id="100">
+                <description>Filter</description>
+                <include>DefContextButtonGradient</include>
+                <align>left</align>
+                <label>$LOCALIZE[13388]:</label>
+                <label2>$INFO[Visualisation.Preset]</label2>
+                <onclick>ActivateWindow(visualisationpresetlist)</onclick>
+                <enable>Visualisation.HasPresets</enable>		
+            </control>
+        </control>
     </controls>
 </window>
