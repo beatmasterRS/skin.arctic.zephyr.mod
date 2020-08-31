@@ -292,7 +292,7 @@
             <include>Animation.DelayFadeIn</include>
             <control type="image">
                 <description>Busy animation</description>
-                <centerleft>54</centerleft>
+                <centerleft>34</centerleft>
                 <centertop>84</centertop>
                 <width>100</width>
                 <height>100</height>
@@ -301,7 +301,7 @@
             </control>
             <control type="image">
                 <description>Busy animation</description>
-                <centerleft>54</centerleft>
+                <centerleft>34</centerleft>
                 <centertop>84</centertop>
                 <width>100</width>
                 <height>100</height>
@@ -311,7 +311,7 @@
             </control>
             <control type="label">
                 <description>Busy label</description>
-                <posx>105</posx>
+                <posx>85</posx>
                 <posy>60</posy>
                 <width>720</width>
                 <height>48</height>
@@ -420,7 +420,7 @@
                 <include>Animation.DelayFadeIn</include>
                 <control type="image">
                     <description>Busy animation</description>
-                    <centerleft>54</centerleft>
+                    <centerleft>34</centerleft>
                     <centertop>84</centertop>
                     <width>100</width>
                     <height>100</height>
@@ -429,7 +429,7 @@
                 </control>
                 <control type="image">
                     <description>Busy animation</description>
-                    <centerleft>54</centerleft>
+                    <centerleft>34</centerleft>
                     <centertop>84</centertop>
                     <width>100</width>
                     <height>100</height>
@@ -439,7 +439,7 @@
                 </control>
                 <control type="label">
                     <description>Busy label</description>
-                    <posx>105</posx>
+                    <posx>85</posx>
                     <posy>60</posy>
                     <width>720</width>
                     <height>48</height>
@@ -564,6 +564,8 @@
         <param name="aspectposter" value="$PARAM[aspectposter]" default="true" />
         <param name="aspectbox" value="$PARAM[aspectbox]" default="false" />
         <param name="listtype" value="$PARAM[listtype]" default="fixedlist" />
+        <param name="music_info_onclick" value="$PARAM[music_info_onclick]" default="true" />
+        <param name="music_info_album" value="$PARAM[music_info_album]" default="false" />
         <param name="animation.new" value="$PARAM[animation.new]" default="Animation.CastInfo" />
         <definition>
             <!-- INFOCONTENT -->		
@@ -627,9 +629,12 @@
                 <onright>$PARAM[controlid]</onright>
                 <ondown>9000</ondown>
                 <onback>9000</onback>
-                <onclick condition="!Window.IsVisible(Custom_MovieSets.xml)">$PARAM[onclick1]</onclick>
-                <onclick condition="!Window.IsVisible(Custom_MovieSets.xml)">$PARAM[onclick2]</onclick>
-                <onclick condition="!Window.IsVisible(Custom_MovieSets.xml)">$PARAM[onclick3]</onclick>
+                <include content="OnClickInclude" condition="$PARAM[music_info_onclick]">
+                    <param name="onclick1" value="$PARAM[onclick1]" />
+                    <param name="onclick2" value="$PARAM[onclick2]" />
+                    <param name="onclick3" value="$PARAM[onclick3]" />                
+                </include>                
+                <include condition="$PARAM[music_info_album]">OnClickInclude2</include>       
                 <orientation>horizontal</orientation>
                 <preloaditems>2</preloaditems>
                 <viewtype label="536">list</viewtype>	          
@@ -665,6 +670,15 @@
                 <content target="$PARAM[target]" sortby="$PARAM[sortby]" limit="$PARAM[limit]">$PARAM[ContentToLoad]</content>
             </control>
         </definition>                  
+    </include>
+    
+    <include name="OnClickInclude">
+        <onclick condition="!Window.IsVisible(Custom_MovieSets.xml)">$PARAM[onclick1]</onclick>
+        <onclick condition="!Window.IsVisible(Custom_MovieSets.xml)">$PARAM[onclick2]</onclick>
+        <onclick condition="!Window.IsVisible(Custom_MovieSets.xml)">$PARAM[onclick3]</onclick> 
+    </include>
+    <include name="OnClickInclude2">
+        <onclick condition="!Window.IsVisible(Custom_MovieSets.xml)">RunScript(script.embuary.helper,action=goto,path='"musicdb://albums/$INFO[ListItem.DBID]/"',target=music)</onclick>
     </include>
     
     <include name="ImageList">
