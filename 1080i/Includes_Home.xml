@@ -225,9 +225,9 @@
             <control type="image" description="Shadow">
                 <width>100%</width>
                 <height>1</height>
-                <top>200</top>
+                <top>199</top>
                 <texture flipy="true" colordiffuse="BoxHomerow">common/sch2.png</texture>
-                <animation effect="fade" start="100" end="25" time="0" condition="!Skin.HasSetting(no.homemenu.clear) + $EXP[HomeIsModernMultiWidgets]">Conditional</animation>		
+                <animation effect="fade" start="100" end="40" time="0" condition="!Skin.HasSetting(no.homemenu.clear) + $EXP[HomeIsModernMultiWidgets]">Conditional</animation>		
                 <visible>!Skin.HasSetting(thumbnails.white)</visible> 
             </control>
             <control type="group">
@@ -5716,7 +5716,7 @@
     </include>
     
     <include name="InfoSub">
-        <control type="group">
+        <control type="group"> 
             <visible>Integer.IsEqual(Container(301).NumItems,1)</visible>
             <include>Animation.Vertical.Widgets.Label</include>
             <control type="list" id="50123">             
@@ -6042,12 +6042,12 @@
             </control>
             <control type="label">
                 <include>LabelInfoSubDefinition</include>                     
-                <label>$INFO[Container($PARAM[id]).ListItem.Year]$INFO[Container(5$PARAM[id]).NumItems,  •  , $LOCALIZE[342]]$INFO[Container($PARAM[id]).ListItem.Rating,  •  ]</label>
+                <label>$INFO[Container($PARAM[id]).ListItem.Year]$INFO[Container($PARAM[id]).ListItem.Rating,  •  ]</label>
                 <visible>String.IsEqual(Container($PARAM[id]).ListItem.DBType,set)</visible> 
             </control>
             <control type="label">
                 <include>LabelInfoSubDefinition</include>
-                <label>$INFO[Container($PARAM[id]).ListItem.Artist]$INFO[Container(6$PARAM[id]).NumItems,  •  , $LOCALIZE[134]]$INFO[Container($PARAM[id]).ListItem.Year,  •  ,]</label>
+                <label>$INFO[Container($PARAM[id]).ListItem.Artist]$INFO[Container($PARAM[id]).ListItem.Year,  •  ,]</label>
                 <visible>String.IsEqual(Container($PARAM[id]).ListItem.DBType,album)</visible> 
             </control>
             <control type="label">
@@ -6071,10 +6071,11 @@
                 <visible>String.StartsWith(Container($PARAM[id]).ListItem.FolderPath,pvr://)</visible> 
             </control>
             <control type="label">
-                <include>LabelInfoSubDefinition</include>                     
+                <include>LabelInfoSubDefinition</include>                                    
                 <label>$INFO[Container($PARAM[id]).ListItem.Year,,  •  ]$INFO[Container($PARAM[id]).ListItem.Duration(mins),, $LOCALIZE[31102]]$INFO[Container($PARAM[id]).ListItem.Rating,  •  ]$VAR[RtMclabelMultiWidgets]</label>
                 <visible>![[String.IsEqual(Container($PARAM[id]).ListItem.DBType,set) | String.IsEqual(Container($PARAM[id]).ListItem.DBType,movie) | String.IsEqual(Container($PARAM[id]).ListItem.DBType,episode) | String.IsEqual(Container($PARAM[id]).ListItem.DBType,tvshow)] + !String.IsEmpty(Container($PARAM[id]).ListItem.Plot)] + ![String.IsEqual(Container($PARAM[id]).ListItem.DBType,album) + !String.IsEmpty(Container($PARAM[id]).ListItem.Property(Album_Description))] + ![String.IsEqual(Container($PARAM[id]).ListItem.DBType,artist) + !String.IsEmpty(Container($PARAM[id]).ListItem.Property(Artist_Description))] + ![String.IsEqual(Container($PARAM[id]).ListItem.DBType,song) + ControlGroup(301).HasFocus()] + ![String.IsEqual(Container($PARAM[id]).ListItem.DBType,song) + !ControlGroup(301).HasFocus() + !String.IsEmpty(Container($PARAM[id]).ListItem.Property(Artist_Description))]+ ![!String.IsEmpty(Container($PARAM[id]).ListItem.AddonDescription) + !String.IsEmpty(Container($PARAM[id]).ListItem.AddonDescription)] + ![String.StartsWith(Container($PARAM[id]).ListItem.FolderPath,pvr://)]</visible> 
-                <visible>!String.IsEqual(Container($PARAM[id]).ListItem.DBType,album) + !String.IsEqual(Container($PARAM[id]).ListItem.DBType,song)</visible> 
+                <visible>!String.IsEqual(Container($PARAM[id]).ListItem.DBType,album) + !String.IsEqual(Container($PARAM[id]).ListItem.DBType,song)</visible>
+                <visible>!String.Contains(Container(300).ListItem.Property(widget),Weather)</visible>  
             </control>
         </control>
     </include>  
