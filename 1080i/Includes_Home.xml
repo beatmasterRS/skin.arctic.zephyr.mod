@@ -4850,8 +4850,8 @@
                     <animation effect="fade" start="100" end="0" time="0" reversible="false" condition="[!String.Contains(Container(300).ListItem.Property(widget),Weather) + [!Integer.IsGreater(Container(301).NumItems,0) | Container(301).IsUpdating]] | [!Weather.IsFetched + String.Contains(Container(300).ListItem.Property(widget),Weather)]">Conditional</animation>
                     <animation effect="fade" start="0" end="100" time="0" reversible="false" condition="![[!String.Contains(Container(300).ListItem.Property(widget),Weather) + [!Integer.IsGreater(Container(301).NumItems,0) | Container(301).IsUpdating]] | [!Weather.IsFetched + String.Contains(Container(300).ListItem.Property(widget),Weather)]]">Conditional</animation> 
                     <animation effect="slide" start="0" end="0,30" time="0" condition="Skin.HasSetting(home.showheader) + [Skin.HasSetting(home.vertical) + Skin.HasSetting(home.vertical.widgets)]">Conditional</animation>                   
-                    <!-- Weather Widget -->                                       
-                    <include>InfoSubWeather</include>                   
+                    <!-- Sub Widget -->                                       
+                    <include>InfoSubWidget</include>                   
                     <!-- Widget -->
                     <control type="grouplist" id="301">                        
                         <height>770</height>
@@ -5781,8 +5781,8 @@
             <animation effect="fade" start="100" end="0" time="0" reversible="false" condition="[!String.Contains(Container(300).ListItem.Property(widget),Weather) + [!Integer.IsGreater(Container(301).NumItems,0) | Container(301).IsUpdating]] | [!Weather.IsFetched + String.Contains(Container(300).ListItem.Property(widget),Weather)]">Conditional</animation>
             <animation effect="fade" start="0" end="100" time="0" reversible="false" condition="![[!String.Contains(Container(300).ListItem.Property(widget),Weather) + [!Integer.IsGreater(Container(301).NumItems,0) | Container(301).IsUpdating]] | [!Weather.IsFetched + String.Contains(Container(300).ListItem.Property(widget),Weather)]]">Conditional</animation>                    
             
-            <!-- Weather Widget -->                    
-            <include>InfoSubWeather</include>                 
+            <!-- Sub Widget -->                    
+            <include>InfoSubWidget</include>                 
             
             <!-- Widget -->
             <control type="grouplist" id="301">
@@ -5847,8 +5847,7 @@
                 <itemlayout/>
                 <focusedlayout/>
                 <content>videodb://movies/sets/$INFO[Container($PARAM[id]).ListItem.DBID]/?setid=$INFO[Container($PARAM[id]).ListItem.DBID]</content>            
-            </control> 
-            
+            </control>             
             <control type="grouplist">                       
                 <left>530</left>
                 <width>1422</width>
@@ -5870,18 +5869,17 @@
                 </include>
                 <include content="LabelInfoSub">
                     <param name="id" value="$PARAM[id]" />
-                    <param name="setcontent" value="videodb://movies/sets/$INFO[Container(30121).ListItem.DBID]/?setid=$INFO[Container(30121).ListItem.DBID]" />
-                    
+                    <param name="setcontent" value="videodb://movies/sets/$INFO[Container(30121).ListItem.DBID]/?setid=$INFO[Container(30121).ListItem.DBID]" />                    
                 </include>
             </control>
             <!--<include content="ClearArtInfoSub">
                 <param name="id" value="$PARAM[id]" />
             </include> -->                   
-        </control>
-        
+        </control>        
     </include>
     
-    <include name="InfoSubWeather">
+    <include name="InfoSubWidget">
+        <!-- Weather Widget -->
         <control type="group">                        
             <visible>!String.Contains(Container(300).ListItem.Property(widgetEnable.2),yes) + !String.Contains(Container(300).ListItem.Property(widgetEnable.3),yes) + !String.Contains(Container(300).ListItem.Property(widgetEnable.4),yes) + !String.Contains(Container(300).ListItem.Property(widgetEnable.5),yes) + String.Contains(Container(300).ListItem.Property(widget),Weather)</visible>                        
             <control type="group">
@@ -6025,7 +6023,74 @@
                     <label>$INFO[Window(Weather).Property(Current.Condition),,[CR]]$INFO[Window(Weather).Property(Current.FeelsLike),$LOCALIZE[402] ,°[CR]]$INFO[Window(Weather).Property(Current.Humidity),, $LOCALIZE[406][CR]]$INFO[Window(Weather).Property(Current.Wind)]</label>
                 </control>
             </control>
-        </control>     
+        </control>  
+        
+        <!-- Systeminfo Widget -->
+        <control type="group">                        
+            <visible>!String.Contains(Container(300).ListItem.Property(widgetEnable.2),yes) + !String.Contains(Container(300).ListItem.Property(widgetEnable.3),yes) + !String.Contains(Container(300).ListItem.Property(widgetEnable.4),yes) + !String.Contains(Container(300).ListItem.Property(widgetEnable.5),yes) + String.Contains(Container(300).ListItem.Property(widget),system)</visible>                                   
+            <control type="grouplist">                            
+                <left>530</left>
+                <width>1500</width>
+                <orientation>vertical</orientation>
+                <top>602</top>
+                <usecontrolcoords>true</usecontrolcoords>
+                <itemgap>0</itemgap>
+                <include>Animation.Vertical.Widgets.Label</include>                
+                <control type="label">
+                    <font>Tiny</font>
+                    <width>100%</width>
+                    <height>36</height>
+                    <align>left</align>
+                    <textcolor>Dark2</textcolor>
+                    <label>$INFO[System.ScreenResolution,$LOCALIZE[13287] ,]</label>
+                    <visible>!String.IsEmpty(System.ScreenResolution)</visible>
+                </control>
+                <control type="label">
+                    <font>Tiny</font>
+                    <width>100%</width>
+                    <height>36</height>
+                    <align>left</align>
+                    <textcolor>Dark2</textcolor>
+                    <label>$INFO[System.VideoEncoderInfo,$LOCALIZE[13286] ,]</label>
+                    <visible>!String.IsEmpty(System.VideoEncoderInfo)</visible>
+                </control>
+                <control type="label">
+                    <font>Tiny</font>
+                    <width>100%</width>
+                    <height>36</height>
+                    <align>left</align>
+                    <textcolor>Dark2</textcolor>
+                    <label>$INFO[System.OSVersionInfo,$LOCALIZE[24051] ,]</label>
+                    <visible>!String.IsEmpty(System.OSVersionInfo)</visible>
+                </control>
+                <control type="label">
+                    <font>Tiny</font>
+                    <width>100%</width>
+                    <height>36</height>
+                    <align>left</align>
+                    <textcolor>Dark2</textcolor>
+                    <label></label>
+                </control>
+                <control type="label">
+                    <font>Tiny</font>
+                    <width>100%</width>
+                    <height>36</height>
+                    <align>left</align>
+                    <textcolor>Dark2</textcolor>
+                    <label>$INFO[System.Uptime,$LOCALIZE[12390]: ,]</label>
+                    <visible>!String.IsEmpty(System.Uptime)</visible>
+                </control>
+                <control type="label">
+                    <font>Tiny</font>
+                    <width>100%</width>
+                    <height>36</height>
+                    <align>left</align>
+                    <textcolor>Dark2</textcolor>
+                    <label>$INFO[System.TotalUptime,$LOCALIZE[12394]: ,]</label>
+                    <visible>!String.IsEmpty(System.TotalUptime)</visible>
+                </control>                
+            </control>
+        </control>           
     </include>
 
     <include name="LabelTopInfoSub">
@@ -6039,6 +6104,12 @@
             <label>$INFO[Container($PARAM[id]).ListItem.Label]</label>
             <visible>!String.StartsWith(Container($PARAM[id]).ListItem.FolderPath,pvr://) | [String.StartsWith(Container($PARAM[id]).ListItem.FolderPath,pvr://) + String.IsEmpty(Container($PARAM[id]).ListItem.Title)]</visible>
             <visible>!String.IsEqual(Container($PARAM[id]).ListItem.DBType,episode) + !String.Contains(Container(300).ListItem.Property(widget),Weather)</visible>
+            <visible>!String.Contains(Container(300).ListItem.Property(widget),system)</visible>>
+        </control>
+        <control type="label">
+            <include>LabelTopInfoSubDefinition</include>
+            <label>$LOCALIZE[130]</label>
+            <visible>String.Contains(Container(300).ListItem.Property(widget),system)</visible>
         </control>
         <control type="label">
             <include>LabelTopInfoSubDefinition</include>
@@ -6160,7 +6231,8 @@
                 <label>$INFO[Container($PARAM[id]).ListItem.Year,,  •  ]$INFO[Container($PARAM[id]).ListItem.Duration(mins),, $LOCALIZE[31102]]$INFO[Container($PARAM[id]).ListItem.Rating,  •  ]$VAR[RtMclabelMultiWidgets]</label>
                 <visible>![[String.IsEqual(Container($PARAM[id]).ListItem.DBType,set) | String.IsEqual(Container($PARAM[id]).ListItem.DBType,movie) | String.IsEqual(Container($PARAM[id]).ListItem.DBType,episode) | String.IsEqual(Container($PARAM[id]).ListItem.DBType,tvshow)] + !String.IsEmpty(Container($PARAM[id]).ListItem.Plot)] + ![String.IsEqual(Container($PARAM[id]).ListItem.DBType,album) + !String.IsEmpty(Container($PARAM[id]).ListItem.Property(Album_Description))] + ![String.IsEqual(Container($PARAM[id]).ListItem.DBType,artist) + !String.IsEmpty(Container($PARAM[id]).ListItem.Property(Artist_Description))] + ![String.IsEqual(Container($PARAM[id]).ListItem.DBType,song) + ControlGroup(301).HasFocus()] + ![String.IsEqual(Container($PARAM[id]).ListItem.DBType,song) + !ControlGroup(301).HasFocus() + !String.IsEmpty(Container($PARAM[id]).ListItem.Property(Artist_Description))]+ ![!String.IsEmpty(Container($PARAM[id]).ListItem.AddonDescription) + !String.IsEmpty(Container($PARAM[id]).ListItem.AddonDescription)] + ![String.StartsWith(Container($PARAM[id]).ListItem.FolderPath,pvr://)]</visible> 
                 <visible>!String.IsEqual(Container($PARAM[id]).ListItem.DBType,album) + !String.IsEqual(Container($PARAM[id]).ListItem.DBType,song)</visible>
-                <visible>!String.Contains(Container(300).ListItem.Property(widget),Weather)</visible>  
+                <visible>!String.Contains(Container(300).ListItem.Property(widget),Weather)</visible> 
+                <visible>!String.Contains(Container(300).ListItem.Property(widget),system)</visible> 
             </control>
         </control>
     </include>  
