@@ -1612,7 +1612,7 @@
                     <viewtype label="536">list</viewtype>
                     <include>layoutweather</include>
                     <content>
-                        <include>Weatherdaily</include>                          
+                        <include>weatherdaily</include>                          
                     </content>                    
                 </control>
                 <control type="wraplist" id="301">
@@ -1632,7 +1632,7 @@
                     <viewtype label="536">list</viewtype>
                     <include>layoutweather</include>
                     <content>
-                        <include>Weatherhourly</include>                          
+                        <include>weatherhourly</include>                          
                     </content>                    
                 </control>               
             </control>                                   
@@ -2577,7 +2577,7 @@
             <control type="group">
                 <top>-30</top>
                 <animation effect="slide" start="0" end="0,-6" time="0" condition="Skin.HasSetting(home.oldmenuheight)">Conditional</animation>
-                <visible>Integer.IsEqual(Container(301).NumItems,1) | [Integer.IsEqual(Container(301).NumItems,2) + Skin.HasSetting(home.vertical.widgets.submenu) + !Skin.HasSetting(home.vertical.widgets.submenu.poster) + !Skin.HasSetting(home.vertical.widgets.submenu.square) + !Skin.HasSetting(home.vertical.widgets.submenu.fanart)]</visible>
+                <visible>Integer.IsEqual(Container(301).NumItems,1)</visible>
                     <include>skinshortcuts-template-widget-infosubclearart</include>	
 			</control>
             <control type="group">
@@ -2649,7 +2649,7 @@
                 <texture colordiffuse="Dark2" flipx="false">common/arrow-small-right.png</texture>
             </control>
             <control type="list" id="300">
-                <onfocus>ClearProperty(OnBackFocusId,home)</onfocus>
+                <onfocus>ClearProperty(SingleWidget,Home)</onfocus>
                 <include>Animation.FadeIn.Delay</include>
                 <include>Animation.FadeOut</include>
                 <description>Home Wraplist</description>
@@ -3634,18 +3634,8 @@
                 <textcolor>$VAR[ColorHighlight]</textcolor>
                 <font>Home</font>
                 <label>$INFO[ListItem.Label]</label>
-                <animation effect="fade" start="100" end="75" delay="0" time="250" condition="!Control.HasFocus(300) + !Control.HasFocus(302) + $EXP[HomeIsModernMultiWidgets]">Conditional</animation> 
+                <animation effect="fade" start="100" end="60" delay="0" time="150" condition="!Control.HasFocus(300) + !Control.HasFocus(302) + $EXP[HomeIsModernMultiWidgets]">Conditional</animation> 
             </control>
-            <!--<control type="image">
-                <top>55</top>
-                <centerleft>50%</centerleft>
-                <width>90%</width>
-                <height>4</height>
-                <texture colordiffuse="$VAR[ColorHighlight]">common/box.png</texture>
-                <visible>Control.HasFocus(300)</visible>
-                <include>Animation.FadeIn</include>
-                <include>Animation.FadeOut</include>
-            </control>-->
             <control type="image">
                 <top>50</top>
                 <centerleft>50%</centerleft>
@@ -4633,7 +4623,6 @@
         <include>WidgetsNavigationArrows</include>
         <control type="group">
             <animation effect="slide" start="0" end="-100" time="0" delay="0" condition="true">Conditional</animation>
-
             <animation effect="slide" start="0" end="-350" time="300" delay="0" center="auto" tween="sine" easing="out" condition="[!Control.HasFocus(300) + !Control.HasFocus(302)] | Control.HasFocus(4752)">Conditional</animation>
             <!-- LEFT SIDE -->
             <control type="group">
@@ -4657,6 +4646,7 @@
                 <animation type="Conditional" reversible="true" condition="Window.IsVisible(DialogSongInfo.xml) | Window.IsVisible(DialogPictureInfo.xml) | Window.IsVisible(FileBrowser.xml) | Window.IsVisible(DialogConfirm.xml) | Window.IsVisible(DialogSelect.xml) | Window.IsVisible(DialogContextMenu.xml) | Window.IsVisible(DialogButtonMenu.xml) | ControlGroup(9000).HasFocus()">
                     <effect type="zoom" end="95" start="100" time="200" center="auto" tween="quadratic" easing="in" />
                 </animation>
+                
                 <!-- Home List -->
                 <control type="panel" id="300">  
                     <animation effect="slide" start="0,0" end="0,-38" time="0" condition="true">Conditional</animation>
@@ -4873,28 +4863,33 @@
                         <scrolltime tween="quadratic">400</scrolltime>
                         <usecontrolcoords>true</usecontrolcoords>
                         <itemgap>0</itemgap>
-                        <!-- Widget Submenu -->
-                        <include>skinshortcuts-template-widget-vertical.1.submenu</include>  
+                        
                         <!-- Widget 1 -->                     
                         <include>skinshortcuts-template-widget-vertical.1</include>
-                        <include>skinshortcuts-template-widget-vertical.144</include>                          
+                        
                         <!-- Widget 2 -->    
                         <include>skinshortcuts-template-widget-vertical.2</include>
-                        <include>skinshortcuts-template-widget-vertical.255</include> 
+
                         <!-- Widget 3 -->
                         <include>skinshortcuts-template-widget-vertical.3</include>
-                        <include>skinshortcuts-template-widget-vertical.355</include>
+
                         <!-- Widget 4 -->
                         <include>skinshortcuts-template-widget-vertical.4</include>
-                        <include>skinshortcuts-template-widget-vertical.455</include>
+
                         <!-- Widget 5 -->
                         <include>skinshortcuts-template-widget-vertical.5</include>
-                        <include>skinshortcuts-template-widget-vertical.555</include>
 					</control>
+                    
                     <!-- Widget 1 InfoSub -->   
                     <include>skinshortcuts-template-widget-infosub</include>
                 </control>
-            </control>            
+            </control>
+            <control type="button" id="4567">
+                <label>-</label>
+                <include>HiddenButton</include>
+                <onfocus>SetFocus($INFO[Window(home).Property(BackToId)])</onfocus>          
+                <onfocus>SetFocus(300)</onfocus>  		
+            </control>             
         </control>         
     </include>
     
@@ -5289,6 +5284,108 @@
         </control>
     </include>
     
+    <include name="def_widgetsquare_system">
+        <control type="image">
+            <left>0</left>
+            <top>0</top>
+            <right>0</right>
+            <bottom>0</bottom>
+            <texture border="10">common/$VAR[nofocus-shadow10]</texture>
+        </control>
+        <control type="image">
+            <top>10</top>
+            <left>10</left>
+            <right>10</right>
+            <bottom>10</bottom>
+            <texture border="5" colordiffuse="Panel">common/box.png</texture>
+            <animation effect="fade" start="100" end="90" condition="true">Conditional</animation>
+        </control>
+        <control type="image">
+            <left>9</left>
+            <top>9</top>
+            <right>9</right>
+            <bottom>9</bottom>                         
+            <texture colordiffuse="BoxWidget" border="4" background="true">common/box21.png</texture>   
+            <visible>!Skin.HasSetting(thumbnails.white)</visible>                        
+        </control>
+        <control type="image">
+            <width>150</width>
+            <height>150</height>
+            <right>10</right>
+            <bottom>10</bottom>
+            <aspectratio scalediffuse="false">keep</aspectratio>
+            <texture diffuse="diffuse/wall.png" background="true" fallback="DefaultMovies.png">$INFO[ListItem.Icon]</texture>
+        </control>
+        <control type="group">
+            <left>45</left>
+            <right>45</right>
+            <control type="label">                
+                <top>25</top>
+                <bottom>10</bottom>
+                <align>left</align>
+                <textcolor>PanelWhite100</textcolor>
+                <selectedcolor>PanelWhite100</selectedcolor>
+                <label>$INFO[ListItem.Label]</label>
+                <font>Medium</font>
+            </control>
+            <control type="label">                
+                <top>80</top>
+                <bottom>10</bottom>
+                <align>left</align>
+                <textcolor>PanelWhite100</textcolor>
+                <selectedcolor>PanelWhite100</selectedcolor>
+                <label>$INFO[ListItem.Label2]</label>
+                <font>Tiny</font>
+            </control>            
+            <control type="label">
+                <top>116</top>
+                <bottom>10</bottom>
+                <align>left</align>
+                <textcolor>PanelWhite100</textcolor>
+                <selectedcolor>PanelWhite100</selectedcolor>
+                <label>$INFO[ListItem.Property(Label3)]</label>
+                <animation effect="slide" end="0,-36" condition="String.IsEmpty(ListItem.Label2)" time="0">Conditional</animation>
+                <font>Tiny</font>
+            </control>
+        </control>
+        <control type="progress">
+            <description>CPU BAR</description>
+            <font>Tiny</font>
+            <height>10</height>
+            <width>80</width>
+            <bottom>80</bottom>
+            <left>10</left>
+            <info>System.CPUUsage</info>
+            <include>DefSettingsButton</include>
+            <animation effect="rotate" condition="true" start="360" end="90" loop="false" time="0" center="auto">Conditional</animation>
+            <visible>String.IsEqual(ListItem.Property(Label4),cpu)</visible>
+        </control>
+        <control type="progress">
+            <description>CPU BAR</description>
+            <font>Tiny</font>
+            <height>10</height>
+            <width>80</width>
+            <bottom>80</bottom>
+            <left>10</left>
+            <info>system.memory(used)</info>
+            <include>DefSettingsButton</include>
+            <animation effect="rotate" condition="true" start="360" end="90" loop="false" time="0" center="auto">Conditional</animation>
+            <visible>String.IsEqual(ListItem.Property(Label4),ram)</visible>
+        </control>
+        <control type="progress">
+            <description>CPU BAR</description>
+            <font>Tiny</font>
+            <height>10</height>
+            <width>80</width>
+            <bottom>80</bottom>
+            <left>10</left>
+            <info>System.UsedSpace</info>
+            <include>DefSettingsButton</include>
+            <animation effect="rotate" condition="true" start="360" end="90" loop="false" time="0" center="auto">Conditional</animation>
+            <visible>String.IsEqual(ListItem.Property(Label4),storage)</visible>
+        </control>
+    </include>
+    
     <include name="def_widgetfanart">
         <control type="image">
             <left>0</left>
@@ -5449,6 +5546,9 @@
     <include name="include.widget.square">
         <include>def_widgetsquare</include>
     </include>
+    <include name="include.widget.square.system">
+        <include>def_widgetsquare_system</include>
+    </include>
     <include name="include.widget.fanart">
         <include>def_widgetfanart</include>
     </include>
@@ -5483,6 +5583,27 @@
     </include>
     <include name="include.widget.square.focus">
         <include>def_widgetsquare</include>
+        <control type="image">
+            <left>3</left>
+            <top>3</top>
+            <right>3</right>
+            <bottom>3</bottom>
+            <texture colordiffuse="$VAR[ColorSquares]" border="20">common/selectbox.png</texture>
+            <visible>Control.HasFocus($PARAM[id])</visible>
+            <include>Animation.SelectBoxHome</include>
+        </control>
+        <control type="image">
+            <left>3</left>
+            <top>3</top>
+            <right>3</right>
+            <bottom>3</bottom>
+            <texture colordiffuse="$VAR[ColorHighlightSelectbox2]" border="20">common/gradient-selectbox.png</texture>
+            <visible>Control.HasFocus($PARAM[id])</visible>
+            <include>Animation.SelectBoxHome</include>
+        </control>
+    </include> 
+    <include name="include.widget.square.system.focus">
+        <include>def_widgetsquare_system</include>
         <control type="image">
             <left>3</left>
             <top>3</top>
@@ -5568,7 +5689,27 @@
         </control>
     </include>
     
-    <include name="widget.title.label">        
+    <include name="widget.title.label">
+        <usecontrolcoords>true</usecontrolcoords>       
+        <height>40</height>
+        <left>530</left>
+        <top>10</top>
+        <orientation>horizontal</orientation>
+        <itemgap>10</itemgap>
+        <include>Animation.Vertical.Widgets.Label</include> 
+        <include content="Kodi_Logo_Home">
+            <param name="dimensions" value="30" />
+            <param name="top" value="5" />
+            <param name="left" value="0" />
+            <param name="left-gradient" value="-40" />
+        </include>
+        <control type="label">                            
+            <height>38</height>
+            <font>SmallNavi</font>
+            <width>auto</width>                                                               
+            <textcolor>Dark1</textcolor>
+            <label>$VAR[WidgetLabelWidgets$PARAM[idshort]]</label>                                                      
+        </control>        
         <control type="label">
             <left></left>
             <align>left</align>
@@ -5617,10 +5758,7 @@
             <include>Animation.Vertical.Widgets.Title</include> 
             <visible>Control.HasFocus($PARAM[focusid])</visible> 
             <visible>String.IsEqual(ListItem.DBType,album) + [String.Contains(Container(300).ListItem.Property(widgetEnable.5),yes) | String.Contains(Container(300).ListItem.Property(widgetEnable.4),yes) | String.Contains(Container(300).ListItem.Property(widgetEnable.3),yes) | String.Contains(Container(300).ListItem.Property(widgetEnable.2),yes)]</visible>                                                     
-        </control>       
-    </include>
-    
-    <include name="widget.title.label.loading">        
+        </control> 
         <control type="image">
             <description>Busy animation</description>                    
             <width>45</width>
@@ -5630,43 +5768,8 @@
             <aspectratio>keep</aspectratio>
             <include>Animation.Vertical.Widgets.Title.Loading</include> 
             <visible>Container($PARAM[focusid]).IsUpdating</visible>
-        </control>                
+        </control>      
     </include>
-    
-    <include name="widget.title.label.loading.weather">        
-        <control type="image">
-            <description>Busy animation</description>                    
-            <width>45</width>
-            <height>45</height>
-            <animation effect="rotate" condition="true" start="360" end="0" loop="true" time="1000" center="auto">Conditional</animation>
-            <texture colordiffuse="$VAR[ColorHighlight]">dialog/loading-spinner.png</texture>
-            <aspectratio>keep</aspectratio>
-            <include>Animation.Vertical.Widgets.Title.Loading</include> 
-            <visible>$PARAM[condition]</visible>
-        </control>                 
-    </include>
-    
-    <include name="widget.title.include"> 
-        <usecontrolcoords>true</usecontrolcoords>       
-        <height>40</height>
-        <left>530</left>
-        <include>DefVerticalWidgetsGroupTop</include>
-        <orientation>horizontal</orientation>
-        <itemgap>10</itemgap>
-        <include>Animation.Vertical.Widgets.Label</include> 
-        <include content="Kodi_Logo_Home">
-            <param name="dimensions" value="30" />
-            <param name="top" value="5" />
-            <param name="left" value="0" />
-            <param name="left-gradient" value="-40" />
-        </include>
-    </include>
-    
-    <include name="widget.autoscroll.time">
-        <definition>           
-            <autoscroll time="$PARAM[AutoTime]" delay="1000">$PARAM[AutoScrollCondition]</autoscroll>
-        </definition>  
-    </include> 
 
     <include name="HomeWidgetInfoWidgets">
         <include>WidgetsNavigationArrows</include>
@@ -5677,42 +5780,59 @@
             <animation effect="fade" start="0" end="100" time="150" reversible="false">WindowOpen</animation>             
             <animation effect="fade" start="100" end="0" time="0" reversible="false" condition="[!String.Contains(Container(300).ListItem.Property(widget),Weather) + [!Integer.IsGreater(Container(301).NumItems,0) | Container(301).IsUpdating]] | [!Weather.IsFetched + String.Contains(Container(300).ListItem.Property(widget),Weather)]">Conditional</animation>
             <animation effect="fade" start="0" end="100" time="0" reversible="false" condition="![[!String.Contains(Container(300).ListItem.Property(widget),Weather) + [!Integer.IsGreater(Container(301).NumItems,0) | Container(301).IsUpdating]] | [!Weather.IsFetched + String.Contains(Container(300).ListItem.Property(widget),Weather)]]">Conditional</animation>                    
+            
             <!-- Weather Widget -->                    
             <include>InfoSubWeather</include>                 
+            
             <!-- Widget -->
             <control type="grouplist" id="301">
                 <height>770</height>
                 <orientation>vertical</orientation>
                 <bottom>188</bottom>
                 <width>2385</width>
-                <onup>300</onup>
-                <ondown>300</ondown>
+                <onup condition="!Skin.HasSetting(disable.widgets.go.back.to.position.0)">300</onup>
+                <onup condition="Skin.HasSetting(disable.widgets.go.back.to.position.0)">300</onup>
+                <ondown condition="Skin.HasSetting(disable.widgets.go.back.to.position.0)">300</ondown>                
+                <ondown condition="!Skin.HasSetting(disable.widgets.go.back.to.position.0)">4567</ondown>                
                 <scrolltime tween="quadratic">400</scrolltime>
                 <usecontrolcoords>true</usecontrolcoords>
                 <itemgap>0</itemgap>
                 <animation effect="slide" start="0" end="0,30" time="0" condition="Skin.HasSetting(home.showheader) + [Skin.HasSetting(home.vertical) + Skin.HasSetting(home.vertical.widgets)]">Conditional</animation>
-                <!-- Widget Submenu -->     
-                <include>skinshortcuts-template-widget-vertical.1.submenu</include>
+                
                 <!-- Widget 1 -->                     
                 <include>skinshortcuts-template-widget-vertical.1</include>
-                <include>skinshortcuts-template-widget-vertical.144</include>                    
+                                   
                 <!-- Widget 2 -->
                 <include>skinshortcuts-template-widget-vertical.2</include>
-                <include>skinshortcuts-template-widget-vertical.255</include> 
+                 
                 <!-- Widget 3 -->
                 <include>skinshortcuts-template-widget-vertical.3</include>
-                <include>skinshortcuts-template-widget-vertical.355</include>
+                
                 <!-- Widget 4 -->
                 <include>skinshortcuts-template-widget-vertical.4</include>
-                <include>skinshortcuts-template-widget-vertical.455</include>
+                
                 <!-- Widget 5 -->
-                <include>skinshortcuts-template-widget-vertical.5</include>
-                <include>skinshortcuts-template-widget-vertical.555</include>
+                <include>skinshortcuts-template-widget-vertical.5</include>                
             </control> 
+            
             <!-- Widget 1 InfoSub -->           
             <include>skinshortcuts-template-widget-infosub</include>
-        </control> 
-                    
+        </control>
+        <control type="button" id="4567">
+            <include>HiddenButton</include>
+			<onfocus>SetFocus($INFO[Window(home).Property(BackToId)])</onfocus>          
+            <onfocus>SetFocus(300)</onfocus>  		
+        </control>
+        
+        <!-- <control type="button" id="4568">
+            <include>HiddenButton</include>         
+            <onfocus condition="String.IsEqual(Window(Home).Property(SingleWidget),yes)">SetFocus(300)</onfocus> 
+            <onfocus condition="!String.IsEqual(Window(Home).Property(SingleWidget),yes)">SetFocus(301)</onfocus>
+            <onfocus condition="!String.IsEqual(Window(Home).Property(SingleWidget),yes) + Integer.IsGreater(Container(301).NumItems,1)">down</onfocus>
+            <onfocus condition="!String.IsEqual(Window(Home).Property(SingleWidget),yes) + Integer.IsGreater(Container(301).NumItems,2)">down</onfocus> 
+            <onfocus condition="!String.IsEqual(Window(Home).Property(SingleWidget),yes) + Integer.IsGreater(Container(301).NumItems,3)">down</onfocus>
+            <onfocus condition="!String.IsEqual(Window(Home).Property(SingleWidget),yes) + Integer.IsGreater(Container(301).NumItems,4)">down</onfocus> 		
+        </control> -->           
     </include>
     
     <include name="InfoSub">
@@ -5758,47 +5878,12 @@
                 <param name="id" value="$PARAM[id]" />
             </include> -->                   
         </control>
-        <control type="group">
-            <visible>Integer.IsEqual(Container(301).NumItems,2) + Skin.HasSetting(home.vertical.widgets.submenu) + !Skin.HasSetting(home.vertical.widgets.submenu.poster) + !Skin.HasSetting(home.vertical.widgets.submenu.square) + !Skin.HasSetting(home.vertical.widgets.submenu.fanart)</visible>
-            <include>Animation.Vertical.Widgets.Label</include>
-            <control type="grouplist">                        
-                <left>530</left>
-                <width>1422</width>
-                <orientation>vertical</orientation>
-                <top>683</top>
-                <itemgap>15</itemgap>
-                <control type="label">
-                    <font>MediumBold</font>
-                    <width>100%</width>
-                    <align>left</align>
-                    <textcolor>Dark1</textcolor>
-                    <label>$INFO[Container($PARAM[id]).ListItem.Label]</label>
-                </control>                                
-                <include condition="!Skin.HasSetting(home.oldmenuheight)" content="PlotInfoSub">
-                    <param name="id" value="$PARAM[id]" />
-                    <param name="plotminheight" value="0" />
-                    <param name="plotmaxheight" value="72" />
-                </include>
-                <include condition="Skin.HasSetting(home.oldmenuheight)" content="PlotInfoSub">
-                    <param name="id" value="$PARAM[id]" />
-                    <param name="plotminheight" value="0" />
-                    <param name="plotmaxheight" value="36" />
-                </include>
-                <include content="LabelInfoSub">
-                    <param name="id" value="$PARAM[id]" />
-                </include>
-            </control>
-            <!--<include content="ClearArtInfoSub">
-                <param name="id" value="$PARAM[id]" />
-            </include> -->                    
-        </control> 
+        
     </include>
     
     <include name="InfoSubWeather">
         <control type="group">                        
-            <visible>!String.Contains(Container(300).ListItem.Property(widgetEnable.2),yes) + !String.Contains(Container(300).ListItem.Property(widgetEnable.3),yes) + !String.Contains(Container(300).ListItem.Property(widgetEnable.4),yes) + !String.Contains(Container(300).ListItem.Property(widgetEnable.5),yes) + String.Contains(Container(300).ListItem.Property(widget),Weather)</visible> 
-            <!--<animation effect="slide" start="0,0" end="0,30" time="0" condition="Skin.HasSetting(home.showheader)">Conditional</animation>-->
-            <visible>!Skin.HasSetting(home.vertical.widgets.submenu)</visible>                          
+            <visible>!String.Contains(Container(300).ListItem.Property(widgetEnable.2),yes) + !String.Contains(Container(300).ListItem.Property(widgetEnable.3),yes) + !String.Contains(Container(300).ListItem.Property(widgetEnable.4),yes) + !String.Contains(Container(300).ListItem.Property(widgetEnable.5),yes) + String.Contains(Container(300).ListItem.Property(widget),Weather)</visible>                        
             <control type="group">
                 <left>518</left>
                 <top>567</top>
@@ -5953,7 +6038,7 @@
             <include>LabelTopInfoSubDefinition</include>
             <label>$INFO[Container($PARAM[id]).ListItem.Label]</label>
             <visible>!String.StartsWith(Container($PARAM[id]).ListItem.FolderPath,pvr://) | [String.StartsWith(Container($PARAM[id]).ListItem.FolderPath,pvr://) + String.IsEmpty(Container($PARAM[id]).ListItem.Title)]</visible>
-            <visible>!String.IsEqual(Container($PARAM[id]).ListItem.DBType,episode)</visible>
+            <visible>!String.IsEqual(Container($PARAM[id]).ListItem.DBType,episode) + !String.Contains(Container(300).ListItem.Property(widget),Weather)</visible>
         </control>
         <control type="label">
             <include>LabelTopInfoSubDefinition</include>

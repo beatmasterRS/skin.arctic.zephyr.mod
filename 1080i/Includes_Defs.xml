@@ -2156,64 +2156,28 @@
         </definition>
     </include>
     
-    <!-- Includes defs for vertival multi widgets START -->
-    <include name="DefVerticalWidgetsInclude">
+    <include name="DefMultiWidgetContainer">
+        <top>60</top>
         <left>518</left>
         <width>1900</width>
         <height>325</height>
+        <include>Animation.Vertical.Widgets.Container</include>
+        <autoscroll time="$PARAM[AutoTime]" delay="1000">$PARAM[AutoScrollCondition]</autoscroll>
         <onfocus>SetProperty(SkinHelper.WidgetContainer,$PARAM[id],Home)</onfocus>
+        <onfocus>SetProperty(BackToId,$PARAM[backid],Home)</onfocus>
         <onback condition="!Integer.IsEqual(Container($PARAM[id]).Position,0) | Container($PARAM[id]).HasPrevious">PageUp</onback>
         <onback condition="!Integer.IsEqual(Container($PARAM[id]).Position,0) | Container($PARAM[id]).HasPrevious">PageUp</onback>
-        <onback condition="!Integer.IsEqual(Container($PARAM[id]).Position,0) | Container($PARAM[id]).HasPrevious">PageUp</onback>
-        <onback condition="Integer.IsEqual(Container($PARAM[id]).Position,0) + !Container($PARAM[id]).HasPrevious">300</onback>
+        <onback condition="!Integer.IsEqual(Container($PARAM[id]).Position,0) | Container($PARAM[id]).HasPrevious">PageUp</onback>                
+        <onback condition="Integer.IsEqual(Container($PARAM[id]).Position,0) + !Container($PARAM[id]).HasPrevious + !Skin.HasSetting(disable.widgets.go.back.to.position.0)">SetFocus($PARAM[backid])</onback>          
+        <onback condition="Integer.IsEqual(Container($PARAM[id]).Position,0) + !Container($PARAM[id]).HasPrevious + !Skin.HasSetting(disable.widgets.go.back.to.position.0)">SetFocus(4567)</onback>                  
+        <onback condition="Integer.IsEqual(Container($PARAM[id]).Position,0) + !Container($PARAM[id]).HasPrevious + Skin.HasSetting(disable.widgets.go.back.to.position.0)">SetFocus(300)</onback>        
         <onleft condition="$EXP[HomeIsVerticalMultiWidgets]">300</onleft>
-        <preloaditems>2</preloaditems>            
+        <preloaditems>1</preloaditems>            
         <oninfo condition="IsEmpty(Container($PARAM[id]).ListItem.TvShowTitle) + IsEmpty(Container($PARAM[id]).ListItem.Artist)">RunScript(script.extendedinfo,info=extendedinfo,name=$INFO[Container($PARAM[id]).ListItem.Title],imdb_id=$INFO[Container($PARAM[id]).ListItem.IMDBNumber])</oninfo>
         <oninfo condition="!IsEmpty(Container($PARAM[id]).ListItem.TvShowTitle)">RunScript(script.extendedinfo,info=extendedtvinfo,name=$INFO[Container($PARAM[id]).ListItem.TvShowTitle],imdb_id=$INFO[Container($PARAM[id]).ListItem.IMDBNumber])</oninfo>
         <focusposition>0</focusposition>
         <orientation>horizontal</orientation>        
         <scrolltime tween="quadratic">400</scrolltime>
-    </include> 
-       
-    <include name="DefVerticalWidgetsWeatherInclude">
-        <left>518</left>
-        <width>1876</width>
-        <height>325</height>
-        <onfocus>SetProperty(SkinHelper.WidgetContainer,$PARAM[id],Home)</onfocus>
-        <onback condition="!Integer.IsEqual(Container($PARAM[id]).Position,0) | Container($PARAM[id]).HasPrevious">PageUp</onback>
-        <onback condition="!Integer.IsEqual(Container($PARAM[id]).Position,0) | Container($PARAM[id]).HasPrevious">PageUp</onback>
-        <onback condition="!Integer.IsEqual(Container($PARAM[id]).Position,0) | Container($PARAM[id]).HasPrevious">PageUp</onback>
-        <onback condition="Integer.IsEqual(Container($PARAM[id]).Position,0) + !Container($PARAM[id]).HasPrevious">300</onback>
-        <onleft>300</onleft>
-        <preloaditems>0</preloaditems>           
-        <focusposition>0</focusposition>
-        <orientation>horizontal</orientation>
-        <scrolltime tween="quadratic">400</scrolltime>
-        <onclick>ActivateWindow(Weather)</onclick>
-    </include>
-        
-    <include name="DefVerticalWidgetsGroupTop">
-        <top>10</top>
-    </include>
-        
-    <include name="DefVerticalWidgetsContainerTop">
-        <top>60</top>
-    </include>
-    
-    <include name="DefWidgetContainerHeight">
-        <height>100</height>
-    </include> 
-    
-    <include name="DefWidgetContainerHeightNormal">
-        <height>325</height>
-    </include> 
-     
-    <include name="contentinclude">
-        <content limit="$PARAM[DefWidgetLimit]" target="$PARAM[target]" sortby="$PARAM[sortby]" sortorder="$PARAM[sort]">$PARAM[content]</content>
-    </include> 
-       
-    <include name="contentinclude-submenu">
-        <content><include>skinshortcuts-submenu</include></content>
     </include> 
      
     <include name="LabelTopInfoSubDefinition">
@@ -2240,7 +2204,6 @@
         <align>left</align>
         <textcolor>Dark2</textcolor>
     </include> 
-    <!-- Includes defs for vertival multi widgets END -->
     
     <include name="DefSkinAddons">
         <control type="radiobutton" id="$PARAM[id]">
@@ -2600,5 +2563,114 @@
         </control>
         </definition>
     </include>
+
+    <!-- Systeminfo Layout --> 
+    <include name="TemplateSystemItemLayout">
+        <itemlayout height="325" width="355" condition="String.Contains(Container(300).ListItem.Property(widget$PARAM[shortcutsidshort]),system) + !String.Contains(Container(300).ListItem.Property(widget$PARAM[shortcutsidshort]),Weather)">
+            <include content="include.widget.square.system">
+                <param name="id" value="$PARAM[shortcutsid]" />
+            </include> 
+        </itemlayout>
+    </include>
+        
+    <!-- Normal Layout -->
+    <include name="TemplateNormalItemLayout">
+        <itemlayout height="325" width="222" condition="!String.Contains(Container(300).ListItem.Property(widget$PARAM[shortcutsidshort]),system) + !String.Contains(Container(300).ListItem.Property(widget$PARAM[shortcutsidshort]),Weather) + !String.IsEqual(Container(300).ListItem.Property(widgetaspect$PARAM[shortcutsidshort]),Banner) + !String.IsEqual(Container(300).ListItem.Property(widgetaspect$PARAM[shortcutsidshort]),Square) + ![String.IsEqual(Container(300).ListItem.Property(widgetaspect$PARAM[shortcutsidshort]),Fanart) | String.IsEqual(Container(300).ListItem.Property(widgetaspect$PARAM[shortcutsidshort]),Thumbnail)]">
+            <include content="include.widget.poster">
+                <param name="id" value="$PARAM[shortcutsid]" />
+            </include>
+        </itemlayout>
+        <itemlayout height="325" width="325" condition="!String.Contains(Container(300).ListItem.Property(widget$PARAM[shortcutsidshort]),system) + !String.Contains(Container(300).ListItem.Property(widget$PARAM[shortcutsidshort]),Weather) + String.IsEqual(Container(300).ListItem.Property(widgetaspect$PARAM[shortcutsidshort]),Square)">
+            <include content="include.widget.square">
+                <param name="id" value="$PARAM[shortcutsid]" />
+            </include> 
+        </itemlayout>
+        <itemlayout height="325" width="562" condition="!String.Contains(Container(300).ListItem.Property(widget$PARAM[shortcutsidshort]),system) + !String.Contains(Container(300).ListItem.Property(widget$PARAM[shortcutsidshort]),Weather) + String.IsEqual(Container(300).ListItem.Property(widgetaspect$PARAM[shortcutsidshort]),Fanart)">
+            <include content="include.widget.fanart">
+                <param name="id" value="$PARAM[shortcutsid]" />
+            </include> 
+        </itemlayout>
+        <itemlayout height="325" width="1690" condition="!String.Contains(Container(300).ListItem.Property(widget$PARAM[shortcutsidshort]),system) + !String.Contains(Container(300).ListItem.Property(widget$PARAM[shortcutsidshort]),Weather) + String.IsEqual(Container(300).ListItem.Property(widgetaspect$PARAM[shortcutsidshort]),Banner)">
+            <include content="include.widget.banner">
+                <param name="id" value="$PARAM[shortcutsid]" />
+            </include> 
+        </itemlayout>
+        <itemlayout height="325" width="562" condition="!String.Contains(Container(300).ListItem.Property(widget$PARAM[shortcutsidshort]),system) + !String.Contains(Container(300).ListItem.Property(widget$PARAM[shortcutsidshort]),Weather) + String.IsEqual(Container(300).ListItem.Property(widgetaspect$PARAM[shortcutsidshort]),Thumbnail)">
+            <include content="include.widget.thumb">
+                <param name="clearlogo" value="$PARAM[shortcutsclearlogo]" />
+                <param name="id" value="$PARAM[shortcutsid]" />
+            </include>
+        </itemlayout>   
+    </include>
     
+    <!-- Weather Layout -->
+    <include name="TemplateWeatherItemLayout">
+        <itemlayout height="325" width="222" condition="!String.Contains(Container(300).ListItem.Property(widget$PARAM[shortcutsidshort]),system) + String.Contains(Container(300).ListItem.Property(widget$PARAM[shortcutsidshort]),Weather) + [String.IsEqual(Container(300).ListItem.Property(widgetaspect$PARAM[shortcutsidshort]),Poster) | String.IsEmpty(Container(300).ListItem.Property(widgetaspect$PARAM[shortcutsidshort]))]">
+            <include>weatherlayoutwidgetsvertical.poster</include>
+        </itemlayout>
+        <itemlayout height="325" width="355" condition="!String.Contains(Container(300).ListItem.Property(widget$PARAM[shortcutsidshort]),system) + String.Contains(Container(300).ListItem.Property(widget$PARAM[shortcutsidshort]),Weather) + !String.IsEqual(Container(300).ListItem.Property(widgetaspect$PARAM[shortcutsidshort]),Fanart) + !String.IsEqual(Container(300).ListItem.Property(widgetaspect$PARAM[shortcutsidshort]),Thumbnail) + !String.IsEqual(Container(300).ListItem.Property(widgetaspect$PARAM[shortcutsidshort]),Poster) + !String.IsEmpty(Container(300).ListItem.Property(widgetaspect$PARAM[shortcutsidshort]))">              
+            <include>weatherlayoutwidgetsvertical.square</include>
+        </itemlayout>
+        <itemlayout height="325" width="591" condition="!String.Contains(Container(300).ListItem.Property(widget$PARAM[shortcutsidshort]),system) + String.Contains(Container(300).ListItem.Property(widget$PARAM[shortcutsidshort]),Weather) + String.IsEqual(Container(300).ListItem.Property(widgetaspect$PARAM[shortcutsidshort]),Fanart) | String.IsEqual(Container(300).ListItem.Property(widgetaspect$PARAM[shortcutsidshort]),Thumbnail)">
+            <include>weatherlayoutwidgetsvertical.fanart</include>
+        </itemlayout> 
+    </include>
+
+    <!-- Systeminfo Focus Layout -->
+    <include name="TemplateSystemFocusLayout">
+        <focusedlayout height="325" width="355" condition="String.Contains(Container(300).ListItem.Property(widget$PARAM[shortcutsidshort]),system) + !String.Contains(Container(300).ListItem.Property(widget$PARAM[shortcutsidshort]),Weather)">
+            <include content="include.widget.square.system.focus">
+                <param name="id" value="$PARAM[shortcutsid]" />
+            </include> 
+        </focusedlayout>
+    </include>
+    
+    <!-- Normal Focus Layout -->
+    <include name="TemplateNormalFocusLayout">
+        <focusedlayout height="325" width="222" condition="!String.Contains(Container(300).ListItem.Property(widget$PARAM[shortcutsidshort]),system) +!String.Contains(Container(300).ListItem.Property(widget$PARAM[shortcutsidshort]),Weather) + !String.IsEqual(Container(300).ListItem.Property(widgetaspect$PARAM[shortcutsidshort]),Banner) + !String.IsEqual(Container(300).ListItem.Property(widgetaspect$PARAM[shortcutsidshort]),Square) + ![String.IsEqual(Container(300).ListItem.Property(widgetaspect$PARAM[shortcutsidshort]),Fanart) | String.IsEqual(Container(300).ListItem.Property(widgetaspect$PARAM[shortcutsidshort]),Thumbnail)]">
+            <include content="include.widget.poster.focus">
+                <param name="id" value="$PARAM[shortcutsid]" />
+            </include>
+        </focusedlayout>
+        <focusedlayout height="325" width="325" condition="!String.Contains(Container(300).ListItem.Property(widget$PARAM[shortcutsidshort]),system) +!String.Contains(Container(300).ListItem.Property(widget$PARAM[shortcutsidshort]),Weather) +String.IsEqual(Container(300).ListItem.Property(widgetaspect$PARAM[shortcutsidshort]),Square)">
+            <include content="include.widget.square.focus">
+                <param name="id" value="$PARAM[shortcutsid]" />
+            </include> 
+        </focusedlayout>
+        <focusedlayout height="325" width="562" condition="!String.Contains(Container(300).ListItem.Property(widget$PARAM[shortcutsidshort]),system) +!String.Contains(Container(300).ListItem.Property(widget$PARAM[shortcutsidshort]),Weather) +String.IsEqual(Container(300).ListItem.Property(widgetaspect$PARAM[shortcutsidshort]),Fanart)">
+            <include content="include.widget.fanart.focus">
+                <param name="id" value="$PARAM[shortcutsid]" />
+            </include> 
+        </focusedlayout>
+        <focusedlayout height="325" width="1690" condition="!String.Contains(Container(300).ListItem.Property(widget$PARAM[shortcutsidshort]),system) +!String.Contains(Container(300).ListItem.Property(widget$PARAM[shortcutsidshort]),Weather) +String.IsEqual(Container(300).ListItem.Property(widgetaspect$PARAM[shortcutsidshort]),Banner)">
+            <include content="include.widget.banner.focus">
+                <param name="id" value="$PARAM[shortcutsid]" />
+            </include>   
+        </focusedlayout>
+        <focusedlayout height="325" width="562" condition="!String.Contains(Container(300).ListItem.Property(widget$PARAM[shortcutsidshort]),system) +!String.Contains(Container(300).ListItem.Property(widget$PARAM[shortcutsidshort]),Weather) +String.IsEqual(Container(300).ListItem.Property(widgetaspect$PARAM[shortcutsidshort]),Thumbnail)">
+            <include content="include.widget.thumb.focus">
+                <param name="id" value="$PARAM[shortcutsid]" />
+                <param name="clearlogo" value="$PARAM[shortcutsclearlogo]" />
+            </include> 
+        </focusedlayout>
+    </include>
+    
+    <!-- Weather Focus Layout --> 
+    <include name="TemplateWeatherFocusLayout">        
+        <focusedlayout height="325" width="222" condition="!String.Contains(Container(300).ListItem.Property(widget$PARAM[shortcutsidshort]),system) +String.Contains(Container(300).ListItem.Property(widget$PARAM[shortcutsidshort]),Weather) + [String.IsEqual(Container(300).ListItem.Property(widgetaspect$PARAM[shortcutsidshort]),Poster) | String.IsEmpty(Container(300).ListItem.Property(widgetaspect$PARAM[shortcutsidshort]))]">
+            <include content="weatherlayoutwidgetsvertical.poster.focus">
+                <param name="id" value="$PARAM[shortcutsid]" />
+            </include>
+        </focusedlayout>
+        <focusedlayout height="325" width="355" condition="!String.Contains(Container(300).ListItem.Property(widget$PARAM[shortcutsidshort]),system) +String.Contains(Container(300).ListItem.Property(widget$PARAM[shortcutsidshort]),Weather) + !String.IsEqual(Container(300).ListItem.Property(widgetaspect$PARAM[shortcutsidshort]),Fanart) + !String.IsEqual(Container(300).ListItem.Property(widgetaspect$PARAM[shortcutsidshort]),Thumbnail) + !String.IsEqual(Container(300).ListItem.Property(widgetaspect$PARAM[shortcutsidshort]),Poster) + !String.IsEmpty(Container(300).ListItem.Property(widgetaspect$PARAM[shortcutsidshort]))">
+            <include content="weatherlayoutwidgetsvertical.square.focus">
+                <param name="id" value="$PARAM[shortcutsid]" />
+            </include>
+        </focusedlayout>
+        <focusedlayout height="325" width="591" condition="!String.Contains(Container(300).ListItem.Property(widget$PARAM[shortcutsidshort]),system) +String.Contains(Container(300).ListItem.Property(widget$PARAM[shortcutsidshort]),Weather) + String.IsEqual(Container(300).ListItem.Property(widgetaspect$PARAM[shortcutsidshort]),Fanart) | String.IsEqual(Container(300).ListItem.Property(widgetaspect$PARAM[shortcutsidshort]),Thumbnail)">
+            <include content="weatherlayoutwidgetsvertical.fanart.focus">
+                <param name="id" value="$PARAM[shortcutsid]" />
+            </include>
+        </focusedlayout>
+    </include> 
 </includes>
