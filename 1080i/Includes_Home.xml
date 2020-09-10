@@ -5790,10 +5790,10 @@
                 <orientation>vertical</orientation>
                 <bottom>188</bottom>
                 <width>2385</width>
-                <onup condition="!Skin.HasSetting(disable.widgets.go.back.to.position.0)">300</onup>
+                <onup condition="!Skin.HasSetting(disable.widgets.go.back.to.position.0)">SetFocus(8888)</onup>
                 <onup condition="Skin.HasSetting(disable.widgets.go.back.to.position.0)">300</onup>
                 <ondown condition="Skin.HasSetting(disable.widgets.go.back.to.position.0)">300</ondown>                
-                <ondown condition="!Skin.HasSetting(disable.widgets.go.back.to.position.0)">4567</ondown>                
+                <ondown condition="!Skin.HasSetting(disable.widgets.go.back.to.position.0)">4567</ondown>              
                 <scrolltime tween="quadratic">400</scrolltime>
                 <usecontrolcoords>true</usecontrolcoords>
                 <itemgap>0</itemgap>
@@ -5823,16 +5823,11 @@
 			<onfocus>SetFocus($INFO[Window(home).Property(BackToId)])</onfocus>          
             <onfocus>SetFocus(300)</onfocus>  		
         </control>
-        
-        <!-- <control type="button" id="4568">
-            <include>HiddenButton</include>         
-            <onfocus condition="String.IsEqual(Window(Home).Property(SingleWidget),yes)">SetFocus(300)</onfocus> 
-            <onfocus condition="!String.IsEqual(Window(Home).Property(SingleWidget),yes)">SetFocus(301)</onfocus>
-            <onfocus condition="!String.IsEqual(Window(Home).Property(SingleWidget),yes) + Integer.IsGreater(Container(301).NumItems,1)">down</onfocus>
-            <onfocus condition="!String.IsEqual(Window(Home).Property(SingleWidget),yes) + Integer.IsGreater(Container(301).NumItems,2)">down</onfocus> 
-            <onfocus condition="!String.IsEqual(Window(Home).Property(SingleWidget),yes) + Integer.IsGreater(Container(301).NumItems,3)">down</onfocus>
-            <onfocus condition="!String.IsEqual(Window(Home).Property(SingleWidget),yes) + Integer.IsGreater(Container(301).NumItems,4)">down</onfocus> 		
-        </control> -->           
+        <control type="button" id="8888">
+            <include>HiddenButton</include>
+			<onfocus condition="Integer.IsEqual(Container(301).NumItems,1)">SetFocus(300)</onfocus>
+            <onfocus condition="!Integer.IsEqual(Container(301).NumItems,1)">SetFocus($INFO[Window(Home).Property(LastId)])</onfocus>        
+        </control>                 
     </include>
     
     <include name="InfoSub">
@@ -6088,7 +6083,23 @@
                     <textcolor>Dark2</textcolor>
                     <label>$INFO[System.TotalUptime,$LOCALIZE[12394]: ,]</label>
                     <visible>!String.IsEmpty(System.TotalUptime)</visible>
-                </control>                
+                </control> 
+                <control type="label">
+                    <font>Tiny</font>
+                    <width>100%</width>
+                    <height>36</height>
+                    <align>left</align>
+                    <textcolor>Dark2</textcolor>
+                    <label></label>
+                </control>
+                <control type="label">
+                    <font>Tiny</font>
+                    <width>100%</width>
+                    <height>36</height>
+                    <align>left</align>
+                    <textcolor>Dark2</textcolor>
+                    <label>$LOCALIZE[37870] v$INFO[System.AddonVersion(skin.arctic.zephyr.mod)]</label>
+                </control>               
             </control>
         </control>           
     </include>
