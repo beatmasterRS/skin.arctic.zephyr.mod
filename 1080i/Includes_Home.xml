@@ -959,6 +959,17 @@
                     <fadetime>350</fadetime>
                     <aspectratio scalediffuse="false">keep</aspectratio>
                     <texture diffuse="diffuse/widgetposter.png" fallback="DefaultAddonNone.png">$VAR[WidgetImage]</texture>
+                    <visible>!String.Contains(Container(300).ListItem.Property(widgetAspectRatio),scale)</visible>
+                </control>
+                <control type="image">
+                    <left>5</left>
+                    <top>5</top>
+                    <width>324</width>
+                    <height>324</height>
+                    <fadetime>350</fadetime>
+                    <aspectratio scalediffuse="false">scale</aspectratio>
+                    <texture diffuse="diffuse/widgetposter.png" fallback="DefaultAddonNone.png">$VAR[WidgetImage]</texture>
+                    <visible>String.Contains(Container(300).ListItem.Property(widgetAspectRatio),scale)</visible>
                 </control>
       			<control type="group">
                     <visible>Skin.HasSetting(hidewidgettitle)</visible>    
@@ -1489,6 +1500,17 @@
                     <fadetime>350</fadetime>
                     <aspectratio scalediffuse="false">keep</aspectratio>
                     <texture diffuse="diffuse/widgetposter.png" fallback="DefaultAddonNone.png">$VAR[WidgetImage]</texture>
+                    <visible>!String.Contains(Container(300).ListItem.Property(widgetAspectRatio),scale)</visible>
+                </control>
+                <control type="image">
+                    <left>SidePad</left>
+                    <top>5</top>
+                    <width>324</width>
+                    <height>324</height>
+                    <fadetime>350</fadetime>
+                    <aspectratio scalediffuse="false">scale</aspectratio>
+                    <texture diffuse="diffuse/widgetposter.png" fallback="DefaultAddonNone.png">$VAR[WidgetImage]</texture>
+                    <visible>String.Contains(Container(300).ListItem.Property(widgetAspectRatio),scale)</visible>
                 </control>
       			<control type="group">
                     <right>50</right>
@@ -5537,6 +5559,8 @@
     </include>
     
     <include name="def_widgetsquare">
+        <param name="aspectratio" value="$PARAM[aspectratio]" default="keep" />
+        <definition>
         <control type="image">
             <left>0</left>
             <top>0</top>
@@ -5557,7 +5581,7 @@
             <top>10</top>
             <right>10</right>
             <bottom>10</bottom>
-            <aspectratio scalediffuse="false">keep</aspectratio>
+            <aspectratio scalediffuse="false">$PARAM[aspectratio]</aspectratio>
             <texture diffuse="diffuse/wall.png" background="true" fallback="DefaultMovies.png">$VAR[PosterImage]</texture>
             <visible>!String.IsEqual(ListItem.DBType,genre) + !String.EndsWith(Container.FolderPath,Genres)</visible>
         </control>
@@ -5583,6 +5607,7 @@
             <label>$VAR[WatchedLabelPoster]</label>
             <visible>!String.IsEqual(ListItem.Label,..)</visible>
         </control>
+        </definition>
     </include>
     
     <include name="def_widgetsquare_system">
@@ -5854,7 +5879,9 @@
         <include>def_widgetposter</include>
     </include>
     <include name="include.widget.square">
-        <include>def_widgetsquare</include>
+        <include content="def_widgetsquare">
+            <param name="aspectratio" value="$PARAM[aspectratio]" />
+        </include>
     </include>
     <include name="include.widget.square.system">
         <include>def_widgetsquare_system</include>
@@ -5892,7 +5919,9 @@
         </control>
     </include>
     <include name="include.widget.square.focus">
-        <include>def_widgetsquare</include>
+        <include content="def_widgetsquare">
+            <param name="aspectratio" value="$PARAM[aspectratio]" />
+        </include>
         <control type="image">
             <left>3</left>
             <top>3</top>
