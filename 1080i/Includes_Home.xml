@@ -4407,7 +4407,7 @@
                     </control>
                     <!-- Widget Text -->
                     <control type="label">
-						<visible>!Skin.HasSetting(hidewidgettitle) + !String.Contains(Container(300).ListItem.Property(widget),Weather) + !String.Contains(Container(300).ListItem.Property(widgetBanner),yes)</visible>
+						<visible>!String.Contains(Container(300).ListItem.Property(widget),system) + !Skin.HasSetting(hidewidgettitle) + !String.Contains(Container(300).ListItem.Property(widget),Weather) + !String.Contains(Container(300).ListItem.Property(widgetBanner),yes)</visible>
                         <font>TinyBold</font>
                         <right>70</right>
                         <width>1422</width>
@@ -4420,7 +4420,7 @@
                         <animation effect="fade" start="100" end="33" time="400" condition="!Control.HasFocus(301)">Conditional</animation>
                     </control>
                     <control type="grouplist">
-                        <visible>!String.Contains(Container(300).ListItem.Property(widget),Weather) + !String.Contains(Container(300).ListItem.Property(widgetBanner),yes)</visible>
+                        <visible>!String.Contains(Container(300).ListItem.Property(widget),system) + !String.Contains(Container(300).ListItem.Property(widget),Weather) + !String.Contains(Container(300).ListItem.Property(widgetBanner),yes)</visible>
                         <animation effect="fade" start="100" end="33" time="400" condition="!Control.HasFocus(301) + !Control.HasFocus(4752)">Conditional</animation>
                         <include>Animation.FadeIn</include>
                         <include>Animation.FadeOut</include>
@@ -4454,6 +4454,94 @@
                             <label>$VAR[WidgetSubLabel]</label>
                         </control>
                     </control>
+                    
+                    <!-- Widget Systeminfo -->
+                    <control type="label">
+						<visible>!Skin.HasSetting(hidewidgettitle) + String.Contains(Container(300).ListItem.Property(widget),system) + !String.Contains(Container(300).ListItem.Property(widgetBanner),yes)</visible>
+                        <font>TinyBold</font>
+                        <right>70</right>
+                        <width>1422</width>
+                        <top>256</top>
+                        <align>left</align>
+                        <textcolor>Dark1</textcolor>
+                        <label>$VAR[WidgetLabel]</label>
+                        <include>Animation.FadeIn</include>
+                        <include>Animation.FadeOut</include>
+                        <animation effect="fade" start="100" end="33" time="400" condition="!Control.HasFocus(301)">Conditional</animation>
+                    </control>
+                    <control type="group">
+                        <visible>String.Contains(Container(300).ListItem.Property(widget),system) + !String.Contains(Container(300).ListItem.Property(widgetBanner),yes)</visible>
+                        <animation effect="fade" start="100" end="33" time="400" condition="!Control.HasFocus(301) + !Control.HasFocus(4752)">Conditional</animation>
+                        <control type="grouplist">
+                            <include>Animation.FadeIn</include>
+                            <include>Animation.FadeOut</include>
+                            <right>70</right>
+                            <width>1422</width>
+                            <orientation>vertical</orientation>
+                            <top>672</top>
+                            <itemgap>10</itemgap>
+                            <control type="label">
+                                <font>SmallBold</font>
+                                <width>100%</width>
+                                <align>left</align>
+                                <textcolor>Dark1</textcolor>
+                                <label>$VAR[WidgetTitle]</label>
+                            </control>
+                            <control type="textbox">
+                                <font>Tiny</font>
+                                <width>100%</width>
+                                <height>105</height>
+                                <align>left</align>
+                                <textcolor>Dark2</textcolor>
+                                <include condition="Skin.HasSetting(widgets.autoscrollingplot)">ScrollTextWidget</include>
+                                <include condition="!Skin.HasSetting(widgets.autoscrollingplot)">NoScrollTextWidget</include>
+                                <label>$INFO[Container(301).ListItem.Label2][CR]$INFO[Container(301).ListItem.Property(Label3)]</label>
+                            </control>
+                        </control>                        
+                        <control type="group"> 
+                            <right>1100</right>
+                            <width>50</width>
+                            <orientation>vertical</orientation>
+                            <bottom>225</bottom> 
+                            <control type="progress">
+                                <description>CPU BAR</description>
+                                <font>Tiny</font>
+                                <height>10</height>
+                                <width>80</width>
+                                <bottom>80</bottom>
+                                <left>10</left>
+                                <info>System.CPUUsage</info>
+                                <include>DefSettingsButton</include>
+                                <animation effect="rotate" condition="true" start="360" end="90" loop="false" time="0" center="auto">Conditional</animation>
+                                <visible>String.IsEqual(ListItem.Property(Label4),cpu)</visible>
+                            </control>
+                            <control type="progress">
+                                <description>CPU BAR</description>
+                                <font>Tiny</font>
+                                <height>10</height>
+                                <width>80</width>
+                                <bottom>80</bottom>
+                                <left>10</left>
+                                <info>system.memory(used)</info>
+                                <include>DefSettingsButton</include>
+                                <animation effect="rotate" condition="true" start="360" end="90" loop="false" time="0" center="auto">Conditional</animation>
+                                <visible>String.IsEqual(ListItem.Property(Label4),ram)</visible>
+                            </control>
+                            <control type="progress">
+                                <description>CPU BAR</description>
+                                <font>Tiny</font>
+                                <height>10</height>
+                                <width>80</width>
+                                <bottom>80</bottom>
+                                <left>10</left>
+                                <info>System.UsedSpace</info>
+                                <include>DefSettingsButton</include>
+                                <animation effect="rotate" condition="true" start="360" end="90" loop="false" time="0" center="auto">Conditional</animation>
+                                <visible>String.IsEqual(ListItem.Property(Label4),storage)</visible>
+                            </control>
+                        </control>
+                    </control>
+                    
                     <control type="grouplist">
                         <visible>String.Contains(Container(300).ListItem.Property(widgetBanner),yes) + !String.Contains(Container(300).ListItem.Property(widget),Weather)</visible>
                         <animation effect="fade" start="100" end="33" time="400" condition="!Control.HasFocus(301) + !Control.HasFocus(4752)">Conditional</animation>
