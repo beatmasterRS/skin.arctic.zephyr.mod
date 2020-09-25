@@ -2722,6 +2722,7 @@
         <control type="group">        
             <animation effect="slide" start="0" end="0,-24" time="150" condition="Skin.HasSetting(home.modernwidgets) + Skin.HasSetting(home.vertical.widgets) + Skin.HasSetting(home.oldmenuheight)">Conditional</animation>
             <animation effect="slide" start="0" end="0,30" time="150" condition="Skin.HasSetting(home.modernwidgets)">Conditional</animation>
+            <animation effect="slide" start="0" end="0,-27" time="150" condition="$EXP[HomeIsModernMultiWidgets] + Skin.HasSetting(submenu.compatibility) + !Skin.HasSetting(home.oldmenuheight)">Conditional</animation>
             <animation effect="slide" start="0" end="0,250" time="150" condition="!Skin.HasSetting(home.modernwidgets) + !Skin.HasSetting(home.classicwidgets) + [Control.HasFocus(301) | Control.HasFocus(4752)]">Conditional</animation>            
             <animation effect="slide" start="0" end="0,160" time="400" tween="back" reversible="false" easing="out" condition="Skin.HasSetting(home.modernwidgets) + !Skin.HasSetting(home.classicwidgets) + [Control.HasFocus(301) | Control.HasFocus(4752)]">Conditional</animation>
             <animation effect="slide" end="0" start="0,160" time="150" reversible="false" condition="Skin.HasSetting(home.modernwidgets) +  ![Skin.HasSetting(home.modernwidgets) + Skin.HasSetting(home.vertical.widgets)] + !Skin.HasSetting(home.classicwidgets) + [!Control.HasFocus(301) + !Control.HasFocus(4752)]">Conditional</animation> 
@@ -5661,6 +5662,14 @@
             <top>9</top>
             <right>9</right>
             <bottom>9</bottom>                         
+            <texture colordiffuse="FF181818" border="4" background="true">common/box.png</texture>   
+            <visible>!Skin.HasSetting(thumbnails.white)</visible>                        
+        </control>
+        <control type="image">
+            <left>9</left>
+            <top>9</top>
+            <right>9</right>
+            <bottom>9</bottom>                         
             <texture colordiffuse="BoxWidget" border="4" background="true">common/box21.png</texture>   
             <visible>!Skin.HasSetting(thumbnails.white)</visible>                        
         </control>
@@ -5678,7 +5687,7 @@
             <top>10</top>
             <right>10</right>
             <bottom>10</bottom>
-            <aspectratio scalediffuse="false">keep</aspectratio>
+            <aspectratio scalediffuse="false">$PARAM[aspectratio]</aspectratio>
             <texture diffuse="diffuse/wall.png" background="true" fallback="DefaultMovies.png">$VAR[ThumbImageGenres]</texture>
             <visible>String.IsEqual(ListItem.DBType,genre) | String.EndsWith(Container.FolderPath,Genres)</visible>
         </control>
@@ -6400,7 +6409,8 @@
             <label>$INFO[Container($PARAM[id]).ListItem.Label]</label>
             <visible>!String.StartsWith(Container($PARAM[id]).ListItem.FolderPath,pvr://) | [String.StartsWith(Container($PARAM[id]).ListItem.FolderPath,pvr://) + String.IsEmpty(Container($PARAM[id]).ListItem.Title)]</visible>
             <visible>!String.IsEqual(Container($PARAM[id]).ListItem.DBType,episode) + !String.Contains(Container(300).ListItem.Property(widget),Weather)</visible>
-            <visible>!String.Contains(Container(300).ListItem.Property(widget),system)</visible>>
+            <visible>!String.Contains(Container(300).ListItem.Property(widget),system)</visible>
+            <visible>!String.Contains(Container(300).ListItem.Property(widget),mysubmenu)</visible>
         </control>
         <control type="label">
             <include>LabelTopInfoSubDefinition</include>
