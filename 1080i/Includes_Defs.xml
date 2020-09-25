@@ -2157,10 +2157,12 @@
     </include>
     
     <include name="DefMultiWidgetContainer">
+        <param name="height" value="$PARAM[height]" default="325" />
+        <definition>
         <top>60</top>
         <left>518</left>
         <width>1900</width>
-        <height>325</height>
+        <height>$PARAM[height]</height>
         <include>Animation.Vertical.Widgets.Container</include>
         <autoscroll time="$PARAM[AutoTime]" delay="1000">$PARAM[AutoScrollCondition]</autoscroll>
         <onfocus>SetProperty(SkinHelper.WidgetContainer,$PARAM[id],Home)</onfocus>
@@ -2183,6 +2185,7 @@
         <focusposition>0</focusposition>
         <orientation>horizontal</orientation>        
         <scrolltime tween="quadratic">400</scrolltime>
+        </definition>
     </include> 
      
     <include name="LabelTopInfoSubDefinition">
@@ -2571,8 +2574,21 @@
 
     <!-- Systeminfo Layout --> 
     <include name="TemplateSystemItemLayout">
-        <itemlayout height="325" width="355" condition="String.Contains(Container(300).ListItem.Property(widget$PARAM[shortcutsidshort]),system) + !String.Contains(Container(300).ListItem.Property(widget$PARAM[shortcutsidshort]),Weather)">
+        <itemlayout height="325" width="355">
             <include content="include.widget.square.system">
+                <param name="id" value="$PARAM[shortcutsid]" />
+            </include> 
+        </itemlayout>
+    </include>
+    
+    <include name="TemplateSubmenuItemLayout">
+        <itemlayout height="125" width="125" condition="String.IsEqual(Container(300).ListItem.Property(widgetaspect$PARAM[shortcutsidshort]),SquareSmall)">
+            <include content="include.widget.square">
+                <param name="id" value="$PARAM[shortcutsid]" />
+            </include> 
+        </itemlayout>
+        <itemlayout height="325" width="325" condition="!String.IsEqual(Container(300).ListItem.Property(widgetaspect$PARAM[shortcutsidshort]),SquareSmall)">
+            <include content="include.widget.square">
                 <param name="id" value="$PARAM[shortcutsid]" />
             </include> 
         </itemlayout>
@@ -2580,28 +2596,28 @@
         
     <!-- Normal Layout -->
     <include name="TemplateNormalItemLayout">
-        <itemlayout height="325" width="222" condition="!String.Contains(Container(300).ListItem.Property(widget$PARAM[shortcutsidshort]),system) + !String.Contains(Container(300).ListItem.Property(widget$PARAM[shortcutsidshort]),Weather) + !String.IsEqual(Container(300).ListItem.Property(widgetaspect$PARAM[shortcutsidshort]),Banner) + !String.IsEqual(Container(300).ListItem.Property(widgetaspect$PARAM[shortcutsidshort]),Square) + ![String.IsEqual(Container(300).ListItem.Property(widgetaspect$PARAM[shortcutsidshort]),Fanart) | String.IsEqual(Container(300).ListItem.Property(widgetaspect$PARAM[shortcutsidshort]),Thumbnail)]">
+        <itemlayout height="325" width="222" condition="!String.IsEqual(Container(300).ListItem.Property(widgetaspect$PARAM[shortcutsidshort]),Banner) + !String.IsEqual(Container(300).ListItem.Property(widgetaspect$PARAM[shortcutsidshort]),Square) + ![String.IsEqual(Container(300).ListItem.Property(widgetaspect$PARAM[shortcutsidshort]),Fanart) | String.IsEqual(Container(300).ListItem.Property(widgetaspect$PARAM[shortcutsidshort]),Thumbnail)]">
             <include content="include.widget.poster">
                 <param name="id" value="$PARAM[shortcutsid]" />
             </include>
         </itemlayout>
-        <itemlayout height="325" width="325" condition="!String.Contains(Container(300).ListItem.Property(widget$PARAM[shortcutsidshort]),system) + !String.Contains(Container(300).ListItem.Property(widget$PARAM[shortcutsidshort]),Weather) + String.IsEqual(Container(300).ListItem.Property(widgetaspect$PARAM[shortcutsidshort]),Square)">
+        <itemlayout height="325" width="325" condition="String.IsEqual(Container(300).ListItem.Property(widgetaspect$PARAM[shortcutsidshort]),Square)">
             <include content="include.widget.square">
                 <param name="id" value="$PARAM[shortcutsid]" />
                 <param name="aspectratio" value="$PARAM[aspectratio]" />
             </include> 
         </itemlayout>
-        <itemlayout height="325" width="562" condition="!String.Contains(Container(300).ListItem.Property(widget$PARAM[shortcutsidshort]),system) + !String.Contains(Container(300).ListItem.Property(widget$PARAM[shortcutsidshort]),Weather) + String.IsEqual(Container(300).ListItem.Property(widgetaspect$PARAM[shortcutsidshort]),Fanart)">
+        <itemlayout height="325" width="562" condition="String.IsEqual(Container(300).ListItem.Property(widgetaspect$PARAM[shortcutsidshort]),Fanart)">
             <include content="include.widget.fanart">
                 <param name="id" value="$PARAM[shortcutsid]" />
             </include> 
         </itemlayout>
-        <itemlayout height="325" width="1690" condition="!String.Contains(Container(300).ListItem.Property(widget$PARAM[shortcutsidshort]),system) + !String.Contains(Container(300).ListItem.Property(widget$PARAM[shortcutsidshort]),Weather) + String.IsEqual(Container(300).ListItem.Property(widgetaspect$PARAM[shortcutsidshort]),Banner)">
+        <itemlayout height="325" width="1690" condition="String.IsEqual(Container(300).ListItem.Property(widgetaspect$PARAM[shortcutsidshort]),Banner)">
             <include content="include.widget.banner">
                 <param name="id" value="$PARAM[shortcutsid]" />
             </include> 
         </itemlayout>
-        <itemlayout height="325" width="562" condition="!String.Contains(Container(300).ListItem.Property(widget$PARAM[shortcutsidshort]),system) + !String.Contains(Container(300).ListItem.Property(widget$PARAM[shortcutsidshort]),Weather) + String.IsEqual(Container(300).ListItem.Property(widgetaspect$PARAM[shortcutsidshort]),Thumbnail)">
+        <itemlayout height="325" width="562" condition="String.IsEqual(Container(300).ListItem.Property(widgetaspect$PARAM[shortcutsidshort]),Thumbnail)">
             <include content="include.widget.thumb">
                 <param name="clearlogo" value="$PARAM[shortcutsclearlogo]" />
                 <param name="id" value="$PARAM[shortcutsid]" />
@@ -2611,21 +2627,34 @@
     
     <!-- Weather Layout -->
     <include name="TemplateWeatherItemLayout">
-        <itemlayout height="325" width="222" condition="!String.Contains(Container(300).ListItem.Property(widget$PARAM[shortcutsidshort]),system) + String.Contains(Container(300).ListItem.Property(widget$PARAM[shortcutsidshort]),Weather) + [String.IsEqual(Container(300).ListItem.Property(widgetaspect$PARAM[shortcutsidshort]),Poster) | String.IsEmpty(Container(300).ListItem.Property(widgetaspect$PARAM[shortcutsidshort]))]">
+        <itemlayout height="325" width="222" condition="[String.IsEqual(Container(300).ListItem.Property(widgetaspect$PARAM[shortcutsidshort]),Poster) | String.IsEmpty(Container(300).ListItem.Property(widgetaspect$PARAM[shortcutsidshort]))]">
             <include>weatherlayoutwidgetsvertical.poster</include>
         </itemlayout>
-        <itemlayout height="325" width="355" condition="!String.Contains(Container(300).ListItem.Property(widget$PARAM[shortcutsidshort]),system) + String.Contains(Container(300).ListItem.Property(widget$PARAM[shortcutsidshort]),Weather) + !String.IsEqual(Container(300).ListItem.Property(widgetaspect$PARAM[shortcutsidshort]),Fanart) + !String.IsEqual(Container(300).ListItem.Property(widgetaspect$PARAM[shortcutsidshort]),Thumbnail) + !String.IsEqual(Container(300).ListItem.Property(widgetaspect$PARAM[shortcutsidshort]),Poster) + !String.IsEmpty(Container(300).ListItem.Property(widgetaspect$PARAM[shortcutsidshort]))">              
+        <itemlayout height="325" width="355" condition="!String.IsEqual(Container(300).ListItem.Property(widgetaspect$PARAM[shortcutsidshort]),Fanart) + !String.IsEqual(Container(300).ListItem.Property(widgetaspect$PARAM[shortcutsidshort]),Thumbnail) + !String.IsEqual(Container(300).ListItem.Property(widgetaspect$PARAM[shortcutsidshort]),Poster) + !String.IsEmpty(Container(300).ListItem.Property(widgetaspect$PARAM[shortcutsidshort]))">              
             <include>weatherlayoutwidgetsvertical.square</include>
         </itemlayout>
-        <itemlayout height="325" width="591" condition="!String.Contains(Container(300).ListItem.Property(widget$PARAM[shortcutsidshort]),system) + String.Contains(Container(300).ListItem.Property(widget$PARAM[shortcutsidshort]),Weather) + String.IsEqual(Container(300).ListItem.Property(widgetaspect$PARAM[shortcutsidshort]),Fanart) | String.IsEqual(Container(300).ListItem.Property(widgetaspect$PARAM[shortcutsidshort]),Thumbnail)">
+        <itemlayout height="325" width="591" condition="String.IsEqual(Container(300).ListItem.Property(widgetaspect$PARAM[shortcutsidshort]),Fanart) | String.IsEqual(Container(300).ListItem.Property(widgetaspect$PARAM[shortcutsidshort]),Thumbnail)">
             <include>weatherlayoutwidgetsvertical.fanart</include>
         </itemlayout> 
     </include>
 
     <!-- Systeminfo Focus Layout -->
     <include name="TemplateSystemFocusLayout">
-        <focusedlayout height="325" width="355" condition="String.Contains(Container(300).ListItem.Property(widget$PARAM[shortcutsidshort]),system) + !String.Contains(Container(300).ListItem.Property(widget$PARAM[shortcutsidshort]),Weather)">
+        <focusedlayout height="325" width="355">
             <include content="include.widget.square.system.focus">
+                <param name="id" value="$PARAM[shortcutsid]" />
+            </include> 
+        </focusedlayout>
+    </include>
+    
+    <include name="TemplateSubmenuFocusLayout">
+        <focusedlayout height="125" width="125" condition="String.IsEqual(Container(300).ListItem.Property(widgetaspect$PARAM[shortcutsidshort]),SquareSmall)">
+            <include content="include.widget.square.focus">
+                <param name="id" value="$PARAM[shortcutsid]" />
+            </include> 
+        </focusedlayout>
+        <focusedlayout height="325" width="325" condition="!String.IsEqual(Container(300).ListItem.Property(widgetaspect$PARAM[shortcutsidshort]),SquareSmall)">
+            <include content="include.widget.square.focus">
                 <param name="id" value="$PARAM[shortcutsid]" />
             </include> 
         </focusedlayout>
@@ -2633,28 +2662,28 @@
     
     <!-- Normal Focus Layout -->
     <include name="TemplateNormalFocusLayout">
-        <focusedlayout height="325" width="222" condition="!String.Contains(Container(300).ListItem.Property(widget$PARAM[shortcutsidshort]),system) +!String.Contains(Container(300).ListItem.Property(widget$PARAM[shortcutsidshort]),Weather) + !String.IsEqual(Container(300).ListItem.Property(widgetaspect$PARAM[shortcutsidshort]),Banner) + !String.IsEqual(Container(300).ListItem.Property(widgetaspect$PARAM[shortcutsidshort]),Square) + ![String.IsEqual(Container(300).ListItem.Property(widgetaspect$PARAM[shortcutsidshort]),Fanart) | String.IsEqual(Container(300).ListItem.Property(widgetaspect$PARAM[shortcutsidshort]),Thumbnail)]">
+        <focusedlayout height="325" width="222" condition="!String.IsEqual(Container(300).ListItem.Property(widgetaspect$PARAM[shortcutsidshort]),Banner) + !String.IsEqual(Container(300).ListItem.Property(widgetaspect$PARAM[shortcutsidshort]),Square) + ![String.IsEqual(Container(300).ListItem.Property(widgetaspect$PARAM[shortcutsidshort]),Fanart) | String.IsEqual(Container(300).ListItem.Property(widgetaspect$PARAM[shortcutsidshort]),Thumbnail)]">
             <include content="include.widget.poster.focus">
                 <param name="id" value="$PARAM[shortcutsid]" />
             </include>
         </focusedlayout>
-        <focusedlayout height="325" width="325" condition="!String.Contains(Container(300).ListItem.Property(widget$PARAM[shortcutsidshort]),system) +!String.Contains(Container(300).ListItem.Property(widget$PARAM[shortcutsidshort]),Weather) +String.IsEqual(Container(300).ListItem.Property(widgetaspect$PARAM[shortcutsidshort]),Square)">
+        <focusedlayout height="325" width="325" condition="String.IsEqual(Container(300).ListItem.Property(widgetaspect$PARAM[shortcutsidshort]),Square)">
             <include content="include.widget.square.focus">
                 <param name="id" value="$PARAM[shortcutsid]" />
                 <param name="aspectratio" value="$PARAM[aspectratio]" />
             </include> 
         </focusedlayout>
-        <focusedlayout height="325" width="562" condition="!String.Contains(Container(300).ListItem.Property(widget$PARAM[shortcutsidshort]),system) +!String.Contains(Container(300).ListItem.Property(widget$PARAM[shortcutsidshort]),Weather) +String.IsEqual(Container(300).ListItem.Property(widgetaspect$PARAM[shortcutsidshort]),Fanart)">
+        <focusedlayout height="325" width="562" condition="String.IsEqual(Container(300).ListItem.Property(widgetaspect$PARAM[shortcutsidshort]),Fanart)">
             <include content="include.widget.fanart.focus">
                 <param name="id" value="$PARAM[shortcutsid]" />
             </include> 
         </focusedlayout>
-        <focusedlayout height="325" width="1690" condition="!String.Contains(Container(300).ListItem.Property(widget$PARAM[shortcutsidshort]),system) +!String.Contains(Container(300).ListItem.Property(widget$PARAM[shortcutsidshort]),Weather) +String.IsEqual(Container(300).ListItem.Property(widgetaspect$PARAM[shortcutsidshort]),Banner)">
+        <focusedlayout height="325" width="1690" condition="String.IsEqual(Container(300).ListItem.Property(widgetaspect$PARAM[shortcutsidshort]),Banner)">
             <include content="include.widget.banner.focus">
                 <param name="id" value="$PARAM[shortcutsid]" />
             </include>   
         </focusedlayout>
-        <focusedlayout height="325" width="562" condition="!String.Contains(Container(300).ListItem.Property(widget$PARAM[shortcutsidshort]),system) +!String.Contains(Container(300).ListItem.Property(widget$PARAM[shortcutsidshort]),Weather) +String.IsEqual(Container(300).ListItem.Property(widgetaspect$PARAM[shortcutsidshort]),Thumbnail)">
+        <focusedlayout height="325" width="562" condition="String.IsEqual(Container(300).ListItem.Property(widgetaspect$PARAM[shortcutsidshort]),Thumbnail)">
             <include content="include.widget.thumb.focus">
                 <param name="id" value="$PARAM[shortcutsid]" />
                 <param name="clearlogo" value="$PARAM[shortcutsclearlogo]" />
@@ -2664,17 +2693,17 @@
     
     <!-- Weather Focus Layout --> 
     <include name="TemplateWeatherFocusLayout">        
-        <focusedlayout height="325" width="222" condition="!String.Contains(Container(300).ListItem.Property(widget$PARAM[shortcutsidshort]),system) +String.Contains(Container(300).ListItem.Property(widget$PARAM[shortcutsidshort]),Weather) + [String.IsEqual(Container(300).ListItem.Property(widgetaspect$PARAM[shortcutsidshort]),Poster) | String.IsEmpty(Container(300).ListItem.Property(widgetaspect$PARAM[shortcutsidshort]))]">
+        <focusedlayout height="325" width="222" condition="[String.IsEqual(Container(300).ListItem.Property(widgetaspect$PARAM[shortcutsidshort]),Poster) | String.IsEmpty(Container(300).ListItem.Property(widgetaspect$PARAM[shortcutsidshort]))]">
             <include content="weatherlayoutwidgetsvertical.poster.focus">
                 <param name="id" value="$PARAM[shortcutsid]" />
             </include>
         </focusedlayout>
-        <focusedlayout height="325" width="355" condition="!String.Contains(Container(300).ListItem.Property(widget$PARAM[shortcutsidshort]),system) +String.Contains(Container(300).ListItem.Property(widget$PARAM[shortcutsidshort]),Weather) + !String.IsEqual(Container(300).ListItem.Property(widgetaspect$PARAM[shortcutsidshort]),Fanart) + !String.IsEqual(Container(300).ListItem.Property(widgetaspect$PARAM[shortcutsidshort]),Thumbnail) + !String.IsEqual(Container(300).ListItem.Property(widgetaspect$PARAM[shortcutsidshort]),Poster) + !String.IsEmpty(Container(300).ListItem.Property(widgetaspect$PARAM[shortcutsidshort]))">
+        <focusedlayout height="325" width="355" condition="!String.IsEqual(Container(300).ListItem.Property(widgetaspect$PARAM[shortcutsidshort]),Fanart) + !String.IsEqual(Container(300).ListItem.Property(widgetaspect$PARAM[shortcutsidshort]),Thumbnail) + !String.IsEqual(Container(300).ListItem.Property(widgetaspect$PARAM[shortcutsidshort]),Poster) + !String.IsEmpty(Container(300).ListItem.Property(widgetaspect$PARAM[shortcutsidshort]))">
             <include content="weatherlayoutwidgetsvertical.square.focus">
                 <param name="id" value="$PARAM[shortcutsid]" />
             </include>
         </focusedlayout>
-        <focusedlayout height="325" width="591" condition="!String.Contains(Container(300).ListItem.Property(widget$PARAM[shortcutsidshort]),system) +String.Contains(Container(300).ListItem.Property(widget$PARAM[shortcutsidshort]),Weather) + String.IsEqual(Container(300).ListItem.Property(widgetaspect$PARAM[shortcutsidshort]),Fanart) | String.IsEqual(Container(300).ListItem.Property(widgetaspect$PARAM[shortcutsidshort]),Thumbnail)">
+        <focusedlayout height="325" width="591" condition="String.IsEqual(Container(300).ListItem.Property(widgetaspect$PARAM[shortcutsidshort]),Fanart) | String.IsEqual(Container(300).ListItem.Property(widgetaspect$PARAM[shortcutsidshort]),Thumbnail)">
             <include content="weatherlayoutwidgetsvertical.fanart.focus">
                 <param name="id" value="$PARAM[shortcutsid]" />
             </include>

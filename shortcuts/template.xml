@@ -669,9 +669,14 @@
         <property name="id" tag="mainmenuid" />              
         <property name="normallayout" tag="property" attribute="name|widgetTarget" value="weather">false</property>
         <property name="normallayout" tag="property" attribute="name|widgetTarget" value="system">false</property>
+        <property name="normallayout" tag="property" attribute="name|widget" value="mysubmenu">false</property>
         <property name="normallayout">true</property>        
         <property name="systemlayout" tag="property" attribute="name|widgetTarget" value="system">true</property>
         <property name="systemlayout">false</property>        
+        <property name="submenulayout" tag="property" attribute="name|widget" value="mysubmenu">true</property>
+        <property name="submenulayout">false</property>        
+        <property name="submenulayoutheight" tag="property" attribute="name|widgetaspect" value="SquareSmall">125</property>
+        <property name="submenulayoutheight">325</property>                
         <property name="weatherlayout" tag="property" attribute="name|widgetTarget" value="weather">true</property>
         <property name="weatherlayout">false</property>  
         <property name="content" tag="property" attribute="name|widgetPath" />
@@ -697,7 +702,7 @@
         <controls>            
             <control type="group" id="301$SKINSHORTCUTS[id]21"> 
                 <control type="grouplist">                    
-                    <visible>Integer.IsGreater(Container(301$SKINSHORTCUTS[id]1).NumItems,0) | Container(301$SKINSHORTCUTS[id]1).IsUpdating</visible>
+                    <visible>Integer.IsGreater(Container(301$SKINSHORTCUTS[id]1).NumItems,0) | Container(301$SKINSHORTCUTS[id]1).IsUpdating | String.Contains(Container(300).ListItem.Property(widget),mysubmenu)</visible>
                     <skinshortcuts>visibility</skinshortcuts>            
                     <include content="widget.title.label">
                         <param name="focusid" value="301$SKINSHORTCUTS[id]1" /> 
@@ -707,11 +712,13 @@
                 </control>
             </control>  
             <control type="$SKINSHORTCUTS[widgetlisttype]" id="301$SKINSHORTCUTS[id]1">                                
-                <visible>Integer.IsGreater(Container(301$SKINSHORTCUTS[id]1).NumItems,0) | Container(301$SKINSHORTCUTS[id]1).IsUpdating</visible>
-                <skinshortcuts>visibility</skinshortcuts>                                         
+                <visible>Integer.IsGreater(Container(301$SKINSHORTCUTS[id]1).NumItems,0) | Container(301$SKINSHORTCUTS[id]1).IsUpdating | String.Contains(Container(300).ListItem.Property(widget),mysubmenu)</visible>
+                <skinshortcuts>visibility</skinshortcuts>
+                <include condition="String.Contains(Container(300).ListItem.Property(widgetaspect),SquareSmall)">Height125</include>                                         
                 <include content="DefMultiWidgetContainer">
                     <param name="id" value="301$SKINSHORTCUTS[id]1" />
                     <param name="shortcutsidshort" value="" />
+                    <param name="height" value="$SKINSHORTCUTS[submenulayoutheight]" />
                     <param name="idshort" value="$SKINSHORTCUTS[id]" />
                     <param name="backid" value="301$SKINSHORTCUTS[id]1" />
                     <param name="AutoTime" value="$SKINSHORTCUTS[widgetauto]" />
@@ -736,6 +743,13 @@
                     <param name="shortcutsclearlogo" value="$SKINSHORTCUTS[widgetclearlogothumb]" />
                 </include>
                 
+                <include content="TemplateSubmenuItemLayout" condition="$SKINSHORTCUTS[submenulayout]">
+                    <param name="shortcutsid" value="301$SKINSHORTCUTS[id]1" />
+                    <param name="shortcutsidshort" value="" />
+                    <param name="shortcutsclearlogo" value="$SKINSHORTCUTS[widgetclearlogothumb]" />
+                    <param name="aspectratio" value="$SKINSHORTCUTS[aspectratio]" />
+                </include>
+                
                 <!-- FocusLayouts -->
                 <include content="TemplateNormalFocusLayout" condition="$SKINSHORTCUTS[normallayout]">
                     <param name="shortcutsid" value="301$SKINSHORTCUTS[id]1" />
@@ -749,6 +763,12 @@
                     <param name="shortcutsclearlogo" value="$SKINSHORTCUTS[widgetclearlogothumb]" />
                 </include>
                 <include content="TemplateSystemFocusLayout" condition="$SKINSHORTCUTS[systemlayout]">
+                    <param name="shortcutsid" value="301$SKINSHORTCUTS[id]1" />
+                    <param name="shortcutsidshort" value="" />
+                    <param name="shortcutsclearlogo" value="$SKINSHORTCUTS[widgetclearlogothumb]" />
+                </include>
+                
+                <include content="TemplateSubmenuFocusLayout" condition="$SKINSHORTCUTS[submenulayout]">
                     <param name="shortcutsid" value="301$SKINSHORTCUTS[id]1" />
                     <param name="shortcutsidshort" value="" />
                     <param name="shortcutsclearlogo" value="$SKINSHORTCUTS[widgetclearlogothumb]" />
