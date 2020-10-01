@@ -39,6 +39,10 @@
                             <visible>Control.HasFocus(60)</visible>
                             <include>50itemlayout</include>
                         </control>
+                        <control type="button">
+                            <visible>false</visible>    
+                            <onfocus condition="String.IsEqual(ListItem.DBType,tvshow) | String.IsEqual(ListItem.DBType,season)">RunScript(script.embuary.helper,action=calc,do='"round($INFO[ListItem.Property(WatchedEpisodes)] * 100 / $INFO[ListItem.Property(TotalEpisodes)])"',prop=MyResult)</onfocus>
+                        </control>
                     </focusedlayout>
 					
 					<itemlayout condition="Skin.HasSetting(511ListInfo)" width="1100" height="90">
@@ -53,6 +57,10 @@
                         <control type="group">
                             <visible>Control.HasFocus(60)</visible>
                             <include>50itemlayout_info</include>
+                        </control>
+                        <control type="button">
+                            <visible>false</visible>    
+                            <onfocus condition="String.IsEqual(ListItem.DBType,tvshow) | String.IsEqual(ListItem.DBType,season)">RunScript(script.embuary.helper,action=calc,do='"round($INFO[ListItem.Property(WatchedEpisodes)] * 100 / $INFO[ListItem.Property(TotalEpisodes)])"',prop=MyResult)</onfocus>
                         </control>
                     </focusedlayout>
                 </control>
@@ -106,6 +114,10 @@
                             <visible>Control.HasFocus(60)</visible>
                             <include>50itemlayout</include>
                         </control>
+                        <control type="button">
+                            <visible>false</visible>    
+                            <onfocus condition="String.IsEqual(ListItem.DBType,tvshow) | String.IsEqual(ListItem.DBType,season)">RunScript(script.embuary.helper,action=calc,do='"round($INFO[ListItem.Property(WatchedEpisodes)] * 100 / $INFO[ListItem.Property(TotalEpisodes)])"',prop=MyResult)</onfocus>
+                        </control>
                     </focusedlayout>
 					
 					<itemlayout condition="Skin.HasSetting(511ListInfo)" width="1100" height="90">
@@ -120,6 +132,10 @@
                         <control type="group">
                             <visible>Control.HasFocus(60)</visible>
                             <include>50itemlayout_info</include>
+                        </control>
+                        <control type="button">
+                            <visible>false</visible>    
+                            <onfocus condition="String.IsEqual(ListItem.DBType,tvshow) | String.IsEqual(ListItem.DBType,season)">RunScript(script.embuary.helper,action=calc,do='"round($INFO[ListItem.Property(WatchedEpisodes)] * 100 / $INFO[ListItem.Property(TotalEpisodes)])"',prop=MyResult)</onfocus>
                         </control>
                     </focusedlayout>
                 </control>
@@ -318,12 +334,18 @@
                 </control>
                 <control type="group">
                     <visible>[!String.IsEqual(ListItem.Label,..) + Container.Content(tvshows)] | [!String.IsEqual(ListItem.Label,..) + Container.Content(seasons)]</visible>
-                    <!--  | [!String.IsEqual(ListItem.Label,..) + Container.Content(seasons)] -->
                     <control type="image" description="Back">
                         <width>137</width>
                         <height>137</height>
                         <aspectratio align="center" aligny="center">keep</aspectratio>
                         <texture border="0">progress/back2.png</texture>							
+                    </control>
+                    <control type="image">
+                        <width>139</width>
+                        <height>139</height>
+                        <texture colordiffuse="$VAR[ColorHighlight]">progress/tvshows/p$INFO[Window(home).Property(MyResult)].png</texture>
+                        <visible>String.IsEqual(ListItem.DBType,tvshow) | String.IsEqual(ListItem.DBType,season)</visible>	
+                        <include>Animation.SwitchText</include>								
                     </control>
                     <control type="label">				
                         <width>137</width>
@@ -334,7 +356,7 @@
                         <font>Small333</font>
                         <textcolor>Dark2</textcolor>
                         <include>Animation.SwitchText</include>
-                    </control>							
+                    </control>						
                 </control>
             </control>        
         </control>        

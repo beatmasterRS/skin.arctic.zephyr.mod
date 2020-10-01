@@ -476,7 +476,7 @@
 										<height>158</height>
 										<texture colordiffuse="$VAR[ColorHighlight]">$INFO[Skin.String(perc),progress/circle/p,.png]</texture>																			
 										<aspectratio align="center">keep</aspectratio>
-									</control>
+									</control>                                    
 									<control type="image" description="Back">
 										<left>30</left>
 										<top>30</top>
@@ -571,6 +571,10 @@
 									</control>
 								</control> 
 							</control>
+                            <control type="button">
+                                <visible>false</visible>    
+                                <onfocus condition="String.IsEqual(ListItem.DBType,tvshow) | String.IsEqual(ListItem.DBType,season)">RunScript(script.embuary.helper,action=calc,do='"round($INFO[ListItem.Property(WatchedEpisodes)] * 100 / $INFO[ListItem.Property(TotalEpisodes)])"',prop=MyResult)</onfocus>
+                            </control>
                     </focusedlayout>
                 </control>
 			</control>
@@ -784,6 +788,15 @@
 								<texture colordiffuse="$VAR[ColorHighlight]">$INFO[Skin.String(perc),progress/circle/p,.png]</texture>																			
 								<aspectratio align="center">keep</aspectratio>
 							</control>
+                            <control type="image">
+                                <left>-2</left>
+                                <centertop>50%</centertop>
+                                <width>158</width>
+                                <height>158</height>
+                                <texture colordiffuse="$VAR[ColorHighlight]">progress/tvshows/p$INFO[Window(home).Property(MyResult)].png</texture>
+                                <visible>String.IsEqual(ListItem.DBType,tvshow)</visible>	
+                                <include>Animation.SwitchText</include>								
+                            </control>
 							<control type="image" description="Back">
 								<left>30</left>
 								<top>30</top>
