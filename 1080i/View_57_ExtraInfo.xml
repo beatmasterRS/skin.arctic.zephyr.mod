@@ -233,17 +233,6 @@
                     <aspectratio align="center" aligny="center" scalediffuse="false">scale</aspectratio>
                     <texture diffuse="diffuse/pvrinfo2.png" border="0" background="true">$VAR[FanartImage]</texture>
                 </control>
-				<!--
-				TEST MULTIIMAGE
-				<control type="multiimage" id="987654" description="fanart">
-					<left>10</left>
-                    <top>10</top>
-                    <right>10</right>
-                    <bottom>10</bottom>
-					<fadetime>3900</fadetime>
-					<aspectratio aligny="top" align="right">keep</aspectratio>
-					<imagepath background="true">$INFO[ListItem.Path,,extrafanart]</imagepath>
-				</control>-->
             </control>
             <control type="group">
                 <left>20</left>
@@ -290,74 +279,53 @@
                 <left>518</left>
                 <width>155</width>
                 <height>155</height>
-                <visible>Skin.HasSetting(furniture.overlayinfobalken)</visible>
+                <visible>Skin.HasSetting(furniture.overlayinfobalken) + !String.IsEqual(ListItem.Label,..)</visible>
                 <control type="group">						
-                    <visible>!String.IsEqual(ListItem.Label,..) + Container.Content(movies)</visible>
                     <control type="image" description="Back">
+                        <top>0</top>
+                        <left>1</left>
                         <width>137</width>
                         <height>137</height>
                         <aspectratio align="center" aligny="center">keep</aspectratio>
                         <texture border="0">progress/back3.png</texture>
                     </control>
-                    <control type="group">						
-                    <include>Animation.SwitchText</include>
+                    <control type="group">
+                        <visible>!String.IsEqual(ListItem.Label,..) + Container.Content(movies)</visible>						
+                        <include>Animation.SwitchText</include>
                         <control type="image">
-                            <!--<include>Animation.SwitchText</include>-->
                             <visible>ListItem.IsResumable</visible>
-                            <left>-1</left>
                             <centertop>44%</centertop>
                             <width>139</width>
                             <height>139</height>
                             <texture colordiffuse="$VAR[ColorHighlight]">$INFO[ListItem.PercentPlayed,progress/circle/p,.png]</texture>									
                         </control>
                         <control type="image">
-                            <!--<include>Animation.SwitchText</include>-->
                             <visible>String.Contains(ListItem.Overlay,OverlayWatched.png) + !ListItem.IsResumable</visible>
-                            <left>-1</left>
                             <centertop>44%</centertop>
                             <width>139</width>
                             <height>139</height>
                             <texture colordiffuse="$VAR[ColorHighlight]">progress/circle/p100.png</texture>								
                         </control>
                     </control>
-                    <control type="group">
-                        <include>Animation.SwitchText</include>
-                        <control type="label">				
-                            <width>137</width>
-                            <centertop>43%</centertop>
-                            <align>center</align>
-                            <label>$VAR[Percentagelabel]</label>
-                            <font>Small333</font>
-                            <textcolor>Dark2</textcolor>
-                        </control>							
-                    </control>
+                </control>                   
+                <control type="image">
+                    <visible>!String.IsEqual(ListItem.Label,..) + [Container.Content(tvshows) | Container.Content(seasons)]</visible>
+                    <width>139</width>
+                    <height>139</height>
+                    <centertop>44%</centertop>
+                    <texture colordiffuse="$VAR[ColorHighlight]">progress/tvshows/p$INFO[Window(home).Property(MyResult)].png</texture>
+                    <visible>String.IsEqual(ListItem.DBType,tvshow) | String.IsEqual(ListItem.DBType,season)</visible>	
+                    <include>Animation.SwitchText</include>								
                 </control>
-                <control type="group">
-                    <visible>[!String.IsEqual(ListItem.Label,..) + Container.Content(tvshows)] | [!String.IsEqual(ListItem.Label,..) + Container.Content(seasons)]</visible>
-                    <control type="image" description="Back">
-                        <width>137</width>
-                        <height>137</height>
-                        <aspectratio align="center" aligny="center">keep</aspectratio>
-                        <texture border="0">progress/back2.png</texture>							
-                    </control>
-                    <control type="image">
-                        <width>139</width>
-                        <height>139</height>
-                        <texture colordiffuse="$VAR[ColorHighlight]">progress/tvshows/p$INFO[Window(home).Property(MyResult)].png</texture>
-                        <visible>String.IsEqual(ListItem.DBType,tvshow) | String.IsEqual(ListItem.DBType,season)</visible>	
-                        <include>Animation.SwitchText</include>								
-                    </control>
-                    <control type="label">				
-                        <width>137</width>
-                        <centertop>43%</centertop>
-                        <align>center</align>
-                        <label>$INFO[ListItem.Property(WatchedEpisodes)]/$INFO[ListItem.Property(TotalEpisodes)]</label>
-                        <!--  $INFO[Skin.String(perc)] -->
-                        <font>Small333</font>
-                        <textcolor>Dark2</textcolor>
-                        <include>Animation.SwitchText</include>
-                    </control>						
-                </control>
+                <control type="label">	
+                    <include>Animation.SwitchText</include>			
+                    <width>137</width>
+                    <centertop>43%</centertop>
+                    <align>center</align>
+                    <label>$VAR[ProgressCircleLabel]</label>
+                    <font>Small24</font>
+                    <textcolor>Dark2</textcolor>
+                </control>							
             </control>        
         </control>        
     </include>
