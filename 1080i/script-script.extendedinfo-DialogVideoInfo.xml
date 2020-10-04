@@ -2,7 +2,6 @@
 <!-- Foundation -->
 <window>
     <defaultcontrol always="true">9000</defaultcontrol>
-    
     <onload>SetProperty(150_onback,SetFocus(9000))</onload>
     <onload>SetProperty(350_onback,SetFocus(9000))</onload>
     <onload>SetProperty(750_onback,SetFocus(9000))</onload>
@@ -11,9 +10,8 @@
     <onload>SetProperty(1350_onback,SetFocus(9000))</onload>
     <onload>ClearProperty(content)</onload>
     <!--<onload>Dialog.Close(2003)</onload>-->
-    <onunload>Skin.Reset(ExtendedInfoDialog)</onunload> 
-	
-	<controls>
+    <onunload>Skin.Reset(ExtendedInfoDialog)</onunload>
+    <controls>
         <control type="image">
             <width>100%</width>
             <height>100%</height>
@@ -23,13 +21,13 @@
         </control>
         <control type="group">
             <animation type="Conditional" reversible="true" condition="Window.IsVisible(FileBrowser.xml) | Window.IsVisible(DialogConfirm.xml) | Window.IsVisible(DialogSelect.xml) | Window.IsVisible(DialogContextMenu.xml) | Window.IsVisible(DialogButtonMenu.xml)">
-                <effect type="zoom" end="95" start="100" time="200" center="auto" tween="quadratic" easing="in" />
+                <effect type="zoom" end="95" start="100" time="200" center="auto" tween="quadratic" easing="in"/>
             </animation>
-      
+
             <!-- Side Poster -->
             <control type="group">
                 <include>Animation.SidePoster</include>
-				<animation condition="Control.HasFocus(150) | Control.HasFocus(250) | Control.HasFocus(350) | Control.HasFocus(450) | Control.HasFocus(550) | Control.HasFocus(750) | Control.HasFocus(1000) | Control.HasFocus(1150) | Control.HasFocus(1350)" effect="fade" end="0"  start="100" time="300">Conditional</animation>
+                <animation condition="Control.HasFocus(150) | Control.HasFocus(250) | Control.HasFocus(350) | Control.HasFocus(450) | Control.HasFocus(550) | Control.HasFocus(750) | Control.HasFocus(1000) | Control.HasFocus(1150) | Control.HasFocus(1350)" effect="fade" end="0" start="100" time="300">Conditional</animation>
                 <control type="group" description="Poster">
                     <left>SidePad</left>
                     <top>PosterPad</top>
@@ -48,9 +46,8 @@
                         <height>48</height>
                         <aspectratio>stretch</aspectratio>
                         <texture>diffuse/shadowspot.png</texture>
-                        
                     </control>
-					<control type="image">
+                    <control type="image">
                         <left>-24</left>
                         <top>-24</top>
                         <width>PosterShadowW</width>
@@ -62,15 +59,14 @@
                         <height>PosterH</height>
                         <texture border="5" colordiffuse="FF181818">common/box.png</texture>
                     </control>
-					<control type="image">
-						<left>-1</left>
-						<top>-1</top>
-						
-						<height>642</height>
-						<width>430</width>                           
-						<texture colordiffuse="Box2" background="true">common/box2.png</texture>   
-						<visible>!Skin.HasSetting(thumbnails.white)</visible>                        
-					</control>
+                    <control type="image">
+                        <left>-1</left>
+                        <top>-1</top>
+                        <height>642</height>
+                        <width>430</width>
+                        <texture colordiffuse="Box2" background="true">common/box2.png</texture>
+                        <visible>!Skin.HasSetting(thumbnails.white)</visible>
+                    </control>
                     <control type="image">
                         <width>PosterW</width>
                         <height>PosterH</height>
@@ -78,13 +74,12 @@
                         <aspectratio align="center" aligny="center" scalediffuse="false">scale</aspectratio>
                         <texture diffuse="diffuse/listposter.png" background="true">$INFO[Window.Property(thumb)]</texture>
                     </control>
-                    
                 </control>
             </control>
 
             <!-- Right Side Info -->
             <control type="group">
-                <include>Animation.RightSide</include>       
+                <include>Animation.RightSide</include>
                 <control type="group">
                     <include>Animation.DelayFadeIn</include>
                     <visible>!String.IsEmpty(Window.Property(content))</visible>
@@ -107,35 +102,33 @@
 
                 <!-- Control Buttons -->
                 <include condition="Skin.HasSetting(olddialogbuttons)">ExtendedDialogVideoInfoNavigation</include>
-				<include condition="!Skin.HasSetting(olddialogbuttons)">ExtendedDialogVideoInfoNavigationNew</include>
+                <include condition="!Skin.HasSetting(olddialogbuttons)">ExtendedDialogVideoInfoNavigationNew</include>
 
                 <!-- List Headers -->
-				
-                
                 <control type="list" id="1501">
                     <top>-1000</top>
-                    <left>-2000</left>				
-                    <itemlayout>				                 		
-                        <control type="label">									
+                    <left>-2000</left>
+                    <itemlayout>
+                        <control type="label">
                             <label>$INFO[Container(1501).ListItem.FileNameAndPath]</label>
-                        </control>                     	
+                        </control>
                     </itemlayout>
-                    <focusedlayout>	
-                        <control type="label">									
+                    <focusedlayout>
+                        <control type="label">
                             <label>$INFO[Container(1501).ListItem.FileNameAndPath]</label>
-                        </control> 		
+                        </control>
                     </focusedlayout>
                     <content>plugin://script.embuary.helper/?info=getbydbid&dbid=$INFO[Window.Property(DBID)]&type=movie</content>
                     <visible>System.HasAddon(script.embuary.helper)</visible>
-                </control>	
+                </control>
                 <control type="label">
                     <visible>String.IsEqual(Window.Property(content),1000)</visible>
                     <visible>Control.HasFocus(1000)</visible>
                     <left>750</left>
                     <right>SidePad</right>
                     <top>300</top>
-					<textcolor>Dark1</textcolor>
-					<include>DefDialogInfoHeader</include>
+                    <textcolor>Dark1</textcolor>
+                    <include>DefDialogInfoHeader</include>
                     <label>$INFO[Window.Property(title)] $LOCALIZE[206] ($INFO[Container(1000).NumItems])</label>
                     <include>Animation.DelayFadeIn</include>
                 </control>
@@ -152,7 +145,7 @@
                     <align>right</align>
                     <visible>Control.HasFocus(1000)</visible>
                     <include>Animation.DelayFadeIn</include>
-					<visible>false</visible>
+                    <visible>false</visible>
                 </control>
                 <control type="label">
                     <visible>String.IsEqual(Window.Property(content),150)</visible>
@@ -160,19 +153,19 @@
                     <left>750</left>
                     <right>SidePad</right>
                     <top>300</top>
-					<textcolor>Dark1</textcolor>
-					<include>DefDialogInfoHeader</include>
+                    <textcolor>Dark1</textcolor>
+                    <include>DefDialogInfoHeader</include>
                     <label>$INFO[Window.Property(title),$LOCALIZE[31204] ,] ($INFO[Container(150).NumItems])</label>
                     <include>Animation.DelayFadeIn</include>
                 </control>
-				<control type="label">
+                <control type="label">
                     <visible>String.IsEqual(Window.Property(content),1350)</visible>
                     <visible>Control.HasFocus(1350)</visible>
                     <left>570</left>
                     <right>SidePad</right>
                     <top>220</top>
-					<textcolor>Dark1</textcolor>
-					<include>DefDialogInfoHeader</include>
+                    <textcolor>Dark1</textcolor>
+                    <include>DefDialogInfoHeader</include>
                     <label>$INFO[Window.Property(title)] - Fanart ($INFO[Container(1350).NumItems])</label>
                     <include>Animation.DelayFadeIn</include>
                 </control>
@@ -189,7 +182,7 @@
                     <align>right</align>
                     <visible>Control.HasFocus(150)</visible>
                     <include>Animation.DelayFadeIn</include>
-					<visible>false</visible>
+                    <visible>false</visible>
                 </control>
                 <control type="label">
                     <visible>String.IsEqual(Window.Property(content),350)</visible>
@@ -197,10 +190,8 @@
                     <left>570</left>
                     <right>SidePad</right>
                     <top>220</top>
-                    
-                    
-					<textcolor>Dark1</textcolor>
-					<include>DefDialogInfoHeader</include>
+                    <textcolor>Dark1</textcolor>
+                    <include>DefDialogInfoHeader</include>
                     <label>$INFO[Window.Property(title)] $ADDON[script.extendedinfo 32118] ($INFO[Container(350).NumItems])</label>
                     <include>Animation.DelayFadeIn</include>
                 </control>
@@ -217,7 +208,7 @@
                     <align>right</align>
                     <visible>Control.HasFocus(350)</visible>
                     <include>Animation.DelayFadeIn</include>
-					<visible>false</visible>
+                    <visible>false</visible>
                 </control>
                 <control type="label">
                     <visible>String.IsEqual(Window.Property(content),750)</visible>
@@ -225,8 +216,8 @@
                     <left>750</left>
                     <right>SidePad</right>
                     <top>300</top>
-					<textcolor>Dark1</textcolor>
-					<include>DefDialogInfoHeader</include>
+                    <textcolor>Dark1</textcolor>
+                    <include>DefDialogInfoHeader</include>
                     <label>$INFO[Window.Property(title)] $ADDON[script.extendedinfo 32115] ($INFO[Container(750).NumItems])</label>
                     <include>Animation.DelayFadeIn</include>
                 </control>
@@ -243,7 +234,7 @@
                     <align>right</align>
                     <visible>Control.HasFocus(750)</visible>
                     <include>Animation.DelayFadeIn</include>
-					<visible>false</visible>
+                    <visible>false</visible>
                 </control>
 
                 <!-- Info -->
@@ -253,7 +244,7 @@
                     <bottom>224</bottom>
                     <top>PosterPad</top>
                     <visible>String.IsEmpty(Window.Property(content))</visible>
-					<include>Animation.FadeIn</include>
+                    <include>Animation.FadeIn</include>
                     <control type="grouplist">
                         <left>30</left>
                         <right>30</right>
@@ -444,13 +435,12 @@
                                 <aligny>center</aligny>
                             </control>
                         </control>
-                      
                         <control type="label">
                             <width>100%</width>
                             <height>36</height>
                             <font>Tiny</font>
                             <textcolor>Dark1</textcolor>
-                            <label></label>
+                            <label/>
                             <aligny>center</aligny>
                         </control>
                         <control type="textbox">
@@ -462,73 +452,86 @@
                             <align>justify</align>
                             <label>$INFO[Window.Property(plot)]</label>
                         </control>
-                        
                     </control>
                 </control>
-
                 <control type="wraplist" id="150">
                     <visible allowhiddenfocus="true">String.IsEqual(Window.Property(content),150)</visible>
                     <onleft>150</onleft>
                     <onright>150</onright>
                     <include>DefExtendedInfoList</include>
                 </control>
-                <control type="list" id="250"><visible>false</visible></control>
+                <control type="list" id="250">
+                    <visible>false</visible>
+                </control>
                 <control type="wraplist" id="350">
                     <visible allowhiddenfocus="true">String.IsEqual(Window.Property(content),350)</visible>
                     <onleft>350</onleft>
                     <onright>350</onright>
                     <include>DefExtendedInfoListWide</include>
                 </control>
-                <control type="list" id="450"><visible>false</visible></control>
-                <control type="list" id="550"><visible>false</visible></control>
-                <control type="list" id="650"><visible>false</visible></control>
+                <control type="list" id="450">
+                    <visible>false</visible>
+                </control>
+                <control type="list" id="550">
+                    <visible>false</visible>
+                </control>
+                <control type="list" id="650">
+                    <visible>false</visible>
+                </control>
                 <control type="wraplist" id="750">
                     <visible allowhiddenfocus="true">String.IsEqual(Window.Property(content),750)</visible>
                     <onleft>750</onleft>
                     <onright>750</onright>
                     <include>DefExtendedInfoList</include>
                 </control>
-                <control type="list" id="850"><visible>false</visible></control>
-                <control type="list" id="950"><visible>false</visible></control>
+                <control type="list" id="850">
+                    <visible>false</visible>
+                </control>
+                <control type="list" id="950">
+                    <visible>false</visible>
+                </control>
                 <control type="wraplist" id="1000">
                     <visible allowhiddenfocus="true">String.IsEqual(Window.Property(content),1000)</visible>
                     <onleft>1000</onleft>
                     <onright>1000</onright>
                     <include>DefExtendedInfoList</include>
                 </control>
-                <control type="list" id="1050"><visible>false</visible></control>
+                <control type="list" id="1050">
+                    <visible>false</visible>
+                </control>
                 <control type="wraplist" id="1150">
                     <visible allowhiddenfocus="true">String.IsEqual(Window.Property(content),1150)</visible>
                     <onleft>1150</onleft>
                     <onright>1150</onright>
                     <include>DefExtendedInfoListWide</include>
                 </control>
-                <control type="list" id="1250"><visible>false</visible></control>
+                <control type="list" id="1250">
+                    <visible>false</visible>
+                </control>
                 <control type="wraplist" id="1350">
                     <visible allowhiddenfocus="true">String.IsEqual(Window.Property(content),1350)</visible>
                     <onleft>1350</onleft>
                     <onright>1350</onright>
                     <include>DefExtendedInfoListWide</include>
-                
-				</control>
-                <control type="list" id="1450"><visible>false</visible></control>
+                </control>
+                <control type="list" id="1450">
+                    <visible>false</visible>
+                </control>
             </control>
         </control>
-		<control type="label">
-			<right>83</right>
-			<bottom>175</bottom>
-			<height>50</height>
-			<font>Mini</font>
-			<scroll>false</scroll>
-			<textcolor>Dark3</textcolor>
-			<label>$VAR[DialogInfoLabel]</label>
-			<aligny>center</aligny>
-			<align>right</align>
-			<visible>ControlGroup(9000).HasFocus() + !Skin.HasSetting(olddialogbuttons)</visible>
-			<include>Animation.FadeIn</include>
-			<include>Animation.FadeOut</include>
-		</control>       
-        
+        <control type="label">
+            <right>83</right>
+            <bottom>175</bottom>
+            <height>50</height>
+            <font>Mini</font>
+            <scroll>false</scroll>
+            <textcolor>Dark3</textcolor>
+            <label>$VAR[DialogInfoLabel]</label>
+            <aligny>center</aligny>
+            <align>right</align>
+            <visible>ControlGroup(9000).HasFocus() + !Skin.HasSetting(olddialogbuttons)</visible>
+            <include>Animation.FadeIn</include>
+            <include>Animation.FadeOut</include>
+        </control>
     </controls>
-
 </window>

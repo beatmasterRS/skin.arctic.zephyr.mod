@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!-- Foundation -->
-<includes>     
+<includes>
+
     <include name="noinfoactor">
         <control type="label">
             <include>Animation.DelayFadeIn</include>
@@ -11,9 +12,10 @@
             <align>center</align>
             <textcolor>Dark1</textcolor>
             <label>37671</label>
-            <visible>String.IsEqual(Container($PARAM[wrapid]).NumItems,0) + Control.IsVisible($PARAM[wrapid]) + !Container($PARAM[wrapid]).IsUpdating</visible>				
+            <visible>String.IsEqual(Container($PARAM[wrapid]).NumItems,0) + Control.IsVisible($PARAM[wrapid]) + !Container($PARAM[wrapid]).IsUpdating</visible>
         </control>
     </include>
+
     <include name="noinfoartist">
         <control type="label">
             <include>Animation.DelayFadeIn</include>
@@ -24,9 +26,10 @@
             <align>center</align>
             <textcolor>Dark1</textcolor>
             <label>37680</label>
-            <visible>String.IsEqual(Container($PARAM[wrapid]).NumItems,0) + Control.IsVisible($PARAM[wrapid]) + !Container($PARAM[wrapid]).IsUpdating</visible>				
+            <visible>String.IsEqual(Container($PARAM[wrapid]).NumItems,0) + Control.IsVisible($PARAM[wrapid]) + !Container($PARAM[wrapid]).IsUpdating</visible>
         </control>
     </include>
+
     <include name="noinfovideo">
         <control type="label">
             <include>Animation.DelayFadeIn</include>
@@ -37,10 +40,10 @@
             <align>center</align>
             <textcolor>Dark1</textcolor>
             <label>37670</label>
-            <visible>String.IsEqual(Container($PARAM[wrapid]).NumItems,0) + Control.IsVisible($PARAM[wrapid]) + !Container($PARAM[wrapid]).IsUpdating</visible>				
+            <visible>String.IsEqual(Container($PARAM[wrapid]).NumItems,0) + Control.IsVisible($PARAM[wrapid]) + !Container($PARAM[wrapid]).IsUpdating</visible>
         </control>
     </include>
-    
+
     <include name="ListInfoArrows">
         <control type="group">
             <top>$PARAM[arrowtop]</top>
@@ -51,7 +54,7 @@
                 <width>16</width>
                 <height>16</height>
                 <texture colordiffuse="Dark1" flipx="true">common/arrow-small-right.png</texture>
-                <animation effect="slide" start="0,0" end="210,0" time="0" condition="String.IsEqual(Container($PARAM[controlid]).CurrentItem,1)">Conditional</animation>                
+                <animation effect="slide" start="0,0" end="210,0" time="0" condition="String.IsEqual(Container($PARAM[controlid]).CurrentItem,1)">Conditional</animation>
             </control>
             <control type="image">
                 <right>$PARAM[arrowright]</right>
@@ -61,8 +64,8 @@
             </control>
         </control>
     </include>
-    
-    <include name="ListInfoUpdating">  
+
+    <include name="ListInfoUpdating">
         <control type="group">
             <visible>$PARAM[visi]</visible>
             <centerleft>$PARAM[alignleft]</centerleft>
@@ -76,7 +79,6 @@
                 <control type="image">
                     <description>Busy animation</description>
                     <left>322</left>
-                    
                     <width>100</width>
                     <height>100</height>
                     <texture>dialog/loading-back.png</texture>
@@ -85,7 +87,6 @@
                 <control type="image">
                     <description>Busy animation</description>
                     <left>322</left>
-                    
                     <width>100</width>
                     <height>100</height>
                     <animation effect="rotate" condition="true" start="360" end="0" loop="true" time="1000" center="auto">Conditional</animation>
@@ -103,7 +104,6 @@
                     <textcolor>Dark1</textcolor>
                 </control>
             </control>
-           
             <control type="group">
                 <visible>[String.IsEmpty(Container($PARAM[controlid]).ListItem.Label) + !Container($PARAM[controlid]).IsUpdating] | [!Integer.IsGreater(Container(9508).NumItems,1) + String.IsEqual(ListItem.DBType,song) + String.IsEqual(Window.Property(musiccontent),8)]</visible>
                 <include>Animation.DelayFadeIn</include>
@@ -114,292 +114,296 @@
                     <height>48</height>
                     <align>center</align>
                     <textcolor>Dark1</textcolor>
-                    <label>$VAR[ListInfoUpdatingLabel]</label>				
+                    <label>$VAR[ListInfoUpdatingLabel]</label>
                 </control>
-            </control>      
-        </control>    
+            </control>
+        </control>
     </include>
 
     <include name="VideoListSquare">
-        <param name="zoom" value="$PARAM[zoom]" default="140" />
-        <param name="height" value="$PARAM[height]" default="349" />
-        <param name="listtype" value="$PARAM[listtype]" default="wraplist" />
+        <param name="zoom" value="$PARAM[zoom]" default="140"/>
+        <param name="height" value="$PARAM[height]" default="349"/>
+        <param name="listtype" value="$PARAM[listtype]" default="wraplist"/>
         <definition>
-        <!-- INFOCONTENT -->		
-        <control type="label">
-            <visible>Control.HasFocus($PARAM[controlid])</visible>
-            <width>1020</width>
-            <bottom>$PARAM[headerbottom]</bottom>
-            <left>$PARAM[headerleft]</left>
-            <description>Header Label</description>
-            <textcolor>Dark1</textcolor>
-            <include>DefDialogInfoHeader</include>
-            <label>$VAR[VideoListLabelHeader] ($INFO[Container($PARAM[controlid]).NumItems])</label>
-            <include>Animation.DelayFadeIn</include>
-        </control>
-        <include content="ListInfoArrows">
-            <param name="controlid" value="$PARAM[controlid]" />
-            <param name="arrowleft" value="$PARAM[arrowleft]" />
-            <param name="arrowtop" value="$PARAM[arrowtop]" />
-            <param name="arrowright" value="$PARAM[arrowright]" />
-        </include>
-        <control type="$PARAM[listtype]" id="$PARAM[controlid]">
-            <visible allowhiddenfocus="true">!Container($PARAM[controlid]).IsUpdating</visible>
-            <visible>$PARAM[visi]</visible>
-            <include>Animation.FadeOutDialogWIP</include>
-            <include>Animation.FadeInDialogWIP</include>
-            <include>Animation.DelayFadeIn</include>
-            <include>$PARAM[animation]</include>
-            <bottom>$PARAM[listbottom]</bottom>
-            <left>$PARAM[listleft]</left>
-            <focusposition>$PARAM[focusposition]</focusposition>    
-            <width>2088</width>
-            <height>670</height>
-            <onup>$PARAM[onup1]</onup>
-            <onleft>$PARAM[controlid]</onleft>
-            <onright>$PARAM[controlid]</onright>
-            <ondown>9000</ondown>
-            <onback>9000</onback>
-            <onclick>$PARAM[onclick1]</onclick>
-            <onclick>$PARAM[onclick2]</onclick>
-            <onclick>$PARAM[onclick3]</onclick>
-            <orientation>horizontal</orientation>
-            <preloaditems>2</preloaditems>
-            <viewtype label="536">list</viewtype>	          
-            <itemlayout height="$PARAM[height]" width="$PARAM[width]">
-                <include content="DefExtendedInfoItemContentWIP">
-                    <param name="aspect" value="$PARAM[aspect]" default="scale" />
-                    <param name="fallbackpicture" value="$PARAM[fallbackpicture]" />
-                    <param name="storageicon" value="$PARAM[storageicon]" />
-                </include>
-            </itemlayout>
-            <focusedlayout height="$PARAM[height]" width="$PARAM[width]">
-                <include content="DefExtendedInfoFocusContentWIP">
-                    <param name="aspect" value="$PARAM[aspect]" default="scale" />
-                    <param name="fallbackpicture" value="$PARAM[fallbackpicture]" />
-                    <param name="controlid" value="$PARAM[controlid]" />
-                    <param name="zoom" value="$PARAM[zoom]" />
-                    <param name="labelbottom" value="$PARAM[labelbottom]" />
-                    <param name="labelleft" value="$PARAM[labelleft]" />
-                    <param name="labeltwovisible" value="$PARAM[labeltwovisible]" />
-                    <param name="labeltwobottom" value="$PARAM[labeltwobottom]" />
-                    <param name="labeltwoleft" value="$PARAM[labeltwoleft]" />
-                    <param name="storageicon" value="$PARAM[storageicon]" />
-                </include>					
-            </focusedlayout>
-            <content target="$PARAM[target]" sortby="$PARAM[sortby]" limit="$PARAM[limit]">$PARAM[ContentToLoad]</content>
-        </control>
-        </definition>                  
-    </include>
-    
-     <include name="VideoListMovieSets">
-        <param name="zoom" value="$PARAM[zoom]" default="140" />
-        <param name="height" value="$PARAM[height]" default="349" />
-        <param name="listtype" value="$PARAM[listtype]" default="wraplist" />
-        <param name="storageicon" value="$PARAM[storageicon]" />
-        <definition>
-        <!-- INFOCONTENT -->		
-        <control type="label">
-            <visible>Control.HasFocus($PARAM[controlid])</visible>
-            <width>1020</width>
-            <bottom>$PARAM[headerbottom]</bottom>
-            <left>$PARAM[headerleft]</left>
-            <description>Header Label</description>
-            <textcolor>Dark1</textcolor>
-            <include>DefDialogInfoHeader</include>
-            <label>$VAR[VideoListLabelHeader] ($INFO[Container($PARAM[controlid]).NumItems])</label>
-            <include>Animation.DelayFadeIn</include>
-        </control>
-        <include content="ListInfoArrows">
-            <param name="controlid" value="$PARAM[controlid]" />
-            <param name="arrowleft" value="$PARAM[arrowleft]" />
-            <param name="arrowtop" value="$PARAM[arrowtop]" />
-            <param name="arrowright" value="$PARAM[arrowright]" />
-        </include>
-        <control type="$PARAM[listtype]" id="$PARAM[controlid]">
-            <visible allowhiddenfocus="true">!Container($PARAM[controlid]).IsUpdating</visible>
-            <visible>$PARAM[visi]</visible>
-            <include>Animation.FadeOutDialogWIP</include>
-            <include>Animation.FadeInDialogWIP</include>
-            <include>Animation.DelayFadeIn</include>
-            <include>$PARAM[animation]</include>
-            <bottom>$PARAM[listbottom]</bottom>
-            <left>$PARAM[listleft]</left>
-            <focusposition>$PARAM[focusposition]</focusposition>    
-            <width>2500</width>
-            <height>670</height>
-            <onup>$PARAM[onup1]</onup>
-            <onleft>$PARAM[controlid]</onleft>
-            <onright>$PARAM[controlid]</onright>
-            <ondown>RunScript(script.embuary.helper,action=resetposition,container=$PARAM[controlid])</ondown>
-            <ondown>9000</ondown>
-            <onback>RunScript(script.embuary.helper,action=resetposition,container=$PARAM[controlid])</onback>
-            <onback>9000</onback>             
-            <onclick condition="!String.IsEqual(Window(home).property(myvideos.selectaction),3)">PlayMedia($INFO[ListItem.FileNameAndPath])</onclick>        
-            <onclick condition="!String.IsEqual(Window(home).property(myvideos.selectaction),3)">Control.SetFocus(9502,0,absolute)</onclick>             
-            <onclick condition="!String.IsEqual(Window(home).property(myvideos.selectaction),3)">Dialog.Close(1132,force)</onclick>
-            <orientation>horizontal</orientation>
-            <preloaditems>2</preloaditems>
-            <viewtype label="536">list</viewtype>	          
-            <itemlayout height="$PARAM[height]" width="$PARAM[width]">
-                <include content="DefExtendedInfoItemContentWIP">
-                    <param name="aspect" value="$PARAM[aspect]" default="scale" />
-                    <param name="fallbackpicture" value="$PARAM[fallbackpicture]" />
-                    <param name="storageicon" value="$PARAM[storageicon]" />
-                </include>
-            </itemlayout>
-            <focusedlayout height="$PARAM[height]" width="$PARAM[width]">
-                <include content="DefExtendedInfoFocusContentWIP">
-                    <param name="aspect" value="$PARAM[aspect]" default="scale" />
-                    <param name="fallbackpicture" value="$PARAM[fallbackpicture]" />
-                    <param name="controlid" value="$PARAM[controlid]" />
-                    <param name="zoom" value="$PARAM[zoom]" />
-                    <param name="labelbottom" value="$PARAM[labelbottom]" />
-                    <param name="labelleft" value="$PARAM[labelleft]" />
-                    <param name="labeltwovisible" value="$PARAM[labeltwovisible]" />
-                    <param name="labeltwobottom" value="$PARAM[labeltwobottom]" />
-                    <param name="labeltwoleft" value="$PARAM[labeltwoleft]" />
-                    <param name="storageicon" value="$PARAM[storageicon]" />
-                </include>					
-            </focusedlayout>
-            <content target="$PARAM[target]" sortorder="$PARAM[sortorder]" sortby="$PARAM[sortby]" limit="$PARAM[limit]">$PARAM[ContentToLoad]</content>
-        </control>
-        </definition>                  
-    </include>
-    
-    <include name="VideoList">
-        <param name="zoom" value="$PARAM[zoom]" default="140" />
-        <param name="height" value="$PARAM[height]" default="349" />
-        <definition>
-        <!-- INFOCONTENT -->		
-        <control type="label">
-            <visible>Control.HasFocus($PARAM[controlid]) + String.IsEmpty(Window.Property(down))</visible>
-            <width>1020</width>
-            <bottom>$PARAM[headerbottom]</bottom>
-            <left>$PARAM[headerleft]</left>
-            <description>Header Label</description>
-            <textcolor>Dark1</textcolor>
-            <include>DefDialogInfoHeader</include>
-            <label>$VAR[VideoListLabelHeader] ($INFO[Container($PARAM[controlid]).NumItems])</label>
-            <include>Animation.DelayFadeIn</include>
-        </control>
-        <control type="group">
-            <visible>!String.IsEmpty(Window.Property(down))</visible>
-            <bottom>$PARAM[headerbottom]</bottom>
-            <left>$PARAM[headerleft]</left>
-            <width>450</width>
-            <height>117</height>
-            <include>Animation.DelayFadeIn</include>
-            <control type="image">
-                <description>Busy animation</description>
-                <centerleft>34</centerleft>
-                <centertop>84</centertop>
-                <width>100</width>
-                <height>100</height>
-                <texture>dialog/loading-back.png</texture>
-                <aspectratio>keep</aspectratio>
-            </control>
-            <control type="image">
-                <description>Busy animation</description>
-                <centerleft>34</centerleft>
-                <centertop>84</centertop>
-                <width>100</width>
-                <height>100</height>
-                <animation effect="rotate" condition="true" start="360" end="0" loop="true" time="1000" center="auto">Conditional</animation>
-                <texture colordiffuse="$VAR[ColorHighlight]">dialog/loading-spinner.png</texture>
-                <aspectratio>keep</aspectratio>
-            </control>
+
+            <!-- INFOCONTENT -->
             <control type="label">
-                <description>Busy label</description>
-                <posx>85</posx>
-                <posy>60</posy>
-                <width>720</width>
-                <height>48</height>
-                <align>left</align>
-                <label>$LOCALIZE[31138]...</label>
+                <visible>Control.HasFocus($PARAM[controlid])</visible>
+                <width>1020</width>
+                <bottom>$PARAM[headerbottom]</bottom>
+                <left>$PARAM[headerleft]</left>
+                <description>Header Label</description>
                 <textcolor>Dark1</textcolor>
+                <include>DefDialogInfoHeader</include>
+                <label>$VAR[VideoListLabelHeader] ($INFO[Container($PARAM[controlid]).NumItems])</label>
+                <include>Animation.DelayFadeIn</include>
             </control>
-        </control>
-        <control type="group">
-            <animation type="Conditional" condition="!String.IsEmpty(Window.Property(down)) + Control.HasFocus(50)" reversible="false">
-                <effect type="slide" end="0,-20" time="60" tween="sine" />
-                <effect type="slide" end="0,20" time="180" tween="sine" delay="80" />
-            </animation>
-            <left>-211</left>
-            <top>82</top>
-            <visible>Control.HasFocus(50) + !Container(50).OnNext + !Container(50).OnPrevious</visible>
-            <include>Animation.DelayFadeIn</include>
-            <control type="image">
-                <width>16</width>
-                <height>16</height>
-                <texture colordiffuse="Dark1" flipy="true">common/arrow-small.png</texture>
+            <include content="ListInfoArrows">
+                <param name="controlid" value="$PARAM[controlid]"/>
+                <param name="arrowleft" value="$PARAM[arrowleft]"/>
+                <param name="arrowtop" value="$PARAM[arrowtop]"/>
+                <param name="arrowright" value="$PARAM[arrowright]"/>
+            </include>
+            <control type="$PARAM[listtype]" id="$PARAM[controlid]">
+                <visible allowhiddenfocus="true">!Container($PARAM[controlid]).IsUpdating</visible>
+                <visible>$PARAM[visi]</visible>
+                <include>Animation.FadeOutDialogWIP</include>
+                <include>Animation.FadeInDialogWIP</include>
+                <include>Animation.DelayFadeIn</include>
+                <include>$PARAM[animation]</include>
+                <bottom>$PARAM[listbottom]</bottom>
+                <left>$PARAM[listleft]</left>
+                <focusposition>$PARAM[focusposition]</focusposition>
+                <width>2088</width>
+                <height>670</height>
+                <onup>$PARAM[onup1]</onup>
+                <onleft>$PARAM[controlid]</onleft>
+                <onright>$PARAM[controlid]</onright>
+                <ondown>9000</ondown>
+                <onback>9000</onback>
+                <onclick>$PARAM[onclick1]</onclick>
+                <onclick>$PARAM[onclick2]</onclick>
+                <onclick>$PARAM[onclick3]</onclick>
+                <orientation>horizontal</orientation>
+                <preloaditems>2</preloaditems>
+                <viewtype label="536">list</viewtype>
+                <itemlayout height="$PARAM[height]" width="$PARAM[width]">
+                    <include content="DefExtendedInfoItemContentWIP">
+                        <param name="aspect" value="$PARAM[aspect]" default="scale"/>
+                        <param name="fallbackpicture" value="$PARAM[fallbackpicture]"/>
+                        <param name="storageicon" value="$PARAM[storageicon]"/>
+                    </include>
+                </itemlayout>
+                <focusedlayout height="$PARAM[height]" width="$PARAM[width]">
+                    <include content="DefExtendedInfoFocusContentWIP">
+                        <param name="aspect" value="$PARAM[aspect]" default="scale"/>
+                        <param name="fallbackpicture" value="$PARAM[fallbackpicture]"/>
+                        <param name="controlid" value="$PARAM[controlid]"/>
+                        <param name="zoom" value="$PARAM[zoom]"/>
+                        <param name="labelbottom" value="$PARAM[labelbottom]"/>
+                        <param name="labelleft" value="$PARAM[labelleft]"/>
+                        <param name="labeltwovisible" value="$PARAM[labeltwovisible]"/>
+                        <param name="labeltwobottom" value="$PARAM[labeltwobottom]"/>
+                        <param name="labeltwoleft" value="$PARAM[labeltwoleft]"/>
+                        <param name="storageicon" value="$PARAM[storageicon]"/>
+                    </include>
+                </focusedlayout>
+                <content target="$PARAM[target]" sortby="$PARAM[sortby]" limit="$PARAM[limit]">$PARAM[ContentToLoad]</content>
             </control>
-            <control type="image">
-                <top>12</top>
-                <width>16</width>
-                <height>16</height>
-                <texture colordiffuse="Dark1" flipy="true">common/arrow-small.png</texture>
-            </control>
-        </control>
-        <include content="ListInfoArrows">
-            <param name="controlid" value="$PARAM[controlid]" />
-            <param name="arrowleft" value="$PARAM[arrowleft]" />
-            <param name="arrowtop" value="$PARAM[arrowtop]" />
-            <param name="arrowright" value="$PARAM[arrowright]" />
-        </include>
-        <control type="wraplist" id="$PARAM[controlid]">
-            <visible allowhiddenfocus="true">!Container($PARAM[controlid]).IsUpdating</visible>
-            <visible>$PARAM[visi]</visible>
-            <include>Animation.FadeOutDialogWIP</include>
-            <include>Animation.FadeInDialogWIP</include>
-            <include>$PARAM[animation]</include>
-            <bottom>$PARAM[listbottom]</bottom>
-            <left>$PARAM[listleft]</left>
-            <focusposition>$PARAM[focusposition]</focusposition>    
-            <width>2088</width>
-            <height>670</height>
-            <onup>$PARAM[onup1]</onup>
-            <onleft>$PARAM[controlid]</onleft>
-            <onright>$PARAM[controlid]</onright>
-            <ondown>9000</ondown>
-            <ondown>ClearProperty(down)</ondown>
-            <onclick>$PARAM[onclick1]</onclick>
-            <onclick>$PARAM[onclick2]</onclick>
-            <orientation>horizontal</orientation>
-            <preloaditems>2</preloaditems>
-            <viewtype label="536">list</viewtype>	          
-            <itemlayout height="$PARAM[height]" width="$PARAM[width]">
-                <include content="DefExtendedInfoItemContentWIP">
-                    <param name="aspect" value="$PARAM[aspect]" default="scale" />
-                    <param name="fallbackpicture" value="$PARAM[fallbackpicture]" />
-                </include>
-            </itemlayout>
-            <focusedlayout height="$PARAM[height]" width="$PARAM[width]">
-                <include content="DefExtendedInfoFocusContentWIP">
-                    <param name="fallbackpicture" value="$PARAM[fallbackpicture]" />
-                    <param name="aspect" value="$PARAM[aspect]" default="scale" />
-                    <param name="controlid" value="$PARAM[controlid]" />
-                    <param name="zoom" value="$PARAM[zoom]" />
-                    <param name="labelbottom" value="$PARAM[labelbottom]" />
-                    <param name="labelleft" value="$PARAM[labelleft]" />
-                    <param name="labeltwovisible" value="$PARAM[labeltwovisible]" />
-                    <param name="labeltwobottom" value="$PARAM[labeltwobottom]" />
-                    <param name="labeltwoleft" value="$PARAM[labeltwoleft]" />
-                </include>					
-            </focusedlayout>
-        </control> 
-        </definition>                 
+        </definition>
     </include>
-    
-    <include name="VideoListCast">
-        <param name="fallbackpicture" value="$PARAM[fallbackpicture]" default="DefaultPicture.png" />
-        <param name="leftbackgroundlist" value="$PARAM[leftbackgroundlist]" default="-227" />
-        <param name="animation.new" value="$PARAM[animation.new]" default="Animation.CastInfo" />
-        <param name="zoom" value="$PARAM[zoom]" default="140" />
-        <param name="height" value="$PARAM[height]" default="349" />
-        <param name="storageicon.backgroundlist" value="$PARAM[storageicon.backgroundlist]" />
+
+    <include name="VideoListMovieSets">
+        <param name="zoom" value="$PARAM[zoom]" default="140"/>
+        <param name="height" value="$PARAM[height]" default="349"/>
+        <param name="listtype" value="$PARAM[listtype]" default="wraplist"/>
+        <param name="storageicon" value="$PARAM[storageicon]"/>
         <definition>
-            <!-- INFOCONTENT -->		
+
+            <!-- INFOCONTENT -->
+            <control type="label">
+                <visible>Control.HasFocus($PARAM[controlid])</visible>
+                <width>1020</width>
+                <bottom>$PARAM[headerbottom]</bottom>
+                <left>$PARAM[headerleft]</left>
+                <description>Header Label</description>
+                <textcolor>Dark1</textcolor>
+                <include>DefDialogInfoHeader</include>
+                <label>$VAR[VideoListLabelHeader] ($INFO[Container($PARAM[controlid]).NumItems])</label>
+                <include>Animation.DelayFadeIn</include>
+            </control>
+            <include content="ListInfoArrows">
+                <param name="controlid" value="$PARAM[controlid]"/>
+                <param name="arrowleft" value="$PARAM[arrowleft]"/>
+                <param name="arrowtop" value="$PARAM[arrowtop]"/>
+                <param name="arrowright" value="$PARAM[arrowright]"/>
+            </include>
+            <control type="$PARAM[listtype]" id="$PARAM[controlid]">
+                <visible allowhiddenfocus="true">!Container($PARAM[controlid]).IsUpdating</visible>
+                <visible>$PARAM[visi]</visible>
+                <include>Animation.FadeOutDialogWIP</include>
+                <include>Animation.FadeInDialogWIP</include>
+                <include>Animation.DelayFadeIn</include>
+                <include>$PARAM[animation]</include>
+                <bottom>$PARAM[listbottom]</bottom>
+                <left>$PARAM[listleft]</left>
+                <focusposition>$PARAM[focusposition]</focusposition>
+                <width>2500</width>
+                <height>670</height>
+                <onup>$PARAM[onup1]</onup>
+                <onleft>$PARAM[controlid]</onleft>
+                <onright>$PARAM[controlid]</onright>
+                <ondown>RunScript(script.embuary.helper,action=resetposition,container=$PARAM[controlid])</ondown>
+                <ondown>9000</ondown>
+                <onback>RunScript(script.embuary.helper,action=resetposition,container=$PARAM[controlid])</onback>
+                <onback>9000</onback>
+                <onclick condition="!String.IsEqual(Window(home).property(myvideos.selectaction),3)">PlayMedia($INFO[ListItem.FileNameAndPath])</onclick>
+                <onclick condition="!String.IsEqual(Window(home).property(myvideos.selectaction),3)">Control.SetFocus(9502,0,absolute)</onclick>
+                <onclick condition="!String.IsEqual(Window(home).property(myvideos.selectaction),3)">Dialog.Close(1132,force)</onclick>
+                <orientation>horizontal</orientation>
+                <preloaditems>2</preloaditems>
+                <viewtype label="536">list</viewtype>
+                <itemlayout height="$PARAM[height]" width="$PARAM[width]">
+                    <include content="DefExtendedInfoItemContentWIP">
+                        <param name="aspect" value="$PARAM[aspect]" default="scale"/>
+                        <param name="fallbackpicture" value="$PARAM[fallbackpicture]"/>
+                        <param name="storageicon" value="$PARAM[storageicon]"/>
+                    </include>
+                </itemlayout>
+                <focusedlayout height="$PARAM[height]" width="$PARAM[width]">
+                    <include content="DefExtendedInfoFocusContentWIP">
+                        <param name="aspect" value="$PARAM[aspect]" default="scale"/>
+                        <param name="fallbackpicture" value="$PARAM[fallbackpicture]"/>
+                        <param name="controlid" value="$PARAM[controlid]"/>
+                        <param name="zoom" value="$PARAM[zoom]"/>
+                        <param name="labelbottom" value="$PARAM[labelbottom]"/>
+                        <param name="labelleft" value="$PARAM[labelleft]"/>
+                        <param name="labeltwovisible" value="$PARAM[labeltwovisible]"/>
+                        <param name="labeltwobottom" value="$PARAM[labeltwobottom]"/>
+                        <param name="labeltwoleft" value="$PARAM[labeltwoleft]"/>
+                        <param name="storageicon" value="$PARAM[storageicon]"/>
+                    </include>
+                </focusedlayout>
+                <content target="$PARAM[target]" sortorder="$PARAM[sortorder]" sortby="$PARAM[sortby]" limit="$PARAM[limit]">$PARAM[ContentToLoad]</content>
+            </control>
+        </definition>
+    </include>
+
+    <include name="VideoList">
+        <param name="zoom" value="$PARAM[zoom]" default="140"/>
+        <param name="height" value="$PARAM[height]" default="349"/>
+        <definition>
+
+            <!-- INFOCONTENT -->
+            <control type="label">
+                <visible>Control.HasFocus($PARAM[controlid]) + String.IsEmpty(Window.Property(down))</visible>
+                <width>1020</width>
+                <bottom>$PARAM[headerbottom]</bottom>
+                <left>$PARAM[headerleft]</left>
+                <description>Header Label</description>
+                <textcolor>Dark1</textcolor>
+                <include>DefDialogInfoHeader</include>
+                <label>$VAR[VideoListLabelHeader] ($INFO[Container($PARAM[controlid]).NumItems])</label>
+                <include>Animation.DelayFadeIn</include>
+            </control>
+            <control type="group">
+                <visible>!String.IsEmpty(Window.Property(down))</visible>
+                <bottom>$PARAM[headerbottom]</bottom>
+                <left>$PARAM[headerleft]</left>
+                <width>450</width>
+                <height>117</height>
+                <include>Animation.DelayFadeIn</include>
+                <control type="image">
+                    <description>Busy animation</description>
+                    <centerleft>34</centerleft>
+                    <centertop>84</centertop>
+                    <width>100</width>
+                    <height>100</height>
+                    <texture>dialog/loading-back.png</texture>
+                    <aspectratio>keep</aspectratio>
+                </control>
+                <control type="image">
+                    <description>Busy animation</description>
+                    <centerleft>34</centerleft>
+                    <centertop>84</centertop>
+                    <width>100</width>
+                    <height>100</height>
+                    <animation effect="rotate" condition="true" start="360" end="0" loop="true" time="1000" center="auto">Conditional</animation>
+                    <texture colordiffuse="$VAR[ColorHighlight]">dialog/loading-spinner.png</texture>
+                    <aspectratio>keep</aspectratio>
+                </control>
+                <control type="label">
+                    <description>Busy label</description>
+                    <posx>85</posx>
+                    <posy>60</posy>
+                    <width>720</width>
+                    <height>48</height>
+                    <align>left</align>
+                    <label>$LOCALIZE[31138]...</label>
+                    <textcolor>Dark1</textcolor>
+                </control>
+            </control>
+            <control type="group">
+                <animation type="Conditional" condition="!String.IsEmpty(Window.Property(down)) + Control.HasFocus(50)" reversible="false">
+                    <effect type="slide" end="0,-20" time="60" tween="sine"/>
+                    <effect type="slide" end="0,20" time="180" tween="sine" delay="80"/>
+                </animation>
+                <left>-211</left>
+                <top>82</top>
+                <visible>Control.HasFocus(50) + !Container(50).OnNext + !Container(50).OnPrevious</visible>
+                <include>Animation.DelayFadeIn</include>
+                <control type="image">
+                    <width>16</width>
+                    <height>16</height>
+                    <texture colordiffuse="Dark1" flipy="true">common/arrow-small.png</texture>
+                </control>
+                <control type="image">
+                    <top>12</top>
+                    <width>16</width>
+                    <height>16</height>
+                    <texture colordiffuse="Dark1" flipy="true">common/arrow-small.png</texture>
+                </control>
+            </control>
+            <include content="ListInfoArrows">
+                <param name="controlid" value="$PARAM[controlid]"/>
+                <param name="arrowleft" value="$PARAM[arrowleft]"/>
+                <param name="arrowtop" value="$PARAM[arrowtop]"/>
+                <param name="arrowright" value="$PARAM[arrowright]"/>
+            </include>
+            <control type="wraplist" id="$PARAM[controlid]">
+                <visible allowhiddenfocus="true">!Container($PARAM[controlid]).IsUpdating</visible>
+                <visible>$PARAM[visi]</visible>
+                <include>Animation.FadeOutDialogWIP</include>
+                <include>Animation.FadeInDialogWIP</include>
+                <include>$PARAM[animation]</include>
+                <bottom>$PARAM[listbottom]</bottom>
+                <left>$PARAM[listleft]</left>
+                <focusposition>$PARAM[focusposition]</focusposition>
+                <width>2088</width>
+                <height>670</height>
+                <onup>$PARAM[onup1]</onup>
+                <onleft>$PARAM[controlid]</onleft>
+                <onright>$PARAM[controlid]</onright>
+                <ondown>9000</ondown>
+                <ondown>ClearProperty(down)</ondown>
+                <onclick>$PARAM[onclick1]</onclick>
+                <onclick>$PARAM[onclick2]</onclick>
+                <orientation>horizontal</orientation>
+                <preloaditems>2</preloaditems>
+                <viewtype label="536">list</viewtype>
+                <itemlayout height="$PARAM[height]" width="$PARAM[width]">
+                    <include content="DefExtendedInfoItemContentWIP">
+                        <param name="aspect" value="$PARAM[aspect]" default="scale"/>
+                        <param name="fallbackpicture" value="$PARAM[fallbackpicture]"/>
+                    </include>
+                </itemlayout>
+                <focusedlayout height="$PARAM[height]" width="$PARAM[width]">
+                    <include content="DefExtendedInfoFocusContentWIP">
+                        <param name="fallbackpicture" value="$PARAM[fallbackpicture]"/>
+                        <param name="aspect" value="$PARAM[aspect]" default="scale"/>
+                        <param name="controlid" value="$PARAM[controlid]"/>
+                        <param name="zoom" value="$PARAM[zoom]"/>
+                        <param name="labelbottom" value="$PARAM[labelbottom]"/>
+                        <param name="labelleft" value="$PARAM[labelleft]"/>
+                        <param name="labeltwovisible" value="$PARAM[labeltwovisible]"/>
+                        <param name="labeltwobottom" value="$PARAM[labeltwobottom]"/>
+                        <param name="labeltwoleft" value="$PARAM[labeltwoleft]"/>
+                    </include>
+                </focusedlayout>
+            </control>
+        </definition>
+    </include>
+
+    <include name="VideoListCast">
+        <param name="fallbackpicture" value="$PARAM[fallbackpicture]" default="DefaultPicture.png"/>
+        <param name="leftbackgroundlist" value="$PARAM[leftbackgroundlist]" default="-227"/>
+        <param name="animation.new" value="$PARAM[animation.new]" default="Animation.CastInfo"/>
+        <param name="zoom" value="$PARAM[zoom]" default="140"/>
+        <param name="height" value="$PARAM[height]" default="349"/>
+        <param name="storageicon.backgroundlist" value="$PARAM[storageicon.backgroundlist]"/>
+        <definition>
+
+            <!-- INFOCONTENT -->
             <control type="label">
                 <visible>Control.HasFocus($PARAM[controlid]) + String.IsEmpty(Window.Property(down))</visible>
                 <width>1020</width>
@@ -450,8 +454,8 @@
             </control>
             <control type="group">
                 <animation type="Conditional" condition="!String.IsEmpty(Window.Property(down)) + Control.HasFocus($PARAM[controlid])" reversible="false">
-                    <effect type="slide" end="0,-20" time="60" tween="sine" />
-                    <effect type="slide" end="0,20" time="180" tween="sine" delay="80" />
+                    <effect type="slide" end="0,-20" time="60" tween="sine"/>
+                    <effect type="slide" end="0,20" time="180" tween="sine" delay="80"/>
                 </animation>
                 <left>-211</left>
                 <top>82</top>
@@ -468,14 +472,15 @@
                     <height>16</height>
                     <texture colordiffuse="Dark1" flipy="true">common/arrow-small.png</texture>
                 </control>
-            </control>        
+            </control>
             <include content="ListInfoArrows">
-                <param name="controlid" value="$PARAM[controlid]" />
-                <param name="arrowleft" value="$PARAM[arrowleft]" />
-                <param name="arrowtop" value="$PARAM[arrowtop]" />
-                <param name="arrowright" value="$PARAM[arrowright]" />
+                <param name="controlid" value="$PARAM[controlid]"/>
+                <param name="arrowleft" value="$PARAM[arrowleft]"/>
+                <param name="arrowtop" value="$PARAM[arrowtop]"/>
+                <param name="arrowright" value="$PARAM[arrowright]"/>
             </include>
-            <!-- Background List -->        
+
+            <!-- Background List -->
             <control type="grouplist">
                 <top>361</top>
                 <left>$PARAM[leftbackgroundlist]</left>
@@ -486,20 +491,21 @@
                 <visible>$PARAM[visi]</visible>
                 <visible>!Container($PARAM[controlid]).IsUpdating</visible>
                 <include>Animation.FadeInDialogWIP2</include>
-                <include>Animation.FadeOutDialogWIP</include>           
+                <include>Animation.FadeOutDialogWIP</include>
                 <include content="$PARAM[animation.new]">
-                    <param name="controlid" value="$PARAM[controlid]" />   
+                    <param name="controlid" value="$PARAM[controlid]"/>
                 </include>
-                <include content="DefCastIconsBackgroundList">                        
-                    <param name="id" value="0" />
-                    <param name="fallbackpicture" value="$PARAM[fallbackpicture]" />
-                    <param name="controlid" value="$PARAM[controlid]" />
-                    <param name="visibleshadow" value="!Control.HasFocus($PARAM[controlid])" />
-                    <param name="storageicon.backgroundlist" value="$PARAM[storageicon.backgroundlist]" /> 
-                    <param name="aspectbox" value="$PARAM[aspectbox]" />
-                    <param name="aspectposter" value="$PARAM[aspectposter]" />               
+                <include content="DefCastIconsBackgroundList">
+                    <param name="id" value="0"/>
+                    <param name="fallbackpicture" value="$PARAM[fallbackpicture]"/>
+                    <param name="controlid" value="$PARAM[controlid]"/>
+                    <param name="visibleshadow" value="!Control.HasFocus($PARAM[controlid])"/>
+                    <param name="storageicon.backgroundlist" value="$PARAM[storageicon.backgroundlist]"/>
+                    <param name="aspectbox" value="$PARAM[aspectbox]"/>
+                    <param name="aspectposter" value="$PARAM[aspectposter]"/>
                 </include>
-            </control>      
+            </control>
+
             <!-- Focused List -->
             <control type="fixedlist" id="$PARAM[controlid]">
                 <visible allowhiddenfocus="true">!Container($PARAM[controlid]).IsUpdating</visible>
@@ -508,7 +514,7 @@
                 <include>Animation.FadeInDialogWIP</include>
                 <bottom>$PARAM[listbottom]</bottom>
                 <left>$PARAM[listleft]</left>
-                <focusposition>$PARAM[focusposition]</focusposition>    
+                <focusposition>$PARAM[focusposition]</focusposition>
                 <width>2288</width>
                 <height>670</height>
                 <onup>$PARAM[onup1]</onup>
@@ -524,51 +530,52 @@
                 <onclick>$PARAM[onclick2]</onclick>
                 <orientation>horizontal</orientation>
                 <preloaditems>2</preloaditems>
-                <viewtype label="536">list</viewtype>	          
+                <viewtype label="536">list</viewtype>
                 <itemlayout height="$PARAM[height]" width="$PARAM[width]">
                     <control type="group">
-                    <visible>$PARAM[visible.layouts]</visible>
-                    <animation effect="fade" tween="sine" easing="inout" start="0" end="100" time="450" delay="50">Visible</animation>
-                    <include content="DefExtendedInfoItemContentWIP">
-                        <param name="aspect" value="$PARAM[aspect]" default="scale" />
-                        <param name="fallbackpicture" value="$PARAM[fallbackpicture]" />
-                    </include>
+                        <visible>$PARAM[visible.layouts]</visible>
+                        <animation effect="fade" tween="sine" easing="inout" start="0" end="100" time="450" delay="50">Visible</animation>
+                        <include content="DefExtendedInfoItemContentWIP">
+                            <param name="aspect" value="$PARAM[aspect]" default="scale"/>
+                            <param name="fallbackpicture" value="$PARAM[fallbackpicture]"/>
+                        </include>
                     </control>
                 </itemlayout>
                 <focusedlayout height="$PARAM[height]" width="$PARAM[width]">
                     <control type="group">
-                    <visible>$PARAM[visible.layouts]</visible>
-                    <animation effect="fade" start="0" end="100" time="0" delay="150">Visible</animation>
-                    <include content="DefExtendedInfoFocusContentWIP">
-                        <param name="fallbackpicture" value="$PARAM[fallbackpicture]" />
-                        <param name="aspect" value="$PARAM[aspect]" default="scale" />
-                        <param name="controlid" value="$PARAM[controlid]" />
-                        <param name="zoom" value="$PARAM[zoom]" />
-                        <param name="labelbottom" value="$PARAM[labelbottom]" />
-                        <param name="labelleft" value="$PARAM[labelleft]" />
-                        <param name="labeltwovisible" value="$PARAM[labeltwovisible]" />
-                        <param name="labeltwobottom" value="$PARAM[labeltwobottom]" />
-                        <param name="labeltwoleft" value="$PARAM[labeltwoleft]" />
-                    </include>
-                    </control>					
+                        <visible>$PARAM[visible.layouts]</visible>
+                        <animation effect="fade" start="0" end="100" time="0" delay="150">Visible</animation>
+                        <include content="DefExtendedInfoFocusContentWIP">
+                            <param name="fallbackpicture" value="$PARAM[fallbackpicture]"/>
+                            <param name="aspect" value="$PARAM[aspect]" default="scale"/>
+                            <param name="controlid" value="$PARAM[controlid]"/>
+                            <param name="zoom" value="$PARAM[zoom]"/>
+                            <param name="labelbottom" value="$PARAM[labelbottom]"/>
+                            <param name="labelleft" value="$PARAM[labelleft]"/>
+                            <param name="labeltwovisible" value="$PARAM[labeltwovisible]"/>
+                            <param name="labeltwobottom" value="$PARAM[labeltwobottom]"/>
+                            <param name="labeltwoleft" value="$PARAM[labeltwoleft]"/>
+                        </include>
+                    </control>
                 </focusedlayout>
-            </control>         
-        </definition>                  
+            </control>
+        </definition>
     </include>
 
     <include name="VideoListSquareNew">
-        <param name="zoom" value="$PARAM[zoom]" default="140" />
-        <param name="height" value="$PARAM[height]" default="349" />
-        <param name="topbackgroundlist" value="$PARAM[topbackgroundlist]" default="361" />
-        <param name="leftbackgroundlist" value="$PARAM[leftbackgroundlist]" default="-227" />
-        <param name="aspectposter" value="$PARAM[aspectposter]" default="true" />
-        <param name="aspectbox" value="$PARAM[aspectbox]" default="false" />
-        <param name="listtype" value="$PARAM[listtype]" default="fixedlist" />
-        <param name="music_info_onclick" value="$PARAM[music_info_onclick]" default="true" />
-        <param name="music_info_album" value="$PARAM[music_info_album]" default="false" />
-        <param name="animation.new" value="$PARAM[animation.new]" default="Animation.CastInfo" />
+        <param name="zoom" value="$PARAM[zoom]" default="140"/>
+        <param name="height" value="$PARAM[height]" default="349"/>
+        <param name="topbackgroundlist" value="$PARAM[topbackgroundlist]" default="361"/>
+        <param name="leftbackgroundlist" value="$PARAM[leftbackgroundlist]" default="-227"/>
+        <param name="aspectposter" value="$PARAM[aspectposter]" default="true"/>
+        <param name="aspectbox" value="$PARAM[aspectbox]" default="false"/>
+        <param name="listtype" value="$PARAM[listtype]" default="fixedlist"/>
+        <param name="music_info_onclick" value="$PARAM[music_info_onclick]" default="true"/>
+        <param name="music_info_album" value="$PARAM[music_info_album]" default="false"/>
+        <param name="animation.new" value="$PARAM[animation.new]" default="Animation.CastInfo"/>
         <definition>
-            <!-- INFOCONTENT -->		
+
+            <!-- INFOCONTENT -->
             <control type="label">
                 <visible>Control.HasFocus($PARAM[controlid])</visible>
                 <width>1020</width>
@@ -581,12 +588,13 @@
                 <include>Animation.DelayFadeIn</include>
             </control>
             <include content="ListInfoArrows">
-                <param name="controlid" value="$PARAM[controlid]" />
-                <param name="arrowleft" value="$PARAM[arrowleft]" />
-                <param name="arrowtop" value="$PARAM[arrowtop]" />
-                <param name="arrowright" value="$PARAM[arrowright]" />
+                <param name="controlid" value="$PARAM[controlid]"/>
+                <param name="arrowleft" value="$PARAM[arrowleft]"/>
+                <param name="arrowtop" value="$PARAM[arrowtop]"/>
+                <param name="arrowright" value="$PARAM[arrowright]"/>
             </include>
-            <!-- Background List -->          
+
+            <!-- Background List -->
             <control type="grouplist">
                 <top>$PARAM[topbackgroundlist]</top>
                 <left>$PARAM[leftbackgroundlist]</left>
@@ -597,22 +605,23 @@
                 <visible>$PARAM[visi]</visible>
                 <visible>!Container($PARAM[controlid]).IsUpdating</visible>
                 <include>Animation.FadeInDialogWIP2</include>
-                <include>Animation.FadeOutDialogWIP</include>           
+                <include>Animation.FadeOutDialogWIP</include>
                 <include content="$PARAM[animation.new]">
-                    <param name="controlid" value="$PARAM[controlid]" />
-                    <param name="animation.condition" value="$PARAM[animation.condition]" />   
-                </include>            
-                <include content="DefCastIconsBackgroundList">                        
-                    <param name="id" value="0" />
-                    <param name="fallbackpicture" value="$PARAM[fallbackpicture]" />
-                    <param name="controlid" value="$PARAM[controlid]" />
-                    <param name="visibleshadow" value="!Control.HasFocus($PARAM[controlid])" />
-                    <param name="storageicon.backgroundlist" value="$PARAM[storageicon.backgroundlist]" /> 
-                    <param name="aspectbox" value="$PARAM[aspectbox]" />
-                    <param name="aspectposter" value="$PARAM[aspectposter]" />               
+                    <param name="controlid" value="$PARAM[controlid]"/>
+                    <param name="animation.condition" value="$PARAM[animation.condition]"/>
                 </include>
-            </control> 
-            <!-- Focused List -->  
+                <include content="DefCastIconsBackgroundList">
+                    <param name="id" value="0"/>
+                    <param name="fallbackpicture" value="$PARAM[fallbackpicture]"/>
+                    <param name="controlid" value="$PARAM[controlid]"/>
+                    <param name="visibleshadow" value="!Control.HasFocus($PARAM[controlid])"/>
+                    <param name="storageicon.backgroundlist" value="$PARAM[storageicon.backgroundlist]"/>
+                    <param name="aspectbox" value="$PARAM[aspectbox]"/>
+                    <param name="aspectposter" value="$PARAM[aspectposter]"/>
+                </include>
+            </control>
+
+            <!-- Focused List -->
             <control type="$PARAM[listtype]" id="$PARAM[controlid]">
                 <visible allowhiddenfocus="true">!Container($PARAM[controlid]).IsUpdating</visible>
                 <visible>$PARAM[visi]</visible>
@@ -621,7 +630,7 @@
                 <include>Animation.DelayFadeIn</include>
                 <bottom>$PARAM[listbottom]</bottom>
                 <left>$PARAM[listleft]</left>
-                <focusposition>$PARAM[focusposition]</focusposition>    
+                <focusposition>$PARAM[focusposition]</focusposition>
                 <width>2488</width>
                 <height>670</height>
                 <onup>$PARAM[onup1]</onup>
@@ -630,62 +639,63 @@
                 <ondown>9000</ondown>
                 <onback>9000</onback>
                 <include content="OnClickInclude" condition="$PARAM[music_info_onclick]">
-                    <param name="onclick1" value="$PARAM[onclick1]" />
-                    <param name="onclick2" value="$PARAM[onclick2]" />
-                    <param name="onclick3" value="$PARAM[onclick3]" />                
-                </include>                
-                <include condition="$PARAM[music_info_album]">OnClickInclude2</include>       
+                    <param name="onclick1" value="$PARAM[onclick1]"/>
+                    <param name="onclick2" value="$PARAM[onclick2]"/>
+                    <param name="onclick3" value="$PARAM[onclick3]"/>
+                </include>
+                <include condition="$PARAM[music_info_album]">OnClickInclude2</include>
                 <orientation>horizontal</orientation>
                 <preloaditems>2</preloaditems>
-                <viewtype label="536">list</viewtype>	          
+                <viewtype label="536">list</viewtype>
                 <itemlayout height="$PARAM[height]" width="$PARAM[width]">
                     <control type="group">
-                    <visible>$PARAM[visible.layouts]</visible>
-                    <animation effect="fade" tween="sine" easing="inout" start="0" end="100" time="450" delay="50">Visible</animation>
-                    <include content="DefExtendedInfoItemContentWIP">
-                        <param name="aspect" value="$PARAM[aspect]" default="scale" />
-                        <param name="fallbackpicture" value="$PARAM[fallbackpicture]" />
-                        <param name="storageicon" value="$PARAM[storageicon]" />
-                    </include>
+                        <visible>$PARAM[visible.layouts]</visible>
+                        <animation effect="fade" tween="sine" easing="inout" start="0" end="100" time="450" delay="50">Visible</animation>
+                        <include content="DefExtendedInfoItemContentWIP">
+                            <param name="aspect" value="$PARAM[aspect]" default="scale"/>
+                            <param name="fallbackpicture" value="$PARAM[fallbackpicture]"/>
+                            <param name="storageicon" value="$PARAM[storageicon]"/>
+                        </include>
                     </control>
                 </itemlayout>
                 <focusedlayout height="$PARAM[height]" width="$PARAM[width]">
                     <control type="group">
-                    <visible>$PARAM[visible.layouts]</visible>
-                    <animation effect="fade" start="0" end="100" time="0" delay="150">Visible</animation>
-                    <include content="DefExtendedInfoFocusContentWIP">
-                        <param name="aspect" value="$PARAM[aspect]" default="scale" />
-                        <param name="fallbackpicture" value="$PARAM[fallbackpicture]" />
-                        <param name="controlid" value="$PARAM[controlid]" />
-                        <param name="zoom" value="$PARAM[zoom]" />
-                        <param name="labelbottom" value="$PARAM[labelbottom]" />
-                        <param name="labelleft" value="$PARAM[labelleft]" />
-                        <param name="labeltwovisible" value="$PARAM[labeltwovisible]" />
-                        <param name="labeltwobottom" value="$PARAM[labeltwobottom]" />
-                        <param name="labeltwoleft" value="$PARAM[labeltwoleft]" />
-                        <param name="storageicon" value="$PARAM[storageicon]" />
-                    </include>
-                    </control>					
+                        <visible>$PARAM[visible.layouts]</visible>
+                        <animation effect="fade" start="0" end="100" time="0" delay="150">Visible</animation>
+                        <include content="DefExtendedInfoFocusContentWIP">
+                            <param name="aspect" value="$PARAM[aspect]" default="scale"/>
+                            <param name="fallbackpicture" value="$PARAM[fallbackpicture]"/>
+                            <param name="controlid" value="$PARAM[controlid]"/>
+                            <param name="zoom" value="$PARAM[zoom]"/>
+                            <param name="labelbottom" value="$PARAM[labelbottom]"/>
+                            <param name="labelleft" value="$PARAM[labelleft]"/>
+                            <param name="labeltwovisible" value="$PARAM[labeltwovisible]"/>
+                            <param name="labeltwobottom" value="$PARAM[labeltwobottom]"/>
+                            <param name="labeltwoleft" value="$PARAM[labeltwoleft]"/>
+                            <param name="storageicon" value="$PARAM[storageicon]"/>
+                        </include>
+                    </control>
                 </focusedlayout>
                 <content target="$PARAM[target]" sortby="$PARAM[sortby]" limit="$PARAM[limit]">$PARAM[ContentToLoad]</content>
             </control>
-        </definition>                  
+        </definition>
     </include>
-    
+
     <include name="OnClickInclude">
         <onclick condition="!Window.IsVisible(Custom_MovieSets.xml)">$PARAM[onclick1]</onclick>
         <onclick condition="!Window.IsVisible(Custom_MovieSets.xml)">$PARAM[onclick2]</onclick>
-        <onclick condition="!Window.IsVisible(Custom_MovieSets.xml)">$PARAM[onclick3]</onclick> 
+        <onclick condition="!Window.IsVisible(Custom_MovieSets.xml)">$PARAM[onclick3]</onclick>
     </include>
+
     <include name="OnClickInclude2">
         <onclick condition="!Window.IsVisible(Custom_MovieSets.xml)">RunScript(script.embuary.helper,action=goto,path='"musicdb://albums/$INFO[ListItem.DBID]/"',target=music)</onclick>
     </include>
-    
+
     <include name="ImageList">
-        <control type="group"> 
+        <control type="group">
             <visible allowhiddenfocus="true">!Container($PARAM[controlid]).IsUpdating</visible>
-            <control type="group">             
-                <visible>$PARAM[visi]</visible>				
+            <control type="group">
+                <visible>$PARAM[visi]</visible>
                 <include>Animation.FadeInDialogInfo</include>
                 <include>Animation.FadeOutDialogInfo</include>
                 <left>$PARAM[listleft]</left>
@@ -696,8 +706,8 @@
                     <left>-2</left>
                     <top>-121</top>
                     <right>6</right>
-                    <bottom>70</bottom>                   
-                    <texture diffuse="diffuse/bigwiderolodex.png" colordiffuse="Box2">common/box18.png</texture>       
+                    <bottom>70</bottom>
+                    <texture diffuse="diffuse/bigwiderolodex.png" colordiffuse="Box2">common/box18.png</texture>
                 </control>
                 <control type="image">
                     <left>-8</left>
@@ -719,10 +729,10 @@
                 </control>
                 <control type="image">
                     <height>610</height>
-                    <width>1262</width> 
+                    <width>1262</width>
                     <left>-1</left>
-                    <top>-120</top>                 
-                    <texture diffuse="diffuse/bigwiderolodex.png" colordiffuse="Background">common/white.png</texture>       
+                    <top>-120</top>
+                    <texture diffuse="diffuse/bigwiderolodex.png" colordiffuse="Background">common/white.png</texture>
                 </control>
                 <control type="fixedlist" id="$PARAM[controlid]">
                     <top>-120</top>
@@ -733,7 +743,7 @@
                     <onup>9000</onup>
                     <width>1262</width>
                     <preloaditems>2</preloaditems>
-                    <autoscroll time="5000">ControlGroup(9000).HasFocus()</autoscroll>				
+                    <autoscroll time="5000">ControlGroup(9000).HasFocus()</autoscroll>
                     <viewtype label="37518">fixedlist</viewtype>
                     <orientation>horizontal</orientation>
                     <scrolltime tween="quadratic">300</scrolltime>
@@ -759,13 +769,13 @@
                     <texture colordiffuse="88ffffff">common/lupe.png</texture>
                     <visible>Control.HasFocus($PARAM[controlid])</visible>
                     <include>Animation.DelayFadeIn</include>
-                </control>			
-            </control> 
-        </control> 
+                </control>
+            </control>
+        </control>
     </include>
 
     <include name="most_played_song">
-        <control type="button" id ="9010">
+        <control type="button" id="9010">
             <left>-2000</left>
             <width>1</width>
             <visible allowhiddenfocus="true">false</visible>
@@ -775,19 +785,19 @@
             <onright>SetFocus(9000)</onright>
             <onclick>PlayMedia($ESCINFO[Container(9551).ListItem.FileNameAndPath])</onclick>
         </control>
-        <control type="list" id="9551">         
+        <control type="list" id="9551">
             <left>250</left>
             <top>0</top>
             <right>SidePad</right>
             <width>1000</width>
             <height>50</height>
             <onleft>9000</onleft>
-            <onright>62</onright>					
+            <onright>62</onright>
             <onup>9551</onup>
             <ondown>9551</ondown>
             <viewtype label="">list</viewtype>
             <pagecontrol>62</pagecontrol>
-            <orientation>vertical</orientation>		
+            <orientation>vertical</orientation>
             <itemlayout height="36" width="1000">
                 <control type="group">
                     <control type="label">
@@ -795,7 +805,7 @@
                         <selectedcolor>Dark2</selectedcolor>
                         <height>auto</height>
                         <width>660</width>
-                        <font>Tiny</font>                           
+                        <font>Tiny</font>
                         <label>$INFO[ListItem.Label] $INFO[ListItem.Year,(,)]</label>
                     </control>
                 </control>
@@ -808,10 +818,10 @@
                         <selectedcolor>$VAR[ColorHighlight]</selectedcolor>
                         <height>auto</height>
                         <width>660</width>
-                        <font>Tiny</font>                           
+                        <font>Tiny</font>
                         <label>$INFO[ListItem.Label] $INFO[ListItem.Year,(,)]</label>
-                    </control>  
-                </control>  
+                    </control>
+                </control>
                 <control type="group">
                     <visible>!Control.HasFocus(9010)</visible>
                     <control type="label">
@@ -819,16 +829,17 @@
                         <selectedcolor>Dark2</selectedcolor>
                         <height>auto</height>
                         <width>660</width>
-                        <font>Tiny</font>                           
+                        <font>Tiny</font>
                         <label>$INFO[ListItem.Label] $INFO[ListItem.Year,(,)]</label>
-                    </control>  
-                </control>         
-            </focusedlayout> 
-            <content sortorder="descending" limit="1" sortby="playcount">musicdb://songs/?xsp=%7B%22order%22%3A%7B%22direction%22%3A%22ascending%22%2C%22ignorefolders%22%3A0%2C%22method%22%3A%22songs%22%7D%2C%22rules%22%3A%7B%22and%22%3A%5B%7B%22field%22%3A%22artist%22%2C%22operator%22%3A%22contains%22%2C%22value%22%3A%5B%22$INFO[ListItem.Artist]%22%5D%7D%5D%7D%2C%22type%22%3A%22songs%22%7D</content>                  
+                    </control>
+                </control>
+            </focusedlayout>
+            <content sortorder="descending" limit="1" sortby="playcount">musicdb://songs/?xsp=%7B%22order%22%3A%7B%22direction%22%3A%22ascending%22%2C%22ignorefolders%22%3A0%2C%22method%22%3A%22songs%22%7D%2C%22rules%22%3A%7B%22and%22%3A%5B%7B%22field%22%3A%22artist%22%2C%22operator%22%3A%22contains%22%2C%22value%22%3A%5B%22$INFO[ListItem.Artist]%22%5D%7D%5D%7D%2C%22type%22%3A%22songs%22%7D</content>
         </control>
     </include>
-    
+
     <!-- Hidden list for counting sets/albumtracks -->
+
     <include name="MovieSetsList">
         <control type="list" id="44321">
             <visible>String.IsEqual(Container(301).ListItem.DBType,set)</visible>
@@ -838,8 +849,8 @@
             <height>1</height>
             <itemlayout/>
             <focusedlayout/>
-            <content>videodb://movies/sets/$INFO[Container(301).ListItem.DBID]/?setid=$INFO[Container(301).ListItem.DBID]</content>            
-        </control> 
+            <content>videodb://movies/sets/$INFO[Container(301).ListItem.DBID]/?setid=$INFO[Container(301).ListItem.DBID]</content>
+        </control>
         <control type="list" id="44322">
             <visible>String.IsEqual(Container(301).ListItem.DBType,album)</visible>
             <top>-3000</top>
@@ -848,8 +859,8 @@
             <height>1</height>
             <itemlayout/>
             <focusedlayout/>
-            <content>$INFO[Container(301).ListItem.FolderPath]</content>            
-        </control>            
+            <content>$INFO[Container(301).ListItem.FolderPath]</content>
+        </control>
     </include>
 
     <include name="AlbumAndSetsCount">
@@ -861,8 +872,8 @@
             <height>1</height>
             <itemlayout/>
             <focusedlayout/>
-            <content>videodb://movies/sets/$INFO[ListItem.DBID]/?setid=$INFO[ListItem.DBID]</content>            
-        </control> 
+            <content>videodb://movies/sets/$INFO[ListItem.DBID]/?setid=$INFO[ListItem.DBID]</content>
+        </control>
         <control type="list" id="44022">
             <visible>String.IsEqual(ListItem.DBType,album)</visible>
             <top>-3000</top>
@@ -871,7 +882,7 @@
             <height>1</height>
             <itemlayout/>
             <focusedlayout/>
-            <content>$INFO[ListItem.FolderPath]</content>            
-        </control> 
+            <content>$INFO[ListItem.FolderPath]</content>
+        </control>
     </include>
 </includes>
