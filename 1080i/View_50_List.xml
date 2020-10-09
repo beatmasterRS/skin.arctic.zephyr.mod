@@ -14,9 +14,15 @@
                     <oninfo condition="ListItem.IsCollection">ActivateWindow(1132)</oninfo>
                     <oninfo condition="Container.Content(actors)">RunScript(script.embuary.info,call=person,query='"$INFO[ListItem.Label]"')</oninfo>
                     <visible>String.Contains(Container.FolderPath,plugin://plugin.program.advanced.launcher/,left) | Container.Content(musicvideos) | Container.Content(movies) | Container.Content(tvshows) | Container.Content(actors) | Container.Content(sets) | Container.Content(seasons) | [Container.Content(files) + !String.Contains(Container.FolderPath,plugin://,left) + !String.IsEqual(Container.FolderPath,library://video/movies/) + !String.IsEqual(Container.FolderPath,library://video/tvshows/) + !String.IsEqual(Container.FolderPath,special://videoplaylists/)] | [Container.Content(episodes) + !String.Contains(Container.FolderPath,plugin://,left)]</visible>
+                    <include content="forced_view" condition="Skin.HasSetting(enable.forcedviews)">
+                        <param name="string" value="$LOCALIZE[535]" />
+                    </include>
                     <top>PosterPad</top>
-                    <height>PosterH</height>
-                    <left>ListX</left>
+                    <height>PosterH</height>                    
+                    <include condition="Skin.HasSetting(disable.poster)" content="def_left"><param name="left" value="SidePad" /></include>
+                    <include condition="Skin.HasSetting(disable.poster)" content="def_left"><param name="left" value="ListX" /></include>
+                    <include condition="Skin.HasSetting(disable.poster)" content="def_width"><param name="width" value="1760" /></include>
+                    <include condition="!Skin.HasSetting(disable.poster)" content="def_width"><param name="width" value="ListW" /></include>
                     <right>SidePad</right>
                     <onleft condition="!Skin.HasSetting(global.kioskmode)">9000</onleft>
                     <onright>1627</onright>
@@ -25,13 +31,13 @@
                     <pagecontrol>1627</pagecontrol>
                     <viewtype label="535">list</viewtype>
                     <scrolltime tween="quadratic">400</scrolltime>
-                    <itemlayout condition="!Skin.HasSetting(511ListInfo) | Container.Content(files)" width="ListW" height="64">
+                    <itemlayout condition="!Skin.HasSetting(511ListInfo) | Container.Content(files)" width="auto" height="64">
                         <include>50itemlayout</include>
                     </itemlayout>
-                    <itemlayout condition="Skin.HasSetting(511ListInfo) + !Container.Content(files)" width="ListW" height="91">
+                    <itemlayout condition="Skin.HasSetting(511ListInfo) + !Container.Content(files)" width="auto" height="91">
                         <include>50itemlayout_info</include>
                     </itemlayout>
-                    <focusedlayout width="ListW" height="91" condition="Skin.HasSetting(511ListInfo) + !Container.Content(files)">
+                    <focusedlayout width="auto" height="180" condition="Skin.HasSetting(511ListInfo) + Skin.HasSetting(show.plot) + !Container.Content(files)">
                         <control type="group">
                             <visible>!Control.HasFocus(60)</visible>
                             <include>50focuslayout_info</include>
@@ -41,7 +47,17 @@
                             <include>50itemlayout_info</include>
                         </control>
                     </focusedlayout>
-                    <focusedlayout width="ListW" height="64" condition="!Skin.HasSetting(511ListInfo) | Container.Content(files)">
+                    <focusedlayout width="auto" height="91" condition="Skin.HasSetting(511ListInfo) + !Skin.HasSetting(show.plot) + !Container.Content(files)">
+                        <control type="group">
+                            <visible>!Control.HasFocus(60)</visible>
+                            <include>50focuslayout_info</include>
+                        </control>
+                        <control type="group">
+                            <visible>Control.HasFocus(60)</visible>
+                            <include>50itemlayout_info</include>
+                        </control>
+                    </focusedlayout>
+                    <focusedlayout width="auto" height="64" condition="!Skin.HasSetting(511ListInfo) | Container.Content(files)">
                         <control type="group">
                             <visible>!Control.HasFocus(60)</visible>
                             <include>50focuslayout</include>
@@ -58,7 +74,7 @@
                     </include>
                 </control>
             </control>
-            <include>View_50_SidePoster</include>
+            <include condition="!Skin.HasSetting(disable.poster)">View_50_SidePoster</include>
         </control>
     </include>
 
@@ -1543,6 +1559,18 @@
             <label>$VAR[LabelRating]</label>
             <visible>!String.IsEqual(ListItem.Label,..)</visible>
             <visible>!Container.Content(seasons)</visible>
+        </control>
+        <control type="textbox">
+            <visible>Skin.HasSetting(show.plot) + !Skin.HasSetting(50list.low) + !String.IsEqual(ListItem.Label,..)</visible>
+            <top>95</top>
+            <left>30</left>
+            <right>30</right>
+            <height>72</height>
+            <align>left</align>
+            <font>Small24</font>
+            <textcolor>Light2</textcolor>
+            <selectedcolor>Light2</selectedcolor>
+            <label>$INFO[ListItem.Plot]</label>
         </control>
     </include>
 
