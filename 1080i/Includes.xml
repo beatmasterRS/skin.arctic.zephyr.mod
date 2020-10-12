@@ -4270,6 +4270,12 @@
     </variable>
 
     <include name="WidgetSelector">
+        <control type="button" id="4988">
+            <include>DefWidgetSelectorInfo</include>             
+            <label>31144</label>                                   
+            <enable>false</enable>
+            <visible>String.IsEqual(Window.Property(groupname),mainmenu) + String.IsEmpty(Window(Home).Property(skinshortcuts-Widget))</visible>
+        </control>
         <control type="button" id="9101" description="Alt chooser">
             <width>100%</width>
             <height>66</height>
@@ -4342,6 +4348,12 @@
             <visible>String.IsEmpty(Window(Home).Property(skinshortcuts-Widget))</visible>
             <visible>String.IsEqual(Window.Property(groupname),mainmenu)</visible>
             <visible>[Skin.HasSetting(home.vertical) + Skin.HasSetting(home.vertical.widgets)] | [Skin.HasSetting(home.modernwidgets)  + Skin.HasSetting(home.vertical.widgets)]</visible>
+        </control>
+        <control type="button" id="4989">
+            <include>DefWidgetSelectorInfo</include>
+            <label>33063</label>                                 
+            <enable>false</enable>
+            <visible>String.IsEqual(Window.Property(groupname),mainmenu) + String.IsEmpty(Window(Home).Property(skinshortcuts-Widget))</visible>
         </control>
     </include>
 
@@ -4562,5 +4574,36 @@
         <width>16</width>
         <height>16</height>
         <texture colordiffuse="Dark1" flipy="false">common/arrow-small-right.png</texture>
+    </include>
+    
+    <include name="more">
+        <control type="label">
+            <align>center</align>
+            <aligny>center</aligny>
+            <width>100%</width>
+            <height>100%</height>
+            <textcolor>PanelWhite70</textcolor>
+            <font>Small</font>
+            <label>37903</label>
+            <visible>!String.IsEqual(ListItem.Label,..)</visible>
+            <visible>String.IsEqual(ListItem.Property(LabelMore),more)</visible>
+        </control>
+    </include>
+    
+    <include name="morecontent">
+        <param name="morevisible" value="$PARAM[morevisible]" default="false"/>
+        <definition>
+        <content>
+            <item>
+                <label>$LOCALIZE[37903]</label>
+                <property name="LabelMore">more</property>
+                <icon>buttonsdialogs/morewidget.png</icon>
+                <onclick>ActivateWindow($PARAM[targetcontent],$PARAM[content],return)</onclick>
+                <visible>Integer.IsGreater(Container($PARAM[id]).NumItems,9)</visible>
+                <visible>$PARAM[morevisible]</visible>
+                <visible>!Skin.HasSetting(disable.morewidget)</visible>
+            </item>
+        </content>
+        </definition>
     </include>
 </includes>
