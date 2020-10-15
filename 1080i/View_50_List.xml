@@ -20,7 +20,7 @@
                     <top>PosterPad</top>
                     <height>PosterH</height>                    
                     <include condition="Skin.HasSetting(disable.poster)" content="def_left"><param name="left" value="SidePad" /></include>
-                    <include condition="Skin.HasSetting(disable.poster)" content="def_left"><param name="left" value="ListX" /></include>
+                    <include condition="!Skin.HasSetting(disable.poster)" content="def_left"><param name="left" value="ListX" /></include>
                     <include condition="Skin.HasSetting(disable.poster)" content="def_width"><param name="width" value="1760" /></include>
                     <include condition="!Skin.HasSetting(disable.poster)" content="def_width"><param name="width" value="ListW" /></include>
                     <right>SidePad</right>
@@ -243,14 +243,28 @@
                 <height>PosterShadowH</height>
                 <texture border="32">common/$VAR[shadow-24]</texture>
             </control>
-
-            <!-- Animated Posters -->
+            <control type="image">
+                <width>PosterW</width>
+                <height>PosterH</height>
+                <texture border="5" colordiffuse="FF181818">common/box.png</texture>
+            </control>
+            
             <control type="image">
                 <width>PosterW</width>
                 <height>PosterH</height>
                 <fadetime>PosterFanartFadetime</fadetime>
                 <aspectratio align="center" aligny="center" scalediffuse="false">scale</aspectratio>
                 <texture diffuse="diffuse/listposter2.png" background="true">$VAR[PosterImage]</texture>
+                
+            </control>
+            <control type="image">
+                <width>250</width>
+                <left>145</left>
+                <bottom>255</bottom>
+                <fadetime>200</fadetime>
+                <aspectratio align="right" aligny="bottom">keep</aspectratio>
+                <texture background="true">$VAR[ClearLogoImage]</texture>
+                <visible>Skin.HasSetting(fanart.instead.poster)</visible>
             </control>
             <control type="image">
                 <left>-1</left>
@@ -1561,7 +1575,7 @@
             <visible>!Container.Content(seasons)</visible>
         </control>
         <control type="textbox">
-            <visible>Skin.HasSetting(show.plot) + !Skin.HasSetting(50list.low) + !String.IsEqual(ListItem.Label,..)</visible>
+            <visible>Skin.HasSetting(show.plot) + !Skin.HasSetting(50list.low) + !String.IsEqual(ListItem.Label,..) + !Control.IsVisible(57)</visible>
             <top>95</top>
             <left>30</left>
             <right>30</right>
