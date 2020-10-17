@@ -3805,59 +3805,28 @@
                     <font>Flag</font>
                     <width>auto</width>
                     <textcolor>Dark2</textcolor>
-                    <label>$INFO[VideoPlayer.TvShowTitle,,  ]$INFO[MusicPlayer.Artist,,  ]$INFO[Player.Time]$INFO[Player.Duration, / ,]</label>
+                    <label>$VAR[Label_PVR_Other]</label>
                 </control>
             </control>
             <control type="group">
                 <posx>-20</posx>
                 <height>100</height>
                 <width>100</width>
-                <control type="image" description="Back">
-                    <left>0</left>
-                    <centertop>50%</centertop>
-                    <width>100</width>
-                    <height>100</height>
-                    <aspectratio align="center" aligny="center">keep</aspectratio>
-                    <texture>progress/back.png</texture>
-                    <animation effect="fade" start="0" end="100" time="150">VisibleChange</animation>
+                <control type="group">
+                    <include content="NowPlaying_Progress">
+                        <param name="id" value="934" />
+                        <param name="info" value="Player.Progress" />
+                        <param name="visible" value="!VideoPlayer.Content(LiveTV)" />
+                        <param name="animation" value="Animation.RotatePlay2" />
+                    </include>
                 </control>
-                <control type="image" description="Play">
-                    <left>0</left>
-                    <centertop>50%</centertop>
-                    <width>100</width>
-                    <height>100</height>
-                    <aspectratio align="center" aligny="center">keep</aspectratio>
-                    <texture colordiffuse="Dark1">progress/play.png</texture>
-                    <animation effect="fade" start="0" end="100" time="150">VisibleChange</animation>
-                    <visible>!Player.Paused</visible>
-                    <include>Animation.RotatePlay2</include>
-                </control>
-                <control type="image" description="Pause">
-                    <left>0</left>
-                    <centertop>50%</centertop>
-                    <width>100</width>
-                    <height>100</height>
-                    <aspectratio align="center" aligny="center">keep</aspectratio>
-                    <texture colordiffuse="Dark1">progress/pause.png</texture>
-                    <animation effect="fade" start="0" end="100" time="150">VisibleChange</animation>
-                    <visible>Player.Paused</visible>
-                </control>
-                <control type="progress" id="934">
-                    <texturebg>-</texturebg>
-                    <lefttexture>-</lefttexture>
-                    <midtexture>-</midtexture>
-                    <righttexture>-</righttexture>
-                    <info>Player.Progress</info>
-                    <visible>false</visible>
-                </control>
-                <control type="image">
-                    <left>0</left>
-                    <centertop>50%</centertop>
-                    <width>100</width>
-                    <height>100</height>
-                    <texture colordiffuse="$VAR[ColorHighlight]">$INFO[Control.GetLabel(934),progress/circle/p,.png]</texture>
-                    <aspectratio align="center">keep</aspectratio>
-                    <visible>!String.IsEmpty(Player.Duration)</visible>
+                <control type="group">
+                    <include content="NowPlaying_Progress">
+                        <param name="id" value="935" />
+                        <param name="info" value="PVR.TimeshiftProgressPlayPos" />
+                        <param name="visible" value="VideoPlayer.Content(LiveTV)" />
+                        <param name="animation" value="Animation.RotatePlay2" />
+                    </include>
                 </control>
             </control>
         </control>
