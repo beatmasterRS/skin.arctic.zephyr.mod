@@ -3,7 +3,7 @@
 
     <include name="scrollbar_dialog" id="$PARAM[scrollid]">
         <control type="scrollbar" id="$PARAM[scrollid]">
-            <visible>!Control.IsVisible(3)</visible>
+            <visible>!Control.IsVisible(3) + !Window.IsActive(gamestretchmode) + !Window.IsActive(gamevideofilter) + !Window.IsActive(gamevideorotation)</visible>
             <centerright>375</centerright>
             <posy>120</posy>
             <height>687</height>
@@ -21,7 +21,25 @@
 
     <include name="scrollbar_dialog_3" id="$PARAM[scrollid]">
         <control type="scrollbar" id="$PARAM[scrollid]">
-            <visible>Control.IsVisible(3)</visible>
+            <visible>Control.IsVisible(3) + !Window.IsActive(gamestretchmode) + !Window.IsActive(gamevideofilter) + !Window.IsActive(gamevideorotation)</visible>
+            <centerright>375</centerright>
+            <posy>120</posy>
+            <height>687</height>
+            <width>8</width>
+            <onleft>$PARAM[onleft]</onleft>
+            <onright>$PARAM[onright]</onright>
+            <texturesliderbackground border="4" colordiffuse="Dark4">scrollbar/scrollv.png</texturesliderbackground>
+            <texturesliderbar border="4" colordiffuse="Dark3">scrollbar/scrollv.png</texturesliderbar>
+            <texturesliderbarfocus border="4" colordiffuse="Dark2">scrollbar/scrollv.png</texturesliderbarfocus>
+            <orientation>vertical</orientation>
+            <showonepage>false</showonepage>
+            <animation effect="fade" start="100" end="0" time="400" condition="!Control.HasFocus($PARAM[scrollid]) + !Container.Scrolling">Conditional</animation>
+        </control>
+    </include>
+    
+    <include name="scrollbar_dialog_11" id="$PARAM[scrollid]">
+        <control type="scrollbar" id="$PARAM[scrollid]">
+            <visible>Control.IsVisible(11)</visible>
             <centerright>375</centerright>
             <posy>120</posy>
             <height>687</height>
@@ -3234,6 +3252,7 @@
         <value condition="[Window.IsVisible(script-globalsearch-main.xml) | Window.IsVisible(script-globalsearch-info.xml)] + String.IsEmpty(Control.GetLabel(190)) + String.IsEmpty(Control.GetLabel(191)) + String.IsEmpty(Control.GetLabel(199))">$LOCALIZE[283]</value>
         <value condition="Window.IsVisible(script-script.extendedinfo-YoutubeList.xml)">$LOCALIZE[31141]</value>
         <value condition="[Window.IsVisible(DialogVideoInfo.xml) | Window.IsVisible(script-script.extendedinfo-VideoList.xml) | Window.IsVisible(script-script.extendedinfo-DialogVideoInfo.xml) | Window.IsVisible(script-script.extendedinfo-DialogInfo.xml)] + !Skin.HasSetting(wipinfo)">$LOCALIZE[31241]</value>
+        <value condition="Window.IsVisible(MyGames.xml)">$LOCALIZE[10821]</value>
         <value condition="Window.IsVisible(MyVideoNav.xml) + String.IsEqual(Container.FolderPath,videodb://movies/titles/)">$LOCALIZE[20342]</value>
         <value condition="Window.IsVisible(MyVideoNav.xml) + String.IsEqual(Container.FolderPath,videodb://tvshows/titles/)">$LOCALIZE[20343]</value>
         <value condition="Window.IsVisible(MyVideoNav.xml) + String.Contains(Container.FolderPath,videodb://movies/,Left)">$INFO[Container.FolderName]</value>
