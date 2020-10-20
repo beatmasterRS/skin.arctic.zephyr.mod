@@ -8,8 +8,12 @@
     <onunload>ClearProperty(down)</onunload>
     <onload condition="!String.IsEmpty(Window(home).Property(SetUserRating)) + !String.IsEmpty(Window(home).Property(SetUserRating2))">SetFocus(21)</onload>
     <controls>
-        <include>GlobalOverlay</include>
         <control type="group">
+            <visible>!Window.IsActive(gamestretchmode) + !Window.IsActive(gamevideofilter) + !Window.IsActive(gamevideorotation) + !Window.IsActive(gameosd)</visible>
+            <include>GlobalOverlay</include>
+        </control>    
+        <control type="group">
+            <visible>!Window.IsActive(gamestretchmode) + !Window.IsActive(gamevideofilter) + !Window.IsActive(gamevideorotation) + !Window.IsActive(gameosd)</visible>
             <include condition="String.IsEmpty(Window(home).Property(SetUserRating)) + String.IsEmpty(Window(home).Property(SetUserRating2))">DefDialogBackground</include>
             <include condition="!String.IsEmpty(Window(home).Property(SetUserRating)) | !String.IsEmpty(Window(home).Property(SetUserRating))">DefDialogBackgroundRating</include>
             <control type="label" id="1">
@@ -35,105 +39,24 @@
             </control>
             <include condition="String.IsEmpty(Window(home).Property(SetUserRating)) + String.IsEmpty(Window(home).Property(SetUserRating2))">DialogSelect</include>
             <include condition="!String.IsEmpty(Window(home).Property(SetUserRating)) | !String.IsEmpty(Window(home).Property(SetUserRating))">DialogSelectUserRating</include>
-            <include content="scrollbar_dialog_3">
+            <include content="scrollbar_dialog">
                 <param name="scrollid" value="1723"/>
                 <param name="onleft" value="3"/>
                 <param name="onright" value="1888"/>
+                <param name="visible" value="Control.IsVisible(3) + !Control.IsVisible(6) + !Window.IsActive(gamestretchmode) + !Window.IsActive(gamevideofilter) + !Window.IsActive(gamevideorotation) + !Window.IsActive(gameosd)" />
             </include>
-            <include content="scrollbar_dialog_11">
+            <include content="scrollbar_dialog">
                 <param name="scrollid" value="1723"/>
                 <param name="onleft" value="11"/>
                 <param name="onright" value="1888"/>
+                <param name="visible" value="Control.IsVisible(11) + !Control.IsVisible(6) + !Control.IsVisible(3) + [Window.IsActive(gamestretchmode) | Window.IsActive(gamevideofilter) | Window.IsActive(gamevideorotation) | Window.IsActive(gameosd)]" />
             </include>
             <include content="scrollbar_dialog">
                 <param name="scrollid" value="1723"/>
                 <param name="onleft" value="6"/>
                 <param name="onright" value="1888"/>
-            </include>
-            <control type="list" id="11">
-                <visible>Window.IsActive(gamestretchmode) | Window.IsActive(gamevideofilter) | Window.IsActive(gamevideorotation)</visible>
-                <posx>8</posx>
-                <posy>100</posy>
-                <width>700</width>
-                <height>600</height>
-                <onleft>5</onleft>
-                <onup>11</onup>
-                <ondown>11</ondown>
-                <onright>1723</onright>
-                <pagecontrol>1723</pagecontrol>
-                <itemlayout height="300">
-                    <control type="gamewindow">
-                        <height>260</height>
-                        <left>20</left>
-                        <right>20</right>
-                        <top>20</top>  
-                        <videofilter>$INFO[ListItem.Property(game.videofilter)]</videofilter>
-                        <stretchmode>$INFO[ListItem.Property(game.stretchmode)]</stretchmode>
-                        <rotation>$INFO[ListItem.Property(game.videorotation)]</rotation>
-                    </control>
-                    <control type="image">
-                        <left>20</left>
-                        <right>20</right>
-                        <bottom>20</bottom>
-                        <height>70</height>
-                        <texture border="15" colordiffuse="df000000">common/box.png</texture>
-                    </control>
-                    <control type="label">
-                        <left>40</left>
-                        <right>20</right>
-                        <bottom>20</bottom>
-                        <font>Small</font>
-                        <textcolor>PanelWhite70</textcolor>
-                        <selectedcolor>PanelWhite70</selectedcolor>
-                        <label>$INFO[ListItem.Label]$INFO[ListItem.Label2, / ,]</label>
-                    </control>
-                </itemlayout>
-                <focusedlayout height="300">
-                    <control type="group">
-                        <control type="gamewindow">
-                            <height>260</height>
-                            <left>20</left>
-                            <right>20</right>
-                            <top>20</top>  
-                            <videofilter>$INFO[ListItem.Property(game.videofilter)]</videofilter>
-                            <stretchmode>$INFO[ListItem.Property(game.stretchmode)]</stretchmode>
-                            <rotation>$INFO[ListItem.Property(game.videorotation)]</rotation>
-                        </control>
-                        <control type="image">
-                            <left>20</left>
-                            <right>20</right>
-                            <bottom>20</bottom>
-                            <height>70</height>
-                            <texture border="15" colordiffuse="df000000">common/box.png</texture>
-                        </control>
-                        <control type="label">
-                            <left>40</left>
-                            <right>20</right>
-                            <bottom>20</bottom>
-                            <font>Small</font>
-                            <textcolor>PanelWhite70</textcolor>
-                            <selectedcolor>PanelWhite70</selectedcolor>
-                            <label>$INFO[ListItem.Label]$INFO[ListItem.Label2, / ,]</label>
-                        </control>
-                        <control type="image">
-                            <include>Animation.SelectBoxHome</include>
-                            <left>15</left>
-                            <top>15</top>
-                            <right>15</right>
-                            <bottom>15</bottom>
-                            <texture border="20" colordiffuse="$VAR[ColorSquares]">common/selectbox.png</texture>
-                        </control>
-                        <control type="image">
-                            <include>Animation.SelectBoxHome</include>
-                            <left>15</left>
-                            <top>15</top>
-                            <right>15</right>
-                            <bottom>15</bottom>
-                            <texture border="20" colordiffuse="$VAR[ColorHighlightSelectbox2]">common/gradient-selectbox.png</texture>
-                        </control>
-                    </control>
-                </focusedlayout>
-            </control>
+                <param name="visible" value="Control.IsVisible(6) + !Control.IsVisible(3) + !Window.IsActive(gamestretchmode) + !Window.IsActive(gamevideofilter) + !Window.IsActive(gamevideorotation) + !Window.IsActive(gameosd)" />
+            </include>            
             <control type="list" id="6">
                 <posx>8</posx>
                 <posy>120</posy>
@@ -346,7 +269,6 @@
                     <textcolor>Black70</textcolor>
                     <texturefocus colordiffuse="$VAR[ColorHighlight]" border="5">common/box.png</texturefocus>
                     <!--<animation effect="slide" start="0" end="22,-100" condition="!Control.IsVisible(6)">Conditional</animation>-->
-                    <visible>!Window.IsActive(gamestretchmode) + !Window.IsActive(gamevideofilter) + !Window.IsActive(gamevideorotation)</visible>
                 </control>
                 <control type="button" id="7">
                     <description>Cancel</description>
@@ -387,6 +309,161 @@
                 <animation effect="fade" start="0" end="100" time="100" condition="!Control.HasFocus(1723) + !Container.Scrolling">Conditional</animation>
             </control>
             <include condition="String.IsEmpty(Window(home).Property(SetUserRating)) + String.IsEmpty(Window(home).Property(SetUserRating2))">DialogSelectlabelInclude</include>
+        </control>        
+        <control type="textbox" id="12">
+            <description>Description Area</description>
+            <visible>false</visible>
         </control>
+        <control type="group">
+            <top>710</top>
+            <include>Animation.ZoomIn</include>
+            <include>Animation.FadeOut</include>
+            <control type="group">
+                <width>242</width>
+                <height>270</height>
+                <top>20</top>
+                <left>SidePad</left>
+                <visible>!String.IsEmpty(Control.GetLabel(12))</visible>
+                <control type="image">
+                    <width>100%</width>
+                    <height>100%</height>
+                    <texture colordiffuse="Light1" border="4">common/diffuse_box.png</texture>
+                </control>
+                <control type="textbox">
+                    <description>Description Area</description>
+                    <left>25</left>
+                    <top>22</top>
+                    <bottom>25</bottom>
+                    <right>25</right>
+                    <font>Tiny</font>
+                    <textcolor>Dark2</textcolor>
+                    <label>$INFO[Control.GetLabel(12)]</label>
+                </control>
+                <control type="image">
+                    <width>100%</width>
+                    <height>100%</height>
+                    <texture colordiffuse="Box2" border="4" background="true">common/box21.png</texture>
+                    <visible>!Skin.HasSetting(thumbnails.white)</visible>
+                </control>
+            </control>            
+            <control type="fixedlist" id="11"> 
+                <animation effect="slide" start="0" end="260,0" condition="!String.IsEmpty(Control.GetLabel(12))">Conditional</animation>           
+                <top>0</top>
+                <left>70</left>
+                <right>SidePad</right>
+                <height>310</height>
+                <movement>3</movement>
+                <preloaditems>2</preloaditems>
+                <orientation>horizontal</orientation>
+                <itemlayout width="440" height="310">
+                    <control type="image">
+                        <top>20</top>                    
+                        <left>10</left>
+                        <width>424</width>
+                        <height>270</height>
+                        <texture colordiffuse="Light1" border="4">common/diffuse_box.png</texture>
+                    </control>
+                    <control type="gamewindow">
+                        <top>30</top>
+                        <left>10</left>
+                        <width>424</width>
+                        <height>200</height>
+                        <videofilter>$INFO[ListItem.Property(game.videofilter)]</videofilter>
+                        <stretchmode>$INFO[ListItem.Property(game.stretchmode)]</stretchmode>
+                        <rotation>$INFO[ListItem.Property(game.videorotation)]</rotation>
+                    </control>
+                    <control type="label">
+                        <bottom>35</bottom>
+                        <height>40</height>
+                        <align>left</align>
+                        <left>10</left>
+                        <font>Tiny</font>
+                        <textoffsetx>20</textoffsetx>
+                        <label>$INFO[ListItem.Label]</label>
+                        <textcolor>Dark2</textcolor>
+                    </control>
+                    <control type="label">
+                        <bottom>35</bottom>
+                        <height>40</height>
+                        <align>right</align>
+                        <right>10</right>
+                        <font>Tiny</font>
+                        <textoffsetx>20</textoffsetx>
+                        <label>$INFO[ListItem.Label2]</label>
+                        <textcolor>Dark2</textcolor>
+                    </control>
+                    <control type="image">
+                        <top>20</top>
+                        <left>10</left>
+                        <width>424</width>
+                        <height>270</height>
+                        <texture colordiffuse="Box2" border="4" background="true">common/box21.png</texture>
+                        <visible>!Skin.HasSetting(thumbnails.white)</visible>
+                    </control>
+                </itemlayout>
+                <focusedlayout width="440" height="310">
+                    <control type="image">
+                        <top>20</top>
+                        <left>10</left>
+                        <width>424</width>
+                        <height>270</height>
+                        <texture colordiffuse="Light1" border="4">common/diffuse_box.png</texture>
+                    </control>
+                    <control type="gamewindow">
+                        <top>30</top>
+                        <left>10</left>
+                        <width>424</width>
+                        <height>200</height>
+                        <videofilter>$INFO[ListItem.Property(game.videofilter)]</videofilter>
+                        <stretchmode>$INFO[ListItem.Property(game.stretchmode)]</stretchmode>
+                        <rotation>$INFO[ListItem.Property(game.videorotation)]</rotation>
+                    </control>
+                    <control type="label">
+                        <bottom>35</bottom>
+                        <height>40</height>
+                        <align>left</align>
+                        <left>10</left>
+                        <font>Tiny</font>
+                        <textoffsetx>20</textoffsetx>
+                        <label>$INFO[ListItem.Label]</label>
+                        <textcolor>Dark2</textcolor>
+                    </control>
+                    <control type="label">
+                        <bottom>35</bottom>
+                        <height>40</height>
+                        <align>right</align>
+                        <right>10</right>
+                        <font>Tiny</font>
+                        <textoffsetx>20</textoffsetx>
+                        <label>$INFO[ListItem.Label2]</label>
+                        <textcolor>Dark2</textcolor>
+                    </control>
+                    <control type="image">
+                        <top>20</top>
+                        <left>10</left>
+                        <width>424</width>
+                        <height>270</height>
+                        <texture colordiffuse="Box2" border="4" background="true">common/box21.png</texture>
+                        <visible>!Skin.HasSetting(thumbnails.white)</visible>
+                    </control>
+                    <control type="image">
+                        <include>Animation.SelectBoxHome</include>
+                        <left>5</left>
+                        <top>15</top>
+                        <right>0</right>
+                        <bottom>14</bottom>
+                        <texture border="20" colordiffuse="$VAR[ColorSquares]">common/selectbox.png</texture>
+                    </control>
+                    <control type="image">
+                        <include>Animation.SelectBoxHome</include>
+                        <left>5</left>
+                        <top>15</top>
+                        <right>0</right>
+                        <bottom>14</bottom>
+                        <texture border="20" colordiffuse="$VAR[ColorHighlightSelectbox2]">common/gradient-selectbox.png</texture>
+                    </control>
+                </focusedlayout>
+            </control>
+        </control>        
     </controls>
 </window>
