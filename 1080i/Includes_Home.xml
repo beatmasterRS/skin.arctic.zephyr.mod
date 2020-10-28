@@ -6266,15 +6266,15 @@
                     <top>-373</top>
                     <itemgap>15</itemgap>
                     <visible>!String.IsEqual(ListItem.Property(LabelMore),more)</visible>
-                    <include content="LabelTopInfoSub" condition="$PARAM[labelisvisible]">
+                    <include content="MultiWidgetsHeaderLabel" condition="$PARAM[labelisvisible]">
                         <param name="id" value="$PARAM[id]"/>
                     </include>
-                    <include content="PlotInfoSub">
+                    <include content="MultiWidgetsPlotLabel">
                         <param name="id" value="$PARAM[id]"/>
                         <param name="plotminheight" value="0"/>
                         <param name="plotmaxheight" value="212"/>
                     </include>
-                    <include content="LabelInfoSub">
+                    <include content="MultiWidgetsSubLabel">
                         <param name="id" value="$PARAM[id]"/>
                         <param name="setcontent" value="videodb://movies/sets/$INFO[Container(30121).ListItem.DBID]/?setid=$INFO[Container(30121).ListItem.DBID]"/>
                     </include>
@@ -6296,11 +6296,11 @@
         <include>InfoSubWidgetSystemInclude</include>
     </include>
 
-    <include name="LabelTopInfoSub">
+    <include name="MultiWidgetsHeaderLabel">
         
         <!-- Episode -->
         <control type="label">
-            <include>LabelTopInfoSubDefinition</include>
+            <include>MultiWidgetsHeaderLabelDefinition</include>
             <label>$INFO[Container($PARAM[id]).ListItem.TvShowTitle,, - ]$INFO[Container($PARAM[id]).ListItem.Label]</label>
             <visible>!String.StartsWith(Container($PARAM[id]).ListItem.FolderPath,pvr://)</visible>
             <visible>String.IsEqual(Container($PARAM[id]).ListItem.DBType,episode)</visible>            
@@ -6308,7 +6308,7 @@
         
         <!-- All Other -->
         <control type="label">
-            <include>LabelTopInfoSubDefinition</include>
+            <include>MultiWidgetsHeaderLabelDefinition</include>
             <label>$INFO[Container($PARAM[id]).ListItem.Label]</label>
             <visible>!String.StartsWith(Container($PARAM[id]).ListItem.FolderPath,pvr://)</visible>
             <visible>!String.IsEqual(Container($PARAM[id]).ListItem.DBType,episode)</visible>            
@@ -6316,18 +6316,18 @@
         
         <!-- PVR -->
         <control type="label">
-            <include>LabelTopInfoSubDefinition</include>
+            <include>MultiWidgetsHeaderLabelDefinition</include>
             <label>$INFO[Container($PARAM[id]).ListItem.Title]</label>
             <visible>String.StartsWith(Container($PARAM[id]).ListItem.FolderPath,pvr://) + !String.IsEmpty(Container($PARAM[id]).ListItem.Title)</visible>            
         </control>
         <control type="label">
-            <include>LabelTopInfoSubDefinition</include>
+            <include>MultiWidgetsHeaderLabelDefinition</include>
             <label>$INFO[Container($PARAM[id]).ListItem.Label]</label>
             <visible>String.StartsWith(Container($PARAM[id]).ListItem.FolderPath,pvr://) + String.IsEmpty(Container($PARAM[id]).ListItem.Title)</visible>            
         </control>        
     </include>
 
-    <include name="PlotInfoSub">
+    <include name="MultiWidgetsPlotLabel">
         <control type="grouplist">
             <height min="$PARAM[plotminheight]" max="$PARAM[plotmaxheight]">auto</height>
             <visible>!String.IsEmpty(Container($PARAM[id]).ListItem.Property(Album_Description)) | !String.IsEmpty(Container($PARAM[id]).ListItem.Plot) | !String.IsEmpty(Container($PARAM[id]).ListItem.Property(Artist_Description)) | !String.IsEmpty(Container($PARAM[id]).ListItem.AddonDescription) | [!String.IsEmpty(Window(Home).Property(SkinHelper.ListItem.Plot)) + String.IsEqual(Container($PARAM[id]).ListItem.DBType,song) + ControlGroup(301).HasFocus()] | String.IsEqual(Container($PARAM[id]).ListItem.DBType,actor) | String.IsEqual(Container($PARAM[id]).ListItem.DBType,file)</visible>
@@ -6337,70 +6337,70 @@
 
             <!-- Sets Movie Episode -->
             <control type="textbox">
-                <include>PlotInfoSubDefinition</include>
+                <include>MultiWidgetsPlotLabelDefinition</include>
                 <label>$INFO[Container($PARAM[id]).ListItem.Plot]</label>
                 <visible>[String.IsEqual(Container($PARAM[id]).ListItem.DBType,set) | String.IsEqual(Container($PARAM[id]).ListItem.DBType,movie) | String.IsEqual(Container($PARAM[id]).ListItem.DBType,episode) | String.IsEqual(Container($PARAM[id]).ListItem.DBType,tvshow)] + !String.IsEmpty(Container($PARAM[id]).ListItem.Plot)</visible>
             </control>
 
             <!-- Album -->
             <control type="textbox">
-                <include>PlotInfoSubDefinition</include>
+                <include>MultiWidgetsPlotLabelDefinition</include>
                 <label>$INFO[Container($PARAM[id]).ListItem.Property(Album_Description)]</label>
                 <visible>String.IsEqual(Container($PARAM[id]).ListItem.DBType,album) + !String.IsEmpty(Container($PARAM[id]).ListItem.Property(Album_Description))</visible>
             </control>
 
             <!-- Artist -->
             <control type="textbox">
-                <include>PlotInfoSubDefinition</include>
+                <include>MultiWidgetsPlotLabelDefinition</include>
                 <label>$INFO[Container($PARAM[id]).ListItem.Property(Artist_Description)]</label>
                 <visible>String.IsEqual(Container($PARAM[id]).ListItem.DBType,artist) + !String.IsEmpty(Container($PARAM[id]).ListItem.Property(Artist_Description))</visible>
             </control>
 
             <!-- Song SkinHelper -->
             <control type="textbox">
-                <include>PlotInfoSubDefinition</include>
+                <include>MultiWidgetsPlotLabelDefinition</include>
                 <label fallback="19055">$INFO[Window(Home).Property(SkinHelper.ListItem.Plot)]</label>
                 <visible>String.IsEqual(Container($PARAM[id]).ListItem.DBType,song) + ControlGroup(301).HasFocus()</visible>
             </control>
 
             <!-- Song -->
             <control type="textbox">
-                <include>PlotInfoSubDefinition</include>
+                <include>MultiWidgetsPlotLabelDefinition</include>
                 <label fallback="19055">$INFO[Container($PARAM[id]).ListItem.Property(Artist_Description)]</label>
                 <visible>String.IsEqual(Container($PARAM[id]).ListItem.DBType,song) + !ControlGroup(301).HasFocus() + !String.IsEmpty(Container($PARAM[id]).ListItem.Property(Artist_Description))</visible>
             </control>
 
             <!-- Addon -->
             <control type="textbox">
-                <include>PlotInfoSubDefinition</include>
+                <include>MultiWidgetsPlotLabelDefinition</include>
                 <label>$INFO[Container($PARAM[id]).ListItem.AddonDescription]</label>
                 <visible>!String.IsEmpty(Container($PARAM[id]).ListItem.AddonDescription) + !String.IsEmpty(Container($PARAM[id]).ListItem.AddonDescription)</visible>
             </control>
 
             <!-- PVR -->
             <control type="textbox">
-                <include>PlotInfoSubDefinition</include>
+                <include>MultiWidgetsPlotLabelDefinition</include>
                 <label fallback="19055">$INFO[Container($PARAM[id]).ListItem.Plot]</label>
                 <visible>String.StartsWith(Container($PARAM[id]).ListItem.FolderPath,pvr://)</visible>
             </control>
 
             <!-- Actor -->
             <control type="textbox">
-                <include>PlotInfoSubDefinition</include>
+                <include>MultiWidgetsPlotLabelDefinition</include>
                 <label>19055</label>
                 <visible>String.IsEqual(Container($PARAM[id]).ListItem.DBType,actor) | String.IsEqual(Container($PARAM[id]).ListItem.DBType,file)</visible>
             </control>
 
             <!-- Misc -->
             <control type="textbox">
-                <include>PlotInfoSubDefinition</include>
+                <include>MultiWidgetsPlotLabelDefinition</include>
                 <label>$INFO[Container($PARAM[id]).ListItem.Plot]</label>
                 <visible>![[String.IsEqual(Container($PARAM[id]).ListItem.DBType,set) | String.IsEqual(Container($PARAM[id]).ListItem.DBType,movie) | String.IsEqual(Container($PARAM[id]).ListItem.DBType,episode) | String.IsEqual(Container($PARAM[id]).ListItem.DBType,tvshow)] + !String.IsEmpty(Container($PARAM[id]).ListItem.Plot)] + ![String.IsEqual(Container($PARAM[id]).ListItem.DBType,album) + !String.IsEmpty(Container($PARAM[id]).ListItem.Property(Album_Description))] + ![String.IsEqual(Container($PARAM[id]).ListItem.DBType,artist) + !String.IsEmpty(Container($PARAM[id]).ListItem.Property(Artist_Description))] + ![String.IsEqual(Container($PARAM[id]).ListItem.DBType,song) + ControlGroup(301).HasFocus()] + ![String.IsEqual(Container($PARAM[id]).ListItem.DBType,song) + !ControlGroup(301).HasFocus() + !String.IsEmpty(Container($PARAM[id]).ListItem.Property(Artist_Description))]+ ![!String.IsEmpty(Container($PARAM[id]).ListItem.AddonDescription) + !String.IsEmpty(Container($PARAM[id]).ListItem.AddonDescription)] + ![String.StartsWith(Container($PARAM[id]).ListItem.FolderPath,pvr://)]</visible>
             </control>
         </control>
     </include>
 
-    <include name="LabelInfoSub">
+    <include name="MultiWidgetsSubLabel">
         <control type="grouplist">
             <orientation>vertical</orientation>
             <itemgap>0</itemgap>
@@ -6411,51 +6411,51 @@
                 <height>36</height>
                 <usecontrolcoords>true</usecontrolcoords>
                 <control type="label">
-                    <include>LabelInfoSubDefinition</include>
+                    <include>MultiWidgetsSubLabelDefinition</include>
                     <label>$INFO[Container($PARAM[id]).ListItem.Episode,, $LOCALIZE[20360]]</label>
                 </control>
                 <control type="label">
-                    <include>LabelInfoSubDefinition</include>
+                    <include>MultiWidgetsSubLabelDefinition</include>
                     <label>  •  </label>
                     <visible>!String.IsEmpty(Container($PARAM[id]).ListItem.Episode)</visible>
                 </control>
                 <control type="label">
-                    <include>LabelInfoSubDefinition</include>
+                    <include>MultiWidgetsSubLabelDefinition</include>
                     <label>$INFO[Container($PARAM[id]).ListItem.Property(UnWatchedEpisodes),, $LOCALIZE[16101]]$INFO[Container($PARAM[id]).ListItem.Duration(mins),  •  , $LOCALIZE[31102]]$INFO[Container($PARAM[id]).ListItem.Rating,  •  ]$VAR[RtMclabelMultiWidgets]</label>
                 </control>
             </control>
             <control type="label">
-                <include>LabelInfoSubDefinition</include>
+                <include>MultiWidgetsSubLabelDefinition</include>
                 <label>$INFO[Container($PARAM[id]).ListItem.Year,,  •  ]$INFO[Container($PARAM[id]).ListItem.Duration(mins),, $LOCALIZE[31102]]$INFO[Container($PARAM[id]).ListItem.Rating,  •  ]$VAR[RtMclabelMultiWidgets]</label>
                 <visible>String.IsEqual(Container($PARAM[id]).ListItem.DBType,movie) | String.IsEqual(Container($PARAM[id]).ListItem.DBType,episode)</visible>
             </control>
             <control type="label">
-                <include>LabelInfoSubDefinition</include>
+                <include>MultiWidgetsSubLabelDefinition</include>
                 <label>$INFO[Container($PARAM[id]).ListItem.Year]$INFO[Container($PARAM[id]).ListItem.Rating,  •  ] $INFO[Control.GetLabel(9966)]</label>
                 <visible>String.IsEqual(Container($PARAM[id]).ListItem.DBType,set)</visible>
             </control>
             <control type="label">
-                <include>LabelInfoSubDefinition</include>
+                <include>MultiWidgetsSubLabelDefinition</include>
                 <label>$INFO[Container($PARAM[id]).ListItem.Year]$INFO[Container($PARAM[id]).ListItem.Artist,  •  ,] $INFO[Control.GetLabel(9967)]</label>
                 <visible>String.IsEqual(Container($PARAM[id]).ListItem.DBType,album)</visible>
             </control>
             <control type="label">
-                <include>LabelInfoSubDefinition</include>
+                <include>MultiWidgetsSubLabelDefinition</include>
                 <label>$INFO[Container($PARAM[id]).ListItem.Property(Artist_Style)]</label>
                 <visible>String.IsEqual(Container($PARAM[id]).ListItem.DBType,artist)</visible>
             </control>
             <control type="label">
-                <include>LabelInfoSubDefinition</include>
+                <include>MultiWidgetsSubLabelDefinition</include>
                 <label>$INFO[Container($PARAM[id]).ListItem.Artist]$INFO[Container($PARAM[id]).ListItem.Year,  •  ,]</label>
                 <visible>String.IsEqual(Container($PARAM[id]).ListItem.DBType,song)</visible>
             </control>
             <control type="label">
-                <include>LabelInfoSubDefinition</include>
+                <include>MultiWidgetsSubLabelDefinition</include>
                 <label>$INFO[Container($PARAM[id]).ListItem.AddonVersion,v]</label>
                 <visible>!String.IsEmpty(Container($PARAM[id]).ListItem.AddonDescription)</visible>
             </control>
             <control type="label">
-                <include>LabelInfoSubDefinition</include>
+                <include>MultiWidgetsSubLabelDefinition</include>
                 <label>$INFO[Container($PARAM[id]).ListItem.Label]$INFO[Container($PARAM[id]).ListItem.StartTime,  •  ,]$INFO[Container($PARAM[id]).ListItem.EndTime, - ]$INFO[Container($PARAM[id]).ListItem.Duration(mins),  •  , $LOCALIZE[31102]]</label>
                 <visible>String.StartsWith(Container($PARAM[id]).ListItem.FolderPath,pvr://)</visible>
             </control>
