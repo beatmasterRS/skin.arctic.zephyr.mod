@@ -4078,7 +4078,7 @@
                     <include>Animation.FadeIn</include>
                     <include>Animation.FadeOut</include>
                     <description>Home Wraplist</description>
-                    <left>-20</left>
+                    <left>0</left>
                     <top>PosterPad</top>
                     <width>PosterW</width>
                     <height>720</height>
@@ -4086,7 +4086,7 @@
                     <onright>301</onright>
                     <onleft>302</onleft>
                     <scrolltime>200</scrolltime>
-                    <itemlayout width="427" height="80">
+                    <itemlayout width="407" height="80">
                         <control type="label">
                             <right>30</right>
                             <left>0</left>
@@ -4118,7 +4118,7 @@
                             <visible>Skin.HasSetting(home.showicons)</visible>
                         </control>
                     </itemlayout>
-                    <focusedlayout width="427" height="80">
+                    <focusedlayout width="407" height="80">
                         <control type="label">
                             <right>30</right>
                             <left>0</left>
@@ -4978,7 +4978,7 @@
                     <include>Animation.FadeIn</include>
                     <include>Animation.FadeOut</include>
                     <description>Home Wraplist</description>
-                    <left>SidePad</left>
+                    <left>100</left>
                     <top>PosterPad</top>
                     <width>PosterW</width>
                     <height>720</height>
@@ -4986,7 +4986,7 @@
                     <onright>301</onright>
                     <onleft>302</onleft>
                     <scrolltime>200</scrolltime>
-                    <itemlayout width="427" height="80">
+                    <itemlayout width="407" height="80">
                         <control type="label">
                             <right>30</right>
                             <left>0</left>
@@ -5018,7 +5018,7 @@
                             <visible>Skin.HasSetting(home.showicons)</visible>
                         </control>
                     </itemlayout>
-                    <focusedlayout width="427" height="80">
+                    <focusedlayout width="407" height="80">
                         <control type="label">
                             <right>30</right>
                             <left>0</left>
@@ -6145,7 +6145,6 @@
             <label>$VAR[WidgetLabelWidgets$PARAM[idshort]]</label>
         </control>
         <control type="label">
-            <left/>
             <align>left</align>
             <height>38</height>
             <font>SmallNavi</font>
@@ -6158,7 +6157,6 @@
             <visible>String.IsEqual(Container($PARAM[focusid]).ListItem.DBType,episode)</visible>
         </control>
         <control type="label">
-            <left/>
             <align>left</align>
             <height>38</height>
             <font>SmallNavi</font>
@@ -6170,7 +6168,6 @@
             <visible>!String.IsEqual(Container($PARAM[focusid]).ListItem.DBType,episode)</visible>
         </control>
         <control type="label">
-            <left/>
             <align>left</align>
             <height>38</height>
             <font>SmallNavi</font>
@@ -6182,7 +6179,6 @@
             <visible>ListItem.IsCollection + [String.Contains(Container(300).ListItem.Property(widgetEnable.5),yes) | String.Contains(Container(300).ListItem.Property(widgetEnable.4),yes) | String.Contains(Container(300).ListItem.Property(widgetEnable.3),yes) | String.Contains(Container(300).ListItem.Property(widgetEnable.2),yes)]</visible>
         </control>
         <control type="label">
-            <left/>
             <align>left</align>
             <height>38</height>
             <font>SmallNavi</font>
@@ -6269,6 +6265,7 @@
                     <orientation>vertical</orientation>
                     <top>-373</top>
                     <itemgap>15</itemgap>
+                    <visible>!String.IsEqual(ListItem.Property(LabelMore),more)</visible>
                     <include content="LabelTopInfoSub" condition="$PARAM[labelisvisible]">
                         <param name="id" value="$PARAM[id]"/>
                     </include>
@@ -6300,24 +6297,34 @@
     </include>
 
     <include name="LabelTopInfoSub">
+        
+        <!-- Episode -->
         <control type="label">
             <include>LabelTopInfoSubDefinition</include>
             <label>$INFO[Container($PARAM[id]).ListItem.TvShowTitle,, - ]$INFO[Container($PARAM[id]).ListItem.Label]</label>
-            <visible>String.IsEqual(Container($PARAM[id]).ListItem.DBType,episode) + !String.StartsWith(Container($PARAM[id]).ListItem.FolderPath,pvr://)</visible>
-            <visible>!String.IsEqual(ListItem.Property(LabelMore),more)</visible>
+            <visible>!String.StartsWith(Container($PARAM[id]).ListItem.FolderPath,pvr://)</visible>
+            <visible>String.IsEqual(Container($PARAM[id]).ListItem.DBType,episode)</visible>            
+        </control>
+        
+        <!-- All Other -->
+        <control type="label">
+            <include>LabelTopInfoSubDefinition</include>
+            <label>$INFO[Container($PARAM[id]).ListItem.Label]</label>
+            <visible>!String.StartsWith(Container($PARAM[id]).ListItem.FolderPath,pvr://)</visible>
+            <visible>!String.IsEqual(Container($PARAM[id]).ListItem.DBType,episode)</visible>            
+        </control>
+        
+        <!-- PVR -->
+        <control type="label">
+            <include>LabelTopInfoSubDefinition</include>
+            <label>$INFO[Container($PARAM[id]).ListItem.Title]</label>
+            <visible>String.StartsWith(Container($PARAM[id]).ListItem.FolderPath,pvr://) + !String.IsEmpty(Container($PARAM[id]).ListItem.Title)</visible>            
         </control>
         <control type="label">
             <include>LabelTopInfoSubDefinition</include>
             <label>$INFO[Container($PARAM[id]).ListItem.Label]</label>
-            <visible>!String.StartsWith(Container($PARAM[id]).ListItem.FolderPath,pvr://) | [String.StartsWith(Container($PARAM[id]).ListItem.FolderPath,pvr://) + String.IsEmpty(Container($PARAM[id]).ListItem.Title)]</visible>
-            <visible>!String.IsEqual(ListItem.Property(LabelMore),more)</visible>
-        </control>
-        <control type="label">
-            <include>LabelTopInfoSubDefinition</include>
-            <label>$INFO[Container($PARAM[id]).ListItem.Title]</label>
-            <visible>String.StartsWith(Container($PARAM[id]).ListItem.FolderPath,pvr://) + !String.IsEmpty(Container($PARAM[id]).ListItem.Title) + !String.IsEqual(Container($PARAM[id]).ListItem.DBType,episode)</visible>
-            <visible>!String.IsEqual(ListItem.Property(LabelMore),more)</visible>
-        </control>
+            <visible>String.StartsWith(Container($PARAM[id]).ListItem.FolderPath,pvr://) + String.IsEmpty(Container($PARAM[id]).ListItem.Title)</visible>            
+        </control>        
     </include>
 
     <include name="PlotInfoSub">
@@ -6397,10 +6404,25 @@
         <control type="grouplist">
             <orientation>vertical</orientation>
             <itemgap>0</itemgap>
-            <control type="label">
-                <include>LabelInfoSubDefinition</include>
-                <label>$INFO[Container($PARAM[id]).ListItem.Episode,, $LOCALIZE[20360]]$INFO[Container($PARAM[id]).ListItem.Property(UnWatchedEpisodes),  •  , $LOCALIZE[16101]]$INFO[Container($PARAM[id]).ListItem.Duration(mins),  •  , $LOCALIZE[31102]]$INFO[Container($PARAM[id]).ListItem.Rating,  •  ]$VAR[RtMclabelMultiWidgets]</label>
+            <control type="grouplist">
+                <itemgap>0</itemgap>
                 <visible>String.IsEqual(Container($PARAM[id]).ListItem.DBType,tvshow)</visible>
+                <orientation>horizontal</orientation>
+                <height>36</height>
+                <usecontrolcoords>true</usecontrolcoords>
+                <control type="label">
+                    <include>LabelInfoSubDefinition</include>
+                    <label>$INFO[Container($PARAM[id]).ListItem.Episode,, $LOCALIZE[20360]]</label>
+                </control>
+                <control type="label">
+                    <include>LabelInfoSubDefinition</include>
+                    <label>  •  </label>
+                    <visible>!String.IsEmpty(Container($PARAM[id]).ListItem.Episode)</visible>
+                </control>
+                <control type="label">
+                    <include>LabelInfoSubDefinition</include>
+                    <label>$INFO[Container($PARAM[id]).ListItem.Property(UnWatchedEpisodes),, $LOCALIZE[16101]]$INFO[Container($PARAM[id]).ListItem.Duration(mins),  •  , $LOCALIZE[31102]]$INFO[Container($PARAM[id]).ListItem.Rating,  •  ]$VAR[RtMclabelMultiWidgets]</label>
+                </control>
             </control>
             <control type="label">
                 <include>LabelInfoSubDefinition</include>
