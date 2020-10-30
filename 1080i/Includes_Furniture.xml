@@ -85,6 +85,135 @@
             <animation effect="fade" start="100" end="0" time="400" condition="!Control.HasFocus(60) + !Container.Scrolling">Conditional</animation>
         </control>
     </include>
+    
+    <include name="JumpBarHorizontal">
+        <control type="image">
+            <visible>Control.HasFocus(60) | Control.HasFocus(1602) | Control.HasFocus(1600) | Control.HasFocus(1609) | Control.HasFocus(1603) | Control.HasFocus(1605) | Control.HasFocus(1606) | Control.HasFocus(1604) | Control.HasFocus(1607) | Control.HasFocus(1619) | Control.HasFocus(1620) | Control.HasFocus(1624) | Control.HasFocus(1625) | Control.HasFocus(1635) | Control.HasFocus(1634) | Control.HasFocus(1627) | Control.HasFocus(1679)</visible>
+            <left>1869</left>
+            <top>514</top>
+            <width>16</width>
+            <height>16</height>
+            <texture colordiffuse="Dark1" flipx="false">common/arrow-small-right.png</texture>
+            <include>Animation.DelayFadeIn3</include>
+        </control>
+        <control type="image">
+            <visible>Control.HasFocus(1615) | Control.HasFocus(1639) | Control.HasFocus(1623) | Control.HasFocus(1671)</visible>
+            <left>950</left>
+            <top>885</top>
+            <width>16</width>
+            <height>16</height>
+            <texture colordiffuse="Dark1" flipx="false">common/arrow-small.png</texture>
+            <include>Animation.DelayFadeIn3</include>
+        </control>
+        <control type="group">
+            <animation effect="slide" start="0,0" end="-82,0" time="400" tween="quadratic" easing="out" condition="ControlGroup(290000).HasFocus()">Conditional</animation>
+            <animation effect="slide" start="0,0" end="32,0" time="400" reversible="true" tween="quadratic" easing="out" condition="ControlGroup(290000).HasFocus()">Conditional</animation>
+            <left>1921</left>
+            <top>215</top>            
+            <control type="image">
+                <left>2</left>
+                <top>1</top>
+                <width>230</width>
+                <height>636</height>
+                <texture colordiffuse="FloorFade" background="true">common/white.png</texture>
+                <animation effect="fade" start="100" end="50" time="0" condition="true">Conditional</animation>
+            </control>
+            <control type="image">
+                <width>230</width>
+                <height>637</height>
+                <texture colordiffuse="Box2" border="4" background="true">common/box21.png</texture>
+            </control>
+            <control type="grouplist" id="290000">
+                <left>28</left>
+                <top>-28</top>
+                <width>26</width>
+                <height>700</height>
+                <onup>290001</onup>
+                <ondown>290001</ondown>
+                <onback>50</onback>
+                <itemgap>9</itemgap>
+                <onleft>$VAR[ClickToJump]</onleft>
+                <onright>$VAR[ClickToJump]</onright>
+                <orientation>vertical</orientation>
+                <align>center</align>                
+                <control type="list" id="290001">
+                    <height>615</height>
+                    <width>26</width>
+                    <onright>50</onright>
+                    <scrolltime>100</scrolltime>
+                    <focusposition>0</focusposition>
+                    <onleft>50</onleft>
+                    <itemlayout height="55" width="26">
+                        <control type="label">
+                            <width>100%</width>
+                            <height>100%</height>
+                            <align>center</align>
+                            <aligny>center</aligny>
+                            <left>$PARAM[left]</left>
+                            <label>$INFO[ListItem.Label]</label>
+                            <font>Small333</font>
+                            <textcolor>Black70</textcolor>
+                            <animation effect="fade" start="100" end="33" time="0" condition="!String.IsEmpty(ListItem.Property(NotAvailable))">Conditional</animation>
+                        </control>
+                    </itemlayout>
+                    <focusedlayout height="55" width="26">                        
+                        <control type="label">
+                            <visible>Control.HasFocus(290001) + String.IsEmpty(ListItem.Property(NotAvailable))</visible>
+                            <width>100%</width>
+                            <top>1</top>
+                            <height>100%</height>
+                            <align>center</align>
+                            <aligny>center</aligny>
+                            <left>$PARAM[left]</left>
+                            <label>[B]$INFO[ListItem.Label][/B]</label>
+                            <font>Small33</font>
+                            <textcolor>$VAR[ColorHighlight]</textcolor>
+                        </control>
+                        <control type="label">
+                            <visible>!Control.HasFocus(290001) + String.IsEmpty(ListItem.Property(NotAvailable))</visible>
+                            <width>100%</width>
+                            <top>1</top>
+                            <height>100%</height>
+                            <align>center</align>
+                            <aligny>center</aligny>
+                            <left>$PARAM[left]</left>
+                            <label>[B]$INFO[ListItem.Label][/B]</label>
+                            <font>Small33</font>
+                            <textcolor>$VAR[ColorHighlight]</textcolor>
+                        </control>                        
+                        <control type="label">
+                            <visible>Control.HasFocus(290001) + !String.IsEmpty(ListItem.Property(NotAvailable))</visible>
+                            <width>100%</width>
+                            <top>1</top>
+                            <height>100%</height>
+                            <align>center</align>
+                            <aligny>center</aligny>
+                            <left>$PARAM[left]</left>
+                            <label>[B]$INFO[ListItem.Label][/B]</label>
+                            <font>Small33</font>
+                            <textcolor>Black70</textcolor>
+                            <animation effect="fade" start="100" end="33" time="0" condition="true">Conditional</animation>
+                        </control>
+                        <control type="label">
+                            <visible>!Control.HasFocus(290001) + !String.IsEmpty(ListItem.Property(NotAvailable))</visible>
+                            <width>100%</width>
+                            <top>1</top>
+                            <height>100%</height>
+                            <align>center</align>
+                            <aligny>center</aligny>
+                            <left>$PARAM[left]</left>
+                            <label>[B]$INFO[ListItem.Label][/B]</label>
+                            <font>Small33</font>
+                            <textcolor>Black70</textcolor>
+                            <animation effect="fade" start="100" end="33" time="0" condition="true">Conditional</animation>
+                        </control>                       
+                    </focusedlayout>
+                    <include condition="Skin.HasSetting(old.jumpbar)">OldJumpbar</include>
+                    <include condition="!Skin.HasSetting(old.jumpbar)">NewJumpbar</include>
+                </control>
+            </control>
+        </control>
+    </include>
 
     <variable name="Flagstar331">
         <value condition="Integer.IsGreater(ListItem.UserRating,1)">star10</value>
