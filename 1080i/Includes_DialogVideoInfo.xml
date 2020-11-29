@@ -665,8 +665,92 @@
                     <right>SidePad</right>
                     <bottom>224</bottom>
                     <top>205</top>
-                    <control type="group">                    
+                    <control type="group"> 
                         <control type="grouplist">
+                            <visible>String.IsEqual(ListItem.DBType,set)</visible>
+                            <orientation>horizontal</orientation>
+                            <itemgap>5</itemgap>
+                            <top>5</top>    
+                            <control type="grouplist">
+                                <orientation>vertical</orientation>
+                                <itemgap>0</itemgap>                                                            
+                                <width>195</width>
+                                <control type="label">                                
+                                    <font>Tiny</font>
+                                    <height>36</height>
+                                    <textcolor>Dark1</textcolor>
+                                    <label>[B]$LOCALIZE[345][/B]</label>
+                                    <aligny>center</aligny>
+                                </control>
+                                <control type="label">
+                                    <font>Tiny</font>
+                                    <height>36</height>
+                                    <textcolor>Dark1</textcolor>
+                                    <label>[B]$LOCALIZE[2050][/B]</label>
+                                    <aligny>center</aligny>
+                                </control>
+                            </control>                            
+                            <control type="grouplist">
+                                <orientation>vertical</orientation>
+                                <itemgap>0</itemgap>                                                           
+                                <width>235</width>
+                                <control type="label">                                
+                                    <height>36</height>
+                                    <font>Tiny</font>
+                                    <textcolor>Dark2</textcolor>
+                                    <label fallback="19055">$INFO[Window(Home).Property(TMDbHelper.ListItem.Set.Years)]</label>
+                                    <aligny>center</aligny>
+                                </control>
+                                <control type="label">
+                                    <height>36</height>               
+                                    <font>Tiny</font>
+                                    <textcolor>Dark2</textcolor>
+                                    <label fallback="19055">$VAR[LabelDurationTimeCheckInfo]</label>
+                                    <aligny>center</aligny>
+                                </control>
+                            </control>                            
+                            <control type="grouplist">
+                                <orientation>vertical</orientation>
+                                <itemgap>0</itemgap>                                                            
+                                <width>195</width>
+                                <control type="label">                                
+                                    <font>Tiny</font>
+                                    <height>36</height>
+                                    <textcolor>Dark1</textcolor>
+                                    <label>[B]$LOCALIZE[515][/B]</label>
+                                    <aligny>center</aligny>
+                                </control>
+                                <control type="label">
+                                    <font>Tiny</font>
+                                    <height>36</height>
+                                    <textcolor>Dark1</textcolor>
+                                    <label>[B]$VAR[RatingTagsLabel][/B]</label>
+                                    <aligny>center</aligny>
+                                </control>
+                            </control>                            
+                            <control type="grouplist">
+                                <orientation>vertical</orientation>
+                                <itemgap>0</itemgap>                                                           
+                                <width>600</width>
+                                <control type="label">                                
+                                    <height>36</height>
+                                    <font>Tiny</font>
+                                    <textcolor>Dark2</textcolor>
+                                    <label fallback="19055">$INFO[ListItem.Genre]</label>
+                                    <aligny>center</aligny>
+                                </control>
+                                <control type="label">
+                                    <height>36</height>               
+                                    <font>Tiny</font>
+                                    <textcolor>Dark2</textcolor>
+                                    <label fallback="19055">$VAR[RatingTagsInfo]</label>
+                                    <aligny>center</aligny>
+                                </control>
+                            </control>                            
+                        </control> 
+                                           
+                        <control type="grouplist">
+                            <visible>!String.IsEqual(ListItem.DBType,set)</visible>
                             <orientation>horizontal</orientation>
                             <itemgap>5</itemgap>
                             <top>5</top>    
@@ -780,7 +864,7 @@
                     <left>785</left>
     
                     <!-- Cast -->
-                    <include content="VideoListCast">
+                    <include content="VideoListCast" condition="!String.IsEqual(ListItem.DBType,set)">
                         <param name="arrowleft" value="-598"/>
                         <param name="arrowtop" value="342"/>
                         <param name="arrowright" value="158"/>
@@ -804,9 +888,35 @@
                         <param name="labeltwobottom" value="-150"/>
                         <param name="labeltwoleft" value="130"/>
                     </include>
+                    
+                    <!-- Sets -->
+                    <include content="VideoListSets" condition="String.IsEqual(ListItem.DBType,set)">
+                        <param name="arrowleft" value="-598"/>
+                        <param name="arrowtop" value="342"/>
+                        <param name="arrowright" value="158"/>
+                        <param name="fallbackpicture" value="DefaultActor.png"/>
+                        <param name="visi" value="String.IsEmpty(Window.Property(moviecontent)) + !Skin.HasSetting(HideActorImages)"/>
+                        <param name="visible.layouts" value="Control.HasFocus(50) | Control.HasFocus(10) | Control.HasFocus(6) | Window.IsVisible(DialogBusy.xml)"/>
+                        <param name="storageicon.backgroundlist" value="false"/>
+                        <param name="animation" value="Animation.cast.test"/>
+                        <param name="controlid" value="50"/>
+                        <param name="fallbackpicture" value="defaultmovie.png"/>
+                        
+                        <param name="focusposition" value="2"/>
+                        <param name="listbottom" value="30"/>
+                        <param name="listleft" value="-840"/>
+                        <param name="width" value="260"/>
+                        <param name="headerbottom" value="710"/>
+                        <param name="headerleft" value="-15"/>
+                        <param name="labelbottom" value="-110"/>
+                        <param name="labelleft" value="-20"/>
+                        <param name="labeltwovisible" value="true"/>
+                        <param name="labeltwobottom" value="-150"/>
+                        <param name="labeltwoleft" value="130"/>
+                    </include>
     
                     <!-- Similar Movies -->
-                    <include content="VideoListSquareNew" condition="String.IsEqual(ListItem.DBType,movie)">
+                    <include content="VideoListPoster" condition="String.IsEqual(ListItem.DBType,movie) + !String.IsEqual(ListItem.DBType,set)">
                         <param name="arrowleft" value="-598"/>
                         <param name="arrowtop" value="342"/>
                         <param name="arrowright" value="158"/>
@@ -833,7 +943,7 @@
                     </include>
     
                     <!-- Similar TV Shows -->
-                    <include content="VideoListSquareNew" condition="String.IsEqual(ListItem.DBType,tvshow)">
+                    <include content="VideoListPoster" condition="String.IsEqual(ListItem.DBType,tvshow) + !String.IsEqual(ListItem.DBType,set)">
                         <param name="arrowleft" value="-598"/>
                         <param name="arrowtop" value="342"/>
                         <param name="arrowright" value="158"/>
@@ -865,7 +975,7 @@
                     </include>
                     
                     <!-- Sets -->
-                    <include content="VideoListSquareNew">
+                    <!--<include content="VideoListSquareNew">
                         <param name="arrowleft" value="-598"/>
                         <param name="arrowtop" value="342"/>
                         <param name="arrowright" value="158"/>
@@ -893,10 +1003,10 @@
                         <param name="controlid" value="9560"/>
                         <param name="alignleft" value="450"/>
                         <param name="alignbottom" value="240"/>
-                    </include>
+                    </include>-->
     
                     <!-- Studio -->
-                    <include content="VideoListSquareNew">
+                    <include content="VideoListPoster">
                         <param name="arrowleft" value="-598"/>
                         <param name="arrowtop" value="342"/>
                         <param name="arrowright" value="158"/>
@@ -928,7 +1038,7 @@
                     </include>
     
                     <!-- Youtube -->
-                    <include content="VideoListSquareNew">
+                    <include content="VideoListSquareNew" condition="!String.IsEqual(ListItem.DBType,set)">
                         <param name="arrowleft" value="-748"/>
                         <param name="arrowtop" value="342"/>
                         <param name="arrowright" value="387"/>

@@ -1016,13 +1016,13 @@
     </variable>
 
     <variable name="ContentVideoSimilar">
-        <value condition="String.IsEqual(Window.Property(videosimilar),1) + Container.Content(tvshows)">plugin://script.extendedinfo?info=similartvshows&amp;&amp;name=$INFO[ListItem.Label]</value>
-        <value condition="String.IsEqual(Window.Property(videosimilar),1) + Container.Content(movies)">plugin://script.extendedinfo?info=similarmovies&amp;&amp;dbid=$INFO[ListItem.DBID]</value>
+        <value condition="String.IsEqual(Window.Property(videosimilar),1) + Container.Content(tvshows)">plugin://plugin.video.themoviedb.helper?info=similar&amp;type=tv&amp;query=$INFO[ListItem.Label]</value>
+        <value condition="String.IsEqual(Window.Property(videosimilar),1) + Container.Content(movies)">plugin://plugin.video.themoviedb.helper?info=similar&amp;type=movie&amp;query=$INFO[ListItem.Label]</value>
         <value>-</value>
     </variable>
 
     <variable name="ContentVideoStudio">
-        <value condition="String.IsEqual(Window.Property(videostudio),1)">plugin://script.extendedinfo?info=studio&amp;&amp;studio=$INFO[ListItem.Studio]</value>
+        <value condition="String.IsEqual(Window.Property(videostudio),1)">plugin://plugin.video.themoviedb.helper?info=discover&amp;type=movie&amp;with_companies=$INFO[ListItem.Studio]</value>
         <value>-</value>
     </variable>
 
@@ -1052,17 +1052,17 @@
     </variable>
 
     <variable name="DefMovieDBMoviesContent">
-        <value condition="String.IsEqual(Window(1104).Property(content),1)">plugin://script.extendedinfo?info=topratedmovies</value>
-        <value condition="String.IsEqual(Window(1104).Property(content),2)">plugin://script.extendedinfo?info=popularmovies</value>
-        <value condition="String.IsEqual(Window(1104).Property(content),3)">plugin://script.extendedinfo?info=upcomingmovies</value>
-        <value>plugin://script.extendedinfo?info=incinemamovies</value>
+        <value condition="String.IsEqual(Window(1104).Property(content),1)">plugin://plugin.video.themoviedb.helper?info=top_rated&amp;type=movie</value>
+        <value condition="String.IsEqual(Window(1104).Property(content),2)">plugin://plugin.video.themoviedb.helper?info=popular&amp;type=movie</value>
+        <value condition="String.IsEqual(Window(1104).Property(content),3)">plugin://plugin.video.themoviedb.helper?info=upcoming&amp;type=movie</value>
+        <value>plugin://plugin.video.themoviedb.helper?info=now_playing&amp;type=movie</value>
     </variable>
 
     <variable name="DefMovieDBEpisodesContent">
-        <value condition="String.IsEqual(Window(1105).Property(content),1)">plugin://script.extendedinfo?info=topratedtvshows</value>
-        <value condition="String.IsEqual(Window(1105).Property(content),2)">plugin://script.extendedinfo?info=populartvshows</value>
-        <value condition="String.IsEqual(Window(1105).Property(content),3)">plugin://script.extendedinfo?info=onairtvshows</value>
-        <value>plugin://script.extendedinfo?info=airingtodaytvshows</value>
+        <value condition="String.IsEqual(Window(1105).Property(content),1)">plugin://plugin.video.themoviedb.helper?info=top_rated&amp;type=tv</value>
+        <value condition="String.IsEqual(Window(1105).Property(content),2)">plugin://plugin.video.themoviedb.helper?info=popular&amp;type=tv</value>
+        <value condition="String.IsEqual(Window(1105).Property(content),3)">plugin://plugin.video.themoviedb.helper?info=on_the_air&amp;type=tv</value>
+        <value>plugin://plugin.video.themoviedb.helper?info=airing_today&amp;type=tv</value>
     </variable>
 
     <include name="DefExtendedInfoList">
@@ -1845,6 +1845,72 @@
             </control>
         </definition>
     </include>
+    
+    <include name="DefExtendedInfoSetsContentWIP">
+        <param name="aspect" value="$PARAM[aspect]" default="scale"/>
+        <param name="fallbackpicture" value="$PARAM[fallbackpicture]" default="DefaultPicture.png"/>
+        <param name="storageicon" value="$PARAM[storageicon]" default="!String.IsEmpty(Container(10051).ListItem.DBID)"/>
+        <definition>
+            <control type="image">
+                <left>0</left>
+                <top>0</top>
+                <right>20</right>
+                <bottom>0</bottom>
+                <texture border="10">common/$VAR[nofocus-shadow10]</texture>
+            </control>
+            <control type="image">
+                <left>10</left>
+                <top>10</top>
+                <right>30</right>
+                <bottom>10</bottom>
+                <texture colordiffuse="Fallback" border="4" background="true">common/box.png</texture>
+            </control>
+            <control type="image">
+                <left>10</left>
+                <top>10</top>
+                <right>30</right>
+                <bottom>10</bottom>
+                <aspectratio scalediffuse="false">$PARAM[aspect]</aspectratio>
+                <texture diffuse="diffuse/wall.png" background="true" fallback="$PARAM[fallbackpicture]">$VAR[PosterImage]</texture>
+                <visible>true</visible><!--default_true-->
+            </control>
+            <control type="image">
+                <left>9</left>
+                <right>29</right>
+                <bottom>9</bottom>
+                <top>9</top>
+                <visible>!Skin.HasSetting(thumbnails.white)</visible>
+                <texture colordiffuse="Box2" border="4">common/box21.png</texture>
+            </control>
+            <control type="group">
+                <visible>$PARAM[storageicon]</visible>
+                <right>5</right>
+                <top>1</top>
+                <control type="label">
+                    <align>right</align>
+                    <aligny>center</aligny>
+                    <width>50</width>
+                    <right>30</right>
+                    <top>6</top>
+                    <height>50</height>
+                    <font>SymbolPosterBackground</font>
+                    <label>[COLOR=FF333333]&#61833;[/COLOR]</label>
+                </control>
+                <control type="label">
+                    <align>right</align>
+                    <aligny>center</aligny>
+                    <width>50</width>
+                    <right>37</right>
+                    <top>6</top>
+                    <height>50</height>
+                    <textcolor>$VAR[WatchedLabelPosterColor]</textcolor>
+                    <selectedcolor>$VAR[WatchedLabelPosterColor]</selectedcolor>
+                    <font>SymbolPoster</font>
+                    <label>$VAR[StorageIconLabel]</label>
+                </control>
+            </control>
+        </definition>
+    </include>
 
     <include name="DefCastIconsBackgroundList">
         <param name="fallbackpicture" value="$PARAM[fallbackpicture]" default="DefaultPicture.png"/>
@@ -1921,6 +1987,137 @@
             <param name="aspectbox" value="$PARAM[aspectbox]"/>
             <param name="aspectposter" value="$PARAM[aspectposter]"/>
         </include>
+        </definition>
+    </include>
+    
+    <include name="DefSetsIconsBackgroundList">
+        <param name="fallbackpicture" value="$PARAM[fallbackpicture]" default="DefaultPicture.png"/>
+        <definition>
+        <include content="DefSetsIcons">
+            <param name="id" value="0"/>
+            <param name="fallbackpicture" value="$PARAM[fallbackpicture]"/>
+            <param name="controlid" value="$PARAM[controlid]"/>
+            <param name="visibleshadow" value="!Control.HasFocus($PARAM[controlid])"/>
+            <param name="storageicon.backgroundlist" value="$PARAM[storageicon.backgroundlist]"/>
+            <param name="aspectbox" value="$PARAM[aspectbox]"/>
+            <param name="aspectposter" value="$PARAM[aspectposter]"/>
+        </include>
+        <include content="DefSetsIcons">
+            <param name="id" value="1"/>
+            <param name="fallbackpicture" value="$PARAM[fallbackpicture]"/>
+            <param name="controlid" value="$PARAM[controlid]"/>
+            <param name="visibleshadow" value="!Control.HasFocus($PARAM[controlid])"/>
+            <param name="storageicon.backgroundlist" value="$PARAM[storageicon.backgroundlist]"/>
+            <param name="aspectbox" value="$PARAM[aspectbox]"/>
+            <param name="aspectposter" value="$PARAM[aspectposter]"/>
+        </include>
+        <include content="DefSetsIcons">
+            <param name="id" value="2"/>
+            <param name="fallbackpicture" value="$PARAM[fallbackpicture]"/>
+            <param name="controlid" value="$PARAM[controlid]"/>
+            <param name="visibleshadow" value="!Control.HasFocus($PARAM[controlid])"/>
+            <param name="storageicon.backgroundlist" value="$PARAM[storageicon.backgroundlist]"/>
+            <param name="aspectbox" value="$PARAM[aspectbox]"/>
+            <param name="aspectposter" value="$PARAM[aspectposter]"/>
+        </include>
+        <include content="DefSetsIcons">
+            <param name="id" value="3"/>
+            <param name="fallbackpicture" value="$PARAM[fallbackpicture]"/>
+            <param name="controlid" value="$PARAM[controlid]"/>
+            <param name="visibleshadow" value="!Control.HasFocus($PARAM[controlid])"/>
+            <param name="storageicon.backgroundlist" value="$PARAM[storageicon.backgroundlist]"/>
+            <param name="aspectbox" value="$PARAM[aspectbox]"/>
+            <param name="aspectposter" value="$PARAM[aspectposter]"/>
+        </include>
+        <include content="DefSetsIcons">
+            <param name="id" value="4"/>
+            <param name="fallbackpicture" value="$PARAM[fallbackpicture]"/>
+            <param name="controlid" value="$PARAM[controlid]"/>
+            <param name="visibleshadow" value="!Control.HasFocus($PARAM[controlid])"/>
+            <param name="storageicon.backgroundlist" value="$PARAM[storageicon.backgroundlist]"/>
+            <param name="aspectbox" value="$PARAM[aspectbox]"/>
+            <param name="aspectposter" value="$PARAM[aspectposter]"/>
+        </include>
+        <include content="DefSetsIcons">
+            <param name="id" value="5"/>
+            <param name="fallbackpicture" value="$PARAM[fallbackpicture]"/>
+            <param name="controlid" value="$PARAM[controlid]"/>
+            <param name="visibleshadow" value="!Control.HasFocus($PARAM[controlid])"/>
+            <param name="storageicon.backgroundlist" value="$PARAM[storageicon.backgroundlist]"/>
+            <param name="aspectbox" value="$PARAM[aspectbox]"/>
+            <param name="aspectposter" value="$PARAM[aspectposter]"/>
+        </include>
+        <include content="DefSetsIcons">
+            <param name="id" value="6"/>
+            <param name="fallbackpicture" value="$PARAM[fallbackpicture]"/>
+            <param name="controlid" value="$PARAM[controlid]"/>
+            <param name="visibleshadow" value="!Control.HasFocus($PARAM[controlid])"/>
+            <param name="storageicon.backgroundlist" value="$PARAM[storageicon.backgroundlist]"/>
+            <param name="aspectbox" value="$PARAM[aspectbox]"/>
+            <param name="aspectposter" value="$PARAM[aspectposter]"/>
+        </include>
+        <include content="DefSetsIcons">
+            <param name="id" value="7"/>
+            <param name="fallbackpicture" value="$PARAM[fallbackpicture]"/>
+            <param name="controlid" value="$PARAM[controlid]"/>
+            <param name="visibleshadow" value="!Control.HasFocus($PARAM[controlid])"/>
+            <param name="storageicon.backgroundlist" value="$PARAM[storageicon.backgroundlist]"/>
+            <param name="aspectbox" value="$PARAM[aspectbox]"/>
+            <param name="aspectposter" value="$PARAM[aspectposter]"/>
+        </include>
+        </definition>
+    </include>
+
+    <include name="DefSetsIcons">
+        <param name="fallbackpicture" value="$PARAM[fallbackpicture]" default="pbtmdb.png"/>
+        <param name="visibleshadow" value="$PARAM[visibleshadow]" default="true"/>
+        <param name="aspectposter" value="$PARAM[aspectposter]" default="true"/>
+        <param name="aspectbox" value="$PARAM[aspectbox]" default="false"/>
+        <param name="controlid" value="$PARAM[controlid]"/>
+        <param name="storageicon.backgroundlist" value="$PARAM[storageicon.backgroundlist]" default="false"/>
+        <definition>
+            <control type="group">
+                <visible>$PARAM[aspectposter]</visible>
+                <visible>!Container($PARAM[controlid]).OnNext + !Container($PARAM[controlid]).OnPrevious + !String.IsEqual(ListItem.Label,..)</visible>
+                <animation condition="!Container($PARAM[controlid]).OnNext + !Container($PARAM[controlid]).OnPrevious" effect="fade" start="0" end="0" time="0">Hidden</animation>
+                <animation condition="!Container($PARAM[controlid]).OnNext + !Container($PARAM[controlid]).OnPrevious" effect="fade" delay="200" start="100" reversible="false" end="100" time="0">Visible</animation>
+                <visible>!String.IsEmpty(Container($PARAM[controlid]).ListItemNoWrap($PARAM[id]).Label)</visible>
+                <height>273</height>
+                <width>209</width>
+                <control type="image">
+                    <left>0</left>
+                    <top>0</top>
+                    <right>20</right>
+                    <bottom>0</bottom>
+                    <visible>$PARAM[visibleshadow]</visible>
+                    <animation effect="fade" end="0" start="70" time="350" delay="300">Hidden</animation>
+                    <texture border="10">common/$VAR[nofocus-shadow10]</texture>
+                </control>
+                <control type="image">
+                    <left>10</left>
+                    <top>10</top>
+                    <right>30</right>
+                    <bottom>10</bottom>
+                    <texture colordiffuse="Fallback" border="4" background="true">common/box.png</texture>
+                </control>
+                <control type="image">
+                    <left>10</left>
+                    <top>10</top>
+                    <right>30</right>
+                    <bottom>10</bottom>
+                    <aspectratio scalediffuse="false">scale</aspectratio>
+                    <texture diffuse="diffuse/wall.png" background="true" fallback="$PARAM[fallbackpicture]">$INFO[Container($PARAM[controlid]).ListItemNoWrap($PARAM[id]).Art(poster)]</texture>
+                </control>
+                <control type="image">
+                    <left>9</left>
+                    <right>29</right>
+                    <bottom>9</bottom>
+                    <top>9</top>
+                    <visible>!Skin.HasSetting(thumbnails.white)</visible>
+                    <texture colordiffuse="Box2" border="4">common/box21.png</texture>
+                </control>
+            </control>
+            
         </definition>
     </include>
 
@@ -2016,7 +2213,112 @@
             </control>
         </definition>
     </include>
-
+    
+    <include name="DefExtendedInfoFocusSetsContentWIP">
+        <param name="aspect" value="$PARAM[aspect]" default="scale"/>
+        <param name="fallbackpicture" default="pbtmdb.png" />
+        <param name="storageicon" value="$PARAM[storageicon]" default="!String.IsEmpty(Container(10051).ListItem.DBID)"/>
+        <definition>
+            <control type="group">
+                <animation center="auto" easing="inout" effect="zoom" end="$PARAM[zoom]" start="100" time="200" tween="sine">Focus</animation>
+                <animation center="auto" easing="inout" effect="zoom" end="100" start="$PARAM[zoom]" time="200" tween="sine">UnFocus</animation>
+                <control type="image">
+                    <left>0</left>
+                    <top>0</top>
+                    <right>20</right>
+                    <bottom>0</bottom>
+                    <texture border="10">common/$VAR[nofocus-shadow10]</texture>
+                </control>
+                <control type="image">
+                    <left>10</left>
+                    <top>10</top>
+                    <right>30</right>
+                    <bottom>10</bottom>
+                    <texture colordiffuse="Fallback" border="4" background="true">common/box.png</texture>
+                </control>
+                <control type="image">
+                    <left>10</left>
+                    <top>10</top>
+                    <right>30</right>
+                    <bottom>10</bottom>
+                    <aspectratio scalediffuse="false">$PARAM[aspect]</aspectratio>
+                    <texture diffuse="diffuse/wall.png" background="true" fallback="$PARAM[fallbackpicture]">$VAR[PosterImage]</texture>
+                    <visible>true</visible><!--default_true-->
+                </control>
+                <control type="image">
+                    <left>10</left>
+                    <top>10</top>
+                    <right>30</right>
+                    <bottom>10</bottom>
+                    <aspectratio scalediffuse="false">keep</aspectratio>
+                    <texture diffuse="diffuse/wall.png" background="true">$INFO[ListItem.Icon]</texture>
+                    <visible>false</visible><!--default_false-->  
+                </control>
+                <control type="image">
+                    <left>9</left>
+                    <right>30</right>
+                    <bottom>9</bottom>
+                    <top>9</top>
+                    <visible>!Skin.HasSetting(thumbnails.white)</visible>
+                    <texture colordiffuse="BoxNotification" border="4">common/box21.png</texture>
+                </control>
+                <control type="group">
+                    <visible>$PARAM[storageicon]</visible>
+                    <right>5</right>
+                    <top>1</top>
+                    <control type="label">
+                        <align>right</align>
+                        <aligny>center</aligny>
+                        <width>50</width>
+                        <right>30</right>
+                        <top>6</top>
+                        <height>50</height>
+                        <font>SymbolPosterBackground</font>
+                        <label>[COLOR=FF333333]&#61833;[/COLOR]</label>
+                    </control>
+                    <control type="label">
+                        <align>right</align>
+                        <aligny>center</aligny>
+                        <width>50</width>
+                        <right>37</right>
+                        <top>6</top>
+                        <height>50</height>
+                        <textcolor>$VAR[WatchedLabelPosterColor]</textcolor>
+                        <selectedcolor>$VAR[WatchedLabelPosterColor]</selectedcolor>
+                        <font>SymbolPoster</font>
+                        <label>$VAR[StorageIconLabel]</label>
+                    </control>
+                </control>
+            </control>
+            <control type="label">
+                <left>$PARAM[labelleft]</left>
+                <bottom>$PARAM[labelbottom]</bottom>
+                <width>1300</width>
+                <height>42</height>
+                <font>LabelInfo</font>
+                <visible>Control.HasFocus($PARAM[controlid])</visible>
+                <textcolor>Dark1</textcolor>
+                <selectedcolor>Dark1</selectedcolor>
+                <label>$INFO[ListItem.Label] $INFO[ListItem.Year,(,)]</label>
+                <animation effect="fade" start="0" end="100" time="650" tween="cubic" easing="inout" delay="200" reversible="false">Focus</animation>
+                <animation effect="fade" start="100" end="0" time="0" delay="0">UnFocus</animation>
+            </control>
+            <control type="label">
+                <left>$PARAM[labeltwoleft]</left>
+                <bottom>$PARAM[labeltwobottom]</bottom>
+                <width>1300</width>
+                <height>42</height>
+                <font>LabelInfoSub</font>
+                <visible>Control.HasFocus($PARAM[controlid]) + !Control.HasFocus(10054)</visible>
+                <textcolor>Dark1</textcolor>
+                <selectedcolor>Dark1</selectedcolor>
+                <label>$VAR[LabelExtendedVideoInfoLabel2]</label>
+                <animation effect="fade" start="0" end="100" time="650" tween="cubic" easing="inout" delay="200" reversible="false">Focus</animation>
+                <animation effect="fade" start="100" end="0" time="0" delay="0">UnFocus</animation>
+            </control>
+        </definition>
+    </include>
+    
     <include name="DefExtendedInfoFocusContentWIP">
         <param name="aspect" value="$PARAM[aspect]" default="scale"/>
         <param name="fallbackpicture" default="pbtmdb.png" />
@@ -2407,7 +2709,7 @@
     <include name="Def_Gradient_Settings_Image_Shortcuts">
         <param name="top" value="$PARAM[top]" default="113"/>
         <param name="left" value="$PARAM[left]" default="630"/>
-        <param name="width" value="$PARAM[width]" default="820"/>
+        <param name="width" value="$PARAM[width]" default="905"/>
         <param name="height" value="$PARAM[height]" default="66"/>
         <param name="slide" value="$PARAM[slide]" default="69"/>
         <param name="border" value="$PARAM[border]" default="5"/>

@@ -323,20 +323,19 @@
     </include>
 
     <variable name="ImageBackG">
-        <value condition="Skin.HasSetting(EnableBlur) + !Skin.HasSetting(BlurOnHome) + Window.IsVisible(Home.xml)">$VAR[GlobalFanart]</value>
-        <value condition="Skin.HasSetting(EnableBlur)">$INFO[Window(home).Property(ImageFilterFIVE)]</value>
-        <value condition="!Skin.HasSetting(EnableBlur)">$VAR[GlobalFanart]</value>
+        <value condition="Skin.HasSetting(BlurEnabled)">$INFO[Window(home).Property(listitem_blurred)]</value>
+        <value condition="!Skin.HasSetting(BlurEnabled)">$VAR[GlobalFanart]</value>
     </variable>
 
     <variable name="ImageBackGdown">
-        <value condition="Skin.HasSetting(EnableBlur) + !Skin.HasSetting(BlurOnHome) + Window.IsVisible(Home.xml)">$VAR[GlobalFanart]</value>
-        <value condition="Skin.HasSetting(EnableBlur)">$INFO[Window(home).Property(ImageFilterFIVE)]</value>
-        <value condition="!Skin.HasSetting(EnableBlur)">$VAR[GlobalFanart]</value>
+        <value condition="Skin.HasSetting(BlurEnabled) + !Skin.HasSetting(BlurOnHome) + Window.IsVisible(Home.xml)">$VAR[GlobalFanart]</value>
+        <value condition="Skin.HasSetting(BlurEnabled)">$INFO[Window(home).Property(listitem_blurred)]</value>
+        <value condition="!Skin.HasSetting(BlurEnabled)">$VAR[GlobalFanart]</value>
     </variable>
 
     <variable name="ImageBackG510">
-        <value condition="Skin.HasSetting(EnableBlur)">common/bg.jpg</value>
-        <value condition="!Skin.HasSetting(EnableBlur)">common/bg.png</value>
+        <value condition="Skin.HasSetting(BlurEnabled)">common/bg.jpg</value>
+        <value condition="!Skin.HasSetting(BlurEnabled)">common/bg.png</value>
     </variable>
 
     <include name="FadetimeNormal">
@@ -352,16 +351,12 @@
     </include>
 
     <include name="GlobalBackground">
-        <control type="multiimage" id="7975">
-            <left>-2160</left>
-            <width>1</width>
-            <height>1</height>
-            <fadetime>600</fadetime>
-            <timeperimage>12000</timeperimage>
-            <randomize>true</randomize>
-            <imagepath background="true">$VAR[GlobalFanart]</imagepath>
-            <visible>System.HasAddon(script.colorbox)</visible>
-            <visible>Skin.HasSetting(EnableBlur)</visible>
+        <control type="image" id="100000">
+            <left>-3000</left>
+            <right>-3000</right>
+            <width>10</width>
+            <height>10</height>
+            <texture background="true">$VAR[GlobalFanart]</texture>            
         </control>
         <include>GlobalVideoWindow</include>
         <include>GlobalVisualisation</include>
@@ -425,12 +420,12 @@
             <pauseatend>12000</pauseatend>
         </control>
         <control type="multiimage" description="Fanart">
-            <visible>!Skin.HasSetting(EnableBlur)</visible>
+            <visible>!Skin.HasSetting(BlurEnabled)</visible>
             <visible>[!Control.IsVisible(510) + !Control.IsVisible(520)] | Window.IsVisible(DialogVideoInfo.xml) | Window.IsVisible(Custom_MovieSets.xml)</visible>
-            <include condition="[!Window.IsVisible(home) | Skin.HasSetting(home.vertical) | [Skin.HasSetting(home.modernwidgets)  + Skin.HasSetting(home.vertical.widgets)]] + Window.IsVisible(Home.xml) + Skin.HasSetting(BlurOnHome) + Skin.HasSetting(EnableBlur)">GlobalBackgroundFadeBlur</include>
-            <include condition="[!Window.IsVisible(home) | Skin.HasSetting(home.vertical) | [Skin.HasSetting(home.modernwidgets)  + Skin.HasSetting(home.vertical.widgets)]] + Window.IsVisible(Home.xml) + !Skin.HasSetting(BlurOnHome) + Skin.HasSetting(EnableBlur)">GlobalBackgroundFade</include>
-            <include condition="[!Window.IsVisible(home) | Skin.HasSetting(home.vertical) | [Skin.HasSetting(home.modernwidgets)  + Skin.HasSetting(home.vertical.widgets)]] + !Window.IsVisible(Home.xml) + Skin.HasSetting(EnableBlur)">GlobalBackgroundFadeBlur</include>
-            <include condition="[!Window.IsVisible(home) | Skin.HasSetting(home.vertical) | [Skin.HasSetting(home.modernwidgets)  + Skin.HasSetting(home.vertical.widgets)]] + !Skin.HasSetting(EnableBlur)">GlobalBackgroundFade</include>
+            <include condition="[!Window.IsVisible(home) | Skin.HasSetting(home.vertical) | [Skin.HasSetting(home.modernwidgets)  + Skin.HasSetting(home.vertical.widgets)]] + Window.IsVisible(Home.xml) + Skin.HasSetting(BlurOnHome) + Skin.HasSetting(BlurEnabled)">GlobalBackgroundFadeBlur</include>
+            <include condition="[!Window.IsVisible(home) | Skin.HasSetting(home.vertical) | [Skin.HasSetting(home.modernwidgets)  + Skin.HasSetting(home.vertical.widgets)]] + Window.IsVisible(Home.xml) + !Skin.HasSetting(BlurOnHome) + Skin.HasSetting(BlurEnabled)">GlobalBackgroundFade</include>
+            <include condition="[!Window.IsVisible(home) | Skin.HasSetting(home.vertical) | [Skin.HasSetting(home.modernwidgets)  + Skin.HasSetting(home.vertical.widgets)]] + !Window.IsVisible(Home.xml) + Skin.HasSetting(BlurEnabled)">GlobalBackgroundFadeBlur</include>
+            <include condition="[!Window.IsVisible(home) | Skin.HasSetting(home.vertical) | [Skin.HasSetting(home.modernwidgets)  + Skin.HasSetting(home.vertical.widgets)]] + !Skin.HasSetting(BlurEnabled)">GlobalBackgroundFade</include>
             <visible>!Player.HasMedia | Window.IsVisible(MyVideoNav.xml) | [!Skin.HasSetting(global.showvideo) + Player.HasVideo] | [!Skin.HasSetting(global.showvisualisation) + Player.HasAudio]</visible>
             <visible>!Skin.HasSetting(global.hidefanart) | Window.IsVisible(home)</visible>
             <include>Dimensions_Fullscreen</include>
@@ -445,7 +440,7 @@
             <animation effect="slide" start="-20,-20" end="20,20" time="6000" tween="sine" easing="inout" pulse="true" condition="Skin.HasSetting(Fanart.Animate)">Conditional</animation>
         </control>
         <control type="multiimage" description="Fanart">
-            <visible>!Skin.HasSetting(EnableBlur)</visible>
+            <visible>!Skin.HasSetting(BlurEnabled)</visible>
             <visible>[Control.IsVisible(510) | Control.IsVisible(520)] + !Window.IsVisible(DialogVideoInfo.xml) + !Window.IsVisible(Custom_MovieSets.xml)</visible>
             <visible>!Player.HasMedia | Window.IsVisible(MyVideoNav.xml) | Window.IsVisible(MyVideoNav.xml) | [!Skin.HasSetting(global.showvideo) + Player.HasVideo] | [!Skin.HasSetting(global.showvisualisation) + Player.HasAudio]</visible>
             <visible>!Skin.HasSetting(global.hidefanart) | Window.IsVisible(home)</visible>
@@ -461,12 +456,12 @@
             <animation effect="slide" start="-20,-20" end="20,20" time="6000" tween="sine" easing="inout" pulse="true" condition="Skin.HasSetting(Fanart.Animate)">Conditional</animation>
         </control>
         <control type="multiimage" description="Fanart">
-            <visible>Skin.HasSetting(EnableBlur) + !Window.IsVisible(Home.xml)</visible>
+            <visible>Skin.HasSetting(BlurEnabled) + !Window.IsVisible(Home.xml)</visible>
             <visible>[!Control.IsVisible(510) + !Control.IsVisible(520)] | Window.IsVisible(DialogVideoInfo.xml) | Window.IsVisible(Custom_MovieSets.xml)</visible>
-            <include condition="[!Window.IsVisible(home) | Skin.HasSetting(home.vertical)] + Window.IsVisible(Home.xml) + Skin.HasSetting(BlurOnHome) + Skin.HasSetting(EnableBlur)">GlobalBackgroundFadeBlur</include>
-            <include condition="[!Window.IsVisible(home) | Skin.HasSetting(home.vertical)] + Window.IsVisible(Home.xml) + !Skin.HasSetting(BlurOnHome) + Skin.HasSetting(EnableBlur)">GlobalBackgroundFade</include>
-            <include condition="[!Window.IsVisible(home) | Skin.HasSetting(home.vertical)] + !Window.IsVisible(Home.xml) + Skin.HasSetting(EnableBlur)">GlobalBackgroundFadeBlur</include>
-            <include condition="[!Window.IsVisible(home) | Skin.HasSetting(home.vertical)] + !Skin.HasSetting(EnableBlur)">GlobalBackgroundFade</include>
+            <include condition="[!Window.IsVisible(home) | Skin.HasSetting(home.vertical)] + Window.IsVisible(Home.xml) + Skin.HasSetting(BlurOnHome) + Skin.HasSetting(BlurEnabled)">GlobalBackgroundFadeBlur</include>
+            <include condition="[!Window.IsVisible(home) | Skin.HasSetting(home.vertical)] + Window.IsVisible(Home.xml) + !Skin.HasSetting(BlurOnHome) + Skin.HasSetting(BlurEnabled)">GlobalBackgroundFade</include>
+            <include condition="[!Window.IsVisible(home) | Skin.HasSetting(home.vertical)] + !Window.IsVisible(Home.xml) + Skin.HasSetting(BlurEnabled)">GlobalBackgroundFadeBlur</include>
+            <include condition="[!Window.IsVisible(home) | Skin.HasSetting(home.vertical)] + !Skin.HasSetting(BlurEnabled)">GlobalBackgroundFade</include>
             <visible>!Player.HasMedia | Window.IsVisible(MyVideoNav.xml) | [!Skin.HasSetting(global.showvideo) + Player.HasVideo] | [!Skin.HasSetting(global.showvisualisation) + Player.HasAudio]</visible>
             <visible>!Skin.HasSetting(global.hidefanart) | Window.IsVisible(home)</visible>
             <include>Dimensions_Fullscreen</include>
@@ -487,12 +482,12 @@
             <animation effect="slide" start="-20,-20" end="20,20" time="6000" tween="sine" easing="inout" pulse="true" condition="Skin.HasSetting(Fanart.Animate)">Conditional</animation>
         </control>
         <control type="multiimage" description="Fanart">
-            <visible>Skin.HasSetting(EnableBlur) + !Skin.HasSetting(BlurOnHome) + Window.IsVisible(Home.xml)</visible>
+            <visible>Skin.HasSetting(BlurEnabled) + !Skin.HasSetting(BlurOnHome) + Window.IsVisible(Home.xml)</visible>
             <visible>[!Control.IsVisible(510) + !Control.IsVisible(520)] | Window.IsVisible(DialogVideoInfo.xml) | Window.IsVisible(Custom_MovieSets.xml)</visible>
-            <include condition="[!Window.IsVisible(home) | Skin.HasSetting(home.vertical) | [Skin.HasSetting(home.modernwidgets)  + Skin.HasSetting(home.vertical.widgets)]] + Window.IsVisible(Home.xml) + Skin.HasSetting(BlurOnHome) + Skin.HasSetting(EnableBlur)">GlobalBackgroundFadeBlur</include>
-            <include condition="[!Window.IsVisible(home) | Skin.HasSetting(home.vertical) | [Skin.HasSetting(home.modernwidgets)  + Skin.HasSetting(home.vertical.widgets)]] + Window.IsVisible(Home.xml) + !Skin.HasSetting(BlurOnHome) + Skin.HasSetting(EnableBlur)">GlobalBackgroundFade</include>
-            <include condition="[!Window.IsVisible(home) | Skin.HasSetting(home.vertical) | [Skin.HasSetting(home.modernwidgets)  + Skin.HasSetting(home.vertical.widgets)]] + !Window.IsVisible(Home.xml) + Skin.HasSetting(EnableBlur)">GlobalBackgroundFadeBlur</include>
-            <include condition="[!Window.IsVisible(home) | Skin.HasSetting(home.vertical) | [Skin.HasSetting(home.modernwidgets)  + Skin.HasSetting(home.vertical.widgets)]] + !Skin.HasSetting(EnableBlur)">GlobalBackgroundFade</include>
+            <include condition="[!Window.IsVisible(home) | Skin.HasSetting(home.vertical) | [Skin.HasSetting(home.modernwidgets)  + Skin.HasSetting(home.vertical.widgets)]] + Window.IsVisible(Home.xml) + Skin.HasSetting(BlurOnHome) + Skin.HasSetting(BlurEnabled)">GlobalBackgroundFadeBlur</include>
+            <include condition="[!Window.IsVisible(home) | Skin.HasSetting(home.vertical) | [Skin.HasSetting(home.modernwidgets)  + Skin.HasSetting(home.vertical.widgets)]] + Window.IsVisible(Home.xml) + !Skin.HasSetting(BlurOnHome) + Skin.HasSetting(BlurEnabled)">GlobalBackgroundFade</include>
+            <include condition="[!Window.IsVisible(home) | Skin.HasSetting(home.vertical) | [Skin.HasSetting(home.modernwidgets)  + Skin.HasSetting(home.vertical.widgets)]] + !Window.IsVisible(Home.xml) + Skin.HasSetting(BlurEnabled)">GlobalBackgroundFadeBlur</include>
+            <include condition="[!Window.IsVisible(home) | Skin.HasSetting(home.vertical) | [Skin.HasSetting(home.modernwidgets)  + Skin.HasSetting(home.vertical.widgets)]] + !Skin.HasSetting(BlurEnabled)">GlobalBackgroundFade</include>
             <visible>!Player.HasMedia | Window.IsVisible(MyVideoNav.xml) | Window.IsVisible(MyVideoNav.xml) | [!Skin.HasSetting(global.showvideo) + Player.HasVideo] | [!Skin.HasSetting(global.showvisualisation) + Player.HasAudio]</visible>
             <visible>!Skin.HasSetting(global.hidefanart) | Window.IsVisible(home)</visible>
             <include>Dimensions_Fullscreen</include>
@@ -507,12 +502,12 @@
             <animation effect="slide" start="-20,-20" end="20,20" time="6000" tween="sine" easing="inout" pulse="true" condition="Skin.HasSetting(Fanart.Animate)">Conditional</animation>
         </control>
         <control type="multiimage" description="Fanart">
-            <visible>Skin.HasSetting(EnableBlur) + Skin.HasSetting(BlurOnHome) + Window.IsVisible(Home.xml)</visible>
+            <visible>Skin.HasSetting(BlurEnabled) + Skin.HasSetting(BlurOnHome) + Window.IsVisible(Home.xml)</visible>
             <visible>[!Control.IsVisible(510) + !Control.IsVisible(520)] | Window.IsVisible(DialogVideoInfo.xml) | Window.IsVisible(Custom_MovieSets.xml)</visible>
-            <include condition="[!Window.IsVisible(home) | Skin.HasSetting(home.vertical) | [Skin.HasSetting(home.modernwidgets)  + Skin.HasSetting(home.vertical.widgets)]] + Window.IsVisible(Home.xml) + Skin.HasSetting(BlurOnHome) + Skin.HasSetting(EnableBlur)">GlobalBackgroundFadeBlur</include>
-            <include condition="[!Window.IsVisible(home) | Skin.HasSetting(home.vertical) | [Skin.HasSetting(home.modernwidgets)  + Skin.HasSetting(home.vertical.widgets)]] + Window.IsVisible(Home.xml) + !Skin.HasSetting(BlurOnHome) + Skin.HasSetting(EnableBlur)">GlobalBackgroundFade</include>
-            <include condition="[!Window.IsVisible(home) | Skin.HasSetting(home.vertical) | [Skin.HasSetting(home.modernwidgets)  + Skin.HasSetting(home.vertical.widgets)]] + !Window.IsVisible(Home.xml) + Skin.HasSetting(EnableBlur)">GlobalBackgroundFadeBlur</include>
-            <include condition="[!Window.IsVisible(home) | Skin.HasSetting(home.vertical) | [Skin.HasSetting(home.modernwidgets)  + Skin.HasSetting(home.vertical.widgets)]] + !Skin.HasSetting(EnableBlur)">GlobalBackgroundFade</include>
+            <include condition="[!Window.IsVisible(home) | Skin.HasSetting(home.vertical) | [Skin.HasSetting(home.modernwidgets)  + Skin.HasSetting(home.vertical.widgets)]] + Window.IsVisible(Home.xml) + Skin.HasSetting(BlurOnHome) + Skin.HasSetting(BlurEnabled)">GlobalBackgroundFadeBlur</include>
+            <include condition="[!Window.IsVisible(home) | Skin.HasSetting(home.vertical) | [Skin.HasSetting(home.modernwidgets)  + Skin.HasSetting(home.vertical.widgets)]] + Window.IsVisible(Home.xml) + !Skin.HasSetting(BlurOnHome) + Skin.HasSetting(BlurEnabled)">GlobalBackgroundFade</include>
+            <include condition="[!Window.IsVisible(home) | Skin.HasSetting(home.vertical) | [Skin.HasSetting(home.modernwidgets)  + Skin.HasSetting(home.vertical.widgets)]] + !Window.IsVisible(Home.xml) + Skin.HasSetting(BlurEnabled)">GlobalBackgroundFadeBlur</include>
+            <include condition="[!Window.IsVisible(home) | Skin.HasSetting(home.vertical) | [Skin.HasSetting(home.modernwidgets)  + Skin.HasSetting(home.vertical.widgets)]] + !Skin.HasSetting(BlurEnabled)">GlobalBackgroundFade</include>
             <visible>!Player.HasMedia | [!Skin.HasSetting(global.showvideo) + Player.HasVideo] | [!Skin.HasSetting(global.showvisualisation) + Player.HasAudio]</visible>
             <visible>!Skin.HasSetting(global.hidefanart) | Window.IsVisible(home)</visible>
             <include>Dimensions_Fullscreen</include>
@@ -528,12 +523,12 @@
             <timeperimage>12000</timeperimage>
             <randomize>true</randomize>
             <aspectratio>scale</aspectratio>
-            <imagepath background="true">$INFO[Window(home).Property(ImageFilterFIVE)]</imagepath>
+            <imagepath background="true">$VAR[ImageBackG]</imagepath>
             <animation effect="zoom" start="110" end="120" center="auto" time="10000" tween="sine" easing="inout" pulse="true" condition="Skin.HasSetting(Fanart.Animate)">Conditional</animation>
             <animation effect="slide" start="-20,-20" end="20,20" time="6000" tween="sine" easing="inout" pulse="true" condition="Skin.HasSetting(Fanart.Animate)">Conditional</animation>
         </control>
         <control type="multiimage" description="Fanart">
-            <visible>Skin.HasSetting(EnableBlur)</visible>
+            <visible>Skin.HasSetting(BlurEnabled)</visible>
             <visible>[Control.IsVisible(510) | Control.IsVisible(520)] + !Window.IsVisible(DialogVideoInfo.xml) + !Window.IsVisible(Custom_MovieSets.xml)</visible>
             <visible>!Player.HasMedia | [!Skin.HasSetting(global.showvideo) + Player.HasVideo] | [!Skin.HasSetting(global.showvisualisation) + Player.HasAudio]</visible>
             <visible>!Skin.HasSetting(global.hidefanart) | Window.IsVisible(home)</visible>
@@ -553,7 +548,7 @@
             <animation effect="slide" start="-20,-20" end="20,20" time="6000" tween="sine" easing="inout" pulse="true" condition="Skin.HasSetting(Fanart.Animate)">Conditional</animation>
         </control>
         <control type="image" description="Background">
-            <visible>Skin.HasSetting(EnableBlur)</visible>
+            <visible>Skin.HasSetting(BlurEnabled)</visible>
             <visible>Skin.HasSetting(FullsizeFanart510)</visible>
             <visible>[Control.IsVisible(510) | Control.IsVisible(520)] + !Window.IsVisible(DialogVideoInfo.xml) + !Window.IsVisible(Custom_MovieSets.xml)</visible>
             <width>1350</width>
@@ -568,7 +563,7 @@
             <include>Animation.FadeOut510</include>
         </control>
         <control type="image" description="Background">
-            <visible>Skin.HasSetting(EnableBlur)</visible>
+            <visible>Skin.HasSetting(BlurEnabled)</visible>
             <visible>!Skin.HasSetting(FullsizeFanart510)</visible>
             <visible>[Control.IsVisible(510) | Control.IsVisible(520)] + !Window.IsVisible(DialogVideoInfo.xml) + !Window.IsVisible(Custom_MovieSets.xml)</visible>
             <width>1920</width>
@@ -586,11 +581,11 @@
             <visible>[Control.IsVisible(510) | Control.IsVisible(520)] + !Window.IsVisible(DialogVideoInfo.xml) + !Window.IsVisible(Custom_MovieSets.xml)</visible>
             <include>Dimensions_Fullscreen</include>
             <texture>common/bg.png</texture>
-            <include condition="Skin.HasSetting(EnableBlur)">Overlay510Blur</include>
-            <include condition="!Skin.HasSetting(EnableBlur)">Overlay510</include>
+            <include condition="Skin.HasSetting(BlurEnabled)">Overlay510Blur</include>
+            <include condition="!Skin.HasSetting(BlurEnabled)">Overlay510</include>
         </control>
         <control type="image" description="Background">
-            <visible>!Skin.HasSetting(EnableBlur)</visible>
+            <visible>!Skin.HasSetting(BlurEnabled)</visible>
             <visible>[Control.IsVisible(510) | Control.IsVisible(520)] + !Window.IsVisible(DialogVideoInfo.xml) + !Window.IsVisible(Custom_MovieSets.xml)</visible>
             <width>1290</width>
             <height>670</height>
@@ -617,8 +612,8 @@
             <visible>!Window.IsVisible(home) | Skin.HasSetting(home.vertical)  | [Skin.HasSetting(home.modernwidgets)  + Skin.HasSetting(home.vertical.widgets)]</visible>
             <include condition="!Skin.HasSetting(home.vertical)">Animation.FadeFromHome</include>
             <texture>common/floor.png</texture>
-            <include condition="Skin.HasSetting(EnableBlur)">IncludeFloorFadeBlur</include>
-            <include condition="!Skin.HasSetting(EnableBlur)">IncludeFloorFade</include>
+            <include condition="Skin.HasSetting(BlurEnabled)">IncludeFloorFadeBlur</include>
+            <include condition="!Skin.HasSetting(BlurEnabled)">IncludeFloorFade</include>
         </control>
     </include>
 
@@ -629,7 +624,7 @@
             <texture colordiffuse="Background">common/bg.jpg</texture>
         </control>
         <control type="multiimage" description="Fanart">
-            <visible>!Skin.HasSetting(EnableBlur)</visible>
+            <visible>!Skin.HasSetting(BlurEnabled)</visible>
             <include>GlobalBackgroundFade</include>
             <visible>!Skin.HasSetting(global.hidefanart)</visible>
             <include>Dimensions_Fullscreen</include>
@@ -643,7 +638,7 @@
             <animation effect="slide" start="-20,-20" end="20,20" time="6000" tween="sine" easing="inout" pulse="true" condition="Skin.HasSetting(Fanart.Animate)">Conditional</animation>
         </control>
         <control type="multiimage" description="Fanart">
-            <visible>Skin.HasSetting(EnableBlur)</visible>
+            <visible>Skin.HasSetting(BlurEnabled)</visible>
             <visible>!Skin.HasSetting(global.hidefanart)</visible>
             <include>Dimensions_Fullscreen</include>
             <include condition="!Skin.HasSetting(home.vertical)">Animation.FadeFromHome</include>
@@ -664,11 +659,11 @@
             <include>Dimensions_Fullscreen</include>
             <include condition="!Skin.HasSetting(home.vertical)">Animation.FadeFromHome</include>
             <texture>common/floor.png</texture>
-            <include condition="Skin.HasSetting(EnableBlur)">IncludeFloorFadeBlur</include>
-            <include condition="!Skin.HasSetting(EnableBlur)">IncludeFloorFade</include>
+            <include condition="Skin.HasSetting(BlurEnabled)">IncludeFloorFadeBlur</include>
+            <include condition="!Skin.HasSetting(BlurEnabled)">IncludeFloorFade</include>
         </control>
         <control type="image" description="Background">
-            <visible>Skin.HasSetting(EnableBlur)</visible>
+            <visible>Skin.HasSetting(BlurEnabled)</visible>
             <include condition="!Skin.HasSetting(home.vertical)">Animation.FadeFromHome</include>
             <include>Dimensions_Fullscreen</include>
             <texture colordiffuse="Background">common/bg.jpg</texture>
@@ -2769,7 +2764,7 @@
                 <visible>Container.Content(movies) | Container.Content(tvshows) | Container.Content(episodes)</visible>
                 <visible>Control.IsEnabled(7) + !String.IsEmpty(ListItem.UserRating)</visible>
             </control>
-            <control type="radiobutton" id="9108">
+            <!--<control type="radiobutton" id="9108">
                 <onfocus>ClearProperty(moviecontent)</onfocus>
                 <onfocus>ClearProperty(ShowDisc)</onfocus>
                 <onclick>SetProperty(moviecontent,10)</onclick>
@@ -2781,7 +2776,7 @@
                     <param name="icon" value="buttonsdialogs/set.png"/>
                 </include>
                 <visible>!String.IsEmpty(ListItem.SetId) + !String.IsEmpty(ListItem.DBID)</visible>
-            </control>
+            </control>-->
             <control type="radiobutton" id="1236">
                 <onfocus>ClearProperty(moviecontent)</onfocus>
                 <onfocus>ClearProperty(ShowDisc)</onfocus>
@@ -3729,25 +3724,6 @@
                         <visible>system.hasaddon(script.artwork.beef)</visible>
                         <visible>Skin.HasSetting(wipinfo)</visible>
                     </control>
-                    <control type="button" id="97" description="SELECT INFO">
-                        <align>left</align>
-                        <include>DefContextButtonGradient</include>
-                        <label>37746</label>
-                        <label2>$VAR[InfoTypeLabel]</label2>
-                        <onclick condition="!Skin.HasSetting(wipinfo)">Skin.ToggleSetting(wipinfo)</onclick>
-                        <onclick condition="Skin.HasSetting(wipinfo)">Skin.Reset(wipinfo)</onclick>
-                        <onclick>ReloadSkin()</onclick>
-                    </control>
-                    <control type="radiobutton" id="98">
-                        <description>Filter</description>
-                        <include>DefContextButtonGradient</include>
-                        <label>37868</label>
-                        <align>left</align>
-                        <selected>Skin.HasSetting(OnlyLocalAlbums)</selected>
-                        <onclick>Skin.ToggleSetting(OnlyLocalAlbums)</onclick>
-                        <onclick>ReloadSkin()</onclick>
-                        <visible>Skin.HasSetting(wipinfo) + String.IsEqual(ListItem.DBTYPE,artist) + Window.IsVisible(DialogMusicInfo.xml)</visible>
-                    </control>
                     <control type="radiobutton" id="99">
                         <description>Filter</description>
                         <include>DefContextButtonGradient</include>
@@ -4009,10 +3985,19 @@
             <height>8</height>
             <visible>Player.Seeking</visible>
         </control>
+        <control type="ranges">
+            <visible>Skin.HasSetting(chapter.markers)</visible>
+            <left>0</left>
+            <bottom>10</bottom>
+            <width>100%</width>
+            <height>8</height>
+            <texturebg border="3" colordiffuse="00FFFFFF">osd/ch.png</texturebg>				
+            <righttexture>osd/ch.png</righttexture>
+            <info>Player.Chapters</info>
+        </control>
     </include>
 
     <!-- Code from https://github.com/jurialmunkey/skin.arctic.zephyr.2/ -->
-
     <variable name="Weather_Sunrise">
         <value condition="!String.IsEmpty(Window(Weather).Property(Current.Sunrise))">$INFO[Window(Weather).Property(Current.Sunrise),$LOCALIZE[37876] ,]</value>
         <value condition="!String.IsEmpty(Window(Weather).Property(Today.Sunrise))">$INFO[Window(Weather).Property(Today.Sunrise),$LOCALIZE[37876] ,]</value>
