@@ -310,7 +310,7 @@
                     <font>NotificationBold</font>
                     <align>left</align>
                     <textcolor>Dark1</textcolor>
-                    <label>$INFO[Player.Title]</label>
+                    <label fallback="19055">$INFO[Player.Title]</label>
                 </control>
                 <control type="label">
                     <centertop>58</centertop>
@@ -4938,11 +4938,10 @@
         <include>Furniture_NowPlaying</include>
         <include>Furniture_Clock</include>
         <include>Furniture_Weather</include>
-        <include>Furniture_Flags</include>
         <include>WidgetsNavigationArrows</include>
         <control type="group">
             <animation effect="slide" start="0" end="-100" time="0" delay="0" condition="true">Conditional</animation>
-            <animation effect="slide" start="0" end="-350" time="300" delay="0" center="auto" tween="sine" easing="out" condition="[!Control.HasFocus(300) + !Control.HasFocus(302)] | Control.HasFocus(4752)">Conditional</animation>
+            <animation effect="slide" start="0" end="-350" time="300" delay="0" center="auto" tween="sine" easing="out" condition="[!Control.HasFocus(300) + !Control.HasFocus(302)] + ![Skin.HasSetting(homemenu.only.icons) + Skin.HasSetting(home.showicons)]">Conditional</animation>
 
             <!-- LEFT SIDE -->
             <control type="group">
@@ -4969,9 +4968,10 @@
 
                 <!-- Home List -->
                 <control type="panel" id="300">
+                    <animation effect="slide" start="0,0" end="-296,0" time="0" condition="Skin.HasSetting(homemenu.only.icons) + Skin.HasSetting(home.showicons)">Conditional</animation>
                     <animation effect="slide" start="0,0" end="0,-38" time="0" condition="true">Conditional</animation>
                     <animation effect="slide" start="0,0" end="0,30" time="0" condition="Skin.HasSetting(home.showheader)">Conditional</animation>
-                    <animation effect="fade" start="100" end="33" time="400" condition="!Control.HasFocus(300) + !Control.HasFocus(302)">Conditional</animation>
+                    <animation effect="fade" start="100" end="33" time="400" condition="[!Control.HasFocus(300) + !Control.HasFocus(302)] + ![Skin.HasSetting(homemenu.only.icons) + Skin.HasSetting(home.showicons)]">Conditional</animation>
                     <animation effect="slide" start="-500" end="0" time="200" delay="100" tween="quadratic" easing="out">Visible</animation>
                     <visible allowhiddenfocus="true">!Control.HasFocus(302)</visible>
                     <include>Animation.FadeIn</include>
@@ -4995,7 +4995,7 @@
                             <textcolor>Dark3</textcolor>
                             <font>Home</font>
                             <label>$INFO[ListItem.Label]</label>
-                            <visible>!Skin.HasSetting(home.showicons)</visible>
+                            <visible>!Skin.HasSetting(home.showicons)</visible>                            
                         </control>
                         <control type="label">
                             <right>100</right>
@@ -5007,6 +5007,7 @@
                             <font>Home</font>
                             <label>$INFO[ListItem.Label]</label>
                             <visible>Skin.HasSetting(home.showicons)</visible>
+                            <visible>!Skin.HasSetting(homemenu.only.icons)</visible>
                         </control>
                         <control type="image">
                             <right>10</right>
@@ -5039,6 +5040,7 @@
                             <font>HomeFO</font>
                             <label>$INFO[ListItem.Label]</label>
                             <visible>Skin.HasSetting(home.showicons)</visible>
+                            <visible>!Skin.HasSetting(homemenu.only.icons)</visible>
                         </control>
                         <control type="image">
                             <right>10</right>
@@ -5063,7 +5065,8 @@
                     <animation effect="slide" start="0,0" end="0,-38" time="0" condition="true">Conditional</animation>
                     <animation effect="slide" start="0,0" end="0,30" time="0" condition="Skin.HasSetting(home.showheader)">Conditional</animation>
                     <animation effect="fade" start="100" end="33" time="400" condition="Control.HasFocus(301)">Conditional</animation>
-                    <animation effect="slide" start="-500" end="0" time="200" delay="100" tween="quadratic" easing="out">Visible</animation>
+                    <animation effect="slide" start="-500" end="0" time="200" delay="100" tween="quadratic" easing="out" condition="![Skin.HasSetting(homemenu.only.icons) + Skin.HasSetting(home.showicons)]">Visible</animation>
+                    <animation effect="slide" start="-500" end="-296" time="200" delay="100" tween="quadratic" easing="out" condition="[Skin.HasSetting(homemenu.only.icons) + Skin.HasSetting(home.showicons)]">Visible</animation>
                     <include>Animation.FadeIn</include>
                     <include>Animation.FadeOut</include>
                     <description>Home Wraplist</description>
@@ -5088,7 +5091,16 @@
                             <textcolor>Dark3</textcolor>
                             <font>Home</font>
                             <label>$INFO[ListItem.Label]</label>
-                        </control>
+                            <visible>![Skin.HasSetting(homemenu.only.icons) + Skin.HasSetting(home.showicons)]</visible>
+                        </control>                        
+                        <control type="image">
+                            <right>10</right>
+                            <top>1</top>
+                            <width>80</width>
+                            <height>80</height>
+                            <texture colordiffuse="Dark3">$INFO[ListItem.Icon]</texture>
+                            <visible>Skin.HasSetting(homemenu.only.icons) + Skin.HasSetting(home.showicons)</visible>
+                        </control>                        
                     </itemlayout>
                     <focusedlayout width="427" height="80">
                         <control type="label">
@@ -5100,6 +5112,15 @@
                             <textcolor>$VAR[ColorHighlight]</textcolor>
                             <font>Home</font>
                             <label>$INFO[ListItem.Label]</label>
+                            <visible>![Skin.HasSetting(homemenu.only.icons) + Skin.HasSetting(home.showicons)]</visible>
+                        </control>                        
+                        <control type="image">
+                            <right>10</right>
+                            <width>80</width>
+                            <top>1</top>
+                            <height>80</height>
+                            <texture colordiffuse="$VAR[ColorHighlight]">$INFO[ListItem.Icon]</texture>
+                            <visible>Skin.HasSetting(homemenu.only.icons) + Skin.HasSetting(home.showicons)</visible>
                         </control>
                     </focusedlayout>
                     <content>
@@ -5110,6 +5131,7 @@
 
             <!-- RIGHT SIDE -->
             <control type="group">
+                <animation effect="slide" start="0,0" end="-300,0" time="0" condition="Skin.HasSetting(homemenu.only.icons) + Skin.HasSetting(home.showicons)">Conditional</animation>
                 <visible>!Window.IsVisible(script-script.extendedinfo-VideoList.xml) + !Window.IsVisible(skin.arctic.zephyr.mod.script-gto-info.xml) + !Window.IsVisible(script-globalsearch-main.xml) + !Window.IsVisible(script-globalsearch-infodialog.xml) + !Window.IsVisible(DialogAddonInfo.xml) + !Window.IsVisible(DialogPVRRecordingInfo.xml) + !Window.IsVisible(DialogPVRGuideInfo.xml) + !Window.IsVisible(DialogMusicInfo.xml) + !Window.IsVisible(DialogVideoInfo.xml) + !Window.IsVisible(script-script.extendedinfo-DialogInfo.xml) + !Window.IsVisible(script-script.extendedinfo-DialogVideoInfo.xml)</visible>
                 <animation type="WindowOpen" reversible="false">
                     <effect type="fade" start="0" end="100" time="300" tween="sine" easing="in"/>
@@ -6260,7 +6282,7 @@
                 <include>Animation.Vertical.Widgets.Label</include>
                 <control type="grouplist">
                     <left>530</left>
-                    <width>1422</width>
+                    <width>1322</width>
                     <orientation>vertical</orientation>
                     <top>-373</top>
                     <itemgap>15</itemgap>
@@ -6329,8 +6351,10 @@
     <include name="MultiWidgetsPlotLabel">
         <control type="grouplist">
             <height min="$PARAM[plotminheight]" max="$PARAM[plotmaxheight]">auto</height>
-            <visible>!String.IsEmpty(Container($PARAM[id]).ListItem.Property(Album_Description)) | !String.IsEmpty(Container($PARAM[id]).ListItem.Plot) | !String.IsEmpty(Container($PARAM[id]).ListItem.Property(Artist_Description)) | !String.IsEmpty(Container($PARAM[id]).ListItem.AddonDescription) | [!String.IsEmpty(Window(Home).Property(SkinHelper.ListItem.Plot)) + String.IsEqual(Container($PARAM[id]).ListItem.DBType,song) + ControlGroup(301).HasFocus()] | String.IsEqual(Container($PARAM[id]).ListItem.DBType,actor) | String.IsEqual(Container($PARAM[id]).ListItem.DBType,file)</visible>
-            <width>1322</width>
+            <visible>!String.IsEmpty(Container($PARAM[id]).ListItem.Property(Album_Description)) | !String.IsEmpty(Container($PARAM[id]).ListItem.Plot) | !String.IsEmpty(Container($PARAM[id]).ListItem.Property(Artist_Description)) | !String.IsEmpty(Container($PARAM[id]).ListItem.AddonDescription) | [!String.IsEmpty(Window(Home).Property(SkinHelper.ListItem.Plot)) + String.IsEqual(Container($PARAM[id]).ListItem.DBType,song) + ControlGroup(301).HasFocus()] | String.IsEqual(Container($PARAM[id]).ListItem.DBType,actor) | String.IsEqual(Container($PARAM[id]).ListItem.DBType,file)</visible>            
+            <include content="def_width" condition="$EXP[HomeIsVerticalMultiWidgets] + Skin.HasSetting(homemenu.only.icons) + Skin.HasSetting(home.showicons)">
+                <param name="width" value="1242" />
+            </include>
             <orientation>vertical</orientation>
             <itemgap>0</itemgap>
 
@@ -6568,6 +6592,7 @@
 
     <include name="HomeWidgetVerticalFlags">
         <control type="group">
+            <animation effect="slide" start="0" end="40,0" time="0" condition="Skin.HasSetting(homemenu.only.icons) + Skin.HasSetting(home.showicons)">Conditional</animation>            
             <include>Animation.FadeIn</include>
             <include>Animation.FadeOut</include>
             <include>Furniture_Flags</include>
