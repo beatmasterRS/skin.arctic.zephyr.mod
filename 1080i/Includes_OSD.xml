@@ -1181,7 +1181,13 @@
             </control>
         </control>
     </include>
-
+    
+    <include name="DefOSDButtonsOSDTimeout">
+        <onfocus condition="Skin.String(OSD_Timeout) + !Integer.IsGreater(Skin.String(OSD_Timeout),9)">AlarmClock(osd_timeout,SetFocus(2288),00:0$INFO[Skin.String(OSD_Timeout)],silent)</onfocus>
+        <onfocus condition="Skin.String(OSD_Timeout) + Integer.IsGreater(Skin.String(OSD_Timeout),9)">AlarmClock(osd_timeout,SetFocus(2288),00:$INFO[Skin.String(OSD_Timeout)],silent)</onfocus>
+        <onunfocus>CancelAlarm(osd_timeout,true)</onunfocus>
+    </include>
+    
     <include name="DefOSDButtons">
         <aligny>center</aligny>
         <align>center</align>
@@ -1192,6 +1198,7 @@
         <focusedcolor>$VAR[ColorHighlight]</focusedcolor>
         <texturefocus>noop</texturefocus>
         <width>226</width>
+        <include>DefOSDButtonsOSDTimeout</include>
     </include>
 
     <include name="DefOSDButtonsNewOSD">
@@ -1204,6 +1211,7 @@
         <focusedcolor>$VAR[ColorHighlight]</focusedcolor>
         <texturefocus>noop</texturefocus>
         <width>145</width>
+        <include>DefOSDButtonsOSDTimeout</include>
     </include>
 
     <include name="DefOSDUpDown">
@@ -1213,9 +1221,7 @@
         <ondown condition="!String.IsEmpty(Window(home).Property(osdshowinfo)) + !Window.IsVisible(MusicOSD.xml)">ClearProperty(osdshowinfo,home)</ondown>
         <onup condition="Window.IsVisible(MusicOSD.xml)">9100</onup>
         <ondown condition="Window.IsVisible(MusicOSD.xml)">9100</ondown>
-
-        <!-- <onup condition="Window.IsVisible(MusicOSD.xml)">IncreaseRating</onup>
-        <ondown condition="Window.IsVisible(MusicOSD.xml)">DecreaseRating</ondown> -->
+        <include>DefOSDButtonsOSDTimeout</include>
     </include>
 
     <include name="OSDVideosRight">
