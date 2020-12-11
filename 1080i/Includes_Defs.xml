@@ -756,6 +756,18 @@
         <height>350</height>
         <itemgap>0</itemgap>
     </include>
+    
+    <include name="Def9000GroupListHub">
+        <visible allowhiddenfocus="true">ControlGroup(9000).HasFocus()</visible>
+        <onleft>9500</onleft>
+        <onright>9500</onright>
+        <onback>9500</onback>
+        <posx>8</posx>
+        <posy>16</posy>
+        <width>510</width>
+        <height>350</height>
+        <itemgap>0</itemgap>
+    </include>
 
     <include name="Def9000GroupListMusic">
         <visible allowhiddenfocus="true">ControlGroup(9000).HasFocus()</visible>
@@ -1372,6 +1384,7 @@
                         <top>0</top>
                         <bottom>0</bottom>
                         <onright>9501</onright>
+                        <onleft>9000</onleft>
                         <onup>9500</onup>
                         <ondown>9500</ondown>
                         <preloaditems>1</preloaditems>
@@ -1684,6 +1697,126 @@
                 <texturesliderbar border="4" colordiffuse="Dark3">scrollbar/scrollv.png</texturesliderbar>
                 <texturesliderbarfocus border="4" colordiffuse="Dark2">scrollbar/scrollv.png</texturesliderbarfocus>
                 <animation effect="fade" start="100" end="33" time="400" condition="!Control.HasFocus(60) + !Container.Scrolling">Conditional</animation>
+            </control>
+        </control>
+        
+        <control type="group">
+            <include>Animation.FadeIn</include>
+            <include>Animation.FadeOut</include>
+            <visible>ControlGroup(9000).HasFocus()</visible>
+            <include>GlobalOverlay</include>
+        </control>
+        <control type="group">
+            <height>483</height>
+            <include>Def9000Background</include>
+            <control type="group">
+                <control type="image">
+                    <description>arrow image</description>
+                    <centerleft>50%</centerleft>
+                    <posy>-16</posy>
+                    <width>16</width>
+                    <height>16</height>
+                    <texture colordiffuse="White70" flipy="true">common/arrow-small.png</texture>
+                </control>
+                <control type="image">
+                    <description>arrow image</description>
+                    <centerleft>50%</centerleft>
+                    <posy>482</posy>
+                    <width>16</width>
+                    <height>16</height>
+                    <texture colordiffuse="White70" flipy="false">common/arrow-small.png</texture>
+                </control>
+            </control>
+            <control type="group">
+                <left>22</left>
+                <top>22</top>
+                <control type="label">
+                    <description>Header Label</description>
+                    <left>70</left>
+                    <width>1000</width>
+                    <posy>0</posy>
+                    <include>FontTop</include>
+                    <textcolor>Dark2</textcolor>
+                    <label>14018</label>
+                </control>
+                <include>Kodi_Logo</include>
+
+                <!-- Lines -->
+                <control type="image">
+                    <top>70</top>
+                    <left>17</left>
+                    <width>385</width>
+                    <height>1</height>
+                    <bottom>10</bottom>
+                    <colordiffuse>Black12</colordiffuse>
+                    <texture>common/white.png</texture>
+                </control>
+            </control>
+            <control type="image">
+                <top>110</top>
+                <left>8</left>
+                <height>70</height>
+                <width>450</width>
+                <texture colordiffuse="$VAR[ColorSelectOtherBar]">common/white.png</texture>
+                <visible>ControlGroup(9000).HasFocus() + !ControlGroup(6150).HasFocus()</visible>
+                <animation effect="fade" start="100" end="100" delay="20" time="1">Visible</animation>
+                <animation effect="slide" end="0,70" time="0" condition="Integer.IsGreater(Container(9000).Position,0)">Conditional</animation>
+                <animation effect="slide" end="0,70" time="0" condition="Integer.IsGreater(Container(9000).Position,1)">Conditional</animation>
+                <animation effect="slide" end="0,70" time="0" condition="Integer.IsGreater(Container(9000).Position,2)">Conditional</animation>
+                <animation effect="slide" end="0,70" time="0" condition="Integer.IsGreater(Container(9000).Position,3)">Conditional</animation>
+                <animation effect="slide" end="0,70" time="0" condition="Integer.IsGreater(Container(9000).Position,4)">Conditional</animation>
+                <animation effect="slide" end="0,70" time="0" condition="Integer.IsGreater(Container(9000).Position,5)">Conditional</animation>
+            </control>
+            <control type="grouplist" id="9000">
+                <height>350</height>
+                <top>110</top>
+                <usecontrolcoords>true</usecontrolcoords>
+                <include>Def9000GroupListHub</include>
+                <scrolltime>0</scrolltime>
+                <control type="radiobutton" id="9296">
+                    <include>DefContextButtonGradient</include>
+                    <align>left</align>
+                    <label>37745</label>
+                    <selected>Skin.HasSetting(hub.showplot)</selected>
+                    <onclick>Skin.ToggleSetting(hub.showplot)</onclick>
+                </control>
+                <control type="radiobutton" id="9081" description="moreshadows">
+                    <include>DefContextButtonGradient</include>
+                    <align>left</align>
+                    <label>37776</label>
+                    <selected>Skin.HasSetting(global.moreshadows)</selected>
+                    <onclick>Skin.ToggleSetting(global.moreshadows)</onclick>
+                </control>
+                <control type="radiobutton" id="9584">
+                    <include>DefContextButtonGradient</include>
+                    <label>37521</label>
+                    <align>left</align>
+                    <selected>Skin.HasSetting(furniture.coloredicons)</selected>
+                    <onclick>Skin.ToggleSetting(furniture.coloredicons)</onclick>
+                </control>
+                <control type="radiobutton" id="9087">
+                    <include>DefContextButtonGradient</include>
+                    <align>left</align>
+                    <label>37514</label>
+                    <selected>Skin.HasSetting(thumbnails.white)</selected>
+                    <onclick>Skin.ToggleSetting(thumbnails.white)</onclick>
+                </control>
+                <control type="togglebutton" id="20">
+                    <description>Update</description>
+                    <align>left</align>
+                    <label>653</label>
+                    <altlabel>13353</altlabel>
+                    <include>DefContextButtonGradient</include>
+                    <usealttexture>Library.IsScanningVideo</usealttexture>
+                </control>
+                <include>ControlButtons</include>
+                <control type="button" id="5555">
+                    <include>DefContextButtonGradient</include>
+                    <align>left</align>
+                    <label>31195</label>
+                    <onclick>ReloadSkin()</onclick>
+                    <visible>Skin.HasSetting(DebugInfo)</visible>
+                </control>               
             </control>
         </control>
     </include>
