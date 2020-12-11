@@ -207,7 +207,7 @@
                 <bottom>13</bottom>
                 <height>40</height>
                 <font>Tiny</font>
-                <textcolor>$VAR[OSDPanelWhite70]</textcolor>
+                <textcolor>$VAR[OSDPanelWhite70Music]</textcolor>
                 <label>$INFO[Player.Time]$INFO[Player.Duration,  /  ,]</label>
             </control>
             <control type="image">
@@ -422,7 +422,7 @@
                     <bottom>13</bottom>
                     <height>40</height>
                     <font>Tiny</font>
-                    <textcolor>$VAR[OSDPanelWhite70]</textcolor>
+                    <textcolor>$VAR[OSDPanelWhite70Music]</textcolor>
                     <label>$INFO[Player.Time]$INFO[Player.Duration,  /  ,]</label>
                 </control>
                 <control type="image">
@@ -581,7 +581,7 @@
                         <bottom>30</bottom>
                         <height>40</height>
                         <font>Tiny</font>
-                        <textcolor>$VAR[OSDPanelWhite70]</textcolor>
+                        <textcolor>$VAR[OSDPanelWhite70Music]</textcolor>
                         <label>$VAR[PlayerStatus]</label>
                     </control>
                     <control type="progress" description="cache">
@@ -628,7 +628,7 @@
                         <height>40</height>
                         <width>950</width>
                         <font>MediumBold</font>
-                        <textcolor>$VAR[OSDPanelWhite70]</textcolor>
+                        <textcolor>$VAR[OSDPanelWhite70Music]</textcolor>
                         <label>$VAR[PlayerStatusNewOSD]</label>
                     </control>
                     <!--<control type="label">
@@ -637,7 +637,7 @@
                         <bottom>100</bottom>
                         <height>40</height>
                         <font>tiny</font>
-                        <textcolor>$VAR[OSDPanelWhite70]</textcolor>
+                        <textcolor>$VAR[OSDPanelWhite70Music]</textcolor>
                         <animation effect="slide" start="0,0" end="0,70" time="150" condition="Skin.HasSetting(osd.usethemeNewOSDMusic)">Conditional</animation>
                         <label>$INFO[MusicPlayer.BitsPerSample] bit  •  $INFO[MusicPlayer.BitRate] kbps  •  $VAR[Label_MusicPlayerCodec]</label>                
                     </control>    -->
@@ -653,7 +653,7 @@
                             <align>left</align>
                             <height>40</height>
                             <font>tiny</font>
-                            <textcolor>$VAR[OSDPanelWhite70]</textcolor>
+                            <textcolor>$VAR[OSDPanelWhite70Music]</textcolor>
                             <animation effect="slide" start="0,0" end="0,70" time="150" condition="Skin.HasSetting(osd.usethemeNewOSDMusic)">Conditional</animation>
                             <label>$INFO[MusicPlayer.BitsPerSample,,bit]</label>
                         </control>
@@ -662,7 +662,7 @@
                             <align>left</align>
                             <height>40</height>
                             <font>tiny</font>
-                            <textcolor>$VAR[OSDPanelWhite70]</textcolor>
+                            <textcolor>$VAR[OSDPanelWhite70Music]</textcolor>
                             <animation effect="slide" start="0,0" end="0,70" time="150" condition="Skin.HasSetting(osd.usethemeNewOSDMusic)">Conditional</animation>
                             <label>$INFO[MusicPlayer.BitRate, •  ,kbps]</label>
                         </control>
@@ -671,7 +671,7 @@
                             <align>left</align>
                             <height>40</height>
                             <font>tiny</font>
-                            <textcolor>$VAR[OSDPanelWhite70]</textcolor>
+                            <textcolor>$VAR[OSDPanelWhite70Music]</textcolor>
                             <animation effect="slide" start="0,0" end="0,70" time="150" condition="Skin.HasSetting(osd.usethemeNewOSDMusic)">Conditional</animation>
                             <label>$VAR[Label_MusicPlayerCodec, •  ]</label>
                         </control>
@@ -689,7 +689,7 @@
                             <pauseatend>500</pauseatend>
                             <font>Tiny</font>
                             <align>justify</align>
-                            <textcolor>$VAR[OSDPanelWhite70]</textcolor>
+                            <textcolor>$VAR[OSDPanelWhite70Music]</textcolor>
                             <label fallback="19055">$INFO[Window(Visualisation).Property(ArtistSlideshow.ArtistBiography),]</label>
                         </control>
                     </control>
@@ -747,15 +747,13 @@
                 </animation>
                 <include>DefDiscArt</include>
             </control>
-            <control type="image">
-                <visible>Player.ShowInfo</visible>
-                <visible>!Window.IsVisible(musicosd)</visible>
+            
+            
+            <control type="group">
                 <top>627</top>
                 <left>70</left>
-                <height>280</height>
-                <width>275</width>
-                <aspectratio scalediffuse="false">scale</aspectratio>
-                <texture diffuse="backg/cd_shadow2.png" border="0" fallback="DefaultAlbumCover.png">$INFO[Player.Art(thumb)]</texture>
+                <visible>Player.ShowInfo</visible>
+                <visible>!Window.IsVisible(musicosd)</visible>
                 <animation type="WindowClose" reversible="false">
                     <effect type="slide" start="0,0" end="-480,0" tween="sine" easing="out" time="300" delay="500"/>
                 </animation>
@@ -768,6 +766,18 @@
                 <animation type="WindowOpen" reversible="false">
                     <effect type="slide" start="-480,0" end="0,0" tween="sine" easing="out" time="400" delay="0"/>
                 </animation>
+                <control type="image">
+                    <height>280</height>
+                    <width>275</width>
+                    <texture colordiffuse="ff181818" diffuse="backg/cd_shadow2.png">common/white.png</texture>
+                    <visible>String.IsEmpty(Player.Art(thumb))</visible>
+                </control>            
+                <control type="image">
+                    <height>280</height>
+                    <width>275</width>
+                    <aspectratio scalediffuse="false">scale</aspectratio>
+                    <texture diffuse="backg/cd_shadow2.png" border="0" fallback="DefaultAlbumCover.png">$INFO[Player.Art(thumb)]</texture>                
+                </control>
             </control>
         </control>
         <control type="group">
@@ -818,6 +828,14 @@
                 <animation effect="slide" start="0,0" end="0,-40" time="150" condition="Skin.HasSetting(osd.artistinfos) + Skin.HasSetting(osd.usethemeNewOSDMusic)">Conditional</animation>
                 <visible>Player.ShowInfo</visible>
                 <visible>!Window.IsVisible(musicosd)</visible>
+                <control type="image">
+                    <top>637</top>
+                    <left>80</left>
+                    <height>260</height>
+                    <width>260</width>
+                    <texture colordiffuse="ff181818" diffuse="diffuse/wall.png">common/white.png</texture>
+                    <visible>String.IsEmpty(Player.Art(thumb))</visible>
+                </control>
                 <control type="image">
                     <top>637</top>
                     <left>80</left>
@@ -882,7 +900,7 @@
                         <bottom>375</bottom>
                         <height>40</height>
                         <font>SmallBold</font>
-                        <textcolor>$VAR[OSDPanelWhite70]</textcolor>
+                        <textcolor>$VAR[OSDPanelWhite70Music]</textcolor>
                         <label>$LOCALIZE[19033]</label>
                     </control>
                     <control type="grouplist">
@@ -907,7 +925,7 @@
                         <height>40</height>
                         <width>180</width>
                         <font>TinyBold2</font>
-                        <textcolor>$VAR[OSDPanelWhite70]</textcolor>
+                        <textcolor>$VAR[OSDPanelWhite70Music]</textcolor>
                         <label>$LOCALIZE[21887]:</label>
                     </control>
                     <control type="textbox">
@@ -920,7 +938,7 @@
                         <scrollspeed>30</scrollspeed>
                         <pauseatend>500</pauseatend>
                         <font>Tiny</font>
-                        <textcolor>$VAR[OSDPanelWhite70]</textcolor>
+                        <textcolor>$VAR[OSDPanelWhite70Music]</textcolor>
                         <label fallback="19055">$INFO[Window(Visualisation).Property(ArtistSlideshow.ArtistBiography),]</label>
                     </control>
                 </control>
@@ -973,7 +991,7 @@
                         <bottom>375</bottom>
                         <height>40</height>
                         <font>SmallBold</font>
-                        <textcolor>$VAR[OSDPanelWhite70]</textcolor>
+                        <textcolor>$VAR[OSDPanelWhite70Music]</textcolor>
                         <label>$LOCALIZE[19033]</label>
                     </control>
                     <control type="grouplist">
@@ -998,7 +1016,7 @@
                         <height>40</height>
                         <width>180</width>
                         <font>TinyBold2</font>
-                        <textcolor>$VAR[OSDPanelWhite70]</textcolor>
+                        <textcolor>$VAR[OSDPanelWhite70Music]</textcolor>
                         <label>$LOCALIZE[21887]:</label>
                     </control>
                     <control type="textbox">
@@ -1011,7 +1029,7 @@
                         <scrollspeed>30</scrollspeed>
                         <pauseatend>500</pauseatend>
                         <font>Tiny</font>
-                        <textcolor>$VAR[OSDPanelWhite70]</textcolor>
+                        <textcolor>$VAR[OSDPanelWhite70Music]</textcolor>
                         <label fallback="19055">$INFO[Window(Visualisation).Property(ArtistSlideshow.ArtistBiography),]</label>
                     </control>
                 </control>
