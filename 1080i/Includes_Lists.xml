@@ -24,6 +24,9 @@
     </include>
 
     <include name="ListInfoUpdating">
+        <param name="alignleft" value="$PARAM[alignleft]" default="750"/>
+        <param name="alignbottom" value="$PARAM[alignbottom]" default="240"/>
+        <definition>
         <control type="group">
             <visible>$PARAM[visi]</visible>
             <centerleft>$PARAM[alignleft]</centerleft>
@@ -76,6 +79,7 @@
                 </control>
             </control>
         </control>
+        </definition>
     </include>
 
     <include name="VideoListSquare">
@@ -147,82 +151,6 @@
                     </include>
                 </focusedlayout>
                 <content target="$PARAM[target]" sortby="$PARAM[sortby]" limit="$PARAM[limit]">$PARAM[ContentToLoad]</content>
-            </control>
-        </definition>
-    </include>
-
-    <include name="VideoListMovieSets">
-        <param name="zoom" value="$PARAM[zoom]" default="140"/>
-        <param name="height" value="$PARAM[height]" default="349"/>
-        <param name="listtype" value="$PARAM[listtype]" default="wraplist"/>
-        <param name="storageicon" value="$PARAM[storageicon]"/>
-        <definition>
-
-            <!-- INFOCONTENT -->
-            <control type="label">
-                <visible>Control.HasFocus($PARAM[controlid])</visible>
-                <width>1020</width>
-                <bottom>$PARAM[headerbottom]</bottom>
-                <left>$PARAM[headerleft]</left>
-                <description>Header Label</description>
-                <textcolor>Dark1</textcolor>
-                <include>DefDialogInfoHeader</include>
-                <label>$VAR[VideoListLabelHeader] ($INFO[Container($PARAM[controlid]).NumItems])</label>
-                <include>Animation.DelayFadeIn</include>
-            </control>
-            <include content="ListInfoArrows">
-                <param name="controlid" value="$PARAM[controlid]"/>
-                <param name="arrowleft" value="$PARAM[arrowleft]"/>
-                <param name="arrowtop" value="$PARAM[arrowtop]"/>
-                <param name="arrowright" value="$PARAM[arrowright]"/>
-            </include>
-            <control type="$PARAM[listtype]" id="$PARAM[controlid]">
-                <visible allowhiddenfocus="true">!Container($PARAM[controlid]).IsUpdating</visible>
-                <visible>$PARAM[visi]</visible>
-                <include>Animation.FadeOutDialogWIP</include>
-                <include>Animation.FadeInDialogWIP</include>
-                <include>Animation.DelayFadeIn</include>
-                <include>$PARAM[animation]</include>
-                <bottom>$PARAM[listbottom]</bottom>
-                <left>$PARAM[listleft]</left>
-                <focusposition>$PARAM[focusposition]</focusposition>
-                <width>2500</width>
-                <height>670</height>
-                <onup>$PARAM[onup1]</onup>
-                <onleft>$PARAM[controlid]</onleft>
-                <onright>$PARAM[controlid]</onright>
-                <ondown>RunScript(script.embuary.helper,action=resetposition,container=$PARAM[controlid])</ondown>
-                <ondown>9000</ondown>
-                <onback>RunScript(script.embuary.helper,action=resetposition,container=$PARAM[controlid])</onback>
-                <onback>9000</onback>
-                <onclick condition="!String.IsEqual(Window(home).property(myvideos.selectaction),3)">PlayMedia($INFO[ListItem.FileNameAndPath])</onclick>
-                <onclick condition="!String.IsEqual(Window(home).property(myvideos.selectaction),3)">Control.SetFocus(9502,0,absolute)</onclick>
-                <onclick condition="!String.IsEqual(Window(home).property(myvideos.selectaction),3)">Dialog.Close(1132,force)</onclick>
-                <orientation>horizontal</orientation>
-                <preloaditems>2</preloaditems>
-                <viewtype label="536">list</viewtype>
-                <itemlayout height="$PARAM[height]" width="$PARAM[width]">
-                    <include content="DefExtendedInfoItemContentWIP">
-                        <param name="aspect" value="$PARAM[aspect]" default="scale"/>
-                        <param name="fallbackpicture" value="$PARAM[fallbackpicture]"/>
-                        <param name="storageicon" value="$PARAM[storageicon]"/>
-                    </include>
-                </itemlayout>
-                <focusedlayout height="$PARAM[height]" width="$PARAM[width]">
-                    <include content="DefExtendedInfoFocusContentWIP">
-                        <param name="aspect" value="$PARAM[aspect]" default="scale"/>
-                        <param name="fallbackpicture" value="$PARAM[fallbackpicture]"/>
-                        <param name="controlid" value="$PARAM[controlid]"/>
-                        <param name="zoom" value="$PARAM[zoom]"/>
-                        <param name="labelbottom" value="$PARAM[labelbottom]"/>
-                        <param name="labelleft" value="$PARAM[labelleft]"/>
-                        <param name="labeltwovisible" value="$PARAM[labeltwovisible]"/>
-                        <param name="labeltwobottom" value="$PARAM[labeltwobottom]"/>
-                        <param name="labeltwoleft" value="$PARAM[labeltwoleft]"/>
-                        <param name="storageicon" value="$PARAM[storageicon]"/>
-                    </include>
-                </focusedlayout>
-                <content target="$PARAM[target]" sortorder="$PARAM[sortorder]" sortby="$PARAM[sortby]" limit="$PARAM[limit]">$PARAM[ContentToLoad]</content>
             </control>
         </definition>
     </include>
@@ -358,7 +286,18 @@
         <param name="animation.new" value="$PARAM[animation.new]" default="Animation.CastInfo"/>
         <param name="zoom" value="$PARAM[zoom]" default="140"/>
         <param name="height" value="$PARAM[height]" default="349"/>
+        <param name="focusposition" value="$PARAM[focusposition]" default="2"/>
         <param name="storageicon.backgroundlist" value="$PARAM[storageicon.backgroundlist]"/>
+        <param name="width" value="$PARAM[width]" default="260"/>
+        <param name="headerbottom" value="$PARAM[headerbottom]" default="710"/>
+        <param name="listbottom" value="$PARAM[listbottom]" default="30"/>
+        <param name="listleft" value="$PARAM[listleft]" default="-250"/>
+        <param name="width" value="$PARAM[width]" default="260"/>
+        <param name="headerleft" value="$PARAM[headerleft]" default="-15"/>
+        <param name="labelbottom" value="$PARAM[labelbottom]" default="-110"/>        
+        <param name="labeltwobottom" value="$PARAM[labeltwobottom]" default="-150"/>        
+        <param name="labelleft" value="$PARAM[labelleft]" default="-20"/>
+        <param name="labeltwoleft" value="$PARAM[labeltwoleft]" default="130"/>
         <definition>
 
             <!-- INFOCONTENT -->
@@ -642,6 +581,15 @@
         <param name="music_info_onclick" value="$PARAM[music_info_onclick]" default="true"/>
         <param name="music_info_album" value="$PARAM[music_info_album]" default="false"/>
         <param name="animation.new" value="$PARAM[animation.new]" default="Animation.CastInfo"/>
+        <param name="focusposition" value="$PARAM[focusposition]" default="2"/>
+        <param name="listbottom" value="$PARAM[listbottom]" default="30"/>
+        <param name="listleft" value="$PARAM[listleft]" default="-1100"/>
+        <param name="headerbottom" value="$PARAM[headerbottom]" default="710"/>
+        <param name="headerleft" value="$PARAM[headerleft]" default="80"/>
+        <param name="labelbottom" value="$PARAM[labelbottom]" default="-115"/>
+        <param name="labelleft" value="$PARAM[labelleft]" default="-40"/>        
+        <param name="labeltwobottom" value="$PARAM[labeltwobottom]" default="-155"/>
+        <param name="labeltwoleft" value="$PARAM[labeltwoleft]" default="130"/>
         <definition>
 
             <!-- INFOCONTENT -->
@@ -761,6 +709,14 @@
         <param name="music_info_onclick" value="$PARAM[music_info_onclick]" default="true"/>
         <param name="music_info_album" value="$PARAM[music_info_album]" default="false"/>
         <param name="animation.new" value="$PARAM[animation.new]" default="Animation.CastInfo"/>
+        <param name="focusposition" value="$PARAM[focusposition]" default="2"/>
+        <param name="headerbottom" value="$PARAM[headerbottom]" default="710"/>
+        <param name="listbottom" value="$PARAM[listbottom]" default="30"/>
+        <param name="width" value="$PARAM[width]" default="260"/>
+        <param name="labeltwobottom" value="$PARAM[labeltwobottom]" default="-150"/>        
+        <param name="labelleft" value="$PARAM[labelleft]" default="-20"/>
+        <param name="labeltwoleft" value="$PARAM[labeltwoleft]" default="130"/>
+        <param name="labelbottom" value="$PARAM[labelbottom]" default="-110"/>         
         <definition>
 
             <!-- INFOCONTENT -->
