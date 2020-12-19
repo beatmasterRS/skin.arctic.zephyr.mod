@@ -649,13 +649,12 @@
     </variable>
 
     <variable name="HDSD">
-        <value condition="[Window.IsVisible(home) + ControlGroup(301).HasFocus() + String.IsEqual(ListItem.DBType,tvshow) + [Skin.HasSetting(home.vertical) + Skin.HasSetting(home.vertical.widgets)]]">$INFO[ListItem.Property(TotalEpisodes)]</value>
-        <value condition="[Container.Content(tvshows) | Container.Content(seasons)] + !Skin.HasSetting(episodes.show.unwatched)">$INFO[ListItem.Property(TotalEpisodes)]</value>
-        <value condition="[Container.Content(tvshows) | Container.Content(seasons)] + Skin.HasSetting(episodes.show.unwatched)">$INFO[ListItem.Property(UnWatchedEpisodes)]</value>
+        <value condition="[Container.Content(tvshows) | Container.Content(seasons)] + !String.IsEmpty(ListItem.Property(TotalEpisodes))">$INFO[ListItem.Property(TotalEpisodes)]</value>
+        <value condition="[Container.Content(tvshows) | Container.Content(seasons)] + !String.IsEmpty(ListItem.Property(UnWatchedEpisodes))">$INFO[ListItem.Property(UnWatchedEpisodes)]</value>
         <value condition="String.IsEqual(ListItem.VideoResolution,4K) | Integer.IsEqual(ListItem.VideoResolution,2160)">UHD</value>
         <value condition="Integer.IsGreater(Container(9500).ListItem.VideoResolution,719)">HD</value>
         <value condition="Integer.IsGreater(ListItem.VideoResolution,719)">HD</value>
-        <value>SD</value>
+        <value condition="Integer.IsLess(ListItem.VideoResolution,720)">SD</value>
     </variable>
 
     <variable name="PlayerTitle">
