@@ -6292,7 +6292,7 @@
                     <top>-373</top>
                     <itemgap>15</itemgap>
                     <visible>!String.IsEqual(ListItem.Property(LabelMore),more)</visible>
-                    <include content="MultiWidgetsHeaderLabel" condition="$PARAM[labelisvisible]">
+                    <include content="MultiWidgetsHeader" condition="$PARAM[labelisvisible]">
                         <param name="id" value="$PARAM[id]"/>
                     </include>
                     <include content="MultiWidgetsPlotLabel">
@@ -6323,44 +6323,52 @@
     </include>
 
     <include name="MultiWidgetsHeaderLabel">
-        
-        <!-- Episode -->
+        <definition>
+        <param name="left" value="$PARAM[left]" default="0"/>
+        <param name="visible" value="$PARAM[visible]" default="true"/>
         <control type="label">
-            <include>MultiWidgetsHeaderLabelDefinition</include>
-            <label>$INFO[Container($PARAM[id]).ListItem.TvShowTitle,, - ]$INFO[Container($PARAM[id]).ListItem.Label]</label>
-            <visible>!String.StartsWith(Container($PARAM[id]).ListItem.FolderPath,pvr://)</visible>
-            <visible>String.IsEqual(Container($PARAM[id]).ListItem.DBType,episode)</visible>            
+            <font>MediumBold</font>
+            <width>100%</width>
+            <left>$PARAM[left]</left>
+            <align>left</align>
+            <textcolor>Dark1</textcolor>
+            <label>$PARAM[label]</label>
+            <visible>$PARAM[visible]</visible>            
         </control>
+        </definition>
+    </include>
+
+    <include name="MultiWidgetsHeader">
+    
+        <!-- Episode -->
+        <include content="MultiWidgetsHeaderLabel">
+            <param name="label" value="$INFO[Container($PARAM[id]).ListItem.TvShowTitle,, - ]$INFO[Container($PARAM[id]).ListItem.Label]" />
+            <param name="visible" value="!String.StartsWith(Container($PARAM[id]).ListItem.FolderPath,pvr://) + String.IsEqual(Container($PARAM[id]).ListItem.DBType,episode)" />
+        </include>
         
         <!-- All Other -->
-        <control type="label">
-            <include>MultiWidgetsHeaderLabelDefinition</include>
-            <label>$INFO[Container($PARAM[id]).ListItem.Label]</label>
-            <visible>!String.StartsWith(Container($PARAM[id]).ListItem.FolderPath,pvr://)</visible>
-            <visible>!String.IsEqual(Container($PARAM[id]).ListItem.DBType,episode)</visible>            
-            <visible>String.IsEmpty(Container($PARAM[id]).ListItem.Property(Item))</visible>            
-        </control>
+        <include content="MultiWidgetsHeaderLabel">
+            <param name="label" value="$INFO[Container($PARAM[id]).ListItem.Label]" />
+            <param name="visible" value="!String.StartsWith(Container($PARAM[id]).ListItem.FolderPath,pvr://) + !String.IsEqual(Container($PARAM[id]).ListItem.DBType,episode) + String.IsEmpty(Container($PARAM[id]).ListItem.Property(Item))" />
+        </include>
         
         <!-- GTO -->
-        <control type="label">
-            <include>MultiWidgetsHeaderLabelDefinition</include>
-            <label>$INFO[Container($PARAM[id]).ListItem.Label2]$INFO[Container($PARAM[id]).ListItem.Property(StartTime), (,)]</label>
-            <visible>!String.StartsWith(Container($PARAM[id]).ListItem.FolderPath,pvr://)</visible>
-            <visible>!String.IsEqual(Container($PARAM[id]).ListItem.DBType,episode)</visible>            
-            <visible>!String.IsEmpty(Container($PARAM[id]).ListItem.Property(Item)) + !String.IsEmpty(ListItem.Label2)</visible>          
-        </control>
+        <include content="MultiWidgetsHeaderLabel">
+            <param name="label" value="$INFO[Container($PARAM[id]).ListItem.Label2]$INFO[Container($PARAM[id]).ListItem.Property(StartTime), (,)]" />
+            <param name="visible" value="!String.StartsWith(Container($PARAM[id]).ListItem.FolderPath,pvr://) + !String.IsEqual(Container($PARAM[id]).ListItem.DBType,episode) + !String.IsEmpty(Container($PARAM[id]).ListItem.Property(Item)) + !String.IsEmpty(Container($PARAM[id]).ListItem.Label2)" />
+        </include>
         
         <!-- PVR -->
-        <control type="label">
-            <include>MultiWidgetsHeaderLabelDefinition</include>
-            <label>$INFO[Container($PARAM[id]).ListItem.Title]</label>
-            <visible>String.StartsWith(Container($PARAM[id]).ListItem.FolderPath,pvr://) + !String.IsEmpty(Container($PARAM[id]).ListItem.Title)</visible>            
-        </control>
-        <control type="label">
-            <include>MultiWidgetsHeaderLabelDefinition</include>
-            <label>$INFO[Container($PARAM[id]).ListItem.Label]</label>
-            <visible>String.StartsWith(Container($PARAM[id]).ListItem.FolderPath,pvr://) + String.IsEmpty(Container($PARAM[id]).ListItem.Title)</visible>            
-        </control>        
+        <include content="MultiWidgetsHeaderLabel">
+            <param name="label" value="$INFO[Container($PARAM[id]).ListItem.Title]" />
+            <param name="visible" value="String.StartsWith(Container($PARAM[id]).ListItem.FolderPath,pvr://) + !String.IsEmpty(Container($PARAM[id]).ListItem.Title)" />
+        </include>
+        
+        <include content="MultiWidgetsHeaderLabel">
+            <param name="label" value="$INFO[Container($PARAM[id]).ListItem.Label]" />
+            <param name="visible" value="String.StartsWith(Container($PARAM[id]).ListItem.FolderPath,pvr://) + String.IsEmpty(Container($PARAM[id]).ListItem.Title)" />
+        </include>
+     
     </include>
 
     <include name="MultiWidgetsPlotLabel">
