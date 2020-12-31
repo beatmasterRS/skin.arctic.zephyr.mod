@@ -195,7 +195,7 @@
                     <bottom>50</bottom>
                     <visible>Skin.HasSetting(osd.usethemeNewOSD) + !Skin.HasSetting(osd.usethemeNewOSDSide)</visible>
                     <control type="image">
-                        <visible>!String.IsEmpty(Player.Art(tvshow.poster)) | !String.IsEmpty(Player.Art(poster))</visible>
+                        <visible>!Skin.hasSetting(osd.disableposter) + [!String.IsEmpty(Player.Art(tvshow.poster)) | !String.IsEmpty(Player.Art(poster))]</visible>
                         <left>0</left>
                         <top>-250</top>
                         <width>270</width>
@@ -207,7 +207,7 @@
                         <animation effect="slide" start="0,0" end="0,30" time="150" condition="Window.IsVisible(videoosd)">Conditional</animation>
                     </control>
                     <control type="image">
-                        <visible>!String.IsEmpty(Player.Art(tvshow.poster)) | !String.IsEmpty(Player.Art(poster))</visible>
+                        <visible>!Skin.hasSetting(osd.disableposter) + [!String.IsEmpty(Player.Art(tvshow.poster)) | !String.IsEmpty(Player.Art(poster))]</visible>
                         <left>-1</left>
                         <top>-251</top>
                         <width>272</width>
@@ -219,6 +219,7 @@
                         <animation effect="slide" start="0,0" end="0,30" time="150" condition="Window.IsVisible(videoosd)">Conditional</animation>
                     </control>
                     <control type="image">
+                        <visible>!Skin.hasSetting(osd.disableposter) + [VideoPlayer.Content(LiveTV) + !String.IsEmpty(Player.Art(thumb))]</visible>
                         <width>260</width>
                         <left>10</left>
                         <height>260</height>
@@ -228,18 +229,34 @@
                         <animation effect="slide" start="0" end="0,-40" time="150" condition="Skin.HasSetting(osd.showplot)">Conditional</animation>
                         <animation effect="slide" start="0" end="0,-19" time="150" condition="Skin.HasSetting(pvr.showtechnicalinfo)">Conditional</animation>
                         <animation effect="slide" start="0,0" end="0,30" time="150" condition="Window.IsVisible(videoosd)">Conditional</animation>
-                        <visible>VideoPlayer.Content(LiveTV) + !String.IsEmpty(Player.Art(thumb))</visible>
                     </control>
+                    
                     <control type="group">
+                        <visible>!Skin.hasSetting(osd.disableposter)</visible>
                         <left>318</left>
-                        <visible>VideoPlayer.Content(LiveTV) + !String.IsEmpty(Player.Art(thumb))</visible>
-                        <include>OSDInfoContent</include>
-                        <include>OSDPVRInfoContent</include>
+                        <control type="group">
+                            <visible>VideoPlayer.Content(LiveTV) + !String.IsEmpty(Player.Art(thumb))</visible>
+                            <include>OSDInfoContent</include>
+                            <include>OSDPVRInfoContent</include>
+                        </control>
+                        <control type="group">
+                            <visible>!String.IsEmpty(Player.Art(tvshow.poster)) | !String.IsEmpty(Player.Art(poster))</visible>
+                            <include>OSDInfoContent</include>
+                        </control>
                     </control>
+
                     <control type="group">
-                        <left>318</left>
-                        <visible>!String.IsEmpty(Player.Art(tvshow.poster)) | !String.IsEmpty(Player.Art(poster))</visible>
-                        <include>OSDInfoContent</include>
+                        <visible>Skin.hasSetting(osd.disableposter)</visible>
+                        <left>20</left>
+                        <control type="group">
+                            <visible>VideoPlayer.Content(LiveTV) + !String.IsEmpty(Player.Art(thumb))</visible>
+                            <include>OSDInfoContent</include>
+                            <include>OSDPVRInfoContent</include>
+                        </control>
+                        <control type="group">
+                            <visible>!String.IsEmpty(Player.Art(tvshow.poster)) | !String.IsEmpty(Player.Art(poster))</visible>
+                            <include>OSDInfoContent</include>
+                        </control>
                     </control>
                     <control type="group">
                         <left>20</left>
