@@ -331,6 +331,20 @@
         <alttexturefocus colordiffuse="$VAR[ColorHighlight]" border="16">common/white.png</alttexturefocus>
         <texturefocus colordiffuse="$VAR[ColorHighlight]" border="16">common/white.png</texturefocus>
     </include>
+    
+    <include name="DefContextButtonGTOGradient">
+        <radioposx>393</radioposx>
+        <textwidth>340</textwidth>
+        <width>280</width>
+        <height>50</height>
+        <font>Tiny</font>
+        <textcolor>Black70</textcolor>
+        <textureradiofocus colordiffuse="Black70">buttons/radio-on.png</textureradiofocus>
+        <textureradionofocus colordiffuse="Black30">buttons/radio-off.png</textureradionofocus>
+        <focusedcolor>Selected</focusedcolor>
+        <alttexturefocus colordiffuse="$VAR[ColorHighlightOtherBar]" border="5">common/gradient-box-wide-cut.png</alttexturefocus>
+        <texturefocus colordiffuse="$VAR[ColorHighlightOtherBar]" border="5">common/gradient-box-wide-cut.png</texturefocus>
+    </include>
 
     <include name="DefContextButtonGradient">
         <radioposx>393</radioposx>
@@ -788,11 +802,6 @@
         <value condition="Container.Content(songs) + String.IsEqual(Window.Property(musiccontentinfo),2)">plugin://plugin.video.youtube/search/?q=$INFO[ListItem.Artist] $INFO[ListItem.Title]</value>
     </variable>
 
-    <variable name="ContentMusicDiscography">
-        <value condition="String.IsEqual(Window.Property(discography),1)">plugin://script.extendedinfo?info=discography&amp;&amp;artistname=$INFO[ListItem.Artist]</value>
-        <value>-</value>
-    </variable>
-
     <variable name="ContentMusicYoutube">
         <value condition="Container.Content(artists) + String.IsEqual(Window.Property(musicyoutube),1)">plugin://plugin.video.youtube/search/?q=$INFO[ListItem.Artist]</value>
         <value condition="Container.Content(albums) + String.IsEqual(Window.Property(musicyoutube),1)">plugin://plugin.video.youtube/search/?q=$INFO[ListItem.Artist] $INFO[ListItem.Album] Album</value>
@@ -814,12 +823,6 @@
     <variable name="ContentVideoYoutube">
         <value condition="String.IsEqual(Window.Property(videoyoutube),1)">plugin://plugin.video.youtube/search/?q=$INFO[ListItem.Label]</value>
         <value>-</value>
-    </variable>
-
-    <variable name="DefDirectorWindowContent">
-        <value condition="String.IsEqual(Window(1103).Property(content),1)">plugin://script.extendedinfo?info=studio&amp;&amp;studio=$INFO[Window(home).Property(ExtStudio)]</value>
-        <value condition="String.IsEqual(Window(1103).Property(content),2)">plugin://script.extendedinfo?info=similarmovies&amp;&amp;dbid=$INFO[Window(home).Property(ExtDBID)]</value>
-        <value>19055</value>
     </variable>
 
     <variable name="DefMovieDBMoviesContent">
@@ -2049,7 +2052,7 @@
         <param name="height" value="$PARAM[height]" default="325"/>
         <definition>
             <top>60</top>
-            <left>518</left>
+            <left>517</left>
             <width>1900</width>
             <height>$PARAM[height]</height>
             <include>Animation.Vertical.Widgets.Container</include>
@@ -2070,19 +2073,10 @@
             <onback condition="Integer.IsEqual(Container($PARAM[id]).Position,0) + !Container($PARAM[id]).HasPrevious + Skin.HasSetting(disable.widgets.onback.go.back.to.position.0)">SetFocus(300)</onback>
             <onleft condition="$EXP[HomeIsVerticalMultiWidgets]">300</onleft>
             <preloaditems>1</preloaditems>
-            <oninfo condition="IsEmpty(Container($PARAM[id]).ListItem.TvShowTitle) + IsEmpty(Container($PARAM[id]).ListItem.Artist)">RunScript(script.extendedinfo,info=extendedinfo,name=$INFO[Container($PARAM[id]).ListItem.Title],imdb_id=$INFO[Container($PARAM[id]).ListItem.IMDBNumber])</oninfo>
-            <oninfo condition="!IsEmpty(Container($PARAM[id]).ListItem.TvShowTitle)">RunScript(script.extendedinfo,info=extendedtvinfo,name=$INFO[Container($PARAM[id]).ListItem.TvShowTitle],imdb_id=$INFO[Container($PARAM[id]).ListItem.IMDBNumber])</oninfo>
             <focusposition>0</focusposition>
             <orientation>horizontal</orientation>
             <scrolltime tween="quadratic">400</scrolltime>
         </definition>
-    </include>
-
-    <include name="MultiWidgetsHeaderLabelDefinition">
-        <font>MediumBold</font>
-        <width>100%</width>
-        <align>left</align>
-        <textcolor>Dark1</textcolor>
     </include>
 
     <include name="MultiWidgetsPlotLabelDefinition">
@@ -3006,5 +3000,72 @@
         <onclick>Skin.SetString(BlurRadius,$PARAM[number])</onclick>
         <onclick>RunScript(script.embuary.helper,action=blurimg,file='"special://skin/extras/views/cars.jpg"',prop=MyProp)</onclick>
         <onclick>Close</onclick>
+    </include>
+    
+    <include name="Def_Flag">
+        <param name="left" value="$PARAM[left]" default="0"/>
+        <param name="visible" value="$PARAM[visible]" default="true"/>
+        <param name="width" value="$PARAM[width]" default="37"/>
+        <definition>
+        <control type="image">
+            <left>$PARAM[left]</left>
+            <width>$PARAM[width]</width>
+            <height>$PARAM[width]</height>
+            <centertop>50%</centertop>
+            <texture colordiffuse="$VAR[ColorHighlight]">backg/$VAR[$PARAM[Star]].png</texture>
+            <visible>$PARAM[visible]</visible>
+        </control>
+        </definition>
+    </include>
+    
+    <include name="Def_Flag_Small">
+        <param name="left" value="$PARAM[left]" default="0"/>
+        <param name="visible" value="$PARAM[visible]" default="true"/>
+        <param name="color" value="$PARAM[color]" default="$VAR[ColorStars]"/>
+        <definition>        
+        <control type="image">
+            <posx>$PARAM[left]</posx>
+            <width>64</width>
+            <height>64</height>
+            <centertop>50%</centertop>
+            <texture colordiffuse="$PARAM[color]">flags/$VAR[$PARAM[Star]].png</texture>
+            <visible>$PARAM[visible]</visible>
+        </control>
+        </definition>
+    </include>
+    
+    <include name="Def_Flags_Furniture_Small">
+        <param name="left" value="$PARAM[left]" default="0"/>
+        <param name="visible" value="$PARAM[visible]" default="true"/>
+        <definition>  
+        <include content="Def_Flag_Small">
+            <param name="Star" value="$PARAM[Star]1" />
+            <param name="color" value="$PARAM[color]" />
+        </include>
+        <include content="Def_Flag_Small">
+            <param name="Star" value="$PARAM[Star]2" />
+            <param name="left" value="-38" />
+            <param name="visible" value="$PARAM[visible]" />
+            <param name="color" value="$PARAM[color]" />
+        </include>
+        <include content="Def_Flag_Small">
+            <param name="Star" value="$PARAM[Star]3" />
+            <param name="left" value="-38" />
+            <param name="visible" value="$PARAM[visible]" />
+            <param name="color" value="$PARAM[color]" />
+        </include>        
+        <include content="Def_Flag_Small">
+            <param name="Star" value="$PARAM[Star]4" />
+            <param name="left" value="-38" />
+            <param name="visible" value="$PARAM[visible]" />
+            <param name="color" value="$PARAM[color]" />
+        </include>        
+        <include content="Def_Flag_Small">
+            <param name="Star" value="$PARAM[Star]5" />
+            <param name="left" value="-38" />
+            <param name="visible" value="$PARAM[visible]" />
+            <param name="color" value="$PARAM[color]" />
+        </include>
+        </definition>
     </include>
 </includes>

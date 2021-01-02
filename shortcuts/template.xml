@@ -8,6 +8,8 @@
         <property name="sort" tag="property" attribute="name|widgetSort"/>
         <property name="aspectratio" tag="property" attribute="name|widgetAspectRatio"/>
         <property name="aspectratio">keep</property>
+        <property name="IsGTO" tag="property" attribute="name|widget" value="GTO">true</property>  
+        <property name="IsGTO">false</property>
         <controls>
             <control type="list" id="301">
                 <skinshortcuts>visibility</skinshortcuts>
@@ -15,12 +17,10 @@
                 <left>70</left>
                 <right>70</right>
                 <top>20</top>
-                <bottom>20</bottom>
-                <oninfo condition="IsEmpty(Container(301).ListItem.TvShowTitle) + IsEmpty(Container(301).ListItem.Artist)">RunScript(script.extendedinfo,info=extendedinfo,name=$INFO[Container(301).ListItem.Title],imdb_id=$INFO[Container(301).ListItem.IMDBNumber])</oninfo>
-                <oninfo condition="!IsEmpty(Container(301).ListItem.TvShowTitle)">RunScript(script.extendedinfo,info=extendedtvinfo,name=$INFO[Container(301).ListItem.TvShowTitle],imdb_id=$INFO[Container(301).ListItem.IMDBNumber])</oninfo>
+                <bottom>20</bottom>                
                 <onup condition="IsEmpty(Container(300).ListItem.Property(widget))">303</onup>
                 <onup condition="!IsEmpty(Container(300).ListItem.Property(widget))">300</onup>
-                <!--<onfocus condition="String.Contains(Container(300).ListItem.Property(widget),gto) | String.Contains(Container(300).ListItem.Property(widget),RandomActors)">SetFocus(4752)</onfocus>-->
+                <onclick condition="$SKINSHORTCUTS[IsGTO]">RunPlugin(plugin://script.service.gto?action=info&amp;item=$INFO[ListItem.Property(Item)])</onclick>
                 <ondown>300</ondown>
                 <onback>300</onback>
                 <onleft>301</onleft>
@@ -77,14 +77,6 @@
                         <texture colordiffuse="BoxWidget" border="4" background="true">common/box21.png</texture>
                         <visible>!Skin.HasSetting(thumbnails.white)</visible>
                     </control>
-                    <!--<control type="image">
-                        <left>9</left>
-                        <top>10</top>
-                        <right>8</right>
-                        <bottom>10</bottom>                         
-                        <texture colordiffuse="Light1" background="true">common/white.png</texture>   
-                        <visible>!Skin.HasSetting(thumbnails.white)</visible>                        
-                    </control>-->
                     <control type="image">
                         <centerleft>50%</centerleft>
                         <width>237</width>
@@ -165,16 +157,17 @@
         <property name="target" tag="property" attribute="name|widgetTarget"/>
         <property name="sortby" tag="property" attribute="name|widgetSortby"/>
         <property name="sort" tag="property" attribute="name|widgetSort"/>
+        <property name="IsGTO" tag="property" attribute="name|widget" value="GTO">true</property>  
+        <property name="IsGTO">false</property>
         <controls>
             <control type="wraplist" id="301">
                 <skinshortcuts>visibility</skinshortcuts>
                 <description>Widget</description>
                 <width>1</width>
                 <height>1</height>
-                <oninfo condition="IsEmpty(Container(301).ListItem.TvShowTitle) + IsEmpty(Container(301).ListItem.Artist)">RunScript(script.extendedinfo,info=extendedinfo,name=$INFO[Container(301).ListItem.Title],imdb_id=$INFO[Container(301).ListItem.IMDBNumber])</oninfo>
-                <oninfo condition="!IsEmpty(Container(301).ListItem.TvShowTitle)">RunScript(script.extendedinfo,info=extendedtvinfo,name=$INFO[Container(301).ListItem.TvShowTitle],imdb_id=$INFO[Container(301).ListItem.IMDBNumber])</oninfo>
                 <onup condition="IsEmpty(Container(300).ListItem.Property(widget))">303</onup>
                 <onup condition="!IsEmpty(Container(300).ListItem.Property(widget))">300</onup>
+                <onclick condition="$SKINSHORTCUTS[IsGTO]">RunPlugin(plugin://script.service.gto?action=info&amp;item=$INFO[ListItem.Property(Item)])</onclick>
                 <ondown>300</ondown>
                 <!--<onfocus condition="String.Contains(Container(300).ListItem.Property(widget),gto) | String.Contains(Container(300).ListItem.Property(widget),RandomActors)">SetFocus(4752)</onfocus>-->
                 <onback>300</onback>
@@ -674,6 +667,8 @@
         <property name="morevisible" tag="property" attribute="name|widgetTarget" value="weather">false</property>
         <property name="morevisible" tag="property" attribute="name|widget" value="mysubmenu">false</property>  
         <property name="morevisible">true</property>
+        <property name="IsGTO" tag="property" attribute="name|widget" value="GTO">true</property>  
+        <property name="IsGTO">false</property>
         <property name="target" tag="property" attribute="name|widgetTarget"/>
         <property name="sortby" tag="property" attribute="name|widgetSortby"/>
         <property name="sort" tag="property" attribute="name|widgetSort"/>
@@ -706,6 +701,7 @@
             </control>
             <control type="$SKINSHORTCUTS[widgetlisttype]" id="301$SKINSHORTCUTS[id]1">
                 <visible>Integer.IsGreater(Container(301$SKINSHORTCUTS[id]1).NumItems,0) | Container(301$SKINSHORTCUTS[id]1).IsUpdating | String.Contains(Container(300).ListItem.Property(widget),mysubmenu)</visible>
+                <onclick condition="$SKINSHORTCUTS[IsGTO]">RunPlugin(plugin://script.service.gto?action=info&amp;item=$INFO[ListItem.Property(Item)])</onclick>
                 <skinshortcuts>visibility</skinshortcuts>
                 <include condition="String.Contains(Container(300).ListItem.Property(widgetaspect),SquareSmall)">Height125</include>
                 <include content="DefMultiWidgetContainer">
@@ -829,6 +825,8 @@
         <property name="labelisvisible">true</property>
         <property name="content" tag="property" attribute="name|widgetPath.2"/>
         <property name="content">$VAR[DefWidgetContent]</property>
+        <property name="IsGTO" tag="property" attribute="name|widget.2" value="GTO">true</property>  
+        <property name="IsGTO">false</property>
         <!-- more content -->
         <property name="targetcontent" tag="property" attribute="name|widgetTarget.2" value="music">music</property>
         <property name="targetcontent" tag="property" attribute="name|widgetTarget.2" value="videos">videos</property>
@@ -873,6 +871,7 @@
                 <skinshortcuts>visibility</skinshortcuts>
                 <visible>String.Contains(Container(300).ListItem.Property(widgetEnable.2),yes)</visible>
                 <visible>Integer.IsGreater(Container(301$SKINSHORTCUTS[id]2).NumItems,0) | Container(301$SKINSHORTCUTS[id]2).IsUpdating</visible>
+                <onclick condition="$SKINSHORTCUTS[IsGTO]">RunPlugin(plugin://script.service.gto?action=info&amp;item=$INFO[ListItem.Property(Item)])</onclick>
                 <include content="DefMultiWidgetContainer">
                     <param name="id" value="301$SKINSHORTCUTS[id]2"/>
                     <param name="shortcutsidshort" value=".2"/>
@@ -978,6 +977,8 @@
         <property name="labelisvisible">true</property>
         <property name="content" tag="property" attribute="name|widgetPath.3"/>
         <property name="content">$VAR[DefWidgetContent]</property>
+        <property name="IsGTO" tag="property" attribute="name|widget.3" value="GTO">true</property>  
+        <property name="IsGTO">false</property>
         <!-- more content -->
         <property name="targetcontent" tag="property" attribute="name|widgetTarget.3" value="music">music</property>
         <property name="targetcontent" tag="property" attribute="name|widgetTarget.3" value="videos">videos</property>
@@ -1022,6 +1023,7 @@
                 <skinshortcuts>visibility</skinshortcuts>
                 <visible>String.Contains(Container(300).ListItem.Property(widgetEnable.3),yes)</visible>
                 <visible>Integer.IsGreater(Container(301$SKINSHORTCUTS[id]3).NumItems,0) | Container(301$SKINSHORTCUTS[id]3).IsUpdating</visible>
+                <onclick condition="$SKINSHORTCUTS[IsGTO]">RunPlugin(plugin://script.service.gto?action=info&amp;item=$INFO[ListItem.Property(Item)])</onclick>
                 <include content="DefMultiWidgetContainer">
                     <param name="id" value="301$SKINSHORTCUTS[id]3"/>
                     <param name="backid" value="301$SKINSHORTCUTS[id]1"/>
@@ -1127,6 +1129,8 @@
         <property name="labelisvisible">true</property>
         <property name="content" tag="property" attribute="name|widgetPath.4"/>
         <property name="content">$VAR[DefWidgetContent]</property>
+        <property name="IsGTO" tag="property" attribute="name|widget.4" value="GTO">true</property>  
+        <property name="IsGTO">false</property>
         <!-- more content -->
         <property name="targetcontent" tag="property" attribute="name|widgetTarget.4" value="music">music</property>
         <property name="targetcontent" tag="property" attribute="name|widgetTarget.4" value="videos">videos</property>
@@ -1171,6 +1175,7 @@
                 <skinshortcuts>visibility</skinshortcuts>
                 <visible>String.Contains(Container(300).ListItem.Property(widgetEnable.4),yes)</visible>
                 <visible>Integer.IsGreater(Container(301$SKINSHORTCUTS[id]4).NumItems,0) | Container(301$SKINSHORTCUTS[id]4).IsUpdating</visible>
+                <onclick condition="$SKINSHORTCUTS[IsGTO]">RunPlugin(plugin://script.service.gto?action=info&amp;item=$INFO[ListItem.Property(Item)])</onclick>
                 <include content="DefMultiWidgetContainer">
                     <param name="id" value="301$SKINSHORTCUTS[id]4"/>
                     <param name="shortcutsidshort" value=".4"/>
@@ -1276,6 +1281,8 @@
         <property name="labelisvisible">true</property>
         <property name="content" tag="property" attribute="name|widgetPath.5"/>
         <property name="content">$VAR[DefWidgetContent]</property>
+        <property name="IsGTO" tag="property" attribute="name|widget.5" value="GTO">true</property>  
+        <property name="IsGTO">false</property>
         <!-- more content -->
         <property name="targetcontent" tag="property" attribute="name|widgetTarget.5" value="music">music</property>
         <property name="targetcontent" tag="property" attribute="name|widgetTarget.5" value="videos">videos</property>
@@ -1320,6 +1327,7 @@
                 <skinshortcuts>visibility</skinshortcuts>
                 <visible>String.Contains(Container(300).ListItem.Property(widgetEnable.5),yes)</visible>
                 <visible>Integer.IsGreater(Container(301$SKINSHORTCUTS[id]5).NumItems,0) | Container(301$SKINSHORTCUTS[id]5).IsUpdating</visible>
+                <onclick condition="$SKINSHORTCUTS[IsGTO]">RunPlugin(plugin://script.service.gto?action=info&amp;item=$INFO[ListItem.Property(Item)])</onclick>
                 <include content="DefMultiWidgetContainer">
                     <param name="id" value="301$SKINSHORTCUTS[id]5"/>
                     <param name="shortcutsidshort" value=".5"/>
@@ -1413,20 +1421,19 @@
         <property name="banner" tag="property" attribute="name|widgetBanner"/>
         <property name="aspectratio" tag="property" attribute="name|widgetAspectRatio"/>
         <property name="aspectratio">keep</property>
+        <property name="IsGTO" tag="property" attribute="name|widget" value="GTO">true</property>  
+        <property name="IsGTO">false</property>
         <controls>
             <control type="fixedlist" id="301">
                 <skinshortcuts>visibility</skinshortcuts>
                 <visible>!String.Contains(Container(300).ListItem.Property(widget),Weather)</visible>
                 <animation effect="fade" start="100" end="66" time="400" condition="!Control.HasFocus(301) + !Control.HasFocus(4752)">Conditional</animation>
-                <!--<autoscroll time="10000">!Control.HasFocus(301)</autoscroll>-->
                 <autoscroll time="10000">!Control.HasFocus(301) + !Control.HasFocus(4752) + !Skin.HasSetting(NoAutoScroll)</autoscroll>
                 <top>330</top>
                 <left>518</left>
                 <width>1876</width>
                 <height>325</height>
                 <onright>noop</onright>
-                <!--<onfocus condition="String.Contains(Container(300).ListItem.Property(widget),gto) | String.Contains(Container(300).ListItem.Property(widget),RandomActors)">SetFocus(4752)</onfocus>-->
-                <!--<onback>300</onback>-->
                 <onback condition="!Integer.IsEqual(Container(301).Position,0) | Container(301).HasPrevious">PageUp</onback>
                 <onback condition="!Integer.IsEqual(Container(301).Position,0) | Container(301).HasPrevious">PageUp</onback>
                 <onback condition="!Integer.IsEqual(Container(301).Position,0) | Container(301).HasPrevious">PageUp</onback>
@@ -1434,8 +1441,7 @@
                 <onleft>300</onleft>
                 <onup>300</onup>
                 <ondown>300</ondown>
-                <oninfo condition="IsEmpty(Container(301).ListItem.TvShowTitle) + IsEmpty(Container(301).ListItem.Artist)">RunScript(script.extendedinfo,info=extendedinfo,name=$INFO[Container(301).ListItem.Title],imdb_id=$INFO[Container(301).ListItem.IMDBNumber])</oninfo>
-                <oninfo condition="!IsEmpty(Container(301).ListItem.TvShowTitle)">RunScript(script.extendedinfo,info=extendedtvinfo,name=$INFO[Container(301).ListItem.TvShowTitle],imdb_id=$INFO[Container(301).ListItem.IMDBNumber])</oninfo>
+                <onclick condition="$SKINSHORTCUTS[IsGTO]">RunPlugin(plugin://script.service.gto?action=info&amp;item=$INFO[ListItem.Property(Item)])</onclick>
                 <focusposition>0</focusposition>
                 <preloaditems>2</preloaditems>
                 <orientation>horizontal</orientation>
