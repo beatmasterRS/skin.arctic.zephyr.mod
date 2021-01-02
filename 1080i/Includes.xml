@@ -822,7 +822,7 @@
     <include name="buttondimensions">
         <width>134</width>
         <height>88</height>
-        <radioposx>40</radioposx>
+        <radioposx>42</radioposx>
         <radioposy>18</radioposy>
         <radiowidth>48</radiowidth>
     </include>
@@ -1389,7 +1389,23 @@
                 <textureradiooffnofocus colordiffuse="FFFFFFFF">buttonsdialogs/play.png</textureradiooffnofocus>
                 <selected>ListItem.IsResumable</selected>
                 <visible>!ListItem.IsPlaying</visible>
+                <visible>!String.IsEqual(ListItem.DBType,tvshow)</visible>
             </control>
+            
+            <control type="radiobutton" id="9078">
+                <onfocus>ClearProperty(moviecontent)</onfocus>
+                <onfocus>ClearProperty(ShowDisc)</onfocus>
+                <onclick>Dialog.Close(1132)</onclick>
+                <onclick>SendClick(8)</onclick>
+                <include>buttondimensions</include>
+                <texturenofocus colordiffuse="Dark4" border="0">common/boxsquare.png</texturenofocus>
+                <texturefocus colordiffuse="$VAR[ColorHighlight]" border="0">common/boxsquare.png</texturefocus>
+                <include content="buttontextures">
+                    <param name="icon" value="buttonsdialogs/folder.png"/>
+                </include>
+                <visible>String.IsEqual(ListItem.DBType,tvshow)</visible>
+            </control>            
+            
             <control type="radiobutton" id="9201">
                 <onfocus>ClearProperty(moviecontent)</onfocus>
                 <onfocus>ClearProperty(ShowDisc)</onfocus>
@@ -1405,6 +1421,19 @@
                 <selected>Player.Playing</selected>
                 <visible>ListItem.IsPlaying</visible>
             </control>
+            
+            <control type="radiobutton" id="9077">
+                <visible>String.IsEqual(ListItem.DBType,tvshow) + Integer.IsGreater(ListItem.Property(UnwatchedEpisodes),0) + !String.IsEmpty(ListItem.DBID) + !Skin.HasSetting(HideNextUpEpisodeButton)</visible>
+                <onfocus>ClearProperty(moviecontent)</onfocus>
+                <onfocus>ClearProperty(ShowDisc)</onfocus>
+                <onclick>Dialog.Close(all)</onclick>
+                <onclick>PlayMedia($ESCINFO[Container(9911).ListItem.Filenameandpath])</onclick>
+                <include>buttondimensions</include>
+                <include content="buttontextures">
+                    <param name="icon" value="buttonsdialogs/upnext.png"/>
+                </include>
+            </control>
+            
             <control type="radiobutton" id="9001">
                 <visible>String.IsEqual(ListItem.DBType,movie) | String.IsEqual(ListItem.DBType,tvshow)</visible>
                 <onfocus condition="!String.IsEqual(Window.Property(moviecontent),1)">ClearProperty(moviecontent)</onfocus>
