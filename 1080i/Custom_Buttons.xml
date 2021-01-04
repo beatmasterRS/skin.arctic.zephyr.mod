@@ -18,7 +18,7 @@
                     <posy>0</posy>
                     <include>FontTop</include>
                     <textcolor>Dark2</textcolor>
-                    <label>35103</label>
+                    <label>5</label>
                 </control>
                 <include>Kodi_Logo</include>
     
@@ -40,21 +40,31 @@
                 <width>697</width>
                 <texture colordiffuse="$VAR[ColorSelectOtherBar]">common/white.png</texture>
                 <visible>ControlGroup(11).HasFocus()</visible>
+                <include>Animation.FadeIn.Gradient</include>
                 <animation effect="slide" end="0,70" time="0" condition="Integer.IsGreater(Container(11).Position,0)">Conditional</animation>
                 <animation effect="slide" end="0,70" time="0" condition="Integer.IsGreater(Container(11).Position,1)">Conditional</animation>
                 <animation effect="slide" end="0,70" time="0" condition="Integer.IsGreater(Container(11).Position,2)">Conditional</animation>
                 <animation effect="slide" end="0,70" time="0" condition="Integer.IsGreater(Container(11).Position,3)">Conditional</animation>
                 <animation effect="slide" end="0,70" time="0" condition="Integer.IsGreater(Container(11).Position,4)">Conditional</animation>
                 <animation effect="slide" end="0,70" time="0" condition="Integer.IsGreater(Container(11).Position,5)">Conditional</animation>
+                <animation effect="slide" end="0,70" time="0" condition="Integer.IsGreater(Container(11).Position,6)">Conditional</animation>
+                <animation effect="slide" end="0,70" time="0" condition="Integer.IsGreater(Container(11).Position,7)">Conditional</animation>
+                <animation effect="slide" end="0,70" time="0" condition="Integer.IsGreater(Container(11).Position,8)">Conditional</animation>
+                <animation effect="slide" end="0,70" time="0" condition="Integer.IsGreater(Container(11).Position,9)">Conditional</animation>
             </control>        
             <control type="grouplist" id="11">
-                <height>490</height>
+                <height>700</height>
                 <width>705</width>
                 <top>120</top>
                 <onright>5</onright>
                 <usecontrolcoords>true</usecontrolcoords>
                 <itemgap>0</itemgap>
                 <scrolltime>0</scrolltime>
+                <control type="button" id="100">
+                    <include>DefSettingsButtonLabelContextName</include>
+                    <label>35103</label>
+                    <enable>false</enable>
+                </control>
                 
                 <!-- Movie Section -->
                 <control type="radiobutton" id="102">
@@ -114,37 +124,98 @@
                     <onclick>Skin.ToggleSetting(hidebutton.video.fanart)</onclick>
                     <visible>Window.IsVisible(DialogVideoInfo.xml)</visible>
                 </control>                
+                <control type="button" id="110">
+                    <font>Button</font>
+                    <textcolor>PanelWhite30</textcolor>
+                    <include>DefSettingsButtonLabelContextName</include>
+                    <label>31170</label>
+                    <enable>false</enable>
+                    <visible>Window.IsVisible(DialogVideoInfo.xml)</visible>
+                </control>
+                <control type="button" id="111">
+                    <include>DefContextButtonGradientSelect</include>
+                    <label>37932</label>
+                    <label2>$VAR[Label_IntroPath]</label2>
+                    <onclick>Skin.SetPath(IntroPath)</onclick>
+                    <visible>Window.IsVisible(DialogVideoInfo.xml)</visible>
+                </control>
+                <control type="button" id="112">
+                    <include>DefContextButtonGradientSelect</include>
+                    <label>37933</label>
+                    <label2>$VAR[Label_TrailerCount]</label2>
+                    <onclick condition="!Skin.String(TrailerCount)">Skin.SetString(TrailerCount,1)</onclick>
+                    <onclick condition="Skin.String(TrailerCount,1)">Skin.SetString(TrailerCount,2)</onclick>
+                    <onclick condition="Skin.String(TrailerCount,2)">Skin.SetString(TrailerCount,3)</onclick>
+                    <onclick condition="Skin.String(TrailerCount,3)">Skin.SetString(TrailerCount,4)</onclick>
+                    <onclick condition="Skin.String(TrailerCount,4)">Skin.SetString(TrailerCount,5)</onclick>
+                    <onclick condition="Skin.String(TrailerCount,5)">Skin.Reset(TrailerCount)</onclick>
+                    <visible>Window.IsVisible(DialogVideoInfo.xml)</visible>
+                </control>                
+                <control type="button" id="160">
+                    <font>Button</font>
+                    <textcolor>PanelWhite30</textcolor>
+                    <include>DefSettingsButtonLabelContextName</include>
+                    <label>37934</label>
+                    <enable>false</enable>
+                    <visible>Window.IsVisible(DialogVideoInfo.xml)</visible>
+                </control>
+                <control type="radiobutton" id="152">
+                    <include>DefContextButtonGradientSelect</include>
+                    <label>37859</label>
+                    <selected>Skin.HasSetting(ShowTags)</selected>
+                    <onclick>Skin.ToggleSetting(ShowTags)</onclick>
+                    <visible>Window.IsVisible(DialogVideoInfo.xml)</visible>
+                </control>
+                <control type="radiobutton" id="153">
+                    <include>DefContextButtonGradientSelect</include>
+                    <label>37660</label>
+                    <selected>Skin.HasSetting(PlayTrailerWindowed)</selected>
+                    <onclick>Skin.ToggleSetting(PlayTrailerWindowed)</onclick>
+                    <visible>Window.IsVisible(DialogVideoInfo.xml)</visible>
+                </control>
+                <control type="button" id="155">
+                    <include>DefContextButtonGradientSelect</include>
+                    <label>37797</label>
+                    <label2>$VAR[InfoTypeLabelTexture]</label2>
+                    <onclick condition="!Skin.HasSetting(show.studiologos) + !Skin.HasSetting(show.clearart)">Skin.ToggleSetting(show.clearart)</onclick>
+                    <onclick condition="Skin.HasSetting(show.clearart)">Skin.ToggleSetting(show.studiologos)</onclick>
+                    <onclick condition="Skin.HasSetting(show.clearart)">Skin.Reset(show.clearart)</onclick>
+                    <onclick condition="Skin.HasSetting(show.studiologos)">Skin.Reset(show.studiologos)</onclick>
+                    <visible>Window.IsVisible(DialogVideoInfo.xml)</visible>
+                </control>
                 
+                
+
                 <!-- Music Section -->
-                <control type="radiobutton" id="110">
+                <control type="radiobutton" id="120">
                     <include>DefContextButtonGradientSelect</include>
                     <label>37700</label>
                     <selected>!Skin.HasSetting(hidebutton.music.sets)</selected>
                     <onclick>Skin.ToggleSetting(hidebutton.music.sets)</onclick>
                     <visible>Window.IsVisible(DialogMusicInfo.xml)</visible>
                 </control>
-                <control type="radiobutton" id="111">
+                <control type="radiobutton" id="121">
                     <include>DefContextButtonGradientSelect</include>
                     <label>31141</label>
                     <selected>!Skin.HasSetting(hidebutton.music.youtube)</selected>
                     <onclick>Skin.ToggleSetting(hidebutton.music.youtube)</onclick>
                     <visible>Window.IsVisible(DialogMusicInfo.xml)</visible>
                 </control>
-                <control type="radiobutton" id="112">
+                <control type="radiobutton" id="122">
                     <include>DefContextButtonGradientSelect</include>
                     <label>31265</label>
                     <selected>!Skin.HasSetting(hidebutton.music.fanart)</selected>
                     <onclick>Skin.ToggleSetting(hidebutton.music.fanart)</onclick>
                     <visible>Window.IsVisible(DialogMusicInfo.xml)</visible>
                 </control>
-                <control type="radiobutton" id="113">
+                <control type="radiobutton" id="123">
                     <include>DefContextButtonGradientSelect</include>
                     <label>38023</label>
                     <selected>!Skin.HasSetting(hidebutton.music.rating)</selected>
                     <onclick>Skin.ToggleSetting(hidebutton.music.rating)</onclick>
                     <visible>Window.IsVisible(DialogMusicInfo.xml)</visible>
                 </control>
-                <control type="radiobutton" id="114">
+                <control type="radiobutton" id="124">
                     <include>DefContextButtonGradientSelect</include>
                     <label>37781</label>
                     <selected>!Skin.HasSetting(hidebutton.music.more)</selected>
@@ -175,6 +246,8 @@
                 <texturefocus colordiffuse="$VAR[ColorHighlight]" border="5">common/box.png</texturefocus>
                 <onclick>Close</onclick>
             </control>
+            
+            <include>DialogSelectlabelInclude</include>
         </control>        
     </controls>
 </window>
