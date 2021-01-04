@@ -1236,8 +1236,7 @@
                 <visible>String.IsEqual(ListItem.DBType,album)</visible>
                 <onfocus condition="!String.IsEqual(Window.Property(musiccontent),1)">ClearProperty(musiccontent)</onfocus>
                 <onfocus>ClearProperty(ShowDisc)</onfocus>
-                <onclick>SetProperty(musiccontent,1)</onclick>
-                <onfocus condition="!Skin.HasSetting(dontclickonfocus)">SetProperty(musiccontent,1)</onfocus>
+                <onfocus>SetProperty(musiccontent,1)</onfocus>
                 <include>buttondimensionssquare</include>
                 <include content="buttontextures">
                     <param name="icon" value="buttonsdialogs/musictracklist.png"/>
@@ -1249,36 +1248,34 @@
                 <visible>String.IsEqual(ListItem.DBType,artist)</visible>
                 <onfocus condition="!String.IsEqual(Window.Property(musiccontent),2)">ClearProperty(musiccontent)</onfocus>
                 <onfocus>ClearProperty(ShowDisc)</onfocus>
-                <onclick>SetProperty(musiccontent,2)</onclick>
-                <onfocus condition="!Skin.HasSetting(dontclickonfocus)">SetProperty(musiccontent,2)</onfocus>
-                <onfocus condition="!Skin.HasSetting(preloadcontent)">SetProperty(discography,1)</onfocus>
-                <onclick condition="!Skin.HasSetting(preloadcontent)">SetProperty(discography,1)</onclick>
+                <onfocus>SetProperty(musiccontent,2)</onfocus>
+                <onfocus>SetProperty(discography,1)</onfocus>
                 <include>buttondimensionssquare</include>
                 <include content="buttontextures">
                     <param name="icon" value="buttonsdialogs/set.png"/>
                 </include>
+                <visible>!Skin.HasSetting(hidebutton.music.sets)</visible>
             </control>
 
             <!-- Youtube Button -->
             <control type="radiobutton" id="9005">
                 <onfocus condition="!String.IsEqual(Window.Property(musiccontent),3)">ClearProperty(musiccontent)</onfocus>
                 <onfocus>ClearProperty(ShowDisc)</onfocus>
-                <onclick>SetProperty(musiccontent,3)</onclick>
-                <onfocus condition="!Skin.HasSetting(dontclickonfocus)">SetProperty(musiccontent,3)</onfocus>
-                <onfocus condition="!Skin.HasSetting(preloadcontent)">SetProperty(musicyoutube,1)</onfocus>
-                <onclick condition="!Skin.HasSetting(preloadcontent)">SetProperty(musicyoutube,1)</onclick>
+                <onfocus>SetProperty(musiccontent,3)</onfocus>
+                <onfocus>SetProperty(musicyoutube,1)</onfocus>
                 <include>buttondimensionssquare</include>
                 <include content="buttontextures">
                     <param name="icon" value="buttonsdialogs/youtube.png"/>
                 </include>
+                <visible>!Skin.HasSetting(hidebutton.music.youtube)</visible>
             </control>
 
             <!-- Fanart Button -->
             <control type="radiobutton" id="9006">
                 <visible>String.IsEqual(ListItem.DBType,artist)</visible>
+                <onfocus>ClearProperty(ShowDisc)</onfocus>
                 <onfocus condition="!String.IsEqual(Window.Property(musiccontent),4)">ClearProperty(musiccontent)</onfocus>
-                <onclick>SetProperty(musiccontent,4)</onclick>
-                <onfocus condition="!Skin.HasSetting(dontclickonfocus)">SetProperty(musiccontent,4)</onfocus>
+                <onfocus>SetProperty(musiccontent,4)</onfocus>
                 <font>Button</font>
                 <textcolor>Dark2</textcolor>
                 <include>buttondimensionssquare</include>
@@ -1287,42 +1284,36 @@
                 <include content="buttontextures">
                     <param name="icon" value="buttonsdialogs/image.png"/>
                 </include>
+                <visible>!Skin.HasSetting(hidebutton.music.fanart)</visible>
             </control>
 
             <!-- Rating Button -->
             <control type="radiobutton" id="9007">
-                <visible>!String.IsEqual(ListItem.DBType,artist) + String.IsEmpty(ListItem.UserRating)</visible>
+                <visible>!String.IsEqual(ListItem.DBType,artist)</visible>
                 <include>OnFocusOnClick</include>
                 <include>ClearOnFocusOnClick</include>
+                <onfocus>ClearProperty(ShowDisc)</onfocus>
                 <onfocus>ClearProperty(musiccontent)</onfocus>
                 <onclick>SendClick(7)</onclick>
                 <include>buttondimensionssquare</include>
-                <include content="buttontextures">
-                    <param name="icon" value="buttonsdialogs/rating.png"/>
-                </include>
+                <texturenofocus colordiffuse="Dark4" border="0">common/boxsquare.png</texturenofocus>
+                <texturefocus colordiffuse="$VAR[ColorHighlight]" border="0">common/boxsquare.png</texturefocus>
+                <textureradioonfocus colordiffuse="FFFFFFFF">buttonsdialogs/rating.png</textureradioonfocus>
+                <textureradioonnofocus colordiffuse="FFFFFFFF">buttonsdialogs/rating.png</textureradioonnofocus>
+                <textureradioofffocus colordiffuse="FFFFFFFF">buttonsdialogs/rating_new.png</textureradioofffocus>
+                <textureradiooffnofocus colordiffuse="FFFFFFFF">buttonsdialogs/rating_new.png</textureradiooffnofocus>
+                <selected>String.IsEmpty(ListItem.UserRating)</selected>
                 <textcolor>Dark4</textcolor>
                 <font>Null</font>
-            </control>
-            <control type="radiobutton" id="9110">
-                <visible>!String.IsEqual(ListItem.DBType,artist) + !String.IsEmpty(ListItem.UserRating)</visible>
-                <include>OnFocusOnClick</include>
-                <include>ClearOnFocusOnClick</include>
-                <onfocus>ClearProperty(musiccontent)</onfocus>
-                <onclick>SendClick(7)</onclick>
-                <include>buttondimensionssquare</include>
-                <include content="buttontextures">
-                    <param name="icon" value="buttonsdialogs/rating_new.png"/>
-                </include>
-                <textcolor>Dark4</textcolor>
-                <font>Null</font>
+                <visible>!Skin.HasSetting(hidebutton.music.rating)</visible>
             </control>
 
             <!-- More Of Artist Button -->
-            <control type="radiobutton" id="9009">
+            <control type="radiobutton" id="9029">
                 <visible>String.IsEqual(ListItem.DBType,song)</visible>
+                <onfocus>ClearProperty(ShowDisc)</onfocus>
                 <onfocus condition="!String.IsEqual(Window.Property(musiccontent),8)">ClearProperty(musiccontent)</onfocus>
-                <onclick>SetProperty(musiccontent,8)</onclick>
-                <onfocus condition="!Skin.HasSetting(dontclickonfocus)">SetProperty(musiccontent,8)</onfocus>
+                <onfocus>SetProperty(musiccontent,8)</onfocus>
                 <font>Button</font>
                 <textcolor>Dark2</textcolor>
                 <include>buttondimensionssquare</include>
@@ -1331,10 +1322,12 @@
                 <include content="buttontextures">
                     <param name="icon" value="buttonsdialogs/more.png"/>
                 </include>
+                <visible>!Skin.HasSetting(hidebutton.music.more)</visible>
             </control>
 
             <!-- Setting Button -->
             <control type="radiobutton" id="9008">
+                <onfocus>ClearProperty(ShowDisc)</onfocus>
                 <onfocus>ClearProperty(musiccontent)</onfocus>
                 <include>buttondimensions</include>
                 <include content="buttontextures">
@@ -1428,8 +1421,7 @@
             <control type="radiobutton" id="9001">
                 <visible>String.IsEqual(ListItem.DBType,movie) | String.IsEqual(ListItem.DBType,tvshow)</visible>
                 <onfocus condition="!String.IsEqual(Window.Property(moviecontent),1)">ClearProperty(moviecontent)</onfocus>
-                <onclick>SetProperty(moviecontent,1)</onclick>
-                <onfocus condition="!Skin.HasSetting(dontclickonfocus)">SetProperty(moviecontent,1)</onfocus>
+                <onfocus>SetProperty(moviecontent,1)</onfocus>
                 <include>buttondimensions</include>
                 <include content="buttontextures">
                     <param name="icon" value="buttonsdialogs/info.png"/>
@@ -1447,6 +1439,7 @@
                 <visible>!String.IsEmpty(ListItem.IMDBNumber) + Skin.HasSetting(Use.IMDB.Trailer) + System.HasAddon(plugin.video.imdb.trailers) + !Skin.HasSetting(PlayTrailerWindowed)</visible>
                 <onclick>Dialog.Close(2003)</onclick>
                 <onclick>PlayMedia(plugin://plugin.video.imdb.trailers/?action=play_id&amp;imdb=$INFO[ListItem.IMDBNumber])</onclick>
+                <visible>!Skin.HasSetting(hidebutton.video.trailer)</visible>
             </control>
 
             <!-- Youtube Trailer, no TV Shows -->
@@ -1458,6 +1451,7 @@
                     <param name="icon" value="buttonsdialogs/trailer.png"/>
                 </include>
                 <visible>[!String.IsEmpty(ListItem.Trailer) + !Skin.HasSetting(PlayTrailerWindowed)] + !Skin.HasSetting(Use.IMDB.Trailer) + !String.IsEqual(ListItem.DBType,tvshow)</visible>
+                <visible>!Skin.HasSetting(hidebutton.video.trailer)</visible>
             </control>
 
             <!-- Youtube Trailer, only TV Shows, Bingie -->
@@ -1471,14 +1465,14 @@
                 <visible>String.IsEqual(ListItem.DBType,tvshow) + System.AddonIsEnabled(script.bingie.helper) + !Skin.HasSetting(PlayTrailerWindowed)</visible>
                 <onclick condition="String.IsEqual(ListItem.DBType,tvshow) + System.AddonIsEnabled(script.bingie.helper)">RunScript(script.bingie.helper,action=playtrailer,MODE=fullscreen,title=$INFO[ListItem.Title,, $LOCALIZE[36902]],local=true)</onclick>
                 <onclick>Dialog.Close(2003,force)</onclick>
+                <visible>!Skin.HasSetting(hidebutton.video.trailer)</visible>
             </control>
 
             <!-- Trailer Windowed, Mixed -->
             <control type="radiobutton" id="1223">
                 <onfocus condition="!String.IsEqual(Window.Property(moviecontent),6)">ClearProperty(moviecontent)</onfocus>
                 <onfocus>ClearProperty(ShowDisc)</onfocus>
-                <onclick>SetProperty(moviecontent,6)</onclick>
-                <onfocus condition="!Skin.HasSetting(dontclickonfocus)">SetProperty(moviecontent,6)</onfocus>
+                <onfocus>SetProperty(moviecontent,6)</onfocus>
                 <include>buttondimensions</include>
                 <include content="buttontextures">
                     <param name="icon" value="buttonsdialogs/trailer.png"/>
@@ -1487,6 +1481,7 @@
                 <onclick condition="!Skin.HasSetting(Use.IMDB.Trailer) + !String.IsEqual(ListItem.DBType,tvshow)">PlayMedia($INFO[ListItem.Trailer],1)</onclick>
                 <onclick condition="Skin.HasSetting(Use.IMDB.Trailer) + !String.IsEqual(ListItem.DBType,tvshow)">PlayMedia(plugin://plugin.video.imdb.trailers/?action=play_id&amp;imdb=$INFO[ListItem.IMDBNumber],1)</onclick>
                 <onclick condition="String.IsEqual(ListItem.DBType,tvshow) + System.AddonIsEnabled(script.bingie.helper)">RunScript(script.bingie.helper,action=playtrailer,MODE=windowed,title=$INFO[ListItem.Title,, $LOCALIZE[36902]],local=true)</onclick>
+                <visible>!Skin.HasSetting(hidebutton.video.trailer)</visible>
             </control>
             <control type="radiobutton" id="7">
                 <onfocus>ClearProperty(moviecontent)</onfocus>
@@ -1494,30 +1489,21 @@
                 <include>OnFocusOnClick</include>
                 <include>ClearOnFocusOnClick</include>
                 <include>buttondimensions</include>
-                <include content="buttontextures">
-                    <param name="icon" value="buttonsdialogs/rating.png"/>
-                </include>
+                <texturenofocus colordiffuse="Dark4" border="0">common/boxsquare.png</texturenofocus>
+                <texturefocus colordiffuse="$VAR[ColorHighlight]" border="0">common/boxsquare.png</texturefocus>
+                <textureradioonfocus colordiffuse="FFFFFFFF">buttonsdialogs/rating.png</textureradioonfocus>
+                <textureradioonnofocus colordiffuse="FFFFFFFF">buttonsdialogs/rating.png</textureradioonnofocus>
+                <textureradioofffocus colordiffuse="FFFFFFFF">buttonsdialogs/rating_new.png</textureradioofffocus>
+                <textureradiooffnofocus colordiffuse="FFFFFFFF">buttonsdialogs/rating_new.png</textureradiooffnofocus>
+                <selected>String.IsEmpty(ListItem.UserRating)</selected>
                 <visible>Container.Content(movies) | Container.Content(tvshows) | Container.Content(episodes)</visible>
-                <visible>Control.IsEnabled(7) + String.IsEmpty(ListItem.UserRating)</visible>
-            </control>
-            <control type="radiobutton" id="9110">
-                <onfocus>ClearProperty(moviecontent)</onfocus>
-                <onfocus>ClearProperty(ShowDisc)</onfocus>
-                <include>OnFocusOnClick</include>
-                <include>ClearOnFocusOnClick</include>
-                <onclick>SendClick(7)</onclick>
-                <include>buttondimensions</include>
-                <include content="buttontextures">
-                    <param name="icon" value="buttonsdialogs/rating_new.png"/>
-                </include>
-                <visible>Container.Content(movies) | Container.Content(tvshows) | Container.Content(episodes)</visible>
-                <visible>Control.IsEnabled(7) + !String.IsEmpty(ListItem.UserRating)</visible>
+                <visible>!Skin.HasSetting(hidebutton.video.rating)</visible>
             </control>
             <!--<control type="radiobutton" id="9108">
                 <onfocus>ClearProperty(moviecontent)</onfocus>
                 <onfocus>ClearProperty(ShowDisc)</onfocus>
                 <onclick>SetProperty(moviecontent,10)</onclick>
-                <onfocus condition="!Skin.HasSetting(dontclickonfocus)">SetProperty(moviecontent,10)</onfocus>
+                <onfocus>SetProperty(moviecontent,10)</onfocus>
                 <include>OnFocusOnClick</include>
                 <include>ClearOnFocusOnClick</include>
                 <include>buttondimensions</include>
@@ -1539,55 +1525,58 @@
                 <visible>String.IsEqual(Window(home).Property(SpecialFeatures.Visible),true)</visible>
                 <onclick>Action(close)</onclick>
                 <onclick>RunScript(plugin.video.specialfeatures,listitem)</onclick>
+                <visible>!Skin.HasSetting(hidebutton.video.specialfeatures)</visible>
             </control>
             <control type="radiobutton" id="9002">
                 <visible>String.IsEqual(ListItem.DBType,movie) | String.IsEqual(ListItem.DBType,tvshow)</visible>
                 <onfocus condition="!String.IsEqual(Window.Property(moviecontent),2)">ClearProperty(moviecontent)</onfocus>
-                <onclick>SetProperty(moviecontent,2)</onclick>
-                <onfocus condition="!Skin.HasSetting(dontclickonfocus)">SetProperty(moviecontent,2)</onfocus>
-                <onfocus condition="!Skin.HasSetting(preloadcontent)">SetProperty(videosimilar,1)</onfocus>
-                <onclick condition="!Skin.HasSetting(preloadcontent)">SetProperty(videosimilar,1)</onclick>
+                <onfocus>ClearProperty(ShowDisc)</onfocus>
+                <onfocus>SetProperty(moviecontent,2)</onfocus>
+                <onfocus>SetProperty(videosimilar,1)</onfocus>
                 <include>buttondimensions</include>
                 <include content="buttontextures">
                     <param name="icon" value="buttonsdialogs/similar.png"/>
                 </include>
+                <visible>!Skin.HasSetting(hidebutton.video.similar)</visible>
             </control>
             <control type="radiobutton" id="9003">
                 <visible>String.IsEqual(ListItem.DBType,movie)</visible>
                 <onfocus condition="!String.IsEqual(Window.Property(moviecontent),3)">ClearProperty(moviecontent)</onfocus>
-                <onclick>SetProperty(moviecontent,3)</onclick>
-                <onfocus condition="!Skin.HasSetting(dontclickonfocus)">SetProperty(moviecontent,3)</onfocus>
-                <onfocus condition="!Skin.HasSetting(preloadcontent)">SetProperty(videostudio,1)</onfocus>
-                <onclick condition="!Skin.HasSetting(preloadcontent)">SetProperty(videostudio,1)</onclick>
+                <onfocus>ClearProperty(ShowDisc)</onfocus>
+                <onfocus>SetProperty(moviecontent,3)</onfocus>
+                <onfocus>SetProperty(videostudio,1)</onfocus>
                 <include>buttondimensions</include>
                 <include content="buttontextures">
                     <param name="icon" value="buttonsdialogs/studio.png"/>
                 </include>
+                <visible>!Skin.HasSetting(hidebutton.video.studio)</visible>
             </control>
             <control type="radiobutton" id="9004">
                 <visible>String.IsEqual(ListItem.DBType,movie) | String.IsEqual(ListItem.DBType,tvshow)</visible>
                 <onfocus condition="!String.IsEqual(Window.Property(moviecontent),4)">ClearProperty(moviecontent)</onfocus>
-                <onclick>SetProperty(moviecontent,4)</onclick>
-                <onfocus condition="!Skin.HasSetting(dontclickonfocus)">SetProperty(moviecontent,4)</onfocus>
-                <onfocus condition="!Skin.HasSetting(preloadcontent)">SetProperty(videoyoutube,1)</onfocus>
-                <onclick condition="!Skin.HasSetting(preloadcontent)">SetProperty(videoyoutube,1)</onclick>
+                <onfocus>ClearProperty(ShowDisc)</onfocus>
+                <onfocus>SetProperty(moviecontent,4)</onfocus>
+                <onfocus>SetProperty(videoyoutube,1)</onfocus>
                 <include>buttondimensions</include>
                 <include content="buttontextures">
                     <param name="icon" value="buttonsdialogs/youtube.png"/>
                 </include>
+                <visible>!Skin.HasSetting(hidebutton.video.youtube)</visible>
             </control>
             <control type="radiobutton" id="9005">
                 <onfocus condition="!String.IsEqual(Window.Property(moviecontent),5)">ClearProperty(moviecontent)</onfocus>
                 <visible>!String.IsEmpty(ListItem.Art(fanart))</visible>
-                <onclick>SetProperty(moviecontent,5)</onclick>
-                <onfocus condition="!Skin.HasSetting(dontclickonfocus)">SetProperty(moviecontent,5)</onfocus>
+                <onfocus>ClearProperty(ShowDisc)</onfocus>
+                <onfocus>SetProperty(moviecontent,5)</onfocus>
                 <include>buttondimensions</include>
                 <include content="buttontextures">
                     <param name="icon" value="buttonsdialogs/image.png"/>
                 </include>
+                <visible>!Skin.HasSetting(hidebutton.video.fanart)</visible>
             </control>
             <control type="radiobutton" id="49">
                 <onfocus>ClearProperty(moviecontent)</onfocus>
+                <onfocus>ClearProperty(ShowDisc)</onfocus>
                 <description>Home Theatre</description>
                 <include>buttondimensions</include>
                 <include content="buttontextures">
@@ -1595,9 +1584,11 @@
                 </include>
                 <onclick>RunScript(script.cinemavision,experience)</onclick>
                 <visible>System.HasAddon(script.cinemavision) + [Container.Content(movies) | Container.Content(tvshows) | Container.Content(episodes)]</visible>
+                <visible>!Skin.HasSetting(hidebutton.video.cinema)</visible>
             </control>
             <control type="radiobutton" id="9010">
                 <onfocus>ClearProperty(moviecontent)</onfocus>
+                <onfocus>ClearProperty(ShowDisc)</onfocus>
                 <include>buttondimensions</include>
                 <include content="buttontextures">
                     <param name="icon" value="buttonsdialogs/manage.png"/>
@@ -1631,8 +1622,7 @@
             </control>
             <control type="radiobutton" id="9002">
                 <onfocus condition="!String.IsEqual(Window.Property(actinfo),1)">ClearProperty(actinfo)</onfocus>
-                <onfocus condition="!Skin.HasSetting(dontclickonfocus)">SetProperty(actinfo,1)</onfocus>
-                <onclick>SetProperty(actinfo,1)</onclick>
+                <onfocus>SetProperty(actinfo,1)</onfocus>
                 <include>buttondimensions</include>
                 <include content="buttontextures">
                     <param name="icon" value="buttonsdialogs/trailer.png"/>
@@ -1640,8 +1630,7 @@
             </control>
             <control type="radiobutton" id="9003">
                 <onfocus condition="!String.IsEqual(Window.Property(actinfo),2)">ClearProperty(actinfo)</onfocus>
-                <onfocus condition="!Skin.HasSetting(dontclickonfocus)">SetProperty(actinfo,2)</onfocus>
-                <onclick>SetProperty(actinfo,2)</onclick>
+                <onfocus>SetProperty(actinfo,2)</onfocus>
                 <include>buttondimensions</include>
                 <include content="buttontextures">
                     <param name="icon" value="buttonsdialogs/tvshows.png"/>
@@ -1695,8 +1684,7 @@
             </control>
             <control type="radiobutton" id="9002">
                 <onfocus condition="!String.IsEqual(Window.Property(videoinfo),1)">ClearProperty(videoinfo)</onfocus>
-                <onfocus condition="!Skin.HasSetting(dontclickonfocus)">SetProperty(videoinfo,1)</onfocus>
-                <onclick>SetProperty(videoinfo,1)</onclick>
+                <onfocus>SetProperty(videoinfo,1)</onfocus>
                 <include>buttondimensions</include>
                 <include content="buttontextures">
                     <param name="icon" value="buttonsdialogs/similar.png"/>
@@ -1704,8 +1692,7 @@
             </control>
             <control type="radiobutton" id="9003">
                 <onfocus condition="!String.IsEqual(Window.Property(videoinfo),2)">ClearProperty(videoinfo)</onfocus>
-                <onfocus condition="!Skin.HasSetting(dontclickonfocus)">SetProperty(videoinfo,2)</onfocus>
-                <onclick>SetProperty(videoinfo,2)</onclick>
+                <onfocus>SetProperty(videoinfo,2)</onfocus>
                 <include>buttondimensions</include>
                 <include content="buttontextures">
                     <param name="icon" value="buttonsdialogs/youtube.png"/>
@@ -1713,8 +1700,7 @@
             </control>
             <control type="radiobutton" id="9005">
                 <onfocus condition="!String.IsEqual(Window.Property(videoinfo),4)">ClearProperty(videoinfo)</onfocus>
-                <onfocus condition="!Skin.HasSetting(dontclickonfocus)">SetProperty(videoinfo,4)</onfocus>
-                <onclick>SetProperty(videoinfo,4)</onclick>
+                <onfocus>SetProperty(videoinfo,4)</onfocus>
                 <include>buttondimensions</include>
                 <include content="buttontextures">
                     <param name="icon" value="buttonsdialogs/crew.png"/>
@@ -1723,8 +1709,7 @@
             <control type="radiobutton" id="9006">
                 <visible>Integer.IsGreater(Container(10058).NumItems,0)</visible>
                 <onfocus condition="!String.IsEqual(Window.Property(videoinfo),5)">ClearProperty(videoinfo)</onfocus>
-                <onfocus condition="!Skin.HasSetting(dontclickonfocus)">SetProperty(videoinfo,5)</onfocus>
-                <onclick>SetProperty(videoinfo,5)</onclick>
+                <onfocus>SetProperty(videoinfo,5)</onfocus>
                 <include>buttondimensions</include>
                 <include content="buttontextures">
                     <param name="icon" value="buttonsdialogs/seasons.png"/>
@@ -1733,8 +1718,7 @@
             <control type="radiobutton" id="9008">
                 <visible>Integer.IsGreater(Container(10057).NumItems,0)</visible>
                 <onfocus condition="!String.IsEqual(Window.Property(videoinfo),6)">ClearProperty(videoinfo)</onfocus>
-                <onfocus condition="!Skin.HasSetting(dontclickonfocus)">SetProperty(videoinfo,6)</onfocus>
-                <onclick>SetProperty(videoinfo,6)</onclick>
+                <onfocus>SetProperty(videoinfo,6)</onfocus>
                 <include>buttondimensions</include>
                 <include content="buttontextures">
                     <param name="icon" value="buttonsdialogs/set.png"/>
@@ -1742,8 +1726,7 @@
             </control>
             <control type="radiobutton" id="9004">
                 <onfocus condition="!String.IsEqual(Window.Property(videoinfo),3)">ClearProperty(videoinfo)</onfocus>
-                <onfocus condition="!Skin.HasSetting(dontclickonfocus)">SetProperty(videoinfo,3)</onfocus>
-                <onclick>SetProperty(videoinfo,3)</onclick>
+                <onfocus>SetProperty(videoinfo,3)</onfocus>
                 <include>buttondimensions</include>
                 <include content="buttontextures">
                     <param name="icon" value="buttonsdialogs/image.png"/>
@@ -2205,7 +2188,8 @@
                 <centerleft>50%</centerleft>
                 <centertop>50%</centertop>
                 <width>468</width>
-                <include>CustomSettingsTopWIP</include>
+                <top>200</top>
+                <height>300</height>
                 <control type="image">
                     <left>-8</left>
                     <top>-20</top>
@@ -2244,7 +2228,7 @@
                     </control>
                 </control>
                 <control type="group">
-                    <height>490</height>
+                    <height>350</height>
                     <left>-48</left>
                     <top>-22</top>
                     <control type="image">
@@ -2258,7 +2242,7 @@
                     <control type="image">
                         <description>arrow image</description>
                         <centerleft>50%</centerleft>
-                        <include>CustomSettingsTopArrow</include>
+                        <posy>342</posy>
                         <width>16</width>
                         <height>16</height>
                         <texture colordiffuse="White70" flipy="false">common/arrow-small.png</texture>
@@ -2275,6 +2259,10 @@
                     <animation effect="slide" end="0,70" time="0" condition="Integer.IsGreater(Container(9400).Position,1)">Conditional</animation>
                     <animation effect="slide" end="0,70" time="0" condition="Integer.IsGreater(Container(9400).Position,2)">Conditional</animation>
                     <animation effect="slide" end="0,70" time="0" condition="Integer.IsGreater(Container(9400).Position,3)">Conditional</animation>
+                    <animation effect="slide" end="0,70" time="0" condition="Integer.IsGreater(Container(9400).Position,4)">Conditional</animation>
+                    <animation effect="slide" end="0,70" time="0" condition="Integer.IsGreater(Container(9400).Position,5)">Conditional</animation>
+                    <animation effect="slide" end="0,70" time="0" condition="Integer.IsGreater(Container(9400).Position,6)">Conditional</animation>
+                    <animation effect="slide" end="0,70" time="0" condition="Integer.IsGreater(Container(9400).Position,7)">Conditional</animation>
                 </control>
                 <control type="grouplist" id="9400">
                     <top>90</top>
@@ -2328,42 +2316,16 @@
                         <onclick condition="String.IsEqual(ListItem.DBType,album)">RunScript(script.artwork.beef, mode=auto, mediatype=album, dbid=$INFO[ListItem.DBID])</onclick>
                         <visible>system.hasaddon(script.artwork.beef)</visible>
                     </control>
-                    <control type="radiobutton" id="99">
+                    <control type="button" id="96">
                         <description>Filter</description>
                         <include>DefContextButtonGradient</include>
-                        <label>37705</label>
+                        <label>5</label>
                         <align>left</align>
-                        <selected>Skin.HasSetting(preloadcontent)</selected>
-                        <onclick>Skin.ToggleSetting(preloadcontent)</onclick>
-                    </control>
-                    <control type="radiobutton" id="100">
-                        <description>Filter</description>
-                        <include>DefContextButtonGradient</include>
-                        <label>37706</label>
-                        <align>left</align>
-                        <selected>Skin.HasSetting(dontclickonfocus)</selected>
-                        <onclick>Skin.ToggleSetting(dontclickonfocus)</onclick>
+                        <onclick>ActivateWindow(1260)</onclick>
                     </control>
                 </control>
             </control>
         </control>
-    </include>
-
-    <include name="CustomSettingsTop">
-        <top>459</top>
-    </include>
-
-    <include name="CustomSettingsTopWIP">
-        <top>319</top>
-        <height>370</height>
-    </include>
-
-    <include name="CustomSettingsTopArrow">
-        <posy>415</posy>
-    </include>
-
-    <include name="CustomSettingsTopArrowWIP">
-        <posy>203</posy>
     </include>
 
     <include name="DialogSelectlabelInclude">
