@@ -259,6 +259,7 @@
             <include>Animation.FadeOut</include>
             <visible>!Skin.HasSetting(home.showheader)</visible>
             <visible>Player.HasMedia</visible>
+            <visible>!Skin.HasSetting(extended.nowplaying)</visible>
             <visible>!Control.HasFocus(301) | [Skin.HasSetting(home.classicwidgets) + !Skin.HasSetting(home.showheader)]</visible>
             <animation effect="slide" end="0,100" time="150" condition="[[!Skin.HasSetting(home.showheader) + [Window.IsVisible(DialogNotification.xml) | Window.IsVisible(DialogExtendedProgressBar.xml) | Window.IsVisible(DialogVolumeBar.xml)]]]">Conditional</animation>
             <control type="image">
@@ -2750,6 +2751,7 @@
                 <include condition="!Skin.HasSetting(furniture.clock)">DefHomeRight520</include>
                 <include condition="Skin.HasSetting(furniture.clock)">DefHomeRightSidePad</include>
                 <onup condition="!Player.HasVideo | !Skin.HasSetting(global.showvideo)">301</onup>
+                <onup>301</onup>
                 <ondown condition="Integer.IsGreater(Container(302).NumItems,0)">SetFocus(302,0)</ondown>
                 <onleft>300</onleft>
                 <onright>300</onright>
@@ -5206,6 +5208,14 @@
                     
                     <!-- Widget -->
                     <control type="grouplist" id="301">
+                        <animation type="Conditional" reversible="false" condition="Skin.HasSetting(extended.nowplaying) + !ControlGroup(301).HasFocus() + !Control.HasFocus(4567) + !Control.HasFocus(8888) + Player.HasMedia">
+                            <effect type="fade" start="100" end="0" tween="cubic" reversible="false" easing="out" delay="0" time="500"/>
+                        </animation>
+                        
+                        <animation type="Conditional" reversible="false" condition="![Skin.HasSetting(extended.nowplaying) + !ControlGroup(301).HasFocus() + !Control.HasFocus(4567) + !Control.HasFocus(8888) + Player.HasMedia]">
+                            <effect type="fade" start="0" end="100" tween="cubic" reversible="false" easing="out" delay="250" time="350"/>
+                        </animation>
+
                         <height>770</height>
                         <orientation>vertical</orientation>
                         <bottom>188</bottom>
@@ -5230,7 +5240,8 @@
         
                         <!-- Widget 5 -->
                         <include>skinshortcuts-template-widget-vertical.5</include>
-                    </control>
+                    </control>                    
+                    <include>ExtendedNowPlaying</include>                    
                 </control>
             </control>
             <control type="button" id="4567">
@@ -6240,6 +6251,15 @@
                 <orientation>vertical</orientation>
                 <bottom>188</bottom>
                 <width>2385</width>
+
+                <animation type="Conditional" reversible="false" condition="Skin.HasSetting(extended.nowplaying) + !ControlGroup(301).HasFocus() + !Control.HasFocus(4567) + !Control.HasFocus(8888) + Player.HasMedia">
+                    <effect type="fade" start="100" end="0" tween="cubic" reversible="false" easing="out" delay="0" time="500"/>
+                </animation>
+                
+                <animation type="Conditional" reversible="false" condition="![Skin.HasSetting(extended.nowplaying) + !ControlGroup(301).HasFocus() + !Control.HasFocus(4567) + !Control.HasFocus(8888) + Player.HasMedia]">
+                    <effect type="fade" start="0" end="100" tween="cubic" reversible="false" easing="out" delay="350" time="350"/>
+                </animation>
+                
                 <onup condition="!Skin.HasSetting(disable.widgets.onup.go.back.to.last.item)">SetFocus(8888)</onup>
                 <onup condition="Skin.HasSetting(disable.widgets.onup.go.back.to.last.item)">300</onup>
                 <ondown condition="Skin.HasSetting(disable.widgets.ondown.go.back.to.position.0)">300</ondown>
@@ -6263,8 +6283,17 @@
 
                 <!-- Widget 5 -->
                 <include>skinshortcuts-template-widget-vertical.5</include>
-            </control>
-        </control>
+            </control>            
+            <include>ExtendedNowPlaying</include>                           
+        </control>        
+        <control type="button" id="9605">
+            <include>HiddenButton</include>
+            <onback>300</onback>
+            <onup>301</onup>
+            <ondown>300</ondown>
+            <onleft>300</onleft>
+            <onright>300</onright>
+        </control>        
         <control type="button" id="4567">
             <include>HiddenButton</include>
             <onfocus>SetFocus($INFO[Window(home).Property(BackToId)])</onfocus>
@@ -6275,6 +6304,14 @@
             <onfocus condition="Integer.IsEqual(Container(301).NumItems,1)">SetFocus(300)</onfocus>
             <onfocus condition="!Integer.IsEqual(Container(301).NumItems,1)">SetFocus($INFO[Window(Home).Property(LastId)])</onfocus>
         </control>
+    </include>
+    
+    <include name="fadeverticalnowplaying">
+        <animation effect="fade" start="100" end="50" time="400" condition="Control.HasFocus(300) | Control.HasFocus(302)">Conditional</animation>
+    </include>
+
+    <include name="fadehorizontalnowplaying">
+        <animation effect="fade" start="100" end="70" time="400" condition="Control.HasFocus(300) | Control.HasFocus(302)">Conditional</animation>
     </include>
 
     <include name="FullScreenInfoSub">
@@ -6554,6 +6591,7 @@
             <include>Animation.DelayFadeIn600</include>
             <include>Animation.FadeOut</include>
             <include>Animation.Vertical.Widgets.Label</include>
+            <visible>![Skin.HasSetting(extended.nowplaying) + Player.HasMedia]</visible>
             <animation effect="slide" start="0" end="0,-24" time="0" condition="Skin.HasSetting(home.modernwidgets) + Skin.HasSetting(home.vertical.widgets) + Skin.HasSetting(home.oldmenuheight)">Conditional</animation>
             <visible>Integer.IsGreater(Container(301).NumItems,2) + ControlGroup(301).HasFocus()</visible>
             <visible>![Window.IsVisible(DialogVideoInfo.xml) | Window.IsVisible(DialogMusicInfo.xml) | Window.IsVisible(DialogPVRInfo.xml) | Window.IsVisible(DialogAddonInfo.xml) | Window.IsVisible(skin.arctic.zephyr.mod.script-gto-info.xml)]</visible>
