@@ -1183,29 +1183,28 @@
             <right>SidePad</right>
             <include>listdimensions</include>
             <orientation>horizontal</orientation>
-            <ondown condition="Control.HasFocus(9002) + String.IsEqual(Window.Property(ShowDisc),1) + !String.IsEmpty(ListItem.Art(discart))">ClearProperty(ShowDisc)</ondown>
-            <ondown condition="!String.IsEqual(Window.Property(ShowDisc),1)">9601</ondown>
+            <ondown condition="Control.HasFocus(9002) + String.IsEqual(Window.Property(ShowDisc),1) + !String.IsEmpty(ListItem.Art(discart)) + String.IsEmpty(Window.Property(RotateCover))">ClearProperty(ShowDisc)</ondown>
+            <ondown condition="Control.HasFocus(9002) + String.IsEqual(Window.Property(ShowDisc),1) + !String.IsEmpty(ListItem.Art(discart))">ClearProperty(RotateCover)</ondown>
+            <ondown condition="!String.IsEqual(Window.Property(ShowDisc),1) + !String.IsEqual(Window.Property(RotateCover),1)">9601</ondown>
             <onup condition="String.IsEqual(Window.Property(musiccontent),2)">9501</onup>
             <onup condition="String.IsEqual(Window.Property(musiccontent),3)">9502</onup>
             <onup condition="String.IsEqual(Window.Property(musiccontent),4) + Integer.IsGreater(Container(9503).NumItems,0)">95031</onup>
             <onup condition="String.IsEqual(Window.Property(musiccontent),1)">9009</onup>
             <onup condition="String.IsEqual(Window.Property(musiccontent),8) + Integer.IsGreater(Container(9508).NumItems,1)">9508</onup>
             <onup condition="Control.HasFocus(9002) + !String.IsEqual(Window.Property(ShowDisc),1) + !String.IsEmpty(ListItem.Art(discart))">SetProperty(ShowDisc,1)</onup>
-            <onup condition="Control.HasFocus(9002) + String.IsEqual(Window.Property(ShowDisc),1) + !String.IsEmpty(ListItem.Art(discart))">ClearProperty(ShowDisc)</onup>
+            <onup condition="Control.HasFocus(9002) + String.IsEqual(Window.Property(ShowDisc),1) + !String.IsEmpty(ListItem.Art(discart)) + !String.IsEmpty(ListItem.Art(back))">SetProperty(RotateCover,1)</onup>
+            <onup condition="Control.HasFocus(9002) + String.IsEqual(Window.Property(ShowDisc),1) + !String.IsEmpty(ListItem.Art(discart)) + String.IsEmpty(ListItem.Art(back))">ClearProperty(ShowDisc)</onup>
+            <onup condition="Control.HasFocus(9002) + String.IsEqual(Window.Property(ShowDisc),1) + String.IsEqual(Window.Property(RotateCover),1) + !String.IsEmpty(ListItem.Art(discart))">ClearProperty(RotateCover)</onup>
+            <onup condition="Control.HasFocus(9002) + String.IsEqual(Window.Property(ShowDisc),1) + String.IsEqual(Window.Property(RotateCover),1) + !String.IsEmpty(ListItem.Art(discart))">ClearProperty(ShowDisc)</onup>
             <onup condition="String.IsEmpty(Window.Property(musiccontent))">9010</onup>
             <control type="radiobutton" id="9001">
                 <visible>[String.IsEqual(ListItem.DBType,album) | String.IsEqual(ListItem.DBType,song)] + ![ListItem.IsPlaying | [!String.IsEmpty(ListItem.FolderPath) + String.IsEqual(ListItem.FileNameAndPath,Player.Folderpath)]]</visible>
                 <onfocus>ClearProperty(musiccontent)</onfocus>
                 <onfocus>ClearProperty(ShowDisc)</onfocus>
+                <onfocus>ClearProperty(RotateCover)</onfocus>
                 <onclick condition="String.IsEqual(ListItem.DBType,song) | String.IsEmpty(ListItem.DBID)">PlayMedia($INFO[ListItem.FileNameAndPath])</onclick>
                 <onclick condition="System.HasAddon(script.playalbum) + String.IsEqual(ListItem.DBType,album)">RunScript(script.playalbum,albumid=$INFO[ListItem.DBID])</onclick>
                 <onclick condition="!System.HasAddon(script.playalbum) + !String.IsEmpty(ListItem.DBID)">InstallAddon(script.playalbum)</onclick>
-
-                <!--           
-                <onclick condition="String.IsEqual(ListItem.DBType,song)">PlayMedia($INFO[ListItem.FileNameAndPath])</onclick>                
-                <onclick condition="!System.HasAddon(script.playalbum) + String.IsEqual(ListItem.DBType,album) + String.IsEmpty(ListItem.FolderPath)">InstallAddon(script.playalbum)</onclick>
-                <onclick condition="System.HasAddon(script.playalbum) + String.IsEqual(ListItem.DBType,album) + String.IsEmpty(ListItem.FolderPath)">RunScript(script.playalbum,albumid=$INFO[ListItem.DBID])</onclick>                               
-                <onclick condition="String.IsEqual(ListItem.DBType,album) + !String.IsEmpty(ListItem.FolderPath)">PlayMedia($INFO[ListItem.FolderPath],isdir)</onclick>-->
                 <include>buttondimensionssquare</include>
                 <include content="buttontextures">
                     <param name="icon" value="buttonsdialogs/play.png"/>
@@ -1215,6 +1214,7 @@
                 <visible>[String.IsEqual(ListItem.DBType,album) | String.IsEqual(ListItem.DBType,song)] + [ListItem.IsPlaying | [!String.IsEmpty(ListItem.FolderPath) + String.IsEqual(ListItem.FileNameAndPath,Player.Folderpath)]]</visible>
                 <onfocus>ClearProperty(musiccontent)</onfocus>
                 <onfocus>ClearProperty(ShowDisc)</onfocus>
+                <onfocus>ClearProperty(RotateCover)</onfocus>
                 <include>buttondimensionssquare</include>
                 <onclick condition="Player.Playing">Pause</onclick>
                 <onclick condition="!Player.Playing">Play</onclick>
@@ -1242,6 +1242,7 @@
                 <visible>String.IsEqual(ListItem.DBType,album)</visible>
                 <onfocus condition="!String.IsEqual(Window.Property(musiccontent),1)">ClearProperty(musiccontent)</onfocus>
                 <onfocus>ClearProperty(ShowDisc)</onfocus>
+                <onfocus>ClearProperty(RotateCover)</onfocus>
                 <onfocus>SetProperty(musiccontent,1)</onfocus>
                 <include>buttondimensionssquare</include>
                 <include content="buttontextures">
@@ -1916,27 +1917,6 @@
                     <param name="icon" value="buttonsdialogs/play.png"/>
                 </include>
                 <visible>Window.IsActive(PVRGuideInfo)</visible>
-            </control>
-        </control>
-    </include>
-
-    <include name="ArrowsNavigation">
-        <control type="group">
-            <include>Animation.DelayFadeIn</include>
-            <visible>Integer.IsGreater(Container(9000).NumItems,8) + ControlGroup(9000).HasFocus()</visible>
-            <centerbottom>257</centerbottom>
-            <height>16</height>
-            <control type="image">
-                <centerleft>550</centerleft>
-                <width>16</width>
-                <height>16</height>
-                <texture colordiffuse="Dark1" flipx="true">common/arrow-small-right.png</texture>
-            </control>
-            <control type="image">
-                <centerright>68</centerright>
-                <width>16</width>
-                <height>16</height>
-                <texture colordiffuse="Dark1" flipx="false">common/arrow-small-right.png</texture>
             </control>
         </control>
     </include>

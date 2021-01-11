@@ -251,6 +251,7 @@
     <include name="View_50_SidePoster_Square">
         <control type="group" description="Poster">
             <include>Animation.PosterSlideSquare</include>
+            <animation effect="rotatey" end="-180" start="0" center="400,0" time="350" condition="String.IsEqual(Window.Property(RotateCover),1)">Conditional</animation>
             <left>SidePad</left>
             <top>PosterPad</top>
             <visible>!String.IsEmpty(ListItem.Icon)</visible>
@@ -289,6 +290,21 @@
                 <aspectratio align="center" aligny="center" scalediffuse="false">keep</aspectratio>
                 <texture diffuse="diffuse/listposter.png" background="true">$VAR[PosterImage22]</texture>
             </control>
+            <control type="image">
+                <width>PosterH</width>
+                <height>PosterH</height>
+                <fadetime>PosterFanartFadetime</fadetime>
+                <aspectratio align="center" aligny="center" scalediffuse="false">keep</aspectratio>
+                <texture diffuse="diffuse/listposter.png" background="true">$INFO[ListItem.Art(back)]</texture>                
+                <animation effect="rotatey" end="-180" start="0" center="320,0" time="0" condition="true">Conditional</animation>
+                <animation type="Visible">
+                    <effect type="fade" end="100" start="0" time="0" delay="200" />
+                </animation>
+                <animation type="Hidden">
+                    <effect type="fade" end="0" start="100" time="50" delay="100" />
+                </animation>                
+                <visible>String.IsEqual(Window.Property(RotateCover),1) + !String.IsEmpty(ListItem.Art(back))</visible>
+            </control>            
             <control type="image">
                 <left>-1</left>
                 <top>-1</top>
