@@ -468,6 +468,19 @@
         <alttexturefocus colordiffuse="$VAR[ColorHighlightOtherBar]" border="5">common/gradient-box-wide-cut.png</alttexturefocus>
         <texturefocus colordiffuse="$VAR[ColorHighlightOtherBar]" border="5">common/gradient-box-wide-cut.png</texturefocus>
     </include>
+    
+    <include name="DefSettingsButtonGradientDisabled">
+        <align>left</align>
+        <font>Small</font>        
+        <height>70</height>        
+        <textureradioonfocus colordiffuse="PanelWhite70">buttons/radio-disabled.png</textureradioonfocus>
+        <textureradioonnofocus colordiffuse="PanelWhite12">buttons/radio-disabled.png</textureradioonnofocus>
+        <textureradioofffocus colordiffuse="PanelWhite70">buttons/radio-disabled.png</textureradioofffocus>
+        <textureradiooffnofocus colordiffuse="PanelWhite70">buttons/radio-disabled.png</textureradiooffnofocus>
+        <focusedcolor>Selected</focusedcolor>
+        <alttexturefocus colordiffuse="$VAR[ColorHighlightOtherBar]" border="5">common/gradient-box-wide-cut.png</alttexturefocus>
+        <texturefocus colordiffuse="$VAR[ColorHighlightOtherBar]" border="5">common/gradient-box-wide-cut.png</texturefocus>
+    </include>
 
     <include name="DefSettingsButtonNew">
         <align>left</align>
@@ -2096,15 +2109,37 @@
     </include>
 
     <include name="DefSkinAddons">
-        <control type="radiobutton" id="$PARAM[id]">
+        <control type="radiobutton" id="$PARAM[id]1">
             <width>1310</width>
             <visible>$PARAM[visible]</visible>
+            <visible>System.HasAddon($PARAM[addonname]) + System.AddonIsEnabled($PARAM[addonname])</visible>
             <include>DefSettingsButtonGradient</include>
             <label>$PARAM[addonname]</label>
             <label2>$INFO[System.AddonVersion($PARAM[addonname]),(,)]        </label2>
-            <selected>System.HasAddon($PARAM[addonname])</selected>
-            <onclick condition="!System.HasAddon($PARAM[addonname])">InstallAddon($PARAM[addonname])</onclick>
-            <onclick condition="System.HasAddon($PARAM[addonname])">Addon.OpenSettings($PARAM[addonname])</onclick>
+            <selected>true</selected>
+            <onclick>AlarmClock(Preload,SetFocus($PARAM[id]1),00:01,silent)</onclick>
+        </control>
+        <control type="radiobutton" id="$PARAM[id]2">
+            <width>1310</width>
+            <visible>$PARAM[visible]</visible>
+            <textcolor>Dark3</textcolor>
+            <visible>System.HasAddon($PARAM[addonname]) + !System.AddonIsEnabled($PARAM[addonname])</visible>
+            <include>DefSettingsButtonGradientDisabled</include>
+            <label>$PARAM[addonname]</label>
+            <label2>($LOCALIZE[37945])    $INFO[System.AddonVersion($PARAM[addonname]),(,)]        </label2>
+            <selected>true</selected>
+            <onclick>RunScript(script.embuary.helper,action=toggleaddons,addonid=$PARAM[addonname],enable=true)</onclick>
+            <onclick>SetFocus(9113)</onclick>
+        </control>        
+        <control type="radiobutton" id="$PARAM[id]3">
+            <width>1310</width>
+            <visible>$PARAM[visible]</visible>
+            <visible>!System.HasAddon($PARAM[addonname])</visible>
+            <include>DefSettingsButtonGradient</include>
+            <label>$PARAM[addonname]</label>
+            <label2>$INFO[System.AddonVersion($PARAM[addonname]),(,)]        </label2>
+            <selected>false</selected>
+            <onclick>InstallAddon($PARAM[addonname])</onclick>          
         </control>
     </include>
 
