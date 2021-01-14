@@ -102,7 +102,7 @@
         <font>Small</font>
         <textcolor>PanelWhite100</textcolor>
         <disabledcolor>PanelWhite12</disabledcolor>
-        <height>66</height>
+        <height>70</height>
         <width>450</width>
         <textureup flipy="true" colordiffuse="FF404040">buttons/spin-down.png</textureup>
         <texturedown colordiffuse="PanelWhite30">buttons/spin-down.png</texturedown>
@@ -3174,5 +3174,110 @@
             </control>
         </control>
         </definition>
+    </include>
+    
+    <include name="DialogInfoOverlay"> 
+        <param name="clearlogovisible" value="$PARAM[clearlogovisible]" default="false"/>
+        <definition>       
+        <control type="scrollbar" id="9601">
+            <width>1</width>
+            <height>1</height>
+            <visible allowhiddenfocus="true">false</visible>
+            <onback>9000</onback>
+            <onup>9000</onup>
+            <ondown>9000</ondown>
+            <onleft>9000</onleft>
+            <onright>9000</onright>
+        </control>
+        <control type="group">
+            <visible>Control.HasFocus(9601)</visible>
+            <include>Animation.FadeIn</include>
+            <include>Animation.FadeOut</include>
+            <control type="image" description="Background">
+                <include>Dimensions_Fullscreen</include>
+                <texture colordiffuse="Background">common/bg.jpg</texture>
+                <animation effect="fade" start="100" end="95" condition="true">Conditional</animation>
+            </control>
+            <control type="image" description="clearlogo">
+                <visible>$PARAM[clearlogovisible]</visible>
+                <centertop>120</centertop>
+                <centerleft>50%</centerleft>
+                <width>400</width>
+                <height>100</height>
+                <aspectratio align="center">keep</aspectratio>
+                <texture background="true">$VAR[ClearLogoTopVar]</texture>
+            </control>
+        </control>
+        <control type="group">
+            <left>SidePad</left>
+            <right>SidePad</right>
+            <top>PosterPad</top>
+            <height>630</height>
+            <visible>Control.HasFocus(9601)</visible>
+            <include>Animation.FadeIn.Slide</include>
+            <include>Animation.FadeOut</include>
+            <control type="label">
+                <description>header label</description>
+                <left>60</left>
+                <right>60</right>
+                <posy>60</posy>
+                <font>EpisodeNumberNew</font>
+                <textcolor>Dark1</textcolor>
+                <height>45</height>
+                <label>$PARAM[headerinfo]</label>
+            </control>
+            <control type="textbox"id="9600">
+                <description>textarea</description>
+                <left>60</left>
+                <right>60</right>
+                <top>150</top>
+                <bottom>0</bottom>
+                <align>justify</align>
+                <font>Medium</font>
+                <textcolor>Dark1</textcolor>
+                <pagecontrol>9601</pagecontrol>
+                <autoscroll>false</autoscroll>
+                <label>$PARAM[plotinfo]</label>
+            </control>
+        </control>
+        <control type="group">
+            <visible>Control.HasFocus(9601) + Container(9600).HasNext</visible>
+            <include>Animation.FadeIn</include>
+            <include>Animation.FadeOut</include>
+            <left>952</left>
+            <top>970</top>
+            <control type="image">
+                <top>0</top>
+                <width>16</width>
+                <height>16</height>
+                <texture colordiffuse="Dark2" flipy="false">common/arrow-small.png</texture>
+            </control>
+            <control type="image">
+                <top>16</top>
+                <width>16</width>
+                <height>16</height>
+                <texture colordiffuse="Dark2" flipy="false">common/arrow-small.png</texture>
+            </control>
+        </control>        
+        <control type="group">
+            <visible>Control.HasFocus(9601) + Container(9600).HasPrevious</visible>
+            <include>Animation.FadeIn</include>
+            <include>Animation.FadeOut</include>
+            <left>952</left>
+            <top>80</top>
+            <control type="image">
+                <top>0</top>
+                <width>16</width>
+                <height>16</height>
+                <texture colordiffuse="Dark2" flipy="true">common/arrow-small.png</texture>
+            </control>
+            <control type="image">
+                <top>16</top>
+                <width>16</width>
+                <height>16</height>
+                <texture colordiffuse="Dark2" flipy="true">common/arrow-small.png</texture>
+            </control>
+        </control> 
+        </definition>   
     </include>
 </includes>
