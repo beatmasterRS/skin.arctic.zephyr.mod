@@ -2991,7 +2991,7 @@
             <preloaditems>2</preloaditems>
             <orientation>horizontal</orientation>
             <autoscroll time="10000">!Control.HasFocus(301)</autoscroll>
-            <scrolltime tween="quadratic">400</scrolltime>
+            <include>ScrolltimeWidgetsList</include>
             <itemlayout width="178" height="257" condition="!String.IsEqual(Container(300).ListItem.Property(widgetaspect),Square) + ![String.IsEqual(Container(300).ListItem.Property(widgetaspect),Fanart) | String.IsEqual(Container(300).ListItem.Property(widgetaspect),Thumbnail)]">
                 <control type="image">
                     <left>9</left>
@@ -3849,7 +3849,7 @@
                 <textcolor>$VAR[ColorHighlight]</textcolor>
                 <font>Home</font>
                 <label>$INFO[ListItem.Label]</label>
-                <animation effect="fade" start="100" end="60" delay="0" time="150" condition="!Control.HasFocus(300) + !Control.HasFocus(302) + $EXP[HomeIsModernMultiWidgets]">Conditional</animation>
+                <animation effect="fade" start="100" end="50" delay="0" time="150" condition="!Control.HasFocus(300) + !Control.HasFocus(302) + !Skin.HasSetting(home.vertical)">Conditional</animation>
             </control>
             <control type="image">
                 <top>50</top>
@@ -3934,74 +3934,77 @@
             </control>
         </itemlayout>
         <focusedlayout width="220" height="220">
-            <control type="image">
-                <include content="def_width" condition="Skin.HasSetting(homemenu.only.icons)">
-                    <param name="width" value="130"/>
-                </include>
-                <include content="def_width" condition="!Skin.HasSetting(homemenu.only.icons)">
-                    <param name="width" value="100"/>
-                </include>
-                <include content="def_height" condition="Skin.HasSetting(homemenu.only.icons)">
-                    <param name="height" value="130"/>
-                </include>
-                <include content="def_height" condition="!Skin.HasSetting(homemenu.only.icons)">
-                    <param name="height" value="100"/>
-                </include>
-                <centerleft>50%</centerleft>
-                <centertop>45%</centertop>
-                <texture colordiffuse="$VAR[ColorHighlight]">$INFO[ListItem.Icon]</texture>
-                <visible>String.Contains(ListItem.Icon,special://skin/extras/icons)</visible>
-                <animation effect="slide" start="0,0" end="0,20" time="0" condition="Skin.HasSetting(homemenu.only.icons)">Conditional</animation>
-            </control>
-            <control type="image">
-                <include content="def_width" condition="Skin.HasSetting(homemenu.only.icons)">
-                    <param name="width" value="130"/>
-                </include>
-                <include content="def_width" condition="!Skin.HasSetting(homemenu.only.icons)">
-                    <param name="width" value="100"/>
-                </include>
-                <include content="def_height" condition="Skin.HasSetting(homemenu.only.icons)">
-                    <param name="height" value="130"/>
-                </include>
-                <include content="def_height" condition="!Skin.HasSetting(homemenu.only.icons)">
-                    <param name="height" value="100"/>
-                </include>
-                <centerleft>50%</centerleft>
-                <centertop>45%</centertop>
-                <aspectratio>keep</aspectratio>
-                <texture colordiffuse="$VAR[ColorHighlight]">$INFO[ListItem.Icon]</texture>
-                <visible>!String.Contains(ListItem.Icon,special://skin/extras/icons)</visible>
-                <animation effect="slide" start="0,0" end="0,20" time="0" condition="Skin.HasSetting(homemenu.only.icons)">Conditional</animation>
-            </control>
-            <control type="label">
-                <align>center</align>
-                <aligny>top</aligny>
-                <width>180</width>
-                <bottom>20</bottom>
-                <centerleft>50%</centerleft>
-                <textcolor>$VAR[ColorHighlight]</textcolor>
-                <font>HomeIcon</font>
-                <label>$INFO[ListItem.Label]</label>
-                <visible>!Skin.HasSetting(homemenu.only.icons)</visible>
-            </control>
-            <control type="image" description="BottomBG">
-                <width>1</width>
-                <height>50</height>
-                <bottom>75</bottom>
-                <left>220</left>
-                <animation effect="fade" start="100" end="30" time="0" condition="true">Conditional</animation>
-                <texture colordiffuse="Dark1">common/white.png</texture>
-                <visible>Skin.HasSetting(homemenu.only.icons)</visible>
-            </control>
-            <control type="image">
-                <bottom>30</bottom>
-                <centerleft>50%</centerleft>
-                <width>16</width>
-                <height>16</height>
-                <texture colordiffuse="$VAR[ColorHighlight]">common/arrow-small.png</texture>
-                <visible>Control.HasFocus(300)</visible>
-                <visible>Integer.IsGreater(Container(302).NumItems,0)</visible>
-                <animation effect="fade" end="100" start="0" delay="300" time="400" reversible="false">Focus</animation>
+            <control type="group">
+                <animation effect="fade" start="100" end="50" delay="0" time="150" condition="!Control.HasFocus(300) + !Control.HasFocus(302) + !Skin.HasSetting(home.vertical)">Conditional</animation>
+                <control type="image">
+                    <include content="def_width" condition="Skin.HasSetting(homemenu.only.icons)">
+                        <param name="width" value="130"/>
+                    </include>
+                    <include content="def_width" condition="!Skin.HasSetting(homemenu.only.icons)">
+                        <param name="width" value="100"/>
+                    </include>
+                    <include content="def_height" condition="Skin.HasSetting(homemenu.only.icons)">
+                        <param name="height" value="130"/>
+                    </include>
+                    <include content="def_height" condition="!Skin.HasSetting(homemenu.only.icons)">
+                        <param name="height" value="100"/>
+                    </include>
+                    <centerleft>50%</centerleft>
+                    <centertop>45%</centertop>
+                    <texture colordiffuse="$VAR[ColorHighlight]">$INFO[ListItem.Icon]</texture>
+                    <visible>String.Contains(ListItem.Icon,special://skin/extras/icons)</visible>
+                    <animation effect="slide" start="0,0" end="0,20" time="0" condition="Skin.HasSetting(homemenu.only.icons)">Conditional</animation>
+                </control>
+                <control type="image">
+                    <include content="def_width" condition="Skin.HasSetting(homemenu.only.icons)">
+                        <param name="width" value="130"/>
+                    </include>
+                    <include content="def_width" condition="!Skin.HasSetting(homemenu.only.icons)">
+                        <param name="width" value="100"/>
+                    </include>
+                    <include content="def_height" condition="Skin.HasSetting(homemenu.only.icons)">
+                        <param name="height" value="130"/>
+                    </include>
+                    <include content="def_height" condition="!Skin.HasSetting(homemenu.only.icons)">
+                        <param name="height" value="100"/>
+                    </include>
+                    <centerleft>50%</centerleft>
+                    <centertop>45%</centertop>
+                    <aspectratio>keep</aspectratio>
+                    <texture colordiffuse="$VAR[ColorHighlight]">$INFO[ListItem.Icon]</texture>
+                    <visible>!String.Contains(ListItem.Icon,special://skin/extras/icons)</visible>
+                    <animation effect="slide" start="0,0" end="0,20" time="0" condition="Skin.HasSetting(homemenu.only.icons)">Conditional</animation>
+                </control>
+                <control type="label">
+                    <align>center</align>
+                    <aligny>top</aligny>
+                    <width>180</width>
+                    <bottom>20</bottom>
+                    <centerleft>50%</centerleft>
+                    <textcolor>$VAR[ColorHighlight]</textcolor>
+                    <font>HomeIcon</font>
+                    <label>$INFO[ListItem.Label]</label>
+                    <visible>!Skin.HasSetting(homemenu.only.icons)</visible>
+                </control>
+                <control type="image" description="BottomBG">
+                    <width>1</width>
+                    <height>50</height>
+                    <bottom>75</bottom>
+                    <left>220</left>
+                    <animation effect="fade" start="100" end="30" time="0" condition="true">Conditional</animation>
+                    <texture colordiffuse="Dark1">common/white.png</texture>
+                    <visible>Skin.HasSetting(homemenu.only.icons)</visible>
+                </control>
+                <control type="image">
+                    <bottom>30</bottom>
+                    <centerleft>50%</centerleft>
+                    <width>16</width>
+                    <height>16</height>
+                    <texture colordiffuse="$VAR[ColorHighlight]">common/arrow-small.png</texture>
+                    <visible>Control.HasFocus(300)</visible>
+                    <visible>Integer.IsGreater(Container(302).NumItems,0)</visible>
+                    <animation effect="fade" end="100" start="0" delay="300" time="400" reversible="false">Focus</animation>
+                </control>
             </control>
             
             <!-- Set TMDbHelper WidgetContainer -->
@@ -5215,7 +5218,7 @@
                         <width>2500</width>
                         <onup>300</onup>
                         <ondown>300</ondown>
-                        <scrolltime tween="quadratic">400</scrolltime>
+                        <include>ScrolltimeWidgetsList</include>
                         <usecontrolcoords>true</usecontrolcoords>
                         <itemgap>0</itemgap>
         
@@ -5267,7 +5270,7 @@
             <orientation>horizontal</orientation>
             <pagecontrol>60</pagecontrol>
             <viewtype label="536">list</viewtype>
-            <scrolltime tween="quadratic">400</scrolltime>
+            <include>ScrolltimeWidgetsList</include>
             <itemlayout height="325" width="222" condition="!String.IsEqual(Container(300).ListItem.Property(widgetaspect),Square) + ![String.IsEqual(Container(300).ListItem.Property(widgetaspect),Fanart) | String.IsEqual(Container(300).ListItem.Property(widgetaspect),Thumbnail)]">
                 <control type="image">
                     <left>0</left>
@@ -6249,7 +6252,7 @@
                 <onup condition="Skin.HasSetting(disable.widgets.onup.go.back.to.last.item)">300</onup>
                 <ondown condition="Skin.HasSetting(disable.widgets.ondown.go.back.to.position.0)">300</ondown>
                 <ondown condition="!Skin.HasSetting(disable.widgets.ondown.go.back.to.position.0)">4567</ondown>
-                <scrolltime tween="quadratic">400</scrolltime>
+                <include>ScrolltimeWidgetsContainer</include>
                 <usecontrolcoords>true</usecontrolcoords>
                 <itemgap>0</itemgap>
                 <animation effect="slide" start="0" end="0,30" time="0" condition="Skin.HasSetting(home.showheader) + [Skin.HasSetting(home.vertical) + Skin.HasSetting(home.vertical.widgets)]">Conditional</animation>
