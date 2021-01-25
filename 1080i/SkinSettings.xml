@@ -208,8 +208,6 @@
                             <include>DefSettingsButtonGradient</include>
                             <label>$LOCALIZE[31109]</label>
                             <onclick>RunScript(script.skinshortcuts,type=manage&amp;group=mainmenu)</onclick>
-                            
-                            
                             <onfocus>ClearProperty(Symbols,Home)</onfocus>
                             <onfocus>ClearProperty(Backg,Home)</onfocus>
                             <onfocus>ClearProperty(custommenu,Home)</onfocus>
@@ -221,19 +219,54 @@
                             <include>DefSettingsButtonGradient</include>
                             <label>31247</label>
                             <label2>$VAR[LabelHomeWidgetStyle]</label2>
+
+                            <!-- classic -> vertical multi -->
                             <onclick condition="Skin.HasSetting(home.classicwidgets)">Skin.SetBool(home.vertical)</onclick>
                             <onclick condition="Skin.HasSetting(home.classicwidgets)">Skin.SetBool(home.vertical.widgets)</onclick>
                             <onclick condition="Skin.HasSetting(home.classicwidgets)">Skin.Reset(home.classicwidgets)</onclick>
-                            <onclick condition="Skin.HasSetting(home.vertical) + Skin.HasSetting(home.vertical.widgets)">Skin.Reset(home.vertical.widgets)</onclick>
+
+                            <!-- vertical multi -> vertical -->
+                            <onclick condition="Skin.HasSetting(home.vertical) + Skin.HasSetting(home.vertical.widgets) + !Skin.HasSetting(homemenu.netflix)">Skin.SetBool(homemenu.netflix)</onclick>
+                            <onclick condition="Skin.HasSetting(home.vertical) + Skin.HasSetting(home.vertical.widgets) + Skin.HasSetting(homemenu.netflix)">Skin.Reset(home.vertical.widgets)</onclick>
+                            <onclick condition="Skin.HasSetting(home.vertical) + Skin.HasSetting(home.vertical.widgets) + Skin.HasSetting(homemenu.netflix)">Skin.Reset(homemenu.netflix)</onclick>
+
+                            <!-- vertical -> modern multi -->
                             <onclick condition="Skin.HasSetting(home.vertical) + !Skin.HasSetting(home.vertical.widgets)">Skin.SetBool(home.modernwidgets)</onclick>
                             <onclick condition="Skin.HasSetting(home.vertical) + !Skin.HasSetting(home.vertical.widgets)">Skin.SetBool(home.vertical.widgets)</onclick>
                             <onclick condition="Skin.HasSetting(home.vertical) + !Skin.HasSetting(home.vertical.widgets)">Skin.Reset(home.vertical)</onclick>
-                            <onclick condition="Skin.HasSetting(home.modernwidgets) + Skin.HasSetting(home.vertical.widgets)">Skin.Reset(home.vertical.widgets)</onclick>
+                            <onclick condition="Skin.HasSetting(home.modernwidgets) + Skin.HasSetting(home.vertical.widgets) + !Skin.HasSetting(homemenu.netflix)">Skin.SetBool(homemenu.netflix)</onclick>
+                            
+                            <!-- modern multi -> modern -->
+                            <onclick condition="Skin.HasSetting(home.modernwidgets) + Skin.HasSetting(home.vertical.widgets) + Skin.HasSetting(homemenu.netflix)">Skin.Reset(home.vertical.widgets)</onclick>
+                            <onclick condition="Skin.HasSetting(home.modernwidgets) + Skin.HasSetting(home.vertical.widgets) + Skin.HasSetting(homemenu.netflix)">Skin.Reset(homemenu.netflix)</onclick>
+                            
+                            <!-- modern -> featured -->
                             <onclick condition="Skin.HasSetting(home.modernwidgets) + !Skin.HasSetting(home.vertical.widgets)">Skin.Reset(home.classicwidgets)</onclick>
                             <onclick condition="Skin.HasSetting(home.modernwidgets) + !Skin.HasSetting(home.vertical.widgets)">Skin.Reset(home.vertical)</onclick>
                             <onclick condition="Skin.HasSetting(home.modernwidgets) + !Skin.HasSetting(home.vertical.widgets)">Skin.Reset(home.modernwidgets)</onclick>
+                            
+                            <!-- featured -> classic -->                            
                             <onclick condition="!Skin.HasSetting(home.vertical) + !Skin.HasSetting(home.classicwidgets) + !Skin.HasSetting(home.modernwidgets) + !Skin.HasSetting(home.vertical.widgets)">Skin.Reset(home.vertical)</onclick>
                             <onclick condition="!Skin.HasSetting(home.vertical) + !Skin.HasSetting(home.classicwidgets) + !Skin.HasSetting(home.modernwidgets) + !Skin.HasSetting(home.vertical.widgets)">Skin.SetBool(home.classicwidgets)</onclick>
+                        </control>
+                        <control type="radiobutton" id="9873" description="Netflix preview window">
+                            <width>1310</width>
+                            <visible>ControlGroup(9100).HasFocus(9101)</visible>
+                            <include>DefSettingsButtonGradient</include>
+                            <label>$LOCALIZE[37742]$LOCALIZE[37953]</label>
+                            <selected>Skin.HasSetting(homemenu.netflix.preview)</selected>
+                            <onclick>Skin.ToggleSetting(homemenu.netflix.preview)</onclick>
+                            <visible>[ $EXP[HomeIsModernMultiWidgets] | $EXP[HomeIsVerticalMultiWidgets] ] + Skin.HasSetting(homemenu.netflix)</visible>
+                        </control>
+                        <control type="radiobutton" id="9876" description="Netflix preview window">
+                            <width>1310</width>
+                            <visible>ControlGroup(9100).HasFocus(9101)</visible>
+                            <include>DefSettingsButtonGradient</include>
+                            <label>$LOCALIZE[37742]$LOCALIZE[37605]</label>
+                            <selected>Skin.HasSetting(homemenu.netflix.preview.fullscreen)</selected>
+                            <onclick>Skin.ToggleSetting(homemenu.netflix.preview.fullscreen)</onclick>
+                            <visible>[ $EXP[HomeIsModernMultiWidgets] | $EXP[HomeIsVerticalMultiWidgets] ] + Skin.HasSetting(homemenu.netflix) + Skin.HasSetting(homemenu.netflix.preview)</visible>
+                            <enable>Skin.HasSetting(BlurEnabled) + Skin.HasSetting(BlurOnHome)</enable>
                         </control>
                         <control type="radiobutton" id="9806" description="Flags">
                             <width>1310</width>

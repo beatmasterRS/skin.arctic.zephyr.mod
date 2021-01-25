@@ -572,6 +572,7 @@
             <animation effect="zoom" start="110" end="120" center="auto" time="10000" tween="sine" easing="inout" pulse="true" condition="Skin.HasSetting(Fanart.Animate)">Conditional</animation>
             <animation effect="slide" start="-20,-20" end="20,20" time="6000" tween="sine" easing="inout" pulse="true" condition="Skin.HasSetting(Fanart.Animate)">Conditional</animation>
         </control>
+        
         <control type="multiimage" description="Fanart">
             <visible>Skin.HasSetting(BlurEnabled) + !Skin.HasSetting(BlurOnHome) + Window.IsVisible(Home.xml)</visible>
             <visible>[!Control.IsVisible(510) + !Control.IsVisible(520)] | Window.IsVisible(DialogVideoInfo.xml) | Window.IsVisible(Custom_MovieSets.xml)</visible>
@@ -589,6 +590,26 @@
             <randomize>true</randomize>
             <aspectratio>scale</aspectratio>
             <imagepath background="true">$VAR[GlobalFanart]</imagepath>
+            <animation effect="zoom" start="110" end="120" center="auto" time="10000" tween="sine" easing="inout" pulse="true" condition="Skin.HasSetting(Fanart.Animate)">Conditional</animation>
+            <animation effect="slide" start="-20,-20" end="20,20" time="6000" tween="sine" easing="inout" pulse="true" condition="Skin.HasSetting(Fanart.Animate)">Conditional</animation>
+        </control>
+        
+        <!-- Netflix preview window -->        
+        <control type="multiimage" description="Fanart">
+            <visible>Window.IsVisible(Home.xml) + !Window.IsVisible(DialogVideoInfo.xml) + Skin.HasSetting(homemenu.netflix) + Skin.HasSetting(homemenu.netflix.preview) + [ $EXP[HomeIsModernMultiWidgets] | $EXP[HomeIsVerticalMultiWidgets] ]</visible>
+            <include condition="Skin.HasSetting(BlurEnabled)">GlobalBackgroundFadeBlur</include>
+            <include condition="!Skin.HasSetting(BlurEnabled)">GlobalBackgroundFade</include>            
+            <visible>!Skin.HasSetting(global.hidefanart) + [!Player.HasMedia | [!Skin.HasSetting(global.showvideo) + Player.HasVideo] | [!Skin.HasSetting(global.showvisualisation) + Player.HasAudio]]</visible>
+            <include>Animation.FadeFromHome</include>            
+            <include>Animation.FadeIn</include>
+            <include>Animation.FadeOut</include>            
+            <animation effect="fade" end="0" start="100" time="350" tween="cubic" easing="inout" condition="Window.IsVisible(home)">WindowClose</animation>
+            <fadetime>600</fadetime>
+            <timeperimage>HomeTimePerImage</timeperimage>
+            <randomize>true</randomize>
+            <aspectratio>scale</aspectratio>
+            <include condition="Skin.HasSetting(homemenu.netflix.preview.fullscreen) + Skin.HasSetting(homemenu.netflix.preview) + Skin.HasSetting(BlurEnabled) + Skin.HasSetting(BlurOnHome)">NetflixPreviewWindowFullscreen</include>
+            <include condition="!Skin.HasSetting(homemenu.netflix.preview.fullscreen) | !Skin.HasSetting(BlurEnabled)">NetflixPreviewWindow</include>
             <animation effect="zoom" start="110" end="120" center="auto" time="10000" tween="sine" easing="inout" pulse="true" condition="Skin.HasSetting(Fanart.Animate)">Conditional</animation>
             <animation effect="slide" start="-20,-20" end="20,20" time="6000" tween="sine" easing="inout" pulse="true" condition="Skin.HasSetting(Fanart.Animate)">Conditional</animation>
         </control>
@@ -2940,5 +2961,27 @@
 
     <include name="OnClickInclude2">
         <onclick condition="!Window.IsVisible(Custom_MovieSets.xml)">RunScript(script.embuary.helper,action=goto,path='"musicdb://albums/$INFO[ListItem.DBID]/"',target=music)</onclick>
+    </include>
+    
+    <include name="IntentButton">
+        <control type="button">
+            <width>1</width>
+            <height>1</height>
+            <label />
+            <enable>false</enable>
+        </control>
+    </include>
+    
+    <include name="NetflixPreviewWindowFullscreen">
+        <width>1350</width>
+        <height>705</height>
+        <right>0</right>
+        <top>0</top>
+        <imagepath background="true" diffuse="common/diffuse510fs.png">$VAR[GlobalFanart]</imagepath>
+    </include>
+    
+    <include name="NetflixPreviewWindow">
+        <include>Dimensions_Fullscreen</include>
+        <imagepath background="true" diffuse="common/diffuse510.png">$VAR[GlobalFanart]</imagepath>
     </include>
 </includes>

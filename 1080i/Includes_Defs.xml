@@ -2072,9 +2072,20 @@
     <include name="DefMultiWidgetContainer">
         <param name="height" value="$PARAM[height]" default="325"/>
         <definition>
-            <top>60</top>
+            <include content="def_top" condition="Skin.HasSetting(homemenu.netflix)">
+                <param name="top" value="440" />
+            </include>
+            <include content="def_top" condition="!Skin.HasSetting(homemenu.netflix)">
+                <param name="top" value="60" />
+            </include>            
             <left>517</left>
             <width>1900</width>
+            <include content="def_height" condition="Skin.HasSetting(homemenu.netflix)">
+                <param name="height" value="325" />
+            </include>
+            <include content="def_height" condition="!Skin.HasSetting(homemenu.netflix)">
+                <param name="height" value="$PARAM[height]" />
+            </include>
             <height>$PARAM[height]</height>
             <include>Animation.Vertical.Widgets.Container</include>
             <autoscroll time="$PARAM[AutoTime]" delay="1000">$PARAM[AutoScrollCondition]</autoscroll>
@@ -2103,6 +2114,16 @@
         <font>Tiny</font>
         <width>100%</width>
         <height min="36" max="212">auto</height>
+        <align>left</align>
+        <textcolor>Dark2</textcolor>
+        <include condition="Skin.HasSetting(widgets.autoscrollingplot)">ScrollTextWidget</include>
+        <include condition="!Skin.HasSetting(widgets.autoscrollingplot)">NoScrollTextWidget</include>
+    </include>
+    
+    <include name="MultiWidgetsPlotLabelDefinitionNetflix">
+        <font>Tiny</font>
+        <width>100%</width>
+        <height min="36" max="176">auto</height>
         <align>left</align>
         <textcolor>Dark2</textcolor>
         <include condition="Skin.HasSetting(widgets.autoscrollingplot)">ScrollTextWidget</include>
@@ -2200,6 +2221,10 @@
     <include name="def_height">
         <height>$PARAM[height]</height>
     </include>
+    
+    <include name="def_top">
+        <top>$PARAM[top]</top>
+    </include>
 
     <include name="def_width">
         <width>$PARAM[width]</width>
@@ -2211,6 +2236,10 @@
     
     <include name="def_left">
         <left>$PARAM[left]</left>
+    </include>
+    
+    <include name="def_font">
+        <font>$PARAM[font]</font>
     </include>
 
     <include name="Def_Label_Headers">
