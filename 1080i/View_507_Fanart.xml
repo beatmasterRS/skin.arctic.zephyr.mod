@@ -40,15 +40,16 @@
                     <height>159</height>
                     <texture diffuse="diffuse/diffuse_progress_big.png" colordiffuse="$VAR[ColorHighlight]">progress/tvshows/p$INFO[Window(home).Property(MyResult)].png</texture>
                     <visible>String.IsEqual(ListItem.DBType,tvshow) | String.IsEqual(ListItem.DBType,season)</visible>
-                    <include>Animation.SwitchText</include>
+                    <include>Animation.SwitchCalculation</include>
+                    <visible>!String.IsEmpty(Window(home).Property(MyResult))</visible>
                 </control>
                 <control type="label">
                     <include>Animation.SwitchText</include>
                     <width>159</width>
                     <centertop>49%</centertop>
                     <align>center</align>
-                    <label>$VAR[ProgressCircleLabel]</label>
-                    <font>Small24</font>
+                    <label>2$VAR[ProgressCircleLabel]2</label>
+                    <font>WatchedLabel</font>
                     <textcolor>Dark2</textcolor>
                     <selectedcolor>Dark2</selectedcolor>
                 </control>
@@ -371,7 +372,9 @@
                                 </control>
                                 <control type="button">
                                     <visible>false</visible>
-                                    <onfocus condition="[String.IsEqual(ListItem.DBType,tvshow) | String.IsEqual(ListItem.DBType,season)] + Skin.HasSetting(furniture.overlayinfobalken)">RunScript(script.embuary.helper,action=calc,do='"round($INFO[ListItem.Property(WatchedEpisodes)] * 100 / $INFO[ListItem.Property(TotalEpisodes)])"',prop=MyResult)</onfocus>
+                                    <onfocus>ClearProperty(MyResult,home)</onfocus>
+                                    <onfocus condition="[String.IsEqual(ListItem.DBType,tvshow) | String.IsEqual(ListItem.DBType,season)] + Skin.HasSetting(furniture.overlayinfobalken)">AlarmClock(Calculation,RunScript(script.embuary.helper,action=calc,do='"round($INFO[ListItem.Property(WatchedEpisodes)] * 100 / $INFO[ListItem.Property(TotalEpisodes)])"',prop=MyResult),00:01,silent)</onfocus>
+                                    <onunfocus condition="System.HasAlarm(Calculation)">CancelAlarm(Calculation,true)</onunfocus>
                                 </control>
                             </focusedlayout>
                         </control>

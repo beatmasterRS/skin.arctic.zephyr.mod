@@ -44,7 +44,9 @@
                         </control>
                         <control type="button">
                             <visible>false</visible>
-                            <onfocus condition="[String.IsEqual(ListItem.DBType,tvshow) | String.IsEqual(ListItem.DBType,season)] + Skin.HasSetting(furniture.overlayinfobalken)">RunScript(script.embuary.helper,action=calc,do='"round($INFO[ListItem.Property(WatchedEpisodes)] * 100 / $INFO[ListItem.Property(TotalEpisodes)])"',prop=MyResult)</onfocus>
+                            <onfocus>ClearProperty(MyResult,home)</onfocus>
+                            <onfocus condition="[String.IsEqual(ListItem.DBType,tvshow) | String.IsEqual(ListItem.DBType,season)] + Skin.HasSetting(furniture.overlayinfobalken)">AlarmClock(Calculation,RunScript(script.embuary.helper,action=calc,do='"round($INFO[ListItem.Property(WatchedEpisodes)] * 100 / $INFO[ListItem.Property(TotalEpisodes)])"',prop=MyResult),00:01,silent)</onfocus>
+                            <onunfocus condition="System.HasAlarm(Calculation)">CancelAlarm(Calculation,true)</onunfocus>
                         </control>
                     </focusedlayout>
                     <itemlayout condition="Skin.HasSetting(511ListInfo)" width="1100" height="90">
@@ -61,7 +63,9 @@
                         </control>
                         <control type="button">
                             <visible>false</visible>
-                            <onfocus condition="[String.IsEqual(ListItem.DBType,tvshow) | String.IsEqual(ListItem.DBType,season)] + Skin.HasSetting(furniture.overlayinfobalken)">RunScript(script.embuary.helper,action=calc,do='"round($INFO[ListItem.Property(WatchedEpisodes)] * 100 / $INFO[ListItem.Property(TotalEpisodes)])"',prop=MyResult)</onfocus>
+                            <onfocus>ClearProperty(MyResult,home)</onfocus>
+                            <onfocus condition="[String.IsEqual(ListItem.DBType,tvshow) | String.IsEqual(ListItem.DBType,season)] + Skin.HasSetting(furniture.overlayinfobalken)">AlarmClock(Calculation,RunScript(script.embuary.helper,action=calc,do='"round($INFO[ListItem.Property(WatchedEpisodes)] * 100 / $INFO[ListItem.Property(TotalEpisodes)])"',prop=MyResult),00:01,silent)</onfocus>
+                            <onunfocus condition="System.HasAlarm(Calculation)">CancelAlarm(Calculation,true)</onunfocus>
                         </control>
                     </focusedlayout>
                 </control>
@@ -120,7 +124,9 @@
                         </control>
                         <control type="button">
                             <visible>false</visible>
-                            <onfocus condition="[String.IsEqual(ListItem.DBType,tvshow) | String.IsEqual(ListItem.DBType,season)] + Skin.HasSetting(furniture.overlayinfobalken)">RunScript(script.embuary.helper,action=calc,do='"round($INFO[ListItem.Property(WatchedEpisodes)] * 100 / $INFO[ListItem.Property(TotalEpisodes)])"',prop=MyResult)</onfocus>
+                            <onfocus>ClearProperty(MyResult,home)</onfocus>
+                            <onfocus condition="[String.IsEqual(ListItem.DBType,tvshow) | String.IsEqual(ListItem.DBType,season)] + Skin.HasSetting(furniture.overlayinfobalken)">AlarmClock(Calculation,RunScript(script.embuary.helper,action=calc,do='"round($INFO[ListItem.Property(WatchedEpisodes)] * 100 / $INFO[ListItem.Property(TotalEpisodes)])"',prop=MyResult),00:01,silent)</onfocus>
+                            <onunfocus condition="System.HasAlarm(Calculation)">CancelAlarm(Calculation,true)</onunfocus>
                         </control>
                     </focusedlayout>
                     <itemlayout condition="Skin.HasSetting(511ListInfo)" width="1100" height="90">
@@ -137,7 +143,9 @@
                         </control>
                         <control type="button">
                             <visible>false</visible>
-                            <onfocus condition="[String.IsEqual(ListItem.DBType,tvshow) | String.IsEqual(ListItem.DBType,season)] + Skin.HasSetting(furniture.overlayinfobalken)">RunScript(script.embuary.helper,action=calc,do='"round($INFO[ListItem.Property(WatchedEpisodes)] * 100 / $INFO[ListItem.Property(TotalEpisodes)])"',prop=MyResult)</onfocus>
+                            <onfocus>ClearProperty(MyResult,home)</onfocus>
+                            <onfocus condition="[String.IsEqual(ListItem.DBType,tvshow) | String.IsEqual(ListItem.DBType,season)] + Skin.HasSetting(furniture.overlayinfobalken)">AlarmClock(Calculation,RunScript(script.embuary.helper,action=calc,do='"round($INFO[ListItem.Property(WatchedEpisodes)] * 100 / $INFO[ListItem.Property(TotalEpisodes)])"',prop=MyResult),00:01,silent)</onfocus>
+                            <onunfocus condition="System.HasAlarm(Calculation)">CancelAlarm(Calculation,true)</onunfocus>
                         </control>
                     </focusedlayout>
                 </control>
@@ -309,7 +317,7 @@
                     </control>
                     <control type="group">
                         <visible>!String.IsEqual(ListItem.Label,..) + [Container.Content(movies) | Container.Content(episodes)]</visible>
-                        <include>Animation.SwitchText</include>
+                        <include>Animation.SwitchCalculation</include>
                         <control type="image">
                             <visible>ListItem.IsResumable</visible>
                             <centertop>44%</centertop>
@@ -333,7 +341,8 @@
                     <centertop>44%</centertop>
                     <texture diffuse="diffuse/diffuse_progress.png" colordiffuse="$VAR[ColorHighlight]">progress/tvshows/p$INFO[Window(home).Property(MyResult)].png</texture>
                     <visible>String.IsEqual(ListItem.DBType,tvshow) | String.IsEqual(ListItem.DBType,season)</visible>
-                    <include>Animation.SwitchText</include>
+                    <include>Animation.SwitchCalculation</include>
+                    <visible>!String.IsEmpty(Window(home).Property(MyResult))</visible>
                 </control>
                 <control type="label">
                     <include>Animation.SwitchText</include>
@@ -341,7 +350,7 @@
                     <centertop>43%</centertop>
                     <align>center</align>
                     <label>$VAR[ProgressCircleLabel]</label>
-                    <font>Small24</font>
+                    <font>WatchedLabel</font>
                     <textcolor>Dark2</textcolor>
                 </control>
             </control>
