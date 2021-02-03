@@ -1,0 +1,552 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Foundation -->
+<includes>
+    <include name="ExtendedNowPlaying">
+        <control type="group">
+            <visible>Skin.HasSetting(extended.nowplaying) + Player.HasMedia + !ControlGroup(301).HasFocus()</visible>
+            <animation effect="fade" start="100" end="0" time="300">Hidden</animation>
+            <animation effect="fade" start="0" delay="350" end="100" time="350">Visible</animation>
+            <height>770</height>                
+            <bottom>188</bottom>
+            <width>1320</width> 
+            <left>526</left>            
+            
+            <!-- Basics -->
+            <include>NowPlaying_TopBottomInfo</include>            
+            <include>NowPlaying_AudioDiscArt</include>
+            <include condition="Skin.HasSetting(extended.nowplaying.videowindow)">NowPlaying_VideoWindow</include>
+            <include condition="Skin.HasSetting(extended.nowplaying.clearart) + [ $EXP[HomeIsModernMultiWidgets] | [ $EXP[HomeIsVerticalMultiWidgets] + Skin.HasSetting(homemenu.only.icons) + Skin.HasSetting(home.showicons)]]">NowPlaying_ClearArt</include>
+            
+            <!-- DiscArt -->
+            <include content="NowPlaying_VideoDiscArt">
+                <param name="visible" value="!Skin.HasSetting(extended.nowplaying.videowindow)" />
+            </include>            
+            <include content="NowPlaying_VideoDiscArt">
+                <param name="left" value="520" />
+                <param name="visible" value="Skin.HasSetting(extended.nowplaying.videowindow)" />
+            </include>
+            
+            <!-- Poster -->
+            <include content="NowPlaying_Poster">
+                <param name="visible" value="!Skin.HasSetting(extended.nowplaying.videowindow)" />
+            </include>
+            <include content="NowPlaying_Poster">
+                <param name="left" value="510" />
+                <param name="visible" value="Skin.HasSetting(extended.nowplaying.videowindow)" />
+            </include>            
+            <include content="NowPlaying_Square">
+                <param name="visible" value="![VideoPlayer.Content(livetv) + Skin.HasSetting(extended.nowplaying.videowindow) + VideoPlayer.Content(livetv)]" />
+            </include>            
+            <include content="NowPlaying_Square">
+                <param name="left" value="510" />
+                <param name="visible" value="VideoPlayer.Content(livetv) + Skin.HasSetting(extended.nowplaying.videowindow) + VideoPlayer.Content(livetv)" />
+            </include>
+
+            <!-- Info Right -->
+            <include content="NowPlaying_InfoRight">
+                <param name="left" value="520" />
+                <param name="visible" value="Skin.HasSetting(extended.nowplaying.videowindow) + Player.HasVideo + !VideoPlayer.Content(livetv)" />
+            </include>
+            <include content="NowPlaying_InfoRight">
+                <param name="left" value="0" />
+                <param name="visible" value="!Skin.HasSetting(extended.nowplaying.videowindow) + Player.HasVideo + !VideoPlayer.Content(livetv)" />
+            </include>            
+            <include content="NowPlaying_InfoRight">
+                <param name="left" value="620" />
+                <param name="visible" value="Skin.HasSetting(extended.nowplaying.videowindow) + VideoPlayer.Content(livetv)" />
+            </include>            
+            <include content="NowPlaying_InfoRight">
+                <param name="left" value="100" />
+                <param name="visible" value="!Skin.HasSetting(extended.nowplaying.videowindow) + VideoPlayer.Content(livetv)" />
+            </include>            
+            <include content="NowPlaying_InfoRight">
+                <param name="left" value="0" />
+                <param name="visible" value="Player.HasAudio + Skin.HasSetting(extended.nowplaying.hidecd)" />
+            </include>            
+            <include content="NowPlaying_InfoRight">
+                <param name="left" value="140" />
+                <param name="visible" value="Player.HasAudio + !Skin.HasSetting(extended.nowplaying.hidecd)" />
+            </include>
+        </control> 
+    </include>
+
+    <include name="NowPlaying_ClearArt">
+        
+        <!-- ClearArt -->
+        <control type="image">
+            <left>1410</left>
+            <top>575</top>
+            <width>350</width>         
+            <texture>$VAR[PlayerArtNowPlaying]</texture>
+            <aspectratio scalediffuse="true" align="left" aligny="top">keep</aspectratio>
+            <animation effect="slide" start="0" end="0,27" time="0" condition="true">Conditional</animation>
+            <animation effect="slide" start="0" end="0,-28" time="0" condition="Skin.HasSetting(home.oldmenuheight) | Skin.HasSetting(submenu.compatibility)">Conditional</animation>
+            <animation effect="slide" start="0" end="-43,0" time="0" condition="$EXP[HomeIsVerticalMultiWidgets] + Skin.HasSetting(homemenu.only.icons) + Skin.HasSetting(home.showicons)">Conditional</animation>
+            <animation type="WindowClose" condition="!$EXP[HomeIsVerticalMultiWidgets]">
+                <effect type="slide" start="0" end="0,250" time="150"/>
+                <effect type="fade" start="100" end="20" time="150"/>
+            </animation>
+            <animation effect="slide" start="0,150" end="0" time="130" reversible="false">WindowOpen</animation>            
+        </control>
+    </include>
+        
+    <include name="NowPlaying_PlayPause">
+        
+        <!-- Play Pause -->
+        <control type="group">
+            <left>-42</left>
+            <top>-15</top> 
+            <width>100</width>
+            <height>100</height>
+            <control type="image" description="Play">
+                <aspectratio align="center" aligny="center">keep</aspectratio>
+                <texture colordiffuse="$VAR[ColorHighlight]">progress/play.png</texture>
+                <animation effect="fade" start="0" end="100" time="150">VisibleChange</animation>
+                <visible>!Player.Paused</visible>
+            </control>
+            <control type="image" description="Pause">
+                <aspectratio align="center" aligny="center">keep</aspectratio>
+                <texture colordiffuse="$VAR[ColorHighlight]">progress/pause.png</texture>
+                <animation effect="fade" start="0" end="100" time="150">VisibleChange</animation>
+                <visible>Player.Paused</visible>
+            </control>
+        </control>
+    </include>
+    
+    <include name="NowPlaying_Time">
+        
+        <!-- Time -->
+        <control type="label">
+            <left>30</left>
+            <align>left</align>
+            <font>Medium</font>
+            <width>auto</width>
+            <textcolor>Dark2</textcolor>
+            <label>$VAR[Label_Time_NowPlaying]</label>
+        </control>
+    </include>
+    
+    <include name="NowPlaying_InfoRight">
+    
+        <!-- Info Right -->
+        <param name="visible" value="$PARAM[visible]" default="true"/>
+        <param name="left" value="$PARAM[left]" default="-42"/>
+        <definition>        
+        <control type="group">
+            <width>100%</width>
+            <include content="def_top" condition="Skin.HasSetting(homemenu.netflix)">
+                <param name="top" value="610" />
+            </include>
+            <include content="def_top" condition="!Skin.HasSetting(homemenu.netflix)">
+                <param name="top" value="230" />
+            </include>
+            <left>$PARAM[left]</left>            
+            <visible>$PARAM[visible]</visible>            
+            <control type="group">
+                <left>240</left>
+                <top>60</top>
+                <visible>Player.HasVideo</visible>                    
+                <include>NowPlaying_PlayPause</include>
+                <include>NowPlaying_Time</include>
+                <control type="label">
+                    <top>55</top>
+                    <width>1100</width>
+                    <include>MultiWidgetsSubLabelDefinition</include>
+                    <label fallback="19055">$INFO[VideoPlayer.ChannelName]</label>
+                    <visible>VideoPlayer.Content(livetv)</visible>
+                </control>
+                <control type="label">
+                    <top>55</top>
+                    <width>1100</width>
+                    <include>MultiWidgetsSubLabelDefinition</include>
+                    <label fallback="19055">$INFO[VideoPlayer.Tagline]</label>
+                    <visible>VideoPlayer.Content(movies)</visible>
+                </control>
+                <control type="label">
+                    <top>55</top>
+                    <width>1100</width>
+                    <include>MultiWidgetsSubLabelDefinition</include>
+                    <label fallback="19055">$INFO[VideoPlayer.TVShowTitle]$INFO[VideoPlayer.Season,  •  $LOCALIZE[36904] ,] $INFO[VideoPlayer.Episode,  •  $LOCALIZE[36906] ,]</label>
+                    <visible>VideoPlayer.Content(episodes)</visible>
+                </control>
+            </control>  
+            <control type="group">
+                <left>340</left>
+                <top>60</top>
+                <visible>Player.HasAudio</visible>                
+                <include>NowPlaying_PlayPause</include>
+                <include>NowPlaying_Time</include>
+                <control type="label">
+                    <top>55</top>
+                    <width>1100</width>
+                    <include>MultiWidgetsSubLabelDefinition</include>
+                    <label fallback="19055">$INFO[MusicPlayer.Artist]$INFO[MusicPlayer.Album,  •  ,]</label>
+                </control>
+            </control>
+        </control>
+        </definition>
+    </include>
+    
+    <include name="NowPlaying_TopBottomInfo">
+    
+        <!-- Top/Bottom Info -->
+        <control type="group">                
+            <control type="grouplist">
+                <usecontrolcoords>true</usecontrolcoords>
+                <height>40</height>
+                <include content="def_top" condition="Skin.HasSetting(homemenu.netflix)">
+                    <param name="top" value="395" />
+                </include>
+                <include content="def_top" condition="!Skin.HasSetting(homemenu.netflix)">
+                    <param name="top" value="10" />
+                </include>
+                <orientation>horizontal</orientation>
+                <itemgap>10</itemgap>
+                <include content="Kodi_Logo_Home">
+                    <param name="dimensions" value="30"/>
+                    <param name="top" value="5"/>
+                    <param name="left" value="0"/>
+                    <param name="left-gradient" value="-40"/>
+                </include>
+                <control type="label">
+                    <height>38</height>
+                    <font>SmallNavi</font>
+                    <width>auto</width>
+                    <textcolor>Dark1</textcolor>
+                    <label>31236</label>
+                </control>
+            </control>                
+            <control type="grouplist">
+                <include content="def_width" condition="Skin.HasSetting(homemenu.netflix)">
+                    <param name="width" value="800" />
+                </include>
+                <include content="def_width" condition="!Skin.HasSetting(homemenu.netflix)">
+                    <param name="width" value="100%" />
+                </include> 
+                <orientation>vertical</orientation>
+                <include content="def_top" condition="Skin.HasSetting(homemenu.netflix)">
+                    <param name="top" value="20" />
+                </include>
+                <include content="def_top" condition="!Skin.HasSetting(homemenu.netflix)">
+                    <param name="top" value="397" />
+                </include>
+                <itemgap>15</itemgap>
+                <include content="MultiWidgetsHeaderLabel">
+                    <param name="label" value="$INFO[Player.Title]" />
+                    <param name="visible" value="!VideoPlayer.Content(livetv)" />
+                </include>
+                <include content="MultiWidgetsHeaderLabel">
+                    <param name="label" value="$INFO[Player.Title]$INFO[VideoPlayer.StartTime,  •  ,]$INFO[VideoPlayer.EndTime, - ]$INFO[VideoPlayer.Duration(mins),  •  , $LOCALIZE[31102]]" />
+                    <param name="visible" value="VideoPlayer.Content(livetv)" />
+                </include>
+                <control type="grouplist">
+                    <width>100%</width>
+                    <orientation>vertical</orientation>
+                    <visible>Player.HasVideo</visible>
+                    <itemgap>15</itemgap>
+                    <usecontrolcoords>true</usecontrolcoords>
+                    <include condition="Skin.HasSetting(homemenu.netflix)">IntentButton</include>
+                    <control type="textbox">
+                        <include condition="Skin.HasSetting(homemenu.netflix)">MultiWidgetsPlotLabelDefinitionNetflix</include>
+                        <include condition="!Skin.HasSetting(homemenu.netflix)">MultiWidgetsPlotLabelDefinition</include>
+                        <label>$INFO[VideoPlayer.Plot]</label>
+                        <visible>!String.IsEmpty(VideoPlayer.Plot)</visible>
+                    </control>
+                    <control type="label">
+                        <include>MultiWidgetsSubLabelDefinition</include>
+                        <label>$INFO[VideoPlayer.Year,,  •  ]$INFO[Player.Duration(mins),, $LOCALIZE[31102]]</label>
+                        <visible>!String.IsEmpty(Player.Duration)</visible>
+                    </control>
+                </control>
+                <control type="grouplist">
+                    <width>100%</width>
+                    <orientation>vertical</orientation>
+                    <visible>Player.HasAudio</visible>
+                    <itemgap>15</itemgap>
+                    <include condition="Skin.HasSetting(homemenu.netflix)">IntentButton</include>
+                    <control type="textbox">
+                        <include condition="Skin.HasSetting(homemenu.netflix)">MultiWidgetsPlotLabelDefinitionNetflix</include>
+                        <include condition="!Skin.HasSetting(homemenu.netflix)">MultiWidgetsPlotLabelDefinition</include>
+                        <label>$INFO[MusicPlayer.Property(Artist_Description)]</label>
+                        <visible>!String.IsEmpty(MusicPlayer.Property(Artist_Description))</visible>
+                    </control>
+                    <control type="textbox">
+                        <include condition="Skin.HasSetting(homemenu.netflix)">MultiWidgetsPlotLabelDefinitionNetflix</include>
+                        <include condition="!Skin.HasSetting(homemenu.netflix)">MultiWidgetsPlotLabelDefinition</include>
+                        <label fallback="19055">$INFO[MusicPlayer.Property(Album_Description)]</label>
+                        <visible>String.IsEmpty(MusicPlayer.Property(Artist_Description))</visible>
+                    </control>
+                    <control type="label">
+                        <include>MultiWidgetsSubLabelDefinition</include>
+                        <label>$INFO[MusicPlayer.Year]</label>
+                    </control>
+                </control>
+            </control>
+        </control>
+    </include>
+         
+    <include name="NowPlaying_AudioDiscArt"> 
+          
+        <!-- Audio DiscArt -->
+        <control type="group">			
+            <include content="def_top" condition="Skin.HasSetting(homemenu.netflix)">
+                <param name="top" value="457" />
+            </include>
+            <include content="def_top" condition="!Skin.HasSetting(homemenu.netflix)">
+                <param name="top" value="74" />
+            </include>
+            <left>160</left>				
+            <visible>Player.HasMedia + Player.HasAudio</visible>
+            <visible>!Skin.HasSetting(extended.nowplaying.hidecd)</visible>
+            <include content="DefDiscArtNowPlaying">
+                <param name="visible" value="Skin.HasSetting(osd.music.disc.fake.cd)" />
+                <param name="diffuse" value="backg/diffuse.png" />
+                <param name="discart" value="$VAR[MusicDiscart]" />
+            </include>
+            <include content="DefDiscArtNowPlaying">
+                <param name="visible" value="!Skin.HasSetting(osd.music.disc.fake.cd)" />
+                <param name="discart" value="$VAR[MusicDiscart]" />
+            </include>
+        </control>
+    </include>
+    
+    <include name="NowPlaying_VideoDiscArt">
+                
+        <!-- Video DiscArt -->
+        <param name="visible" value="$PARAM[visible]" default="true"/>
+        <param name="left" value="$PARAM[left]" default="0"/>
+        <definition>
+        <control type="group">
+            <visible>$PARAM[visible]</visible>
+            <animation type="WindowClose" reversible="false">
+                <effect type="slide" start="110,0" end="0,0" tween="sine" easing="out" time="400" delay="0"/>
+                <effect type="fade" start="100" end="0" time="100"/>
+            </animation>                
+            <animation type="WindowOpen" reversible="false">
+                <effect type="slide" start="0,0" end="110,0" tween="sine" easing="out" time="600" delay="500"/>
+            </animation>			
+            <include content="def_top" condition="Skin.HasSetting(homemenu.netflix)">
+                <param name="top" value="463" />
+            </include>
+            <include content="def_top" condition="!Skin.HasSetting(homemenu.netflix)">
+                <param name="top" value="74" />
+            </include>
+            <left>$PARAM[left]</left>
+            <visible>Player.HasMedia + Player.HasVideo + VideoPlayer.Content(movies)</visible>
+            <visible>!Skin.HasSetting(extended.nowplaying.hidecd)</visible>
+            <include content="DefDiscArtNowPlaying">
+                <param name="visible" value="Skin.HasSetting(home.video.disc.fake.bluray)" />
+                <param name="diffuse" value="backg/diffuse.png" />
+                <param name="discart" value="$VAR[VideoDiscart]" />
+                <param name="width" value="196" />
+            </include>
+            <include content="DefDiscArtNowPlaying">
+                <param name="visible" value="!Skin.HasSetting(home.video.disc.fake.bluray)" />
+                <param name="discart" value="$VAR[VideoDiscart]" />
+                <param name="width" value="196" />
+            </include>
+        </control>
+        </definition>
+    </include>                
+
+    <include name="NowPlaying_VideoWindow"> 
+               
+        <!-- VideoWindow -->
+        <control type="group">
+            <visible>Player.HasVideo</visible>
+            <height>307</height>
+            <width>500</width>
+            <include content="def_top" condition="Skin.HasSetting(homemenu.netflix)">
+                <param name="top" value="454" />
+            </include>
+            <include content="def_top" condition="!Skin.HasSetting(homemenu.netflix)">
+                <param name="top" value="69" />
+            </include>           
+            <control type="image">
+                <texture colordiffuse="Fallback" border="4" background="true">common/diffuse_box.png</texture>
+            </control>               
+            <control type="videowindow">
+                <height>307</height>
+                <width>500</width>
+                <animation type="Hidden" reversible="false">
+                    <effect type="fade" start="100" end="0" time="150" />
+                </animation>
+                <animation type="WindowClose" reversible="false">
+                    <effect type="zoom" center="auto" start="100" end="0" time="1" />
+                </animation> 
+                <animation type="WindowOpen" reversible="false">
+                    <effect type="zoom" center="auto" start="0" end="100" time="1" />
+                </animation>                    
+                <visible>Player.HasVideo + !ControlGroup(301).HasFocus()</visible>
+                <aspectratio align="center" aligny="center" scalediffuse="false">scale</aspectratio>
+            </control>
+            <control type="image">
+                <texture border="4" colordiffuse="Box2">common/box21.png</texture>
+            </control>
+        </control>
+    </include>
+
+    <include name="NowPlaying_Poster">
+                
+        <!-- Poster -->
+        <param name="visible" value="$PARAM[visible]" default="false"/>
+        <param name="left" value="$PARAM[left]" default="-10"/>
+        <definition>
+        <control type="group">
+            <height>325</height>
+            <width>222</width>
+            <left>$PARAM[left]</left>
+            <include content="def_top" condition="Skin.HasSetting(homemenu.netflix)">
+                <param name="top" value="445" />
+            </include>
+            <include content="def_top" condition="!Skin.HasSetting(homemenu.netflix)">
+                <param name="top" value="60" />
+            </include>
+            <visible>$PARAM[visible]</visible>
+            <visible>Player.HasVideo + !VideoPlayer.Content(livetv)</visible>
+            <control type="image">
+                <left>0</left>
+                <top>0</top>
+                <right>0</right>
+                <bottom>0</bottom>
+                <texture border="10">common/$VAR[nofocus-shadow10]</texture>
+            </control>
+            <control type="image">
+                <left>9</left>
+                <top>9</top>
+                <right>9</right>
+                <bottom>9</bottom>
+                <texture colordiffuse="ff181818" diffuse="diffuse/wall.png">common/white.png</texture>
+            </control>
+            <control type="image">
+                <left>9</left>
+                <top>9</top>
+                <right>9</right>
+                <bottom>9</bottom>
+                <texture colordiffuse="Fallback" border="4" background="true">common/diffuse_box.png</texture>
+            </control>        
+            <control type="image">
+                <left>10</left>
+                <top>10</top>
+                <right>10</right>
+                <bottom>10</bottom>
+                <aspectratio scalediffuse="false">scale</aspectratio>
+                <texture diffuse="diffuse/diffuse_box.png" background="true" fallback="DefaultMovies.png">$VAR[PlayerPoster]</texture>
+            </control>
+            <control type="image">
+                <left>9</left>
+                <top>9</top>
+                <right>9</right>
+                <bottom>9</bottom>
+                <texture colordiffuse="BoxWidget" border="4" background="true">common/box21.png</texture>
+                <visible>!Skin.HasSetting(thumbnails.white)</visible>
+            </control>
+            <control type="image">
+                <left>3</left>
+                <top>3</top>
+                <right>3</right>
+                <bottom>3</bottom>
+                <texture colordiffuse="$VAR[ColorSquares]" border="20">common/selectbox.png</texture>
+                <visible>Control.HasFocus(9605)</visible>
+                <include>Animation.SelectBoxHome</include>
+            </control>
+            <control type="image">
+                <left>3</left>
+                <top>3</top>
+                <right>3</right>
+                <bottom>3</bottom>
+                <texture colordiffuse="$VAR[ColorHighlightSelectbox2]" border="20">common/gradient-selectbox.png</texture>
+                <visible>Control.HasFocus(9605)</visible>
+                <include>Animation.SelectBoxHome</include>
+            </control>
+        </control>
+        </definition>
+    </include>
+
+    <include name="NowPlaying_Square"> 
+           
+        <!-- Square -->
+        <param name="visible" value="$PARAM[visible]" default="false"/>
+        <param name="left" value="$PARAM[left]" default="-10"/>
+        <definition>
+        <control type="group">
+            <height>325</height>
+            <width>325</width>
+            <left>$PARAM[left]</left>
+            <include content="def_top" condition="Skin.HasSetting(homemenu.netflix)">
+                <param name="top" value="445" />
+            </include>
+            <include content="def_top" condition="!Skin.HasSetting(homemenu.netflix)">
+                <param name="top" value="60" />
+            </include>
+            <visible>$PARAM[visible]</visible>
+            <visible>Player.HasAudio | VideoPlayer.Content(livetv)</visible>>
+            <control type="image">
+                <left>0</left>
+                <top>0</top>
+                <right>0</right>
+                <bottom>0</bottom>
+                <texture border="10">common/$VAR[nofocus-shadow10]</texture>
+            </control>
+            <control type="image">
+                <left>9</left>
+                <top>9</top>
+                <right>9</right>
+                <bottom>9</bottom>
+                <texture colordiffuse="ff181818" diffuse="diffuse/wall.png">common/white.png</texture>
+            </control>
+            <control type="image">
+                <left>9</left>
+                <top>9</top>
+                <right>9</right>
+                <bottom>9</bottom>
+                <texture colordiffuse="Fallback" border="4" background="true">common/diffuse_box.png</texture>
+            </control>
+            <control type="image">
+                <left>10</left>
+                <top>10</top>
+                <right>10</right>
+                <bottom>10</bottom>
+                <aspectratio scalediffuse="false">scale</aspectratio>
+                <visible>!VideoPlayer.Content(livetv)</visible>
+                <texture diffuse="diffuse/diffuse_box.png" background="true" fallback="DefaultAudio.png">$VAR[PlayerPoster]</texture>
+            </control>
+            <control type="image">
+                <left>10</left>
+                <top>10</top>
+                <right>10</right>
+                <bottom>10</bottom>
+                <aspectratio scalediffuse="false">keep</aspectratio>
+                <visible>VideoPlayer.Content(livetv)</visible>
+                <texture diffuse="diffuse/diffuse_box.png" background="true" fallback="DefaultMovies.png">$VAR[PlayerPoster]</texture>
+            </control>
+            <control type="image">
+                <left>9</left>
+                <top>9</top>
+                <right>9</right>
+                <bottom>9</bottom>
+                <texture colordiffuse="BoxWidget" border="4" background="true">common/box21.png</texture>
+                <visible>!Skin.HasSetting(thumbnails.white)</visible>
+            </control>
+            <control type="image">
+                <left>3</left>
+                <top>3</top>
+                <right>3</right>
+                <bottom>3</bottom>
+                <texture colordiffuse="$VAR[ColorSquares]" border="20">common/selectbox.png</texture>
+                <visible>Control.HasFocus(9605)</visible>
+                <include>Animation.SelectBoxHome</include>
+            </control>
+            <control type="image">
+                <left>3</left>
+                <top>3</top>
+                <right>3</right>
+                <bottom>3</bottom>
+                <texture colordiffuse="$VAR[ColorHighlightSelectbox2]" border="20">common/gradient-selectbox.png</texture>
+                <visible>Control.HasFocus(9605)</visible>
+                <include>Animation.SelectBoxHome</include>
+            </control>
+        </control>
+        </definition>
+    </include>
+</includes>            

@@ -3,6 +3,7 @@
 <window id="2003">
     <defaultcontrol always="true">8</defaultcontrol>
     <onload condition="Control.IsVisible(9201)">SetFocus(9201)</onload>
+    <onload condition="Control.IsVisible(9078)">SetFocus(9078)</onload>
     <onload>Control.Move(50,$INFO[Container(50).CurrentItem,-])</onload>
     <onload>Control.Move(50,1)</onload>
     <onload>Control.Move(9502,$INFO[Container(9502).CurrentItem,-])</onload>
@@ -14,9 +15,6 @@
     <onload>ClearProperty(videostudio)</onload>
     <onload>ClearProperty(videoyoutube)</onload>
     <onload>ClearProperty(ShowDisc)</onload>
-    <onload condition="Skin.HasSetting(preloadcontent)">SetProperty(videosimilar,1)</onload>
-    <onload condition="Skin.HasSetting(preloadcontent)">SetProperty(videostudio,1)</onload>
-    <onload condition="Skin.HasSetting(preloadcontent)">SetProperty(videoyoutube,1)</onload>
     <onunload>ClearProperty(SetUserRating,home)</onunload>
     <onunload>ClearProperty(SetUserRating2,home)</onunload>
     <onunload>ClearProperty(ShowDisc)</onunload>
@@ -25,59 +23,12 @@
     <onload>ClearProperty(down)</onload>
     <onload>ClearProperty(test,Home)</onload>
     <onunload>ClearProperty(test,Home)</onunload>
-    <onload condition="String.IsEqual(ListItem.DBType,movie) + Skin.HasSetting(preloadcontent)">SetProperty(content,2)</onload>
-    <onload condition="String.IsEqual(ListItem.DBType,tvshow) + Skin.HasSetting(preloadcontent)">SetProperty(content,3)</onload>
     <controls>
         <include>DialogVideoInfoWIP</include>
-        <control type="group">
-            <visible>Control.HasFocus(9601)</visible>
-            <include>Animation.FadeIn</include>
-            <include>Animation.FadeOut</include>
-            <control type="image" description="Background">
-                <include>Dimensions_Fullscreen</include>
-                <texture colordiffuse="Background">common/bg.jpg</texture>
-                <animation effect="fade" start="100" end="95" condition="true">Conditional</animation>
-            </control>
-            <control type="image" description="clearlogo">
-                <visible>Skin.HasSetting(furniture.logo)</visible>
-                <centertop>120</centertop>
-                <centerleft>50%</centerleft>
-                <width>400</width>
-                <height>100</height>
-                <aspectratio align="center">keep</aspectratio>
-                <texture background="true">$VAR[ClearLogoTopVar]</texture>
-            </control>
-        </control>
-        <control type="group">
-            <left>SidePad</left>
-            <right>SidePad</right>
-            <top>PosterPad</top>
-            <height>630</height>
-            <visible>Control.HasFocus(9601)</visible>
-            <include>Animation.FadeIn.Slide</include>
-            <include>Animation.FadeOut</include>
-            <control type="label">
-                <description>header label</description>
-                <left>60</left>
-                <right>60</right>
-                <posy>60</posy>
-                <font>EpisodeNumberNew</font>
-                <textcolor>Dark1</textcolor>
-                <height>45</height>
-                <label>$INFO[ListItem.Label]</label>
-            </control>
-            <control type="textbox">
-                <description>textarea</description>
-                <left>60</left>
-                <right>60</right>
-                <top>150</top>
-                <bottom>0</bottom>
-                <align>justify</align>
-                <font>Medium</font>
-                <textcolor>Dark1</textcolor>
-                <label>$INFO[ListItem.Tagline,[B],[/B][CR][CR]]$INFO[ListItem.Plot]</label>
-            </control>
-        </control>
+        <include content="DialogInfoOverlay">
+            <param name="headerinfo" value="$INFO[ListItem.Label]" />
+            <param name="plotinfo" value="$INFO[ListItem.Tagline,[B],[/B][CR][CR]]$INFO[ListItem.Plot]" />
+        </include>
         <include>Furniture_FlagsFromHome</include>
     </controls>
 </window>

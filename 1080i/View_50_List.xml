@@ -30,7 +30,7 @@
                     <ondown>50</ondown>
                     <pagecontrol>1627</pagecontrol>
                     <viewtype label="535">list</viewtype>
-                    <scrolltime tween="quadratic">400</scrolltime>
+                    <include>ScrolltimeViewsList</include>
                     <itemlayout condition="!Skin.HasSetting(511ListInfo) | Container.Content(files)" width="auto" height="64">
                         <include>50itemlayout</include>
                     </itemlayout>
@@ -142,7 +142,7 @@
                     <movement>2</movement>
                     <pagecontrol>60</pagecontrol>
                     <viewtype label="535">list</viewtype>
-                    <scrolltime tween="quadratic">400</scrolltime>
+                    <include>ScrolltimeViewsList</include>
                     <itemlayout condition="!Skin.HasSetting(511ListInfo)" width="ListW" height="64">
                         <include>50itemlayout</include>
                     </itemlayout>
@@ -251,6 +251,7 @@
     <include name="View_50_SidePoster_Square">
         <control type="group" description="Poster">
             <include>Animation.PosterSlideSquare</include>
+            <animation effect="rotatey" end="-180" start="0" center="400,0" time="350" condition="String.IsEqual(Window.Property(RotateCover),1)">Conditional</animation>
             <left>SidePad</left>
             <top>PosterPad</top>
             <visible>!String.IsEmpty(ListItem.Icon)</visible>
@@ -289,6 +290,21 @@
                 <aspectratio align="center" aligny="center" scalediffuse="false">keep</aspectratio>
                 <texture diffuse="diffuse/listposter.png" background="true">$VAR[PosterImage22]</texture>
             </control>
+            <control type="image">
+                <width>PosterH</width>
+                <height>PosterH</height>
+                <fadetime>PosterFanartFadetime</fadetime>
+                <aspectratio align="center" aligny="center" scalediffuse="false">keep</aspectratio>
+                <texture diffuse="diffuse/listposter.png" background="true">$INFO[ListItem.Art(back)]</texture>                
+                <animation effect="rotatey" end="-180" start="0" center="320,0" time="0" condition="true">Conditional</animation>
+                <animation type="Visible">
+                    <effect type="fade" end="100" start="0" time="0" delay="200" />
+                </animation>
+                <animation type="Hidden">
+                    <effect type="fade" end="0" start="100" time="50" delay="100" />
+                </animation>                
+                <visible>String.IsEqual(Window.Property(RotateCover),1) + !String.IsEmpty(ListItem.Art(back))</visible>
+            </control>            
             <control type="image">
                 <left>-1</left>
                 <top>-1</top>
@@ -782,7 +798,7 @@
             <textcolor>Light1</textcolor>
             <selectedcolor>Light1</selectedcolor>
             <label>$VAR[50ListNormal]</label>
-            <animation effect="slide" start="0" end="64" time="0" condition="Container.Content(Seasons)">Conditional</animation>
+            <animation effect="slide" start="0" end="60" time="0" condition="Container.Content(Seasons) | Skin.HasSetting(hide.markers)">Conditional</animation>
         </control>
         <control type="label">
             <align>right</align>
@@ -795,7 +811,7 @@
             <font>SymbolList</font>
             <label>$VAR[WatchedLabelList]</label>
             <visible>!String.IsEqual(ListItem.Label,..)</visible>
-            <animation effect="slide" start="0" end="64" time="0" condition="Container.Content(Seasons)">Conditional</animation>
+            <animation effect="slide" start="0" end="60" time="0" condition="Container.Content(Seasons) | Skin.HasSetting(hide.markers)">Conditional</animation>
         </control>
         <control type="label">
             <right>30</right>
@@ -857,7 +873,7 @@
             <textcolor>Dark1</textcolor>
             <selectedcolor>Dark1</selectedcolor>
             <label>$VAR[50ListNormal]</label>
-            <animation effect="slide" start="0" end="64" time="0" condition="Container.Content(Seasons)">Conditional</animation>
+            <animation effect="slide" start="0" end="60" time="0" condition="Container.Content(Seasons) | Skin.HasSetting(hide.markers)">Conditional</animation>
         </control>
         <control type="label">
             <align>right</align>
@@ -870,7 +886,7 @@
             <font>SymbolList</font>
             <label>$VAR[WatchedLabelList]</label>
             <visible>!String.IsEqual(ListItem.Label,..)</visible>
-            <animation effect="slide" start="0" end="64" time="0" condition="Container.Content(Seasons)">Conditional</animation>
+            <animation effect="slide" start="0" end="60" time="0" condition="Container.Content(Seasons) | Skin.HasSetting(hide.markers)">Conditional</animation>
         </control>
         <control type="label">
             <right>30</right>
@@ -918,7 +934,7 @@
             <width>32</width>
             <height>32</height>
             <aspectratio aligny="top">keep</aspectratio>
-            <texture colordiffuse="Dark1">indicator/playlist.png</texture>
+            <texture colordiffuse="$VAR[ColorHighlight]">indicator/playlist.png</texture>
             <visible>ListItem.IsPlaying</visible>
         </control>
         <control type="label">
@@ -1016,6 +1032,7 @@
             <label>$INFO[ListItem.Label2]</label>
             <visible>String.Contains(Container.FolderPath,plugin://plugin.video.youtube)</visible>
             <visible>!Container.Content(songs)</visible>
+            <animation effect="slide" start="0" end="60" time="0" condition="Skin.HasSetting(hide.markers)">Conditional</animation>
         </control>
         <control type="label">
             <right>35</right>
@@ -1174,6 +1191,7 @@
             <label>$INFO[ListItem.Label2]</label>
             <visible>String.Contains(Container.FolderPath,plugin://plugin.video.youtube)</visible>
             <visible>!Container.Content(songs)</visible>
+            <animation effect="slide" start="0" end="60" time="0" condition="Skin.HasSetting(hide.markers)">Conditional</animation>
         </control>
         <control type="label">
             <right>35</right>
@@ -1222,7 +1240,7 @@
             <width>32</width>
             <height>32</height>
             <aspectratio aligny="top">keep</aspectratio>
-            <texture colordiffuse="Dark1">indicator/playlist.png</texture>
+            <texture colordiffuse="$VAR[ColorHighlight]">indicator/playlist.png</texture>
             <visible>ListItem.IsPlaying</visible>
         </control>
         <control type="label">
@@ -1324,7 +1342,7 @@
             <width>32</width>
             <height>32</height>
             <aspectratio aligny="top">keep</aspectratio>
-            <texture colordiffuse="Dark1">indicator/playlist.png</texture>
+            <texture colordiffuse="$VAR[ColorHighlight]">indicator/playlist.png</texture>
             <visible>ListItem.IsPlaying</visible>
         </control>
         <control type="label">
@@ -1568,7 +1586,7 @@
         </control>
         <control type="label">
             <top>-5</top>
-            <animation effect="slide" start="0" end="64" time="0" condition="Container.Content(Seasons)">Conditional</animation>
+            <animation effect="slide" start="0" end="60" time="0" condition="Container.Content(Seasons) | Skin.HasSetting(hide.markers)">Conditional</animation>
             <right>154</right>
             <width>500</width>
             <aligny>center</aligny>
@@ -1592,7 +1610,7 @@
             <font>SymbolList</font>
             <label>$VAR[WatchedLabelList]</label>
             <visible>!String.IsEqual(ListItem.Label,..)</visible>
-            <animation effect="slide" start="0" end="64" time="0" condition="Container.Content(Seasons)">Conditional</animation>
+            <animation effect="slide" start="0" end="60" time="0" condition="Container.Content(Seasons) | Skin.HasSetting(hide.markers)">Conditional</animation>
         </control>
         <control type="label">
             <top>-5</top>
@@ -1696,7 +1714,7 @@
             <textcolor>Dark1</textcolor>
             <selectedcolor>Dark1</selectedcolor>
             <label>$VAR[50ListNormalRight]</label>
-            <animation effect="slide" start="0" end="64" time="0" condition="Container.Content(Seasons)">Conditional</animation>
+            <animation effect="slide" start="0" end="60" time="0" condition="Container.Content(Seasons) | Skin.HasSetting(hide.markers)">Conditional</animation>
         </control>
         <control type="label">
             <top>-5</top>
@@ -1710,7 +1728,7 @@
             <font>SymbolList</font>
             <label>$VAR[WatchedLabelList]</label>
             <visible>!String.IsEqual(ListItem.Label,..)</visible>
-            <animation effect="slide" start="0" end="64" time="0" condition="Container.Content(Seasons)">Conditional</animation>
+            <animation effect="slide" start="0" end="60" time="0" condition="Container.Content(Seasons) | Skin.HasSetting(hide.markers)">Conditional</animation>
         </control>
         <control type="label">
             <top>-5</top>

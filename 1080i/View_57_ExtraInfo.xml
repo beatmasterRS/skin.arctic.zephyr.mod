@@ -29,7 +29,7 @@
                         <param name="string" value="$LOCALIZE[31147]" />
                     </include>
                     <viewtype label="31147">list</viewtype>
-                    <scrolltime tween="quadratic">400</scrolltime>
+                    <include>ScrolltimeViewsList</include>
                     <itemlayout condition="!Skin.HasSetting(511ListInfo)" width="1100" height="64">
                         <include>50itemlayout</include>
                     </itemlayout>
@@ -44,7 +44,9 @@
                         </control>
                         <control type="button">
                             <visible>false</visible>
-                            <onfocus condition="String.IsEqual(ListItem.DBType,tvshow) | String.IsEqual(ListItem.DBType,season)">RunScript(script.embuary.helper,action=calc,do='"round($INFO[ListItem.Property(WatchedEpisodes)] * 100 / $INFO[ListItem.Property(TotalEpisodes)])"',prop=MyResult)</onfocus>
+                            <onfocus>ClearProperty(MyResult,home)</onfocus>
+                            <onfocus condition="[String.IsEqual(ListItem.DBType,tvshow) | String.IsEqual(ListItem.DBType,season)] + Skin.HasSetting(furniture.overlayinfobalken)">AlarmClock(Calculation,RunScript(script.embuary.helper,action=calc,do='"round($INFO[ListItem.Property(WatchedEpisodes)] * 100 / $INFO[ListItem.Property(TotalEpisodes)])"',prop=MyResult),00:01,silent)</onfocus>
+                            <onunfocus condition="System.HasAlarm(Calculation)">CancelAlarm(Calculation,true)</onunfocus>
                         </control>
                     </focusedlayout>
                     <itemlayout condition="Skin.HasSetting(511ListInfo)" width="1100" height="90">
@@ -61,7 +63,9 @@
                         </control>
                         <control type="button">
                             <visible>false</visible>
-                            <onfocus condition="String.IsEqual(ListItem.DBType,tvshow) | String.IsEqual(ListItem.DBType,season)">RunScript(script.embuary.helper,action=calc,do='"round($INFO[ListItem.Property(WatchedEpisodes)] * 100 / $INFO[ListItem.Property(TotalEpisodes)])"',prop=MyResult)</onfocus>
+                            <onfocus>ClearProperty(MyResult,home)</onfocus>
+                            <onfocus condition="[String.IsEqual(ListItem.DBType,tvshow) | String.IsEqual(ListItem.DBType,season)] + Skin.HasSetting(furniture.overlayinfobalken)">AlarmClock(Calculation,RunScript(script.embuary.helper,action=calc,do='"round($INFO[ListItem.Property(WatchedEpisodes)] * 100 / $INFO[ListItem.Property(TotalEpisodes)])"',prop=MyResult),00:01,silent)</onfocus>
+                            <onunfocus condition="System.HasAlarm(Calculation)">CancelAlarm(Calculation,true)</onunfocus>
                         </control>
                     </focusedlayout>
                 </control>
@@ -105,7 +109,7 @@
                         <param name="string" value="$LOCALIZE[31147]" />
                     </include>
                     <viewtype label="31147">list</viewtype>
-                    <scrolltime tween="quadratic">400</scrolltime>
+                    <include>ScrolltimeViewsList</include>
                     <itemlayout condition="!Skin.HasSetting(511ListInfo)" width="1100" height="64">
                         <include>50itemlayout</include>
                     </itemlayout>
@@ -120,7 +124,9 @@
                         </control>
                         <control type="button">
                             <visible>false</visible>
-                            <onfocus condition="String.IsEqual(ListItem.DBType,tvshow) | String.IsEqual(ListItem.DBType,season)">RunScript(script.embuary.helper,action=calc,do='"round($INFO[ListItem.Property(WatchedEpisodes)] * 100 / $INFO[ListItem.Property(TotalEpisodes)])"',prop=MyResult)</onfocus>
+                            <onfocus>ClearProperty(MyResult,home)</onfocus>
+                            <onfocus condition="[String.IsEqual(ListItem.DBType,tvshow) | String.IsEqual(ListItem.DBType,season)] + Skin.HasSetting(furniture.overlayinfobalken)">AlarmClock(Calculation,RunScript(script.embuary.helper,action=calc,do='"round($INFO[ListItem.Property(WatchedEpisodes)] * 100 / $INFO[ListItem.Property(TotalEpisodes)])"',prop=MyResult),00:01,silent)</onfocus>
+                            <onunfocus condition="System.HasAlarm(Calculation)">CancelAlarm(Calculation,true)</onunfocus>
                         </control>
                     </focusedlayout>
                     <itemlayout condition="Skin.HasSetting(511ListInfo)" width="1100" height="90">
@@ -137,7 +143,9 @@
                         </control>
                         <control type="button">
                             <visible>false</visible>
-                            <onfocus condition="String.IsEqual(ListItem.DBType,tvshow) | String.IsEqual(ListItem.DBType,season)">RunScript(script.embuary.helper,action=calc,do='"round($INFO[ListItem.Property(WatchedEpisodes)] * 100 / $INFO[ListItem.Property(TotalEpisodes)])"',prop=MyResult)</onfocus>
+                            <onfocus>ClearProperty(MyResult,home)</onfocus>
+                            <onfocus condition="[String.IsEqual(ListItem.DBType,tvshow) | String.IsEqual(ListItem.DBType,season)] + Skin.HasSetting(furniture.overlayinfobalken)">AlarmClock(Calculation,RunScript(script.embuary.helper,action=calc,do='"round($INFO[ListItem.Property(WatchedEpisodes)] * 100 / $INFO[ListItem.Property(TotalEpisodes)])"',prop=MyResult),00:01,silent)</onfocus>
+                            <onunfocus condition="System.HasAlarm(Calculation)">CancelAlarm(Calculation,true)</onunfocus>
                         </control>
                     </focusedlayout>
                 </control>
@@ -255,8 +263,8 @@
                 </control>
             </control>
             <control type="group">
-                <left>20</left>
-                <right>20</right>
+                <left>10</left>
+                <right>10</right>
                 <posy>370</posy>
                 <height>290</height>
                 <control type="label">
@@ -296,35 +304,33 @@
             </control>
             <control type="group">
                 <top>360</top>
-                <left>518</left>
+                <left>526</left>
                 <width>155</width>
                 <height>155</height>
                 <visible>Skin.HasSetting(furniture.overlayinfobalken) + !String.IsEqual(ListItem.Label,..) + !String.IsEqual(ListItem.DBType,set) + !Window.IsVisible(MyMusicNav.xml)</visible>
                 <control type="group">
                     <control type="image" description="Back">
-                        <top>0</top>
-                        <left>1</left>
-                        <width>137</width>
-                        <height>137</height>
-                        <aspectratio align="center" aligny="center">keep</aspectratio>
-                        <texture border="0">progress/back3.png</texture>
+                        <centertop>44%</centertop>
+                        <width>139</width>
+                        <height>139</height>
+                        <texture diffuse="diffuse/diffuse_progress.png" border="0">progress/back3.png</texture>
                     </control>
                     <control type="group">
                         <visible>!String.IsEqual(ListItem.Label,..) + [Container.Content(movies) | Container.Content(episodes)]</visible>
-                        <include>Animation.SwitchText</include>
+                        <include>Animation.SwitchCalculation</include>
                         <control type="image">
                             <visible>ListItem.IsResumable</visible>
                             <centertop>44%</centertop>
                             <width>139</width>
                             <height>139</height>
-                            <texture colordiffuse="$VAR[ColorHighlight]">$INFO[ListItem.PercentPlayed,progress/circle/p,.png]</texture>
+                            <texture diffuse="diffuse/diffuse_progress.png" colordiffuse="$VAR[ColorHighlight]">$INFO[ListItem.PercentPlayed,progress/circle/p,.png]</texture>
                         </control>
                         <control type="image">
                             <visible>String.Contains(ListItem.Overlay,OverlayWatched.png) + !ListItem.IsResumable</visible>
                             <centertop>44%</centertop>
                             <width>139</width>
                             <height>139</height>
-                            <texture colordiffuse="$VAR[ColorHighlight]">progress/circle/p100.png</texture>
+                            <texture diffuse="diffuse/diffuse_progress.png" colordiffuse="$VAR[ColorHighlight]">progress/circle/p100.png</texture>
                         </control>
                     </control>
                 </control>
@@ -333,17 +339,18 @@
                     <width>139</width>
                     <height>139</height>
                     <centertop>44%</centertop>
-                    <texture colordiffuse="$VAR[ColorHighlight]">progress/tvshows/p$INFO[Window(home).Property(MyResult)].png</texture>
+                    <texture diffuse="diffuse/diffuse_progress.png" colordiffuse="$VAR[ColorHighlight]">progress/tvshows/p$INFO[Window(home).Property(MyResult)].png</texture>
                     <visible>String.IsEqual(ListItem.DBType,tvshow) | String.IsEqual(ListItem.DBType,season)</visible>
-                    <include>Animation.SwitchText</include>
+                    <include>Animation.SwitchCalculation</include>
+                    <visible>!String.IsEmpty(Window(home).Property(MyResult))</visible>
                 </control>
                 <control type="label">
                     <include>Animation.SwitchText</include>
-                    <width>137</width>
+                    <width>140</width>
                     <centertop>43%</centertop>
                     <align>center</align>
                     <label>$VAR[ProgressCircleLabel]</label>
-                    <font>Small24</font>
+                    <font>WatchedLabel</font>
                     <textcolor>Dark2</textcolor>
                 </control>
             </control>

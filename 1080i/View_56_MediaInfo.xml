@@ -29,7 +29,7 @@
                         <param name="string" value="$LOCALIZE[544]" />
                     </include>
                     <viewtype label="544">list</viewtype>
-                    <scrolltime tween="quadratic">400</scrolltime>
+                    <include>ScrolltimeViewsList</include>
                     <itemlayout condition="!Skin.HasSetting(511ListInfo)" width="ListW" height="64">
                         <include>50itemlayout</include>
                     </itemlayout>
@@ -171,8 +171,8 @@
                     <visible>String.Contains(Container.FolderPath,plugin://plugin.program.advanced.launcher/,left) | Container.Content(musicvideos) | Container.Content(movies) | Container.Content(tvshows) | [Container.Content(episodes) + !String.Contains(Container.FolderPath,plugin://,left)] | Container.Content(actors) | Container.Content(sets) | Container.Content(seasons)</visible>
                     <top>PosterPad</top>
                     <height>PosterH</height>
-                    <right>731</right>
-                    <width>654</width>
+                    <right>732</right>
+                    <width>648</width>
                     <onleft condition="!Skin.HasSetting(global.kioskmode)">9000</onleft>
                     <onright>1609</onright>
                     <onup>56</onup>
@@ -184,11 +184,11 @@
                         <param name="string" value="$LOCALIZE[544]" />
                     </include>
                     <viewtype label="544">list</viewtype>
-                    <scrolltime tween="quadratic">400</scrolltime>
-                    <itemlayout condition="!Skin.HasSetting(511ListInfo)" width="654" height="64">
+                    <include>ScrolltimeViewsList</include>
+                    <itemlayout condition="!Skin.HasSetting(511ListInfo)" width="648" height="64">
                         <include>56itemlayout</include>
                     </itemlayout>
-                    <focusedlayout condition="!Skin.HasSetting(511ListInfo)" width="654" height="64">
+                    <focusedlayout condition="!Skin.HasSetting(511ListInfo)" width="648" height="64">
                         <control type="group">
                             <visible>!Control.HasFocus(1609)</visible>
                             <include>56focuslayout</include>
@@ -199,13 +199,15 @@
                         </control>
                         <control type="button">
                             <visible>false</visible>
-                            <onfocus condition="String.IsEqual(ListItem.DBType,tvshow) | String.IsEqual(ListItem.DBType,season)">RunScript(script.embuary.helper,action=calc,do='"round($INFO[ListItem.Property(WatchedEpisodes)] * 100 / $INFO[ListItem.Property(TotalEpisodes)])"',prop=MyResult)</onfocus>
+                            <onfocus>ClearProperty(MyResult,home)</onfocus>
+                            <onfocus condition="[String.IsEqual(ListItem.DBType,tvshow) | String.IsEqual(ListItem.DBType,season)] + Skin.HasSetting(furniture.overlayinfobalken)">AlarmClock(Calculation,RunScript(script.embuary.helper,action=calc,do='"round($INFO[ListItem.Property(WatchedEpisodes)] * 100 / $INFO[ListItem.Property(TotalEpisodes)])"',prop=MyResult),00:01,silent)</onfocus>
+                            <onunfocus condition="System.HasAlarm(Calculation)">CancelAlarm(Calculation,true)</onunfocus>
                         </control>
                     </focusedlayout>
-                    <itemlayout condition="Skin.HasSetting(511ListInfo)" width="654" height="91">
+                    <itemlayout condition="Skin.HasSetting(511ListInfo)" width="648" height="91">
                         <include>56itemlayout_info</include>
                     </itemlayout>
-                    <focusedlayout condition="Skin.HasSetting(511ListInfo)" width="654" height="91">
+                    <focusedlayout condition="Skin.HasSetting(511ListInfo)" width="648" height="91">
                         <control type="group">
                             <visible>!Control.HasFocus(1609)</visible>
                             <include>56focuslayout_info</include>
@@ -216,7 +218,9 @@
                         </control>
                         <control type="button">
                             <visible>false</visible>
-                            <onfocus condition="String.IsEqual(ListItem.DBType,tvshow) | String.IsEqual(ListItem.DBType,season)">RunScript(script.embuary.helper,action=calc,do='"round($INFO[ListItem.Property(WatchedEpisodes)] * 100 / $INFO[ListItem.Property(TotalEpisodes)])"',prop=MyResult)</onfocus>
+                            <onfocus>ClearProperty(MyResult,home)</onfocus>
+                            <onfocus condition="[String.IsEqual(ListItem.DBType,tvshow) | String.IsEqual(ListItem.DBType,season)] + Skin.HasSetting(furniture.overlayinfobalken)">AlarmClock(Calculation,RunScript(script.embuary.helper,action=calc,do='"round($INFO[ListItem.Property(WatchedEpisodes)] * 100 / $INFO[ListItem.Property(TotalEpisodes)])"',prop=MyResult),00:01,silent)</onfocus>
+                            <onunfocus condition="System.HasAlarm(Calculation)">CancelAlarm(Calculation,true)</onunfocus>
                         </control>
                     </focusedlayout>
                 </control>
@@ -262,7 +266,7 @@
                         <param name="string" value="$LOCALIZE[544]" />
                     </include>
                     <viewtype label="544">list</viewtype>
-                    <scrolltime tween="quadratic">400</scrolltime>
+                    <include>ScrolltimeViewsList</include>
                     <itemlayout condition="!Skin.HasSetting(511ListInfo)" width="654" height="64">
                         <include>56itemlayout</include>
                     </itemlayout>
@@ -356,6 +360,7 @@
             <textcolor>Light1</textcolor>
             <selectedcolor>Light1</selectedcolor>
             <label>$VAR[Label2VarInfo]</label>
+            <animation effect="slide" start="0" end="34" time="0" condition="Skin.HasSetting(hide.markers)">Conditional</animation>
         </control>
     </include>
 
@@ -392,6 +397,7 @@
             <textcolor>Dark1</textcolor>
             <selectedcolor>Dark1</selectedcolor>
             <label>$VAR[Label2VarInfo]</label>
+            <animation effect="slide" start="0" end="34" time="0" condition="Skin.HasSetting(hide.markers)">Conditional</animation>
         </control>
     </include>
 
@@ -443,6 +449,7 @@
             <textcolor>Dark1</textcolor>
             <selectedcolor>Dark1</selectedcolor>
             <label>$VAR[56ListExtendedRight]</label>
+            <animation effect="slide" start="0" end="60" time="0" condition="Skin.HasSetting(hide.markers)">Conditional</animation>
         </control>
         <control type="label">
             <visible>Skin.HasSetting(list.show.filename) + !String.IsEqual(ListItem.Label,..)</visible>
@@ -547,6 +554,7 @@
             <textcolor>Light1</textcolor>
             <selectedcolor>Light1</selectedcolor>
             <label>$VAR[56ListExtendedRight]</label>
+            <animation effect="slide" start="0" end="60" time="0" condition="Skin.HasSetting(hide.markers)">Conditional</animation>
         </control>
     </include>
 </includes>

@@ -1,12 +1,14 @@
 <window>
     <defaultcontrol>30</defaultcontrol>
     <defaultcontrol always="true">9101</defaultcontrol>
+    <onunload>ClearProperty(DialogBusy,Home)</onunload>
     <controls>
         <include>GlobalBackground</include>
         <include>Furniture_Header</include>
         <include>Furniture_NowPlaying</include>
         <include>Furniture_Clock</include>
         <include>Furniture_Weather</include>
+        <include>OverlayEnableAddons</include>        
         <control type="group">
             <include>Animation.Common</include>
             <left>72</left>
@@ -196,14 +198,9 @@
                         <orientation>vertical</orientation>
                         <visible allowhiddenfocus="true">ControlGroup(9100).HasFocus(9101)</visible>
                         <control type="button" id="9801">
-                            <width>1310</width>
                             <visible>ControlGroup(9100).HasFocus(9101)</visible>
-                            <textoffsetx>20</textoffsetx>
-                            <font>Button</font>
-                            <textcolor>PanelWhite30</textcolor>
-                            <include>DefSettingsButtonNew</include>
+                            <include>DefSettingsLabel</include>
                             <label>37754</label>
-                            <enable>false</enable>
                         </control>
                         <control type="button" id="9802" description="Customise Home">
                             <width>1310</width>
@@ -211,41 +208,48 @@
                             <include>DefSettingsButtonGradient</include>
                             <label>$LOCALIZE[31109]</label>
                             <onclick>RunScript(script.skinshortcuts,type=manage&amp;group=mainmenu)</onclick>
-                        </control>
-                        <control type="button" id="9804" description="Home Style">
+                            <onfocus>ClearProperty(Symbols,Home)</onfocus>
+                            <onfocus>ClearProperty(Backg,Home)</onfocus>
+                            <onfocus>ClearProperty(custommenu,Home)</onfocus>
+                            <onfocus>ClearProperty(skinshortcuts-Widget,Home)</onfocus>
+                        </control>                        
+                        <control type="button" id="9805">
                             <width>1310</width>
                             <visible>ControlGroup(9100).HasFocus(9101)</visible>
                             <include>DefSettingsButtonGradient</include>
                             <label>31247</label>
                             <label2>$VAR[LabelHomeWidgetStyle]</label2>
-                            <onclick condition="Skin.HasSetting(home.classicwidgets)">Skin.SetBool(home.vertical)</onclick>
-                            <onclick condition="Skin.HasSetting(home.classicwidgets)">Skin.SetBool(home.vertical.widgets)</onclick>
-                            <onclick condition="Skin.HasSetting(home.classicwidgets)">Skin.Reset(home.classicwidgets)</onclick>
-                            <onclick condition="Skin.HasSetting(home.vertical) + Skin.HasSetting(home.vertical.widgets)">Skin.Reset(home.vertical.widgets)</onclick>
-                            <onclick condition="Skin.HasSetting(home.vertical) + !Skin.HasSetting(home.vertical.widgets)">Skin.SetBool(home.modernwidgets)</onclick>
-                            <onclick condition="Skin.HasSetting(home.vertical) + !Skin.HasSetting(home.vertical.widgets)">Skin.SetBool(home.vertical.widgets)</onclick>
-                            <onclick condition="Skin.HasSetting(home.vertical) + !Skin.HasSetting(home.vertical.widgets)">Skin.Reset(home.vertical)</onclick>
-                            <onclick condition="Skin.HasSetting(home.modernwidgets) + Skin.HasSetting(home.vertical.widgets)">Skin.Reset(home.vertical.widgets)</onclick>
-                            <onclick condition="Skin.HasSetting(home.modernwidgets) + !Skin.HasSetting(home.vertical.widgets)">Skin.Reset(home.classicwidgets)</onclick>
-                            <onclick condition="Skin.HasSetting(home.modernwidgets) + !Skin.HasSetting(home.vertical.widgets)">Skin.Reset(home.vertical)</onclick>
-                            <onclick condition="Skin.HasSetting(home.modernwidgets) + !Skin.HasSetting(home.vertical.widgets)">Skin.Reset(home.modernwidgets)</onclick>
-                            <onclick condition="!Skin.HasSetting(home.vertical) + !Skin.HasSetting(home.classicwidgets) + !Skin.HasSetting(home.modernwidgets) + !Skin.HasSetting(home.vertical.widgets)">Skin.Reset(home.vertical)</onclick>
-                            <onclick condition="!Skin.HasSetting(home.vertical) + !Skin.HasSetting(home.classicwidgets) + !Skin.HasSetting(home.modernwidgets) + !Skin.HasSetting(home.vertical.widgets)">Skin.SetBool(home.classicwidgets)</onclick>
+                            <onclick>ActivateWindow(1255)</onclick>
                         </control>
-                        <control type="radiobutton" id="9806" description="Flags">
+                        <control type="button" id="9803">
+                            <visible>ControlGroup(9100).HasFocus(9101)</visible>
+                            <include>DefSettingsLabel</include>
+                            <label>$LOCALIZE[37958]</label>
+                        </control>
+                        <control type="radiobutton" id="9873" description="Netflix preview window">
                             <width>1310</width>
                             <visible>ControlGroup(9100).HasFocus(9101)</visible>
                             <include>DefSettingsButtonGradient</include>
-                            <label>37862</label>
-                            <selected>!Skin.HasSetting(no.homemenu.clear)</selected>
-                            <onclick>Skin.ToggleSetting(no.homemenu.clear)</onclick>
-                            <enable>$EXP[HomeIsModernMultiWidgets]</enable>
+                            <label>$LOCALIZE[37953]</label>
+                            <selected>Skin.HasSetting(homemenu.netflix.preview)</selected>
+                            <onclick>Skin.ToggleSetting(homemenu.netflix.preview)</onclick>
+                            <visible>[ $EXP[HomeIsModernMultiWidgets] | $EXP[HomeIsVerticalMultiWidgets] ] + Skin.HasSetting(homemenu.netflix)</visible>
+                        </control>
+                        <control type="radiobutton" id="9876" description="Netflix preview window">
+                            <width>1310</width>
+                            <visible>ControlGroup(9100).HasFocus(9101)</visible>
+                            <include>DefSettingsButtonGradient</include>
+                            <label>$LOCALIZE[37742]$LOCALIZE[37605]</label>
+                            <selected>Skin.HasSetting(homemenu.netflix.preview.fullscreen)</selected>
+                            <onclick>Skin.ToggleSetting(homemenu.netflix.preview.fullscreen)</onclick>
+                            <visible>[ $EXP[HomeIsModernMultiWidgets] | $EXP[HomeIsVerticalMultiWidgets] ] + Skin.HasSetting(homemenu.netflix) + Skin.HasSetting(homemenu.netflix.preview)</visible>
+                            <enable>Skin.HasSetting(BlurEnabled) + Skin.HasSetting(BlurOnHome)</enable>
                         </control>
                         <control type="button" id="9820" description="Home Style">
                             <width>1310</width>
                             <visible>ControlGroup(9100).HasFocus(9101)</visible>
                             <include>DefSettingsButtonGradient</include>
-                            <label>37884</label>
+                            <label>$LOCALIZE[37884]</label>
                             <label2>$VAR[LabelHomeMenuStyle]</label2>
                             <onclick condition="!Skin.HasSetting(home.oldmenuheight) + !Skin.HasSetting(submenu.compatibility)">Skin.Reset(home.showheader)</onclick>
                             <onclick condition="!Skin.HasSetting(home.classicwidgets) + !Skin.HasSetting(submenu.compatibility)">Skin.ToggleSetting(home.oldmenuheight)</onclick>
@@ -254,13 +258,22 @@
                             <onclick condition="Skin.HasSetting(home.oldmenuheight)">Skin.ToggleSetting(submenu.compatibility)</onclick>
                             <onclick condition="Skin.HasSetting(submenu.compatibility)">Skin.Reset(home.oldmenuheight)</onclick>
                             <onclick condition="Skin.HasSetting(submenu.compatibility)">Skin.Reset(submenu.compatibility)</onclick>
-                            <enable>[!Skin.HasSetting(home.vertical) + !Skin.HasSetting(home.classicwidgets) + !Skin.HasSetting(home.modernwidgets)] | [Skin.HasSetting(home.modernwidgets) + Skin.HasSetting(home.vertical.widgets)]</enable>
+                            <visible>[!Skin.HasSetting(home.vertical) + !Skin.HasSetting(home.classicwidgets) + !Skin.HasSetting(home.modernwidgets)] | [Skin.HasSetting(home.modernwidgets) + Skin.HasSetting(home.vertical.widgets)]</visible>
+                        </control>
+                        <control type="radiobutton" id="9806" description="Flags">
+                            <width>1310</width>
+                            <visible>ControlGroup(9100).HasFocus(9101)</visible>
+                            <include>DefSettingsButtonGradient</include>
+                            <label>$LOCALIZE[37742]$LOCALIZE[37957]</label>
+                            <selected>!Skin.HasSetting(no.homemenu.clear)</selected>
+                            <onclick>Skin.ToggleSetting(no.homemenu.clear)</onclick>
+                            <visible>$EXP[HomeIsModernMultiWidgets]</visible>
                         </control>
                         <control type="radiobutton" id="9807" description="Clear HomeMenu">
                             <width>1310</width>
                             <visible>ControlGroup(9100).HasFocus(9101)</visible>
                             <include>DefSettingsButtonGradient</include>
-                            <label>31154</label>
+                            <label>$LOCALIZE[31154]</label>
                             <selected>!Skin.HasSetting(hide.furniture.flags.vertical.widgets)</selected>
                             <onclick>Skin.ToggleSetting(hide.furniture.flags.vertical.widgets)</onclick>
                             <visible>[Skin.HasSetting(home.vertical) + Skin.HasSetting(home.vertical.widgets)]</visible>
@@ -269,7 +282,7 @@
                             <width>1310</width>
                             <visible>ControlGroup(9100).HasFocus(9101)</visible>
                             <include>DefSettingsButtonGradient</include>
-                            <label>31190</label>
+                            <label>$LOCALIZE[31190]</label>
                             <selected>Skin.HasSetting(home.showicons)</selected>
                             <onclick>Skin.ToggleSetting(home.showicons)</onclick>
                         </control>
@@ -280,15 +293,16 @@
                             <label>$LOCALIZE[37742]$LOCALIZE[37861]</label>
                             <selected>Skin.HasSetting(homemenu.only.icons)</selected>
                             <onclick>Skin.ToggleSetting(homemenu.only.icons)</onclick>
-                            <enable>Skin.HasSetting(home.showicons) + !$EXP[HomeIsVertical]</enable>
+                            <visible>Skin.HasSetting(home.showicons) + !$EXP[HomeIsVertical]</visible>
                         </control>
                         <control type="radiobutton" id="9811" description="Flags">
                             <width>1310</width>
                             <visible>ControlGroup(9100).HasFocus(9101)</visible>
                             <include>DefSettingsButtonGradient</include>
-                            <label>$LOCALIZE[37742]$LOCALIZE[37917]</label>
+                            <label>$LOCALIZE[37742]$LOCALIZE[31115]</label>
                             <selected>Skin.HasSetting(home.show.label)</selected>
                             <onclick>Skin.ToggleSetting(home.show.label)</onclick>
+                            <onclick condition="!Skin.HasSetting(home.show.label)">Skin.Reset(home.showheader)</onclick>
                             <visible>Skin.HasSetting(home.showicons) + !$EXP[HomeIsVertical] + Skin.HasSetting(homemenu.only.icons)</visible>
                         </control>
                         <control type="radiobutton" id="9815" description="Show Header">
@@ -298,18 +312,13 @@
                             <label>$LOCALIZE[31115] ($LOCALIZE[10000])</label>
                             <selected>Skin.HasSetting(home.showheader)</selected>
                             <onclick>Skin.ToggleSetting(home.showheader)</onclick>
+                            <onclick condition="!Skin.HasSetting(home.showheader)">Skin.Reset(home.show.label)</onclick>
                             <enable>![$EXP[HomeIsModernMultiWidgets] + Skin.HasSetting(home.oldmenuheight)]</enable>
-                            <!--<visible>!Skin.HasSetting(home.vertical)</visible>-->
                         </control>
                         <control type="button" id="9818">
-                            <width>1310</width>
                             <visible>ControlGroup(9100).HasFocus(9101)</visible>
-                            <textoffsetx>20</textoffsetx>
-                            <font>Button</font>
-                            <textcolor>PanelWhite30</textcolor>
-                            <include>DefSettingsButtonNew</include>
+                            <include>DefSettingsLabel</include>
                             <label>37751</label>
-                            <enable>false</enable>
                         </control>
                         <control type="button" id="9840" description="Set Slideshow Path">
                             <width>1310</width>
@@ -363,7 +372,6 @@
                             <visible>ControlGroup(9100).HasFocus(9101)</visible>
                             <include>DefSettingsButtonGradient</include>
                             <label>31200</label>
-                            <!--<enable>!Skin.HasSetting(home.vertical)</enable>-->
                             <visible>!Skin.HasSetting(home.vertical) + !Skin.HasSetting(home.modernwidgets)</visible>
                             <selected>Skin.HasSetting(home.dontautoshowwidget)</selected>
                             <onclick>Skin.ToggleSetting(home.dontautoshowwidget)</onclick>
@@ -376,35 +384,7 @@
                             <visible>Skin.HasSetting(home.vertical)</visible>
                             <selected>!Skin.HasSetting(NoAutoScroll)</selected>
                             <onclick>Skin.ToggleSetting(NoAutoScroll)</onclick>
-                            <!--<label>31274</label>
-                            <selected>Skin.HasSetting(NoPersistentWidgets)</selected>
-                            <onclick>Skin.ToggleSetting(NoPersistentWidgets)</onclick>-->
                         </control>
-                        <!--<control type="radiobutton" id="9846">
-                            <width>1310</width>
-                            <visible>ControlGroup(9100).HasFocus(9101)</visible>
-                            <include>DefSettingsButtonGradient</include>
-                            <label>37800</label>
-                            <selected>Skin.HasSetting(home.vertical.widgets.submenu)</selected>
-                            <onclick>Skin.ToggleSetting(home.vertical.widgets.submenu)</onclick>
-                            <visible>$EXP[HomeIsModernMultiWidgets] | $EXP[HomeIsVerticalMultiWidgets]</visible>
-                        </control>                        
-                        <control type="button" id="9847" description="Show Icons">
-                            <width>1310</width>
-                            <visible>ControlGroup(9100).HasFocus(9101)</visible>
-                            <include>DefSettingsButtonGradient</include>
-                            <label>    $LOCALIZE[1034] $LOCALIZE[31261]</label>
-                            <label2>$VAR[LabelWidgetSubmenuType]</label2>                            
-                            <onclick condition="!Skin.HasSetting(home.vertical.widgets.submenu.poster) + !Skin.HasSetting(home.vertical.widgets.submenu.square) +!Skin.HasSetting(home.vertical.widgets.submenu.fanart)">Skin.SetBool(home.vertical.widgets.submenu.poster)</onclick>
-                            <onclick condition="Skin.HasSetting(home.vertical.widgets.submenu.poster)">Skin.SetBool(home.vertical.widgets.submenu.square)</onclick>
-                            <onclick condition="Skin.HasSetting(home.vertical.widgets.submenu.poster)">Skin.Reset(home.vertical.widgets.submenu.poster)</onclick>                            
-                            <onclick condition="Skin.HasSetting(home.vertical.widgets.submenu.square)">Skin.SetBool(home.vertical.widgets.submenu.fanart)</onclick>
-                            <onclick condition="Skin.HasSetting(home.vertical.widgets.submenu.square)">Skin.Reset(home.vertical.widgets.submenu.square)</onclick>                            
-                            <onclick condition="Skin.HasSetting(home.vertical.widgets.submenu.fanart)">Skin.Reset(home.vertical.widgets.submenu.fanart)</onclick>                                                    
-                            <onclick condition="!Skin.HasSetting(home.vertical.widgets.submenu.poster) + !Skin.HasSetting(home.vertical.widgets.submenu.square) +!Skin.HasSetting(home.vertical.widgets.submenu.fanart)">Skin.Reset(home.vertical.widgets.submenu.fanart)</onclick> 
-                            <visible>$EXP[HomeIsModernMultiWidgets] | $EXP[HomeIsVerticalMultiWidgets]</visible>
-                            <enable>[$EXP[HomeIsModernMultiWidgets] | $EXP[HomeIsVerticalMultiWidgets]] + Skin.HasSetting(home.vertical.widgets.submenu)</enable>
-                        </control>  -->
                         <control type="radiobutton" id="9848">
                             <width>1310</width>
                             <visible>ControlGroup(9100).HasFocus(9101)</visible>
@@ -437,15 +417,81 @@
                             <selected>Skin.HasSetting(weather.widget.old)</selected>
                             <onclick>Skin.ToggleSetting(weather.widget.old)</onclick>
                         </control>
-                        <control type="button" id="9855">
+                        <control type="button" id="9730">
+                            <visible>ControlGroup(9100).HasFocus(9101)</visible>
+                            <include>DefSettingsLabel</include>
+                            <label>37937</label>
+                        </control>
+                        <control type="radiobutton" id="9720" description="">
                             <width>1310</width>
                             <visible>ControlGroup(9100).HasFocus(9101)</visible>
-                            <textoffsetx>20</textoffsetx>
-                            <font>Button</font>
-                            <textcolor>PanelWhite30</textcolor>
-                            <include>DefSettingsButtonNew</include>
+                            <include>DefSettingsButtonGradient</include>
+                            <label>24022</label>
+                            <selected>Skin.HasSetting(extended.nowplaying)</selected>
+                            <onclick>Skin.ToggleSetting(extended.nowplaying)</onclick>
+                            <enable>[ $EXP[HomeIsModernMultiWidgets] | $EXP[HomeIsVerticalMultiWidgets] ]</enable>
+                        </control>
+                        <control type="radiobutton" id="9721" description="">
+                            <width>1310</width>
+                            <visible>ControlGroup(9100).HasFocus(9101)</visible>
+                            <include>DefSettingsButtonGradient</include>
+                            <label>$LOCALIZE[37742]$LOCALIZE[37935]</label>
+                            <selected>Skin.HasSetting(extended.nowplaying.videowindow)</selected>
+                            <onclick>Skin.ToggleSetting(extended.nowplaying.videowindow)</onclick>
+                            <onclick condition="!Skin.HasSetting(extended.nowplaying.videowindow)">Skin.Reset(global.showvideo)</onclick>
+                            <enable>Skin.HasSetting(extended.nowplaying)</enable>
+                            <enable>[ $EXP[HomeIsModernMultiWidgets] | $EXP[HomeIsVerticalMultiWidgets] ]</enable>
+                        </control>                        
+                        <control type="radiobutton" id="9722" description="">
+                            <width>1310</width>
+                            <visible>ControlGroup(9100).HasFocus(9101)</visible>
+                            <include>DefSettingsButtonGradient</include>
+                            <label>$LOCALIZE[37742]$LOCALIZE[37778]</label>
+                            <selected>Skin.HasSetting(extended.nowplaying.clearart)</selected>
+                            <onclick>Skin.ToggleSetting(extended.nowplaying.clearart)</onclick>
+                            <enable>Skin.HasSetting(extended.nowplaying)</enable>
+                            <enable>$EXP[HomeIsModernMultiWidgets] | [ $EXP[HomeIsVerticalMultiWidgets] + Skin.HasSetting(homemenu.only.icons) + Skin.HasSetting(home.showicons)]</enable>
+                        </control>
+                        <control type="radiobutton" id="9723" description="">
+                            <width>1310</width>
+                            <visible>ControlGroup(9100).HasFocus(9101)</visible>
+                            <include>DefSettingsButtonGradient</include>
+                            <label>$LOCALIZE[37742]$LOCALIZE[37936]</label>
+                            <selected>!Skin.HasSetting(extended.nowplaying.hidecd)</selected>
+                            <onclick>Skin.ToggleSetting(extended.nowplaying.hidecd)</onclick>
+                            <enable>Skin.HasSetting(extended.nowplaying)</enable>
+                            <enable>[ $EXP[HomeIsModernMultiWidgets] | $EXP[HomeIsVerticalMultiWidgets] ]</enable>
+                        </control>
+                        <control type="button" id="9724">
+                            <width>1310</width>
+                            <visible>ControlGroup(9100).HasFocus(9101)</visible>
+                            <include>DefSettingsButtonGradient</include>
+                            <label>$LOCALIZE[37742]$LOCALIZE[37742]$LOCALIZE[1211] - $LOCALIZE[37855]:</label>
+                            <label2>$VAR[OSDDiscArtLabel]</label2>
+                            <onclick condition="!Skin.HasSetting(osd.music.disc.fallback.vinyl) + !Skin.HasSetting(osd.music.disc.fake.cd)">Skin.ToggleSetting(osd.music.disc.fallback.vinyl)</onclick>
+                            <onclick condition="Skin.HasSetting(osd.music.disc.fallback.vinyl)">Skin.ToggleSetting(osd.music.disc.fake.cd)</onclick>
+                            <onclick condition="Skin.HasSetting(osd.music.disc.fake.cd)">Skin.Reset(osd.music.disc.fake.cd)</onclick>
+                            <onclick condition="Skin.HasSetting(osd.music.disc.fallback.vinyl)">Skin.Reset(osd.music.disc.fallback.vinyl)</onclick>
+                            <enable>Skin.HasSetting(extended.nowplaying) + !Skin.HasSetting(extended.nowplaying.hidecd)</enable>
+                            <enable>[ $EXP[HomeIsModernMultiWidgets] | $EXP[HomeIsVerticalMultiWidgets] ]</enable>
+                        </control>                        
+                        <control type="button" id="9725">
+                            <width>1310</width>
+                            <visible>ControlGroup(9100).HasFocus(9101)</visible>
+                            <include>DefSettingsButtonGradient</include>
+                            <label>$LOCALIZE[37742]$LOCALIZE[37742]$LOCALIZE[1212] - $LOCALIZE[37855]:</label>
+                            <label2>$VAR[VideoDiscArtLabel]</label2>
+                            <onclick condition="!Skin.HasSetting(home.video.disc.fallback.bluray) + !Skin.HasSetting(home.video.disc.fake.bluray)">Skin.ToggleSetting(home.video.disc.fallback.bluray)</onclick>
+                            <onclick condition="Skin.HasSetting(home.video.disc.fallback.bluray)">Skin.ToggleSetting(home.video.disc.fake.bluray)</onclick>
+                            <onclick condition="Skin.HasSetting(home.video.disc.fake.bluray)">Skin.Reset(home.video.disc.fake.bluray)</onclick>
+                            <onclick condition="Skin.HasSetting(home.video.disc.fallback.bluray)">Skin.Reset(home.video.disc.fallback.bluray)</onclick>
+                            <enable>Skin.HasSetting(extended.nowplaying) + !Skin.HasSetting(extended.nowplaying.hidecd)</enable>
+                            <enable>[ $EXP[HomeIsModernMultiWidgets] | $EXP[HomeIsVerticalMultiWidgets] ]</enable>
+                        </control>
+                        <control type="button" id="9855">
+                            <visible>ControlGroup(9100).HasFocus(9101)</visible>
+                            <include>DefSettingsLabel</include>
                             <label>37755</label>
-                            <enable>false</enable>
                         </control>
                         <control type="radiobutton" id="9856" description="Always Show Weather Widget">
                             <width>1310</width>
@@ -479,16 +525,11 @@
                             <selected>Skin.HasSetting(home.showclearlogoleftbottomclassic)</selected>
                             <onclick>Skin.ToggleSetting(home.showclearlogoleftbottomclassic)</onclick>
                             <onclick>Skin.Reset(home.showclearlogotopright)</onclick>
-                        </control>
+                        </control>                        
                         <control type="button" id="9859">
-                            <width>1310</width>
                             <visible>ControlGroup(9100).HasFocus(9101)</visible>
-                            <textoffsetx>20</textoffsetx>
-                            <font>Button</font>
-                            <textcolor>PanelWhite30</textcolor>
-                            <include>DefSettingsButtonNew</include>
+                            <include>DefSettingsLabel</include>
                             <label>37625</label>
-                            <enable>false</enable>
                         </control>
                         <control type="radiobutton" id="9870">
                             <width>1310</width>
@@ -509,14 +550,9 @@
                             <enable>System.GetBool(lookandfeel.enablerssfeeds)</enable>
                         </control>
                         <control type="button" id="9874">
-                            <width>1310</width>
                             <visible>ControlGroup(9100).HasFocus(9101)</visible>
-                            <textoffsetx>20</textoffsetx>
-                            <font>Button</font>
-                            <textcolor>PanelWhite30</textcolor>
-                            <include>DefSettingsButtonNew</include>
+                            <include>DefSettingsLabel</include>
                             <label>37817</label>
-                            <enable>false</enable>
                         </control>
                         <control type="button" id="9875">
                             <width>1310</width>
@@ -538,14 +574,9 @@
                         <orientation>vertical</orientation>
                         <visible allowhiddenfocus="true">ControlGroup(9100).HasFocus(9102)</visible>
                         <control type="button" id="9710">
-                            <width>1310</width>
                             <visible>ControlGroup(9100).HasFocus(9102)</visible>
-                            <textoffsetx>20</textoffsetx>
-                            <font>Button</font>
-                            <textcolor>PanelWhite30</textcolor>
-                            <include>DefSettingsButtonNew</include>
+                            <include>DefSettingsLabel</include>
                             <label>37756</label>
-                            <enable>false</enable>
                         </control>
                         <control type="radiobutton" id="9711">
                             <include>DefSettingsButtonGradient</include>
@@ -566,14 +597,9 @@
                             <enable>Skin.HasSetting(BlurEnabled)</enable>
                         </control>
                         <control type="button" id="9713">
-                            <width>1310</width>
                             <visible>ControlGroup(9100).HasFocus(9102)</visible>
-                            <textoffsetx>20</textoffsetx>
-                            <font>Button</font>
-                            <textcolor>PanelWhite30</textcolor>
-                            <include>DefSettingsButtonNew</include>
+                            <include>DefSettingsLabel</include>
                             <label>37599</label>
-                            <enable>false</enable>
                         </control>
                         <control type="radiobutton" id="9714" description="Show fanart">
                             <width>1310</width>
@@ -618,6 +644,7 @@
                             <label>31111</label>
                             <selected>Skin.HasSetting(global.showvideo)</selected>
                             <onclick>Skin.ToggleSetting(global.showvideo)</onclick>
+                            <onclick condition="!Skin.HasSetting(global.showvideo)">Skin.Reset(extended.nowplaying.videowindow)</onclick>
                         </control>
                         <control type="radiobutton" id="9719" description="Show vis in background">
                             <width>1310</width>
@@ -626,7 +653,7 @@
                             <label>31172</label>
                             <selected>Skin.HasSetting(global.showvisualisation)</selected>
                             <onclick>Skin.ToggleSetting(global.showvisualisation)</onclick>
-                        </control>
+                        </control>                        
                     </control>
     
                     <!-- MUSIC Video OSD -->
@@ -639,28 +666,12 @@
                         <ondown>9400</ondown>
                         <orientation>vertical</orientation>
                         <visible allowhiddenfocus="true">ControlGroup(9100).HasFocus(9103)</visible>
-        
-                        <!-- OSD -->
-                        <!--<control type="radiobutton" id="9234" description="Match theme">
-                            <width>1310</width>
-                            <visible>ControlGroup(9100).HasFocus(9103)</visible>
-                            <include>DefSettingsButtonGradient</include>
-                            <label>31196</label>
-                            <selected>!Skin.HasSetting(osd.usetheme)</selected>
-                            <onclick>Skin.ToggleSetting(osd.usetheme)</onclick>
-                            <onclick>ReloadSkin()</onclick>
-                        </control>-->
-        
+                        
                         <!-- GLOBAL -->
                         <control type="button" id="9201">
-                            <width>1310</width>
                             <visible>ControlGroup(9100).HasFocus(9103)</visible>
-                            <textoffsetx>20</textoffsetx>
-                            <font>Button</font>
-                            <textcolor>PanelWhite30</textcolor>
-                            <include>DefSettingsButtonNew</include>
+                            <include>DefSettingsLabel</include>
                             <label>37599</label>
-                            <enable>false</enable>
                         </control> 
                         <control type="button" id="9207">
                             <width>1310</width>
@@ -680,14 +691,9 @@
         
                         <!-- Video -->
                         <control type="button" id="9208">
-                            <width>1310</width>
                             <visible>ControlGroup(9100).HasFocus(9103)</visible>
-                            <textoffsetx>20</textoffsetx>
-                            <font>Button</font>
-                            <textcolor>PanelWhite30</textcolor>
-                            <include>DefSettingsButtonNew</include>
+                            <include>DefSettingsLabel</include>
                             <label>37749</label>
-                            <enable>false</enable>
                         </control>
                         <control type="button" id="9202" description="SELECT OSD">
                             <include>DefSettingsButtonGradient</include>
@@ -737,7 +743,7 @@
                             <include>DefSettingsButtonGradient</include>
                             <selected>Skin.HasSetting(furniture.flagiconsosdnoicons)</selected>
                             <onclick>Skin.ToggleSetting(furniture.flagiconsosdnoicons)</onclick>
-                            <label>31246</label>
+                            <label>$LOCALIZE[37742]$LOCALIZE[31246]</label>
                             <enable>Skin.HasSetting(furniture.flagiconsosd)</enable>
                         </control>
                         <control type="radiobutton" id="9216">
@@ -746,7 +752,7 @@
                             <include>DefSettingsButtonGradient</include>
                             <selected>Skin.HasSetting(osd.coloredicons)</selected>
                             <onclick>Skin.ToggleSetting(osd.coloredicons)</onclick>
-                            <label>37521</label>
+                            <label>$LOCALIZE[37742]$LOCALIZE[37521]</label>
                             <enable>Skin.HasSetting(furniture.flagiconsosd) + Skin.HasSetting(furniture.flagiconsosdnoicons)</enable>
                         </control>
                         <control type="radiobutton" id="9217">
@@ -811,14 +817,9 @@
         
                         <!-- AUDIO -->
                         <control type="button" id="9223">
-                            <width>1310</width>
                             <visible>ControlGroup(9100).HasFocus(9103)</visible>
-                            <textoffsetx>20</textoffsetx>
-                            <font>Button</font>
-                            <textcolor>PanelWhite30</textcolor>
-                            <include>DefSettingsButtonNew</include>
+                            <include>DefSettingsLabel</include>
                             <label>37750</label>
-                            <enable>false</enable>
                         </control>
                         <control type="button" id="9236" description="SELECT OSD">
                             <include>DefSettingsButtonGradient</include>
@@ -931,14 +932,9 @@
                         <orientation>vertical</orientation>
                         <visible allowhiddenfocus="true">ControlGroup(9100).HasFocus(9109)</visible>
                         <control type="button" id="9304">
-                            <width>1310</width>
                             <visible>ControlGroup(9100).HasFocus(9109)</visible>
-                            <textoffsetx>20</textoffsetx>
-                            <font>Button</font>
-                            <textcolor>PanelWhite30</textcolor>
-                            <include>DefSettingsButtonNew</include>
+                            <include>DefSettingsLabel</include>
                             <label>37528</label>
-                            <enable>false</enable>
                         </control>
                         <control type="radiobutton" id="9305">
                             <width>1310</width>
@@ -990,6 +986,32 @@
                             <onclick condition="Skin.HasSetting(show.clearart)">Skin.Reset(show.clearart)</onclick>
                             <onclick condition="Skin.HasSetting(show.studiologos)">Skin.Reset(show.studiologos)</onclick>
                         </control>
+                        <control type="button" id="9319">
+                            <visible>ControlGroup(9100).HasFocus(9109)</visible>
+                            <include>DefSettingsLabel</include>
+                            <label>31170</label>
+                        </control>
+                        <control type="button" id="9320">
+                            <width>1310</width>
+                            <visible>ControlGroup(9100).HasFocus(9109)</visible>
+                            <include>DefSettingsButtonGradient</include>
+                            <label>37932</label>
+                            <label2>$VAR[Label_IntroPath]</label2>
+                            <onclick>Skin.SetPath(IntroPath)</onclick>
+                        </control>
+                        <control type="button" id="9321">
+                            <width>1310</width>
+                            <visible>ControlGroup(9100).HasFocus(9109)</visible>
+                            <include>DefSettingsButtonGradient</include>
+                            <label>37933</label>
+                            <label2>$VAR[Label_TrailerCount]</label2>
+                            <onclick condition="!Skin.String(TrailerCount)">Skin.SetString(TrailerCount,1)</onclick>
+                            <onclick condition="Skin.String(TrailerCount,1)">Skin.SetString(TrailerCount,2)</onclick>
+                            <onclick condition="Skin.String(TrailerCount,2)">Skin.SetString(TrailerCount,3)</onclick>
+                            <onclick condition="Skin.String(TrailerCount,3)">Skin.SetString(TrailerCount,4)</onclick>
+                            <onclick condition="Skin.String(TrailerCount,4)">Skin.SetString(TrailerCount,5)</onclick>
+                            <onclick condition="Skin.String(TrailerCount,5)">Skin.Reset(TrailerCount)</onclick>
+                        </control>
                     </control>
     
                     <!-- FARBEN -->
@@ -1003,14 +1025,9 @@
                         <orientation>vertical</orientation>
                         <visible allowhiddenfocus="true">ControlGroup(9100).HasFocus(9110)</visible>
                         <control type="button" id="9650">
-                            <width>1310</width>
                             <visible>ControlGroup(9100).HasFocus(9110)</visible>
-                            <textoffsetx>20</textoffsetx>
-                            <font>Button</font>
-                            <textcolor>PanelWhite30</textcolor>
-                            <include>DefSettingsButtonNew</include>
+                            <include>DefSettingsLabel</include>
                             <label>37642</label>
-                            <enable>false</enable>
                         </control>
                         <control type="radiobutton" id="9651" description="Set Custom Colour">
                             <width>1310</width>
@@ -1168,14 +1185,9 @@
                         <orientation>vertical</orientation>
                         <visible allowhiddenfocus="true">ControlGroup(9100).HasFocus(9112)</visible>
                         <control type="button" id="9430">
-                            <width>1310</width>
                             <visible>ControlGroup(9100).HasFocus(9112)</visible>
-                            <textoffsetx>20</textoffsetx>
-                            <font>Button</font>
-                            <textcolor>PanelWhite30</textcolor>
-                            <include>DefSettingsButtonNew</include>
+                            <include>DefSettingsLabel</include>
                             <label>37599</label>
-                            <enable>false</enable>
                         </control>
                         <control type="button" id="9439" description="Backup">
                             <width>1310</width>
@@ -1213,14 +1225,9 @@
                         <orientation>vertical</orientation>
                         <visible allowhiddenfocus="true">ControlGroup(9100).HasFocus(9111)</visible>
                         <control type="button" id="9550">
-                            <width>1310</width>
                             <visible>ControlGroup(9100).HasFocus(9111)</visible>
-                            <textoffsetx>20</textoffsetx>
-                            <font>Button</font>
-                            <textcolor>PanelWhite30</textcolor>
-                            <include>DefSettingsButtonNew</include>
+                            <include>DefSettingsLabel</include>
                             <label>37525</label>
-                            <enable>false</enable>
                         </control>
                         <control type="button" id="9583" description="Movie Genre">
                             <width>1310</width>
@@ -1326,6 +1333,11 @@
                         <ondown>11000</ondown>
                         <orientation>vertical</orientation>
                         <visible allowhiddenfocus="true">ControlGroup(9100).HasFocus(9113)</visible>
+                        <control type="button" id="11200">
+                            <visible>ControlGroup(9100).HasFocus(9113)</visible>
+                            <include>DefSettingsLabel</include>
+                            <label>37946</label>
+                        </control>
                         <include content="DefSkinAddons">
                             <param name="id" value="11003"/>
                             <param name="visible" value="ControlGroup(9100).HasFocus(9113)"/>
@@ -1354,17 +1366,7 @@
                         <include content="DefSkinAddons">
                             <param name="id" value="11009"/>
                             <param name="visible" value="ControlGroup(9100).HasFocus(9113)"/>
-                            <param name="addonname" value="plugin.video.imdb.trailers"/>
-                        </include>
-                        <include content="DefSkinAddons">
-                            <param name="id" value="11010"/>
-                            <param name="visible" value="ControlGroup(9100).HasFocus(9113)"/>
-                            <param name="addonname" value="script.cu.lrclyrics"/>
-                        </include>
-                        <include content="DefSkinAddons">
-                            <param name="id" value="11011"/>
-                            <param name="visible" value="ControlGroup(9100).HasFocus(9113)"/>
-                            <param name="addonname" value="script.globalsearch"/>
+                            <param name="addonname" value="resource.images.weathericons.white"/>
                         </include>
                         <include content="DefSkinAddons">
                             <param name="id" value="11012"/>
@@ -1372,9 +1374,19 @@
                             <param name="addonname" value="script.image.resource.select"/>
                         </include>
                         <include content="DefSkinAddons">
-                            <param name="id" value="11013"/>
+                            <param name="id" value="11011"/>
                             <param name="visible" value="ControlGroup(9100).HasFocus(9113)"/>
-                            <param name="addonname" value="script.artwork.beef"/>
+                            <param name="addonname" value="script.globalsearch"/>
+                        </include>
+                        <control type="button" id="11201">
+                            <visible>ControlGroup(9100).HasFocus(9113)</visible>
+                            <include>DefSettingsLabel</include>
+                            <label>37947</label>
+                        </control>
+                        <include content="DefSkinAddons">
+                            <param name="id" value="11010"/>
+                            <param name="visible" value="ControlGroup(9100).HasFocus(9113)"/>
+                            <param name="addonname" value="script.cu.lrclyrics"/>
                         </include>
                         <include content="DefSkinAddons">
                             <param name="id" value="11014"/>
@@ -1384,12 +1396,22 @@
                         <include content="DefSkinAddons">
                             <param name="id" value="11015"/>
                             <param name="visible" value="ControlGroup(9100).HasFocus(9113)"/>
-                            <param name="addonname" value="service.library.data.provider"/>
+                            <param name="addonname" value="service.upnext"/>
                         </include>
                         <include content="DefSkinAddons">
                             <param name="id" value="11016"/>
                             <param name="visible" value="ControlGroup(9100).HasFocus(9113)"/>
-                            <param name="addonname" value="service.upnext"/>
+                            <param name="addonname" value="service.library.data.provider"/>
+                        </include>
+                        <include content="DefSkinAddons">
+                            <param name="id" value="11019"/>
+                            <param name="visible" value="ControlGroup(9100).HasFocus(9113)"/>
+                            <param name="addonname" value="script.skin.info.service"/>
+                        </include>
+                        <include content="DefSkinAddons">
+                            <param name="id" value="11020"/>
+                            <param name="visible" value="ControlGroup(9100).HasFocus(9113)"/>
+                            <param name="addonname" value="plugin.video.imdb.trailers"/>
                         </include>
                     </control>
     
@@ -1404,14 +1426,9 @@
                         <orientation>vertical</orientation>
                         <visible allowhiddenfocus="true">ControlGroup(9100).HasFocus(9106)</visible>
                         <control type="button" id="9250">
-                            <width>1310</width>
                             <visible>ControlGroup(9100).HasFocus(9106)</visible>
-                            <textoffsetx>20</textoffsetx>
-                            <font>Button</font>
-                            <textcolor>PanelWhite30</textcolor>
-                            <include>DefSettingsButtonNew</include>
+                            <include>DefSettingsLabel</include>
                             <label>37599</label>
-                            <enable>false</enable>
                         </control>
                         <control type="radiobutton" id="9251" description="Header">
                             <width>1310</width>
@@ -1467,14 +1484,9 @@
                             <onclick>Skin.ToggleSetting(global.moreshadows)</onclick>
                         </control>
                         <control type="button" id="9259">
-                            <width>1310</width>
                             <visible>ControlGroup(9100).HasFocus(9106)</visible>
-                            <textoffsetx>20</textoffsetx>
-                            <font>Button</font>
-                            <textcolor>PanelWhite30</textcolor>
-                            <include>DefSettingsButtonNew</include>
+                            <include>DefSettingsLabel</include>
                             <label>37757</label>
-                            <enable>false</enable>
                         </control>
                         <control type="radiobutton" id="9260" description="Flags">
                             <width>1310</width>
@@ -1484,37 +1496,31 @@
                             <selected>!Skin.HasSetting(furniture.flags)</selected>
                             <onclick>Skin.ToggleSetting(furniture.flags)</onclick>
                         </control>
-                        <control type="radiobutton" id="9261" description="FlagsIcons">
+                        <control type="radiobutton" id="9261" description="Flags Icons">
                             <width>1310</width>
                             <visible>ControlGroup(9100).HasFocus(9106)</visible>
                             <include>DefSettingsButtonGradient</include>
-                            <label>31246</label>
+                            <label>$LOCALIZE[37742]$LOCALIZE[31246]</label>
                             <selected>Skin.HasSetting(furniture.flagicons)</selected>
                             <onclick>Skin.ToggleSetting(furniture.flagicons)</onclick>
-                        </control>
-                        <control type="radiobutton" id="9262">
-                            <width>1310</width>
-                            <visible>ControlGroup(9100).HasFocus(9106)</visible>
-                            <include>DefSettingsButtonGradient</include>
-                            <label>37521</label>
-                            <selected>Skin.HasSetting(furniture.coloredicons)</selected>
-                            <onclick>Skin.ToggleSetting(furniture.coloredicons)</onclick>
-                        </control>                        
-                        <control type="radiobutton" id="9269" description="Numeric Rating">
-                            <width>1310</width>
-                            <visible>ControlGroup(9100).HasFocus(9106)</visible>
-                            <include>DefSettingsButtonGradient</include>
-                            <label>31218</label>
-                            <selected>Skin.HasSetting(furniture.numericrating)</selected>
-                            <onclick>Skin.ToggleSetting(furniture.numericrating)</onclick>
                             <enable>!Skin.HasSetting(furniture.flags)</enable>
                         </control>
-                        <control type="button" id="9263" description="Numeric Rating">
+                        <control type="radiobutton" id="9262" description="Flags Color Icons">
                             <width>1310</width>
                             <visible>ControlGroup(9100).HasFocus(9106)</visible>
                             <include>DefSettingsButtonGradient</include>
-                            <label>37919</label>
+                            <label>$LOCALIZE[37742]$LOCALIZE[37521]</label>
+                            <selected>Skin.HasSetting(furniture.coloredicons)</selected>
+                            <onclick>Skin.ToggleSetting(furniture.coloredicons)</onclick>
+                            <enable>!Skin.HasSetting(furniture.flags) + Skin.HasSetting(furniture.flagicons)</enable>
+                        </control>
+                        <control type="button" id="9263" description="Select media flags">
+                            <width>1310</width>
+                            <visible>ControlGroup(9100).HasFocus(9106)</visible>
+                            <include>DefSettingsButtonGradient</include>
+                            <label>$LOCALIZE[37742]$LOCALIZE[37919]</label>
                             <onclick>ActivateWindow(1266)</onclick>
+                            <enable>!Skin.HasSetting(furniture.flags)</enable>
                         </control>
                         <control type="button" id="9272" description="Rating fallback label">
                             <width>1310</width>
@@ -1528,7 +1534,7 @@
                             <onclick condition="String.IsEqual(Skin.String(RatingFallback),3)">Skin.SetString(RatingFallback,4)</onclick>
                             <onclick condition="String.IsEqual(Skin.String(RatingFallback),4)">Skin.SetString(RatingFallback,)</onclick>
                         </control>
-                        <control type="radiobutton" id="9273" description="Numeric Rating">
+                        <control type="radiobutton" id="9273" description="Unwatched episodes">
                             <width>1310</width>
                             <visible>ControlGroup(9100).HasFocus(9106)</visible>
                             <include>DefSettingsButtonGradient</include>
@@ -1537,15 +1543,10 @@
                             <onclick>Skin.ToggleSetting(episodes.show.unwatched)</onclick>
                         </control>
                         <control type="button" id="9274">
-                            <width>1310</width>
                             <visible>ControlGroup(9100).HasFocus(9106)</visible>
-                            <textoffsetx>20</textoffsetx>
-                            <font>Button</font>
-                            <textcolor>PanelWhite30</textcolor>
-                            <include>DefSettingsButtonNew</include>
+                            <include>DefSettingsLabel</include>
                             <label>37752</label>
-                            <enable>false</enable>
-                        </control>                        
+                        </control>
                         <control type="radiobutton" id="9276" description="Now Playing">
                             <width>1310</width>
                             <visible>ControlGroup(9100).HasFocus(9106)</visible>
@@ -1578,13 +1579,6 @@
                             <selected>Skin.HasSetting(furniture.overlayinfo)</selected>
                             <onclick>Skin.ToggleSetting(furniture.overlayinfo)</onclick>
                         </control>
-                        <!--<control type="button" id="9274">
-                            <include>DefSettingsButtonGradient</include>
-                            <align>left</align>
-                            <label>37654</label>
-                            <onclick>ActivateWindow(1279)</onclick>
-                            <visible>ControlGroup(9100).HasFocus(9106)</visible>    
-                        </control>-->
                         <control type="radiobutton" id="9281">
                             <width>1310</width>
                             <visible>ControlGroup(9100).HasFocus(9106)</visible>
@@ -1673,17 +1667,20 @@
                             <selected>Skin.HasSetting(dontuselandscapemovies)</selected>
                             <onclick>Skin.ToggleSetting(dontuselandscapemovies)</onclick>
                         </control>
-                        <control type="button" id="9295">
-                            <width>1310</width>
+                        <control type="radiobutton" id="9585">
                             <visible>ControlGroup(9100).HasFocus(9106)</visible>
-                            <textoffsetx>20</textoffsetx>
-                            <font>Button</font>
-                            <textcolor>PanelWhite30</textcolor>
-                            <include>DefSettingsButtonNew</include>
+                            <include>DefSettingsButtonGradient</include>
+                            <label>37956</label>
+                            <align>left</align>
+                            <selected>!Skin.HasSetting(hide.markers)</selected>
+                            <onclick>Skin.ToggleSetting(hide.markers)</onclick>
+                        </control>                        
+                        <control type="button" id="9296">
+                            <visible>ControlGroup(9100).HasFocus(9106)</visible>
+                            <include>DefSettingsLabel</include>
                             <label>37753</label>
-                            <enable>false</enable>
                         </control>
-                        <control type="radiobutton" id="9296">
+                        <control type="radiobutton" id="9297">
                             <width>1310</width>
                             <visible>ControlGroup(9100).HasFocus(9106)</visible>
                             <include>DefSettingsButtonGradient</include>
@@ -1704,14 +1701,9 @@
                         <orientation>vertical</orientation>
                         <visible allowhiddenfocus="true">ControlGroup(9100).HasFocus(9107)</visible>
                         <control type="button" id="12001">
-                            <width>1310</width>
                             <visible>ControlGroup(9100).HasFocus(9107)</visible>
-                            <textoffsetx>20</textoffsetx>
-                            <font>Button</font>
-                            <textcolor>PanelWhite30</textcolor>
-                            <include>DefSettingsButtonNew</include>
+                            <include>DefSettingsLabel</include>
                             <label>37599</label>
-                            <enable>false</enable>
                         </control>
                         <control type="radiobutton" id="12002" description="">
                             <include>DefSettingsButtonGradient</include>
@@ -1749,14 +1741,9 @@
                             <onclick>Skin.ToggleSetting(thumbnails.white)</onclick>
                         </control>                        
                         <control type="button" id="12006">
-                            <width>1310</width>
                             <visible>ControlGroup(9100).HasFocus(9107)</visible>
-                            <textoffsetx>20</textoffsetx>
-                            <font>Button</font>
-                            <textcolor>PanelWhite30</textcolor>
-                            <include>DefSettingsButtonNew</include>
+                            <include>DefSettingsLabel</include>
                             <label>$LOCALIZE[37901]</label>
-                            <enable>false</enable>
                         </control>
                         <control type="radiobutton" id="12007" description="Now Playing">
                             <width>1310</width>
@@ -1775,14 +1762,9 @@
                             <enable>Skin.HasSetting(enable.forcedviews)</enable>
                         </control>                        
                         <control type="button" id="12009">
-                            <width>1310</width>
                             <visible>ControlGroup(9100).HasFocus(9107)</visible>
-                            <textoffsetx>20</textoffsetx>
-                            <font>Button</font>
-                            <textcolor>PanelWhite30</textcolor>
-                            <include>DefSettingsButtonNew</include>
+                            <include>DefSettingsLabel</include>
                             <label>$LOCALIZE[37731] $LOCALIZE[37863] $LOCALIZE[37871]</label>
-                            <enable>false</enable>
                         </control>
                         <control type="radiobutton" id="12010">
                             <width>1310</width>
@@ -1812,14 +1794,9 @@
                             <enable>$EXP[HomeIsModernMultiWidgets]</enable>
                         </control>
                         <control type="button" id="12013">
-                            <width>1310</width>
                             <visible>ControlGroup(9100).HasFocus(9107)</visible>
-                            <textoffsetx>20</textoffsetx>
-                            <font>Button</font>
-                            <textcolor>PanelWhite30</textcolor>
-                            <include>DefSettingsButtonNew</include>
+                            <include>DefSettingsLabel</include>
                             <label>37596</label>
-                            <enable>false</enable>
                         </control>
                         <control type="button" id="12014" description="Startup Video">
                             <width>1310</width>
@@ -1850,22 +1827,6 @@
                             <selected>Skin.HasSetting(music.gotofullscreen)</selected>
                             <onclick>Skin.ToggleSetting(music.gotofullscreen)</onclick>
                         </control>
-                        <!--<control type="radiobutton" id="9274">
-                            <width>1310</width>
-                            <visible>ControlGroup(9100).HasFocus(9107)</visible>
-                            <include>DefSettingsButtonGradient</include>
-                            <label>$VAR[ColorSquares]</label>
-                            <selected>Skin.HasSetting(furniture.coloredicons)</selected>
-                            <onclick>Skin.ToggleSetting(furniture.coloredicons)</onclick>
-                        </control>-->
-                        <!--<control type="button" id="9278" description="Set Custom Colour">
-                            <width>1310</width>
-                            <visible>ControlGroup(9100).HasFocus(9107)</visible>
-                            <include>DefSettingsButtonGradient</include>
-                            <label>Backgroundcolor</label>
-                            <label2>$INFO[Skin.String(backgroundcolor.name)]</label2>
-                            <onclick>ActivateWindow(1127)</onclick>
-                        </control>-->
                         <control type="radiobutton" id="12018" description="Kiosk Mode">
                             <width>1310</width>
                             <visible>ControlGroup(9100).HasFocus(9107)</visible>
@@ -1900,14 +1861,19 @@
                             <selected>Skin.HasSetting(home.submenu2)</selected>
                             <onclick>Skin.ToggleSetting(home.submenu2)</onclick>
                         </control>
-                        <!--<control type="radiobutton" id="12013" description="Show Header">
+                        <control type="button" id="12023">
+                            <visible>ControlGroup(9100).HasFocus(9107)</visible>
+                            <include>DefSettingsLabel</include>
+                            <label>37948</label>
+                        </control>
+                        <control type="radiobutton" id="12024">
                             <width>1310</width>
                             <visible>ControlGroup(9100).HasFocus(9107)</visible>
                             <include>DefSettingsButtonGradient</include>
-                            <label>$LOCALIZE[31115] ($LOCALIZE[10000])</label>
-                            <selected>Skin.HasSetting(home.showheader)</selected>
-                            <onclick>Skin.ToggleSetting(home.showheader)</onclick>
-                        </control>-->
+                            <label>37949</label>
+                            <selected>Skin.HasSetting(background.video.fix.audio.errors)</selected>
+                            <onclick>Skin.ToggleSetting(background.video.fix.audio.errors)</onclick>
+                        </control>
                     </control>
                 </control>
 
@@ -1940,8 +1906,6 @@
                     <scroll>true</scroll>
                     <align>left</align>
                     <textoffsetx>0</textoffsetx>
-                    <texturenofocus>noop</texturenofocus>
-                    <texturefocus>noop</texturefocus>
                     <label>$INFO[System.ProfileName]</label>
                 </control>
                 <control type="label">

@@ -47,7 +47,7 @@
                             <param name="string" value="$LOCALIZE[37518]" />
                         </include>
                         <visible>Container.Content(movies) | Container.Content(tvshows) | Container.Content(episodes) | Container.Content(seasons) | Container.Content(sets)</visible>
-                        <scrolltime tween="quadratic">300</scrolltime>
+                        <include>ScrolltimeViewsList</include>
                         <viewtype label="37518">wraplist</viewtype>
                         <itemlayout width="400" height="54">
                             <include>50itemlayout_new</include>
@@ -63,7 +63,9 @@
                             </control>
                             <control type="button">
                                 <visible>false</visible>
-                                <onfocus condition="String.IsEqual(ListItem.DBType,tvshow) | String.IsEqual(ListItem.DBType,season)">RunScript(script.embuary.helper,action=calc,do='"round($INFO[ListItem.Property(WatchedEpisodes)] * 100 / $INFO[ListItem.Property(TotalEpisodes)])"',prop=MyResult)</onfocus>
+                                <onfocus>ClearProperty(MyResult,home)</onfocus>
+                                <onfocus condition="[String.IsEqual(ListItem.DBType,tvshow) | String.IsEqual(ListItem.DBType,season)] + Skin.HasSetting(furniture.overlayinfobalken)">AlarmClock(Calculation,RunScript(script.embuary.helper,action=calc,do='"round($INFO[ListItem.Property(WatchedEpisodes)] * 100 / $INFO[ListItem.Property(TotalEpisodes)])"',prop=MyResult),00:01,silent)</onfocus>
+                                <onunfocus condition="System.HasAlarm(Calculation)">CancelAlarm(Calculation,true)</onunfocus>
                             </control>
                         </focusedlayout>
                     </control>
@@ -173,7 +175,7 @@
                             <font>Small333</font>
                             <textcolor>Dark1</textcolor>
                             <selectedcolor>Dark1</selectedcolor>
-                            <label>$INFO[ListItem.Year,,  •  ]$VAR[LabelDurationTimeCheckInfo]</label>
+                            <label>$VAR[LabelTagline501]</label>
                         </control>
                         <control type="textbox">
                             <top>136</top>

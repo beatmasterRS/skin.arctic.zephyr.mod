@@ -51,20 +51,11 @@
 
             <!--     Rechte Seite     -->
             <control type="group">
+                <include>HiddenUpNextEpisode</include>
                 <visible>!Window.IsVisible(script-embuary-person.xml)</visible>
                 <visible>!Window.IsVisible(script-embuary-video.xml)</visible>
                 <visible>!Window.IsVisible(DialogBusy.xml)</visible>
                 <include>Animation.RightSide</include>
-                <control type="button" id="9601">
-                    <width>1</width>
-                    <height>1</height>
-                    <visible allowhiddenfocus="true">false</visible>
-                    <onback>9000</onback>
-                    <onup>9000</onup>
-                    <ondown>9000</ondown>
-                    <onleft>9000</onleft>
-                    <onright>9000</onright>
-                </control>
                 <control type="button" id="7011">
                     <width>1</width>
                     <height>1</height>
@@ -94,7 +85,9 @@
                     <bottom>-80</bottom>
                     <include>Animation.VideoFadeOut</include>
                     <include>DialogVideoInfoNavigationWIP</include>
-                    <include>ArrowsNavigation</include>
+                    <include content="ArrowsNavigation">
+                        <param name="visible" value="Integer.IsGreater(Container(9000).NumItems,8) + ControlGroup(9000).HasFocus()" />
+                    </include>
                 </control>
                 <control type="group">
                     <top>930</top>
@@ -164,25 +157,11 @@
                     <texture background="true">$VAR[ClearLogoTopVar]</texture>
                 </control>
 
-                <!-- Arrows -->
-                <control type="group">
-                    <include>Animation.DelayFadeIn</include>
-                    <visible>Control.HasFocus(95051) + Integer.IsGreater(Container(9505).NumItems,1)</visible>
-                    <centerbottom>560</centerbottom>
-                    <height>16</height>
-                    <control type="image">
-                        <centerleft>550</centerleft>
-                        <width>16</width>
-                        <height>16</height>
-                        <texture colordiffuse="Dark1" flipx="true">common/arrow-small-right.png</texture>
-                    </control>
-                    <control type="image">
-                        <centerright>68</centerright>
-                        <width>16</width>
-                        <height>16</height>
-                        <texture colordiffuse="Dark1" flipx="false">common/arrow-small-right.png</texture>
-                    </control>
-                </control>
+                <!-- Arrows -->                
+                <include content="ArrowsNavigation">
+                    <param name="visible" value="Control.HasFocus(95051) + Integer.IsGreater(Container(9505).NumItems,1)" />
+                    <param name="centerbottom" value="560" />
+                </include>
 
                 <!-- FANART -->
                 <control type="group">
@@ -194,58 +173,60 @@
                     <bottom>184</bottom>
                     <top>335</top>
                     <control type="image">
-                        <left>-2</left>
-                        <top>-121</top>
-                        <right>6</right>
-                        <bottom>70</bottom>
-                        <texture diffuse="diffuse/bigwiderolodex.png" colordiffuse="Box2">common/box18.png</texture>
+                        <left>0</left>
+                        <top>-119</top>
+                        <right>0</right>
+                        <bottom>71</bottom>
+                        <texture colordiffuse="Box2" border="4" background="true">common/box21.png</texture>
                     </control>
-                    <control type="image">
-                        <left>-8</left>
-                        <top>-127</top>
-                        <right>-1</right>
+                    <control type="group">
+                        <left>-7</left>
+                        <top>-126</top>
+                        <right>-7</right>
                         <bottom>64</bottom>
-                        <texture border="5" colordiffuse="$VAR[ColorSquares]">common/box.png</texture>
-                        <animation condition="Control.HasFocus(95051)" effect="fade" end="100" start="0" time="150">Conditional</animation>
-                        <animation condition="!Control.HasFocus(95051)" effect="fade" end="0" start="100" time="100">Conditional</animation>
+                        <control type="image">
+                            <texture border="5" colordiffuse="$VAR[ColorSquares]">common/box.png</texture>
+                            <animation condition="Control.HasFocus(95051)" effect="fade" end="100" start="0" time="150">Conditional</animation>
+                            <animation condition="!Control.HasFocus(95051)" effect="fade" end="0" start="100" time="100">Conditional</animation>
+                        </control>
+                        <control type="image">
+                            <texture border="5" colordiffuse="$VAR[ColorHighlightSelectbox2]">common/gradient-box-wide.png</texture>
+                            <animation condition="Control.HasFocus(95051)" effect="fade" end="100" start="0" time="150">Conditional</animation>
+                            <animation condition="!Control.HasFocus(95051)" effect="fade" end="0" start="100" time="100">Conditional</animation>
+                        </control>
                     </control>
                     <control type="image">
-                        <left>-8</left>
-                        <top>-127</top>
-                        <right>-1</right>
-                        <bottom>64</bottom>
-                        <texture border="5" colordiffuse="$VAR[ColorHighlightSelectbox2]">common/gradient-box-wide.png</texture>
-                        <animation condition="Control.HasFocus(95051)" effect="fade" end="100" start="0" time="150">Conditional</animation>
-                        <animation condition="!Control.HasFocus(95051)" effect="fade" end="0" start="100" time="100">Conditional</animation>
+                        <height>607</height>
+                        <width>1268</width>
+                        <left>1</left>
+                        <top>-118</top>
+                        <texture colordiffuse="Background" border="4">common/box.png</texture>
                     </control>
-                    <control type="image">
-                        <height>610</height>
-                        <width>1264</width>
-                        <left>-1</left>
-                        <top>-120</top>
-                        <texture colordiffuse="Background" diffuse="diffuse/pvrinfo.png">common/white.png</texture>
-                    </control>
+                    <include content="ListInfoUpdating">
+                        <param name="visi" value="String.IsEqual(Window.Property(moviecontent),5)"/>
+                        <param name="controlid" value="9505"/>
+                        <param name="alignleft" value="580"/>
+                        <param name="alignbottom" value="235"/>
+                    </include>
                     <control type="fixedlist" id="9505">
-                        <top>-120</top>
-                        <left>-1</left>
-                        <onright>9148</onright>
-                        <onleft>9148</onleft>
+                        <top>-118</top>
+                        <left>1</left>
                         <ondown>9000</ondown>
                         <onback>9000</onback>
                         <onup>9000</onup>
-                        <width>1264</width>
+                        <width>1268</width>
                         <preloaditems>2</preloaditems>
                         <autoscroll time="5000">ControlGroup(9000).HasFocus()</autoscroll>
                         <viewtype label="37518">fixedlist</viewtype>
                         <orientation>horizontal</orientation>
-                        <scrolltime tween="quadratic">300</scrolltime>
-                        <itemlayout width="1264" height="610">
+                        <include>ScrolltimeDetailsList</include>
+                        <itemlayout width="1268" height="607">
                             <control type="image">
                                 <aspectratio align="center" aligny="center" scalediffuse="false">scale</aspectratio>
                                 <texture diffuse="diffuse/bigwiderolodex.png" fallback="defaultaddonpicture.png">$INFO[ListItem.Label]</texture>
                             </control>
                         </itemlayout>
-                        <focusedlayout width="1264" height="610">
+                        <focusedlayout width="1268" height="607">
                             <control type="image">
                                 <aspectratio align="center" aligny="center" scalediffuse="false">scale</aspectratio>
                                 <texture diffuse="diffuse/bigwiderolodex.png" fallback="defaultaddonpicture.png">$INFO[ListItem.Label]</texture>
@@ -254,98 +235,102 @@
                         <content>
                             <item id="0">
                                 <label>$INFO[ListItem.Art(fanart)]</label>
-                                <visible>!String.IsEmpty(ListItem.Art(fanart))</visible>
+                                <visible>!String.IsEmpty(ListItem.Art(fanart)) + !Skin.HasSetting(hideartwork.video.fanart)</visible>
                             </item>
                             <item id="1">
                                 <label>$INFO[ListItem.Art(fanart1)]</label>
-                                <visible>!String.IsEmpty(ListItem.Art(fanart1))</visible>
+                                <visible>!String.IsEmpty(ListItem.Art(fanart1)) + !Skin.HasSetting(hideartwork.video.fanart)</visible>
                             </item>
                             <item id="2">
                                 <label>$INFO[ListItem.Art(fanart2)]</label>
-                                <visible>!String.IsEmpty(ListItem.Art(fanart2))</visible>
+                                <visible>!String.IsEmpty(ListItem.Art(fanart2)) + !Skin.HasSetting(hideartwork.video.fanart)</visible>
                             </item>
                             <item id="3">
                                 <label>$INFO[ListItem.Art(fanart3)]</label>
-                                <visible>!String.IsEmpty(ListItem.Art(fanart3))</visible>
+                                <visible>!String.IsEmpty(ListItem.Art(fanart3)) + !Skin.HasSetting(hideartwork.video.fanart)</visible>
                             </item>
                             <item id="4">
                                 <label>$INFO[ListItem.Art(fanart4)]</label>
-                                <visible>!String.IsEmpty(ListItem.Art(fanart4))</visible>
+                                <visible>!String.IsEmpty(ListItem.Art(fanart4)) + !Skin.HasSetting(hideartwork.video.fanart)</visible>
                             </item>
                             <item id="5">
                                 <label>$INFO[ListItem.Art(fanart5)]</label>
-                                <visible>!String.IsEmpty(ListItem.Art(fanart5))</visible>
+                                <visible>!String.IsEmpty(ListItem.Art(fanart5)) + !Skin.HasSetting(hideartwork.video.fanart)</visible>
                             </item>
                             <item id="6">
                                 <label>$INFO[ListItem.Art(fanart6)]</label>
-                                <visible>!String.IsEmpty(ListItem.Art(fanart6))</visible>
+                                <visible>!String.IsEmpty(ListItem.Art(fanart6)) + !Skin.HasSetting(hideartwork.video.fanart)</visible>
                             </item>
                             <item id="7">
                                 <label>$INFO[ListItem.Art(fanart7)]</label>
-                                <visible>!String.IsEmpty(ListItem.Art(fanart7))</visible>
+                                <visible>!String.IsEmpty(ListItem.Art(fanart7)) + !Skin.HasSetting(hideartwork.video.fanart)</visible>
                             </item>
                             <item id="8">
                                 <label>$INFO[ListItem.Art(fanart18)]</label>
-                                <visible>!String.IsEmpty(ListItem.Art(fanart8))</visible>
+                                <visible>!String.IsEmpty(ListItem.Art(fanart8)) + !Skin.HasSetting(hideartwork.video.fanart)</visible>
                             </item>
                             <item id="9">
                                 <label>$INFO[ListItem.Art(fanart9)]</label>
-                                <visible>!String.IsEmpty(ListItem.Art(fanart9))</visible>
+                                <visible>!String.IsEmpty(ListItem.Art(fanart9)) + !Skin.HasSetting(hideartwork.video.fanart)</visible>
                             </item>
                             <item id="10">
                                 <label>$INFO[ListItem.Art(fanart10)]</label>
-                                <visible>!String.IsEmpty(ListItem.Art(fanart10))</visible>
+                                <visible>!String.IsEmpty(ListItem.Art(fanart10)) + !Skin.HasSetting(hideartwork.video.fanart)</visible>
                             </item>
                             <item id="11">
                                 <label>$INFO[ListItem.Art(fanart11)]</label>
-                                <visible>!String.IsEmpty(ListItem.Art(fanart11))</visible>
+                                <visible>!String.IsEmpty(ListItem.Art(fanart11)) + !Skin.HasSetting(hideartwork.video.fanart)</visible>
                             </item>
                             <item id="12">
                                 <label>$INFO[ListItem.Art(tvshow.fanart)]</label>
-                                <visible>!String.IsEmpty(ListItem.Art(tvshow.fanart))</visible>
+                                <visible>!String.IsEmpty(ListItem.Art(tvshow.fanart)) + !Skin.HasSetting(hideartwork.video.fanart)</visible>
                             </item>
                             <item id="13">
                                 <label>$INFO[ListItem.Art(tvshow.fanart1)]</label>
-                                <visible>!String.IsEmpty(ListItem.Art(tvshow.fanart1))</visible>
+                                <visible>!String.IsEmpty(ListItem.Art(tvshow.fanart1)) + !Skin.HasSetting(hideartwork.video.fanart)</visible>
                             </item>
                             <item id="14">
                                 <label>$INFO[ListItem.Art(tvshow.fanart2)]</label>
-                                <visible>!String.IsEmpty(ListItem.Art(tvshow.fanart2))</visible>
+                                <visible>!String.IsEmpty(ListItem.Art(tvshow.fanart2)) + !Skin.HasSetting(hideartwork.video.fanart)</visible>
                             </item>
                             <item id="15">
                                 <label>$INFO[ListItem.Art(tvshow.fanart3)]</label>
-                                <visible>!String.IsEmpty(ListItem.Art(tvshow.fanart3))</visible>
+                                <visible>!String.IsEmpty(ListItem.Art(tvshow.fanart3)) + !Skin.HasSetting(hideartwork.video.fanart)</visible>
                             </item>
                             <item id="16">
                                 <label>$INFO[ListItem.Art(tvshow.fanart4)]</label>
-                                <visible>!String.IsEmpty(ListItem.Art(tvshow.fanart4))</visible>
+                                <visible>!String.IsEmpty(ListItem.Art(tvshow.fanart4)) + !Skin.HasSetting(hideartwork.video.fanart)</visible>
                             </item>
                             <item id="17">
                                 <label>$INFO[ListItem.Art(tvshow.fanart5)]</label>
-                                <visible>!String.IsEmpty(ListItem.Art(tvshow.fanart5))</visible>
+                                <visible>!String.IsEmpty(ListItem.Art(tvshow.fanart5)) + !Skin.HasSetting(hideartwork.video.fanart)</visible>
                             </item>
                             <item id="18">
                                 <label>$INFO[ListItem.Art(tvshow.fanart6)]</label>
-                                <visible>!String.IsEmpty(ListItem.Art(tvshow.fanart6))</visible>
+                                <visible>!String.IsEmpty(ListItem.Art(tvshow.fanart6)) + !Skin.HasSetting(hideartwork.video.fanart)</visible>
                             </item>
                             <item id="19">
                                 <label>$INFO[ListItem.Art(tvshow.fanart7)]</label>
-                                <visible>!String.IsEmpty(ListItem.Art(tvshow.fanart7))</visible>
+                                <visible>!String.IsEmpty(ListItem.Art(tvshow.fanart7)) + !Skin.HasSetting(hideartwork.video.fanart)</visible>
                             </item>
                             <item id="20">
                                 <label>$INFO[ListItem.Art(tvshow.fanart8)]</label>
-                                <visible>!String.IsEmpty(ListItem.Art(tvshow.fanart8))</visible>
+                                <visible>!String.IsEmpty(ListItem.Art(tvshow.fanart8)) + !Skin.HasSetting(hideartwork.video.fanart)</visible>
                             </item>
                             <item id="21">
                                 <label>$INFO[ListItem.Art(tvshow.fanart9)]</label>
-                                <visible>!String.IsEmpty(ListItem.Art(tvshow.fanart9))</visible>
+                                <visible>!String.IsEmpty(ListItem.Art(tvshow.fanart9)) + !Skin.HasSetting(hideartwork.video.fanart)</visible>
                             </item>
                             <item id="22">
                                 <label>$INFO[ListItem.Art(tvshow.fanart10)]</label>
-                                <visible>!String.IsEmpty(ListItem.Art(tvshow.fanart10))</visible>
+                                <visible>!String.IsEmpty(ListItem.Art(tvshow.fanart10)) + !Skin.HasSetting(hideartwork.video.fanart)</visible>
+                            </item>
+                            <item id="23">
+                                <label>$INFO[ListItem.Art(landscape)]</label>
+                                <visible>!String.IsEmpty(ListItem.Art(landscape)) + !Skin.HasSetting(hideartwork.video.landscape)</visible>
                             </item>
                         </content>
-                    </control>
+                    </control>                    
                     <control type="image">
                         <right>40</right>
                         <bottom>100</bottom>
@@ -363,55 +348,56 @@
                     <visible>String.IsEqual(Window.Property(moviecontent),6)</visible>
                     <include>Animation.FadeInDialogInfo</include>
                     <include>Animation.FadeOutDialogInfo</include>
+                    <left>570</left>
+                    <right>SidePad</right>
+                    <bottom>184</bottom>
+                    <top>217</top>
+                    <control type="image">
+                        <top>-1</top>
+                        <bottom>71</bottom>
+                        <texture colordiffuse="Box2" border="4" background="true">common/box21.png</texture>
+                    </control>
                     <control type="group">
-                        <width>1266</width>
-                        <left>568</left>
-                        <right>SidePad</right>
-                        <bottom>223</bottom>
-                        <top>214</top>
-                        <height>612</height>
-                        <control type="group">
-                            <height>612</height>
-                            <control type="image">
-                                <width>100%</width>
-                                <height>100%</height>
-                                <texture border="10" colordiffuse="Dark4">common/white.png</texture>
-                                <visible>!Player.HasVideo</visible>
-                            </control>
-                            <control type="image">
-                                <width>100%</width>
-                                <height>100%</height>
-                                <texture border="10" colordiffuse="FF000000">common/white.png</texture>
-                                <visible>Player.HasVideo</visible>
-                            </control>
-                            <control type="group">
-                                <height>612</height>
-                                <control type="videowindow">
-                                    <left>0</left>
-                                    <top>0</top>
-                                    <right>0</right>
-                                    <bottom>0</bottom>
-                                    <aspectratio align="center" aligny="center" scalediffuse="false">scale</aspectratio>
-                                </control>
-                            </control>
-                            <control type="image">
-                                <left>0</left>
-                                <top>0</top>
-                                <right>0</right>
-                                <bottom>0</bottom>
-                                <texture border="10" colordiffuse="Box2">common/box18.png</texture>
-                            </control>
+                        <left>-7</left>
+                        <top>-8</top>
+                        <right>-7</right>
+                        <bottom>64</bottom>
+                        <control type="image">
+                            <texture border="5" colordiffuse="$VAR[ColorSquares]">common/box.png</texture>
+                            <animation condition="Control.HasFocus(7011)" effect="fade" end="100" start="0" time="150">Conditional</animation>
+                            <animation condition="!Control.HasFocus(7011)" effect="fade" end="0" start="100" time="100">Conditional</animation>
+                        </control>
+                        <control type="image">
+                            <texture border="5" colordiffuse="$VAR[ColorHighlightSelectbox2]">common/gradient-box-wide.png</texture>
+                            <animation condition="Control.HasFocus(7011)" effect="fade" end="100" start="0" time="150">Conditional</animation>
+                            <animation condition="!Control.HasFocus(7011)" effect="fade" end="0" start="100" time="100">Conditional</animation>
+                        </control>
+                    </control>
+                    <control type="image">
+                        <height>607</height>
+                        <width>1268</width>
+                        <left>1</left>
+                        <texture colordiffuse="Background" border="4">common/box.png</texture>
+                    </control>
+                    <control type="group">
+                        <height>607</height>
+                        <width>1267</width>
+                        <left>1</left>
+                        <control type="videowindow">
+                            <visible>String.IsEqual(Window.Property(moviecontent),6)</visible>
+                            <animation type="Hidden" reversible="false">
+                                <effect type="fade" start="100" end="0" time="150" />
+                                <effect type="zoom" center="auto" start="100" end="0" time="1" />
+                            </animation>
+                            <aspectratio align="center" aligny="center" scalediffuse="false">scale</aspectratio>
                         </control>
                     </control>
                     <control type="group">
-                        <left>570</left>
-                        <right>SidePad</right>
-                        <bottom>224</bottom>
-                        <top>335</top>
+                        <left>50</left>
+                        <top>-120</top>
                         <visible>!Player.HasVideo</visible>
                         <control type="group">
-                            <left>570</left>
-                            <top>-200</top>
+                            <left>560</left>
                             <control type="image" description="Back">
                                 <left>0</left>
                                 <centertop>55%</centertop>
@@ -733,7 +719,7 @@
                                     <height>36</height>
                                     <font>Tiny</font>
                                     <textcolor>Dark2</textcolor>
-                                    <label fallback="19055">$INFO[ListItem.Genre]</label>
+                                    <label fallback="19055">$VAR[LabelGenreInfo]</label>
                                     <aligny>center</aligny>
                                 </control>
                                 <control type="label">
@@ -744,8 +730,7 @@
                                     <aligny>center</aligny>
                                 </control>
                             </control>                            
-                        </control> 
-                                           
+                        </control>                                           
                         <control type="grouplist">
                             <visible>!String.IsEqual(ListItem.DBType,set)</visible>
                             <orientation>horizontal</orientation>
@@ -858,13 +843,13 @@
                 </control>
                 <control type="group">
                     <top>200</top>
-                    <left>785</left>
+                    <left>788</left>
     
                     <!-- Cast -->
                     <include content="VideoListCast" condition="!String.IsEqual(ListItem.DBType,set)">
                         <param name="arrowleft" value="-598"/>
                         <param name="arrowtop" value="342"/>
-                        <param name="arrowright" value="158"/>
+                        <param name="arrowright" value="155"/>
                         <param name="fallbackpicture" value="DefaultActor.png"/>
                         <param name="visi" value="String.IsEmpty(Window.Property(moviecontent)) + !Skin.HasSetting(HideActorImages)"/>
                         <param name="visible.layouts" value="Control.HasFocus(50) | Control.HasFocus(10) | Control.HasFocus(6) | Window.IsVisible(DialogBusy.xml)"/>
@@ -878,29 +863,28 @@
                     </include>
                     
                     <!-- Sets -->
-                    <include content="VideoListSets" condition="String.IsEqual(ListItem.DBType,set)">
+                    <include content="VideoListCast" condition="String.IsEqual(ListItem.DBType,set)">
                         <param name="arrowleft" value="-598"/>
                         <param name="arrowtop" value="342"/>
-                        <param name="arrowright" value="158"/>
-                        <param name="fallbackpicture" value="DefaultActor.png"/>
+                        <param name="arrowright" value="155"/>                        
+                        <param name="condition.issets" value="true"/>
+                        <param name="condition.isnotsets" value="false"/>
                         <param name="visi" value="String.IsEmpty(Window.Property(moviecontent)) + !Skin.HasSetting(HideActorImages)"/>
                         <param name="visible.layouts" value="Control.HasFocus(50) | Control.HasFocus(10) | Control.HasFocus(6) | Window.IsVisible(DialogBusy.xml)"/>
                         <param name="storageicon.backgroundlist" value="false"/>
                         <param name="animation" value="Animation.cast.test"/>
                         <param name="controlid" value="50"/>
-                        <param name="fallbackpicture" value="defaultmovie.png"/>                        
+                        <param name="fallbackpicture" value="defaultmovie.png"/>
                         <param name="listleft" value="-840"/>
-                        <param name="labelleft" value="-20"/>
                         <param name="labeltwovisible" value="true"/>
-                        <param name="labeltwobottom" value="-150"/>
-                        <param name="labeltwoleft" value="130"/>
                     </include>
     
                     <!-- Similar Movies -->
-                    <include content="VideoListPoster" condition="String.IsEqual(ListItem.DBType,movie) + !String.IsEqual(ListItem.DBType,set)">
+                    <include content="VideoListCast" condition="String.IsEqual(ListItem.DBType,movie) + !String.IsEqual(ListItem.DBType,set)">
                         <param name="arrowleft" value="-598"/>
                         <param name="arrowtop" value="342"/>
-                        <param name="arrowright" value="158"/>
+                        <param name="arrowright" value="155"/>                        
+                        <param name="condition.includecontent" value="true"/>                        
                         <param name="fallbackpicture" value="pbtmdb.png"/>
                         <param name="visi" value="String.IsEqual(Window.Property(moviecontent),2)"/>
                         <param name="animation" value="Animation.cast"/>
@@ -915,10 +899,11 @@
                     </include>
     
                     <!-- Similar TV Shows -->
-                    <include content="VideoListPoster" condition="String.IsEqual(ListItem.DBType,tvshow) + !String.IsEqual(ListItem.DBType,set)">
+                    <include content="VideoListCast" condition="String.IsEqual(ListItem.DBType,tvshow) + !String.IsEqual(ListItem.DBType,set)">
                         <param name="arrowleft" value="-598"/>
                         <param name="arrowtop" value="342"/>
-                        <param name="arrowright" value="158"/>
+                        <param name="arrowright" value="155"/>                        
+                        <param name="condition.includecontent" value="true"/>                        
                         <param name="fallbackpicture" value="pbtmdb.png"/>
                         <param name="visi" value="String.IsEqual(Window.Property(moviecontent),2)"/>
                         <param name="animation" value="Animation.cast"/>
@@ -938,10 +923,11 @@
                     </include>
 
                     <!-- Studio -->
-                    <include content="VideoListPoster">
+                    <include content="VideoListCast">
                         <param name="arrowleft" value="-598"/>
                         <param name="arrowtop" value="342"/>
-                        <param name="arrowright" value="158"/>
+                        <param name="arrowright" value="155"/>                        
+                        <param name="condition.includecontent" value="true"/>                        
                         <param name="fallbackpicture" value="pbtmdb.png"/>
                         <param name="visi" value="String.IsEqual(Window.Property(moviecontent),3)"/>
                         <param name="animation" value="Animation.cast"/>
@@ -961,10 +947,9 @@
                     </include>
     
                     <!-- Youtube -->
-                    <include content="VideoListSquareNew" condition="!String.IsEqual(ListItem.DBType,set)">
+                    <include content="VideoListSquare" condition="!String.IsEqual(ListItem.DBType,set)">
                         <param name="arrowleft" value="-748"/>
-                        <param name="arrowtop" value="342"/>
-                        <param name="arrowright" value="387"/>
+                        <param name="arrowright" value="384"/>
                         <param name="fallbackpicture" value="defaultvideo.png"/>
                         <param name="visi" value="String.IsEqual(Window.Property(moviecontent),4)"/>
                         <param name="animation.new" value="Animation.CastInfo2"/>
@@ -973,40 +958,18 @@
                         <param name="ContentToLoad" value="$VAR[ContentVideoYoutube]"/>
                         <param name="onclick1" value="Dialog.Close(all,force)"/>
                         <param name="onclick2" value="PlayMedia($ESCINFO[Container($PARAM[controlid]).ListItem.FileNameAndPath()])"/>
-                        <param name="aspectbox" value="true"/>
-                        <param name="aspectposter" value="false"/>
                         <param name="limit" value="25"/>
                         <param name="sortby" value="file"/>
                         <param name="target" value="videos"/>
-                        <param name="listbottom" value="30"/>
-                        <param name="listleft" value="-1100"/>
-                        <param name="width" value="370"/>
-                        <param name="height" value="355"/>
-                        <param name="headerbottom" value="710"/>
-                        <param name="headerleft" value="80"/>
-                        <param name="labelbottom" value="-115"/>
-                        <param name="labelleft" value="-40"/>
-                        <param name="labeltwovisible" value="true"/>
-                        <param name="labeltwobottom" value="-155"/>
-                        <param name="labeltwoleft" value="130"/>
-                    </include>
-                    <include content="ListInfoUpdating">
-                        <param name="visi" value="String.IsEqual(Window.Property(moviecontent),4)"/>
-                        <param name="controlid" value="9504"/>
+                        <param name="leftbackgroundlist" value="-227"/>
                         <param name="alignleft" value="450"/>
                     </include>
                 </control>
             </control>
         </control>
         <control type="button" id="95051">
-            <left>-1000</left>
-            <width>1</width>
-            <height>1</height>
-            <label/>
-            <font/>
+            <include>HiddenButton</include>
             <onback>9000</onback>
-            <texturenofocus/>
-            <texturefocus/>
             <ondown>SetFocus(9000)</ondown>
             <onback>SetFocus(9000)</onback>
             <onclick>SetFocus(160)</onclick>
@@ -1018,13 +981,7 @@
             <onright>SetFocus(95051)</onright>
         </control>
         <control type="button" id="160">
-            <left>-1000</left>
-            <width>1</width>
-            <height>1</height>
-            <label/>
-            <font/>
-            <texturenofocus/>
-            <texturefocus/>
+            <include>HiddenButton</include>
             <ondown>9000</ondown>
             <onback>95051</onback>
             <onleft>SetFocus(9505)</onleft>
