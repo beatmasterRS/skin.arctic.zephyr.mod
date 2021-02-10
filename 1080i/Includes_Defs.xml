@@ -2369,6 +2369,7 @@
         <param name="slide" value="$PARAM[slide]" default="70"/>
         <param name="border" value="$PARAM[border]" default="5"/>
         <param name="image" value="$PARAM[image]" default="common/white.png"/>
+        <param name="overlayfix" value="$PARAM[overlayfix]" default="false"/>
         <definition>
             <control type="image">
                 <top>$PARAM[top]</top>
@@ -2377,7 +2378,7 @@
                 <width>$PARAM[width]</width>
                 <texture colordiffuse="$VAR[ColorSelectOtherBar]" border="$PARAM[border]">$PARAM[image]</texture>
                 <visible>ControlGroup($PARAM[controlid]).HasFocus()</visible>
-                <include>Animation.FadeIn.Gradient</include>
+                <include condition="$PARAM[overlayfix]">Animation.FadeIn.Gradient</include>
                 <animation effect="slide" end="0,$PARAM[slide]" time="0" condition="Integer.IsGreater(Container($PARAM[controlid]).Position,0)">Conditional</animation>
                 <animation effect="slide" end="0,$PARAM[slide]" time="0" condition="Integer.IsGreater(Container($PARAM[controlid]).Position,1)">Conditional</animation>
                 <animation effect="slide" end="0,$PARAM[slide]" time="0" condition="Integer.IsGreater(Container($PARAM[controlid]).Position,2)">Conditional</animation>
@@ -2385,6 +2386,8 @@
                 <animation effect="slide" end="0,$PARAM[slide]" time="0" condition="Integer.IsGreater(Container($PARAM[controlid]).Position,4)">Conditional</animation>
                 <animation effect="slide" end="0,$PARAM[slide]" time="0" condition="Integer.IsGreater(Container($PARAM[controlid]).Position,5)">Conditional</animation>
                 <animation effect="slide" end="0,$PARAM[slide]" time="0" condition="Integer.IsGreater(Container($PARAM[controlid]).Position,6)">Conditional</animation>
+                <animation effect="slide" end="0,$PARAM[slide]" time="0" condition="Integer.IsGreater(Container($PARAM[controlid]).Position,7)">Conditional</animation>
+                <animation effect="slide" end="0,$PARAM[slide]" time="0" condition="Integer.IsGreater(Container($PARAM[controlid]).Position,8)">Conditional</animation>
             </control>
         </definition>
     </include>
@@ -2479,22 +2482,14 @@
     </include>
     
     <include name="Def_Context_Tempo_Gradient">
-        <control type="image">
-            <top>16</top>
-            <left>8</left>
-            <height>60</height>
-            <width>300</width>
-            <visible>ControlGroup($PARAM[controlid]).HasFocus()</visible>
-            <texture colordiffuse="$VAR[ColorSelectOtherBar]">common/white.png</texture>
-            <animation effect="fade" start="100" end="100" delay="20" time="1">Visible</animation>
-            <animation effect="slide" end="0,60" time="0" condition="Integer.IsGreater(Container($PARAM[controlid]).Position,0)">Conditional</animation>
-            <animation effect="slide" end="0,60" time="0" condition="Integer.IsGreater(Container($PARAM[controlid]).Position,1)">Conditional</animation>
-            <animation effect="slide" end="0,60" time="0" condition="Integer.IsGreater(Container($PARAM[controlid]).Position,2)">Conditional</animation>
-            <animation effect="slide" end="0,60" time="0" condition="Integer.IsGreater(Container($PARAM[controlid]).Position,3)">Conditional</animation>
-            <animation effect="slide" end="0,60" time="0" condition="Integer.IsGreater(Container($PARAM[controlid]).Position,4)">Conditional</animation>
-            <animation effect="slide" end="0,60" time="0" condition="Integer.IsGreater(Container($PARAM[controlid]).Position,5)">Conditional</animation>
-            <animation effect="slide" end="0,60" time="0" condition="Integer.IsGreater(Container($PARAM[controlid]).Position,6)">Conditional</animation>
-        </control>        
+        <include content="Def_Gradient_Settings_Image">
+            <param name="controlid" value="$PARAM[controlid]"/>
+            <param name="left" value="8"/>
+            <param name="top" value="16"/>
+            <param name="width" value="300"/>
+            <param name="height" value="60"/>
+            <param name="slide" value="60"/>
+        </include>        
         <control type="grouplist" id="$PARAM[controlid]">
             <include>Animation.FadeIn.Delay</include>
             <include>Animation.FadeOut</include>
