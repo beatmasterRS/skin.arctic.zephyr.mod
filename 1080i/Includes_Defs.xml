@@ -3149,16 +3149,19 @@
         </definition>
     </include>
     
-    <include name="DialogInfoOverlay">      
+    <include name="DialogInfoOverlay"> 
+        <param name="ondirection" value="$PARAM[ondirection]" default="9000"/>
+        <param name="item" value="$PARAM[item]" default="ListItem.Art(clearlogo)"/>
+        <definition>
         <control type="scrollbar" id="9601">
             <width>1</width>
             <height>1</height>
             <visible allowhiddenfocus="true">false</visible>
-            <onback>9000</onback>
-            <onup>9000</onup>
-            <ondown>9000</ondown>
-            <onleft>9000</onleft>
-            <onright>9000</onright>
+            <onback>$PARAM[ondirection]</onback>
+            <onup>$PARAM[ondirection]</onup>
+            <ondown>$PARAM[ondirection]</ondown>
+            <onleft>$PARAM[ondirection]</onleft>
+            <onright>$PARAM[ondirection]</onright>
         </control>
         <control type="group">
             <visible>Control.HasFocus(9601)</visible>
@@ -3179,16 +3182,16 @@
             <include>Animation.FadeIn.Slide</include>
             <include>Animation.FadeOut</include>
             <control type="image" description="clearlogo">
-                <visible>Skin.HasSetting(osd.overlayinfoplayerclearlogo) + !String.IsEmpty(ListItem.Art(clearlogo))</visible>
+                <visible>Skin.HasSetting(osd.overlayinfoplayerclearlogo) + !String.IsEmpty($PARAM[item])</visible>
                 <left>60</left>
                 <top>-20</top>
                 <width>600</width>
                 <height>150</height>
                 <aspectratio align="left" aligny="bottom">keep</aspectratio>
-                <texture background="true">$INFO[ListItem.Art(clearlogo)]</texture>
+                <texture background="true">$INFO[$PARAM[item]]</texture>
             </control>
             <control type="label">
-                <visible>!Skin.HasSetting(osd.overlayinfoplayerclearlogo) | [String.IsEmpty(ListItem.Art(clearlogo)) + Skin.HasSetting(osd.overlayinfoplayerclearlogo)]</visible>
+                <visible>!Skin.HasSetting(osd.overlayinfoplayerclearlogo) | [String.IsEmpty($PARAM[item]) + Skin.HasSetting(osd.overlayinfoplayerclearlogo)]</visible>
                 <description>header label</description>
                 <left>60</left>
                 <right>60</right>
@@ -3249,6 +3252,7 @@
                 <height>16</height>
                 <texture colordiffuse="Dark2" flipy="true">common/arrow-small.png</texture>
             </control>
-        </control>  
+        </control>
+        </definition> 
     </include>
 </includes>
