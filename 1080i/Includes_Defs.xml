@@ -3152,6 +3152,9 @@
     <include name="DialogInfoOverlay"> 
         <param name="ondirection" value="$PARAM[ondirection]" default="9000"/>
         <param name="item" value="$PARAM[item]" default="ListItem.Art(clearlogo)"/>
+        <param name="visible" value="$PARAM[visible]" default="Control.HasFocus(9601)"/>
+        <param name="noautoscroll" value="$PARAM[noautoscroll]" default="true"/>
+        <param name="arrows" value="$PARAM[arrows]" default="true"/>
         <definition>
         <control type="scrollbar" id="9601">
             <width>1</width>
@@ -3164,7 +3167,7 @@
             <onright>$PARAM[ondirection]</onright>
         </control>
         <control type="group">
-            <visible>Control.HasFocus(9601)</visible>
+            <visible>$PARAM[visible]</visible>
             <include>Animation.FadeIn</include>
             <include>Animation.FadeOut</include>
             <control type="image" description="Background">
@@ -3178,7 +3181,7 @@
             <right>SidePad</right>
             <top>PosterPad</top>
             <height>630</height>
-            <visible>Control.HasFocus(9601)</visible>
+            <visible>$PARAM[visible]</visible>
             <include>Animation.FadeIn.Slide</include>
             <include>Animation.FadeOut</include>
             <control type="image" description="clearlogo">
@@ -3211,12 +3214,12 @@
                 <font>Medium</font>
                 <textcolor>Dark1</textcolor>
                 <pagecontrol>9601</pagecontrol>
-                <autoscroll>false</autoscroll>
+                <include condition="$PARAM[noautoscroll]">NoScrollTextWidget</include>
                 <label>$PARAM[plotinfo]</label>
             </control>
         </control>
         <control type="group">
-            <visible>Control.HasFocus(9601) + Container(9600).HasNext</visible>
+            <visible>$PARAM[visible] + Container(9600).HasNext + $PARAM[arrows]</visible>
             <include>Animation.FadeIn</include>
             <include>Animation.FadeOut</include>
             <left>952</left>
@@ -3235,7 +3238,7 @@
             </control>
         </control>        
         <control type="group">
-            <visible>Control.HasFocus(9601) + Container(9600).HasPrevious</visible>
+            <visible>$PARAM[visible] + Container(9600).HasPrevious + $PARAM[arrows]</visible>
             <include>Animation.FadeIn</include>
             <include>Animation.FadeOut</include>
             <left>952</left>
