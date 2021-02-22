@@ -3151,7 +3151,6 @@
     
     <include name="DialogInfoOverlay"> 
         <param name="ondirection" value="$PARAM[ondirection]" default="9000"/>
-        <param name="item" value="$PARAM[item]" default="ListItem.Art(clearlogo)"/>
         <param name="visible" value="$PARAM[visible]" default="Control.HasFocus(9601)"/>
         <definition>
         <control type="scrollbar" id="9601">
@@ -3173,6 +3172,15 @@
                 <texture colordiffuse="Background">common/bg.jpg</texture>
                 <animation effect="fade" start="100" end="95" condition="true">Conditional</animation>
             </control>
+            <control type="image" description="clearlogo">
+                <visible>Skin.HasSetting(furniture.logo)</visible>
+                <centertop>120</centertop>
+                <centerleft>50%</centerleft>
+                <width>400</width>
+                <height>100</height>
+                <aspectratio align="center">keep</aspectratio>
+                <texture background="true">$VAR[ClearLogoTopVar]</texture>
+            </control>
         </control>
         <control type="group">
             <left>SidePad</left>
@@ -3182,17 +3190,7 @@
             <visible>$PARAM[visible]</visible>
             <include>Animation.FadeIn.Slide</include>
             <include>Animation.FadeOut</include>
-            <control type="image" description="clearlogo">
-                <visible>Skin.HasSetting(osd.overlayinfoplayerclearlogo) + !String.IsEmpty($PARAM[item])</visible>
-                <left>60</left>
-                <top>-20</top>
-                <width>600</width>
-                <height>150</height>
-                <aspectratio align="left" aligny="bottom">keep</aspectratio>
-                <texture background="true">$INFO[$PARAM[item]]</texture>
-            </control>
             <control type="label">
-                <visible>!Skin.HasSetting(osd.overlayinfoplayerclearlogo) | [String.IsEmpty($PARAM[item]) + Skin.HasSetting(osd.overlayinfoplayerclearlogo)]</visible>
                 <description>header label</description>
                 <left>60</left>
                 <right>60</right>
