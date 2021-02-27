@@ -68,16 +68,36 @@
     <expression name="Widget5Enabled">String.Contains(Container(300).ListItem.Property(widgetEnable.5),yes)</expression>
     <expression name="Widget6Enabled">String.Contains(Container(300).ListItem.Property(widgetEnable.6),yes)</expression>
     <expression name="IsAudioCodecATMOS">
-      String.Contains(ListItem.Filenameandpath,.atmos.) | String.Contains(ListItem.Filenameandpath,.atmos-)
-      | String.Contains(Player.Filenameandpath,.atmos.) | String.Contains(Player.Filenameandpath,.atmos-)
+        String.Contains(ListItem.Filenameandpath,.atmos.) | String.Contains(ListItem.Filenameandpath,.atmos-)
+        | String.Contains(Player.Filenameandpath,.atmos.) | String.Contains(Player.Filenameandpath,.atmos-)
     </expression>
     <expression name="IsAudioCodecDTSX">
-      String.Contains(ListItem.Filenameandpath,.dts-x.) | String.Contains(ListItem.Filenameandpath,.dts.x.) | String.Contains(ListItem.Filenameandpath,.dtsx.) | String.Contains(ListItem.Filenameandpath,.dts-x-) | String.Contains(ListItem.Filenameandpath,.dts.x-) | String.Contains(ListItem.Filenameandpath,.dtsx-)
-      | String.Contains(Player.Filenameandpath,.dts-x.) | String.Contains(Player.Filenameandpath,.dts.x.) | String.Contains(Player.Filenameandpath,.dtsx.) | String.Contains(Player.Filenameandpath,.dts-x-) | String.Contains(Player.Filenameandpath,.dts.x-) | String.Contains(Player.Filenameandpath,.dtsx-)
+        String.Contains(ListItem.Filenameandpath,.dts-x.) | String.Contains(ListItem.Filenameandpath,.dts.x.) | String.Contains(ListItem.Filenameandpath,.dtsx.) | String.Contains(ListItem.Filenameandpath,.dts-x-) | String.Contains(ListItem.Filenameandpath,.dts.x-) | String.Contains(ListItem.Filenameandpath,.dtsx-)
+        | String.Contains(Player.Filenameandpath,.dts-x.) | String.Contains(Player.Filenameandpath,.dts.x.) | String.Contains(Player.Filenameandpath,.dtsx.) | String.Contains(Player.Filenameandpath,.dts-x-) | String.Contains(Player.Filenameandpath,.dts.x-) | String.Contains(Player.Filenameandpath,.dtsx-)
     </expression>
     <expression name="IsAudioCodecOPUS">
-      String.Contains(ListItem.Filenameandpath,.opus.)
-      | String.Contains(Player.Filenameandpath,.opus.)
+        String.Contains(ListItem.Filenameandpath,.opus.)
+        | String.Contains(Player.Filenameandpath,.opus.)
+    </expression>
+    <expression name="IsVideoHDR10Plus">
+        String.Contains(ListItem.Filenameandpath,.hdr10plus.)
+        | String.Contains(Player.Filenameandpath,.hdr10plus.)
+    </expression>
+    <expression name="IsVideoHDR10">
+        String.Contains(ListItem.Filenameandpath,.hdr10.)
+        | String.Contains(Player.Filenameandpath,.hdr10.)
+    </expression>
+    <expression name="IsVideoHDR">
+        String.Contains(ListItem.Filenameandpath,.hdr.)
+        | String.Contains(Player.Filenameandpath,.hdr.)
+    </expression>
+    <expression name="IsVideoHLG">
+        String.Contains(ListItem.Filenameandpath,.hlg.)
+        | String.Contains(Player.Filenameandpath,.hlg.)
+    </expression>
+    <expression name="IsVideoDolbyVision">
+        String.Contains(ListItem.Filenameandpath,.dv.) | String.Contains(ListItem.Filenameandpath,dolbyvision) | String.Contains(ListItem.Filenameandpath,dolby-vision)
+        | String.Contains(Player.Filenameandpath,.dv.) | String.Contains(Player.Filenameandpath,dolbyvision) | String.Contains(Player.Filenameandpath,dolby-vision)
     </expression>
 
     <include name="ScrolltimeDetailsList">
@@ -943,21 +963,12 @@
         <value condition="!String.IsEmpty(VideoPlayer.AudioCodec)">$INFO[VideoPlayer.AudioCodec]</value>
     </variable>
 
-    <variable name="LabelOSDhdr">
-        <value condition="String.Contains(Player.Filenameandpath,.hdr10plus.)">hdr10+</value>
-        <value condition="String.Contains(Player.Filenameandpath,.hdr10.)">hdr10</value>
-        <value condition="String.Contains(Player.Filenameandpath,.hdr.)">hdr</value>
-        <value condition="String.Contains(Player.Filenameandpath,.hlg.)">hlg</value>
-        <value condition="String.Contains(Player.Filenameandpath,.dv.) | String.Contains(Player.Filenameandpath,dolbyvision)">dolby vision</value>
-    </variable>
-
-    <variable name="LabelFurniturehdr">
-        <value condition="String.Contains(ListItem.Filenameandpath,.hdr10plus.) | String.Contains(Container(9500).ListItem.Filenameandpath,.hdr10plus.)">hdr10+</value>
-        <value condition="String.Contains(ListItem.Filenameandpath,.hdr10.) | String.Contains(Container(9500).ListItem.Filenameandpath,.hdr10.)">hdr10</value>
-        <value condition="String.Contains(ListItem.Filenameandpath,.hdr.) | String.Contains(Container(9500).ListItem.Filenameandpath,.hdr.)">hdr</value>
-        <value condition="String.Contains(ListItem.Filenameandpath,.hlg.) | String.Contains(Container(9500).ListItem.Filenameandpath,.hlg.)">hlg</value>
-        <value condition="String.Contains(ListItem.Filenameandpath,.dv.) | String.Contains(Container(9500).ListItem.Filenameandpath,.dv.)">dolby vision</value>
-        <value condition="String.Contains(ListItem.Filenameandpath,dolbyvision) | String.Contains(Container(9500).ListItem.Filenameandpath,dolbyvision)">dolby vision</value>
+    <variable name="ListItemHDR">
+        <value condition="$EXP[IsVideoHDR10Plus]">hdr10+</value>
+        <value condition="$EXP[IsVideoHDR10]">hdr10</value>
+        <value condition="$EXP[IsVideoHDR]">hdr</value>
+        <value condition="$EXP[IsVideoHLG]">hlg</value>
+        <value condition="$EXP[IsVideoDolbyVision]">dolby vision</value>
     </variable>
 
     <include name="weatherlist">
