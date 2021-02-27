@@ -67,6 +67,34 @@
     <expression name="Widget4Enabled">String.Contains(Container(300).ListItem.Property(widgetEnable.4),yes)</expression>
     <expression name="Widget5Enabled">String.Contains(Container(300).ListItem.Property(widgetEnable.5),yes)</expression>
     <expression name="Widget6Enabled">String.Contains(Container(300).ListItem.Property(widgetEnable.6),yes)</expression>
+    <expression name="IsAudioCodecATMOS">
+        String.Contains(ListItem.FileNameAndPath,.atmos.) | String.Contains(ListItem.FileNameAndPath,.atmos-)
+        | [VideoPlayer.IsFullscreen + [String.Contains(Player.FileNameAndPath,.atmos.) | String.Contains(Player.FileNameAndPath,.atmos-)]]
+    </expression>
+    <expression name="IsAudioCodecDTSX">
+        String.Contains(ListItem.FileNameAndPath,.dts-x.) | String.Contains(ListItem.FileNameAndPath,.dts.x.) | String.Contains(ListItem.FileNameAndPath,.dtsx.) | String.Contains(ListItem.FileNameAndPath,.dts-x-) | String.Contains(ListItem.FileNameAndPath,.dts.x-) | String.Contains(ListItem.FileNameAndPath,.dtsx-)
+        | [VideoPlayer.IsFullscreen + [String.Contains(Player.FileNameAndPath,.dts-x.) | String.Contains(Player.FileNameAndPath,.dts.x.) | String.Contains(Player.FileNameAndPath,.dtsx.) | String.Contains(Player.FileNameAndPath,.dts-x-) | String.Contains(Player.FileNameAndPath,.dts.x-) | String.Contains(Player.FileNameAndPath,.dtsx-)]]
+    </expression>
+    <expression name="IsVideoHDR10Plus">
+        String.Contains(ListItem.FileNameAndPath,.hdr10plus.)
+        | [VideoPlayer.IsFullscreen + String.Contains(Player.FileNameAndPath,.hdr10plus.)]
+    </expression>
+    <expression name="IsVideoHDR10">
+        String.Contains(ListItem.FileNameAndPath,.hdr10.)
+        | [VideoPlayer.IsFullscreen + String.Contains(Player.FileNameAndPath,.hdr10.)]
+    </expression>
+    <expression name="IsVideoHDR">
+        String.Contains(ListItem.FileNameAndPath,.hdr.)
+        | [VideoPlayer.IsFullscreen + String.Contains(Player.FileNameAndPath,.hdr.)]
+    </expression>
+    <expression name="IsVideoHLG">
+        String.Contains(ListItem.FileNameAndPath,.hlg.)
+        | [VideoPlayer.IsFullscreen + String.Contains(Player.FileNameAndPath,.hlg.)]
+    </expression>
+    <expression name="IsVideoDolbyVision">
+        String.Contains(ListItem.FileNameAndPath,.dv.) | String.Contains(ListItem.FileNameAndPath,dolbyvision) | String.Contains(ListItem.FileNameAndPath,dolby-vision)
+        | [VideoPlayer.IsFullscreen + [String.Contains(Player.FileNameAndPath,.dv.) | String.Contains(Player.FileNameAndPath,dolbyvision) | String.Contains(Player.FileNameAndPath,dolby-vision)]]
+    </expression>
 
     <include name="ScrolltimeDetailsList">
         <scrolltime tween="sine" easing="inout">250</scrolltime>
@@ -924,46 +952,18 @@
     </include>
 
     <variable name="ListItemAudioCodec">
-        <value condition="String.Contains(ListItem.Filenameandpath,.atmos.)">atmos</value>
-        <value condition="String.Contains(ListItem.Filenameandpath,.atmos-)">atmos</value>
-        <value condition="String.Contains(ListItem.Filenameandpath,.dts-x.)">dts-x</value>
-        <value condition="String.Contains(ListItem.Filenameandpath,.dts.x.)">dts-x</value>
-        <value condition="String.Contains(ListItem.Filenameandpath,.dtsx.)">dts-x</value>
-        <value condition="String.Contains(ListItem.Filenameandpath,.dts-x-)">dts-x</value>
-        <value condition="String.Contains(ListItem.Filenameandpath,.dts.x-)">dts-x</value>
-        <value condition="String.Contains(ListItem.Filenameandpath,.dtsx-)">dts-x</value>
-        <value condition="String.Contains(ListItem.Filenameandpath,.opus.)">opus</value>
+        <value condition="$EXP[IsAudioCodecATMOS]">atmos</value>
+        <value condition="$EXP[IsAudioCodecDTSX]">dts-x</value>
+        <value condition="VideoPlayer.IsFullscreen">$INFO[VideoPlayer.AudioCodec]</value>
         <value>$INFO[ListItem.AudioCodec]</value>
     </variable>
 
-    <variable name="ListItemAudioCodecPlayer">
-        <value condition="String.Contains(Player.Filename,.atmos.)">atmos</value>
-        <value condition="String.Contains(Player.Filename,.atmos-)">atmos</value>
-        <value condition="String.Contains(Player.Filename,.dts-x.)">dts-x</value>
-        <value condition="String.Contains(Player.Filename,.dts.x.)">dts-x</value>
-        <value condition="String.Contains(Player.Filename,.dtsx.)">dts-x</value>
-        <value condition="String.Contains(Player.Filename,.dts-x-)">dts-x</value>
-        <value condition="String.Contains(Player.Filename,.dts.x-)">dts-x</value>
-        <value condition="String.Contains(Player.Filename,.dtsx-)">dts-x</value>
-        <value condition="String.Contains(Player.Filename,.opus.)">opus</value>
-        <value>$INFO[VideoPlayer.AudioCodec]</value>
-    </variable>
-
-    <variable name="LabelOSDhdr">
-        <value condition="String.Contains(Player.Filenameandpath,.hdr10plus.)">hdr10+</value>
-        <value condition="String.Contains(Player.Filenameandpath,.hdr10.)">hdr10</value>
-        <value condition="String.Contains(Player.Filenameandpath,.hdr.)">hdr</value>
-        <value condition="String.Contains(Player.Filenameandpath,.hlg.)">hlg</value>
-        <value condition="String.Contains(Player.Filenameandpath,.dv.) | String.Contains(Player.Filenameandpath,dolbyvision)">dolby vision</value>
-    </variable>
-
-    <variable name="LabelFurniturehdr">
-        <value condition="String.Contains(ListItem.Filenameandpath,.hdr10plus.) | String.Contains(Container(9500).ListItem.Filenameandpath,.hdr10plus.)">hdr10+</value>
-        <value condition="String.Contains(ListItem.Filenameandpath,.hdr10.) | String.Contains(Container(9500).ListItem.Filenameandpath,.hdr10.)">hdr10</value>
-        <value condition="String.Contains(ListItem.Filenameandpath,.hdr.) | String.Contains(Container(9500).ListItem.Filenameandpath,.hdr.)">hdr</value>
-        <value condition="String.Contains(ListItem.Filenameandpath,.hlg.) | String.Contains(Container(9500).ListItem.Filenameandpath,.hlg.)">hlg</value>
-        <value condition="String.Contains(ListItem.Filenameandpath,.dv.) | String.Contains(Container(9500).ListItem.Filenameandpath,.dv.)">dolby vision</value>
-        <value condition="String.Contains(ListItem.Filenameandpath,dolbyvision) | String.Contains(Container(9500).ListItem.Filenameandpath,dolbyvision)">dolby vision</value>
+    <variable name="ListItemHDR">
+        <value condition="$EXP[IsVideoHDR10Plus]">hdr10+</value>
+        <value condition="$EXP[IsVideoHDR10]">hdr10</value>
+        <value condition="$EXP[IsVideoHDR]">hdr</value>
+        <value condition="$EXP[IsVideoHLG]">hlg</value>
+        <value condition="$EXP[IsVideoDolbyVision]">dolby vision</value>
     </variable>
 
     <include name="weatherlist">
@@ -1501,11 +1501,11 @@
             </control>
             
             <control type="radiobutton" id="9077">
-                <visible>String.IsEqual(ListItem.DBType,tvshow) + Integer.IsGreater(ListItem.Property(UnwatchedEpisodes),0) + !String.IsEmpty(ListItem.DBID) + !Skin.HasSetting(HideNextUpEpisodeButton) + !String.IsEmpty(Container(9911).ListItem.Filenameandpath)</visible>
+                <visible>String.IsEqual(ListItem.DBType,tvshow) + Integer.IsGreater(ListItem.Property(UnwatchedEpisodes),0) + !String.IsEmpty(ListItem.DBID) + !Skin.HasSetting(HideNextUpEpisodeButton) + !String.IsEmpty(Container(9911).ListItem.FileNameAndPath)</visible>
                 <onfocus>ClearProperty(moviecontent)</onfocus>
                 <onfocus>ClearProperty(ShowDisc)</onfocus>
                 <onclick>Dialog.Close(all)</onclick>
-                <onclick>PlayMedia($ESCINFO[Container(9911).ListItem.Filenameandpath])</onclick>
+                <onclick>PlayMedia($ESCINFO[Container(9911).ListItem.FileNameAndPath])</onclick>
                 <include>buttondimensions</include>
                 <include content="buttontextures">
                     <param name="icon" value="buttonsdialogs/upnext.png"/>
