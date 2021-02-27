@@ -67,6 +67,18 @@
     <expression name="Widget4Enabled">String.Contains(Container(300).ListItem.Property(widgetEnable.4),yes)</expression>
     <expression name="Widget5Enabled">String.Contains(Container(300).ListItem.Property(widgetEnable.5),yes)</expression>
     <expression name="Widget6Enabled">String.Contains(Container(300).ListItem.Property(widgetEnable.6),yes)</expression>
+    <expression name="IsAudioCodecATMOS">
+      String.Contains(ListItem.Filenameandpath,.atmos.) | String.Contains(ListItem.Filenameandpath,.atmos-)
+      | String.Contains(Player.Filenameandpath,.atmos.) | String.Contains(Player.Filenameandpath,.atmos-)
+    </expression>
+    <expression name="IsAudioCodecDTSX">
+      String.Contains(ListItem.Filenameandpath,.dts-x.) | String.Contains(ListItem.Filenameandpath,.dts.x.) | String.Contains(ListItem.Filenameandpath,.dtsx.) | String.Contains(ListItem.Filenameandpath,.dts-x-) | String.Contains(ListItem.Filenameandpath,.dts.x-) | String.Contains(ListItem.Filenameandpath,.dtsx-)
+      | String.Contains(Player.Filenameandpath,.dts-x.) | String.Contains(Player.Filenameandpath,.dts.x.) | String.Contains(Player.Filenameandpath,.dtsx.) | String.Contains(Player.Filenameandpath,.dts-x-) | String.Contains(Player.Filenameandpath,.dts.x-) | String.Contains(Player.Filenameandpath,.dtsx-)
+    </expression>
+    <expression name="IsAudioCodecOPUS">
+      String.Contains(ListItem.Filenameandpath,.opus.)
+      | String.Contains(Player.Filenameandpath,.opus.)
+    </expression>
 
     <include name="ScrolltimeDetailsList">
         <scrolltime tween="sine" easing="inout">250</scrolltime>
@@ -924,29 +936,11 @@
     </include>
 
     <variable name="ListItemAudioCodec">
-        <value condition="String.Contains(ListItem.Filenameandpath,.atmos.)">atmos</value>
-        <value condition="String.Contains(ListItem.Filenameandpath,.atmos-)">atmos</value>
-        <value condition="String.Contains(ListItem.Filenameandpath,.dts-x.)">dts-x</value>
-        <value condition="String.Contains(ListItem.Filenameandpath,.dts.x.)">dts-x</value>
-        <value condition="String.Contains(ListItem.Filenameandpath,.dtsx.)">dts-x</value>
-        <value condition="String.Contains(ListItem.Filenameandpath,.dts-x-)">dts-x</value>
-        <value condition="String.Contains(ListItem.Filenameandpath,.dts.x-)">dts-x</value>
-        <value condition="String.Contains(ListItem.Filenameandpath,.dtsx-)">dts-x</value>
-        <value condition="String.Contains(ListItem.Filenameandpath,.opus.)">opus</value>
-        <value>$INFO[ListItem.AudioCodec]</value>
-    </variable>
-
-    <variable name="ListItemAudioCodecPlayer">
-        <value condition="String.Contains(Player.Filename,.atmos.)">atmos</value>
-        <value condition="String.Contains(Player.Filename,.atmos-)">atmos</value>
-        <value condition="String.Contains(Player.Filename,.dts-x.)">dts-x</value>
-        <value condition="String.Contains(Player.Filename,.dts.x.)">dts-x</value>
-        <value condition="String.Contains(Player.Filename,.dtsx.)">dts-x</value>
-        <value condition="String.Contains(Player.Filename,.dts-x-)">dts-x</value>
-        <value condition="String.Contains(Player.Filename,.dts.x-)">dts-x</value>
-        <value condition="String.Contains(Player.Filename,.dtsx-)">dts-x</value>
-        <value condition="String.Contains(Player.Filename,.opus.)">opus</value>
-        <value>$INFO[VideoPlayer.AudioCodec]</value>
+        <value condition="$EXP[IsAudioCodecATMOS]">atmos</value>
+        <value condition="$EXP[IsAudioCodecDTSX]">dts-x</value>
+        <value condition="$EXP[IsAudioCodecOPUS]">opus</value>
+        <value condition="!String.IsEmpty(ListItem.AudioCodec)">$INFO[ListItem.AudioCodec]</value>
+        <value condition="!String.IsEmpty(VideoPlayer.AudioCodec)">$INFO[VideoPlayer.AudioCodec]</value>
     </variable>
 
     <variable name="LabelOSDhdr">
