@@ -95,6 +95,10 @@
         String.Contains(ListItem.FileNameAndPath,.dv.) | String.Contains(ListItem.FileNameAndPath,dolbyvision) | String.Contains(ListItem.FileNameAndPath,dolby-vision)
         | [VideoPlayer.IsFullscreen + [String.Contains(Player.FileNameAndPath,.dv.) | String.Contains(Player.FileNameAndPath,dolbyvision) | String.Contains(Player.FileNameAndPath,dolby-vision)]]
     </expression>
+    <expression name="HasNextAired">
+        [Container.Content(tvshows) | Container.Content(seasons) | String.IsEqual(ListItem.DBTYPE,tvshow) | String.IsEqual(ListItem.DBTYPE,season)] 
+        + [!String.IsEmpty(Window(Home).Property(TMDbHelper.ListItem.Next_Aired)) | !String.IsEmpty(Window(Home).Property(TMDbHelper.ListItem.Last_Aired))]
+    </expression>
 
     <include name="ScrolltimeDetailsList">
         <scrolltime tween="sine" easing="inout">250</scrolltime>
