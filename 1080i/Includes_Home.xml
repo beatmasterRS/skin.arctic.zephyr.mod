@@ -3,7 +3,7 @@
 
     <include name="HomeActorsEmbuary">
         <control type="list" id="9705">
-            <visible>String.Contains(Container(300).ListItem.Property(widget),RandomActors)</visible>
+            <visible>String.IsEqual(Container(300).ListItem.Property(widget),RandomActors)</visible>
             <include>HiddenListControl</include>
             <content>$VAR[InfoContentEmbuaryActors]</content>
         </control>
@@ -171,12 +171,9 @@
             <width>275</width>
             <aspectratio scalediffuse="true" align="left">keep</aspectratio>
             <texture background="true">$VAR[ClearLogoHome]</texture>
-            <!--<animation effect="fade" start="100" end="0" time="0" condition="String.Contains(Container(300).ListItem.Property(widgetBanner),yes) + !Control.HasFocus(301)">Conditional</animation>
-            <animation effect="fade" start="0" end="100" delay="300" time="350" condition="String.Contains(Container(300).ListItem.Property(widgetBanner),yes) + Control.HasFocus(301)">Conditional</animation>-->
-            <!--<animation effect="fade" start="0" end="100" time="350" condition="String.Contains(Container(300).ListItem.Property(widgetBanner),yes) + Control.HasFocus(301)">Conditional</animation>-->
-            <animation effect="slide" end="0,145" start="0,0" time="0" condition="String.Contains(Container(300).ListItem.Property(widgetBanner),yes) + Control.HasFocus(301)">Conditional</animation>
-            <animation effect="slide" end="400,145" start="0,0" time="0" condition="String.Contains(Container(300).ListItem.Property(widgetBanner),yes) + !Control.HasFocus(301)">Conditional</animation>
-            <animation effect="fade" start="0" end="100" time="350" delay="300" reversible="false" condition="String.Contains(Container(300).ListItem.Property(widgetBanner),yes) + Control.HasFocus(301)">Conditional</animation>
+            <animation effect="slide" end="0,145" start="0,0" time="0" condition="String.IsEqual(Container(300).ListItem.Property(widgetBanner),yes) + Control.HasFocus(301)">Conditional</animation>
+            <animation effect="slide" end="400,145" start="0,0" time="0" condition="String.IsEqual(Container(300).ListItem.Property(widgetBanner),yes) + !Control.HasFocus(301)">Conditional</animation>
+            <animation effect="fade" start="0" end="100" time="350" delay="300" reversible="false" condition="String.IsEqual(Container(300).ListItem.Property(widgetBanner),yes) + Control.HasFocus(301)">Conditional</animation>
             <animation effect="fade" start="100" end="0" time="500">VisibleChange</animation>
             <animation effect="fade" start="0" end="0,250" time="150">WindowClose</animation>
         </control>
@@ -399,7 +396,7 @@
             <animation effect="slide" start="0" end="0,200" time="150" condition="Skin.HasSetting(home.showheader)">Conditional</animation>
             <animation effect="slide" end="0,100" time="150" condition="[Pvr.IsRecording | Pvr.HasTimer | [!Skin.HasSetting(home.showheader) + [Window.IsVisible(DialogNotification.xml) | Window.IsVisible(DialogExtendedProgressBar.xml) | Window.IsVisible(DialogVolumeBar.xml)]]]">Conditional</animation>
             <animation effect="slide" end="0,100" time="150" condition="!Skin.HasSetting(home.showheader) + Player.HasMedia">Conditional</animation>
-            <visible>String.Contains(Container(300).ListItem.Property(widget),Weather) | Skin.HasSetting(home.showweatherfanart)</visible>
+            <visible>String.IsEqual(Container(300).ListItem.Property(widget),Weather) | Skin.HasSetting(home.showweatherfanart)</visible>
             <visible>!Player.HasVideo | !Skin.HasSetting(global.showvideo)</visible>
             <visible>!Control.HasFocus(301) | [Skin.HasSetting(home.classicwidgets) + !Skin.HasSetting(home.showheader) + ![Player.HasMedia + [Pvr.IsRecording | Pvr.HasTimer | Window.IsVisible(DialogNotification.xml) | Window.IsVisible(DialogExtendedProgressBar.xml) | Window.IsVisible(DialogVolumeBar.xml)]]]</visible>
             <include>Animation.FadeIn.Slide</include>
@@ -578,7 +575,7 @@
             <centertop>53%</centertop>
             <width>450</width>
             <height>117</height>
-            <visible>[!String.Contains(Container(300).ListItem.Property(widget),Weather) + Container(301).IsUpdating] | [!Weather.IsFetched + String.Contains(Container(300).ListItem.Property(widget),Weather)]</visible>
+            <visible>[!String.IsEqual(Container(300).ListItem.Property(widget),Weather) + Container(301).IsUpdating] | [!Weather.IsFetched + String.IsEqual(Container(300).ListItem.Property(widget),Weather)]</visible>
             <include>Animation.FadeIn</include>
             <include>Animation.FadeOut</include>
             <control type="image">
@@ -630,8 +627,8 @@
                 <visible>!Container(301).IsUpdating</visible>
                 <visible>!Skin.HasSetting(home.modernwidgets)</visible>
                 <visible>Integer.IsGreater(Container(301).NumItems,0)</visible>
-                <visible>!String.Contains(Container(300).ListItem.Property(widget),Weather)</visible>
-                <visible>!String.Contains(Container(300).ListItem.Property(widget),system)</visible>
+                <visible>!String.IsEqual(Container(300).ListItem.Property(widget),Weather)</visible>
+                <visible>!String.IsEqual(Container(300).ListItem.Property(widget),system)</visible>
                 <visible>!String.IsEqual(Container(300).ListItem.Property(widgetaspect),Square) + !String.IsEqual(Container(300).ListItem.Property(widgetaspect),Thumbnail) + !String.IsEqual(Container(300).ListItem.Property(widgetaspect),Fanart)</visible>
                 <visible>![Window.IsVisible(home) + !String.IsEmpty(Skin.String(home.slideshowpath)) + String.IsEmpty(Container(300).ListItem.Property(widget))] + [String.IsEmpty(Container(300).ListItem.Property(Background)) | !String.IsEmpty(Container(300).ListItem.Property(widget))]</visible>
                 <visible>!Player.HasVideo | !Skin.HasSetting(global.showvideo)</visible>
@@ -783,8 +780,8 @@
                 <visible>!Container(301).IsUpdating</visible>
                 <visible>!Skin.HasSetting(home.modernwidgets)</visible>
                 <visible>!Skin.HasSetting(home.dontautoshowwidget) | Control.HasFocus(301)</visible>
-                <visible>!String.Contains(Container(300).ListItem.Property(widget),Weather)</visible>
-                <visible>!String.Contains(Container(300).ListItem.Property(widget),system)</visible>
+                <visible>!String.IsEqual(Container(300).ListItem.Property(widget),Weather)</visible>
+                <visible>!String.IsEqual(Container(300).ListItem.Property(widget),system)</visible>
                 <visible>String.IsEqual(Container(300).ListItem.Property(widgetaspect),Square)</visible>
                 <visible>![Window.IsVisible(home) + !String.IsEmpty(Skin.String(home.slideshowpath)) + String.IsEmpty(Container(300).ListItem.Property(widget))] + [String.IsEmpty(Container(300).ListItem.Property(Background)) | !String.IsEmpty(Container(300).ListItem.Property(widget))]</visible>
                 <visible>!Player.HasVideo | !Skin.HasSetting(global.showvideo)</visible>
@@ -826,7 +823,7 @@
                     <fadetime>PosterFanartFadetime</fadetime>
                     <aspectratio scalediffuse="false">keep</aspectratio>
                     <texture diffuse="diffuse/widgetposter.png" fallback="DefaultAddonNone.png">$VAR[WidgetImage]</texture>
-                    <visible>!String.Contains(Container(300).ListItem.Property(widgetAspectRatio),scale)</visible>
+                    <visible>!String.IsEqual(Container(300).ListItem.Property(widgetAspectRatio),scale)</visible>
                 </control>
                 <control type="image">
                     <left>5</left>
@@ -836,7 +833,7 @@
                     <fadetime>PosterFanartFadetime</fadetime>
                     <aspectratio scalediffuse="false">scale</aspectratio>
                     <texture diffuse="diffuse/widgetposter.png" fallback="DefaultAddonNone.png">$VAR[WidgetImage]</texture>
-                    <visible>String.Contains(Container(300).ListItem.Property(widgetAspectRatio),scale)</visible>
+                    <visible>String.IsEqual(Container(300).ListItem.Property(widgetAspectRatio),scale)</visible>
                 </control>
                 <control type="group">
                     <visible>Skin.HasSetting(hidewidgettitle)</visible>
@@ -946,8 +943,8 @@
                 <visible>!Container(301).IsUpdating</visible>
                 <visible>!Skin.HasSetting(home.modernwidgets)</visible>
                 <visible>!Skin.HasSetting(home.dontautoshowwidget) | Control.HasFocus(301)</visible>
-                <visible>!String.Contains(Container(300).ListItem.Property(widget),Weather)</visible>
-                <visible>!String.Contains(Container(300).ListItem.Property(widget),system)</visible>
+                <visible>!String.IsEqual(Container(300).ListItem.Property(widget),Weather)</visible>
+                <visible>!String.IsEqual(Container(300).ListItem.Property(widget),system)</visible>
                 <visible>String.IsEqual(Container(300).ListItem.Property(widgetaspect),Fanart) | String.IsEqual(Container(300).ListItem.Property(widgetaspect),Thumbnail)</visible>
                 <visible>![Window.IsVisible(home) + !String.IsEmpty(Skin.String(home.slideshowpath)) + String.IsEmpty(Container(300).ListItem.Property(widget))] + [String.IsEmpty(Container(300).ListItem.Property(Background)) | !String.IsEmpty(Container(300).ListItem.Property(widget))]</visible>
                 <visible>!Player.HasVideo | !Skin.HasSetting(global.showvideo)</visible>
@@ -1128,8 +1125,8 @@
             <!-- New modern Widget Poster-->
             <control type="group">
                 <visible>!Container(301).IsUpdating</visible>
-                <visible>!String.Contains(Container(300).ListItem.Property(widget),Weather)</visible>
-                <visible>!String.Contains(Container(300).ListItem.Property(widget),system)</visible>
+                <visible>!String.IsEqual(Container(300).ListItem.Property(widget),Weather)</visible>
+                <visible>!String.IsEqual(Container(300).ListItem.Property(widget),system)</visible>
                 <visible>Skin.HasSetting(home.modernwidgets)</visible>
                 <visible>!String.IsEqual(Container(300).ListItem.Property(widgetaspect),Square) + !String.IsEqual(Container(300).ListItem.Property(widgetaspect),Thumbnail) + !String.IsEqual(Container(300).ListItem.Property(widgetaspect),Fanart)</visible>
                 <visible>![Window.IsVisible(home) + !String.IsEmpty(Skin.String(home.slideshowpath)) + String.IsEmpty(Container(300).ListItem.Property(widget))] + [String.IsEmpty(Container(300).ListItem.Property(Background)) | !String.IsEmpty(Container(300).ListItem.Property(widget))]</visible>
@@ -1236,8 +1233,8 @@
             <!-- New modern Widget Fanart-->
             <control type="group">
                 <visible>!Container(301).IsUpdating</visible>
-                <visible>!String.Contains(Container(300).ListItem.Property(widget),Weather)</visible>
-                <visible>!String.Contains(Container(300).ListItem.Property(widget),system)</visible>
+                <visible>!String.IsEqual(Container(300).ListItem.Property(widget),Weather)</visible>
+                <visible>!String.IsEqual(Container(300).ListItem.Property(widget),system)</visible>
                 <visible>Skin.HasSetting(home.modernwidgets)</visible>
                 <visible>String.IsEqual(Container(300).ListItem.Property(widgetaspect),Fanart) | String.IsEqual(Container(300).ListItem.Property(widgetaspect),Thumbnail)</visible>
                 <visible>![Window.IsVisible(home) + !String.IsEmpty(Skin.String(home.slideshowpath)) + String.IsEmpty(Container(300).ListItem.Property(widget))] + [String.IsEmpty(Container(300).ListItem.Property(Background)) | !String.IsEmpty(Container(300).ListItem.Property(widget))]</visible>
@@ -1344,8 +1341,8 @@
             <!-- New modern Widget Square-->
             <control type="group">
                 <visible>!Container(301).IsUpdating</visible>
-                <visible>!String.Contains(Container(300).ListItem.Property(widget),Weather)</visible>
-                <visible>!String.Contains(Container(300).ListItem.Property(widget),system)</visible>
+                <visible>!String.IsEqual(Container(300).ListItem.Property(widget),Weather)</visible>
+                <visible>!String.IsEqual(Container(300).ListItem.Property(widget),system)</visible>
                 <visible>Skin.HasSetting(home.modernwidgets)</visible>
                 <visible>String.IsEqual(Container(300).ListItem.Property(widgetaspect),Square)</visible>
                 <visible>![Window.IsVisible(home) + !String.IsEmpty(Skin.String(home.slideshowpath)) + String.IsEmpty(Container(300).ListItem.Property(widget))] + [String.IsEmpty(Container(300).ListItem.Property(Background)) | !String.IsEmpty(Container(300).ListItem.Property(widget))]</visible>
@@ -1366,7 +1363,7 @@
                     <fadetime>PosterFanartFadetime</fadetime>
                     <aspectratio scalediffuse="false">keep</aspectratio>
                     <texture diffuse="diffuse/widgetposter.png" fallback="DefaultAddonNone.png">$VAR[WidgetImage]</texture>
-                    <visible>!String.Contains(Container(300).ListItem.Property(widgetAspectRatio),scale)</visible>
+                    <visible>!String.IsEqual(Container(300).ListItem.Property(widgetAspectRatio),scale)</visible>
                 </control>
                 <control type="image">
                     <left>SidePad</left>
@@ -1376,7 +1373,7 @@
                     <fadetime>PosterFanartFadetime</fadetime>
                     <aspectratio scalediffuse="false">scale</aspectratio>
                     <texture diffuse="diffuse/widgetposter.png" fallback="DefaultAddonNone.png">$VAR[WidgetImage]</texture>
-                    <visible>String.Contains(Container(300).ListItem.Property(widgetAspectRatio),scale)</visible>
+                    <visible>String.IsEqual(Container(300).ListItem.Property(widgetAspectRatio),scale)</visible>
                 </control>
                 <control type="group">
                     <right>50</right>
@@ -1463,8 +1460,8 @@
             <!-- New modern Widget SystemInfo-->
             <control type="group">
                 <visible>!Container(301).IsUpdating</visible>
-                <visible>!String.Contains(Container(300).ListItem.Property(widget),Weather)</visible>
-                <visible>String.Contains(Container(300).ListItem.Property(widget),system)</visible>
+                <visible>!String.IsEqual(Container(300).ListItem.Property(widget),Weather)</visible>
+                <visible>String.IsEqual(Container(300).ListItem.Property(widget),system)</visible>
                 <visible>![Window.IsVisible(home) + !String.IsEmpty(Skin.String(home.slideshowpath)) + String.IsEmpty(Container(300).ListItem.Property(widget))] + [String.IsEmpty(Container(300).ListItem.Property(Background)) | !String.IsEmpty(Container(300).ListItem.Property(widget))]</visible>
                 <visible>!Player.HasVideo | !Skin.HasSetting(global.showvideo)</visible>
                 <include>Animation.FadeIn</include>
@@ -1641,7 +1638,7 @@
                 <animation effect="slide" start="0" end="0,160" time="400" tween="back" reversible="false" easing="out" condition="[Control.HasFocus(301) | Control.HasFocus(4752)]">Conditional</animation>
                 <animation effect="slide" end="0" start="0,160" time="150" reversible="false" condition="[!Control.HasFocus(301) + !Control.HasFocus(4752)]">Conditional</animation>
                 <animation effect="slide" start="0" end="0,250" time="150">WindowClose</animation>
-                <visible>String.Contains(Container(300).ListItem.Property(widget),Weather)</visible>
+                <visible>String.IsEqual(Container(300).ListItem.Property(widget),Weather)</visible>
                 <visible>Weather.IsFetched</visible>
                 <visible>Skin.HasSetting(home.modernwidgets)</visible>
                 <visible>!Player.HasVideo | !Skin.HasSetting(global.showvideo)</visible>
@@ -1666,7 +1663,7 @@
                     </control>
                 </control>
                 <control type="wraplist" id="301">
-                    <visible>String.Contains(Container(300).ListItem.Property(widget),weatherdaily) | String.IsEqual(Container(300).ListItem.Property(widget),weather)</visible>
+                    <visible>String.IsEqual(Container(300).ListItem.Property(widget),weatherdaily) | String.IsEqual(Container(300).ListItem.Property(widget),weather)</visible>
                     <bottom>64</bottom>
                     <left>63</left>
                     <width>1780</width>
@@ -1686,7 +1683,7 @@
                     </content>
                 </control>
                 <control type="wraplist" id="301">
-                    <visible>String.Contains(Container(300).ListItem.Property(widget),weatherhourly) + !String.Contains(Container(300).ListItem.Property(widget),weatherdaily)</visible>
+                    <visible>String.IsEqual(Container(300).ListItem.Property(widget),weatherhourly) + !String.IsEqual(Container(300).ListItem.Property(widget),weatherdaily)</visible>
                     <bottom>64</bottom>
                     <left>63</left>
                     <width>1780</width>
@@ -2930,8 +2927,8 @@
                 <control type="group">
                     <animation effect="slide" end="0,-250" time="450" tween="back" reversible="false" condition="Control.HasFocus(301) | Control.HasFocus(4752)">Conditional</animation>
                     <animation effect="slide" start="0,-250" time="250" tween="quadratic" reversible="false" condition="!Control.HasFocus(301) + !Control.HasFocus(4752)">Conditional</animation>
-                    <animation effect="slide" start="0" end="0,-270" time="450" tween="back" reversible="false" condition="[!String.IsEmpty(Container(300).ListItem.Property(widget)) | [String.IsEmpty(Container(300).ListItem.Property(widget)) + [String.IsEmpty(Container(300).ListItem.Property(Background)) + String.IsEmpty(Skin.String(home.slideshowpath))]]] + [[String.Contains(Container(300).ListItem.Property(widget),Weather) | Integer.IsGreater(Container(301).NumItems,0) | Container(301).IsUpdating] + [String.Contains(Container(300).ListItem.Property(widget),Weather) | Control.HasFocus(301) | !Skin.HasSetting(home.dontautoshowwidget)]]">Conditional</animation>
-                    <animation effect="slide" end="0" start="0,-270" time="250" tween="quadratic" reversible="false" condition="![[!String.IsEmpty(Container(300).ListItem.Property(widget)) | [String.IsEmpty(Container(300).ListItem.Property(widget)) + [String.IsEmpty(Container(300).ListItem.Property(Background)) + String.IsEmpty(Skin.String(home.slideshowpath))]]]] | ![[String.Contains(Container(300).ListItem.Property(widget),Weather) | Integer.IsGreater(Container(301).NumItems,0) | Container(301).IsUpdating] + [String.Contains(Container(300).ListItem.Property(widget),Weather) | Control.HasFocus(301) | !Skin.HasSetting(home.dontautoshowwidget)]]">Conditional</animation>
+                    <animation effect="slide" start="0" end="0,-270" time="450" tween="back" reversible="false" condition="[!String.IsEmpty(Container(300).ListItem.Property(widget)) | [String.IsEmpty(Container(300).ListItem.Property(widget)) + [String.IsEmpty(Container(300).ListItem.Property(Background)) + String.IsEmpty(Skin.String(home.slideshowpath))]]] + [[String.IsEqual(Container(300).ListItem.Property(widget),Weather) | Integer.IsGreater(Container(301).NumItems,0) | Container(301).IsUpdating] + [String.IsEqual(Container(300).ListItem.Property(widget),Weather) | Control.HasFocus(301) | !Skin.HasSetting(home.dontautoshowwidget)]]">Conditional</animation>
+                    <animation effect="slide" end="0" start="0,-270" time="250" tween="quadratic" reversible="false" condition="![[!String.IsEmpty(Container(300).ListItem.Property(widget)) | [String.IsEmpty(Container(300).ListItem.Property(widget)) + [String.IsEmpty(Container(300).ListItem.Property(Background)) + String.IsEmpty(Skin.String(home.slideshowpath))]]]] | ![[String.IsEqual(Container(300).ListItem.Property(widget),Weather) | Integer.IsGreater(Container(301).NumItems,0) | Container(301).IsUpdating] + [String.IsEqual(Container(300).ListItem.Property(widget),Weather) | Control.HasFocus(301) | !Skin.HasSetting(home.dontautoshowwidget)]]">Conditional</animation>
                     <control type="image" description="BottomBG">
                         <width>100%</width>
                         <height>900</height>
@@ -2964,16 +2961,16 @@
 
                 <!-- Widget  -->
                 <control type="group">
-                    <animation effect="fade" start="100" end="0" time="600" condition="![[String.Contains(Container(300).ListItem.Property(widget),Weather) | Integer.IsGreater(Container(301).NumItems,0) | Container(301).IsUpdating] + [String.Contains(Container(300).ListItem.Property(widget),Weather) | Control.HasFocus(301) | !Skin.HasSetting(home.dontautoshowwidget)]]">Conditional</animation>
-                    <animation effect="fade" end="100" start="0" time="0" condition="[[String.Contains(Container(300).ListItem.Property(widget),Weather) | Integer.IsGreater(Container(301).NumItems,0) | Container(301).IsUpdating] + [String.Contains(Container(300).ListItem.Property(widget),Weather) | Control.HasFocus(301) | !Skin.HasSetting(home.dontautoshowwidget)]]">Conditional</animation>
+                    <animation effect="fade" start="100" end="0" time="600" condition="![[String.IsEqual(Container(300).ListItem.Property(widget),Weather) | Integer.IsGreater(Container(301).NumItems,0) | Container(301).IsUpdating] + [String.IsEqual(Container(300).ListItem.Property(widget),Weather) | Control.HasFocus(301) | !Skin.HasSetting(home.dontautoshowwidget)]]">Conditional</animation>
+                    <animation effect="fade" end="100" start="0" time="0" condition="[[String.IsEqual(Container(300).ListItem.Property(widget),Weather) | Integer.IsGreater(Container(301).NumItems,0) | Container(301).IsUpdating] + [String.IsEqual(Container(300).ListItem.Property(widget),Weather) | Control.HasFocus(301) | !Skin.HasSetting(home.dontautoshowwidget)]]">Conditional</animation>
                     <animation type="WindowClose">
                         <effect type="fade" start="100" end="0" time="150"/>
                     </animation>
                     <bottom>190</bottom>
                     <height>297</height>
                     <control type="group">
-                        <animation effect="fade" start="100" end="0" time="0" reversible="false" condition="![!String.Contains(Container(300).ListItem.Property(widget),Weather) + [!String.IsEmpty(Container(300).ListItem.Property(widget)) | [String.IsEmpty(Container(300).ListItem.Property(widget)) + [String.IsEmpty(Container(300).ListItem.Property(Background)) + [String.IsEmpty(Skin.String(home.slideshowpath))]]]]]">Conditional</animation>
-                        <animation effect="fade" start="0" end="100" time="0" delay="0" reversible="false" condition="!String.Contains(Container(300).ListItem.Property(widget),Weather) + [!String.IsEmpty(Container(300).ListItem.Property(widget)) | [String.IsEmpty(Container(300).ListItem.Property(widget)) + [String.IsEmpty(Container(300).ListItem.Property(Background)) + [String.IsEmpty(Skin.String(home.slideshowpath))]]]]">Conditional</animation>
+                        <animation effect="fade" start="100" end="0" time="0" reversible="false" condition="![!String.IsEqual(Container(300).ListItem.Property(widget),Weather) + [!String.IsEmpty(Container(300).ListItem.Property(widget)) | [String.IsEmpty(Container(300).ListItem.Property(widget)) + [String.IsEmpty(Container(300).ListItem.Property(Background)) + [String.IsEmpty(Skin.String(home.slideshowpath))]]]]]">Conditional</animation>
+                        <animation effect="fade" start="0" end="100" time="0" delay="0" reversible="false" condition="!String.IsEqual(Container(300).ListItem.Property(widget),Weather) + [!String.IsEmpty(Container(300).ListItem.Property(widget)) | [String.IsEmpty(Container(300).ListItem.Property(widget)) + [String.IsEmpty(Container(300).ListItem.Property(Background)) + [String.IsEmpty(Skin.String(home.slideshowpath))]]]]">Conditional</animation>
                         <include>skinshortcuts-template-widget-classic</include>
                     </control>
                     <control type="group">
@@ -2998,7 +2995,7 @@
     
                 <!-- Weather Widget -->
                     <control type="group">
-                        <visible>String.Contains(Container(300).ListItem.Property(widget),Weather)</visible>
+                        <visible>String.IsEqual(Container(300).ListItem.Property(widget),Weather)</visible>
                         <visible>Weather.IsFetched</visible>
                         <control type="grouplist">
                             <left>70</left>
@@ -3269,7 +3266,7 @@
                         <centertop>50%</centertop>
                         <width>450</width>
                         <height>117</height>
-                        <visible>Container(301).IsUpdating | [String.Contains(Container(300).ListItem.Property(widget),Weather) + !Weather.IsFetched]</visible>
+                        <visible>Container(301).IsUpdating | [String.IsEqual(Container(300).ListItem.Property(widget),Weather) + !Weather.IsFetched]</visible>
                         <animation effect="fade" start="0" end="100" delay="500" time="200" reversible="false">Visible</animation>
                         <control type="image">
                             <description>Busy animation</description>
@@ -3305,7 +3302,7 @@
 
                 <!-- Widget Info -->
                 <control type="group">
-                    <visible>Control.HasFocus(301) + !String.Contains(Container(300).ListItem.Property(widget),system)</visible>
+                    <visible>Control.HasFocus(301) + !String.IsEqual(Container(300).ListItem.Property(widget),system)</visible>
                     <posy>355</posy>
                     <animation effect="fade" start="0" end="100" time="350" delay="300" tween="cubic" easing="inout" reversible="false">Visible</animation>
                     <animation effect="fade" start="100" end="0" time="0" reversible="false">Hidden</animation>
@@ -3409,7 +3406,7 @@
 
                 <!-- Widget SystemInfo -->
                 <control type="group">
-                    <visible>Control.HasFocus(301) + String.Contains(Container(300).ListItem.Property(widget),system)</visible>
+                    <visible>Control.HasFocus(301) + String.IsEqual(Container(300).ListItem.Property(widget),system)</visible>
                     <posy>355</posy>
                     <animation effect="fade" start="0" end="100" time="350" delay="300" tween="cubic" easing="inout" reversible="false">Visible</animation>
                     <animation effect="fade" start="100" end="0" time="0" reversible="false">Hidden</animation>
@@ -3563,8 +3560,8 @@
                 <left>SidePad</left>
                 <include condition="!Skin.HasSetting(furniture.clock)">DefHomeRight520</include>
                 <include condition="Skin.HasSetting(furniture.clock)">DefHomeRightSidePad</include>
-                <onup condition="!Skin.HasSetting(home.dontshowfanart) + !String.Contains(Container(300).ListItem.Property(widget),Weather) + [!String.IsEmpty(Container(300).ListItem.Property(widget)) | [String.IsEmpty(Container(300).ListItem.Property(widget)) + [String.IsEmpty(Container(300).ListItem.Property(Background)) + [String.IsEmpty(Skin.String(home.slideshowpath))]]]]">301</onup>
-                <onup condition="Skin.HasSetting(home.dontshowfanart) + !String.Contains(Container(300).ListItem.Property(widget),Weather) + [!String.IsEmpty(Container(300).ListItem.Property(widget)) | [String.IsEmpty(Container(300).ListItem.Property(widget)) + [String.IsEmpty(Container(300).ListItem.Property(Background)) + [String.IsEmpty(Skin.String(home.slideshowpath))]]]]">SetFocus(301,0)</onup>
+                <onup condition="!Skin.HasSetting(home.dontshowfanart) + !String.IsEqual(Container(300).ListItem.Property(widget),Weather) + [!String.IsEmpty(Container(300).ListItem.Property(widget)) | [String.IsEmpty(Container(300).ListItem.Property(widget)) + [String.IsEmpty(Container(300).ListItem.Property(Background)) + [String.IsEmpty(Skin.String(home.slideshowpath))]]]]">301</onup>
+                <onup condition="Skin.HasSetting(home.dontshowfanart) + !String.IsEqual(Container(300).ListItem.Property(widget),Weather) + [!String.IsEmpty(Container(300).ListItem.Property(widget)) | [String.IsEmpty(Container(300).ListItem.Property(widget)) + [String.IsEmpty(Container(300).ListItem.Property(Background)) + [String.IsEmpty(Skin.String(home.slideshowpath))]]]]">SetFocus(301,0)</onup>
                 <ondown condition="Integer.IsGreater(Container(302).NumItems,0)">SetFocus(302,0)</ondown>
                 <onleft>300</onleft>
                 <onright>300</onright>
@@ -4035,7 +4032,7 @@
                     <centertop>45%</centertop>
                     <width>450</width>
                     <height>117</height>
-                    <visible>[!String.Contains(Container(300).ListItem.Property(widget),Weather) + Container(301).IsUpdating] | [!Weather.IsFetched + String.Contains(Container(300).ListItem.Property(widget),Weather)]</visible>
+                    <visible>[!String.IsEqual(Container(300).ListItem.Property(widget),Weather) + Container(301).IsUpdating] | [!Weather.IsFetched + String.IsEqual(Container(300).ListItem.Property(widget),Weather)]</visible>
                     <include>Animation.FadeIn</include>
                     <include>Animation.FadeOut</include>
                     <control type="image">
@@ -4069,12 +4066,12 @@
                     </control>
                 </control>
                 <control type="group">
-                    <animation effect="fade" start="100" end="0" time="0" reversible="false" condition="[!String.Contains(Container(300).ListItem.Property(widget),Weather) + [!Integer.IsGreater(Container(301).NumItems,0) | Container(301).IsUpdating]] | [!Weather.IsFetched + String.Contains(Container(300).ListItem.Property(widget),Weather)]">Conditional</animation>
-                    <animation effect="fade" start="0" end="100" time="0" reversible="false" condition="![[!String.Contains(Container(300).ListItem.Property(widget),Weather) + [!Integer.IsGreater(Container(301).NumItems,0) | Container(301).IsUpdating]] | [!Weather.IsFetched + String.Contains(Container(300).ListItem.Property(widget),Weather)]]">Conditional</animation>
+                    <animation effect="fade" start="100" end="0" time="0" reversible="false" condition="[!String.IsEqual(Container(300).ListItem.Property(widget),Weather) + [!Integer.IsGreater(Container(301).NumItems,0) | Container(301).IsUpdating]] | [!Weather.IsFetched + String.IsEqual(Container(300).ListItem.Property(widget),Weather)]">Conditional</animation>
+                    <animation effect="fade" start="0" end="100" time="0" reversible="false" condition="![[!String.IsEqual(Container(300).ListItem.Property(widget),Weather) + [!Integer.IsGreater(Container(301).NumItems,0) | Container(301).IsUpdating]] | [!Weather.IsFetched + String.IsEqual(Container(300).ListItem.Property(widget),Weather)]]">Conditional</animation>
     
                 <!-- Widget Banner -->
                     <control type="group">
-                        <visible>String.Contains(Container(300).ListItem.Property(widgetBanner),yes) + !String.Contains(Container(300).ListItem.Property(widget),Weather)</visible>
+                        <visible>String.IsEqual(Container(300).ListItem.Property(widgetBanner),yes) + !String.IsEqual(Container(300).ListItem.Property(widget),Weather)</visible>
                         <animation effect="fade" start="100" end="66" time="400" condition="!Control.HasFocus(301) + !Control.HasFocus(4752)">Conditional</animation>
                         <top>238</top>
                         <right>100</right>
@@ -4116,7 +4113,7 @@
     
                     <!-- Widget Text -->
                     <control type="label">
-                        <visible>!String.Contains(Container(300).ListItem.Property(widget),system) + !Skin.HasSetting(hidewidgettitle) + !String.Contains(Container(300).ListItem.Property(widget),Weather) + !String.Contains(Container(300).ListItem.Property(widgetBanner),yes)</visible>
+                        <visible>!String.IsEqual(Container(300).ListItem.Property(widget),system) + !Skin.HasSetting(hidewidgettitle) + !String.IsEqual(Container(300).ListItem.Property(widget),Weather) + !String.IsEqual(Container(300).ListItem.Property(widgetBanner),yes)</visible>
                         <font>TinyBold</font>
                         <right>70</right>
                         <width>1422</width>
@@ -4129,7 +4126,7 @@
                         <animation effect="fade" start="100" end="33" time="400" condition="!Control.HasFocus(301)">Conditional</animation>
                     </control>
                     <control type="grouplist">
-                        <visible>!String.Contains(Container(300).ListItem.Property(widget),system) + !String.Contains(Container(300).ListItem.Property(widget),Weather) + !String.Contains(Container(300).ListItem.Property(widgetBanner),yes)</visible>
+                        <visible>!String.IsEqual(Container(300).ListItem.Property(widget),system) + !String.IsEqual(Container(300).ListItem.Property(widget),Weather) + !String.IsEqual(Container(300).ListItem.Property(widgetBanner),yes)</visible>
                         <animation effect="fade" start="100" end="33" time="400" condition="!Control.HasFocus(301) + !Control.HasFocus(4752)">Conditional</animation>
                         <include>Animation.FadeIn</include>
                         <include>Animation.FadeOut</include>
@@ -4166,7 +4163,7 @@
     
                     <!-- Widget Systeminfo -->
                     <control type="label">
-                        <visible>!Skin.HasSetting(hidewidgettitle) + String.Contains(Container(300).ListItem.Property(widget),system) + !String.Contains(Container(300).ListItem.Property(widgetBanner),yes)</visible>
+                        <visible>!Skin.HasSetting(hidewidgettitle) + String.IsEqual(Container(300).ListItem.Property(widget),system) + !String.IsEqual(Container(300).ListItem.Property(widgetBanner),yes)</visible>
                         <font>TinyBold</font>
                         <right>70</right>
                         <width>1422</width>
@@ -4179,7 +4176,7 @@
                         <animation effect="fade" start="100" end="33" time="400" condition="!Control.HasFocus(301)">Conditional</animation>
                     </control>
                     <control type="group">
-                        <visible>String.Contains(Container(300).ListItem.Property(widget),system) + !String.Contains(Container(300).ListItem.Property(widgetBanner),yes)</visible>
+                        <visible>String.IsEqual(Container(300).ListItem.Property(widget),system) + !String.IsEqual(Container(300).ListItem.Property(widgetBanner),yes)</visible>
                         <animation effect="fade" start="100" end="33" time="400" condition="!Control.HasFocus(301) + !Control.HasFocus(4752)">Conditional</animation>
                         <control type="grouplist">
                             <include>Animation.FadeIn</include>
@@ -4251,7 +4248,7 @@
                         </control>
                     </control>
                     <control type="grouplist">
-                        <visible>String.Contains(Container(300).ListItem.Property(widgetBanner),yes) + !String.Contains(Container(300).ListItem.Property(widget),Weather)</visible>
+                        <visible>String.IsEqual(Container(300).ListItem.Property(widgetBanner),yes) + !String.IsEqual(Container(300).ListItem.Property(widget),Weather)</visible>
                         <animation effect="fade" start="100" end="33" time="400" condition="!Control.HasFocus(301) + !Control.HasFocus(4752)">Conditional</animation>
                         <include>Animation.FadeIn</include>
                         <include>Animation.FadeOut</include>
@@ -4278,7 +4275,7 @@
     
                     <!-- Weather Widget -->
                     <control type="group">
-                        <visible>String.Contains(Container(300).ListItem.Property(widget),Weather)</visible>
+                        <visible>String.IsEqual(Container(300).ListItem.Property(widget),Weather)</visible>
                         <visible>Weather.IsFetched</visible>
                         <control type="grouplist">
                             <top>330</top>
@@ -4716,7 +4713,7 @@
     
                 <!-- Widget -->
                     <control type="group">
-                        <animation effect="slide" start="0,0" end="0,148" time="0" condition="String.Contains(Container(300).ListItem.Property(widgetBanner),yes)">Conditional</animation>
+                        <animation effect="slide" start="0,0" end="0,148" time="0" condition="String.IsEqual(Container(300).ListItem.Property(widgetBanner),yes)">Conditional</animation>
                         <include>skinshortcuts-template-widget-vertical</include>
                     </control>
                 </control>
@@ -4966,7 +4963,7 @@
                     <centertop>45%</centertop>
                     <width>450</width>
                     <height>117</height>
-                    <visible>[!String.Contains(Container(300).ListItem.Property(widget),Weather) + Container(301).IsUpdating] | [!Weather.IsFetched + String.Contains(Container(300).ListItem.Property(widget),Weather)]</visible>
+                    <visible>[!String.IsEqual(Container(300).ListItem.Property(widget),Weather) + Container(301).IsUpdating] | [!Weather.IsFetched + String.IsEqual(Container(300).ListItem.Property(widget),Weather)]</visible>
                     <include>Animation.FadeIn</include>
                     <include>Animation.FadeOut</include>
                     <control type="image">
@@ -5000,8 +4997,8 @@
                     </control>
                 </control>
                 <control type="group">
-                    <animation effect="fade" start="100" end="0" time="0" reversible="false" condition="[!String.Contains(Container(300).ListItem.Property(widget),Weather) + [!Integer.IsGreater(Container(301).NumItems,0) | Container(301).IsUpdating]] | [!Weather.IsFetched + String.Contains(Container(300).ListItem.Property(widget),Weather)]">Conditional</animation>
-                    <animation effect="fade" start="0" end="100" time="0" reversible="false" condition="![[!String.Contains(Container(300).ListItem.Property(widget),Weather) + [!Integer.IsGreater(Container(301).NumItems,0) | Container(301).IsUpdating]] | [!Weather.IsFetched + String.Contains(Container(300).ListItem.Property(widget),Weather)]]">Conditional</animation>
+                    <animation effect="fade" start="100" end="0" time="0" reversible="false" condition="[!String.IsEqual(Container(300).ListItem.Property(widget),Weather) + [!Integer.IsGreater(Container(301).NumItems,0) | Container(301).IsUpdating]] | [!Weather.IsFetched + String.IsEqual(Container(300).ListItem.Property(widget),Weather)]">Conditional</animation>
+                    <animation effect="fade" start="0" end="100" time="0" reversible="false" condition="![[!String.IsEqual(Container(300).ListItem.Property(widget),Weather) + [!Integer.IsGreater(Container(301).NumItems,0) | Container(301).IsUpdating]] | [!Weather.IsFetched + String.IsEqual(Container(300).ListItem.Property(widget),Weather)]]">Conditional</animation>
                     <animation effect="slide" start="0" end="0,30" time="0" condition="Skin.HasSetting(home.showheader) + [Skin.HasSetting(home.vertical) + Skin.HasSetting(home.vertical.widgets)]">Conditional</animation>
                     
                     <!-- Widget -->
@@ -5624,7 +5621,7 @@
             <label>$INFO[Container(44023).NumItems, •  , $LOCALIZE[342]]</label>
             <include>Animation.Vertical.Widgets.Title</include>
             <visible>Control.HasFocus($PARAM[focusid])</visible>
-            <visible>ListItem.IsCollection + [String.Contains(Container(300).ListItem.Property(widgetEnable.5),yes) | String.Contains(Container(300).ListItem.Property(widgetEnable.4),yes) | String.Contains(Container(300).ListItem.Property(widgetEnable.3),yes) | String.Contains(Container(300).ListItem.Property(widgetEnable.2),yes)]</visible>
+            <visible>ListItem.IsCollection + [String.IsEqual(Container(300).ListItem.Property(widgetEnable.5),yes) | String.IsEqual(Container(300).ListItem.Property(widgetEnable.4),yes) | String.IsEqual(Container(300).ListItem.Property(widgetEnable.3),yes) | String.IsEqual(Container(300).ListItem.Property(widgetEnable.2),yes)]</visible>
             <visible>!Skin.HasSetting(homemenu.netflix)</visible>
         </control>
         <control type="label" id="9967">
@@ -5636,7 +5633,7 @@
             <label>$INFO[Container(44022).NumItems, •  , $LOCALIZE[134]]</label>
             <include>Animation.Vertical.Widgets.Title</include>
             <visible>Control.HasFocus($PARAM[focusid])</visible>
-            <visible>String.IsEqual(ListItem.DBType,album) + [String.Contains(Container(300).ListItem.Property(widgetEnable.5),yes) | String.Contains(Container(300).ListItem.Property(widgetEnable.4),yes) | String.Contains(Container(300).ListItem.Property(widgetEnable.3),yes) | String.Contains(Container(300).ListItem.Property(widgetEnable.2),yes)]</visible>
+            <visible>String.IsEqual(ListItem.DBType,album) + [String.IsEqual(Container(300).ListItem.Property(widgetEnable.5),yes) | String.IsEqual(Container(300).ListItem.Property(widgetEnable.4),yes) | String.IsEqual(Container(300).ListItem.Property(widgetEnable.3),yes) | String.IsEqual(Container(300).ListItem.Property(widgetEnable.2),yes)]</visible>
             <visible>!Skin.HasSetting(homemenu.netflix)</visible>
         </control>
         <control type="image">
@@ -5656,8 +5653,8 @@
         <control type="group">
             <left>-444</left>
             <animation effect="slide" start="0" end="0,-27" time="150" condition="Skin.HasSetting(home.modernwidgets) + Skin.HasSetting(home.vertical.widgets) + Skin.HasSetting(home.oldmenuheight)">Conditional</animation>
-            <animation effect="fade" start="100" end="0" time="0" reversible="false" condition="[!String.Contains(Container(300).ListItem.Property(widget),Weather) + [!Integer.IsGreater(Container(301).NumItems,0) | Container(301).IsUpdating]] | [!Weather.IsFetched + String.Contains(Container(300).ListItem.Property(widget),Weather)]">Conditional</animation>
-            <animation effect="fade" start="0" end="100" time="0" reversible="false" condition="![[!String.Contains(Container(300).ListItem.Property(widget),Weather) + [!Integer.IsGreater(Container(301).NumItems,0) | Container(301).IsUpdating]] | [!Weather.IsFetched + String.Contains(Container(300).ListItem.Property(widget),Weather)]]">Conditional</animation>
+            <animation effect="fade" start="100" end="0" time="0" reversible="false" condition="[!String.IsEqual(Container(300).ListItem.Property(widget),Weather) + [!Integer.IsGreater(Container(301).NumItems,0) | Container(301).IsUpdating]] | [!Weather.IsFetched + String.IsEqual(Container(300).ListItem.Property(widget),Weather)]">Conditional</animation>
+            <animation effect="fade" start="0" end="100" time="0" reversible="false" condition="![[!String.IsEqual(Container(300).ListItem.Property(widget),Weather) + [!Integer.IsGreater(Container(301).NumItems,0) | Container(301).IsUpdating]] | [!Weather.IsFetched + String.IsEqual(Container(300).ListItem.Property(widget),Weather)]]">Conditional</animation>
 
             <!-- Widget -->
             <control type="grouplist" id="301">
@@ -5719,7 +5716,7 @@
         <param name="labelisvisible" value="$PARAM[labelisvisible]" default="true"/>
         <definition>
             <control type="group">
-                <animation effect="slide" start="0" end="0,385" time="0" condition="[Integer.IsEqual(Container(301).NumItems,1) + !String.Contains(Container(300).ListItem.Property(widgetFullscreen),yes)] + !Skin.HasSetting(homemenu.netflix)">Conditional</animation>
+                <animation effect="slide" start="0" end="0,385" time="0" condition="[Integer.IsEqual(Container(301).NumItems,1) + !String.IsEqual(Container(300).ListItem.Property(widgetFullscreen),yes)] + !Skin.HasSetting(homemenu.netflix)">Conditional</animation>
                 <include condition="!Skin.HasSetting(widgets.fade)">Animation.Vertical.Widgets.Label</include>
                 <control type="grouplist">
                     <left>526</left>

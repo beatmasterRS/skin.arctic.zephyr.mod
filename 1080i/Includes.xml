@@ -61,12 +61,12 @@
     <expression name="HomeIsClassic">!Skin.HasSetting(home.vertical) + Skin.HasSetting(home.classicwidgets)</expression>
     <expression name="HomeIsVertical">Skin.HasSetting(home.vertical) + !Skin.HasSetting(home.vertical.widgets)</expression>
     <expression name="IsYoutube">String.Contains(Container.FolderPath,plugin://plugin.video.youtube)</expression>
-    <expression name="Widget1Enabled">String.Contains(Container(300).ListItem.Property(widgetEnable),yes)</expression>
-    <expression name="Widget2Enabled">String.Contains(Container(300).ListItem.Property(widgetEnable.2),yes)</expression>
-    <expression name="Widget3Enabled">String.Contains(Container(300).ListItem.Property(widgetEnable.3),yes)</expression>
-    <expression name="Widget4Enabled">String.Contains(Container(300).ListItem.Property(widgetEnable.4),yes)</expression>
-    <expression name="Widget5Enabled">String.Contains(Container(300).ListItem.Property(widgetEnable.5),yes)</expression>
-    <expression name="Widget6Enabled">String.Contains(Container(300).ListItem.Property(widgetEnable.6),yes)</expression>
+    <expression name="Widget1Enabled">String.IsEqual(Container(300).ListItem.Property(widgetEnable),yes)</expression>
+    <expression name="Widget2Enabled">String.IsEqual(Container(300).ListItem.Property(widgetEnable.2),yes)</expression>
+    <expression name="Widget3Enabled">String.IsEqual(Container(300).ListItem.Property(widgetEnable.3),yes)</expression>
+    <expression name="Widget4Enabled">String.IsEqual(Container(300).ListItem.Property(widgetEnable.4),yes)</expression>
+    <expression name="Widget5Enabled">String.IsEqual(Container(300).ListItem.Property(widgetEnable.5),yes)</expression>
+    <expression name="Widget6Enabled">String.IsEqual(Container(300).ListItem.Property(widgetEnable.6),yes)</expression>
     <expression name="IsAudioCodecATMOS">
         String.Contains(ListItem.FileNameAndPath,.atmos.) | String.Contains(ListItem.FileNameAndPath,.atmos-)
         | [VideoPlayer.IsFullscreen + [String.Contains(Player.FileNameAndPath,.atmos.) | String.Contains(Player.FileNameAndPath,.atmos-)]]
@@ -316,8 +316,8 @@
         <value condition="Window.IsVisible(home) + String.IsEmpty(Container(301).ListItem.Property(backgroundPlaylist)) + !Container(301).IsUpdating + [$EXP[HomeIsModernMultiWidgets] | $EXP[HomeIsVerticalMultiWidgets]] + !String.IsEmpty(ListItem.Property(OutlookTexture)) + String.Contains(Skin.String(weather.fanart.path),multi) + !Skin.HasSetting(home.dontshowfanart)">$INFO[Skin.String(weather.fanart.path)]$INFO[ListItem.Property(FanartCode)]/</value>
         <value condition="Window.IsActive(script-globalsearch-infodialog.xml) | Window.IsActive(script-globalsearch-main.xml)">$VAR[GlobalSearchArtInfo]</value>
         <value condition="Window.IsVisible(weather) + !String.IsEmpty(Skin.String(weather.fanart.path))">$INFO[Skin.String(weather.fanart.path)]$INFO[Window(Weather).Property(Current.FanartCode)]/</value>
-        <value condition="![Skin.HasSetting(home.vertical) + Skin.HasSetting(home.vertical.widgets)] + Window.IsVisible(home) + !String.IsEmpty(Skin.String(weather.fanart.path)) + String.Contains(Container(300).ListItem.Property(widget),Weather) + !Skin.HasSetting(home.dontshowfanart) + String.Contains(Skin.String(weather.fanart.path),multi)">$INFO[Skin.String(weather.fanart.path)]$INFO[Window(Weather).Property(Current.FanartCode)]/</value>
-        <value condition="![Skin.HasSetting(home.vertical) + Skin.HasSetting(home.vertical.widgets)] + Window.IsVisible(home) + !String.IsEmpty(Skin.String(weather.fanart.path)) + String.Contains(Container(300).ListItem.Property(widget),Weather) + !Skin.HasSetting(home.dontshowfanart) + !String.Contains(Skin.String(weather.fanart.path),multi)">$INFO[Skin.String(weather.fanart.path)]$INFO[Window(Weather).Property(Current.FanartCode),,.jpg]</value>
+        <value condition="![Skin.HasSetting(home.vertical) + Skin.HasSetting(home.vertical.widgets)] + Window.IsVisible(home) + !String.IsEmpty(Skin.String(weather.fanart.path)) + String.IsEqual(Container(300).ListItem.Property(widget),Weather) + !Skin.HasSetting(home.dontshowfanart) + String.Contains(Skin.String(weather.fanart.path),multi)">$INFO[Skin.String(weather.fanart.path)]$INFO[Window(Weather).Property(Current.FanartCode)]/</value>
+        <value condition="![Skin.HasSetting(home.vertical) + Skin.HasSetting(home.vertical.widgets)] + Window.IsVisible(home) + !String.IsEmpty(Skin.String(weather.fanart.path)) + String.IsEqual(Container(300).ListItem.Property(widget),Weather) + !Skin.HasSetting(home.dontshowfanart) + !String.Contains(Skin.String(weather.fanart.path),multi)">$INFO[Skin.String(weather.fanart.path)]$INFO[Window(Weather).Property(Current.FanartCode),,.jpg]</value>
         <value condition="!String.IsEmpty(Control.GetLabel(4399)) + Skin.HasSetting(EnableExtraFanart) + !Skin.HasSetting(global.hidefanart)">$INFO[Control.GetLabel(4399)]</value>
         
         <!-- Now Playing -->
@@ -334,8 +334,8 @@
         <value condition="!Skin.HasSetting(home.dontshowfanart) + Window.IsVisible(home) + !String.IsEmpty(Container(301).ListItem.Art(fanart)) + Control.IsVisible(301)">$INFO[Container(301).ListItem.Art(fanart)]</value>
         <value condition="!Skin.HasSetting(home.dontshowfanart) + Window.IsVisible(home) + !String.IsEmpty(Container(301).ListItem.Property(fanart)) + Control.IsVisible(301)">$INFO[Container(301).ListItem.Property(fanart)]</value>
         <!--Multi Widget WEATHER -->
-        <value condition="[Skin.HasSetting(home.vertical) + Skin.HasSetting(home.vertical.widgets)] + Window.IsVisible(home) + !String.IsEmpty(Skin.String(weather.fanart.path)) + String.Contains(Container(300).ListItem.Property(widget),Weather) + !Skin.HasSetting(home.dontshowfanart) + String.Contains(Skin.String(weather.fanart.path),multi)">$INFO[Skin.String(weather.fanart.path)]$INFO[Window(Weather).Property(Current.FanartCode)]/</value>
-        <value condition="[Skin.HasSetting(home.vertical) + Skin.HasSetting(home.vertical.widgets)] + Window.IsVisible(home) + !String.IsEmpty(Skin.String(weather.fanart.path)) + String.Contains(Container(300).ListItem.Property(widget),Weather) + !Skin.HasSetting(home.dontshowfanart) + !String.Contains(Skin.String(weather.fanart.path),multi)">$INFO[Skin.String(weather.fanart.path)]$INFO[Window(Weather).Property(Current.FanartCode),,.jpg]</value>
+        <value condition="[Skin.HasSetting(home.vertical) + Skin.HasSetting(home.vertical.widgets)] + Window.IsVisible(home) + !String.IsEmpty(Skin.String(weather.fanart.path)) + String.IsEqual(Container(300).ListItem.Property(widget),Weather) + !Skin.HasSetting(home.dontshowfanart) + String.Contains(Skin.String(weather.fanart.path),multi)">$INFO[Skin.String(weather.fanart.path)]$INFO[Window(Weather).Property(Current.FanartCode)]/</value>
+        <value condition="[Skin.HasSetting(home.vertical) + Skin.HasSetting(home.vertical.widgets)] + Window.IsVisible(home) + !String.IsEmpty(Skin.String(weather.fanart.path)) + String.IsEqual(Container(300).ListItem.Property(widget),Weather) + !Skin.HasSetting(home.dontshowfanart) + !String.Contains(Skin.String(weather.fanart.path),multi)">$INFO[Skin.String(weather.fanart.path)]$INFO[Window(Weather).Property(Current.FanartCode),,.jpg]</value>
         <!--Multi Widget WEATHER -->
         <!--Multi Widget -->
         
@@ -377,10 +377,10 @@
         <!--Multi Widget -->
         <value condition="Window.IsVisible(home) + String.IsEqual(Container(300).ListItem.Property(background),playlistBackground)">$INFO[Container(9988).ListItem.Art(fanart)]</value>
         <value condition="Window.IsVisible(home) + !String.IsEmpty(Container(300).ListItem.Property(Background))">$INFO[Container(300).ListItem.Property(Background)]</value>
-        <value condition="Window.IsVisible(home) + !String.IsEmpty(Skin.String(home.slideshowpath)) + [String.Contains(Container(300).ListItem.Property(widget),Weather) | String.IsEmpty(Container(300).ListItem.Property(widget)) | Container(301).IsUpdating |  Skin.HasSetting(home.dontshowfanart)]">$INFO[Skin.String(home.slideshowpath)]</value>
+        <value condition="Window.IsVisible(home) + !String.IsEmpty(Skin.String(home.slideshowpath)) + [String.IsEqual(Container(300).ListItem.Property(widget),Weather) | String.IsEmpty(Container(300).ListItem.Property(widget)) | Container(301).IsUpdating |  Skin.HasSetting(home.dontshowfanart)]">$INFO[Skin.String(home.slideshowpath)]</value>
         <value condition="Window.IsVisible(home) + !String.IsEmpty(Skin.String(weather.fanart.path)) + Skin.HasSetting(home.showweatherfanart) + [String.IsEmpty(Container(300).ListItem.Property(widget)) | Container(301).IsUpdating]">$INFO[Skin.String(weather.fanart.path)]$INFO[Window(Weather).Property(Current.FanartCode)]/</value>
         <value condition="Window.IsVisible(home) + !Container(301).IsUpdating + !String.IsEmpty(Skin.String(fanart.fallback))">$INFO[Skin.String(fanart.fallback)]</value>
-        <value condition="Window.IsVisible(home) + String.Contains(Container(300).ListItem.Property(widget),system) + !Skin.HasSetting(home.dontshowfanart) + String.IsEmpty(Container(301).ListItem.Property(backgroundPlaylist))">special://skin/extras/backgrounds/systeminfo.jpg</value>
+        <value condition="Window.IsVisible(home) + String.IsEqual(Container(300).ListItem.Property(widget),system) + !Skin.HasSetting(home.dontshowfanart) + String.IsEmpty(Container(301).ListItem.Property(backgroundPlaylist))">special://skin/extras/backgrounds/systeminfo.jpg</value>
         <value condition="Window.IsVisible(home) + !Container(301).IsUpdating + !String.IsEmpty(Container(301).ListItem.Property(Background))">$INFO[Container(301).ListItem.Property(Background)]</value>
         <value condition="Window.IsVisible(home) + !Container(301).IsUpdating + Skin.HasSetting(homemenu.netflix)">common/null.png</value>
         <value condition="Window.IsVisible(home) + !Container(301).IsUpdating">pvr/background.jpg</value>
@@ -2484,7 +2484,7 @@
             <include>DefDialogButtonsGradient</include>
             <onclick>SetProperty(skinshortcuts-Widget,2,Home)</onclick>
             <onclick>SetFocus(4197)</onclick>
-            <animation effect="fade" start="100" end="50" time="0" condition="!String.Contains(Container(211).ListItem.Property(widgetEnable.2),yes)">Conditional</animation>
+            <animation effect="fade" start="100" end="50" time="0" condition="!String.IsEqual(Container(211).ListItem.Property(widgetEnable.2),yes)">Conditional</animation>
             <visible>String.IsEmpty(Window(Home).Property(skinshortcuts-Widget))</visible>
             <visible>String.IsEqual(Window.Property(groupname),mainmenu)</visible>
             <visible>[Skin.HasSetting(home.vertical) + Skin.HasSetting(home.vertical.widgets)] | [Skin.HasSetting(home.modernwidgets)  + Skin.HasSetting(home.vertical.widgets)]</visible>
@@ -2499,7 +2499,7 @@
             <include>DefDialogButtonsGradient</include>
             <onclick>SetProperty(skinshortcuts-Widget,3,Home)</onclick>
             <onclick>SetFocus(4198)</onclick>
-            <animation effect="fade" start="100" end="50" time="0" condition="!String.Contains(Container(211).ListItem.Property(widgetEnable.3),yes)">Conditional</animation>
+            <animation effect="fade" start="100" end="50" time="0" condition="!String.IsEqual(Container(211).ListItem.Property(widgetEnable.3),yes)">Conditional</animation>
             <visible>String.IsEmpty(Window(Home).Property(skinshortcuts-Widget))</visible>
             <visible>String.IsEqual(Window.Property(groupname),mainmenu)</visible>
             <visible>[Skin.HasSetting(home.vertical) + Skin.HasSetting(home.vertical.widgets)] | [Skin.HasSetting(home.modernwidgets)  + Skin.HasSetting(home.vertical.widgets)]</visible>
@@ -2514,7 +2514,7 @@
             <include>DefDialogButtonsGradient</include>
             <onclick>SetProperty(skinshortcuts-Widget,4,Home)</onclick>
             <onclick>SetFocus(4199)</onclick>
-            <animation effect="fade" start="100" end="50" time="0" condition="!String.Contains(Container(211).ListItem.Property(widgetEnable.4),yes)">Conditional</animation>
+            <animation effect="fade" start="100" end="50" time="0" condition="!String.IsEqual(Container(211).ListItem.Property(widgetEnable.4),yes)">Conditional</animation>
             <visible>String.IsEmpty(Window(Home).Property(skinshortcuts-Widget))</visible>
             <visible>String.IsEqual(Window.Property(groupname),mainmenu)</visible>
             <visible>[Skin.HasSetting(home.vertical) + Skin.HasSetting(home.vertical.widgets)] | [Skin.HasSetting(home.modernwidgets)  + Skin.HasSetting(home.vertical.widgets)]</visible>
@@ -2529,7 +2529,7 @@
             <include>DefDialogButtonsGradient</include>
             <onclick>SetProperty(skinshortcuts-Widget,5,Home)</onclick>
             <onclick>SetFocus(4590)</onclick>
-            <animation effect="fade" start="100" end="50" time="0" condition="!String.Contains(Container(211).ListItem.Property(widgetEnable.5),yes)">Conditional</animation>
+            <animation effect="fade" start="100" end="50" time="0" condition="!String.IsEqual(Container(211).ListItem.Property(widgetEnable.5),yes)">Conditional</animation>
             <visible>String.IsEmpty(Window(Home).Property(skinshortcuts-Widget))</visible>
             <visible>String.IsEqual(Window.Property(groupname),mainmenu)</visible>
             <visible>[Skin.HasSetting(home.vertical) + Skin.HasSetting(home.vertical.widgets)] | [Skin.HasSetting(home.modernwidgets)  + Skin.HasSetting(home.vertical.widgets)]</visible>
@@ -2544,7 +2544,7 @@
             <include>DefDialogButtonsGradient</include>
             <onclick>SetProperty(skinshortcuts-Widget,6,Home)</onclick>
             <onclick>SetFocus(11001)</onclick>
-            <animation effect="fade" start="100" end="50" time="0" condition="!String.Contains(Container(211).ListItem.Property(widgetEnable.6),yes)">Conditional</animation>
+            <animation effect="fade" start="100" end="50" time="0" condition="!String.IsEqual(Container(211).ListItem.Property(widgetEnable.6),yes)">Conditional</animation>
             <visible>String.IsEmpty(Window(Home).Property(skinshortcuts-Widget))</visible>
             <visible>String.IsEqual(Window.Property(groupname),mainmenu)</visible>
             <visible>[Skin.HasSetting(home.vertical) + Skin.HasSetting(home.vertical.widgets)] | [Skin.HasSetting(home.modernwidgets)  + Skin.HasSetting(home.vertical.widgets)]</visible>
