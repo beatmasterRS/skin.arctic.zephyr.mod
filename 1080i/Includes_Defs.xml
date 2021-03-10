@@ -62,16 +62,17 @@
     </variable>
 
     <variable name="DefWidgetContent">
-        <value condition="String.Contains(Container(300).ListItem.Property(widget),Weather) + !String.IsEmpty(Skin.String(weather.fanart))">noop</value>
+        <value condition="[String.IsEqual(Container(300).ListItem.Property(widget),weatherdaily) | String.IsEqual(Container(300).ListItem.Property(widget),weatherhourly)] + !String.IsEmpty(Skin.String(weather.fanart))">noop</value>
         <value condition="!String.IsEmpty(Container(300).ListItem.Property(Background))">noop</value>
         <value condition="!String.IsEmpty(Skin.String(home.slideshowpath)) + String.IsEmpty(Container(300).ListItem.Property(widget))">noop</value>
         <value condition="!String.IsEmpty(Skin.String(home.fallbackwidget))">$INFO[Skin.String(home.fallbackwidget)]</value>
-        <value condition="System.HasAddon(service.library.data.provider) + ![Skin.HasSetting(home.vertical) + Skin.HasSetting(home.vertical.widgets)] + ![Skin.HasSetting(home.modernwidgets)  + Skin.HasSetting(home.vertical.widgets)]">plugin://service.library.data.provider?type=randommovies&amp;reload=$INFO[Window.Property(randommovies)]</value>
+        <value condition="!String.IsEmpty(Skin.String(widgetSpotlightPath)) + String.IsEmpty(Skin.String(home.slideshowpath)) + !String.IsEqual(Skin.String(home.slideshowpath),pvr/background.jpg)">$INFO[Skin.String(widgetSpotlightPath)]</value>
+        <!--<value condition="System.AddonIsEnabled(service.library.data.provider)">plugin://service.library.data.provider?type=randommovies&amp;reload=$INFO[Window.Property(randommovies)]</value>-->
         <value>special://skin/extras/playlists/RandomMovies.xsp</value>
     </variable>
 
     <variable name="DefWidgetTarget">
-        <value condition="!String.IsEmpty(Container(300).ListItem.Property(widgetTarget))">$INFO[Container(300).ListItem.Property(widgetTarget)]</value>
+        <value condition="!String.IsEmpty(Skin.String(widgetTarget)) + String.IsEmpty(Skin.String(home.slideshowpath)) + !String.IsEqual(Skin.String(home.slideshowpath),pvr/background.jpg)">$INFO[Skin.String(widgetTarget)]</value>
         <value>videos</value>
     </variable>
 
@@ -2044,7 +2045,7 @@
                 <param name="height" value="$PARAM[height]" />
             </include>
             <height>$PARAM[height]</height>
-            <include>Animation.Vertical.Widgets.Container</include>
+            <include condition="!Skin.HasSetting(widgets.fade)">Animation.Vertical.Widgets.Container</include>
             <autoscroll time="$PARAM[AutoTime]" delay="1000">$PARAM[AutoScrollCondition]</autoscroll>
             <onfocus>SetProperty(TMDbHelper.WidgetContainer,$PARAM[id],Home)</onfocus>
             <onfocus>SetProperty(BackToId,$PARAM[backid],Home)</onfocus>
@@ -2773,8 +2774,8 @@
         <animation effect="slide" start="0,150" end="0" time="130" reversible="false" condition="String.IsEqual(Container(300).ListItem.Label,Window(home).Property(ClearArtAnimation))">Conditional</animation>
         <animation effect="fade" start="20" end="100" time="150" reversible="false" condition="String.IsEqual(Container(300).ListItem.Label,Window(home).Property(ClearArtAnimation))">Conditional</animation>
         <animation effect="fade" start="100" end="0" time="400" condition="!ControlGroup(301).HasFocus() + $EXP[HomeIsVerticalMultiWidgets] + ![Skin.HasSetting(homemenu.only.icons) + Skin.HasSetting(home.showicons)]">Conditional</animation>
-        <include>Animation.Vertical.Widgets.Label</include>
-        <fadetime>150</fadetime>
+        <include condition="!Skin.HasSetting(widgets.fade)">Animation.Vertical.Widgets.Label</include>
+        <fadetime>ClearArtFadetime</fadetime>
         <right>SidePad</right>
         <width>350</width>
         <aspectratio scalediffuse="true" align="left" aligny="top">keep</aspectratio>
@@ -3253,5 +3254,24 @@
             </control>
         </control>
         </definition> 
+    </include>
+    
+    <include name="IndicatorPoster">
+        <param name="right" value="$PARAM[right]" default="7"/>
+        <definition>
+        <control type="label">
+            <align>center</align>
+            <aligny>center</aligny>
+            <width>50</width>
+            <right>$PARAM[right]</right>
+            <top>6</top>
+            <height>50</height>
+            <textcolor>WatchedIconsList</textcolor>
+            <selectedcolor>WatchedIconsList</selectedcolor>
+            <font>SymbolPoster</font>
+            <label>$VAR[WatchedLabelPoster]</label>
+            <visible>!String.IsEqual(ListItem.Label,..)</visible>
+        </control>
+        </definition>
     </include>
 </includes>

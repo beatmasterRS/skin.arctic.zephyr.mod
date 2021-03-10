@@ -125,23 +125,17 @@
                     </control>
                 </control>
 
-                <!-- HEADER with ClearLogo -->
-                <control type="group">
-                    <include>Animation.VideoFadeOut</include>
-                    <visible>Skin.HasSetting(furniture.logo)</visible>
-                    <top>90</top>
-                    <left>570</left>
-                    <width>920</width>
-                    <include>DialogVideoInfoHeader</include>
-                </control>
-
                 <!-- HEADER -->
                 <control type="group">
                     <include>Animation.VideoFadeOut</include>
-                    <visible>!Skin.HasSetting(furniture.logo)</visible>
                     <top>90</top>
                     <left>570</left>
-                    <width>1250</width>
+                    <include content="def_width" condition="!Skin.HasSetting(furniture.logo)">
+                        <param name="width" value="1250" />
+                    </include>
+                    <include content="def_width" condition="Skin.HasSetting(furniture.logo)">
+                        <param name="width" value="850" />
+                    </include>
                     <include>DialogVideoInfoHeader</include>
                 </control>
 
@@ -476,7 +470,7 @@
                             <align>left</align>
                         </control>
                         <control type="label">
-                            <visible>String.IsEqual(ListItem.DBType,movie)</visible>
+                            <visible>String.IsEqual(ListItem.DBType,movie) | String.IsEqual(ListItem.DBType,episode)</visible>
                             <font>Tiny</font>
                             <textcolor>Dark1</textcolor>
                             <label>[B]$LOCALIZE[445][/B]</label>
@@ -493,19 +487,19 @@
                         <control type="label">
                             <font>Tiny</font>
                             <textcolor>Dark2</textcolor>
-                            <label fallback="19055">$INFO[ListItem.Writer]</label>
+                            <label fallback="19055">$VAR[Label_Writer]</label>
                             <aligny>center</aligny>
                         </control>
                         <control type="label">
                             <font>Tiny</font>
                             <textcolor>Dark2</textcolor>
-                            <label fallback="19055">$INFO[ListItem.Director]</label>
+                            <label fallback="19055">$VAR[Label_Director]</label>
                             <aligny>center</aligny>
                         </control>
                         <control type="label">
                             <font>Tiny</font>
                             <textcolor>Dark2</textcolor>
-                            <label fallback="19055">$INFO[ListItem.Studio]</label>
+                            <label fallback="19055">$VAR[Label_Studio]</label>
                             <aligny>center</aligny>
                         </control>
                         <control type="label">
@@ -524,12 +518,12 @@
                         <control type="label">
                             <font>Tiny</font>
                             <textcolor>Dark2</textcolor>
-                            <label fallback="19055">$INFO[ListItem.Top250,, / 250]</label>
+                            <label fallback="19055">$VAR[Label_Top250]</label>
                             <aligny>center</aligny>
                         </control>
                     </control>
                     <control type="grouplist">
-                        <visible>String.IsEqual(ListItem.DBType,movie)</visible>
+                        <visible>String.IsEqual(ListItem.DBType,movie) | String.IsEqual(ListItem.DBType,episode)</visible>
                         <orientation>horizontal</orientation>
                         <top>237</top>
                         <left>200</left>
@@ -601,7 +595,7 @@
                         </control>
                     </control>
                     <control type="image" description="clearlogo">
-                        <fadetime>250</fadetime>
+                        <fadetime>ClearArtFadetime</fadetime>
                         <bottom>260</bottom>
                         <right>5</right>
                         <width>350</width>
@@ -652,7 +646,7 @@
                         <control type="grouplist">
                             <visible>String.IsEqual(ListItem.DBType,set)</visible>
                             <orientation>horizontal</orientation>
-                            <itemgap>5</itemgap>
+                            <itemgap>15</itemgap>
                             <top>5</top>    
                             <control type="grouplist">
                                 <orientation>vertical</orientation>
@@ -734,7 +728,7 @@
                         <control type="grouplist">
                             <visible>!String.IsEqual(ListItem.DBType,set)</visible>
                             <orientation>horizontal</orientation>
-                            <itemgap>5</itemgap>
+                            <itemgap>15</itemgap>
                             <top>5</top>    
                             <control type="grouplist">
                                 <orientation>vertical</orientation>
@@ -1004,7 +998,7 @@
             </control>
             <control type="image">
                 <height>1080</height>
-                <fadetime>400</fadetime>
+                <fadetime>ImageViewerFadetime</fadetime>
                 <aspectratio align="center">keep</aspectratio>
                 <texture fallback="defaultbrokenimage.png" background="true">$INFO[Container(9505).ListItem.Label]</texture>
             </control>

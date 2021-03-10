@@ -4,12 +4,19 @@
         <property name="content" tag="property" attribute="name|widgetPath"/>
         <property name="content">$VAR[DefWidgetContent]</property>
         <property name="target" tag="property" attribute="name|widgetTarget"/>
+        <property name="target">$VAR[DefWidgetTarget]</property>
         <property name="sortby" tag="property" attribute="name|widgetSortby"/>
         <property name="sort" tag="property" attribute="name|widgetSort"/>
         <property name="aspectratio" tag="property" attribute="name|widgetAspectRatio"/>
         <property name="aspectratio">keep</property>
         <property name="IsGTO" tag="property" attribute="name|widget" value="GTO">true</property>  
         <property name="IsGTO">false</property>
+        <property name="widgetauto" tag="property" attribute="name|widgetAuto" value="$NUMBER[5000]">5000</property>
+        <property name="widgetauto" tag="property" attribute="name|widgetAuto" value="$NUMBER[7000]">7000</property>
+        <property name="widgetauto" tag="property" attribute="name|widgetAuto" value="$NUMBER[10000]">10000</property>
+        <property name="widgetauto" tag="property" attribute="name|widgetAuto" value="$NUMBER[15000]">15000</property>
+        <property name="widgetauto" tag="property" attribute="name|widgetAuto" value="$NUMBER[20000]">20000</property>
+        <property name="widgetauto" tag="property" attribute="name|widgetAuto" value="$NUMBER[25000]">25000</property>
         <controls>
             <control type="list" id="301">
                 <skinshortcuts>visibility</skinshortcuts>
@@ -27,9 +34,9 @@
                 <onright>301</onright>
                 <preloaditems>2</preloaditems>
                 <orientation>horizontal</orientation>
-                <autoscroll time="10000">!Control.HasFocus(301) + !Control.HasFocus(4752)</autoscroll>
+                <autoscroll time="$SKINSHORTCUTS[widgetauto]">!Control.HasFocus(301) + !String.IsEmpty(Container(300).ListItem.Property(widgetAuto)) + System.IdleTime(1)</autoscroll>
                 <include>ScrolltimeWidgetsList</include>
-                <itemlayout width="178" height="257" condition="!String.IsEqual(Container(300).ListItem.Property(widgetaspect),Square) + ![String.IsEqual(Container(300).ListItem.Property(widgetaspect),Fanart) | String.IsEqual(Container(300).ListItem.Property(widgetaspect),Thumbnail)] + !String.Contains(Container(300).ListItem.Property(widget),system)">
+                <itemlayout width="178" height="257" condition="!String.IsEqual(Container(300).ListItem.Property(widgetaspect),Square) + ![String.IsEqual(Container(300).ListItem.Property(widgetaspect),Fanart) | String.IsEqual(Container(300).ListItem.Property(widgetaspect),Thumbnail)] + !String.IsEqual(Container(300).ListItem.Property(widget),system)">
                     <control type="image">
                         <left>9</left>
                         <top>9</top>
@@ -46,8 +53,9 @@
                         <aspectratio scalediffuse="false">scale</aspectratio>
                         <texture diffuse="diffuse/wall-fanart.png" fallback="DefaultAddonNone.png" background="true">$VAR[PosterImage]</texture>
                     </control>
+                    <include>IndicatorPoster</include>
                 </itemlayout>
-                <focusedlayout width="178" height="257" condition="!String.IsEqual(Container(300).ListItem.Property(widgetaspect),Square) + ![String.IsEqual(Container(300).ListItem.Property(widgetaspect),Fanart) | String.IsEqual(Container(300).ListItem.Property(widgetaspect),Thumbnail)] + !String.Contains(Container(300).ListItem.Property(widget),system)">
+                <focusedlayout width="178" height="257" condition="!String.IsEqual(Container(300).ListItem.Property(widgetaspect),Square) + ![String.IsEqual(Container(300).ListItem.Property(widgetaspect),Fanart) | String.IsEqual(Container(300).ListItem.Property(widgetaspect),Thumbnail)] + !String.IsEqual(Container(300).ListItem.Property(widget),system)">
                     <control type="image">
                         <left>9</left>
                         <top>9</top>
@@ -64,11 +72,12 @@
                         <aspectratio scalediffuse="false">scale</aspectratio>
                         <texture diffuse="diffuse/wall.png" fallback="DefaultAddonNone.png" background="true">$VAR[PosterImage]</texture>
                     </control>
+                    <include>IndicatorPoster</include>
                     <include content="Def_Selectbox">
                         <param name="FocusId" value="301"/>
                     </include>
                 </focusedlayout>
-                <itemlayout width="254" height="257" condition="String.IsEqual(Container(300).ListItem.Property(widgetaspect),Square) | String.Contains(Container(300).ListItem.Property(widget),system)">
+                <itemlayout width="254" height="257" condition="String.IsEqual(Container(300).ListItem.Property(widgetaspect),Square) | String.IsEqual(Container(300).ListItem.Property(widget),system)">
                     <control type="image">
                         <left>8</left>
                         <top>9</top>
@@ -85,8 +94,9 @@
                         <aspectratio scalediffuse="false">$SKINSHORTCUTS[aspectratio]</aspectratio>
                         <texture diffuse="diffuse/wall.png" fallback="DefaultAddonNone.png" background="true">$VAR[PosterImage]</texture>
                     </control>
+                    <include>IndicatorPoster</include>
                 </itemlayout>
-                <focusedlayout width="254" height="257" condition="String.IsEqual(Container(300).ListItem.Property(widgetaspect),Square) | String.Contains(Container(300).ListItem.Property(widget),system)">
+                <focusedlayout width="254" height="257" condition="String.IsEqual(Container(300).ListItem.Property(widgetaspect),Square) | String.IsEqual(Container(300).ListItem.Property(widget),system)">
                     <control type="image">
                         <left>8</left>
                         <top>9</top>
@@ -103,11 +113,12 @@
                         <aspectratio scalediffuse="false">$SKINSHORTCUTS[aspectratio]</aspectratio>
                         <texture diffuse="diffuse/wall.png" fallback="DefaultAddonNone.png" background="true">$VAR[PosterImage]</texture>
                     </control>
+                    <include>IndicatorPoster</include>
                     <include content="Def_Selectbox">
                         <param name="FocusId" value="301"/>
                     </include>
                 </focusedlayout>
-                <itemlayout width="445" height="257" condition="[String.IsEqual(Container(300).ListItem.Property(widgetaspect),Fanart) | String.IsEqual(Container(300).ListItem.Property(widgetaspect),Thumbnail)] + !String.Contains(Container(300).ListItem.Property(widget),system)">
+                <itemlayout width="445" height="257" condition="[String.IsEqual(Container(300).ListItem.Property(widgetaspect),Fanart) | String.IsEqual(Container(300).ListItem.Property(widgetaspect),Thumbnail)] + !String.IsEqual(Container(300).ListItem.Property(widget),system)">
                     <control type="image">
                         <left>9</left>
                         <top>9</top>
@@ -124,8 +135,9 @@
                         <aspectratio scalediffuse="false">scale</aspectratio>
                         <texture diffuse="diffuse/wall-fanart.png" fallback="DefaultAddonNone.png" background="true">$VAR[WidgetThumbImage]</texture>
                     </control>
+                    <include>IndicatorPoster</include>
                 </itemlayout>
-                <focusedlayout width="445" height="257" condition="[String.IsEqual(Container(300).ListItem.Property(widgetaspect),Fanart) | String.IsEqual(Container(300).ListItem.Property(widgetaspect),Thumbnail)] + !String.Contains(Container(300).ListItem.Property(widget),system)">
+                <focusedlayout width="445" height="257" condition="[String.IsEqual(Container(300).ListItem.Property(widgetaspect),Fanart) | String.IsEqual(Container(300).ListItem.Property(widgetaspect),Thumbnail)] + !String.IsEqual(Container(300).ListItem.Property(widget),system)">
                     <control type="image">
                         <left>9</left>
                         <top>9</top>
@@ -142,6 +154,7 @@
                         <aspectratio scalediffuse="false">scale</aspectratio>
                         <texture diffuse="diffuse/wall-fanart.png" fallback="DefaultAddonNone.png" background="true">$VAR[WidgetThumbImage]</texture>
                     </control>
+                    <include>IndicatorPoster</include>
                     <include content="Def_Selectbox">
                         <param name="FocusId" value="301"/>
                     </include>
@@ -155,6 +168,7 @@
         <property name="content" tag="property" attribute="name|widgetPath"/>
         <property name="content">$VAR[DefWidgetContent]</property>
         <property name="target" tag="property" attribute="name|widgetTarget"/>
+        <property name="target">$VAR[DefWidgetTarget]</property>
         <property name="sortby" tag="property" attribute="name|widgetSortby"/>
         <property name="sort" tag="property" attribute="name|widgetSort"/>
         <property name="IsGTO" tag="property" attribute="name|widget" value="GTO">true</property>  
@@ -169,7 +183,7 @@
                 <onup condition="!IsEmpty(Container(300).ListItem.Property(widget))">300</onup>
                 <onclick condition="$SKINSHORTCUTS[IsGTO]">RunPlugin(plugin://script.service.gto?action=info&amp;item=$INFO[ListItem.Property(Item)])</onclick>
                 <ondown>300</ondown>
-                <!--<onfocus condition="String.Contains(Container(300).ListItem.Property(widget),gto) | String.Contains(Container(300).ListItem.Property(widget),RandomActors)">SetFocus(4752)</onfocus>-->
+                <!--<onfocus condition="String.IsEqual(Container(300).ListItem.Property(widget),gto) | String.IsEqual(Container(300).ListItem.Property(widget),RandomActors)">SetFocus(4752)</onfocus>-->
                 <onback>300</onback>
                 <onleft>301</onleft>
                 <onright>301</onright>
@@ -184,36 +198,6 @@
                 <focusedlayout width="1" height="1">
                 </focusedlayout>
                 <content limit="$VAR[DefWidgetLimit]" target="$SKINSHORTCUTS[target]" sortby="$SKINSHORTCUTS[sortby]" sortorder="$SKINSHORTCUTS[sort]">$SKINSHORTCUTS[content]</content>
-            </control>
-        </controls>
-    </other>
-    
-    <!-- Widget InfoSub Hidden List for Sets -->
-    <other include="widget-infosublist">
-        <property name="id" tag="mainmenuid"/>
-        <controls>
-            <control type="group">
-                <skinshortcuts>visibility</skinshortcuts>
-                <control type="list" id="5301$SKINSHORTCUTS[id]1">
-                    <visible>Integer.IsEqual(Container(301).NumItems,1) + String.IsEqual(Container(301$SKINSHORTCUTS[id]1).ListItem.DBType,set)</visible>
-                    <top>-3000</top>
-                    <left>-3000</left>
-                    <width>1</width>
-                    <height>1</height>
-                    <itemlayout/>
-                    <focusedlayout/>
-                    <content>videodb://movies/sets/$INFO[Container(301$SKINSHORTCUTS[id]1).ListItem.DBID]/?setid=$INFO[Container(301$SKINSHORTCUTS[id]1).ListItem.DBID]</content>
-                </control>
-                <control type="list" id="6301$SKINSHORTCUTS[id]1">
-                    <visible>Integer.IsEqual(Container(301).NumItems,1) + String.IsEqual(Container(301$SKINSHORTCUTS[id]1).ListItem.DBType,album)</visible>
-                    <top>-3000</top>
-                    <left>-3000</left>
-                    <width>1</width>
-                    <height>1</height>
-                    <itemlayout/>
-                    <focusedlayout/>
-                    <content>$INFO[Container(301$SKINSHORTCUTS[id]1).ListItem.FolderPath]</content>
-                </control>
             </control>
         </controls>
     </other>
@@ -661,8 +645,8 @@
         <!-- more content -->
         <property name="targetcontent" tag="property" attribute="name|widgetTarget" value="music">music</property>
         <property name="targetcontent" tag="property" attribute="name|widgetTarget" value="videos">videos</property>
-        <property name="targetcontent" tag="property" attribute="name|widgetTarget" value="addons">addons</property>  
-        <property name="targetcontent">videos</property>
+        <property name="targetcontent" tag="property" attribute="name|widgetTarget" value="addons">addons</property>
+        <property name="targetcontent">$VAR[DefWidgetTarget]</property>
         <property name="morevisible" tag="property" attribute="name|widgetTarget" value="system">false</property>
         <property name="morevisible" tag="property" attribute="name|widgetTarget" value="weather">false</property>
         <property name="morevisible" tag="property" attribute="name|widget" value="mysubmenu">false</property>  
@@ -670,6 +654,7 @@
         <property name="IsGTO" tag="property" attribute="name|widget" value="GTO">true</property>  
         <property name="IsGTO">false</property>
         <property name="target" tag="property" attribute="name|widgetTarget"/>
+        <property name="target">$VAR[DefWidgetTarget]</property>
         <property name="sortby" tag="property" attribute="name|widgetSortby"/>
         <property name="sort" tag="property" attribute="name|widgetSort"/>
         <property name="banner" tag="property" attribute="name|widgetBanner"/>
@@ -690,22 +675,21 @@
         <property name="distance" tag="property" attribute="name|widgetEdgeDistance" value="yes">30</property>
         <property name="distance">10</property>
         <controls>
-            <control type="group" id="301$SKINSHORTCUTS[id]21">
+            <control type="group" id="301$SKINSHORTCUTS[id]2199">
                 <control type="grouplist">
-                    <visible>Integer.IsGreater(Container(301$SKINSHORTCUTS[id]1).NumItems,0) | Container(301$SKINSHORTCUTS[id]1).IsUpdating | String.Contains(Container(300).ListItem.Property(widget),mysubmenu)</visible>
+                    <visible>Integer.IsGreater(Container(301$SKINSHORTCUTS[id]1).NumItems,0) | Container(301$SKINSHORTCUTS[id]1).IsUpdating | String.IsEqual(Container(300).ListItem.Property(widget),mysubmenu)</visible>
                     <skinshortcuts>visibility</skinshortcuts>
                     <include content="widget.title.label" condition="!Skin.HasSetting(hidewidgettitle)">
                         <param name="focusid" value="301$SKINSHORTCUTS[id]1"/>
-                        <param name="condition" value="!String.Contains(Container(300).ListItem.Property(widget),Weather)"/>
                         <param name="idshort" value="1"/>
                     </include>
                 </control>
             </control>
             <control type="$SKINSHORTCUTS[widgetlisttype]" id="301$SKINSHORTCUTS[id]1">
-                <visible>Integer.IsGreater(Container(301$SKINSHORTCUTS[id]1).NumItems,0) | Container(301$SKINSHORTCUTS[id]1).IsUpdating | String.Contains(Container(300).ListItem.Property(widget),mysubmenu) | String.IsEqual(Container(300).ListItem.Property(widget),custom)</visible>
+                <visible>Integer.IsGreater(Container(301$SKINSHORTCUTS[id]1).NumItems,0) | Container(301$SKINSHORTCUTS[id]1).IsUpdating | String.IsEqual(Container(300).ListItem.Property(widget),mysubmenu) | String.IsEqual(Container(300).ListItem.Property(widget),custom)</visible>
                 <onclick condition="$SKINSHORTCUTS[IsGTO]">RunPlugin(plugin://script.service.gto?action=info&amp;item=$INFO[ListItem.Property(Item)])</onclick>
                 <skinshortcuts>visibility</skinshortcuts>
-                <include condition="String.Contains(Container(300).ListItem.Property(widgetaspect),SquareSmall)">Height125</include>
+                <include condition="String.IsEqual(Container(300).ListItem.Property(widgetaspect),SquareSmall)">Height125</include>
                 <include content="DefMultiWidgetContainer">
                     <param name="id" value="301$SKINSHORTCUTS[id]1"/>
                     <param name="shortcutsidshort" value=""/>
@@ -835,12 +819,13 @@
         <property name="targetcontent" tag="property" attribute="name|widgetTarget.2" value="music">music</property>
         <property name="targetcontent" tag="property" attribute="name|widgetTarget.2" value="videos">videos</property>
         <property name="targetcontent" tag="property" attribute="name|widgetTarget.2" value="addons">addons</property>  
-        <property name="targetcontent">videos</property>
+        <property name="targetcontent">$VAR[DefWidgetTarget]</property>
         <property name="morevisible" tag="property" attribute="name|widgetTarget.2" value="system">false</property>
         <property name="morevisible" tag="property" attribute="name|widgetTarget.2" value="weather">false</property>
         <property name="morevisible" tag="property" attribute="name|widget.2" value="mysubmenu">false</property>  
         <property name="morevisible">true</property>
         <property name="target" tag="property" attribute="name|widgetTarget.2"/>
+        <property name="target">$VAR[DefWidgetTarget]</property>
         <property name="sortby" tag="property" attribute="name|widgetSortby.2"/>
         <property name="sort" tag="property" attribute="name|widgetSort.2"/>
         <property name="banner" tag="property" attribute="name|widgetBanner.2"/>
@@ -861,21 +846,20 @@
         <property name="distance" tag="property" attribute="name|widgetEdgeDistance.2" value="yes">30</property>
         <property name="distance">10</property>
         <controls>
-            <control type="group" id="301$SKINSHORTCUTS[id]22">
+            <control type="group" id="301$SKINSHORTCUTS[id]2299">
                 <control type="grouplist">
-                    <visible>String.Contains(Container(300).ListItem.Property(widgetEnable.2),yes)</visible>
+                    <visible>String.IsEqual(Container(300).ListItem.Property(widgetEnable.2),yes)</visible>
                     <visible>Integer.IsGreater(Container(301$SKINSHORTCUTS[id]2).NumItems,0) | Container(301$SKINSHORTCUTS[id]2).IsUpdating</visible>
                     <skinshortcuts>visibility</skinshortcuts>
                     <include content="widget.title.label" condition="!Skin.HasSetting(hidewidgettitle)">
                         <param name="focusid" value="301$SKINSHORTCUTS[id]2"/>
-                        <param name="condition" value="!String.Contains(Container(300).ListItem.Property(widget.2),Weather)"/>
                         <param name="idshort" value="2"/>
                     </include>
                 </control>
             </control>
             <control type="$SKINSHORTCUTS[widgetlisttype]" id="301$SKINSHORTCUTS[id]2">
                 <skinshortcuts>visibility</skinshortcuts>
-                <visible>String.Contains(Container(300).ListItem.Property(widgetEnable.2),yes)</visible>
+                <visible>String.IsEqual(Container(300).ListItem.Property(widgetEnable.2),yes)</visible>
                 <visible>Integer.IsGreater(Container(301$SKINSHORTCUTS[id]2).NumItems,0) | Container(301$SKINSHORTCUTS[id]2).IsUpdating | String.IsEqual(Container(300).ListItem.Property(widget.2),custom)</visible>
                 <onclick condition="$SKINSHORTCUTS[IsGTO]">RunPlugin(plugin://script.service.gto?action=info&amp;item=$INFO[ListItem.Property(Item)])</onclick>
                 <include content="DefMultiWidgetContainer">
@@ -937,7 +921,7 @@
                 <visible>[Integer.IsGreater(Container(301$SKINSHORTCUTS[id]2).NumItems,0) | Container(301$SKINSHORTCUTS[id]2).IsUpdating] + $EXP[Widget2Enabled]</visible>
                 <include>Animation.FadeIn</include>
                 <include content="Animation.FadeOutHomeFullscreenWidget">
-                    <param name="condition" value="[Control.HasFocus(301$SKINSHORTCUTS[id]1) + !String.Contains(Container(300).ListItem.Property(widgetaspect),SquareSmall) + !String.Contains(Container(300).ListItem.Property(widgetaspect),SquareMedium)] | Control.HasFocus(301$SKINSHORTCUTS[id]3) | Control.HasFocus(301$SKINSHORTCUTS[id]4)"/>
+                    <param name="condition" value="[Control.HasFocus(301$SKINSHORTCUTS[id]1) + !String.IsEqual(Container(300).ListItem.Property(widgetaspect),SquareSmall) + !String.IsEqual(Container(300).ListItem.Property(widgetaspect),SquareMedium)] | Control.HasFocus(301$SKINSHORTCUTS[id]3) | Control.HasFocus(301$SKINSHORTCUTS[id]4)"/>
                 </include>
                 <control type="grouplist">
                     <skinshortcuts>visibility</skinshortcuts>
@@ -991,13 +975,13 @@
         <property name="targetcontent" tag="property" attribute="name|widgetTarget.3" value="music">music</property>
         <property name="targetcontent" tag="property" attribute="name|widgetTarget.3" value="videos">videos</property>
         <property name="targetcontent" tag="property" attribute="name|widgetTarget.3" value="addons">addons</property>  
-        <property name="targetcontent">videos</property>
+        <property name="targetcontent">$VAR[DefWidgetTarget]</property>
         <property name="morevisible" tag="property" attribute="name|widgetTarget.3" value="system">false</property>
         <property name="morevisible" tag="property" attribute="name|widgetTarget.3" value="weather">false</property>
         <property name="morevisible" tag="property" attribute="name|widget.3" value="mysubmenu">false</property>  
         <property name="morevisible">true</property>
         <property name="target" tag="property" attribute="name|widgetTarget.3"/>
-        <property name="name" tag="property" attribute="name|widgetName.3"/>
+        <property name="target">$VAR[DefWidgetTarget]</property>
         <property name="sortby" tag="property" attribute="name|widgetSortby.3"/>
         <property name="sort" tag="property" attribute="name|widgetSort.3"/>
         <property name="banner" tag="property" attribute="name|widgetBanner.3"/>
@@ -1017,21 +1001,20 @@
         <property name="distance" tag="property" attribute="name|widgetEdgeDistance.3" value="yes">30</property>
         <property name="distance">10</property>
         <controls>
-            <control type="group" id="301$SKINSHORTCUTS[id]23">
+            <control type="group" id="301$SKINSHORTCUTS[id]2399">
                 <control type="grouplist">
-                    <visible>String.Contains(Container(300).ListItem.Property(widgetEnable.3),yes)</visible>
+                    <visible>String.IsEqual(Container(300).ListItem.Property(widgetEnable.3),yes)</visible>
                     <visible>Integer.IsGreater(Container(301$SKINSHORTCUTS[id]3).NumItems,0) | Container(301$SKINSHORTCUTS[id]3).IsUpdating</visible>
                     <skinshortcuts>visibility</skinshortcuts>
                     <include content="widget.title.label" condition="!Skin.HasSetting(hidewidgettitle)">
                         <param name="focusid" value="301$SKINSHORTCUTS[id]3"/>
-                        <param name="condition" value="!String.Contains(Container(300).ListItem.Property(widget.3),Weather)"/>
                         <param name="idshort" value="3"/>
                     </include>
                 </control>
             </control>
             <control type="$SKINSHORTCUTS[widgetlisttype]" id="301$SKINSHORTCUTS[id]3">
                 <skinshortcuts>visibility</skinshortcuts>
-                <visible>String.Contains(Container(300).ListItem.Property(widgetEnable.3),yes)</visible>
+                <visible>String.IsEqual(Container(300).ListItem.Property(widgetEnable.3),yes)</visible>
                 <visible>Integer.IsGreater(Container(301$SKINSHORTCUTS[id]3).NumItems,0) | Container(301$SKINSHORTCUTS[id]3).IsUpdating | String.IsEqual(Container(300).ListItem.Property(widget.3),custom)</visible>
                 <onclick condition="$SKINSHORTCUTS[IsGTO]">RunPlugin(plugin://script.service.gto?action=info&amp;item=$INFO[ListItem.Property(Item)])</onclick>
                 <include content="DefMultiWidgetContainer">
@@ -1147,13 +1130,13 @@
         <property name="targetcontent" tag="property" attribute="name|widgetTarget.4" value="music">music</property>
         <property name="targetcontent" tag="property" attribute="name|widgetTarget.4" value="videos">videos</property>
         <property name="targetcontent" tag="property" attribute="name|widgetTarget.4" value="addons">addons</property>  
-        <property name="targetcontent">videos</property>
+        <property name="targetcontent">$VAR[DefWidgetTarget]</property>
         <property name="morevisible" tag="property" attribute="name|widgetTarget.4" value="system">false</property>
         <property name="morevisible" tag="property" attribute="name|widgetTarget.4" value="weather">false</property>
         <property name="morevisible" tag="property" attribute="name|widget.4" value="mysubmenu">false</property>  
         <property name="morevisible">true</property>
         <property name="target" tag="property" attribute="name|widgetTarget.4"/>
-        <property name="name" tag="property" attribute="name|widgetName.4"/>
+        <property name="target">$VAR[DefWidgetTarget]</property>
         <property name="sortby" tag="property" attribute="name|widgetSortby.4"/>
         <property name="sort" tag="property" attribute="name|widgetSort.4"/>
         <property name="banner" tag="property" attribute="name|widgetBanner.4"/>
@@ -1173,21 +1156,20 @@
         <property name="distance" tag="property" attribute="name|widgetEdgeDistance.4" value="yes">30</property>
         <property name="distance">10</property>
         <controls>
-            <control type="group" id="301$SKINSHORTCUTS[id]24">
+            <control type="group" id="301$SKINSHORTCUTS[id]2499">
                 <control type="grouplist">
-                    <visible>String.Contains(Container(300).ListItem.Property(widgetEnable.4),yes)</visible>
+                    <visible>String.IsEqual(Container(300).ListItem.Property(widgetEnable.4),yes)</visible>
                     <visible>Integer.IsGreater(Container(301$SKINSHORTCUTS[id]4).NumItems,0) | Container(301$SKINSHORTCUTS[id]4).IsUpdating</visible>
                     <skinshortcuts>visibility</skinshortcuts>
                     <include content="widget.title.label" condition="!Skin.HasSetting(hidewidgettitle)">
                         <param name="focusid" value="301$SKINSHORTCUTS[id]4"/>
-                        <param name="condition" value="!String.Contains(Container(300).ListItem.Property(widget.4),Weather)"/>
                         <param name="idshort" value="4"/>
                     </include>
                 </control>
             </control>
             <control type="$SKINSHORTCUTS[widgetlisttype]" id="301$SKINSHORTCUTS[id]4">
                 <skinshortcuts>visibility</skinshortcuts>
-                <visible>String.Contains(Container(300).ListItem.Property(widgetEnable.4),yes)</visible>
+                <visible>String.IsEqual(Container(300).ListItem.Property(widgetEnable.4),yes)</visible>
                 <visible>Integer.IsGreater(Container(301$SKINSHORTCUTS[id]4).NumItems,0) | Container(301$SKINSHORTCUTS[id]4).IsUpdating | String.IsEqual(Container(300).ListItem.Property(widget.4),custom)</visible>
                 <onclick condition="$SKINSHORTCUTS[IsGTO]">RunPlugin(plugin://script.service.gto?action=info&amp;item=$INFO[ListItem.Property(Item)])</onclick>
                 <include content="DefMultiWidgetContainer">
@@ -1303,13 +1285,13 @@
         <property name="targetcontent" tag="property" attribute="name|widgetTarget.5" value="music">music</property>
         <property name="targetcontent" tag="property" attribute="name|widgetTarget.5" value="videos">videos</property>
         <property name="targetcontent" tag="property" attribute="name|widgetTarget.5" value="addons">addons</property>  
-        <property name="targetcontent">videos</property>
+        <property name="targetcontent">$VAR[DefWidgetTarget]</property>
         <property name="morevisible" tag="property" attribute="name|widgetTarget.5" value="system">false</property>
         <property name="morevisible" tag="property" attribute="name|widgetTarget.5" value="weather">false</property>
         <property name="morevisible" tag="property" attribute="name|widget.5" value="mysubmenu">false</property>  
         <property name="morevisible">true</property>
         <property name="target" tag="property" attribute="name|widgetTarget.5"/>
-        <property name="name" tag="property" attribute="name|widgetName.5"/>
+        <property name="target">$VAR[DefWidgetTarget]</property>
         <property name="sortby" tag="property" attribute="name|widgetSortby.5"/>
         <property name="sort" tag="property" attribute="name|widgetSort.5"/>
         <property name="banner" tag="property" attribute="name|widgetBanner.5"/>
@@ -1329,21 +1311,20 @@
         <property name="distance" tag="property" attribute="name|widgetEdgeDistance.5" value="yes">30</property>
         <property name="distance">10</property>
         <controls>
-            <control type="group" id="301$SKINSHORTCUTS[id]25">
+            <control type="group" id="301$SKINSHORTCUTS[id]2599">
                 <control type="grouplist">
-                    <visible>String.Contains(Container(300).ListItem.Property(widgetEnable.5),yes)</visible>
+                    <visible>String.IsEqual(Container(300).ListItem.Property(widgetEnable.5),yes)</visible>
                     <visible>Integer.IsGreater(Container(301$SKINSHORTCUTS[id]5).NumItems,0) | Container(301$SKINSHORTCUTS[id]5).IsUpdating</visible>
                     <skinshortcuts>visibility</skinshortcuts>
                     <include content="widget.title.label" condition="!Skin.HasSetting(hidewidgettitle)">
                         <param name="focusid" value="301$SKINSHORTCUTS[id]5"/>
-                        <param name="condition" value="!String.Contains(Container(300).ListItem.Property(widget.5),Weather)"/>
                         <param name="idshort" value="5"/>
                     </include>
                 </control>
             </control>
             <control type="$SKINSHORTCUTS[widgetlisttype]" id="301$SKINSHORTCUTS[id]5">
                 <skinshortcuts>visibility</skinshortcuts>
-                <visible>String.Contains(Container(300).ListItem.Property(widgetEnable.5),yes)</visible>
+                <visible>String.IsEqual(Container(300).ListItem.Property(widgetEnable.5),yes)</visible>
                 <visible>Integer.IsGreater(Container(301$SKINSHORTCUTS[id]5).NumItems,0) | Container(301$SKINSHORTCUTS[id]5).IsUpdating | String.IsEqual(Container(300).ListItem.Property(widget.5),custom)</visible>
                 <onclick condition="$SKINSHORTCUTS[IsGTO]">RunPlugin(plugin://script.service.gto?action=info&amp;item=$INFO[ListItem.Property(Item)])</onclick>
                 <include content="DefMultiWidgetContainer">
@@ -1459,13 +1440,13 @@
         <property name="targetcontent" tag="property" attribute="name|widgetTarget.6" value="music">music</property>
         <property name="targetcontent" tag="property" attribute="name|widgetTarget.6" value="videos">videos</property>
         <property name="targetcontent" tag="property" attribute="name|widgetTarget.6" value="addons">addons</property>  
-        <property name="targetcontent">videos</property>
+        <property name="targetcontent">$VAR[DefWidgetTarget]</property>
         <property name="morevisible" tag="property" attribute="name|widgetTarget.6" value="system">false</property>
         <property name="morevisible" tag="property" attribute="name|widgetTarget.6" value="weather">false</property>
         <property name="morevisible" tag="property" attribute="name|widget.6" value="mysubmenu">false</property>  
         <property name="morevisible">true</property>
         <property name="target" tag="property" attribute="name|widgetTarget.6"/>
-        <property name="name" tag="property" attribute="name|widgetName.6"/>
+        <property name="target">$VAR[DefWidgetTarget]</property>
         <property name="sortby" tag="property" attribute="name|widgetSortby.6"/>
         <property name="sort" tag="property" attribute="name|widgetSort.6"/>
         <property name="banner" tag="property" attribute="name|widgetBanner.6"/>
@@ -1485,21 +1466,20 @@
         <property name="distance" tag="property" attribute="name|widgetEdgeDistance.6" value="yes">30</property>
         <property name="distance">10</property>
         <controls>
-            <control type="group" id="301$SKINSHORTCUTS[id]26">
+            <control type="group" id="301$SKINSHORTCUTS[id]2699">
                 <control type="grouplist">
-                    <visible>String.Contains(Container(300).ListItem.Property(widgetEnable.6),yes)</visible>
+                    <visible>String.IsEqual(Container(300).ListItem.Property(widgetEnable.6),yes)</visible>
                     <visible>Integer.IsGreater(Container(301$SKINSHORTCUTS[id]6).NumItems,0) | Container(301$SKINSHORTCUTS[id]6).IsUpdating</visible>
                     <skinshortcuts>visibility</skinshortcuts>
                     <include content="widget.title.label" condition="!Skin.HasSetting(hidewidgettitle)">
                         <param name="focusid" value="301$SKINSHORTCUTS[id]6"/>
-                        <param name="condition" value="!String.Contains(Container(300).ListItem.Property(widget.6),Weather)"/>
                         <param name="idshort" value="6"/>
                     </include>
                 </control>
             </control>
             <control type="$SKINSHORTCUTS[widgetlisttype]" id="301$SKINSHORTCUTS[id]6">
                 <skinshortcuts>visibility</skinshortcuts>
-                <visible>String.Contains(Container(300).ListItem.Property(widgetEnable.6),yes)</visible>
+                <visible>String.IsEqual(Container(300).ListItem.Property(widgetEnable.6),yes)</visible>
                 <visible>Integer.IsGreater(Container(301$SKINSHORTCUTS[id]6).NumItems,0) | Container(301$SKINSHORTCUTS[id]6).IsUpdating | String.IsEqual(Container(300).ListItem.Property(widget.6),custom)</visible>
                 <onclick condition="$SKINSHORTCUTS[IsGTO]">RunPlugin(plugin://script.service.gto?action=info&amp;item=$INFO[ListItem.Property(Item)])</onclick>
                 <include content="DefMultiWidgetContainer">
@@ -1592,6 +1572,7 @@
         <property name="content" tag="property" attribute="name|widgetPath"/>
         <property name="content">$VAR[DefWidgetContent]</property>
         <property name="target" tag="property" attribute="name|widgetTarget"/>
+        <property name="target">$VAR[DefWidgetTarget]</property>
         <property name="sortby" tag="property" attribute="name|widgetSortby"/>
         <property name="sort" tag="property" attribute="name|widgetSort"/>
         <property name="banner" tag="property" attribute="name|widgetBanner"/>
@@ -1602,7 +1583,7 @@
         <controls>
             <control type="fixedlist" id="301">
                 <skinshortcuts>visibility</skinshortcuts>
-                <visible>!String.Contains(Container(300).ListItem.Property(widget),Weather)</visible>
+                <visible>!String.Contains(Container(300).ListItem.Property(widget),weather)</visible>
                 <animation effect="fade" start="100" end="66" time="400" condition="!Control.HasFocus(301) + !Control.HasFocus(4752)">Conditional</animation>
                 <autoscroll time="10000">!Control.HasFocus(301) + !Control.HasFocus(4752) + !Skin.HasSetting(NoAutoScroll)</autoscroll>
                 <top>330</top>
@@ -1624,7 +1605,7 @@
                 <pagecontrol>60</pagecontrol>
                 <viewtype label="536">list</viewtype>
                 <include>ScrolltimeWidgetsList</include>
-                <itemlayout height="325" width="222" condition="!String.IsEqual(Container(300).ListItem.Property(widgetaspect),Square) + ![String.IsEqual(Container(300).ListItem.Property(widgetaspect),Fanart) | String.IsEqual(Container(300).ListItem.Property(widgetaspect),Thumbnail)] + !String.Contains(Container(300).ListItem.Property(widget),system)">
+                <itemlayout height="325" width="222" condition="!String.IsEqual(Container(300).ListItem.Property(widgetaspect),Square) + ![String.IsEqual(Container(300).ListItem.Property(widgetaspect),Fanart) | String.IsEqual(Container(300).ListItem.Property(widgetaspect),Thumbnail)] + !String.IsEqual(Container(300).ListItem.Property(widget),system)">
                     <control type="image">
                         <left>0</left>
                         <top>0</top>
@@ -1648,18 +1629,9 @@
                         <aspectratio scalediffuse="false">scale</aspectratio>
                         <texture diffuse="diffuse/wall.png" background="true" fallback="DefaultMovies.png">$VAR[PosterImage]</texture>
                     </control>
-                    <control type="image">
-                        <centerright>32</centerright>
-                        <centertop>32</centertop>
-                        <width>32</width>
-                        <height>32</height>
-                        <aspectratio aligny="top">keep</aspectratio>
-                        <texture>$VAR[PercentWatched]</texture>
-                        <visible>!String.IsEqual(ListItem.Label,..)</visible>
-                        <visible>String.IsEqual(ListItem.Overlay,OverlayWatched.png)</visible>
-                    </control>
+                    <include>IndicatorPoster</include>
                 </itemlayout>
-                <itemlayout height="325" width="325" condition="String.IsEqual(Container(300).ListItem.Property(widgetaspect),Square) | String.Contains(Container(300).ListItem.Property(widget),system)">
+                <itemlayout height="325" width="325" condition="String.IsEqual(Container(300).ListItem.Property(widgetaspect),Square) | String.IsEqual(Container(300).ListItem.Property(widget),system)">
                     <control type="image">
                         <left>0</left>
                         <top>0</top>
@@ -1683,18 +1655,9 @@
                         <aspectratio scalediffuse="false">$SKINSHORTCUTS[aspectratio]</aspectratio>
                         <texture diffuse="diffuse/wall.png" background="true" fallback="DefaultMovies.png">$VAR[PosterImage]</texture>
                     </control>
-                    <control type="image">
-                        <centerright>32</centerright>
-                        <centertop>32</centertop>
-                        <width>32</width>
-                        <height>32</height>
-                        <aspectratio aligny="top">keep</aspectratio>
-                        <texture>$VAR[PercentWatched]</texture>
-                        <visible>!String.IsEqual(ListItem.Label,..)</visible>
-                        <visible>String.IsEqual(ListItem.Overlay,OverlayWatched.png)</visible>
-                    </control>
+                    <include>IndicatorPoster</include>
                 </itemlayout>
-                <itemlayout height="325" width="562" condition="String.IsEqual(Container(300).ListItem.Property(widgetaspect),Thumbnail) | String.IsEqual(Container(300).ListItem.Property(widgetaspect),Fanart) + !String.Contains(Container(300).ListItem.Property(widget),system)">
+                <itemlayout height="325" width="562" condition="String.IsEqual(Container(300).ListItem.Property(widgetaspect),Thumbnail) | String.IsEqual(Container(300).ListItem.Property(widgetaspect),Fanart) + !String.IsEqual(Container(300).ListItem.Property(widget),system)">
                     <control type="image">
                         <left>0</left>
                         <top>0</top>
@@ -1718,18 +1681,9 @@
                         <aspectratio scalediffuse="false">scale</aspectratio>
                         <texture diffuse="diffuse/wall-fanart.png" background="true" fallback="DefaultMovies.png">$VAR[WidgetThumbImage]</texture>
                     </control>
-                    <control type="image">
-                        <centerright>32</centerright>
-                        <centertop>32</centertop>
-                        <width>32</width>
-                        <height>32</height>
-                        <aspectratio aligny="top">keep</aspectratio>
-                        <texture>$VAR[PercentWatched]</texture>
-                        <visible>!String.IsEqual(ListItem.Label,..)</visible>
-                        <visible>String.IsEqual(ListItem.Overlay,OverlayWatched.png)</visible>
-                    </control>
+                    <include>IndicatorPoster</include>
                 </itemlayout>
-                <focusedlayout height="325" width="222" condition="!String.IsEqual(Container(300).ListItem.Property(widgetaspect),Square) + ![String.IsEqual(Container(300).ListItem.Property(widgetaspect),Fanart) | String.IsEqual(Container(300).ListItem.Property(widgetaspect),Thumbnail)] + !String.Contains(Container(300).ListItem.Property(widget),system)">
+                <focusedlayout height="325" width="222" condition="!String.IsEqual(Container(300).ListItem.Property(widgetaspect),Square) + ![String.IsEqual(Container(300).ListItem.Property(widgetaspect),Fanart) | String.IsEqual(Container(300).ListItem.Property(widgetaspect),Thumbnail)] + !String.IsEqual(Container(300).ListItem.Property(widget),system)">
                     <control type="image">
                         <left>0</left>
                         <top>0</top>
@@ -1753,21 +1707,12 @@
                         <aspectratio scalediffuse="false">scale</aspectratio>
                         <texture diffuse="diffuse/wall.png" background="true" fallback="DefaultMovies.png">$VAR[PosterImage]</texture>
                     </control>
-                    <control type="image">
-                        <centerright>32</centerright>
-                        <centertop>32</centertop>
-                        <width>32</width>
-                        <height>32</height>
-                        <aspectratio aligny="top">keep</aspectratio>
-                        <texture>$VAR[PercentWatched]</texture>
-                        <visible>!String.IsEqual(ListItem.Label,..)</visible>
-                        <visible>String.IsEqual(ListItem.Overlay,OverlayWatched.png)</visible>
-                    </control>
+                    <include>IndicatorPoster</include>
                     <include content="Def_Selectbox">
                         <param name="FocusId" value="301"/>
                     </include>
                 </focusedlayout>
-                <focusedlayout height="325" width="325" condition="String.IsEqual(Container(300).ListItem.Property(widgetaspect),Square) | String.Contains(Container(300).ListItem.Property(widget),system)">
+                <focusedlayout height="325" width="325" condition="String.IsEqual(Container(300).ListItem.Property(widgetaspect),Square) | String.IsEqual(Container(300).ListItem.Property(widget),system)">
                     <control type="image">
                         <left>0</left>
                         <top>0</top>
@@ -1791,21 +1736,12 @@
                         <aspectratio scalediffuse="false">$SKINSHORTCUTS[aspectratio]</aspectratio>
                         <texture diffuse="diffuse/wall.png" background="true" fallback="DefaultMovies.png">$VAR[PosterImage]</texture>
                     </control>
-                    <control type="image">
-                        <centerright>32</centerright>
-                        <centertop>32</centertop>
-                        <width>32</width>
-                        <height>32</height>
-                        <aspectratio aligny="top">keep</aspectratio>
-                        <texture>$VAR[PercentWatched]</texture>
-                        <visible>!String.IsEqual(ListItem.Label,..)</visible>
-                        <visible>String.IsEqual(ListItem.Overlay,OverlayWatched.png)</visible>
-                    </control>
+                    <include>IndicatorPoster</include>
                     <include content="Def_Selectbox">
                         <param name="FocusId" value="301"/>
                     </include>
                 </focusedlayout>
-                <focusedlayout height="325" width="562" condition="String.IsEqual(Container(300).ListItem.Property(widgetaspect),Thumbnail) | String.IsEqual(Container(300).ListItem.Property(widgetaspect),Fanart) + !String.Contains(Container(300).ListItem.Property(widget),system)">
+                <focusedlayout height="325" width="562" condition="String.IsEqual(Container(300).ListItem.Property(widgetaspect),Thumbnail) | String.IsEqual(Container(300).ListItem.Property(widgetaspect),Fanart) + !String.IsEqual(Container(300).ListItem.Property(widget),system)">
                     <control type="image">
                         <left>0</left>
                         <top>0</top>
@@ -1829,16 +1765,7 @@
                         <aspectratio scalediffuse="false">scale</aspectratio>
                         <texture diffuse="diffuse/wall-fanart.png" background="true" fallback="DefaultMovies.png">$VAR[WidgetThumbImage]</texture>
                     </control>
-                    <control type="image">
-                        <centerright>32</centerright>
-                        <centertop>32</centertop>
-                        <width>32</width>
-                        <height>32</height>
-                        <aspectratio aligny="top">keep</aspectratio>
-                        <texture>$VAR[PercentWatched]</texture>
-                        <visible>!String.IsEqual(ListItem.Label,..)</visible>
-                        <visible>String.IsEqual(ListItem.Overlay,OverlayWatched.png)</visible>
-                    </control>
+                    <include>IndicatorPoster</include>
                     <include content="Def_Selectbox">
                         <param name="FocusId" value="301"/>
                     </include>

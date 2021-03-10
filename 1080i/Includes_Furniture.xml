@@ -549,8 +549,7 @@
                     <centertop>50%</centertop>
                     <texture colordiffuse="Dark1">flags/airing.png</texture>
                     <aspectratio align="left">scale</aspectratio>
-                    <visible>[Container.Content(tvshows) | Container.Content(seasons)] + String.IsEmpty(ListItem.VideoResolution)</visible>
-                    <visible>!String.IsEmpty(Window(Home).Property(TMDbHelper.ListItem.Next_Aired)) | !String.IsEmpty(Window(Home).Property(TMDbHelper.ListItem.Last_Aired))</visible>
+                    <visible>!Skin.HasSetting(furniture.flags.nextaired) + $EXP[HasNextAired]</visible>
                 </control>
                 <control type="label">
                     <width min="128">auto</width>
@@ -561,8 +560,7 @@
                     <label>$VAR[LabelNextAiredDetails]</label>
                     <font>Flag</font>
                     <textcolor>Dark2</textcolor>
-                    <visible>[Container.Content(tvshows) | Container.Content(seasons)] + String.IsEmpty(ListItem.VideoResolution)</visible>
-                    <visible>!String.IsEmpty(Window(Home).Property(TMDbHelper.ListItem.Next_Aired)) | !String.IsEmpty(Window(Home).Property(TMDbHelper.ListItem.Last_Aired))</visible>
+                    <visible>!Skin.HasSetting(furniture.flags.nextaired) + $EXP[HasNextAired]</visible>
                 </control>
                 <control type="image">
                     <width min="20" max="100">auto</width>
@@ -610,7 +608,7 @@
                     <height>64</height>
                     <align>left</align>
                     <aligny>center</aligny>
-                    <label>$INFO[ListItem.VideoCodec,,  •  ]$INFO[ListItem.VideoResolution]$INFO[ListItem.VideoAspect,  •  ,]$VAR[LabelFurniturehdr,  •  ,]</label>
+                    <label>$INFO[ListItem.VideoCodec,,  •  ]$INFO[ListItem.VideoResolution]$INFO[ListItem.VideoAspect,  •  ,]$VAR[ListItemHDR,  •  ,]</label>
                     <font>Flag</font>
                     <textcolor>Dark1</textcolor>
                     <visible>!Skin.HasSetting(furniture.flagicons) + !String.IsEmpty(ListItem.VideoResolution)</visible>
@@ -634,14 +632,48 @@
                     <textcolor>Dark1</textcolor>
                     <visible>!Skin.HasSetting(furniture.flagicons) + !String.IsEmpty(ListItem.AudioCodec)</visible>
                 </control>
+
+                <control type="image">
+                    <width min="20" max="100">auto</width>
+                    <height>60</height>
+                    <centertop>50%</centertop>
+                    <texture colordiffuse="Dark1" fallback="flags/fallback.png">flags/other/hdr10plus.png</texture>
+                    <aspectratio align="center">keep</aspectratio>
+                    <visible>Skin.HasSetting(furniture.flagicons) + $EXP[IsVideoHDR10Plus]</visible>
+                </control>
+                <control type="image">
+                    <width min="20" max="100">auto</width>
+                    <height>60</height>
+                    <centertop>50%</centertop>
+                    <texture colordiffuse="Dark1" fallback="flags/fallback.png">flags/other/hdr10.png</texture>
+                    <aspectratio align="center">keep</aspectratio>
+                    <visible>Skin.HasSetting(furniture.flagicons) + $EXP[IsVideoHDR10]</visible>
+                </control>
                 <control type="image">
                     <width min="20" max="100">auto</width>
                     <height>60</height>
                     <centertop>50%</centertop>
                     <texture colordiffuse="Dark1" fallback="flags/fallback.png">flags/other/hdr.png</texture>
                     <aspectratio align="center">keep</aspectratio>
-                    <visible>Skin.HasSetting(furniture.flagicons) + [String.Contains(ListItem.Filenameandpath,.hdr.) | String.Contains(ListItem.Filenameandpath,hdr)]</visible>
+                    <visible>Skin.HasSetting(furniture.flagicons) + $EXP[IsVideoHDR]</visible>
                 </control>
+                <control type="image">
+                    <width min="20" max="80">auto</width>
+                    <height>60</height>
+                    <centertop>50%</centertop>
+                    <texture colordiffuse="Dark1" fallback="flags/fallback.png">flags/other/hlg.png</texture>
+                    <aspectratio align="center">keep</aspectratio>
+                    <visible>Skin.HasSetting(furniture.flagicons) + $EXP[IsVideoHLG]</visible>
+                </control>
+                <control type="image">
+                    <width min="20" max="100">auto</width>
+                    <height>60</height>
+                    <centertop>50%</centertop>
+                    <texture colordiffuse="Dark1" fallback="flags/fallback.png">flags/other/dolbyvision.png</texture>
+                    <aspectratio align="center">keep</aspectratio>
+                    <visible>Skin.HasSetting(furniture.flagicons) + $EXP[IsVideoDolbyVision]</visible>
+                </control>
+
                 <control type="image">
                     <width min="20" max="100">auto</width>
                     <height>64</height>
@@ -685,7 +717,15 @@
                     <texture colordiffuse="Dark1">flags/$VAR[ImageBluray].png</texture>
                     <aspectratio aligny="center" align="center">keep</aspectratio>
                     <visible>Skin.HasSetting(furniture.flagicons)</visible>
-                    <visible>[String.Contains(ListItem.FilenameAndPath,bluray) | String.Contains(ListItem.FilenameAndPath,bdrip) | String.Contains(ListItem.FilenameAndPath,bd25) | String.Contains(ListItem.FilenameAndPath,bd50)]</visible>
+                    <visible>[String.Contains(ListItem.FilenameAndPath,bluray) | String.Contains(ListItem.FilenameAndPath,bdrip) | String.Contains(ListItem.FilenameAndPath,bd25) | String.Contains(ListItem.FilenameAndPath,bd50) | String.Contains(ListItem.FilenameAndPath,blu-ray)]</visible>
+                </control>
+                <control type="image" description="WEB-DL">
+                    <width>84</width>
+                    <height>64</height>
+                    <centertop>50%</centertop>
+                    <texture colordiffuse="Dark1" fallback="flags/fallback.png">flags/other/web-dl.png</texture>
+                    <aspectratio aligny="center" align="center">keep</aspectratio>
+                    <visible>Skin.HasSetting(furniture.flagicons) + [String.Contains(ListItem.Filenameandpath,.web.) | String.Contains(ListItem.Filenameandpath,.web-dl.) | String.Contains(ListItem.Filenameandpath,.webrip.)]</visible>
                 </control>
                 <control type="image">
                     <width>94</width>
@@ -756,7 +796,7 @@
                 </control>
                 <control type="image">
                     <visible>!String.IsEmpty(Window(Home).Property(TMDbHelper.ListItem.RottenTomatoes_Rating)) + Skin.HasSetting(furniture.showtomatoesandmetacritics) + !Skin.HasSetting(furniture.flagicons)</visible>
-                    <fadetime>150</fadetime>
+                    <fadetime>ExtendedFlagIconsFadetime</fadetime>
                     <centertop>50%</centertop>
                     <width>33</width>
                     <height>33</height>
@@ -811,7 +851,7 @@
                 </control>
                 <control type="image">
                     <visible>!String.IsEmpty(Window(Home).Property(TMDbHelper.ListItem.RottenTomatoes_Rating)) + Skin.HasSetting(furniture.showtomatoesandmetacritics) + Skin.HasSetting(furniture.flagicons)</visible>
-                    <fadetime>150</fadetime>
+                    <fadetime>ExtendedFlagIconsFadetime</fadetime>
                     <centertop>50%</centertop>
                     <width>38</width>
                     <height>38</height>
@@ -830,7 +870,7 @@
                 </control>
                 <control type="image">
                     <visible>!String.IsEmpty(Window(Home).Property(TMDbHelper.ListItem.RottenTomatoes_UserMeter)) + !ListItem.IsCollection  + Skin.HasSetting(furniture.showtomatoesandmetacritics) + Skin.HasSetting(furniture.flagicons)</visible>
-                    <fadetime>150</fadetime>
+                    <fadetime>ExtendedFlagIconsFadetime</fadetime>
                     <centertop>50%</centertop>
                     <width>38</width>
                     <height>38</height>
@@ -925,8 +965,7 @@
                     <centertop>50%</centertop>
                     <texture colordiffuse="Dark1">flags/airing.png</texture>
                     <aspectratio align="left">scale</aspectratio>
-                    <visible>[Container.Content(tvshows) | Container.Content(seasons)] + String.IsEmpty(ListItem.VideoResolution)</visible>
-                    <visible>!String.IsEmpty(Window(Home).Property(TMDbHelper.ListItem.Next_Aired)) | !String.IsEmpty(Window(Home).Property(TMDbHelper.ListItem.Last_Aired))</visible>
+                    <visible>!Skin.HasSetting(furniture.flags.nextaired) + $EXP[HasNextAired]</visible>
                 </control>
                 <control type="label">
                     <width min="128">auto</width>
@@ -937,8 +976,7 @@
                     <label>$VAR[LabelNextAiredDetails]</label>
                     <font>Flag</font>
                     <textcolor>Dark2</textcolor>
-                    <visible>[Container.Content(tvshows) | Container.Content(seasons)] + String.IsEmpty(ListItem.VideoResolution)</visible>
-                    <visible>!String.IsEmpty(Window(Home).Property(TMDbHelper.ListItem.Next_Aired)) | !String.IsEmpty(Window(Home).Property(TMDbHelper.ListItem.Last_Aired))</visible>
+                    <visible>!Skin.HasSetting(furniture.flags.nextaired) + $EXP[HasNextAired]</visible>
                 </control>
                 <control type="image">
                     <width min="20" max="100">auto</width>
@@ -986,7 +1024,7 @@
                     <height>64</height>
                     <align>left</align>
                     <aligny>center</aligny>
-                    <label>$INFO[ListItem.VideoCodec,,  •  ]$INFO[ListItem.VideoResolution]$INFO[ListItem.VideoAspect,  •  ,]$VAR[LabelFurniturehdr,  •  ,]</label>
+                    <label>$INFO[ListItem.VideoCodec,,  •  ]$INFO[ListItem.VideoResolution]$INFO[ListItem.VideoAspect,  •  ,]$VAR[ListItemHDR,  •  ,]</label>
                     <font>Flag</font>
                     <textcolor>Dark1</textcolor>
                     <visible>!Skin.HasSetting(furniture.flagicons) + !String.IsEmpty(ListItem.VideoResolution)</visible>
@@ -1010,6 +1048,25 @@
                     <textcolor>Dark1</textcolor>
                     <visible>!Skin.HasSetting(furniture.flagicons) + !String.IsEmpty(ListItem.AudioCodec)</visible>
                 </control>
+
+                <control type="image">
+                    <width min="20" max="100">auto</width>
+                    <height>64</height>
+                    <left>10</left>
+                    <centertop>50%</centertop>
+                    <texture fallback="flags/fallback.png">flags/color/other/hdr10plus.png</texture>
+                    <aspectratio align="center">keep</aspectratio>
+                    <visible>Skin.HasSetting(furniture.flagicons) + $EXP[IsVideoHDR10Plus]</visible>
+                </control>
+                <control type="image">
+                    <width min="20" max="100">auto</width>
+                    <height>64</height>
+                    <left>10</left>
+                    <centertop>50%</centertop>
+                    <texture fallback="flags/fallback.png">flags/color/other/hdr10.png</texture>
+                    <aspectratio align="center">keep</aspectratio>
+                    <visible>Skin.HasSetting(furniture.flagicons) + $EXP[IsVideoHDR10]</visible>
+                </control>
                 <control type="image">
                     <width min="20" max="100">auto</width>
                     <height>64</height>
@@ -1017,8 +1074,27 @@
                     <centertop>50%</centertop>
                     <texture fallback="flags/fallback.png">flags/color/other/hdrnew.png</texture>
                     <aspectratio align="center">keep</aspectratio>
-                    <visible>Skin.HasSetting(furniture.flagicons) + [String.Contains(ListItem.Filenameandpath,.hdr.) | String.Contains(ListItem.Filenameandpath,hdr)]</visible>
+                    <visible>Skin.HasSetting(furniture.flagicons) + $EXP[IsVideoHDR]</visible>
                 </control>
+                <control type="image">
+                    <width min="20" max="80">auto</width>
+                    <height>64</height>
+                    <left>10</left>
+                    <centertop>50%</centertop>
+                    <texture fallback="flags/fallback.png">flags/color/other/hlg.png</texture>
+                    <aspectratio align="center">keep</aspectratio>
+                    <visible>Skin.HasSetting(furniture.flagicons) + $EXP[IsVideoHLG]</visible>
+                </control>
+                <control type="image">
+                    <width min="20" max="100">auto</width>
+                    <height>64</height>
+                    <left>10</left>
+                    <centertop>50%</centertop>
+                    <texture fallback="flags/fallback.png">flags/color/other/dolbyvision.png</texture>
+                    <aspectratio align="center">keep</aspectratio>
+                    <visible>Skin.HasSetting(furniture.flagicons) + $EXP[IsVideoDolbyVision]</visible>
+                </control>
+
                 <control type="image">
                     <width min="20" max="100">auto</width>
                     <height>64</height>
@@ -1062,7 +1138,15 @@
                     <texture>flags/color/other/$VAR[ImageBluray].png</texture>
                     <aspectratio aligny="center" align="center">keep</aspectratio>
                     <visible>Skin.HasSetting(furniture.flagicons)</visible>
-                    <visible>[String.Contains(ListItem.FilenameAndPath,bluray) | String.Contains(ListItem.FilenameAndPath,bdrip) | String.Contains(ListItem.FilenameAndPath,bd25) | String.Contains(ListItem.FilenameAndPath,bd50)]</visible>
+                    <visible>[String.Contains(ListItem.FilenameAndPath,bluray) | String.Contains(ListItem.FilenameAndPath,bdrip) | String.Contains(ListItem.FilenameAndPath,bd25) | String.Contains(ListItem.FilenameAndPath,bd50) | String.Contains(ListItem.FilenameAndPath,blu-ray)]</visible>
+                </control>
+                <control type="image" description="WEB-DL">
+                    <width>84</width>
+                    <height>64</height>
+                    <centertop>50%</centertop>
+                    <texture fallback="flags/fallback.png">flags/color/other/web-dl.png</texture>
+                    <aspectratio aligny="center" align="center">keep</aspectratio>
+                    <visible>Skin.HasSetting(furniture.flagicons) + [String.Contains(ListItem.Filenameandpath,.web.) | String.Contains(ListItem.Filenameandpath,.web-dl.) | String.Contains(ListItem.Filenameandpath,.webrip.)]</visible>
                 </control>
                 <control type="image">
                     <width>94</width>
@@ -1129,7 +1213,7 @@
                 </control>
                 <control type="image">
                     <visible>!String.IsEmpty(Window(Home).Property(TMDbHelper.ListItem.RottenTomatoes_Rating)) + Skin.HasSetting(furniture.showtomatoesandmetacritics) + !Skin.HasSetting(furniture.flagicons)</visible>
-                    <fadetime>150</fadetime>
+                    <fadetime>ExtendedFlagIconsFadetime</fadetime>
                     <centertop>50%</centertop>
                     <width>33</width>
                     <height>33</height>
@@ -1184,7 +1268,7 @@
                 </control>
                 <control type="image">
                     <visible>!String.IsEmpty(Window(Home).Property(TMDbHelper.ListItem.RottenTomatoes_Rating)) + Skin.HasSetting(furniture.showtomatoesandmetacritics) + Skin.HasSetting(furniture.flagicons)</visible>
-                    <fadetime>150</fadetime>
+                    <fadetime>ExtendedFlagIconsFadetime</fadetime>
                     <centertop>50%</centertop>
                     <width>40</width>
                     <height>40</height>
@@ -1203,7 +1287,7 @@
                 </control>
                 <control type="image">
                     <visible>!String.IsEmpty(Window(Home).Property(TMDbHelper.ListItem.RottenTomatoes_UserMeter)) + !ListItem.IsCollection  + Skin.HasSetting(furniture.showtomatoesandmetacritics) + Skin.HasSetting(furniture.flagicons)</visible>
-                    <fadetime>150</fadetime>
+                    <fadetime>ExtendedFlagIconsFadetime</fadetime>
                     <centertop>50%</centertop>
                     <width>40</width>
                     <height>40</height>
@@ -1307,8 +1391,7 @@
                 <centertop>50%</centertop>
                 <texture colordiffuse="Dark1">flags/airing.png</texture>
                 <aspectratio align="left">scale</aspectratio>
-                <visible>[Container.Content(tvshows) | Container.Content(seasons)] + String.IsEmpty(ListItem.VideoResolution)</visible>
-                <visible>!String.IsEmpty(Window(Home).Property(TMDbHelper.ListItem.Next_Aired)) | !String.IsEmpty(Window(Home).Property(TMDbHelper.ListItem.Last_Aired))</visible>
+                <visible>!Skin.HasSetting(furniture.flags.nextaired) + $EXP[HasNextAired]</visible>
             </control>
             <control type="label">
                 <width min="128">auto</width>
@@ -1319,8 +1402,7 @@
                 <label>$VAR[LabelNextAiredDetails]</label>
                 <font>Flag</font>
                 <textcolor>Dark2</textcolor>
-                <visible>[Container.Content(tvshows) | Container.Content(seasons)] + String.IsEmpty(ListItem.VideoResolution)</visible>
-                <visible>!String.IsEmpty(Window(Home).Property(TMDbHelper.ListItem.Next_Aired)) | !String.IsEmpty(Window(Home).Property(TMDbHelper.ListItem.Last_Aired))</visible>
+                <visible>!Skin.HasSetting(furniture.flags.nextaired) + $EXP[HasNextAired]</visible>
             </control>
             <control type="image" description="Video Codec">
                 <width min="20" max="120">auto</width>
@@ -1368,7 +1450,7 @@
                 <height>64</height>
                 <align>left</align>
                 <aligny>center</aligny>
-                <label>$INFO[ListItem.VideoCodec,,  •  ]$INFO[ListItem.VideoResolution]$INFO[ListItem.VideoAspect,  •  ,]$VAR[LabelFurniturehdr,  •  ,]</label>
+                <label>$INFO[ListItem.VideoCodec,,  •  ]$INFO[ListItem.VideoResolution]$INFO[ListItem.VideoAspect,  •  ,]$VAR[ListItemHDR,  •  ,]</label>
                 <font>Flag</font>
                 <textcolor>Dark1</textcolor>
                 <visible>!Skin.HasSetting(furniture.flagicons) + !String.IsEmpty(ListItem.VideoResolution)</visible>
@@ -1392,14 +1474,48 @@
                 <textcolor>Dark1</textcolor>
                 <visible>!Skin.HasSetting(furniture.flagicons) + !String.IsEmpty(ListItem.AudioCodec)</visible>
             </control>
+
+            <control type="image" description="HDR10+">
+                <width min="20" max="130">auto</width>
+                <height>60</height>
+                <centertop>50%</centertop>
+                <texture colordiffuse="Dark1" fallback="flags/fallback.png">flags/other/hdr10plus.png</texture>
+                <aspectratio align="center">keep</aspectratio>
+                <visible>Skin.HasSetting(furniture.flagicons) + !Skin.HasSetting(furniture.flags.hdr) + $EXP[IsVideoHDR10Plus]</visible>
+            </control>
+            <control type="image" description="HDR10">
+                <width min="20" max="130">auto</width>
+                <height>60</height>
+                <centertop>50%</centertop>
+                <texture colordiffuse="Dark1" fallback="flags/fallback.png">flags/other/hdr10.png</texture>
+                <aspectratio align="center">keep</aspectratio>
+                <visible>Skin.HasSetting(furniture.flagicons) + !Skin.HasSetting(furniture.flags.hdr) + $EXP[IsVideoHDR10]</visible>
+            </control>
             <control type="image" description="HDR">
-                <width min="20" max="80">auto</width>
+                <width min="20" max="100">auto</width>
                 <height>60</height>
                 <centertop>50%</centertop>
                 <texture colordiffuse="Dark1" fallback="flags/fallback.png">flags/other/hdr.png</texture>
                 <aspectratio align="center">keep</aspectratio>
-                <visible>Skin.HasSetting(furniture.flagicons) + !Skin.HasSetting(furniture.flags.hdr) + [String.Contains(ListItem.Filenameandpath,.hdr.) | String.Contains(ListItem.Filenameandpath,hdr)]</visible>
+                <visible>Skin.HasSetting(furniture.flagicons) + !Skin.HasSetting(furniture.flags.hdr) + $EXP[IsVideoHDR]</visible>
             </control>
+            <control type="image" description="HLG">
+                <width min="20" max="80">auto</width>
+                <height>60</height>
+                <centertop>50%</centertop>
+                <texture colordiffuse="Dark1" fallback="flags/fallback.png">flags/other/hlg.png</texture>
+                <aspectratio align="center">keep</aspectratio>
+                <visible>Skin.HasSetting(furniture.flagicons) + !Skin.HasSetting(furniture.flags.hdr) + $EXP[IsVideoHLG]</visible>
+            </control>
+            <control type="image" description="Dolby Vision">
+                <width min="20" max="130">auto</width>
+                <height>60</height>
+                <centertop>50%</centertop>
+                <texture colordiffuse="Dark1" fallback="flags/fallback.png">flags/other/dolbyvision.png</texture>
+                <aspectratio align="center">keep</aspectratio>
+                <visible>Skin.HasSetting(furniture.flagicons) + !Skin.HasSetting(furniture.flags.hdr) + $EXP[IsVideoDolbyVision]</visible>
+            </control>
+
             <control type="image" description="MPAA">
                 <width min="20" max="100">auto</width>
                 <height>64</height>
@@ -1443,7 +1559,15 @@
                 <texture colordiffuse="Dark1">flags/$VAR[ImageBluray].png</texture>
                 <aspectratio aligny="center" align="center">keep</aspectratio>
                 <visible>Skin.HasSetting(furniture.flagicons) + !Skin.HasSetting(furniture.flags.bluray)</visible>
-                <visible>[String.Contains(ListItem.FilenameAndPath,bluray) | String.Contains(ListItem.FilenameAndPath,bdrip) | String.Contains(ListItem.FilenameAndPath,bd25) | String.Contains(ListItem.FilenameAndPath,bd50)]</visible>
+                <visible>[String.Contains(ListItem.FilenameAndPath,bluray) | String.Contains(ListItem.FilenameAndPath,bdrip) | String.Contains(ListItem.FilenameAndPath,bd25) | String.Contains(ListItem.FilenameAndPath,bd50) | String.Contains(ListItem.FilenameAndPath,blu-ray)]</visible>
+            </control>
+            <control type="image" description="WEB-DL">
+                <width>84</width>
+                <height>64</height>
+                <centertop>50%</centertop>
+                <texture colordiffuse="Dark1" fallback="flags/fallback.png">flags/other/web-dl.png</texture>
+                <aspectratio aligny="center" align="center">keep</aspectratio>
+                <visible>Skin.HasSetting(furniture.flagicons) + !Skin.HasSetting(furniture.flags.bluray) + [String.Contains(ListItem.Filenameandpath,.web.) | String.Contains(ListItem.Filenameandpath,.web-dl.) | String.Contains(ListItem.Filenameandpath,.webrip.)]</visible>
             </control>
             <control type="image" description="HD DVD">
                 <width>94</width>
@@ -1514,7 +1638,7 @@
             </control>
             <control type="image" description="Rotten Tomatoes">
                 <visible>!String.IsEmpty(Window(Home).Property(TMDbHelper.ListItem.RottenTomatoes_Rating)) + Skin.HasSetting(furniture.showtomatoesandmetacritics) + !Skin.HasSetting(furniture.flagicons)</visible>
-                <fadetime>150</fadetime>
+                <fadetime>ExtendedFlagIconsFadetime</fadetime>
                 <centertop>50%</centertop>
                 <width>33</width>
                 <height>33</height>
@@ -1569,7 +1693,7 @@
             </control>
             <control type="image" description="Rotten Tomatoes">
                 <visible>!String.IsEmpty(Window(Home).Property(TMDbHelper.ListItem.RottenTomatoes_Rating)) + Skin.HasSetting(furniture.showtomatoesandmetacritics) + Skin.HasSetting(furniture.flagicons)</visible>
-                <fadetime>150</fadetime>
+                <fadetime>ExtendedFlagIconsFadetime</fadetime>
                 <centertop>50%</centertop>
                 <width>38</width>
                 <height>38</height>
@@ -1588,7 +1712,7 @@
             </control>
             <control type="image" description="Rotten Tomatoes">
                 <visible>!String.IsEmpty(Window(Home).Property(TMDbHelper.ListItem.RottenTomatoes_UserMeter)) + !ListItem.IsCollection  + Skin.HasSetting(furniture.showtomatoesandmetacritics) + Skin.HasSetting(furniture.flagicons)</visible>
-                <fadetime>150</fadetime>
+                <fadetime>ExtendedFlagIconsFadetime</fadetime>
                 <centertop>50%</centertop>
                 <width>38</width>
                 <height>38</height>
@@ -1688,8 +1812,7 @@
                 <centertop>50%</centertop>
                 <texture colordiffuse="Dark1">flags/airing.png</texture>
                 <aspectratio align="left">scale</aspectratio>
-                <visible>[Container.Content(tvshows) | Container.Content(seasons)] + String.IsEmpty(ListItem.VideoResolution)</visible>
-                <visible>!String.IsEmpty(Window(Home).Property(TMDbHelper.ListItem.Next_Aired)) | !String.IsEmpty(Window(Home).Property(TMDbHelper.ListItem.Last_Aired))</visible>
+                <visible>!Skin.HasSetting(furniture.flags.nextaired) + $EXP[HasNextAired]</visible>
             </control>
             <control type="label">
                 <width min="128">auto</width>
@@ -1700,8 +1823,7 @@
                 <label>$VAR[LabelNextAiredDetails]</label>
                 <font>Flag</font>
                 <textcolor>Dark2</textcolor>
-                <visible>[Container.Content(tvshows) | Container.Content(seasons)] + String.IsEmpty(ListItem.VideoResolution)</visible>
-                <visible>!String.IsEmpty(Window(Home).Property(TMDbHelper.ListItem.Next_Aired)) | !String.IsEmpty(Window(Home).Property(TMDbHelper.ListItem.Last_Aired))</visible>
+                <visible>!Skin.HasSetting(furniture.flags.nextaired) + $EXP[HasNextAired]</visible>
             </control>
             <control type="image" description="Video Codec">
                 <width min="20" max="100">auto</width>
@@ -1749,7 +1871,7 @@
                 <height>64</height>
                 <align>left</align>
                 <aligny>center</aligny>
-                <label>$INFO[ListItem.VideoCodec,,  •  ]$INFO[ListItem.VideoResolution]$INFO[ListItem.VideoAspect,  •  ,]$VAR[LabelFurniturehdr,  •  ,]</label>
+                <label>$INFO[ListItem.VideoCodec,,  •  ]$INFO[ListItem.VideoResolution]$INFO[ListItem.VideoAspect,  •  ,]$VAR[ListItemHDR,  •  ,]</label>
                 <font>Flag</font>
                 <textcolor>Dark1</textcolor>
                 <visible>!Skin.HasSetting(furniture.flagicons) + !String.IsEmpty(ListItem.VideoResolution)</visible>
@@ -1773,6 +1895,25 @@
                 <textcolor>Dark1</textcolor>
                 <visible>!Skin.HasSetting(furniture.flagicons) + !String.IsEmpty(ListItem.AudioCodec)</visible>
             </control>
+
+            <control type="image" description="HDR10+">
+                <width min="20" max="100">auto</width>
+                <height>64</height>
+                <left>10</left>
+                <centertop>50%</centertop>
+                <texture fallback="flags/fallback.png">flags/color/other/hdr10plus.png</texture>
+                <aspectratio align="center">keep</aspectratio>
+                <visible>Skin.HasSetting(furniture.flagicons) + !Skin.HasSetting(furniture.flags.hdr) + $EXP[IsVideoHDR10Plus]</visible>
+            </control>
+            <control type="image" description="HDR10">
+                <width min="20" max="100">auto</width>
+                <height>64</height>
+                <left>10</left>
+                <centertop>50%</centertop>
+                <texture fallback="flags/fallback.png">flags/color/other/hdr10.png</texture>
+                <aspectratio align="center">keep</aspectratio>
+                <visible>Skin.HasSetting(furniture.flagicons) + !Skin.HasSetting(furniture.flags.hdr) + $EXP[IsVideoHDR10]</visible>
+            </control>
             <control type="image" description="HDR">
                 <width min="20" max="100">auto</width>
                 <height>64</height>
@@ -1780,8 +1921,27 @@
                 <centertop>50%</centertop>
                 <texture fallback="flags/fallback.png">flags/color/other/hdrnew.png</texture>
                 <aspectratio align="center">keep</aspectratio>
-                <visible>Skin.HasSetting(furniture.flagicons) + !Skin.HasSetting(furniture.flags.hdr) + [String.Contains(ListItem.Filenameandpath,.hdr.) | String.Contains(ListItem.Filenameandpath,hdr)]</visible>
+                <visible>Skin.HasSetting(furniture.flagicons) + !Skin.HasSetting(furniture.flags.hdr) + $EXP[IsVideoHDR]</visible>
             </control>
+            <control type="image" description="HLG">
+                <width min="20" max="80">auto</width>
+                <height>64</height>
+                <left>10</left>
+                <centertop>50%</centertop>
+                <texture fallback="flags/fallback.png">flags/color/other/hlg.png</texture>
+                <aspectratio align="center">keep</aspectratio>
+                <visible>Skin.HasSetting(furniture.flagicons) + !Skin.HasSetting(furniture.flags.hdr) + $EXP[IsVideoHLG]</visible>
+            </control>
+            <control type="image" description="Dolby Vision">
+                <width min="20" max="100">auto</width>
+                <height>64</height>
+                <left>10</left>
+                <centertop>50%</centertop>
+                <texture fallback="flags/fallback.png">flags/color/other/dolbyvision.png</texture>
+                <aspectratio align="center">keep</aspectratio>
+                <visible>Skin.HasSetting(furniture.flagicons) + !Skin.HasSetting(furniture.flags.hdr) + $EXP[IsVideoDolbyVision]</visible>
+            </control>
+
             <control type="image" description="MPAA">
                 <width min="20" max="100">auto</width>
                 <height>64</height>
@@ -1825,7 +1985,15 @@
                 <texture>flags/color/other/$VAR[ImageBluray].png</texture>
                 <aspectratio aligny="center" align="center">keep</aspectratio>
                 <visible>Skin.HasSetting(furniture.flagicons) + !Skin.HasSetting(furniture.flags.bluray)</visible>
-                <visible>[String.Contains(ListItem.FilenameAndPath,bluray) | String.Contains(ListItem.FilenameAndPath,bdrip) | String.Contains(ListItem.FilenameAndPath,bd25) | String.Contains(ListItem.FilenameAndPath,bd50)]</visible>
+                <visible>[String.Contains(ListItem.FilenameAndPath,bluray) | String.Contains(ListItem.FilenameAndPath,bdrip) | String.Contains(ListItem.FilenameAndPath,bd25) | String.Contains(ListItem.FilenameAndPath,bd50) | String.Contains(ListItem.FilenameAndPath,blu-ray)]</visible>
+            </control>
+            <control type="image" description="WEB-DL">
+                <width>84</width>
+                <height>64</height>
+                <centertop>50%</centertop>
+                <texture fallback="flags/fallback.png">flags/color/other/web-dl.png</texture>
+                <aspectratio aligny="center" align="center">keep</aspectratio>
+                <visible>Skin.HasSetting(furniture.flagicons) + !Skin.HasSetting(furniture.flags.bluray) + [String.Contains(ListItem.Filenameandpath,.web.) | String.Contains(ListItem.Filenameandpath,.web-dl.) | String.Contains(ListItem.Filenameandpath,.webrip.)]</visible>
             </control>
             <control type="image" description="HD DVD">
                 <width>94</width>
@@ -1892,7 +2060,7 @@
             </control>
             <control type="image" description="Rotten Tomatoes">
                 <visible>!String.IsEmpty(Window(Home).Property(TMDbHelper.ListItem.RottenTomatoes_Rating)) + Skin.HasSetting(furniture.showtomatoesandmetacritics) + !Skin.HasSetting(furniture.flagicons)</visible>
-                <fadetime>150</fadetime>
+                <fadetime>ExtendedFlagIconsFadetime</fadetime>
                 <centertop>50%</centertop>
                 <width>33</width>
                 <height>33</height>
@@ -1947,7 +2115,7 @@
             </control>
             <control type="image" description="Rotten Tomatoes">
                 <visible>!String.IsEmpty(Window(Home).Property(TMDbHelper.ListItem.RottenTomatoes_Rating)) + Skin.HasSetting(furniture.showtomatoesandmetacritics) + Skin.HasSetting(furniture.flagicons)</visible>
-                <fadetime>150</fadetime>
+                <fadetime>ExtendedFlagIconsFadetime</fadetime>
                 <centertop>50%</centertop>
                 <width>40</width>
                 <height>40</height>
@@ -1966,7 +2134,7 @@
             </control>
             <control type="image" description="Rotten Tomatoes">
                 <visible>!String.IsEmpty(Window(Home).Property(TMDbHelper.ListItem.RottenTomatoes_UserMeter)) + !ListItem.IsCollection  + Skin.HasSetting(furniture.showtomatoesandmetacritics) + Skin.HasSetting(furniture.flagicons)</visible>
-                <fadetime>150</fadetime>
+                <fadetime>ExtendedFlagIconsFadetime</fadetime>
                 <centertop>50%</centertop>
                 <width>40</width>
                 <height>40</height>
@@ -2137,7 +2305,7 @@
                 <height>64</height>
                 <align>left</align>
                 <aligny>center</aligny>
-                <label>$INFO[Container(9500).ListItem.VideoCodec,,  •  ]$INFO[Container(9500).ListItem.VideoResolution]$INFO[Container(9500).ListItem.VideoAspect,  •  ,]$VAR[LabelFurniturehdr,  •  ,]</label>
+                <label>$INFO[Container(9500).ListItem.VideoCodec,,  •  ]$INFO[Container(9500).ListItem.VideoResolution]$INFO[Container(9500).ListItem.VideoAspect,  •  ,]$VAR[ListItemHDR,  •  ,]</label>
                 <font>Flag</font>
                 <textcolor>Dark1</textcolor>
                 <visible>!Skin.HasSetting(furniture.flagicons) + !String.IsEmpty(Container(9500).ListItem.VideoResolution)</visible>
@@ -2165,7 +2333,7 @@
                 <centertop>50%</centertop>
                 <texture colordiffuse="Dark1" fallback="flags/fallback.png">flags/other/hdr.png</texture>
                 <aspectratio align="center">keep</aspectratio>
-                <visible>String.Contains(Container(9500).ListItem.Filenameandpath,.hdr.) | String.Contains(Container(9500).ListItem.Filenameandpath,hdr)</visible>
+                <visible>$EXP[IsVideoHDR]</visible>
             </control>
             <control type="image">
                 <width min="20" max="100">auto</width>
@@ -2190,7 +2358,15 @@
                 <texture colordiffuse="Dark1">flags/$VAR[ImageBluray].png</texture>
                 <aspectratio aligny="center" align="center">keep</aspectratio>
                 <visible>Skin.HasSetting(furniture.flagicons)</visible>
-                <visible>[String.Contains(Container(9500).ListItem.FilenameAndPath,bluray) | String.Contains(Container(9500).ListItem.FilenameAndPath,bdrip) | String.Contains(Container(9500).ListItem.FilenameAndPath,bd25) | String.Contains(Container(9500).ListItem.FilenameAndPath,bd50)]</visible>
+                <visible>[String.Contains(Container(9500).ListItem.FilenameAndPath,bluray) | String.Contains(Container(9500).ListItem.FilenameAndPath,bdrip) | String.Contains(Container(9500).ListItem.FilenameAndPath,bd25) | String.Contains(Container(9500).ListItem.FilenameAndPath,bd50) | String.Contains(Container(9500).ListItem.FilenameAndPath,blu-ray)]</visible>
+            </control>
+            <control type="image" description="WEB-DL">
+                <width>84</width>
+                <height>64</height>
+                <centertop>50%</centertop>
+                <texture colordiffuse="Dark1" fallback="flags/fallback.png">flags/other/web-dl.png</texture>
+                <aspectratio aligny="center" align="center">keep</aspectratio>
+                <visible>Skin.HasSetting(furniture.flagicons) + !Skin.HasSetting(furniture.flags.bluray) + [String.Contains(Container(9500).ListItem.Filenameandpath,.web.) | String.Contains(Container(9500).ListItem.Filenameandpath,.web-dl.) | String.Contains(Container(9500).ListItem.Filenameandpath,.webrip.)]</visible>
             </control>
             <control type="image">
                 <width>94</width>
@@ -2256,7 +2432,7 @@
             </control>
             <control type="image">
                 <visible>!String.IsEmpty(Window(Home).Property(TMDbHelper.ListItem.RottenTomatoes_Rating)) + Skin.HasSetting(furniture.showtomatoesandmetacritics)+ !Skin.HasSetting(furniture.flagicons)</visible>
-                <fadetime>150</fadetime>
+                <fadetime>ExtendedFlagIconsFadetime</fadetime>
                 <centertop>50%</centertop>
                 <width>33</width>
                 <height>33</height>
@@ -2311,7 +2487,7 @@
             </control>
             <control type="image">
                 <visible>!String.IsEmpty(Window(Home).Property(TMDbHelper.ListItem.RottenTomatoes_Rating)) + Skin.HasSetting(furniture.showtomatoesandmetacritics)+ Skin.HasSetting(furniture.flagicons)</visible>
-                <fadetime>150</fadetime>
+                <fadetime>ExtendedFlagIconsFadetime</fadetime>
                 <centertop>50%</centertop>
                 <width>38</width>
                 <height>38</height>
@@ -2442,7 +2618,7 @@
                 <height>64</height>
                 <align>left</align>
                 <aligny>center</aligny>
-                <label>$INFO[Container(9500).ListItem.VideoCodec,,  •  ]$INFO[Container(9500).ListItem.VideoResolution]$INFO[Container(9500).ListItem.VideoAspect,  •  ,]$VAR[LabelFurniturehdr,  •  ,]</label>
+                <label>$INFO[Container(9500).ListItem.VideoCodec,,  •  ]$INFO[Container(9500).ListItem.VideoResolution]$INFO[Container(9500).ListItem.VideoAspect,  •  ,]$VAR[ListItemHDR,  •  ,]</label>
                 <font>Flag</font>
                 <textcolor>Dark1</textcolor>
                 <visible>!Skin.HasSetting(furniture.flagicons) + !String.IsEmpty(Container(9500).ListItem.VideoResolution)</visible>
@@ -2471,7 +2647,7 @@
                 <centertop>50%</centertop>
                 <texture fallback="flags/fallback.png">flags/color/other/hdrnew.png</texture>
                 <aspectratio align="center">keep</aspectratio>
-                <visible>Skin.HasSetting(furniture.flagicons) + [String.Contains(Container(9500).ListItem.Filenameandpath,.hdr.) | String.Contains(Container(9500).ListItem.Filenameandpath,hdr)]</visible>
+                <visible>Skin.HasSetting(furniture.flagicons) + $EXP[IsVideoHDR]</visible>
             </control>
             <control type="image">
                 <width min="20" max="100">auto</width>
@@ -2496,7 +2672,15 @@
                 <texture>flags/color/other/$VAR[ImageBluray9500].png</texture>
                 <visible>Skin.HasSetting(furniture.flagicons)</visible>
                 <aspectratio aligny="center" align="center">keep</aspectratio>
-                <visible>[String.Contains(Container(9500).ListItem.FilenameAndPath,bluray) | String.Contains(Container(9500).ListItem.FilenameAndPath,bdrip) | String.Contains(Container(9500).ListItem.FilenameAndPath,bd25) | String.Contains(Container(9500).ListItem.FilenameAndPath,bd50)]</visible>
+                <visible>[String.Contains(Container(9500).ListItem.FilenameAndPath,bluray) | String.Contains(Container(9500).ListItem.FilenameAndPath,bdrip) | String.Contains(Container(9500).ListItem.FilenameAndPath,bd25) | String.Contains(Container(9500).ListItem.FilenameAndPath,bd50) | String.Contains(Container(9500).ListItem.FilenameAndPath,blu-ray)]</visible>
+            </control>
+            <control type="image" description="WEB-DL">
+                <width>84</width>
+                <height>64</height>
+                <centertop>50%</centertop>
+                <texture fallback="flags/fallback.png">flags/color/other/web-dl.png</texture>
+                <aspectratio aligny="center" align="center">keep</aspectratio>
+                <visible>Skin.HasSetting(furniture.flagicons) + !Skin.HasSetting(furniture.flags.bluray) + [String.Contains(Container(9500).ListItem.Filenameandpath,.web.) | String.Contains(Container(9500).ListItem.Filenameandpath,.web-dl.) | String.Contains(Container(9500).ListItem.Filenameandpath,.webrip.)]</visible>
             </control>
             <control type="image">
                 <width>94</width>
@@ -2562,7 +2746,7 @@
             </control>
             <control type="image">
                 <visible>!String.IsEmpty(Window(Home).Property(TMDbHelper.ListItem.RottenTomatoes_Rating)) + Skin.HasSetting(furniture.showtomatoesandmetacritics) + !Skin.HasSetting(furniture.flagicons)</visible>
-                <fadetime>150</fadetime>
+                <fadetime>ExtendedFlagIconsFadetime</fadetime>
                 <centertop>50%</centertop>
                 <width>33</width>
                 <height>33</height>
@@ -2617,7 +2801,7 @@
             </control>
             <control type="image">
                 <visible>!String.IsEmpty(Window(Home).Property(TMDbHelper.ListItem.RottenTomatoes_Rating)) + Skin.HasSetting(furniture.showtomatoesandmetacritics) + Skin.HasSetting(furniture.flagicons)</visible>
-                <fadetime>150</fadetime>
+                <fadetime>ExtendedFlagIconsFadetime</fadetime>
                 <centertop>50%</centertop>
                 <width>40</width>
                 <height>40</height>
@@ -2759,7 +2943,7 @@
         <value condition="Window.IsVisible(LoginScreen.xml)">$LOCALIZE[10029]</value>
         <value condition="Window.IsVisible(script-skin_helper_service-ColorPicker.xml)">$LOCALIZE[31239] [COLOR=$INFO[Window(home).Property(currentcolor)]]$INFO[Window(home).Property(currentcolor)][/COLOR]</value>
         <value condition="[Window.IsVisible(MyPVRChannels.xml) | Window.IsVisible(MyPVRSearch.xml) | Window.IsVisible(MyPVRTimers.xml) | Window.IsVisible(MyPVRGuide.xml) | Window.IsVisible(MyPVRRecordings.xml)]">[COLOR=$VAR[ColorHighlight]]$INFO[Container.NumItems,,[/COLOR] $LOCALIZE[31101]]$INFO[Control.GetLabel(3),  •  ,]$INFO[Control.GetLabel(28),  •  ,]</value>
-        <value condition="!String.IsEmpty(Container.NumItems) + Window.IsVisible(AddonBrowser.xml) + Integer.Isgreater(Container(12344).NumItems,0)">[COLOR=$VAR[ColorHighlight]]$INFO[Container.NumItems,,[/COLOR] $LOCALIZE[31101]]  •  [COLOR=$VAR[ColorHighlight]]$INFO[Container(12344).NumItems,,[/COLOR] $LOCALIZE[24043]]$INFO[Control.GetLabel(3),  •  ,]</value>
+        <value condition="!String.IsEmpty(Container.NumItems) + Window.IsVisible(AddonBrowser.xml) + Integer.IsGreater(System.AddonUpdateCount,0)">[COLOR=$VAR[ColorHighlight]]$INFO[Container.NumItems,,[/COLOR] $LOCALIZE[31101]]  •  [COLOR=$VAR[ColorHighlight]]$INFO[System.AddonUpdateCount,,[/COLOR] $LOCALIZE[24043]]$INFO[Control.GetLabel(3),  •  ,]</value>
         <value condition="!String.IsEmpty(Container.NumItems) + !Window.IsVisible(home)">[COLOR=$VAR[ColorHighlight]]$INFO[Container.NumItems,,[/COLOR] $LOCALIZE[31101]]$INFO[Control.GetLabel(3),  •  ,]</value>
         <value condition="!String.IsEmpty(Container(9500).NumItems) + !Window.IsVisible(home)">[COLOR=$VAR[ColorHighlight]]$INFO[Container(9500).NumItems,,[/COLOR] $LOCALIZE[31101]]</value>
         <value condition="Window.IsVisible(MyWeather.xml) + !String.IsEmpty(Window(Weather).Property(Location))">[COLOR=$VAR[ColorHighlight]]$INFO[Weather.Temperature,,[/COLOR]  ]$INFO[Window(Weather).Property(Location)]</value>
@@ -2775,8 +2959,8 @@
             <include>Animation.FadeIn</include>
             <include>Animation.FadeOut</include>
             <include>Animation.ClearLogo.FadeOut</include>
-            <animation effect="slide" start="0" end="0,-40" time="0" condition="$EXP[HomeIsVerticalMultiWidgets] + Window.IsVisible(Home.xml)">Conditional</animation>            
-            <visible>Skin.HasSetting(furniture.logo)</visible>            
+            <animation effect="slide" start="0" end="0,-40" time="0" condition="!Skin.HasSetting(homemenu.netflix) + $EXP[HomeIsVerticalMultiWidgets] + Window.IsVisible(Home.xml)">Conditional</animation>
+            <visible>Skin.HasSetting(furniture.logo)</visible>
             <visible>![Window.IsVisible(Home.xml) + Window.IsVisible(DialogVideoInfo.xml)]</visible>
             <visible>![Window.IsVisible(Home.xml) + Skin.HasSetting(home.showclearlogo) + $EXP[HomeIsVertical] ]</visible>
             <visible>![Window.IsVisible(Home.xml) + !Skin.HasSetting(home.showclearlogo) + $EXP[HomeIsVerticalMultiWidgets] ]</visible>
@@ -2787,7 +2971,7 @@
             <centerleft>50%</centerleft>
             <width>400</width>
             <height>100</height>
-            <fadetime>200</fadetime>
+            <fadetime>ClearArtFadetime</fadetime>
             <aspectratio align="center">keep</aspectratio>
             <texture background="true">$VAR[ClearLogoTopVar]</texture>
         </control>
@@ -2956,9 +3140,7 @@
                         <height>60</height>
                         <bottom>39</bottom>
                         <align>right</align>
-                        <timeperimage>50</timeperimage>
                         <aspectratio align="center" aligny="center">keep</aspectratio>
-                        <fadetime>10</fadetime>
                         <imagepath>$INFO[Skin.String(weather.icons.path),,/]$INFO[Window(weather).Property(Current.FanartCode)]</imagepath>
                         <visible>![String.IsEmpty(Skin.String(weather.icons.path)) | String.Contains(Skin.String(weather.icons.path),Default)] + String.Contains(Skin.String(weather.icons.path),animated) + Skin.HasSetting(weather.icons.override)</visible>
                         <include>IconFade</include>
@@ -3161,7 +3343,7 @@
             <include>Animation.FurnitureFadeInOut</include>
             <include>Animation.FurnitureVisible</include>
             <visible>!Skin.HasSetting(furniture.weather)</visible>
-            <visible>Skin.HasSetting(furniture.topweather) | [Window.IsActive(home) + String.Contains(Container(300).ListItem.Property(widget),Weather)]</visible>
+            <visible>Skin.HasSetting(furniture.topweather) | [Window.IsActive(home) + [String.IsEqual(Container(300).ListItem.Property(widget),weatherdaily) | String.IsEqual(Container(300).ListItem.Property(widget),weatherhourly)]]</visible>
             <visible>!Window.IsVisible(DialogVolumeBar.xml)</visible>
             <visible>!Window.IsVisible(DialogNotification.xml)</visible>
             <visible>!Window.IsVisible(DialogExtendedProgressBar.xml)</visible>
@@ -3201,7 +3383,6 @@
                 <control type="image">
                     <width>70</width>
                     <height>70</height>
-                    <fadetime>350</fadetime>
                     <aspectratio aligny="center" align="center">keep</aspectratio>
                     <texture>$INFO[Skin.String(weather.icons.path),,/]$INFO[Window(weather).Property(Current.FanartCode),,.png]</texture>
                     <visible>![String.IsEmpty(Skin.String(weather.icons.path)) | String.Contains(Skin.String(weather.icons.path),Default)] + !String.Contains(Skin.String(weather.icons.path),animated) + Skin.HasSetting(weather.icons.override) + !String.Contains(Skin.String(weather.icons.path),White) + !String.Contains(Skin.String(weather.icons.path),Outline) + !String.Contains(Skin.String(weather.icons.path),Transparent) + !String.Contains(Skin.String(weather.icons.path),Monstr)</visible>
@@ -3210,7 +3391,6 @@
                 <control type="image">
                     <width>70</width>
                     <height>70</height>
-                    <fadetime>350</fadetime>
                     <aspectratio aligny="center" align="center">keep</aspectratio>
                     <texture colordiffuse="Dark2">$INFO[Skin.String(weather.icons.path),,/]$INFO[Window(weather).Property(Current.FanartCode),,.png]</texture>
                     <visible>![String.IsEmpty(Skin.String(weather.icons.path)) | String.Contains(Skin.String(weather.icons.path),Default)] + !String.Contains(Skin.String(weather.icons.path),animated) + Skin.HasSetting(weather.icons.override) + [String.Contains(Skin.String(weather.icons.path),White) | String.Contains(Skin.String(weather.icons.path),Outline) | String.Contains(Skin.String(weather.icons.path),Transparent) | String.Contains(Skin.String(weather.icons.path),Monstr)]</visible>
@@ -3218,9 +3398,7 @@
                 <control type="multiimage">
                     <width>70</width>
                     <height>70</height>
-                    <timeperimage>50</timeperimage>
                     <aspectratio align="center" aligny="center">keep</aspectratio>
-                    <fadetime>10</fadetime>
                     <imagepath>$INFO[Skin.String(weather.icons.path),,/]$INFO[Window(weather).Property(Current.FanartCode)]</imagepath>
                     <visible>![String.IsEmpty(Skin.String(weather.icons.path)) | String.Contains(Skin.String(weather.icons.path),Default)] + String.Contains(Skin.String(weather.icons.path),animated) + Skin.HasSetting(weather.icons.override)</visible>
                     <include>IconFade</include>
@@ -3228,7 +3406,6 @@
                 <control type="image">
                     <width>80</width>
                     <height>80</height>
-                    <fadetime>350</fadetime>
                     <aspectratio aligny="center" align="center">keep</aspectratio>
                     <texture colordiffuse="Dark2">$INFO[Weather.FanartCode,resource://resource.images.weathericons.white/,.png]</texture>
                     <visible>[String.IsEmpty(Skin.String(weather.icons.path)) + !String.Contains(Skin.String(weather.icons.path),Default)] | [String.Contains(Skin.String(weather.icons.path),Default) + !Skin.HasSetting(weather.icons.override)] | [![String.IsEmpty(Skin.String(weather.icons.path)) | String.Contains(Skin.String(weather.icons.path),Default)] + !Skin.HasSetting(weather.icons.override)]</visible>
@@ -3236,19 +3413,11 @@
                 <control type="image">
                     <width>70</width>
                     <height>70</height>
-                    <fadetime>350</fadetime>
                     <aspectratio aligny="center" align="center">keep</aspectratio>
                     <texture>$INFO[Skin.String(weather.icons.path),,/]$INFO[Window(weather).Property(Current.FanartCode),,.png]</texture>
                     <visible>String.Contains(Skin.String(weather.icons.path),Default) + Skin.HasSetting(weather.icons.override)</visible>
                     <include>IconFade</include>
                 </control>
-                <!--<control type="image">
-                    <width>80</width>
-                    <height>80</height>
-                    <fadetime>350</fadetime>
-                    <aspectratio aligny="center" align="center">keep</aspectratio>
-                    <texture colordiffuse="Dark1">$INFO[Weather.FanartCode,resource://resource.images.weathericons.white/,.png]</texture>
-                </control>-->
             </control>
         </control>
     </include>
@@ -3347,14 +3516,14 @@
 
         <!-- Fakelist Container for Album Count -->
         <control type="list" id="5014">
-            <visible>Container.Content(songs) | Container.Content(albums)</visible>
+            <visible>Container.Content(albums)</visible>
             <top>-3000</top>
             <left>-3000</left>
             <width>1</width>
             <height>1</height>
             <itemlayout/>
             <focusedlayout/>
-            <content>$INFO[Container.ListItem.FolderPath]</content>
+            <content>$VAR[AlbumPath]</content>
         </control>
         <control type="grouplist">
             <include>Animation.FurnitureVisible</include>
