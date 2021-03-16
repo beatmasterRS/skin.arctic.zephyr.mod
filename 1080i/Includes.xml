@@ -509,11 +509,11 @@
     </variable>
     
     <include name="ImagePathNormal">
-        <texture background="true">$VAR[GlobalFanart]</texture>
+        <imagepath background="true">$VAR[GlobalFanart]</imagepath>
     </include>
     
     <include name="ImagePathBlur">
-        <texture background="true">$VAR[ImageBackG]</texture>
+        <imagepath background="true">$VAR[ImageBackG]</imagepath>
     </include>
 
     <include name="FadetimeNormal">
@@ -597,7 +597,7 @@
             <label>$INFO[ListItem.Art(tvshow.fanart18)]</label>
             <label>$INFO[ListItem.Art(tvshow.fanart19)]</label>
             <label>$INFO[ListItem.Art(tvshow.fanart20)]</label>
-            <pauseatend>HomeTimePerImage</pauseatend>
+            <pauseatend>12000</pauseatend>
         </control>
         <control type="image" description="Background">
             <include>Dimensions_Fullscreen</include>
@@ -607,7 +607,7 @@
         </control>
         
         <!-- Global Fanart -->
-        <control type="image" description="Fanart">
+        <control type="multiimage" description="Fanart">
             <visible>!Skin.HasSetting(BlurEnabled)</visible>
             <include condition="![ [$EXP[HomeIsSpotlight] | $EXP[HomeIsClassic] | $EXP[HomeIsModern]] + Window.IsVisible(home)]">GlobalBackgroundFade</include>
             <visible>!Player.HasMedia | [!Skin.HasSetting(global.showvideo) + Player.HasVideo] | [!Skin.HasSetting(global.showvisualisation) + Player.HasAudio]</visible>
@@ -616,6 +616,8 @@
             <include>Animation.FadeFromHome</include>
             <animation effect="fade" end="0" start="100" time="350" tween="cubic" easing="inout" condition="Window.IsVisible(home)">WindowClose</animation>
             <fadetime>BackgroundFanartFadetime</fadetime>
+            <timeperimage>HomeTimePerImage</timeperimage>
+            <randomize>true</randomize>
             <aspectratio>scale</aspectratio>
             <imagepath background="true">$VAR[GlobalFanart]</imagepath>
             <animation effect="zoom" start="110" end="120" center="auto" time="10000" tween="sine" easing="inout" pulse="true" condition="Skin.HasSetting(Fanart.Animate)">Conditional</animation>
@@ -623,7 +625,7 @@
         </control>
         
         <!-- BLUR Global Fanart -->
-        <control type="image" description="Fanart">
+        <control type="multiimage" description="Fanart">
             <visible>Skin.HasSetting(BlurEnabled) + Integer.IsGreater(Skin.String(BackgroundBlur),0) + !Window.IsVisible(home)</visible>
             <include>GlobalBackgroundFadeBlur</include>
             <visible>!Player.HasMedia | [!Skin.HasSetting(global.showvideo) + Player.HasVideo] | [!Skin.HasSetting(global.showvisualisation) + Player.HasAudio]</visible>
@@ -638,6 +640,8 @@
             <include condition="Integer.IsEqual(Skin.String(Fadetime),600) | String.IsEmpty(Skin.String(Fadetime))">FadetimeNormal</include>
             <animation effect="fade" end="0" start="100" time="350" tween="cubic" easing="inout" condition="Window.IsVisible(home)">WindowClose</animation>
             <fadetime>BackgroundFanartFadetime</fadetime>
+            <timeperimage>HomeTimePerImage</timeperimage>
+            <randomize>true</randomize>
             <aspectratio>scale</aspectratio>
             <include>ImagePathBlur</include>
             <animation effect="zoom" start="110" end="120" center="auto" time="10000" tween="sine" easing="inout" pulse="true" condition="Skin.HasSetting(Fanart.Animate)">Conditional</animation>
@@ -645,7 +649,7 @@
         </control>
         
         <!-- BLUR Global Fanart Home-->
-        <control type="image" description="Fanart">
+        <control type="multiimage" description="Fanart">
             <visible>Skin.HasSetting(BlurEnabled) + Integer.IsGreater(Skin.String(BackgroundBlur),0) + Window.IsVisible(home)</visible>            
             <include condition="!Skin.HasSetting(BlurOnHome) + !$EXP[HomeIsSpotlight] + !$EXP[HomeIsClassic] + !$EXP[HomeIsModern]">GlobalBackgroundFade</include>
             <include condition="Skin.HasSetting(BlurOnHome) + !$EXP[HomeIsSpotlight] + !$EXP[HomeIsClassic] + !$EXP[HomeIsModern]">GlobalBackgroundFadeBlur</include>
@@ -661,6 +665,8 @@
             <include condition="Integer.IsEqual(Skin.String(Fadetime),600) | String.IsEmpty(Skin.String(Fadetime))">FadetimeNormal</include>
             <animation effect="fade" end="0" start="100" time="350" tween="cubic" easing="inout" condition="Window.IsVisible(home)">WindowClose</animation>
             <fadetime>BackgroundFanartFadetime</fadetime>
+            <timeperimage>HomeTimePerImage</timeperimage>
+            <randomize>true</randomize>
             <aspectratio>scale</aspectratio>
             <include condition="!Skin.HasSetting(BlurOnHome)">ImagePathNormal</include>
             <include condition="Skin.HasSetting(BlurOnHome)">ImagePathBlur</include>
@@ -682,7 +688,7 @@
         </control>
 
         <!-- Netflix Preview Window -->
-        <control type="image" description="Fanart">
+        <control type="multiimage" description="Fanart">
             <visible>[[Window.IsVisible(Home.xml) + Skin.HasSetting(homemenu.netflix) + Skin.HasSetting(homemenu.netflix.preview) + [$EXP[HomeIsModernMultiWidgets] | $EXP[HomeIsVerticalMultiWidgets]]] | [Control.IsVisible(510) | Control.IsVisible(520)]] + !Window.IsVisible(DialogVideoInfo.xml) + !Window.IsVisible(DialogMusicInfo.xml) + !Window.IsVisible(DialogAddonInfo.xml) + !Window.IsVisible(DialogPVRInfo.xml)</visible>
             <visible>!Player.HasMedia | [!Skin.HasSetting(global.showvideo) + Player.HasVideo] | [!Skin.HasSetting(global.showvisualisation) + Player.HasAudio]</visible>
             <visible>!Skin.HasSetting(global.hidefanart) | Window.IsVisible(home)</visible>
@@ -698,6 +704,8 @@
             <animation effect="fade" end="90" start="90" time="0" condition="Integer.IsEqual(Skin.String(FadeNetflixPreview),90)">Conditional</animation>
             <animation effect="fade" end="100" start="100" time="0" condition="Integer.IsEqual(Skin.String(FadeNetflixPreview),100)">Conditional</animation>
             <fadetime>BackgroundFanartFadetime</fadetime>
+            <timeperimage>HomeTimePerImage</timeperimage>
+            <randomize>true</randomize>
             <aspectratio>scale</aspectratio>
             <include condition="Skin.HasSetting(homemenu.netflix.preview.fullscreen) + Skin.HasSetting(homemenu.netflix.preview) + Skin.HasSetting(BlurEnabled) + Skin.HasSetting(BlurOnHome)">NetflixPreviewWindowFullscreen</include>
             <include condition="!Skin.HasSetting(homemenu.netflix.preview.fullscreen) | [!Skin.HasSetting(BlurEnabled) | [Skin.HasSetting(BlurEnabled) + !Skin.HasSetting(BlurOnHome)]]">NetflixPreviewWindow</include>
@@ -718,19 +726,21 @@
             <include condition="!Skin.HasSetting(home.vertical)">Animation.FadeFromHome</include>
             <texture colordiffuse="Background">common/bg.jpg</texture>
         </control>
-        <control type="image" description="Fanart">
+        <control type="multiimage" description="Fanart">
             <visible>!Skin.HasSetting(BlurEnabled)</visible>
             <include>GlobalBackgroundFade</include>
             <visible>!Skin.HasSetting(global.hidefanart)</visible>
             <include>Dimensions_Fullscreen</include>
             <include condition="!Skin.HasSetting(home.vertical)">Animation.FadeFromHome</include>
             <fadetime>BackgroundFanartFadetime</fadetime>
+            <timeperimage>HomeTimePerImage</timeperimage>
+            <randomize>true</randomize>
             <aspectratio>scale</aspectratio>
-            <texture background="true">$VAR[GlobalFanart]</texture>
+            <imagepath background="true">$VAR[GlobalFanart]</imagepath>
             <animation effect="zoom" start="110" end="120" center="auto" time="10000" tween="sine" easing="inout" pulse="true" condition="Skin.HasSetting(Fanart.Animate)">Conditional</animation>
             <animation effect="slide" start="-20,-20" end="20,20" time="6000" tween="sine" easing="inout" pulse="true" condition="Skin.HasSetting(Fanart.Animate)">Conditional</animation>
         </control>
-        <control type="image" description="Fanart">
+        <control type="multiimage" description="Fanart">
             <visible>Skin.HasSetting(BlurEnabled) + Integer.IsGreater(Skin.String(BackgroundBlur),0)</visible>
             <visible>!Skin.HasSetting(global.hidefanart)</visible>
             <include>Dimensions_Fullscreen</include>
@@ -741,8 +751,10 @@
             <animation effect="fade" end="60" start="60" time="0" condition="Integer.IsEqual(Skin.String(BackgroundBlur),60)">Conditional</animation>
             <animation effect="fade" end="80" start="80" time="0" condition="Integer.IsEqual(Skin.String(BackgroundBlur),80)">Conditional</animation>
             <fadetime>BackgroundFanartFadetime</fadetime>
+            <timeperimage>HomeTimePerImage</timeperimage>
+            <randomize>true</randomize>
             <aspectratio>scale</aspectratio>
-            <texture background="true">$INFO[Window(home).Property(ImageFilterFIVE)]</texture>
+            <imagepath background="true">$INFO[Window(home).Property(ImageFilterFIVE)]</imagepath>
             <animation effect="zoom" start="110" end="120" center="auto" time="10000" tween="sine" easing="inout" pulse="true" condition="Skin.HasSetting(Fanart.Animate)">Conditional</animation>
             <animation effect="slide" start="-20,-20" end="20,20" time="6000" tween="sine" easing="inout" pulse="true" condition="Skin.HasSetting(Fanart.Animate)">Conditional</animation>
         </control>
@@ -2941,12 +2953,12 @@
         <height>705</height>
         <right>0</right>
         <top>0</top>
-        <texture background="true" diffuse="common/homediffuse510fs.png">$VAR[GlobalFanart]</texture>        
+        <imagepath background="true" diffuse="common/homediffuse510fs.png">$VAR[GlobalFanart]</imagepath>
     </include>
     
     <include name="NetflixPreviewWindow">
         <include>Dimensions_Fullscreen</include>
-        <texture background="true" diffuse="common/homediffuse510.png">$VAR[GlobalFanart]</texture>
+        <imagepath background="true" diffuse="common/homediffuse510.png">$VAR[GlobalFanart]</imagepath>
     </include>
     
     <include name="Widgets">
