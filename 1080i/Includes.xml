@@ -689,7 +689,7 @@
 
         <!-- Netflix Preview Window -->
         <control type="multiimage" description="Fanart">
-            <visible>[[Window.IsVisible(Home.xml) + Skin.HasSetting(homemenu.netflix) + Skin.HasSetting(homemenu.netflix.preview) + [$EXP[HomeIsModernMultiWidgets] | $EXP[HomeIsVerticalMultiWidgets]]] | [Control.IsVisible(510) | Control.IsVisible(520)]] + !Window.IsVisible(DialogVideoInfo.xml) + !Window.IsVisible(DialogMusicInfo.xml) + !Window.IsVisible(DialogAddonInfo.xml) + !Window.IsVisible(DialogPVRInfo.xml)</visible>
+            <visible>[[Window.IsVisible(Home.xml) + Skin.HasSetting(homemenu.netflix) + Skin.HasSetting(homemenu.netflix.preview) + [$EXP[HomeIsModernMultiWidgets] | $EXP[HomeIsVerticalMultiWidgets]]] | [Control.IsVisible(510) | Control.IsVisible(520)]] + !Window.IsVisible(DialogVideoInfo.xml) + !Window.IsVisible(DialogMusicInfo.xml) + !Window.IsVisible(DialogAddonInfo.xml) + !Window.IsVisible(DialogPVRInfo.xml) + !Window.IsVisible(skin.arctic.zephyr.mod.script-gto-info.xml)</visible>
             <visible>!Player.HasMedia | [!Skin.HasSetting(global.showvideo) + Player.HasVideo] | [!Skin.HasSetting(global.showvisualisation) + Player.HasAudio]</visible>
             <visible>!Skin.HasSetting(global.hidefanart) | Window.IsVisible(home)</visible>
             <include>Animation.FadeFromHome</include>            
@@ -2218,6 +2218,7 @@
                 <centertop>50%</centertop>
                 <width>468</width>
                 <top>200</top>
+                <height>370</height>
                 <control type="image">
                     <visible>!Integer.IsGreater(Container(9400).NumItems,3)</visible>
                     <left>-8</left>
@@ -2302,14 +2303,12 @@
                     <itemgap>0</itemgap>
                     <scrolltime>0</scrolltime>
                     <control type="button" id="92">
-                        <description>Filter</description>
                         <include>DefContextButtonGradient</include>
                         <label>184</label>
                         <align>left</align>
                         <onclick>SendClick(6)</onclick>
                     </control>
                     <control type="button" id="93">
-                        <description>Filter</description>
                         <include>DefContextButtonGradient</include>
                         <label>37725</label>
                         <align>left</align>
@@ -2322,38 +2321,7 @@
                         <onclick>RunScript(script.metadata.editor,dbid=$INFO[ListItem.DBID],type=$INFO[ListItem.DBType])</onclick>
                         <visible>System.AddonIsEnabled(script.metadata.editor)</visible>
                     </control>
-                    <control type="button" id="94">
-                        <description>Filter</description>
-                        <include>DefContextButtonGradient</include>
-                        <label>37726</label>
-                        <align>left</align>
-                        <onclick condition="String.IsEqual(ListItem.DBType,tvshow)">RunScript(script.artwork.beef, mode=gui, mediatype=tvshow, dbid=$INFO[ListItem.DBID])</onclick>
-                        <onclick condition="String.IsEqual(ListItem.DBType,movie)">RunScript(script.artwork.beef, mode=gui, mediatype=movie, dbid=$INFO[ListItem.DBID])</onclick>
-                        <onclick condition="String.IsEqual(ListItem.DBType,musicvideo)">RunScript(script.artwork.beef, mode=gui, mediatype=musicvideo, dbid=$INFO[ListItem.DBID])</onclick>
-                        <onclick condition="String.IsEqual(ListItem.DBType,artist)">RunScript(script.artwork.beef, mode=gui, mediatype=artist, dbid=$INFO[ListItem.DBID])</onclick>
-                        <onclick condition="String.IsEqual(ListItem.DBType,song)">RunScript(script.artwork.beef, mode=gui, mediatype=song, dbid=$INFO[ListItem.DBID])</onclick>
-                        <onclick condition="String.IsEqual(ListItem.DBType,set)">RunScript(script.artwork.beef, mode=gui, mediatype=set, dbid=$INFO[ListItem.DBID])</onclick>
-                        <onclick condition="String.IsEqual(ListItem.DBType,episode)">RunScript(script.artwork.beef, mode=gui, mediatype=episode, dbid=$INFO[ListItem.DBID])</onclick>
-                        <onclick condition="String.IsEqual(ListItem.DBType,album)">RunScript(script.artwork.beef, mode=gui, mediatype=album, dbid=$INFO[ListItem.DBID])</onclick>
-                        <visible>system.hasaddon(script.artwork.beef)</visible>
-                    </control>
-                    <control type="button" id="95">
-                        <description>Filter</description>
-                        <include>DefContextButtonGradient</include>
-                        <label>37724</label>
-                        <align>left</align>
-                        <onclick condition="String.IsEqual(ListItem.DBType,tvshow)">RunScript(script.artwork.beef, mode=auto, mediatype=tvshow, dbid=$INFO[ListItem.DBID])</onclick>
-                        <onclick condition="String.IsEqual(ListItem.DBType,movie)">RunScript(script.artwork.beef, mode=auto, mediatype=movie, dbid=$INFO[ListItem.DBID])</onclick>
-                        <onclick condition="String.IsEqual(ListItem.DBType,musicvideo)">RunScript(script.artwork.beef, mode=auto, mediatype=musicvideo, dbid=$INFO[ListItem.DBID])</onclick>
-                        <onclick condition="String.IsEqual(ListItem.DBType,artist)">RunScript(script.artwork.beef, mode=auto, mediatype=artist, dbid=$INFO[ListItem.DBID])</onclick>
-                        <onclick condition="String.IsEqual(ListItem.DBType,song)">RunScript(script.artwork.beef, mode=auto, mediatype=song, dbid=$INFO[ListItem.DBID])</onclick>
-                        <onclick condition="String.IsEqual(ListItem.DBType,set)">RunScript(script.artwork.beef, mode=auto, mediatype=set, dbid=$INFO[ListItem.DBID])</onclick>
-                        <onclick condition="String.IsEqual(ListItem.DBType,episode)">RunScript(script.artwork.beef, mode=auto, mediatype=episode, dbid=$INFO[ListItem.DBID])</onclick>
-                        <onclick condition="String.IsEqual(ListItem.DBType,album)">RunScript(script.artwork.beef, mode=auto, mediatype=album, dbid=$INFO[ListItem.DBID])</onclick>
-                        <visible>system.hasaddon(script.artwork.beef)</visible>
-                    </control>
                     <control type="button" id="96">
-                        <description>Filter</description>
                         <include>DefContextButtonGradient</include>
                         <label>5</label>
                         <align>left</align>
@@ -2710,7 +2678,6 @@
         <onclick condition="[Container.Content(games) + String.IsEmpty(Skin.String(Skin.ForcedView.games))]">Skin.SetString(Skin.ForcedView.$INFO[Container.Content],$ESCINFO[Container.Viewmode])</onclick>
         <onclick condition="[Container.Content(unknown) + String.IsEmpty(Skin.String(Skin.ForcedView.unknown))]">Skin.SetString(Skin.ForcedView.$INFO[Container.Content],$ESCINFO[Container.Viewmode])</onclick>
         <onclick condition="[Container.Content(videos) + String.IsEmpty(Skin.String(Skin.ForcedView.videos))]">Skin.SetString(Skin.ForcedView.$INFO[Container.Content],$ESCINFO[Container.Viewmode])</onclick>
-        
     </include>
     
     <include name="forced_view">
