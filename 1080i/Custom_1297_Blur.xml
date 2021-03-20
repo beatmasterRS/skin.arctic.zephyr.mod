@@ -1,8 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <window type="dialog" id="1297">
     <defaultcontrol>9000</defaultcontrol>
-    <onload>RunScript(script.embuary.helper,action=blurimg,file='"special://skin/extras/views/cars.jpg"',prop=MyProp)</onload>
+    <onload>SetProperty(Fanart,$INFO[Window(Home).Property(LatestMovie.1.Fanart)],home)</onload>
+    <onload>RunScript(script.embuary.helper,action=blurimg,file='"$VAR[CustomBlurImage]"',prop=MyProp)</onload>
     <onload>Skin.Reset(NoBlurFoto)</onload>
+    <onunload>ClearProperty(FanartBlur,Home)</onunload>
     <controls>
         <control type="group">
             <animation effect="fade" start="100" end="0" time="500" delay="0" tween="quadratic">WindowClose</animation>
@@ -83,7 +85,7 @@
                 <top>230</top>
                 <height>614</height>
                 <control type="image">
-                    <texture background="true" fallback="special://skin/extras/views/cars.jpg">special://skin/extras/views/cars.jpg</texture>
+                    <texture background="true" fallback="special://skin/extras/views/cars.jpg">$VAR[CustomBlurImage]</texture>
                     <fadetime>BackgroundFanartFadetime</fadetime>
                 </control>
                 <animation effect="fade" start="100" end="0" time="200" delay="0" tween="quadratic">Hidden</animation>
@@ -207,12 +209,30 @@
                     <onright>9201</onright>
                     <label>No</label>
                     <onclick>Skin.SetString(BlurRadius,6)</onclick>
-                    <onclick>RunScript(script.embuary.helper,action=blurimg,file='"special://skin/extras/views/cars.jpg"',prop=MyProp)</onclick>
+                    <onclick>RunScript(script.embuary.helper,action=blurimg,file='"$VAR[CustomBlurImage]"',prop=MyProp)</onclick>
                     <include>buttondimensionssquareblur</include>
                     <include content="buttontextures">
                         <param name="icon" value="buttonsdialogs/update.png"/>
                         <param name="color" value="Black30" />
                     </include>
+                </control>
+                <control type="radiobutton" id="9201">
+                    <onback>Skin.Reset(NoBlurFoto)</onback>
+                    <include>buttondimensionssquareblur</include>
+                    <texturenofocus colordiffuse="Black30" border="0">common/boxsquare.png</texturenofocus>
+                    <texturefocus colordiffuse="$VAR[ColorHighlight]" border="0">common/boxsquare.png</texturefocus>
+                    <textureradioonfocus colordiffuse="FFFFFFFF">buttonsdialogs/artworkdownloader.png</textureradioonfocus>
+                    <textureradioonnofocus colordiffuse="FFFFFFFF">buttonsdialogs/artworkdownloader.png</textureradioonnofocus>
+                    <textureradioofffocus colordiffuse="FFFFFFFF">buttonsdialogs/artworkdownloader.png</textureradioofffocus>
+                    <textureradiooffnofocus colordiffuse="FFFFFFFF">buttonsdialogs/artworkdownloader.png</textureradiooffnofocus>
+                    <textcolor>Dark4</textcolor>
+                    <font>Null</font>                    
+                    <onclick condition="String.IsEmpty(Window(home).Property(Fanart))">SetProperty(Fanart,$INFO[Window(Home).Property(LatestMovie.1.Fanart)])</onclick>
+                    <onclick condition="String.IsEqual(Window(home).Property(Fanart),Window(Home).Property(LatestMovie.1.Fanart))">SetProperty(Fanart,$INFO[Window(Home).Property(LatestMovie.2.Fanart)],home)</onclick>
+                    <onclick condition="String.IsEqual(Window(home).Property(Fanart),Window(Home).Property(LatestMovie.2.Fanart))">SetProperty(Fanart,$INFO[Window(Home).Property(LatestMovie.3.Fanart)],home)</onclick>
+                    <onclick condition="String.IsEqual(Window(home).Property(Fanart),Window(Home).Property(LatestMovie.3.Fanart))">SetProperty(Fanart,$INFO[Window(Home).Property(LatestMovie.4.Fanart)],home)</onclick>
+                    <onclick condition="String.IsEqual(Window(home).Property(Fanart),Window(Home).Property(LatestMovie.4.Fanart))">SetProperty(Fanart,$INFO[Window(Home).Property(LatestMovie.1.Fanart)],home)</onclick>     
+                    <onclick>RunScript(script.embuary.helper,action=blurimg,file='"$VAR[CustomBlurImage]"',prop=MyProp)</onclick>
                 </control>
                 <control type="radiobutton" id="9202">
                     <onback>Skin.Reset(NoBlurFoto)</onback>
