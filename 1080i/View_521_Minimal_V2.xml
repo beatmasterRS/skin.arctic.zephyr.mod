@@ -1,0 +1,96 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Foundation -->
+<includes>
+
+    <include name="521Content">
+        <visible>Container.Content(movies) | Container.Content(tvshows) | Container.Content(seasons)</visible>
+        <include content="forced_view" condition="Skin.HasSetting(enable.forcedviews)">
+            <param name="string" value="$LOCALIZE[37971]" />
+        </include>
+        <top>568</top>
+        <left>-149</left>
+        <width>2150</width>
+        <height>325</height>
+        <onup condition="!Skin.HasSetting(global.kioskmode)">9000</onup>
+        <ondown>1644</ondown>
+        <orientation>horizontal</orientation>
+        <preloaditems>2</preloaditems>
+        <pagecontrol>1644</pagecontrol>
+        <focusposition>1</focusposition>
+        <viewtype label="37971">list</viewtype>
+        <include>ScrolltimeViewsList</include>
+        <itemlayout height="325" width="222">
+            <include content="include.widget.poster">
+                <param name="id" value="521"/>
+            </include>
+        </itemlayout>
+        <focusedlayout height="325" width="222">
+            <include content="include.widget.poster.focus">
+                <param name="id" value="521"/>
+            </include>
+        </focusedlayout>
+    </include>
+
+    <include name="521Wrap">
+        <control type="wraplist" id="521">
+            <include>521Content</include>
+        </control>
+    </include>
+
+    <include name="521Fixed">
+        <control type="fixedlist" id="521">
+            <include>521Content</include>
+        </control>
+    </include>
+
+    <include name="View_521_Minimal_V2">
+        <description>List View (id=521)</description>
+        <control type="group">
+            <include>Animation.Common</include>
+            <visible>Control.IsVisible(521)</visible>
+            <include>View_522_Minimal_V2_Content</include>
+            <control type="scrollbar" id="1644">
+                <bottom>180</bottom>
+                <include content="scrollbar_hor">
+                    <param name="showscroll" value="Skin.HasSetting(ShowScrollbar521)" />
+                    <param name="scrollid" value="1644"/>
+                    <param name="jumpbar" value="false"/>
+                </include>
+            </control>
+            <include condition="!Skin.HasSetting(53poster.nowrap)">521Wrap</include>
+            <include condition="Skin.HasSetting(53poster.nowrap)">521Fixed</include>
+        </control>
+    </include>
+    
+    <include name="View_522_Minimal_V2_Content">
+        <control type="group">
+            <left>SidePad</left>
+            <top>200</top>
+            <width>800</width>
+            <control type="label">
+                <textcolor>Dark1</textcolor>
+                <font>SmallBold</font>
+                <label fallback="19055">$INFO[ListItem.Title]</label>
+            </control>            
+            <control type="grouplist">
+                <top>40</top>
+                <orientation>vertical</orientation>
+                <itemgap>5</itemgap>
+                <control type="label">
+                    <aligny>center</aligny>
+                    <font>Tiny</font>
+                    <textcolor>Dark1</textcolor>
+                    <selectedcolor>Dark1</selectedcolor>
+                    <label>$VAR[LabelGenre]</label>
+                </control>
+                <control type="textbox">
+                    <font>Tiny</font>
+                    <height>216</height>
+                    <textcolor>Dark2</textcolor>
+                    <selectedcolor>Dark2</selectedcolor>
+                    <label>$INFO[ListItem.Plot]</label>
+                </control>
+            </control>                
+        </control>
+    </include>
+</includes>
