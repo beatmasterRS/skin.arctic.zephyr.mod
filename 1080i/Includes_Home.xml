@@ -5306,6 +5306,55 @@
         <include>more</include>
         </definition>
     </include>
+    
+    <include name="def_widgetfanart_views">
+        <param name="indicatorbackground" value="$PARAM[indicatorbackground]" default="false"/>
+        <definition>
+        <control type="image">
+            <left>0</left>
+            <top>0</top>
+            <right>0</right>
+            <bottom>0</bottom>
+            <texture border="11">common/$VAR[nofocus-shadow10]</texture>
+        </control>
+        <control type="image">
+            <left>10</left>
+            <top>10</top>
+            <right>10</right>
+            <bottom>10</bottom>
+            <texture colordiffuse="Fallback" border="4" background="true">common/diffuse_box.png</texture>
+        </control>        
+        <control type="image">
+            <left>10</left>
+            <top>10</top>
+            <right>10</right>
+            <bottom>10</bottom>
+            <aspectratio scalediffuse="false">scale</aspectratio>
+            <texture diffuse="diffuse/widgetfanart_new.png" background="true" fallback="DefaultMovies.png">$VAR[FanartImage]</texture>
+        </control>
+        <control type="image">
+            <left>9</left>
+            <top>9</top>
+            <right>9</right>
+            <bottom>9</bottom>
+            <texture colordiffuse="BoxWidget" border="4" background="true">common/box21.png</texture>
+            <visible>!Skin.HasSetting(thumbnails.white)</visible>
+        </control>
+        <control type="label">
+            <align>center</align>
+            <aligny>center</aligny>
+            <width>50</width>
+            <right>7</right>
+            <top>6</top>
+            <height>50</height>
+            <textcolor>$VAR[WatchedBackingColor]</textcolor>
+            <font>SymbolPosterBackground</font>
+            <label>$VAR[WatchedBacking]</label>
+            <visible>!String.IsEqual(ListItem.Label,..) + $PARAM[indicatorbackground]</visible>
+        </control> 
+        <include>IndicatorPoster</include>        
+        </definition>
+    </include>
 
     <include name="def_widgetbanner">
         <control type="image">
@@ -5441,6 +5490,12 @@
             <param name="indicatorbackground" value="$PARAM[indicatorbackground]" />
         </include>
     </include>
+    
+    <include name="include.widget.fanart.views">
+        <include content="def_widgetfanart_views">
+            <param name="indicatorbackground" value="$PARAM[indicatorbackground]" />
+        </include>
+    </include>
 
     <include name="include.widget.banner">
         <include>def_widgetbanner</include>
@@ -5481,6 +5536,15 @@
 
     <include name="include.widget.fanart.focus">
         <include content="def_widgetfanart">
+            <param name="indicatorbackground" value="$PARAM[indicatorbackground]" />
+        </include>
+        <include content="def_widgetfocus">
+            <param name="id" value="$PARAM[id]"/>
+        </include>
+    </include>
+    
+    <include name="include.widget.fanart.views.focus">
+        <include content="def_widgetfanart_views">
             <param name="indicatorbackground" value="$PARAM[indicatorbackground]" />
         </include>
         <include content="def_widgetfocus">
