@@ -3134,19 +3134,72 @@
     
     <include name="IndicatorPoster">
         <param name="right" value="$PARAM[right]" default="7"/>
+        <param name="indicatorbackground" value="$PARAM[indicatorbackground]" default="false"/>
         <definition>
-        <control type="label">
-            <align>center</align>
-            <aligny>center</aligny>
-            <width>50</width>
-            <right>$PARAM[right]</right>
-            <top>6</top>
-            <height>50</height>
-            <textcolor>WatchedIcons</textcolor>
-            <selectedcolor>WatchedIcons</selectedcolor>
-            <font>SymbolPoster</font>
-            <label>$VAR[WatchedLabelPoster]</label>
-            <visible>!String.IsEqual(ListItem.Label,..)</visible>
+        <control type="group">
+            <visible>!Skin.HasSetting(furniture.overlaysnew)</visible>
+            <control type="label">
+                <align>center</align>
+                <aligny>center</aligny>
+                <width>50</width>
+                <right>7</right>
+                <top>6</top>
+                <height>50</height>
+                <textcolor>$VAR[WatchedBackingColor]</textcolor>
+                <font>SymbolPosterBackground</font>
+                <label>$VAR[WatchedBacking]</label>
+                <visible>!String.IsEqual(ListItem.Label,..) + $PARAM[indicatorbackground]</visible>
+            </control> 
+            <control type="label">
+                <align>center</align>
+                <aligny>center</aligny>
+                <width>50</width>
+                <right>$PARAM[right]</right>
+                <top>6</top>
+                <height>50</height>
+                <textcolor>WatchedIcons</textcolor>
+                <selectedcolor>WatchedIcons</selectedcolor>
+                <font>SymbolPoster</font>
+                <label>$VAR[WatchedLabelPoster]</label>
+                <visible>!String.IsEqual(ListItem.Label,..)</visible>
+            </control>
+        </control>
+        <control type="group">
+            <visible>Skin.HasSetting(furniture.overlaysnew)</visible>
+            <control type="image">
+                 <right>9</right>
+                 <top>9</top>
+                 <width>100</width>
+                 <height>100</height>
+                 <texture colordiffuse="Fallback">backg/OverlayWatched.png</texture>
+                 <visible>!Skin.HasSetting(hide.markers) + ListItem.IsResumable</visible>
+            </control>
+            <control type="image">
+                 <right>9</right>
+                 <top>9</top>
+                 <width>100</width>
+                 <height>100</height>
+                 <texture colordiffuse="Fallback">backg/OverlayWatched.png</texture>
+                 <visible>!Skin.HasSetting(hide.markers) + !ListItem.IsResumable + String.IsEqual(ListItem.Overlay,OverlayWatched.png)</visible>
+            </control>
+            <control type="image">
+                 <right>9</right>
+                 <top>9</top>
+                 <width>100</width>
+                 <height>100</height>
+                 <texture colordiffuse="$VAR[ColorHighlight]">backg/OverlayWatched.png</texture>
+                 <visible>!Skin.HasSetting(hide.markers) + !ListItem.IsResumable + [[String.IsEqual(ListItem.Overlay,OverlayUnwatched.png) + [$EXP[IsNewMovie] | $EXP[IsNewTVShow] | $EXP[IsNewEpisode]]]]</visible>
+            </control>
+            <control type="label">
+                 <right>-5</right>
+                 <top>8</top>
+                 <align>center</align>
+                 <label>$VAR[IndicatorFlagLabel]</label>
+                 <width>100</width>
+                 <font>WatchedStates</font>
+                 <textcolor>FFFFFFFF</textcolor>
+                 <animation effect="rotate" center="auto" time="0" end="-45" condition="true" loop="false">Conditional</animation>
+            </control>
         </control>
         </definition>
     </include>
