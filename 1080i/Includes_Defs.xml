@@ -3151,7 +3151,7 @@
                 <textcolor>$VAR[WatchedBackingColor]</textcolor>
                 <font>SymbolPosterBackground</font>
                 <label>$VAR[WatchedBacking]</label>
-                <visible>!String.IsEqual(ListItem.Label,..) + $PARAM[indicatorbackground]</visible>
+                <visible>$PARAM[indicatorbackground]</visible>
             </control> 
             <control type="label">
                 <align>center</align>
@@ -3164,11 +3164,10 @@
                 <selectedcolor>WatchedIcons</selectedcolor>
                 <font>SymbolPoster</font>
                 <label>$VAR[WatchedLabelPoster]</label>
-                <visible>!String.IsEqual(ListItem.Label,..)</visible>
             </control>
         </control>
         <control type="group">
-            <visible>Skin.HasSetting(furniture.overlaysnew)</visible>
+            <visible>Skin.HasSetting(furniture.overlaysnew) + !Skin.HasSetting(hide.markers)</visible>
             <right>$PARAM[right]</right>
             <top>$PARAM[top]</top>
             <control type="image">
@@ -3177,7 +3176,7 @@
                  <width>100</width>
                  <height>100</height>
                  <texture colordiffuse="Fallback">backg/OverlayWatched.png</texture>
-                 <visible>!Skin.HasSetting(hide.markers) + ListItem.IsResumable</visible>
+                 <visible>!Skin.HasSetting(hide.markers) + ListItem.IsResumable + !Skin.HasSetting(hide.markers.inprogress)</visible>
             </control>
             <control type="image">
                  <right>9</right>
@@ -3185,7 +3184,7 @@
                  <width>100</width>
                  <height>100</height>
                  <texture colordiffuse="Fallback">backg/OverlayWatched.png</texture>
-                 <visible>!Skin.HasSetting(hide.markers) + !ListItem.IsResumable + String.IsEqual(ListItem.Overlay,OverlayWatched.png)</visible>
+                 <visible>!Skin.HasSetting(hide.markers) + !ListItem.IsResumable + String.IsEqual(ListItem.Overlay,OverlayWatched.png) + !Skin.HasSetting(hide.markers.watched)</visible>
             </control>
             <control type="image">
                  <right>9</right>
@@ -3193,7 +3192,7 @@
                  <width>100</width>
                  <height>100</height>
                  <texture colordiffuse="$VAR[ColorHighlight]">backg/OverlayWatched.png</texture>
-                 <visible>!Skin.HasSetting(hide.markers) + !ListItem.IsResumable + [[String.IsEqual(ListItem.Overlay,OverlayUnwatched.png) + [$EXP[IsNewMovie] | $EXP[IsNewTVShow] | $EXP[IsNewEpisode]]]]</visible>
+                 <visible>!Skin.HasSetting(hide.markers) + !ListItem.IsResumable + [[String.IsEqual(ListItem.Overlay,OverlayUnwatched.png) + [$EXP[IsNewMovie] | $EXP[IsNewTVShow] | $EXP[IsNewEpisode]]]] + !Skin.HasSetting(hide.markers.newcontent)</visible>
             </control>
             <control type="label">
                  <right>-5</right>
@@ -3203,6 +3202,7 @@
                  <width>100</width>
                  <font>WatchedStates</font>
                  <textcolor>FFFFFFFF</textcolor>
+                 <selectedcolor>FFFFFFFF</selectedcolor>
                  <animation effect="rotate" center="auto" time="0" end="-45" condition="true" loop="false">Conditional</animation>
             </control>
         </control>
