@@ -61,6 +61,30 @@
         <value>$VAR[ColorSelectOtherBar]</value>
     </variable>
 
+    <variable name="ColorIndicatorBackgroundWatched">
+        <value condition="String.IsEqual(Skin.String(indicatorcolorbackgroundwatched.name),none)">Panel</value>
+        <value condition="!String.IsEmpty(Skin.String(indicatorcolorbackgroundwatched.name))">$INFO[Skin.String(indicatorcolorbackgroundwatched.name)]</value>
+        <value>Panel</value>
+    </variable>
+    
+    <variable name="ColorIndicatorBackgroundInprogress">
+        <value condition="String.IsEqual(Skin.String(indicatorcolorbackgroundinprogress.name),none)">Panel</value>
+        <value condition="!String.IsEmpty(Skin.String(indicatorcolorbackgroundinprogress.name))">$INFO[Skin.String(indicatorcolorbackgroundinprogress.name)]</value>
+        <value>Panel</value>
+    </variable>
+    
+    <variable name="ColorIndicatorBackgroundNew">
+        <value condition="String.IsEqual(Skin.String(indicatorcolorbackgroundnew.name),none)">$VAR[ColorHighlight]</value>
+        <value condition="!String.IsEmpty(Skin.String(indicatorcolorbackgroundnew.name))">$INFO[Skin.String(indicatorcolorbackgroundnew.name)]</value>
+        <value>$VAR[ColorHighlight]</value>
+    </variable>
+    
+    <variable name="ColorIndicatorBackgroundLabel">
+        <value condition="String.IsEqual(Skin.String(indicatorcolorbackgroundlabel.name),none)">FFFFFFFF</value>
+        <value condition="!String.IsEmpty(Skin.String(indicatorcolorbackgroundlabel.name))">$INFO[Skin.String(indicatorcolorbackgroundlabel.name)]</value>
+        <value>FFFFFFFF</value>
+    </variable>
+
     <variable name="DefWidgetContent">
         <value condition="[String.IsEqual(Container(300).ListItem.Property(widget),weatherdaily) | String.IsEqual(Container(300).ListItem.Property(widget),weatherhourly)] + !String.IsEmpty(Skin.String(weather.fanart))">noop</value>
         <value condition="!String.IsEmpty(Container(300).ListItem.Property(Background))">noop</value>
@@ -3175,7 +3199,7 @@
                  <top>9</top>
                  <width>100</width>
                  <height>100</height>
-                 <texture colordiffuse="Panel">backg/OverlayWatched.png</texture>
+                 <texture colordiffuse="$VAR[ColorIndicatorBackgroundInprogress]">backg/OverlayWatched.png</texture>
                  <visible>!Skin.HasSetting(hide.markers) + ListItem.IsResumable + !Skin.HasSetting(hide.markers.inprogress)</visible>
             </control>
             <control type="image">
@@ -3183,7 +3207,7 @@
                  <top>8</top>
                  <width>100</width>
                  <height>100</height>
-                 <texture colordiffuse="Panel">backg/OverlayWatched.png</texture>
+                 <texture colordiffuse="$VAR[ColorIndicatorBackgroundWatched]">backg/OverlayWatched.png</texture>
                  <visible>!Skin.HasSetting(hide.markers) + !ListItem.IsResumable + String.IsEqual(ListItem.Overlay,OverlayWatched.png) + !Skin.HasSetting(hide.markers.watched)</visible>
             </control>
             <control type="image">
@@ -3191,7 +3215,7 @@
                  <top>8</top>
                  <width>100</width>
                  <height>100</height>
-                 <texture colordiffuse="$VAR[ColorHighlight]">backg/OverlayWatched.png</texture>
+                 <texture colordiffuse="$VAR[ColorIndicatorBackgroundNew]">backg/OverlayWatched.png</texture>
                  <visible>!Skin.HasSetting(hide.markers) + !ListItem.IsResumable + [[String.IsEqual(ListItem.Overlay,OverlayUnwatched.png) + [$EXP[IsNewMovie] | $EXP[IsNewTVShow] | $EXP[IsNewEpisode]]]] + !Skin.HasSetting(hide.markers.newcontent)</visible>
             </control>
             <control type="label">
@@ -3201,8 +3225,8 @@
                  <label>$VAR[IndicatorFlagLabel]</label>
                  <width>100</width>
                  <font>WatchedStates</font>
-                 <textcolor>FFFFFFFF</textcolor>
-                 <selectedcolor>FFFFFFFF</selectedcolor>
+                 <textcolor>$VAR[ColorIndicatorBackgroundLabel]</textcolor>
+                 <selectedcolor>$VAR[ColorIndicatorBackgroundLabel]</selectedcolor>
                  <animation effect="rotate" center="auto" time="0" end="-45" condition="true" loop="false">Conditional</animation>
             </control>
         </control>
