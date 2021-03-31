@@ -1226,7 +1226,7 @@
                             <label>$LOCALIZE[31110] - $LOCALIZE[16102]</label>
                             <onclick condition="!System.HasAddon(script.skin.helper.colorpicker)">InstallAddon(script.skin.helper.colorpicker)</onclick>
                             <onclick>RunScript(script.skin.helper.colorpicker,skinstring=indicatorcolorbackgroundwatched.name)</onclick>
-                            <enabled>Skin.HasSetting(furniture.indicators.alternative)</enabled>
+                            <enabled>Skin.HasSetting(furniture.markers.alternative)</enabled>
                         </control>
                         <control type="radiobutton" id="9673">
                             <width>1310</width>
@@ -1237,7 +1237,7 @@
                             <label>$LOCALIZE[31110] - $LOCALIZE[575]</label>
                             <onclick condition="!System.HasAddon(script.skin.helper.colorpicker)">InstallAddon(script.skin.helper.colorpicker)</onclick>
                             <onclick>RunScript(script.skin.helper.colorpicker,skinstring=indicatorcolorbackgroundinprogress.name)</onclick>
-                            <enabled>Skin.HasSetting(furniture.indicators.alternative)</enabled>
+                            <enabled>Skin.HasSetting(furniture.markers.alternative)</enabled>
                         </control>
                         <control type="radiobutton" id="9674">
                             <width>1310</width>
@@ -1248,7 +1248,7 @@
                             <label>$LOCALIZE[31110] - $LOCALIZE[842]</label>
                             <onclick condition="!System.HasAddon(script.skin.helper.colorpicker)">InstallAddon(script.skin.helper.colorpicker)</onclick>
                             <onclick>RunScript(script.skin.helper.colorpicker,skinstring=indicatorcolorbackgroundnew.name)</onclick>
-                            <enabled>Skin.HasSetting(furniture.indicators.alternative)</enabled>
+                            <enabled>Skin.HasSetting(furniture.markers.alternative)</enabled>
                         </control>
                         <control type="radiobutton" id="9677">
                             <width>1310</width>
@@ -1259,7 +1259,7 @@
                             <label>$LOCALIZE[37976]</label>
                             <onclick condition="!System.HasAddon(script.skin.helper.colorpicker)">InstallAddon(script.skin.helper.colorpicker)</onclick>
                             <onclick>RunScript(script.skin.helper.colorpicker,skinstring=indicatorcolorbackgroundlabel.name)</onclick>
-                            <enabled>Skin.HasSetting(furniture.indicators.alternative)</enabled>
+                            <enabled>Skin.HasSetting(furniture.markers.alternative)</enabled>
                         </control>                        
                         <control type="button" id="9676">
                             <visible>ControlGroup(9100).HasFocus(9110)</visible>
@@ -1710,8 +1710,8 @@
                             <visible>ControlGroup(9100).HasFocus(9106)</visible>
                             <include>DefSettingsButtonGradient</include>
                             <label>37505</label>
-                            <selected>Skin.HasSetting(furniture.indicators.alternative)</selected>
-                            <onclick>Skin.ToggleSetting(furniture.indicators.alternative)</onclick>
+                            <selected>Skin.HasSetting(furniture.markers.alternative)</selected>
+                            <onclick>Skin.ToggleSetting(furniture.markers.alternative)</onclick>
                         </control>
                         <control type="radiobutton" id="9288">
                             <width>1310</width>
@@ -1763,14 +1763,17 @@
                         </control>
                         
                         <!-- Indicators -->
-                        <control type="radiobutton" id="9590">
+                        <control type="button" id="9590">
                             <visible>ControlGroup(9100).HasFocus(9106)</visible>
                             <include>DefSettingsButtonGradient</include>
-                            <label>37956</label>
                             <align>left</align>
-                            <selected>!Skin.HasSetting(hide.markers)</selected>
-                            <onclick>Skin.ToggleSetting(hide.markers)</onclick>
-                        </control>
+                            <label>$LOCALIZE[37956]</label>
+                            <label2>$VAR[MarkersTypeLabel]</label2>
+                            <onclick condition="!Skin.HasSetting(hide.markers) + !Skin.HasSetting(furniture.markers.alternative)">Skin.ToggleSetting(furniture.markers.alternative)</onclick>                    
+                            <onclick condition="!Skin.HasSetting(hide.markers) + Skin.HasSetting(furniture.markers.alternative)">Skin.ToggleSetting(hide.markers)</onclick>
+                            <onclick condition="!Skin.HasSetting(hide.markers) + Skin.HasSetting(furniture.markers.alternative)">Skin.Reset(furniture.markers.alternative)</onclick>                    
+                            <onclick condition="Skin.HasSetting(hide.markers)">Skin.Reset(hide.markers)</onclick>
+                        </control>                        
                         <control type="radiobutton" id="9586">
                             <visible>ControlGroup(9100).HasFocus(9106)</visible>
                             <include>DefSettingsButtonGradient</include>
@@ -1785,7 +1788,7 @@
                             <include>DefSettingsButtonGradient</include>
                             <label>$LOCALIZE[37742]$LOCALIZE[16101]</label>
                             <align>left</align>
-                            <enable>!Skin.HasSetting(hide.markers)</enable>
+                            <enable>!Skin.HasSetting(hide.markers) + !Skin.HasSetting(furniture.markers.alternative)</enable>
                             <selected>!Skin.HasSetting(hide.markers.unwatched)</selected>
                             <onclick>Skin.ToggleSetting(hide.markers.unwatched)</onclick>
                         </control>
