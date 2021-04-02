@@ -3,13 +3,12 @@
 <includes>
 
     <include name="510Content">
-        <!--<oninfo condition="ListItem.IsCollection">ActivateWindow(1132)</oninfo>-->
         <visible>Container.Content(movies) | Container.Content(tvshows) | Container.Content(seasons) | Container.Content(episodes)</visible>
         <include content="forced_view" condition="Skin.HasSetting(enable.forcedviews)">
             <param name="string" value="$LOCALIZE[37590]" />
         </include>
         <top>550</top>
-        <left>-230</left>
+        <left>-225</left>
         <width>2200</width>
         <height>395</height>
         <onup condition="!Skin.HasSetting(global.kioskmode)">9000</onup>
@@ -20,141 +19,65 @@
         <focusposition>2</focusposition>
         <viewtype label="37590">list</viewtype>
         <include>ScrolltimeViewsList</include>
-        <itemlayout height="327" width="225">
-            <control type="image">
-                <left>0</left>
-                <top>-5</top>
-                <right>2</right>
-                <bottom>4</bottom>
-                <texture border="10">common/$VAR[nofocus-shadow10]</texture>
-            </control>
-            <control type="image">
-                <left>10</left>
-                <top>5</top>
-                <width>202</width>
-                <height>307</height>
-                <bottom>80</bottom>
-                <texture colordiffuse="Fallback" border="4" background="true">common/box.png</texture>
-            </control>
-            <control type="image">
-                <left>9</left>
-                <top>4</top>
-                <right>12</right>
-                <bottom>14</bottom>
-                <texture colordiffuse="Box2" border="4" background="true">common/box21.png</texture>
-                <visible>!Skin.HasSetting(thumbnails.white)</visible>
-            </control>
-            <control type="image">
-                <left>10</left>
-                <top>5</top>
-                <width>202</width>
-                <height>307</height>
-                <bottom>80</bottom>
-                <aspectratio scalediffuse="false">scale</aspectratio>
-                <texture diffuse="diffuse/wall.png" background="true">$VAR[PosterImage]</texture>
-                <visible>true</visible><!--default_true-->
-            </control>
-            <control type="image">
-                <left>10</left>
-                <top>5</top>
-                <width>202</width>
-                <height>307</height>
-                <bottom>80</bottom>
-                <aspectratio scalediffuse="false">keep</aspectratio>
-                <texture diffuse="diffuse/wall.png" background="true">$INFO[ListItem.Icon]</texture>
-                <visible>false</visible><!--default_false-->  
-            </control>
-            <control type="label">
-                <align>center</align>
-                <aligny>center</aligny>
-                <width>50</width>
-                <right>10</right>
-                <top>0</top>
-                <height>50</height>
-                <textcolor>$VAR[WatchedLabelPosterColor]</textcolor>
-                <font>SymbolPoster</font>
-                <label>$VAR[WatchedLabelPoster]</label>
-                <visible>!String.IsEqual(ListItem.Label,..)</visible>
-            </control>
+        <itemlayout height="325" width="222">
+            <include content="include.widget.poster">
+                <param name="id" value="510"/>
+            </include>
         </itemlayout>
-        <focusedlayout height="327" width="222">
+        <focusedlayout height="325" width="222">
             <control type="group">
                 <animation center="127,168" easing="inout" effect="zoom" end="120" start="100" time="300" tween="sine">Focus</animation>
                 <animation center="127,168" easing="inout" effect="zoom" end="100" start="120" time="300" tween="sine">UnFocus</animation>
                 <control type="image">
                     <left>0</left>
-                    <top>-4</top>
-                    <right>-2</right>
-                    <bottom>4</bottom>
-                    <texture border="10">common/$VAR[nofocus-shadow10]</texture>
+                    <top>0</top>
+                    <right>0</right>
+                    <bottom>0</bottom>
+                    <texture border="11">common/$VAR[nofocus-shadow10]</texture>
                 </control>
                 <control type="image">
                     <left>10</left>
-                    <top>5</top>
-                    <width>203</width>
-                    <height>307</height>
-                    <bottom>80</bottom>
-                    <texture colordiffuse="Fallback" border="4" background="true">common/box.png</texture>
+                    <top>10</top>
+                    <right>10</right>
+                    <bottom>10</bottom>
+                    <texture colordiffuse="Fallback" border="4" background="true">common/diffuse_box.png</texture>
                 </control>
                 <control type="image">
                     <left>9</left>
-                    <top>4</top>
-                    <right>12</right>
-                    <bottom>14</bottom>
-                    <texture colordiffuse="Box2" border="4" background="true">common/box21.png</texture>
+                    <top>9</top>
+                    <right>9</right>
+                    <bottom>9</bottom>
+                    <texture colordiffuse="BoxWidget" border="4" background="true">common/box21.png</texture>
                     <visible>!Skin.HasSetting(thumbnails.white)</visible>
                 </control>
                 <control type="image">
-                    <left>8</left>
-                    <top>2</top>
+                    <left>7</left>
+                    <top>7</top>
                     <right>7</right>
-                    <bottom>12</bottom>
+                    <bottom>7</bottom>
                     <texture colordiffuse="$VAR[ColorSquares]" border="20">common/selectbox.png</texture>
-                    <animation center="auto" condition="Control.HasFocus(510)" effect="fade" end="100" start="0" time="250">Focus</animation>
-                    <animation center="auto" condition="Control.HasFocus(510)" effect="fade" end="0" start="100" time="50">UnFocus</animation>
+                    <visible>Control.HasFocus(510)</visible>
+                    <include>Animation.SelectBoxHome</include>
                 </control>
                 <control type="image">
-                    <left>8</left>
-                    <top>2</top>
+                    <left>7</left>
+                    <top>7</top>
                     <right>7</right>
-                    <bottom>12</bottom>
+                    <bottom>7</bottom>
                     <texture colordiffuse="$VAR[ColorHighlightSelectbox2]" border="20">common/gradient-selectbox.png</texture>
-                    <animation center="auto" condition="Control.HasFocus(510)" effect="fade" end="100" start="0" time="250">Focus</animation>
-                    <animation center="auto" condition="Control.HasFocus(510)" effect="fade" end="0" start="100" time="50">UnFocus</animation>
+                    <visible>Control.HasFocus(510)</visible>
+                    <include>Animation.SelectBoxHome</include>
                 </control>
                 <control type="image">
                     <left>10</left>
-                    <top>5</top>
-                    <width>203</width>
-                    <height>307</height>
-                    <bottom>80</bottom>
+                    <top>10</top>
+                    <right>10</right>
+                    <bottom>10</bottom>
                     <aspectratio scalediffuse="false">scale</aspectratio>
-                    <texture diffuse="diffuse/wall.png" background="true">$VAR[PosterImage]</texture>
-                    <visible>true</visible><!--default_true-->
+                    <texture diffuse="diffuse/widgetposter_new.png" background="true" fallback="DefaultMovies.png">$VAR[PosterImage]</texture>
                 </control>
-                <control type="image">
-                    <left>10</left>
-                    <top>5</top>
-                    <width>202</width>
-                    <height>307</height>
-                    <bottom>80</bottom>
-                    <aspectratio scalediffuse="false">keep</aspectratio>
-                    <texture diffuse="diffuse/wall.png" background="true">$INFO[ListItem.Icon]</texture>
-                    <visible>false</visible><!--default_false-->  
-                </control>
-                <control type="label">
-                    <align>center</align>
-                    <aligny>center</aligny>
-                    <width>50</width>
-                    <right>5</right>
-                    <top>0</top>
-                    <height>50</height>
-                    <textcolor>$VAR[WatchedLabelPosterColor]</textcolor>
-                    <font>SymbolPoster</font>
-                    <label>$VAR[WatchedLabelPoster]</label>
-                    <visible>!String.IsEqual(ListItem.Label,..)</visible>
-                </control>
-            </control>
+                <include>IndicatorPoster</include>
+             </control>
         </focusedlayout>
     </include>
 
@@ -174,8 +97,6 @@
         <description>List View (id=510)</description>
         <control type="group">
             <include>Animation.Common</include>
-            <!--<include>JumpBarHorizontal</include>-->
-            <!--<include>ViewSlideForJumpBar</include>-->
             <visible>Control.IsVisible(510)</visible>
             <control type="group">
                 <left>210</left>
@@ -197,6 +118,7 @@
                     <textcolor>Dark1</textcolor>
                     <font>SmallBold</font>
                     <label fallback="19055">$INFO[ListItem.Title]</label>
+                    <include condition="Skin.HasSetting(views.label.autoscroll)">LabelScroll</include>
                     <include>Animation.ViHi</include>
                 </control>
                 <control type="label">

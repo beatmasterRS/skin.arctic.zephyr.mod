@@ -684,6 +684,7 @@
                         <textcolor>Dark1</textcolor>
                         <selectedcolor>Dark1</selectedcolor>
                         <label>$VAR[WidgetTitle]</label>
+                        <include condition="Skin.HasSetting(homemenu.label.autoscroll)">LabelScroll</include>
                     </control>
                     <control type="textbox">
                         <left>251</left>
@@ -723,6 +724,7 @@
                         <textcolor>Dark1</textcolor>
                         <selectedcolor>Dark1</selectedcolor>
                         <label>$VAR[WidgetTitle]</label>
+                        <include condition="Skin.HasSetting(homemenu.label.autoscroll)">LabelScroll</include>
                     </control>
                     <control type="textbox">
                         <left>251</left>
@@ -847,6 +849,7 @@
                         <textcolor>Dark1</textcolor>
                         <selectedcolor>Dark1</selectedcolor>
                         <label>$VAR[WidgetTitle]</label>
+                        <include condition="Skin.HasSetting(homemenu.label.autoscroll)">LabelScroll</include>
                     </control>
                     <control type="textbox">
                         <left>359</left>
@@ -886,6 +889,7 @@
                         <textcolor>Dark1</textcolor>
                         <selectedcolor>Dark1</selectedcolor>
                         <label>$VAR[WidgetTitle]</label>
+                        <include condition="Skin.HasSetting(homemenu.label.autoscroll)">LabelScroll</include>
                     </control>
                     <control type="textbox">
                         <left>359</left>
@@ -999,6 +1003,7 @@
                         <textcolor>Dark1</textcolor>
                         <selectedcolor>Dark1</selectedcolor>
                         <label>$VAR[WidgetTitle]</label>
+                        <include condition="Skin.HasSetting(homemenu.label.autoscroll)">LabelScroll</include>
                     </control>
                     <control type="textbox">
                         <left>611</left>
@@ -1038,6 +1043,7 @@
                         <textcolor>Dark1</textcolor>
                         <selectedcolor>Dark1</selectedcolor>
                         <label>$VAR[WidgetTitle]</label>
+                        <include condition="Skin.HasSetting(homemenu.label.autoscroll)">LabelScroll</include>
                     </control>
                     <control type="textbox">
                         <left>611</left>
@@ -2816,8 +2822,9 @@
                 <orientation>horizontal</orientation>
                 <scrolltime>200</scrolltime>
                 <top>952</top>
-                <animation effect="slide" start="0" end="0,-24" time="150" condition="Skin.HasSetting(home.modernwidgets) + Skin.HasSetting(home.vertical.widgets) + Skin.HasSetting(home.oldmenuheight)">Conditional</animation>
-                <animation effect="slide" start="0" end="0,-27" time="150" condition="$EXP[HomeIsModernMultiWidgets] + Skin.HasSetting(submenu.compatibility) + !Skin.HasSetting(home.oldmenuheight)">Conditional</animation>
+                <animation effect="slide" start="0" end="0,-30" time="0" condition="[$EXP[HomeIsClassic] | $EXP[HomeIsSpotlight]]">Conditional</animation>
+                <animation effect="slide" start="0" end="0,-24" time="0" condition="Skin.HasSetting(home.modernwidgets) + Skin.HasSetting(home.vertical.widgets) + Skin.HasSetting(home.oldmenuheight)">Conditional</animation>
+                <animation effect="slide" start="0" end="0,-27" time="0" condition="$EXP[HomeIsModernMultiWidgets] + Skin.HasSetting(submenu.compatibility) + !Skin.HasSetting(home.oldmenuheight)">Conditional</animation>
                 <itemlayout width="220" height="64">
                     <control type="label">
                         <align>center</align>
@@ -5017,6 +5024,8 @@
 
     <!-- Includes Widget layouts -->
     <include name="def_widgetposter">
+        <param name="indicatorbackground" value="$PARAM[indicatorbackground]" default="false"/>
+        <definition>
         <control type="image">
             <left>0</left>
             <top>0</top>
@@ -5057,8 +5066,11 @@
             <texture colordiffuse="BoxWidget" border="4" background="true">common/box21.png</texture>
             <visible>!Skin.HasSetting(thumbnails.white)</visible>
         </control>
-        <include>IndicatorPoster</include>
+        <include content="IndicatorPoster">
+            <param name="indicatorbackground" value="$PARAM[indicatorbackground]" />
+        </include>
         <include>more</include>
+        </definition>
     </include>
 
     <include name="def_widgetsquare">
@@ -5102,7 +5114,9 @@
             <texture colordiffuse="BoxWidget" border="4" background="true">common/box21.png</texture>
             <visible>!Skin.HasSetting(thumbnails.white)</visible>
         </control>
-        <include>IndicatorPoster</include>
+        <include content="IndicatorPoster">
+            <param name="indicatorbackground" value="$PARAM[indicatorbackground]" />
+        </include>
         <include>more</include>
     </include>
 
@@ -5226,6 +5240,8 @@
     </include>
 
     <include name="def_widgetfanart">
+        <param name="indicatorbackground" value="$PARAM[indicatorbackground]" default="false"/>
+        <definition>
         <control type="image">
             <left>0</left>
             <top>0</top>
@@ -5266,11 +5282,55 @@
             <texture colordiffuse="BoxWidget" border="4" background="true">common/box21.png</texture>
             <visible>!Skin.HasSetting(thumbnails.white)</visible>
         </control>
-        <include>IndicatorPoster</include>        
+        <include content="IndicatorPoster">
+            <param name="indicatorbackground" value="$PARAM[indicatorbackground]" />
+        </include>        
         <include>more</include>
+        </definition>
+    </include>
+    
+    <include name="def_widgetlandscape">
+        <param name="indicatorbackground" value="$PARAM[indicatorbackground]" default="false"/>
+        <definition>
+        <control type="image">
+            <left>0</left>
+            <top>0</top>
+            <right>0</right>
+            <bottom>0</bottom>
+            <texture border="11">common/$VAR[nofocus-shadow10]</texture>
+        </control>
+        <control type="image">
+            <left>10</left>
+            <top>10</top>
+            <right>10</right>
+            <bottom>10</bottom>
+            <texture colordiffuse="Fallback" border="4" background="true">common/diffuse_box.png</texture>
+        </control>        
+        <control type="image">
+            <left>10</left>
+            <top>10</top>
+            <right>10</right>
+            <bottom>10</bottom>
+            <aspectratio scalediffuse="false">scale</aspectratio>
+            <texture diffuse="diffuse/widgetfanart_new.png" background="true" fallback="DefaultMovies.png">$VAR[FanartImage]</texture>
+        </control>
+        <control type="image">
+            <left>9</left>
+            <top>9</top>
+            <right>9</right>
+            <bottom>9</bottom>
+            <texture colordiffuse="BoxWidget" border="4" background="true">common/box21.png</texture>
+            <visible>!Skin.HasSetting(thumbnails.white)</visible>
+        </control>
+        <include content="IndicatorPoster">
+            <param name="indicatorbackground" value="$PARAM[indicatorbackground]" />
+        </include>        
+        </definition>
     </include>
 
     <include name="def_widgetbanner">
+        <param name="indicatorbackground" value="$PARAM[indicatorbackground]" default="false"/>
+        <definition>
         <control type="image">
             <left>0</left>
             <top>0</top>
@@ -5297,6 +5357,7 @@
             <width>500</width>
             <right>30</right>
             <bottom>30</bottom>
+            <top>30</top>
             <aspectratio align="right" aligny="bottom">keep</aspectratio>
             <texture background="true">$VAR[ClearLogoHome]</texture>
             <visible>String.IsEmpty(ListItem.Art(banner)) + String.IsEmpty(ListItem.Art(tvshow.banner))</visible>
@@ -5309,11 +5370,17 @@
             <texture colordiffuse="BoxWidget" border="4" background="true">common/box21.png</texture>
             <visible>!Skin.HasSetting(thumbnails.white)</visible>
         </control>
-        <include>IndicatorPoster</include>
+        <include content="IndicatorPoster">
+            <param name="indicatorbackground" value="$PARAM[indicatorbackground]" />
+        </include>
         <include>more</include>
+        </definition>
     </include>
 
     <include name="def_widgetthumb">
+        <param name="indicatorbackground" value="$PARAM[indicatorbackground]" default="false"/>
+        <param name="clearlogo" value="$PARAM[clearlogo]" default="false"/>
+        <definition>
         <control type="image">
             <left>0</left>
             <top>0</top>
@@ -5363,12 +5430,17 @@
             <texture colordiffuse="BoxWidget" border="4" background="true">common/box21.png</texture>
             <visible>!Skin.HasSetting(thumbnails.white)</visible>
         </control>
-        <include>IndicatorPoster</include>
+        <include content="IndicatorPoster">
+            <param name="indicatorbackground" value="$PARAM[indicatorbackground]" />
+        </include>
         <include>more</include>
+        </definition>
     </include>
 
     <include name="include.widget.poster">
-        <include>def_widgetposter</include>
+        <include content="def_widgetposter">
+            <param name="indicatorbackground" value="$PARAM[indicatorbackground]" />
+        </include>
     </include>
 
     <include name="include.widget.square">
@@ -5383,21 +5455,34 @@
     </include>
 
     <include name="include.widget.fanart">
-        <include>def_widgetfanart</include>
+        <include content="def_widgetfanart">
+            <param name="indicatorbackground" value="$PARAM[indicatorbackground]" />
+        </include>
+    </include>
+    
+    <include name="include.widget.landscape">
+        <include content="def_widgetlandscape">
+            <param name="indicatorbackground" value="$PARAM[indicatorbackground]" />
+        </include>
     </include>
 
     <include name="include.widget.banner">
-        <include>def_widgetbanner</include>
+        <include content="def_widgetbanner">
+            <param name="indicatorbackground" value="$PARAM[indicatorbackground]" />
+        </include>
     </include>
 
     <include name="include.widget.thumb">
         <include content="def_widgetthumb">
             <param name="clearlogo" value="$PARAM[clearlogo]"/>
+            <param name="indicatorbackground" value="$PARAM[indicatorbackground]" />
         </include>
     </include>
 
     <include name="include.widget.poster.focus">
-        <include>def_widgetposter</include>
+        <include content="def_widgetposter">
+            <param name="indicatorbackground" value="$PARAM[indicatorbackground]" />
+        </include>
         <include content="def_widgetfocus">
             <param name="id" value="$PARAM[id]"/>
         </include>
@@ -5421,14 +5506,27 @@
     </include>
 
     <include name="include.widget.fanart.focus">
-        <include>def_widgetfanart</include>
+        <include content="def_widgetfanart">
+            <param name="indicatorbackground" value="$PARAM[indicatorbackground]" />
+        </include>
+        <include content="def_widgetfocus">
+            <param name="id" value="$PARAM[id]"/>
+        </include>
+    </include>
+    
+    <include name="include.widget.landscape.focus">
+        <include content="def_widgetlandscape">
+            <param name="indicatorbackground" value="$PARAM[indicatorbackground]" />
+        </include>
         <include content="def_widgetfocus">
             <param name="id" value="$PARAM[id]"/>
         </include>
     </include>
 
     <include name="include.widget.banner.focus">
-        <include>def_widgetbanner</include>
+        <include content="def_widgetbanner">
+            <param name="indicatorbackground" value="$PARAM[indicatorbackground]" />
+        </include>
         <include content="def_widgetfocus">
             <param name="id" value="$PARAM[id]"/>
         </include>
@@ -5437,6 +5535,7 @@
     <include name="include.widget.thumb.focus">
         <include content="def_widgetthumb">
             <param name="clearlogo" value="$PARAM[clearlogo]"/>
+            <param name="indicatorbackground" value="$PARAM[indicatorbackground]" />
         </include>
         <include content="def_widgetfocus">
             <param name="id" value="$PARAM[id]"/>
@@ -5677,6 +5776,7 @@
             <align>left</align>
             <textcolor>Dark1</textcolor>
             <label>$PARAM[label]</label>
+            <include condition="Skin.HasSetting(homemenu.label.autoscroll)">LabelScroll</include>
             <visible>$PARAM[visible]</visible>            
         </control>
         </definition>

@@ -61,6 +61,30 @@
         <value>$VAR[ColorSelectOtherBar]</value>
     </variable>
 
+    <variable name="ColorIndicatorBackgroundWatched">
+        <value condition="String.IsEqual(Skin.String(indicatorcolorbackgroundwatched.name),none)">FF294B89</value>
+        <value condition="!String.IsEmpty(Skin.String(indicatorcolorbackgroundwatched.name))">$INFO[Skin.String(indicatorcolorbackgroundwatched.name)]</value>
+        <value>FF294B89</value>
+    </variable>
+    
+    <variable name="ColorIndicatorBackgroundInprogress">
+        <value condition="String.IsEqual(Skin.String(indicatorcolorbackgroundinprogress.name),none)">Panel</value>
+        <value condition="!String.IsEmpty(Skin.String(indicatorcolorbackgroundinprogress.name))">$INFO[Skin.String(indicatorcolorbackgroundinprogress.name)]</value>
+        <value>Panel</value>
+    </variable>
+    
+    <variable name="ColorIndicatorBackgroundNew">
+        <value condition="String.IsEqual(Skin.String(indicatorcolorbackgroundnew.name),none)">$VAR[ColorHighlight]</value>
+        <value condition="!String.IsEmpty(Skin.String(indicatorcolorbackgroundnew.name))">$INFO[Skin.String(indicatorcolorbackgroundnew.name)]</value>
+        <value>$VAR[ColorHighlight]</value>
+    </variable>
+    
+    <variable name="ColorIndicatorBackgroundLabel">
+        <value condition="String.IsEqual(Skin.String(indicatorcolorbackgroundlabel.name),none)">FFFFFFFF</value>
+        <value condition="!String.IsEmpty(Skin.String(indicatorcolorbackgroundlabel.name))">$INFO[Skin.String(indicatorcolorbackgroundlabel.name)]</value>
+        <value>FFFFFFFF</value>
+    </variable>
+
     <variable name="DefWidgetContent">
         <value condition="[String.IsEqual(Container(300).ListItem.Property(widget),weatherdaily) | String.IsEqual(Container(300).ListItem.Property(widget),weatherhourly)] + !String.IsEmpty(Skin.String(weather.fanart))">noop</value>
         <value condition="!String.IsEmpty(Container(300).ListItem.Property(Background))">noop</value>
@@ -1225,6 +1249,8 @@
         <param name="aspect" value="$PARAM[aspect]" default="scale"/>
         <param name="fallbackpicture" value="$PARAM[fallbackpicture]" default="DefaultPicture.png"/>
         <param name="storageicon" value="$PARAM[storageicon]" default="!String.IsEmpty(Container(10051).ListItem.DBID)"/>
+        <param name="poster" value="$PARAM[poster]" default="false"/>
+        <param name="thumb" value="$PARAM[thumb]" default="true"/>
         <definition>
             <control type="image">
                 <left>0</left>
@@ -1247,8 +1273,17 @@
                 <bottom>10</bottom>
                 <aspectratio scalediffuse="false">$PARAM[aspect]</aspectratio>
                 <texture diffuse="diffuse/wall.png" background="true" fallback="$PARAM[fallbackpicture]">$VAR[CastImage]</texture>
-                <visible>true</visible><!--default_true-->
-            </control>
+                <visible>$PARAM[thumb]</visible>
+                </control>
+                <control type="image">
+                    <left>10</left>
+                    <top>10</top>
+                    <right>30</right>
+                    <bottom>10</bottom>
+                    <aspectratio scalediffuse="false">scale</aspectratio>
+                    <texture diffuse="diffuse/wall.png" background="true" fallback="$PARAM[fallbackpicture]">$VAR[PosterImage]</texture>
+                    <visible>$PARAM[poster]</visible>
+                </control>
             <control type="image">
                 <left>10</left>
                 <top>10</top>
@@ -1364,6 +1399,8 @@
 
     <include name="DefCastIconsBackgroundList">
         <param name="fallbackpicture" value="$PARAM[fallbackpicture]" default="DefaultPicture.png"/>
+        <param name="poster" value="$PARAM[poster]" default="false"/>
+        <param name="thumb" value="$PARAM[thumb]" default="true"/>
         <definition>
         <include content="DefCastIcons">
             <param name="id" value="0"/>
@@ -1373,6 +1410,8 @@
             <param name="storageicon.backgroundlist" value="$PARAM[storageicon.backgroundlist]"/>
             <param name="aspectbox" value="$PARAM[aspectbox]"/>
             <param name="aspectposter" value="$PARAM[aspectposter]"/>
+            <param name="poster" value="$PARAM[poster]" default="false"/>
+            <param name="thumb" value="$PARAM[thumb]" default="true"/>
         </include>
         <include content="DefCastIcons">
             <param name="id" value="1"/>
@@ -1382,6 +1421,8 @@
             <param name="storageicon.backgroundlist" value="$PARAM[storageicon.backgroundlist]"/>
             <param name="aspectbox" value="$PARAM[aspectbox]"/>
             <param name="aspectposter" value="$PARAM[aspectposter]"/>
+            <param name="poster" value="$PARAM[poster]" default="false"/>
+            <param name="thumb" value="$PARAM[thumb]" default="true"/>
         </include>
         <include content="DefCastIcons">
             <param name="id" value="2"/>
@@ -1391,6 +1432,8 @@
             <param name="storageicon.backgroundlist" value="$PARAM[storageicon.backgroundlist]"/>
             <param name="aspectbox" value="$PARAM[aspectbox]"/>
             <param name="aspectposter" value="$PARAM[aspectposter]"/>
+            <param name="poster" value="$PARAM[poster]" default="false"/>
+            <param name="thumb" value="$PARAM[thumb]" default="true"/>
         </include>
         <include content="DefCastIcons">
             <param name="id" value="3"/>
@@ -1400,6 +1443,8 @@
             <param name="storageicon.backgroundlist" value="$PARAM[storageicon.backgroundlist]"/>
             <param name="aspectbox" value="$PARAM[aspectbox]"/>
             <param name="aspectposter" value="$PARAM[aspectposter]"/>
+            <param name="poster" value="$PARAM[poster]" default="false"/>
+            <param name="thumb" value="$PARAM[thumb]" default="true"/>
         </include>
         <include content="DefCastIcons">
             <param name="id" value="4"/>
@@ -1409,6 +1454,8 @@
             <param name="storageicon.backgroundlist" value="$PARAM[storageicon.backgroundlist]"/>
             <param name="aspectbox" value="$PARAM[aspectbox]"/>
             <param name="aspectposter" value="$PARAM[aspectposter]"/>
+            <param name="poster" value="$PARAM[poster]" default="false"/>
+            <param name="thumb" value="$PARAM[thumb]" default="true"/>
         </include>
         <include content="DefCastIcons">
             <param name="id" value="5"/>
@@ -1418,6 +1465,8 @@
             <param name="storageicon.backgroundlist" value="$PARAM[storageicon.backgroundlist]"/>
             <param name="aspectbox" value="$PARAM[aspectbox]"/>
             <param name="aspectposter" value="$PARAM[aspectposter]"/>
+            <param name="poster" value="$PARAM[poster]" default="false"/>
+            <param name="thumb" value="$PARAM[thumb]" default="true"/>
         </include>
         <include content="DefCastIcons">
             <param name="id" value="6"/>
@@ -1427,6 +1476,8 @@
             <param name="storageicon.backgroundlist" value="$PARAM[storageicon.backgroundlist]"/>
             <param name="aspectbox" value="$PARAM[aspectbox]"/>
             <param name="aspectposter" value="$PARAM[aspectposter]"/>
+            <param name="poster" value="$PARAM[poster]" default="false"/>
+            <param name="thumb" value="$PARAM[thumb]" default="true"/>
         </include>
         <include content="DefCastIcons">
             <param name="id" value="7"/>
@@ -1436,6 +1487,8 @@
             <param name="storageicon.backgroundlist" value="$PARAM[storageicon.backgroundlist]"/>
             <param name="aspectbox" value="$PARAM[aspectbox]"/>
             <param name="aspectposter" value="$PARAM[aspectposter]"/>
+            <param name="poster" value="$PARAM[poster]" default="false"/>
+            <param name="thumb" value="$PARAM[thumb]" default="true"/>
         </include>
         </definition>
     </include>
@@ -1607,6 +1660,8 @@
         <param name="aspectbox" value="$PARAM[aspectbox]" default="false"/>
         <param name="controlid" value="$PARAM[controlid]"/>
         <param name="storageicon.backgroundlist" value="$PARAM[storageicon.backgroundlist]" default="false"/>
+        <param name="poster" value="$PARAM[poster]" default="false"/>
+        <param name="thumb" value="$PARAM[thumb]" default="true"/>
         <definition>
             <control type="group">
                 <visible>$PARAM[aspectposter]</visible>
@@ -1639,6 +1694,16 @@
                     <bottom>10</bottom>
                     <aspectratio scalediffuse="false">scale</aspectratio>
                     <texture diffuse="diffuse/wall.png" background="true" fallback="$PARAM[fallbackpicture]">$INFO[Container($PARAM[controlid]).ListItemNoWrap($PARAM[id]).Thumb]</texture>
+                    <visible>$PARAM[thumb]</visible>
+                </control>
+                <control type="image">
+                    <left>10</left>
+                    <top>10</top>
+                    <right>30</right>
+                    <bottom>10</bottom>
+                    <aspectratio scalediffuse="false">scale</aspectratio>
+                    <texture diffuse="diffuse/wall.png" background="true" fallback="$PARAM[fallbackpicture]">$INFO[Container($PARAM[controlid]).ListItemNoWrap($PARAM[id]).Art(poster)]</texture>
+                    <visible>$PARAM[poster]</visible>
                 </control>
                 <control type="image">
                     <left>9</left>
@@ -1802,6 +1867,8 @@
         <param name="aspect" value="$PARAM[aspect]" default="scale"/>
         <param name="fallbackpicture" default="pbtmdb.png" />
         <param name="storageicon" value="$PARAM[storageicon]" default="!String.IsEmpty(Container(10051).ListItem.DBID)"/>
+        <param name="poster" value="$PARAM[poster]" default="false"/>
+        <param name="thumb" value="$PARAM[thumb]" default="true"/>
         <definition>
             <control type="group">
                 <animation center="auto" easing="inout" effect="zoom" end="$PARAM[zoom]" start="100" time="200" tween="sine">Focus</animation>
@@ -1827,7 +1894,16 @@
                     <bottom>10</bottom>
                     <aspectratio scalediffuse="false">$PARAM[aspect]</aspectratio>
                     <texture diffuse="diffuse/wall.png" background="true" fallback="$PARAM[fallbackpicture]">$VAR[CastImage]</texture>
-                    <visible>true</visible><!--default_true-->
+                    <visible>$PARAM[thumb]</visible>
+                </control>
+                <control type="image">
+                    <left>10</left>
+                    <top>10</top>
+                    <right>30</right>
+                    <bottom>10</bottom>
+                    <aspectratio scalediffuse="false">scale</aspectratio>
+                    <texture diffuse="diffuse/wall.png" background="true" fallback="$PARAM[fallbackpicture]">$VAR[PosterImage]</texture>
+                    <visible>$PARAM[poster]</visible>
                 </control>
                 <control type="image">
                     <left>10</left>
@@ -2913,7 +2989,7 @@
     
     <include name="DefUpdateBlur">
         <onclick>Skin.SetString(BlurRadius,$PARAM[number])</onclick>
-        <onclick>RunScript(script.embuary.helper,action=blurimg,file='"special://skin/extras/views/cars.jpg"',prop=MyProp)</onclick>
+        <onclick>RunScript(script.embuary.helper,action=blurimg,file='"$VAR[CustomBlurImage]"',prop=MyProp)</onclick>
         <onclick>Close</onclick>
     </include>
     
@@ -3133,20 +3209,78 @@
     </include>
     
     <include name="IndicatorPoster">
-        <param name="right" value="$PARAM[right]" default="7"/>
+        <param name="right" value="$PARAM[right]" default="0"/>
+        <param name="top" value="$PARAM[top]" default="0"/>
+        <param name="indicatorbackground" value="$PARAM[indicatorbackground]" default="false"/>
         <definition>
-        <control type="label">
-            <align>center</align>
-            <aligny>center</aligny>
-            <width>50</width>
+        <control type="group">
+            <visible>!Skin.HasSetting(furniture.markers.alternative)</visible>
             <right>$PARAM[right]</right>
-            <top>6</top>
-            <height>50</height>
-            <textcolor>WatchedIconsList</textcolor>
-            <selectedcolor>WatchedIconsList</selectedcolor>
-            <font>SymbolPoster</font>
-            <label>$VAR[WatchedLabelPoster]</label>
-            <visible>!String.IsEqual(ListItem.Label,..)</visible>
+            <top>$PARAM[top]</top>
+            <control type="label">
+                <align>center</align>
+                <aligny>center</aligny>
+                <width>50</width>
+                <right>7</right>
+                <top>6</top>
+                <height>50</height>
+                <textcolor>$VAR[WatchedBackingColor]</textcolor>
+                <font>SymbolPosterBackground</font>
+                <label>$VAR[WatchedBacking]</label>
+                <visible>$PARAM[indicatorbackground]</visible>
+            </control> 
+            <control type="label">
+                <align>center</align>
+                <aligny>center</aligny>
+                <width>50</width>
+                <right>7</right>
+                <top>6</top>
+                <height>50</height>
+                <textcolor>WatchedIcons</textcolor>
+                <selectedcolor>WatchedIcons</selectedcolor>
+                <font>SymbolPoster</font>
+                <label>$VAR[WatchedLabelPoster]</label>
+            </control>
+        </control>
+        <control type="group">
+            <visible>Skin.HasSetting(furniture.markers.alternative) + !Skin.HasSetting(hide.markers)</visible>
+            <right>$PARAM[right]</right>
+            <top>$PARAM[top]</top>
+            <control type="image">
+                 <right>8</right>
+                 <top>8</top>
+                 <width>100</width>
+                 <height>100</height>
+                 <texture colordiffuse="$VAR[ColorIndicatorBackgroundInprogress]">backg/OverlayWatched.png</texture>
+                 <visible>!Skin.HasSetting(hide.markers) + ListItem.IsResumable + !Skin.HasSetting(hide.markers.inprogress)</visible>
+            </control>
+            <control type="image">
+                 <right>8</right>
+                 <top>8</top>
+                 <width>100</width>
+                 <height>100</height>
+                 <texture colordiffuse="$VAR[ColorIndicatorBackgroundWatched]">backg/OverlayWatched.png</texture>
+                 <visible>!Skin.HasSetting(hide.markers) + !ListItem.IsResumable + String.IsEqual(ListItem.Overlay,OverlayWatched.png) + !Skin.HasSetting(hide.markers.watched)</visible>
+            </control>
+            <control type="image">
+                 <right>8</right>
+                 <top>8</top>
+                 <width>100</width>
+                 <height>100</height>
+                 <texture colordiffuse="$VAR[ColorIndicatorBackgroundNew]">backg/OverlayWatched.png</texture>
+                 <visible>!Skin.HasSetting(hide.markers) + !ListItem.IsResumable + [[String.IsEqual(ListItem.Overlay,OverlayUnwatched.png) + [$EXP[IsNewMovie] | $EXP[IsNewTVShow] | $EXP[IsNewEpisode]]]] + !Skin.HasSetting(hide.markers.newcontent)</visible>
+            </control>
+            <control type="label">
+                 <right>-9</right>
+                 <top>8</top>
+                 <align>center</align>
+                 <label>$VAR[IndicatorFlagLabel]</label>
+                 <width>100</width>
+                 <font>WatchedStates</font>
+                 <textcolor>$VAR[ColorIndicatorBackgroundLabel]</textcolor>
+                 <selectedcolor>$VAR[ColorIndicatorBackgroundLabel]</selectedcolor>
+                 <animation effect="rotate" center="auto" time="0" end="-45" condition="true" loop="false">Conditional</animation>
+            </control>
         </control>
         </definition>
     </include>
@@ -3159,5 +3293,15 @@
             <visible>!String.IsEmpty(Window(Home).Property(TMDbHelper.ListItem.Provider.$PARAM[icon].Icon))</visible>
             <aspectratio align="center">keep</aspectratio>
         </control>   
+    </include>
+    
+    <include name="SkinShortcutsBackButton">
+        <control type="button" id="$PARAM[controlid]">
+            <width>1</width>
+            <height>1</height>
+            <visible allowhiddenfocus="true">false</visible>
+            <onfocus>ClearProperty(skinshortcuts-Widget,Home)</onfocus>
+            <onfocus>SetFocus($PARAM[setfocus])</onfocus>
+        </control> 
     </include>
 </includes>
