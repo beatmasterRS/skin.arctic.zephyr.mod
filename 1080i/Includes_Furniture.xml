@@ -2929,7 +2929,7 @@
         <value condition="!String.IsEmpty(Container.NumItems) + Window.IsVisible(AddonBrowser.xml) + Integer.IsGreater(System.AddonUpdateCount,0)">[COLOR=$VAR[ColorHighlight]]$INFO[Container.NumItems,,[/COLOR] $LOCALIZE[31101]]  •  [COLOR=$VAR[ColorHighlight]]$INFO[System.AddonUpdateCount,,[/COLOR] $LOCALIZE[24043]]$INFO[Control.GetLabel(3),  •  ,]</value>
         <value condition="!String.IsEmpty(Container.NumItems) + !Window.IsVisible(home)">[COLOR=$VAR[ColorHighlight]]$INFO[Container.NumItems,,[/COLOR] $LOCALIZE[31101]]$INFO[Control.GetLabel(3),  •  ,]</value>
         <value condition="!String.IsEmpty(Container(9500).NumItems) + !Window.IsVisible(home)">[COLOR=$VAR[ColorHighlight]]$INFO[Container(9500).NumItems,,[/COLOR] $LOCALIZE[31101]]</value>
-        <value condition="String.IsEqual(Container(300).ListItem.Property(defaultID),tvshows)">[COLOR=$VAR[ColorHighlight]]$INFO[Window(home).Property(Episodes.Count)][/COLOR] $LOCALIZE[20360]  •  [COLOR=$VAR[ColorHighlight]]$INFO[Window(Home).Property(episodes.UnWatched)][/COLOR] $LOCALIZE[31215]</value>
+        <value condition="String.IsEqual(Container(300).ListItem.Property(defaultID),tvshows)">[COLOR=$VAR[ColorHighlight]]$INFO[Window(Home).Property(TVShows.Count)][/COLOR] $LOCALIZE[36903]  •  [COLOR=$VAR[ColorHighlight]]$INFO[Window(Home).Property(TVShows.UnWatched)][/COLOR] $LOCALIZE[31215]</value>
         <value condition="String.IsEqual(Container(300).ListItem.Property(defaultID),movies)">[COLOR=$VAR[ColorHighlight]]$INFO[Window(home).Property(Movies.Count)][/COLOR] $LOCALIZE[20342]  •  [COLOR=$VAR[ColorHighlight]]$INFO[Window(Home).Property(Movies.UnWatched)][/COLOR] $LOCALIZE[31215]</value>
         <value condition="String.IsEqual(Container(300).ListItem.Property(defaultID),livetv) + String.IsEmpty(Pvr.BackendChannels)">$INFO[Pvr.BackendName]</value>
         <value condition="String.IsEqual(Container(300).ListItem.Property(defaultID),livetv) + !String.IsEmpty(Pvr.BackendChannels)">$INFO[Pvr.BackendName]  •  [COLOR=$VAR[ColorHighlight]]$INFO[Pvr.BackendChannels][/COLOR] $LOCALIZE[19019]</value>
@@ -2941,6 +2941,10 @@
         <value condition="!Library.HasContent(Music)">[COLOR=$VAR[ColorHighlight]]$INFO[Window(home).Property(Movies.Count)][/COLOR] $LOCALIZE[20342]  •  [COLOR=$VAR[ColorHighlight]]$INFO[Window(home).Property(Episodes.Count)][/COLOR] $LOCALIZE[20360]  •  [COLOR=$VAR[ColorHighlight]]$INFO[Pvr.BackendChannels][/COLOR] $LOCALIZE[19019]</value>
         <value condition="String.IsEmpty(Pvr.BackendChannels)">[COLOR=$VAR[ColorHighlight]]$INFO[Window(home).Property(Movies.Count)][/COLOR] $LOCALIZE[20342]  •  [COLOR=$VAR[ColorHighlight]]$INFO[Window(home).Property(Episodes.Count)][/COLOR] $LOCALIZE[20360]  •  [COLOR=$VAR[ColorHighlight]]$INFO[Window(home).Property(Music.SongsCount)][/COLOR] $LOCALIZE[134]</value>
         <value>[COLOR=$VAR[ColorHighlight]]$INFO[Window(home).Property(Movies.Count)][/COLOR] $LOCALIZE[20342]  •  [COLOR=$VAR[ColorHighlight]]$INFO[Window(home).Property(Episodes.Count)][/COLOR] $LOCALIZE[20360]  •  [COLOR=$VAR[ColorHighlight]]$INFO[Window(home).Property(Music.SongsCount)][/COLOR] $LOCALIZE[134]  •  [COLOR=$VAR[ColorHighlight]]$INFO[Pvr.BackendChannels][/COLOR] $LOCALIZE[19019]</value>
+    </variable>
+
+    <variable name="SubHeaderLabel2">
+        <value condition="String.IsEqual(Container(300).ListItem.Property(defaultID),tvshows)">[COLOR=$VAR[ColorHighlight]]$INFO[Window(home).Property(Episodes.Count)][/COLOR] $LOCALIZE[20360]  •  [COLOR=$VAR[ColorHighlight]]$INFO[Window(Home).Property(episodes.UnWatched)][/COLOR] $LOCALIZE[31215]</value>
     </variable>
 
     <include name="Furniture_Header">
@@ -3042,6 +3046,25 @@
                     <width>auto</width>
                     <textcolor>Dark2</textcolor>
                     <label>$VAR[SubHeaderLabel]</label>
+                    <animation type="Conditional" condition="String.IsEqual(Container(300).ListItem.Property(defaultID),tvshows)" loop="true" reversible="false" >
+                        <effect type="fade" start="0" end="100" time="1000" />
+                        <effect type="fade" start="100" end="100" time="20000" />
+                        <effect type="fade" start="100" end="0" time="1000" delay="10000" />
+                    </animation>
+                </control>
+                <control type="label">
+                    <visible>String.IsEqual(Container(300).ListItem.Property(defaultID),tvshows)</visible>
+                    <centertop>58</centertop>
+                    <font>Flag</font>
+                    <include condition="Skin.HasSetting(furniture.logo) + !Window.IsVisible(home) + !Window.IsVisible(settings) + !Window.IsVisible(skinsettings) + !Window.IsVisible(SettingsCategory.xml) + !Window.IsVisible(tvchannels) + !Window.IsVisible(tvrecordings) + !Window.IsVisible(tvguide) + !Window.IsVisible(tvsearch) + !Window.IsVisible(tvtimers)">HeaderLabelWidthLogo</include>
+                    <width>auto</width>
+                    <textcolor>Dark2</textcolor>
+                    <label>$VAR[SubHeaderLabel2]</label>
+                    <animation type="Conditional" condition="String.IsEqual(Container(300).ListItem.Property(defaultID),tvshows)" loop="true" reversible="false" >
+                        <effect type="fade" start="0" end="100" time="1000" delay="10000" />
+                        <effect type="fade" start="100" end="100" time="20000" />
+                        <effect type="fade" start="100" end="0" time="1000" delay="19500" />
+                    </animation>
                 </control>
             </control>
         </control>
