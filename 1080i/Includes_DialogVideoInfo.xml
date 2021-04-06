@@ -433,6 +433,7 @@
                             <label>[B]$LOCALIZE[20417][/B]</label>
                             <aligny>center</aligny>
                             <align>left</align>
+                            <visible>!String.IsEmpty(ListItem.Writer) | !String.IsEmpty(Window(Home).Property(TMDbHelper.ListItem.Writer))</visible>
                         </control>
                         <control type="label">
                             <font>Tiny</font>
@@ -440,6 +441,7 @@
                             <label>[B]$LOCALIZE[20339][/B]</label>
                             <aligny>center</aligny>
                             <align>left</align>
+                            <visible>!String.IsEmpty(ListItem.Director) | !String.IsEmpty(Window(Home).Property(TMDbHelper.ListItem.Director))</visible>
                         </control>
                         <control type="label">
                             <font>Tiny</font>
@@ -447,6 +449,7 @@
                             <label>[B]$LOCALIZE[572][/B]</label>
                             <aligny>center</aligny>
                             <align>left</align>
+                            <visible>!String.IsEmpty(ListItem.Studio) | !String.IsEmpty(Window(Home).Property(TMDbHelper.ListItem.Studio))</visible>
                         </control>
                         <control type="label">
                             <font>Tiny</font>
@@ -454,6 +457,7 @@
                             <label>[B]$LOCALIZE[37529][/B]</label>
                             <aligny>center</aligny>
                             <align>left</align>
+                            <visible>!String.IsEmpty(Window(Home).Property(TMDbHelper.ListItem.Premiered))</visible>
                         </control>
                         <control type="label">
                             <font>Tiny</font>
@@ -461,6 +465,7 @@
                             <label>[B]$LOCALIZE[37530][/B]</label>
                             <aligny>center</aligny>
                             <align>left</align>
+                            <visible>!String.IsEmpty(Window(Home).Property(TMDbHelper.ListItem.Awards))</visible>
                         </control>
                         <control type="label">
                             <font>Tiny</font>
@@ -468,6 +473,7 @@
                             <label>[B]IMDB 250[/B]</label>
                             <aligny>center</aligny>
                             <align>left</align>
+                            <visible>!String.IsEmpty(ListItem.Top250) | !String.IsEmpty(Window(Home).Property(TMDbHelper.ListItem.Top250))</visible>
                         </control>
                         <control type="label">
                             <visible>String.IsEqual(ListItem.DBType,movie) | String.IsEqual(ListItem.DBType,episode)</visible>
@@ -478,7 +484,7 @@
                             <align>left</align>
                         </control>
                         <control type="label">
-                            <visible>String.IsEqual(ListItem.DBType,tvshow)</visible>
+                            <visible>String.IsEqual(ListItem.DBType,tvshow) + !String.IsEmpty(Window(Home).Property(TMDbHelper.ListItem.Provider.1.Icon))</visible>
                             <font>Tiny</font>
                             <textcolor>Dark1</textcolor>
                             <label>[B]$LOCALIZE[19101][/B]</label>
@@ -497,24 +503,28 @@
                             <textcolor>Dark2</textcolor>
                             <label fallback="19055">$VAR[Label_Writer]</label>
                             <aligny>center</aligny>
+                            <visible>!String.IsEmpty(ListItem.Writer) | !String.IsEmpty(Window(Home).Property(TMDbHelper.ListItem.Writer))</visible>
                         </control>
                         <control type="label">
                             <font>Tiny</font>
                             <textcolor>Dark2</textcolor>
                             <label fallback="19055">$VAR[Label_Director]</label>
                             <aligny>center</aligny>
+                            <visible>!String.IsEmpty(ListItem.Director) | !String.IsEmpty(Window(Home).Property(TMDbHelper.ListItem.Director))</visible>
                         </control>
                         <control type="label">
                             <font>Tiny</font>
                             <textcolor>Dark2</textcolor>
                             <label fallback="19055">$VAR[Label_Studio]</label>
                             <aligny>center</aligny>
+                            <visible>!String.IsEmpty(ListItem.Studio) | !String.IsEmpty(Window(Home).Property(TMDbHelper.ListItem.Studio))</visible>
                         </control>
                         <control type="label">
                             <font>Tiny</font>
                             <textcolor>Dark2</textcolor>
                             <label fallback="19055">$INFO[Window(Home).Property(TMDbHelper.ListItem.Premiered)]</label>
                             <aligny>center</aligny>
+                            <visible>!String.IsEmpty(Window(Home).Property(TMDbHelper.ListItem.Premiered))</visible>
                         </control>
                         <control type="label">
                             <font>Tiny</font>
@@ -522,108 +532,111 @@
                             <textcolor>Dark2</textcolor>
                             <label fallback="19055">$INFO[Window(Home).Property(TMDbHelper.ListItem.Awards)]</label>
                             <aligny>center</aligny>
+                            <visible>!String.IsEmpty(Window(Home).Property(TMDbHelper.ListItem.Awards))</visible>
                         </control>
                         <control type="label">
                             <font>Tiny</font>
                             <textcolor>Dark2</textcolor>
                             <label fallback="19055">$VAR[Label_Top250]</label>
                             <aligny>center</aligny>
+                            <visible>!String.IsEmpty(ListItem.Top250) | !String.IsEmpty(Window(Home).Property(TMDbHelper.ListItem.Top250))</visible>
                         </control>
-                        <control type="label">
-                            <font>Tiny</font>
-                            <textcolor>Dark2</textcolor>
-                            <label>19055</label>
-                            <aligny>center</aligny>
-                            <visible>String.IsEqual(ListItem.DBType,tvshow) + String.IsEmpty(Window(Home).Property(TMDbHelper.ListItem.Provider.1.Icon))</visible>
+                        <control type="grouplist">
+                            <visible>String.IsEqual(ListItem.DBType,movie) | String.IsEqual(ListItem.DBType,episode)</visible>
+                            <orientation>horizontal</orientation>
+                            <usecontrolcoords>true</usecontrolcoords>
+                            <control type="image">
+                                <top>20</top>
+                                <width>28</width>
+                                <aligny>center</aligny>
+                                <height>28</height>
+                                <texture>$INFO[ListItem.Property(AudioLanguage.1),flags/lang/,.png]</texture>
+                                <visible>!String.IsEmpty(ListItem.Property(AudioLanguage.1))</visible>
+                            </control>
+                            <control type="image">
+                                <top>20</top>
+                                <width>28</width>
+                                <height>28</height>
+                                <texture>$INFO[ListItem.Property(AudioLanguage.2),flags/lang/,.png]</texture>
+                                <visible>!String.IsEmpty(ListItem.Property(AudioLanguage.2))</visible>
+                            </control>
+                            <control type="image">
+                                <top>20</top>
+                                <width>28</width>
+                                <height>28</height>
+                                <texture>$INFO[ListItem.Property(AudioLanguage.3),flags/lang/,.png]</texture>
+                                <visible>!String.IsEmpty(ListItem.Property(AudioLanguage.3))</visible>
+                            </control>
+                            <control type="image">
+                                <top>20</top>
+                                <width>28</width>
+                                <height>28</height>
+                                <texture>$INFO[ListItem.Property(AudioLanguage.4),flags/lang/,.png]</texture>
+                                <visible>!String.IsEmpty(ListItem.Property(AudioLanguage.4))</visible>
+                            </control>
+                            <control type="image">
+                                <top>20</top>
+                                <width>28</width>
+                                <height>28</height>
+                                <texture>$INFO[ListItem.Property(AudioLanguage.5),flags/lang/,.png]</texture>
+                                <visible>!String.IsEmpty(ListItem.Property(AudioLanguage.5))</visible>
+                            </control>
+                            <control type="image">
+                                <top>20</top>
+                                <width>28</width>
+                                <height>28</height>
+                                <texture>$INFO[ListItem.Property(SubtitleLanguage.1),flags/lang/,.png]</texture>
+                                <visible>!String.IsEmpty(ListItem.Property(SubtitleLanguage.1))</visible>
+                                <colordiffuse>ff777777</colordiffuse>
+                            </control>
+                            <control type="image">
+                                <top>20</top>
+                                <width>28</width>
+                                <height>28</height>
+                                <texture>$INFO[ListItem.Property(SubtitleLanguage.2),flags/lang/,.png]</texture>
+                                <visible>!String.IsEmpty(ListItem.Property(SubtitleLanguage.2))</visible>
+                                <colordiffuse>ff777777</colordiffuse>
+                            </control>
+                            <control type="image">
+                                <top>20</top>
+                                <width>28</width>
+                                <height>28</height>
+                                <texture>$INFO[ListItem.Property(SubtitleLanguage.3),flags/lang/,.png]</texture>
+                                <visible>!String.IsEmpty(ListItem.Property(SubtitleLanguage.3))</visible>
+                                <colordiffuse>ff777777</colordiffuse>
+                            </control>
+                            <control type="image">
+                                <top>20</top>
+                                <width>28</width>
+                                <height>28</height>
+                                <texture>$INFO[ListItem.Property(SubtitleLanguage.4),flags/lang/,.png]</texture>
+                                <visible>!String.IsEmpty(ListItem.Property(SubtitleLanguage.4))</visible>
+                                <colordiffuse>ff777777</colordiffuse>
+                            </control>
+                            <control type="image">
+                                <top>20</top>
+                                <width>28</width>
+                                <height>28</height>
+                                <texture>$INFO[ListItem.Property(SubtitleLanguage.5),flags/lang/,.png]</texture>
+                                <visible>!String.IsEmpty(ListItem.Property(SubtitleLanguage.5))</visible>
+                                <colordiffuse>ff777777</colordiffuse>
+                            </control>
                         </control>
-                    </control>
-                    <control type="grouplist">
-                        <top>237</top>
-                        <left>210</left>
-                        <visible>String.IsEqual(ListItem.DBType,tvshow)</visible>
-                        <orientation>horizontal</orientation>
-                        <height>28</height>                         
-                        <include content="TvShowProviderIcon"><param name="icon" value="1" /></include>
-                        <include content="TvShowProviderIcon"><param name="icon" value="2" /></include>
-                        <include content="TvShowProviderIcon"><param name="icon" value="3" /></include>
-                        <include content="TvShowProviderIcon"><param name="icon" value="4" /></include>
-                        <include content="TvShowProviderIcon"><param name="icon" value="5" /></include>
-                        <include content="TvShowProviderIcon"><param name="icon" value="6" /></include>
-                        <include content="TvShowProviderIcon"><param name="icon" value="7" /></include>
-                        <include content="TvShowProviderIcon"><param name="icon" value="8" /></include>
-                        <include content="TvShowProviderIcon"><param name="icon" value="9" /></include>
-                    </control>
-                    <control type="grouplist">
-                        <visible>String.IsEqual(ListItem.DBType,movie) | String.IsEqual(ListItem.DBType,episode)</visible>
-                        <orientation>horizontal</orientation>
-                        <top>237</top>
-                        <left>210</left>
-                        <height>28</height>
-                        <control type="image">
-                            <width>28</width>
-                            <height>28</height>
-                            <texture>$INFO[ListItem.Property(AudioLanguage.1),flags/lang/,.png]</texture>
-                            <visible>!String.IsEmpty(ListItem.Property(AudioLanguage.1))</visible>
-                        </control>
-                        <control type="image">
-                            <width>28</width>
-                            <height>28</height>
-                            <texture>$INFO[ListItem.Property(AudioLanguage.2),flags/lang/,.png]</texture>
-                            <visible>!String.IsEmpty(ListItem.Property(AudioLanguage.2))</visible>
-                        </control>
-                        <control type="image">
-                            <width>28</width>
-                            <height>28</height>
-                            <texture>$INFO[ListItem.Property(AudioLanguage.3),flags/lang/,.png]</texture>
-                            <visible>!String.IsEmpty(ListItem.Property(AudioLanguage.3))</visible>
-                        </control>
-                        <control type="image">
-                            <width>28</width>
-                            <height>28</height>
-                            <texture>$INFO[ListItem.Property(AudioLanguage.4),flags/lang/,.png]</texture>
-                            <visible>!String.IsEmpty(ListItem.Property(AudioLanguage.4))</visible>
-                        </control>
-                        <control type="image">
-                            <width>28</width>
-                            <height>28</height>
-                            <texture>$INFO[ListItem.Property(AudioLanguage.5),flags/lang/,.png]</texture>
-                            <visible>!String.IsEmpty(ListItem.Property(AudioLanguage.5))</visible>
-                        </control>
-                        <control type="image">
-                            <width>28</width>
-                            <height>28</height>
-                            <texture>$INFO[ListItem.Property(SubtitleLanguage.1),flags/lang/,.png]</texture>
-                            <visible>!String.IsEmpty(ListItem.Property(SubtitleLanguage.1))</visible>
-                            <colordiffuse>ff777777</colordiffuse>
-                        </control>
-                        <control type="image">
-                            <width>28</width>
-                            <height>28</height>
-                            <texture>$INFO[ListItem.Property(SubtitleLanguage.2),flags/lang/,.png]</texture>
-                            <visible>!String.IsEmpty(ListItem.Property(SubtitleLanguage.2))</visible>
-                            <colordiffuse>ff777777</colordiffuse>
-                        </control>
-                        <control type="image">
-                            <width>28</width>
-                            <height>28</height>
-                            <texture>$INFO[ListItem.Property(SubtitleLanguage.3),flags/lang/,.png]</texture>
-                            <visible>!String.IsEmpty(ListItem.Property(SubtitleLanguage.3))</visible>
-                            <colordiffuse>ff777777</colordiffuse>
-                        </control>
-                        <control type="image">
-                            <width>28</width>
-                            <height>28</height>
-                            <texture>$INFO[ListItem.Property(SubtitleLanguage.4),flags/lang/,.png]</texture>
-                            <visible>!String.IsEmpty(ListItem.Property(SubtitleLanguage.4))</visible>
-                            <colordiffuse>ff777777</colordiffuse>
-                        </control>
-                        <control type="image">
-                            <width>28</width>
-                            <height>28</height>
-                            <texture>$INFO[ListItem.Property(SubtitleLanguage.5),flags/lang/,.png]</texture>
-                            <visible>!String.IsEmpty(ListItem.Property(SubtitleLanguage.5))</visible>
-                            <colordiffuse>ff777777</colordiffuse>
-                        </control>
+                        <control type="grouplist">
+                            <usecontrolcoords>true</usecontrolcoords>
+                            <visible>String.IsEqual(ListItem.DBType,tvshow) + !String.IsEmpty(Window(Home).Property(TMDbHelper.ListItem.Provider.1.Icon))</visible>
+                            <orientation>horizontal</orientation>
+                            <height>48</height>                         
+                            <include content="TvShowProviderIcon"><param name="icon" value="1" /></include>
+                            <include content="TvShowProviderIcon"><param name="icon" value="2" /></include>
+                            <include content="TvShowProviderIcon"><param name="icon" value="3" /></include>
+                            <include content="TvShowProviderIcon"><param name="icon" value="4" /></include>
+                            <include content="TvShowProviderIcon"><param name="icon" value="5" /></include>
+                            <include content="TvShowProviderIcon"><param name="icon" value="6" /></include>
+                            <include content="TvShowProviderIcon"><param name="icon" value="7" /></include>
+                            <include content="TvShowProviderIcon"><param name="icon" value="8" /></include>
+                            <include content="TvShowProviderIcon"><param name="icon" value="9" /></include>
+                        </control>                        
                     </control>
                     <control type="image" description="clearlogo">
                         <fadetime>ClearArtFadetime</fadetime>
