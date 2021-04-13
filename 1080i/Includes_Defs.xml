@@ -678,25 +678,10 @@
         <value condition="String.Contains(Container(300).ListItem.Property(widget),RandomActors)">plugin://script.embuary.helper/?info=getitemsbyactor&amp;label='"$INFO[Container(301).ListItem.Label]"'</value>
     </variable>
 
-    <variable name="musiccontent">
-        <value condition="Container.Content(artists) + String.IsEqual(Window.Property(musiccontentinfo),2)">plugin://plugin.video.youtube/search/?q=$INFO[ListItem.Artist]</value>
-        <value condition="Container.Content(albums) + String.IsEqual(Window.Property(musiccontentinfo),2)">plugin://plugin.video.youtube/search/?q=$INFO[ListItem.Artist] $INFO[ListItem.Album] Album</value>
-        <value condition="Container.Content(songs) + String.IsEqual(Window.Property(musiccontentinfo),2)">plugin://plugin.video.youtube/search/?q=$INFO[ListItem.Artist] $INFO[ListItem.Title]</value>
-    </variable>
-
     <variable name="ContentMusicYoutube">
         <value condition="Container.Content(artists) + String.IsEqual(Window.Property(musicyoutube),1)">plugin://plugin.video.youtube/search/?q=$INFO[ListItem.Artist]</value>
         <value condition="Container.Content(albums) + String.IsEqual(Window.Property(musicyoutube),1)">plugin://plugin.video.youtube/search/?q=$INFO[ListItem.Artist] $INFO[ListItem.Album] Album</value>
         <value condition="Container.Content(songs) + String.IsEqual(Window.Property(musicyoutube),1)">plugin://plugin.video.youtube/search/?q=$INFO[ListItem.Artist] $INFO[ListItem.Title]</value>
-    </variable>
-
-    <variable name="ContentVideoSimilar">
-        <value condition="String.IsEqual(Window.Property(videosimilar),1) + Container.Content(tvshows)">plugin://plugin.video.themoviedb.helper?info=similar&amp;type=tv&amp;query=$INFO[ListItem.Label]</value>
-        <value condition="String.IsEqual(Window.Property(videosimilar),1) + Container.Content(movies)">plugin://plugin.video.themoviedb.helper?info=similar&amp;type=movie&amp;query=$INFO[ListItem.Label]</value>
-    </variable>
-
-    <variable name="ContentVideoStudio">
-        <value condition="String.IsEqual(Window.Property(videostudio),1)">plugin://plugin.video.themoviedb.helper?info=discover&amp;type=movie&amp;with_companies=$INFO[ListItem.Studio]</value>
     </variable>
 
     <variable name="ContentVideoYoutube">
@@ -716,6 +701,23 @@
         <value condition="String.IsEqual(Window(1105).Property(content),2)">plugin://plugin.video.themoviedb.helper?info=popular&amp;type=tv</value>
         <value condition="String.IsEqual(Window(1105).Property(content),3)">plugin://plugin.video.themoviedb.helper?info=on_the_air&amp;type=tv</value>
         <value>plugin://plugin.video.themoviedb.helper?info=airing_today&amp;type=tv</value>
+    </variable>
+    
+    <variable name="Def_Director_List">
+        <value condition="!Skin.HasSetting(extended.info.only.local)">plugin://plugin.video.themoviedb.helper/?info=crew_in_movies&amp;type=person&amp;filter_key=job&amp;filter_value=Director&amp;query=$INFO[ListItem.Director]&amp;exclude_key=title&amp;exclude_value=$INFO[ListItem.Title]&amp;nextpage=false</value>
+        <value>videodb://movies/titles/?xsp=%7b%22rules%22%3a%7b%22and%22%3a%5b%7b%22field%22%3a%22director%22%2c%22operator%22%3a%22is%22%2c%22value%22%3a%5b%22$INFO[ListItem.Director]%22%5d%7d%5d%7d%2c%22type%22%3a%22movies%22%7d</value>
+    </variable>
+    
+    <variable name="Def_Studio_List">
+        <value condition="!Skin.HasSetting(extended.info.only.local)">plugin://plugin.video.themoviedb.helper?info=discover&amp;type=movie&amp;with_companies=$INFO[Window(Home).Property(TMDBHelper.ListItem.Studio.1.TMDB_ID)]&amp;with_id=True&amp;exclude_key=title&amp;exclude_value=$INFO[ListItem.Title]&amp;nextpage=false</value>
+        <value>videodb://movies/titles/?xsp=%7b%22rules%22%3a%7b%22and%22%3a%5b%7b%22field%22%3a%22studio%22%2c%22operator%22%3a%22is%22%2c%22value%22%3a%5b%22$INFO[ListItem.Studio]%22%5d%7d%5d%7d%2c%22type%22%3a%22movies%22%7d</value>
+    </variable>
+    
+    <variable name="Def_Similar_List">        
+        <value condition="!Skin.HasSetting(extended.info.only.local) + String.IsEqual(Window.Property(videosimilar),1) + String.IsEqual(ListItem.DBType,tvshow)">plugin://plugin.video.themoviedb.helper?info=similar&amp;type=tv&amp;query=$INFO[ListItem.Label]</value>
+        <value condition="!Skin.HasSetting(extended.info.only.local) + String.IsEqual(Window.Property(videosimilar),1) + String.IsEqual(ListItem.DBType,movie)">plugin://plugin.video.themoviedb.helper?info=similar&amp;type=movie&amp;query=$INFO[ListItem.Label]</value>
+        <value condition="String.IsEqual(ListItem.DBType,movie)">plugin://script.embuary.helper/?info=getsimilar&amp;dbid=$INFO[ListItem.DBID]&amp;type=movie</value>
+        <value condition="String.IsEqual(ListItem.DBType,tvshow)">plugin://script.embuary.helper/?info=getsimilar&amp;dbid=$INFO[ListItem.DBID]&amp;type=tvshow</value>
     </variable>
 
     <include name="DefHubWindow">
@@ -3289,6 +3291,7 @@
     
     <include name="TvShowProviderIcon">
         <control type="image">
+            <top>20</top>
             <width>28</width>
             <height>28</height>
             <texture diffuse="common/box.png">$INFO[Window(Home).Property(TMDbHelper.ListItem.Provider.$PARAM[icon].Icon)]</texture>
