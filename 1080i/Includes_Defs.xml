@@ -1957,20 +1957,33 @@
     <include name="DefMultiWidgetContainer">
         <param name="height" value="$PARAM[height]" default="325"/>
         <definition>
-            <include content="def_top" condition="Skin.HasSetting(homemenu.netflix)">
+            <include content="def_top" condition="Skin.HasSetting(homemenu.netflix) + !Skin.HasSetting(home.widgets.show.reflections)">
                 <param name="top" value="440" />
             </include>
-            <include content="def_top" condition="!Skin.HasSetting(homemenu.netflix)">
+            <include content="def_top" condition="!Skin.HasSetting(homemenu.netflix) + !Skin.HasSetting(home.widgets.show.reflections)">
                 <param name="top" value="60" />
+            </include>
+            <include content="def_top" condition="Skin.HasSetting(homemenu.netflix) + Skin.HasSetting(home.widgets.show.reflections)">
+                <param name="top" value="465" />
+            </include>
+            <include content="def_top" condition="!Skin.HasSetting(homemenu.netflix) + Skin.HasSetting(home.widgets.show.reflections)">
+                <param name="top" value="50" />
             </include>            
             <left>517</left>
             <width>1900</width>
-            <include content="def_height" condition="Skin.HasSetting(homemenu.netflix)">
+            <include content="def_height" condition="Skin.HasSetting(homemenu.netflix) + !Skin.HasSetting(home.widgets.show.reflections)">
                 <param name="height" value="325" />
             </include>
-            <include content="def_height" condition="!Skin.HasSetting(homemenu.netflix)">
+            <include content="def_height" condition="!Skin.HasSetting(homemenu.netflix) + !Skin.HasSetting(home.widgets.show.reflections)">
                 <param name="height" value="$PARAM[height]" />
             </include>
+            <include content="def_height" condition="Skin.HasSetting(homemenu.netflix) + Skin.HasSetting(home.widgets.show.reflections)">
+                <param name="height" value="365" />
+            </include>
+            <include content="def_height" condition="!Skin.HasSetting(homemenu.netflix) + Skin.HasSetting(home.widgets.show.reflections)">
+                <param name="height" value="$PARAM[height2]" />
+            </include>
+            
             <height>$PARAM[height]</height>
             <include condition="!Skin.HasSetting(widgets.fade)">Animation.Vertical.Widgets.Container</include>
             <autoscroll time="$PARAM[AutoTime]" delay="1000">$PARAM[AutoScrollCondition]</autoscroll>
@@ -2122,6 +2135,10 @@
     
     <include name="def_left">
         <left>$PARAM[left]</left>
+    </include>
+    
+    <include name="def_bottom">
+        <bottom>$PARAM[bottom]</bottom>
     </include>
     
     <include name="def_font">
@@ -2566,6 +2583,7 @@
         <itemlayout height="325" width="222" condition="!String.IsEqual(Container(300).ListItem.Property(widgetaspect$PARAM[shortcutsidshort]),Banner) + !String.IsEqual(Container(300).ListItem.Property(widgetaspect$PARAM[shortcutsidshort]),Square) + ![String.IsEqual(Container(300).ListItem.Property(widgetaspect$PARAM[shortcutsidshort]),Fanart) | String.IsEqual(Container(300).ListItem.Property(widgetaspect$PARAM[shortcutsidshort]),Thumbnail)]">
             <include content="include.widget.poster">
                 <param name="id" value="$PARAM[shortcutsid]"/>
+                <param name="reflections" value="Skin.HasSetting(home.widgets.show.reflections)"/>
             </include>
         </itemlayout>
         <itemlayout height="325" width="325" condition="String.IsEqual(Container(300).ListItem.Property(widgetaspect$PARAM[shortcutsidshort]),Square)">
@@ -2573,22 +2591,26 @@
                 <param name="id" value="$PARAM[shortcutsid]"/>
                 <param name="aspectratio" value="$PARAM[aspectratio]"/>
                 <param name="distance" value="$PARAM[distance]"/>
+                <param name="reflections" value="Skin.HasSetting(home.widgets.show.reflections)"/>
             </include>
         </itemlayout>
         <itemlayout height="325" width="562" condition="String.IsEqual(Container(300).ListItem.Property(widgetaspect$PARAM[shortcutsidshort]),Fanart)">
             <include content="include.widget.fanart">
                 <param name="id" value="$PARAM[shortcutsid]"/>
+                <param name="reflections" value="Skin.HasSetting(home.widgets.show.reflections)"/>
             </include>
         </itemlayout>
         <itemlayout height="325" width="1690" condition="String.IsEqual(Container(300).ListItem.Property(widgetaspect$PARAM[shortcutsidshort]),Banner)">
             <include content="include.widget.banner">
                 <param name="id" value="$PARAM[shortcutsid]"/>
+                <param name="reflections" value="Skin.HasSetting(home.widgets.show.reflections)"/>
             </include>
         </itemlayout>
         <itemlayout height="325" width="562" condition="String.IsEqual(Container(300).ListItem.Property(widgetaspect$PARAM[shortcutsidshort]),Thumbnail)">
             <include content="include.widget.thumb">
                 <param name="clearlogo" value="$PARAM[shortcutsclearlogo]"/>
                 <param name="id" value="$PARAM[shortcutsid]"/>
+                <param name="reflections" value="Skin.HasSetting(home.widgets.show.reflections)"/>
             </include>
         </itemlayout>
     </include>
@@ -2640,6 +2662,7 @@
         <focusedlayout height="325" width="222" condition="!String.IsEqual(Container(300).ListItem.Property(widgetaspect$PARAM[shortcutsidshort]),Banner) + !String.IsEqual(Container(300).ListItem.Property(widgetaspect$PARAM[shortcutsidshort]),Square) + ![String.IsEqual(Container(300).ListItem.Property(widgetaspect$PARAM[shortcutsidshort]),Fanart) | String.IsEqual(Container(300).ListItem.Property(widgetaspect$PARAM[shortcutsidshort]),Thumbnail)]">
             <include content="include.widget.poster.focus">
                 <param name="id" value="$PARAM[shortcutsid]"/>
+                <param name="reflections" value="Skin.HasSetting(home.widgets.show.reflections)"/>
             </include>
         </focusedlayout>
         <focusedlayout height="325" width="325" condition="String.IsEqual(Container(300).ListItem.Property(widgetaspect$PARAM[shortcutsidshort]),Square)">
@@ -2647,22 +2670,26 @@
                 <param name="id" value="$PARAM[shortcutsid]"/>
                 <param name="aspectratio" value="$PARAM[aspectratio]"/>
                 <param name="distance" value="$PARAM[distance]"/>
+                <param name="reflections" value="Skin.HasSetting(home.widgets.show.reflections)"/>
             </include>
         </focusedlayout>
         <focusedlayout height="325" width="562" condition="String.IsEqual(Container(300).ListItem.Property(widgetaspect$PARAM[shortcutsidshort]),Fanart)">
             <include content="include.widget.fanart.focus">
                 <param name="id" value="$PARAM[shortcutsid]"/>
+                <param name="reflections" value="Skin.HasSetting(home.widgets.show.reflections)"/>
             </include>
         </focusedlayout>
         <focusedlayout height="325" width="1690" condition="String.IsEqual(Container(300).ListItem.Property(widgetaspect$PARAM[shortcutsidshort]),Banner)">
             <include content="include.widget.banner.focus">
                 <param name="id" value="$PARAM[shortcutsid]"/>
+                <param name="reflections" value="Skin.HasSetting(home.widgets.show.reflections)"/>
             </include>
         </focusedlayout>
         <focusedlayout height="325" width="562" condition="String.IsEqual(Container(300).ListItem.Property(widgetaspect$PARAM[shortcutsidshort]),Thumbnail)">
             <include content="include.widget.thumb.focus">
                 <param name="id" value="$PARAM[shortcutsid]"/>
                 <param name="clearlogo" value="$PARAM[shortcutsclearlogo]"/>
+                <param name="reflections" value="Skin.HasSetting(home.widgets.show.reflections)"/>
             </include>
         </focusedlayout>
     </include>
@@ -2687,12 +2714,14 @@
     </include>
 
     <include name="ClearLogoHomeImageContainer">
-        <animation effect="slide" start="0" end="0,30" time="0" condition="true">Conditional</animation>        
+        <animation effect="slide" start="0" end="0,30" time="0" condition="!Skin.HasSetting(home.widgets.show.reflections)">Conditional</animation>
+        <animation effect="slide" start="0" end="0,2" time="0" condition="Skin.HasSetting(home.widgets.show.reflections)">Conditional</animation>
         <animation effect="slide" start="0" end="0,-50" time="0" condition="$EXP[HomeIsVerticalMultiWidgets] + !Skin.HasSetting(home.oldmenuheight) + !Skin.HasSetting(submenu.compatibility)">Conditional</animation>        
         <animation effect="slide" start="0" end="-100,0" time="0" condition="$EXP[HomeIsVerticalMultiWidgets] + Skin.HasSetting(homemenu.only.icons) + Skin.HasSetting(home.showicons)">Conditional</animation>
         <animation effect="slide" start="0" end="-110,0" time="0" condition="Skin.HasSetting(home.vertical)">Conditional</animation>
         <animation effect="slide" start="0" end="50,0" time="0" condition="Skin.HasSetting(home.vertical) + Skin.HasSetting(homemenu.only.icons) + Skin.HasSetting(home.showicons)">Conditional</animation>
-        <animation effect="slide" start="0" end="0,385" time="0" condition="Integer.IsEqual(Container(301).NumItems,1) + !String.Contains(Container(300).ListItem.Property(widgetFullscreen),yes)">Conditional</animation>
+        <animation effect="slide" start="0" end="0,385" time="0" condition="!Skin.HasSetting(home.widgets.show.reflections) + Integer.IsEqual(Container(301).NumItems,1) + !String.Contains(Container(300).ListItem.Property(widgetFullscreen),yes)">Conditional</animation>
+        <animation effect="slide" start="0" end="0,415" time="0" condition="Skin.HasSetting(home.widgets.show.reflections) + Integer.IsEqual(Container(301).NumItems,1) + !String.Contains(Container(300).ListItem.Property(widgetFullscreen),yes)">Conditional</animation>
         <animation effect="slide" start="0" end="0,-28" time="0" condition="Skin.HasSetting(home.oldmenuheight) | Skin.HasSetting(submenu.compatibility)">Conditional</animation>
         <animation type="WindowClose" condition="!$EXP[HomeIsVerticalMultiWidgets]">
             <effect type="slide" start="0" end="0,250" time="150"/>
