@@ -73,7 +73,7 @@
                         <height>66</height>
                         <texture colordiffuse="Black30">$INFO[ListItem.Icon]</texture>
                         <visible>true</visible>
-                        <animation effect="fade" start="0" end="100" time="1000" delay="1000" reversible="false">Visible</animation>
+                        <animation effect="fade" start="0" end="100" time="1" delay="1" reversible="false">Visible</animation>
                     </control>
                 </itemlayout>
                 <focusedlayout width="600" height="69">
@@ -109,20 +109,37 @@
                         <top>0</top>
                         <width>66</width>
                         <height>66</height>
+                        <texture colordiffuse="Black30">$INFO[ListItem.Icon]</texture>
+                        <visible>!Control.HasFocus(4000)</visible>
+                        <animation effect="fade" start="0" end="100" time="1" delay="1" reversible="false">Visible</animation>
+                    </control>
+                    <control type="image">
+                        <right>15</right>
+                        <top>0</top>
+                        <width>66</width>
+                        <height>66</height>
                         <texture colordiffuse="Selected">$INFO[ListItem.Icon]</texture>
-                        <visible>true</visible>
-                        <animation effect="fade" start="0" end="100" time="1000" delay="1000" reversible="false">Visible</animation>
+                        <visible>Control.HasFocus(4000)</visible>
+                        <animation effect="fade" start="0" end="100" time="1" delay="1" reversible="false">Visible</animation>
                     </control>
                 </focusedlayout>
             </control>
+            <control type="button" id="4000">
+                <include>HiddenButton</include>            
+                <onup>Control.Move(211,-1)</onup>
+                <ondown>Control.Move(211,1)</ondown>
+                <onleft>9200</onleft>
+                <onright condition="Control.IsVisible(9900)">9900</onright>
+                <onright>9100</onright>
+                <onclick>Sendclick(311)</onclick>
+            </control>            
             <control type="grouplist" id="9200">
                 <left>0</left>
                 <top>117</top>
                 <width>600</width>
                 <align>right</align>
                 <itemgap>-20</itemgap>
-                <onright condition="Control.IsVisible(9900)">9900</onright>
-                <onright>9100</onright>
+                <onright>4000</onright>
                 <onup>Control.Move(211,-1)</onup>
                 <ondown>Control.Move(211,1)</ondown>
                 <orientation>horizontal</orientation>
@@ -280,15 +297,6 @@
                     <include>DefDialogButtonsGradient</include>
                     <visible>[String.IsEqual(Window.Property(groupname),mainmenu) + String.IsEmpty(Window(Home).Property(skinshortcuts-Widget))] | String.IsEqual(Window(Home).Property(Backg),yes)</visible>
                 </control>
-                <control type="button" id="311" description="Browse for Thumb">
-                    <width>100%</width>
-                    <height>66</height>
-                    <label>31181</label>
-                    <texturenofocus colordiffuse="Black12" border="5">common/box.png</texturenofocus>
-                    <align>left</align>
-                    <include>DefDialogButtonsGradient</include>
-                    <visible>String.IsEmpty(Window(Home).Property(skinshortcuts-Widget))</visible>
-                </control>
                 <control type="button" id="405" description="Set Submenu">
                     <width>100%</width>
                     <height>66</height>
@@ -403,15 +411,7 @@
                     <texturenofocus colordiffuse="Black12" border="5">common/box.png</texturenofocus>
                     <align>left</align>
                     <include>DefDialogButtonsGradient</include>
-                </control>
-                <control type="button" id="311" description="Browse for Thumb">
-                    <width>100%</width>
-                    <height>66</height>
-                    <label>31181</label>
-                    <texturenofocus colordiffuse="Black12" border="5">common/box.png</texturenofocus>
-                    <align>left</align>
-                    <include>DefDialogButtonsGradient</include>
-                </control>              
+                </control>             
                 <control type="button" id="308" description="Reset">
                     <width>100%</width>
                     <height>66</height>
@@ -1457,6 +1457,9 @@
             <visible allowhiddenfocus="true">false</visible>
         </control>
         <control type="button" id="312">
+            <visible allowhiddenfocus="true">false</visible>
+        </control>
+        <control type="button" id="311">
             <visible allowhiddenfocus="true">false</visible>
         </control>
     </controls>
