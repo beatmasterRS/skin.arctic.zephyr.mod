@@ -3,7 +3,6 @@
     <defaultcontrol always="true">401</defaultcontrol>
     <onunload>ClearProperty(Backg,Home)</onunload>    
     <onunload condition="Control.IsVisible(9900)">ClearProperty(custommenu,Home)</onunload>
-    <onunload condition="Control.IsVisible(9900)">ClearProperty(Symbols,Home)</onunload>
     <controls>
         <include>GlobalOverlay</include>
         <control type="group">
@@ -72,9 +71,9 @@
                         <top>0</top>
                         <width>66</width>
                         <height>66</height>
-                        <texture colordiffuse="Black30">$INFO[ListItem.Icon]</texture>
-                        <visible>Skin.HasSetting(home.showicons) | String.Contains(Window.Property(groupname),x111) | String.IsEqual(Window(Home).Property(Symbols),yes)</visible>
-                        <animation effect="fade" start="0" end="100" time="1000" delay="1000" reversible="false">Visible</animation>
+                        <texture colordiffuse="Black30" fallback="special://skin/extras/icons/addtile.png">$INFO[ListItem.Icon]</texture>
+                        <visible>true</visible>
+                        <animation effect="fade" start="0" end="100" time="1" delay="1" reversible="false">Visible</animation>
                     </control>
                 </itemlayout>
                 <focusedlayout width="600" height="69">
@@ -110,24 +109,42 @@
                         <top>0</top>
                         <width>66</width>
                         <height>66</height>
-                        <texture colordiffuse="Selected">$INFO[ListItem.Icon]</texture>
-                        <visible>Skin.HasSetting(home.showicons) | String.Contains(Window.Property(groupname),x111) | String.IsEqual(Window(Home).Property(Symbols),yes)</visible>
-                        <animation effect="fade" start="0" end="100" time="1000" delay="1000" reversible="false">Visible</animation>
+                        <texture colordiffuse="Black30" fallback="special://skin/extras/icons/addtile.png">$INFO[ListItem.Icon]</texture>
+                        <visible>!Control.HasFocus(4000)</visible>
+                        <animation effect="fade" start="0" end="100" time="1" delay="1" reversible="false">Visible</animation>
+                    </control>
+                    <control type="image">
+                        <right>15</right>
+                        <top>0</top>
+                        <width>66</width>
+                        <height>66</height>
+                        <texture colordiffuse="Selected" fallback="special://skin/extras/icons/addtile.png">$INFO[ListItem.Icon]</texture>
+                        <visible>Control.HasFocus(4000)</visible>
+                        <animation effect="fade" start="0" end="100" time="1" delay="1" reversible="false">Visible</animation>
                     </control>
                 </focusedlayout>
             </control>
+            <control type="button" id="4000">
+                <include>HiddenButton</include>            
+                <onup>Control.Move(211,-1)</onup>
+                <ondown>Control.Move(211,1)</ondown>
+                <onleft>304</onleft>
+                <onright condition="Control.IsVisible(9900)">9900</onright>
+                <onright>9100</onright>
+                <onclick>Sendclick(311)</onclick>
+            </control>            
             <control type="grouplist" id="9200">
                 <left>0</left>
                 <top>117</top>
                 <width>600</width>
                 <align>right</align>
                 <itemgap>-20</itemgap>
-                <onright condition="Control.IsVisible(9900)">9900</onright>
-                <onright>9100</onright>
+                <onright>4000</onright>
+                <onleft>4000</onleft>
                 <onup>Control.Move(211,-1)</onup>
                 <ondown>Control.Move(211,1)</ondown>
                 <orientation>horizontal</orientation>
-                <animation effect="slide" end="-48" condition="Skin.HasSetting(home.showicons) | String.Contains(Window.Property(groupname),x111) | String.IsEqual(Window(Home).Property(Symbols),yes)">Conditional</animation>
+                <animation effect="slide" end="-48" condition="true">Conditional</animation>
                 <animation effect="slide" end="0,69" condition="Integer.IsGreater(Container(211).Position,0)">Conditional</animation>
                 <animation effect="slide" end="0,69" condition="Integer.IsGreater(Container(211).Position,1)">Conditional</animation>
                 <animation effect="slide" end="0,69" condition="Integer.IsGreater(Container(211).Position,2)">Conditional</animation>
@@ -208,7 +225,7 @@
             </include>
             <control type="grouplist" id="9100">
                 <scrolltime>0</scrolltime>
-                <onleft>304</onleft>
+                <onleft>4000</onleft>
                 <onright>303</onright>
                 <onup>9100</onup>
                 <ondown>9100</ondown>
@@ -281,16 +298,6 @@
                     <include>DefDialogButtonsGradient</include>
                     <visible>[String.IsEqual(Window.Property(groupname),mainmenu) + String.IsEmpty(Window(Home).Property(skinshortcuts-Widget))] | String.IsEqual(Window(Home).Property(Backg),yes)</visible>
                 </control>
-                <control type="button" id="311" description="Browse for Thumb">
-                    <width>100%</width>
-                    <height>66</height>
-                    <label>31181</label>
-                    <texturenofocus colordiffuse="Black12" border="5">common/box.png</texturenofocus>
-                    <align>left</align>
-                    <include>DefDialogButtonsGradient</include>
-                    <visible>String.Contains(Window.Property(groupname),x111) | Skin.HasSetting(home.showicons) | [String.IsEqual(Window(Home).Property(Symbols),yes) + !Control.IsVisible(405)]</visible>
-                    <visible>String.IsEmpty(Window(Home).Property(skinshortcuts-Widget))</visible>
-                </control>
                 <control type="button" id="405" description="Set Submenu">
                     <width>100%</width>
                     <height>66</height>
@@ -301,8 +308,6 @@
                     <include>DefDialogButtonsGradient</include>
                     <visible>!String.IsEqual(Container(211).ListItem.Label2,MovieHub) + !String.IsEqual(Container(211).ListItem.Label2,TVHub)</visible>
                     <visible>String.IsEmpty(Window(Home).Property(skinshortcuts-Widget))</visible>
-                    <onclick condition="String.IsEqual(Container(211).ListItem.Property(widget),mysubmenu)">SetProperty(Symbols,yes,Home)</onclick>
-                    <onclick condition="!String.IsEqual(Container(211).ListItem.Property(widget),mysubmenu)">ClearProperty(Symbols,Home)</onclick>
                 </control>                
                 <include content="Defs_Shortcuts_SetHub">
                     <param name="hubid" value="1111"/>
@@ -362,7 +367,7 @@
             <!-- Custom Widget Configuration -->
             <control type="grouplist" id="9900">
                 <scrolltime>0</scrolltime>
-                <onleft>304</onleft>
+                <onleft>4000</onleft>
                 <onright>303</onright>
                 <onup>9100</onup>
                 <ondown>9100</ondown>
@@ -407,15 +412,7 @@
                     <texturenofocus colordiffuse="Black12" border="5">common/box.png</texturenofocus>
                     <align>left</align>
                     <include>DefDialogButtonsGradient</include>
-                </control>
-                <control type="button" id="311" description="Browse for Thumb">
-                    <width>100%</width>
-                    <height>66</height>
-                    <label>31181</label>
-                    <texturenofocus colordiffuse="Black12" border="5">common/box.png</texturenofocus>
-                    <align>left</align>
-                    <include>DefDialogButtonsGradient</include>
-                </control>              
+                </control>             
                 <control type="button" id="308" description="Reset">
                     <width>100%</width>
                     <height>66</height>
@@ -463,7 +460,6 @@
                     <visible>String.IsEqual(Window(Home).Property(skinshortcuts-Widget),1) + String.IsEqual(Container(211).ListItem.Property(widget),custom)</visible>
                     <onclick>SetProperty(Backg,yes,Home)</onclick>
                     <onclick>SetProperty(custommenu,yes,Home)</onclick>
-                    <onclick>SetProperty(Symbols,yes,Home)</onclick>
                 </control>                    
                 <control type="radiobutton" id="10030" description="Widget Aspect">
                     <radioposx>845</radioposx>
@@ -656,7 +652,6 @@
                     <visible>String.IsEqual(Window(Home).Property(skinshortcuts-Widget),2) + String.IsEqual(Container(211).ListItem.Property(widget.2),custom)</visible>
                     <onclick>SetProperty(Backg,yes,Home)</onclick>
                     <onclick>SetProperty(custommenu,yes,Home)</onclick>
-                    <onclick>SetProperty(Symbols,yes,Home)</onclick>
                 </control>
                 <control type="radiobutton" id="10031" description="Widget Aspect">
                     <radioposx>845</radioposx>
@@ -826,7 +821,6 @@
                     <visible>String.IsEqual(Window(Home).Property(skinshortcuts-Widget),3) + String.IsEqual(Container(211).ListItem.Property(widget.3),custom)</visible>
                     <onclick>SetProperty(Backg,yes,Home)</onclick>
                     <onclick>SetProperty(custommenu,yes,Home)</onclick>
-                    <onclick>SetProperty(Symbols,yes,Home)</onclick>
                 </control>
                 <control type="radiobutton" id="10032" description="Widget Aspect">
                     <radioposx>845</radioposx>
@@ -997,7 +991,6 @@
                     <visible>String.IsEqual(Window(Home).Property(skinshortcuts-Widget),4) + String.IsEqual(Container(211).ListItem.Property(widget.4),custom)</visible>
                     <onclick>SetProperty(Backg,yes,Home)</onclick>
                     <onclick>SetProperty(custommenu,yes,Home)</onclick>
-                    <onclick>SetProperty(Symbols,yes,Home)</onclick>
                 </control>
                 <control type="radiobutton" id="10033" description="Widget Aspect">
                     <radioposx>845</radioposx>
@@ -1169,7 +1162,6 @@
                     <visible>String.IsEqual(Window(Home).Property(skinshortcuts-Widget),5) + String.IsEqual(Container(211).ListItem.Property(widget.5),custom)</visible>
                     <onclick>SetProperty(Backg,yes,Home)</onclick>
                     <onclick>SetProperty(custommenu,yes,Home)</onclick>
-                    <onclick>SetProperty(Symbols,yes,Home)</onclick>
                 </control>
                 <control type="radiobutton" id="10034" description="Widget Aspect">
                     <radioposx>845</radioposx>
@@ -1341,7 +1333,6 @@
                     <visible>String.IsEqual(Window(Home).Property(skinshortcuts-Widget),6) + String.IsEqual(Container(211).ListItem.Property(widget.6),custom)</visible>
                     <onclick>SetProperty(Backg,yes,Home)</onclick>
                     <onclick>SetProperty(custommenu,yes,Home)</onclick>
-                    <onclick>SetProperty(Symbols,yes,Home)</onclick>
                     <onclick>SetProperty(level,6)</onclick>
                     <onclick>SendClick(405)</onclick>
                 </control>
@@ -1467,6 +1458,9 @@
             <visible allowhiddenfocus="true">false</visible>
         </control>
         <control type="button" id="312">
+            <visible allowhiddenfocus="true">false</visible>
+        </control>
+        <control type="button" id="311">
             <visible allowhiddenfocus="true">false</visible>
         </control>
     </controls>
