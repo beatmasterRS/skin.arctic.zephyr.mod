@@ -1,0 +1,123 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Foundation -->
+<includes>
+
+    <include name="523Content">
+        <visible>Container.Content(artists) | Container.Content(albums) | Container.Content(songs)</visible>
+        <include content="forced_view" condition="Skin.HasSetting(enable.forcedviews)">
+            <param name="string" value="$LOCALIZE[37971] $LOCALIZE[2]" />
+        </include>
+        <include content="def_top" condition="!Skin.HasSetting(home.widgets.show.reflections)">
+            <param name="top" value="568" />
+        </include>
+        <include content="def_top" condition="Skin.HasSetting(home.widgets.show.reflections)">
+            <param name="top" value="556" />
+        </include>
+        <left>-250</left>
+        <width>2275</width>
+        <height>365</height>
+        <onup condition="!Skin.HasSetting(global.kioskmode)">9000</onup>
+        <ondown>1644</ondown>
+        <orientation>horizontal</orientation>
+        <preloaditems>2</preloaditems>
+        <pagecontrol>1644</pagecontrol>
+        <focusposition>1</focusposition>
+        <viewtype label="$LOCALIZE[37971] $LOCALIZE[2]">list</viewtype>
+        <include>ScrolltimeViewsList</include>
+        <itemlayout height="325" width="325">
+            <include content="include.widget.square">
+                <param name="id" value="523"/>
+                <param name="distance" value="10"/>
+                <param name="reflections" value="Skin.HasSetting(show.reflections)"/>
+                <param name="aspectratio" value="scale"/>
+            </include>
+        </itemlayout>
+        <focusedlayout height="325" width="325">
+            <include content="include.widget.square.focus">
+                <param name="id" value="523"/>
+                <param name="distance" value="10"/>
+                <param name="reflections" value="Skin.HasSetting(show.reflections)"/>
+                <param name="aspectratio" value="scale"/>
+            </include>
+        </focusedlayout>
+    </include>
+
+    <include name="523Wrap">
+        <control type="wraplist" id="523">
+            <include>523Content</include>
+        </control>
+    </include>
+
+    <include name="523Fixed">
+        <control type="fixedlist" id="523">
+            <include>523Content</include>
+        </control>
+    </include>
+
+    <include name="View_523_Minimal_V2_Music">
+        <description>List View (id=523)</description>
+        <control type="group">
+            <include>Animation.Common</include>
+            <visible>Control.IsVisible(523)</visible>
+            <include>View_523_Minimal_V2_Content_Music</include>
+            <control type="scrollbar" id="1644">
+                <bottom>180</bottom>
+                <include content="scrollbar_hor">
+                    <param name="showscroll" value="Skin.HasSetting(ShowScrollbar523)" />
+                    <param name="scrollid" value="1644"/>
+                    <param name="jumpbar" value="false"/>
+                </include>
+            </control>
+            <control type="list" id="5231">
+                <include>HiddenListControl</include>
+                <content>$INFO[Container(523).ListItem.DBID,musicdb://artists/,/]</content>
+            </control>
+            <include condition="!Skin.HasSetting(523poster.nowrap)">523Wrap</include>
+            <include condition="Skin.HasSetting(523poster.nowrap)">523Fixed</include>
+        </control>
+    </include>
+    
+    <include name="View_523_Minimal_V2_Content_Music">
+        <control type="group">
+            <left>SidePad</left>
+            <include content="def_top" condition="!Skin.HasSetting(home.widgets.show.reflections)">
+                <param name="top" value="195" />
+            </include>
+            <include content="def_top" condition="Skin.HasSetting(home.widgets.show.reflections)">
+                <param name="top" value="191" />
+            </include>
+            <width>800</width>
+            <control type="label">
+                <textcolor>Dark1</textcolor>
+                <font>SmallBold</font>
+                <label fallback="19055">$INFO[ListItem.Label]</label>
+                <include condition="Skin.HasSetting(views.label.autoscroll)">LabelScroll</include>
+            </control>            
+            <control type="grouplist">
+                <top>40</top>
+                <orientation>vertical</orientation>
+                <itemgap>0</itemgap>
+                <control type="label">
+                    <font>Tiny</font>
+                    <textcolor>Dark1</textcolor>
+                    <selectedcolor>Dark1</selectedcolor>
+                    <label>$VAR[LabelMusicTagline]</label>
+                </control>
+                <control type="textbox">
+                    <font>Tiny</font>
+                    <height min="36" max="180">auto</height>
+                    <textcolor>Dark2</textcolor>
+                    <selectedcolor>Dark2</selectedcolor>
+                    <label>$VAR[LabelArtistAlbumDescription]</label>
+                    <visible>[!String.IsEmpty(ListItem.Property(Artist_Description)) | !String.IsEmpty(ListItem.Property(Album_Description))] + !String.IsEqual(ListItem.DBTYPE,song)</visible>
+                </control>
+                <control type="label">
+                    <font>Tiny</font>
+                    <textcolor>Dark2</textcolor>
+                    <selectedcolor>Dark2</selectedcolor>
+                    <label>$VAR[LabelMusicSubline]</label>
+                </control>
+            </control>                
+        </control>
+    </include>
+</includes>
