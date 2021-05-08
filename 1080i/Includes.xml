@@ -42,6 +42,7 @@
     <include file="View_516_SeasonsInfo.xml"/>
     <include file="View_519_Shift_Modern.xml"/>
     <include file="View_521_Minimal_V2.xml"/>
+    <include file="View_523_Minimal_V2_Music.xml"/>
     <include file="View_522_Minimal_V2_Episodes.xml"/>
     <include file="Includes_Furniture.xml"/>
     <include file="Includes_Home.xml"/>
@@ -692,7 +693,7 @@
 
         <!-- Netflix Preview Window -->
         <control type="multiimage" description="Fanart">
-            <visible>[[Window.IsVisible(Home.xml) + Skin.HasSetting(homemenu.netflix) + Skin.HasSetting(homemenu.netflix.preview) + [$EXP[HomeIsModernMultiWidgets] | $EXP[HomeIsVerticalMultiWidgets]]] | [Control.IsVisible(510) | Control.IsVisible(520) | Control.IsVisible(521) | Control.IsVisible(522)]] + !Window.IsVisible(DialogVideoInfo.xml) + !Window.IsVisible(DialogMusicInfo.xml) + !Window.IsVisible(DialogAddonInfo.xml) + !Window.IsVisible(DialogPVRInfo.xml) + !Window.IsVisible(skin.arctic.zephyr.mod.script-gto-info.xml)</visible>
+            <visible>[[Window.IsVisible(Home.xml) + Skin.HasSetting(homemenu.netflix) + !Skin.HasSetting(hide.homemenu.netflix.preview) + [$EXP[HomeIsModernMultiWidgets] | $EXP[HomeIsVerticalMultiWidgets]]] | [Control.IsVisible(510) | Control.IsVisible(520) | Control.IsVisible(521) | Control.IsVisible(522) | Control.IsVisible(523)]] + !Window.IsVisible(DialogVideoInfo.xml) + !Window.IsVisible(DialogMusicInfo.xml) + !Window.IsVisible(DialogAddonInfo.xml) + !Window.IsVisible(DialogPVRInfo.xml) + !Window.IsVisible(skin.arctic.zephyr.mod.script-gto-info.xml)</visible>
             <visible>!Player.HasMedia | [!Skin.HasSetting(global.showvideo) + Player.HasVideo] | [!Skin.HasSetting(global.showvisualisation) + Player.HasAudio]</visible>
             <visible>!Skin.HasSetting(global.hidefanart) | Window.IsVisible(home)</visible>
             <include>Animation.FadeFromHome</include>            
@@ -710,7 +711,7 @@
             <timeperimage>HomeTimePerImage</timeperimage>
             <randomize>true</randomize>
             <aspectratio>scale</aspectratio>
-            <include condition="Skin.HasSetting(homemenu.netflix.preview.fullscreen) + Skin.HasSetting(homemenu.netflix.preview) + Skin.HasSetting(BlurEnabled) + Skin.HasSetting(BlurOnHome)">NetflixPreviewWindowFullscreen</include>
+            <include condition="Skin.HasSetting(homemenu.netflix.preview.fullscreen) + !Skin.HasSetting(hide.homemenu.netflix.preview) + Skin.HasSetting(BlurEnabled) + Skin.HasSetting(BlurOnHome)">NetflixPreviewWindowFullscreen</include>
             <include condition="!Skin.HasSetting(homemenu.netflix.preview.fullscreen) | [!Skin.HasSetting(BlurEnabled) | [Skin.HasSetting(BlurEnabled) + !Skin.HasSetting(BlurOnHome)]]">NetflixPreviewWindow</include>
             <animation effect="zoom" start="110" end="120" center="auto" time="10000" tween="sine" easing="inout" pulse="true" condition="Skin.HasSetting(Fanart.Animate)">Conditional</animation>
             <animation effect="slide" start="-20,-20" end="20,20" time="6000" tween="sine" easing="inout" pulse="true" condition="Skin.HasSetting(Fanart.Animate)">Conditional</animation>
@@ -1391,6 +1392,7 @@
             <onup condition="String.IsEqual(Window.Property(moviecontent),3)">9503</onup>
             <onup condition="String.IsEqual(Window.Property(moviecontent),4)">9504</onup>
             <onup condition="String.IsEqual(Window.Property(moviecontent),7)">9506</onup>
+            <onup condition="String.IsEqual(Window.Property(moviecontent),8)">9515</onup>
             <onup condition="String.IsEqual(Window.Property(moviecontent),10)">9560</onup>
             <onup condition="String.IsEqual(Window.Property(moviecontent),5) + Integer.IsGreater(Container(9505).NumItems,0)">95051</onup>
             <onup condition="String.IsEqual(Window.Property(moviecontent),6)">7011</onup>
@@ -1614,6 +1616,17 @@
                 </include>
                 <visible>Skin.HasSetting(showbutton.video.director)</visible>
             </control>
+            <control type="radiobutton" id="9015">
+                <visible>String.IsEqual(ListItem.DBType,movie)</visible>
+                <onfocus condition="!String.IsEqual(Window.Property(moviecontent),6)">ClearProperty(moviecontent)</onfocus>
+                <onfocus>ClearProperty(ShowDisc)</onfocus>
+                <onfocus>SetProperty(moviecontent,8)</onfocus>
+                <include>buttondimensions</include>
+                <include content="buttontextures">
+                    <param name="icon" value="buttonsdialogs/set.png"/>
+                </include>
+                <visible>Skin.HasSetting(showbutton.video.set) + !String.IsEmpty(ListItem.SetId)</visible>
+            </control>
             <control type="radiobutton" id="9004">
                 <visible>String.IsEqual(ListItem.DBType,movie) | String.IsEqual(ListItem.DBType,tvshow)</visible>
                 <onfocus condition="!String.IsEqual(Window.Property(moviecontent),4)">ClearProperty(moviecontent)</onfocus>
@@ -1685,6 +1698,7 @@
             <control type="radiobutton" id="9002">
                 <onfocus condition="!String.IsEqual(Window.Property(actinfo),1)">ClearProperty(actinfo)</onfocus>
                 <onfocus>SetProperty(actinfo,1)</onfocus>
+                <onfocus>SetProperty(extendedtype,movie,home)</onfocus>
                 <include>buttondimensions</include>
                 <include content="buttontextures">
                     <param name="icon" value="buttonsdialogs/trailer.png"/>
@@ -1693,6 +1707,7 @@
             <control type="radiobutton" id="9003">
                 <onfocus condition="!String.IsEqual(Window.Property(actinfo),2)">ClearProperty(actinfo)</onfocus>
                 <onfocus>SetProperty(actinfo,2)</onfocus>
+                <onfocus>SetProperty(extendedtype,tv,home)</onfocus>
                 <include>buttondimensions</include>
                 <include content="buttontextures">
                     <param name="icon" value="buttonsdialogs/tvshows.png"/>
@@ -1735,11 +1750,13 @@
             <orientation>horizontal</orientation>
             <control type="radiobutton" id="8">
                 <onfocus>ClearProperty(videoinfo)</onfocus>
-                <visible>[!String.IsEmpty(Container(10051).ListItem.DBID) + !String.IsEmpty(Container(10051).ListItem.Property(file)) + !String.IsEqual(Container(10051).ListItem.Property(call),tv)] | [!String.IsEmpty(Container(10051).ListItem.DBID) + String.IsEqual(Container(10051).ListItem.Property(call),tv)]</visible>
-                <onclick condition="[!String.IsEmpty(Container(10051).ListItem.DBID) + !String.IsEmpty(Container(10051).ListItem.Property(file)) + !String.IsEqual(Container(10051).ListItem.Property(call),tv)]">PlayMedia($INFO[Container(10051).ListItem.Property(file)])</onclick>
-                <onclick condition="!Window.IsVisible(MyVideoNav.xml) + [!String.IsEmpty(Container(10051).ListItem.DBID) + String.IsEqual(Container(10051).ListItem.Property(call),tv)]">ActivateWindow(videos,videodb://tvshows/titles/$INFO[Container(10051).ListItem.DBID]/,return)</onclick>
-                <onclick condition="Window.IsVisible(MyVideoNav.xml) + [!String.IsEmpty(Container(10051).ListItem.DBID) + String.IsEqual(Container(10051).ListItem.Property(call),tv)]">Container.Update(videodb://tvshows/titles/$INFO[Container(10051).ListItem.DBID]/)</onclick>
+                <visible>[!String.IsEmpty(Container(10051).ListItem.DBID) + !String.IsEmpty(Container(10051).ListItem.Property(file)) + !String.IsEqual(Container(10051).ListItem.Property(call),tv)] | [!String.IsEmpty(Container(10051).ListItem.DBID) + String.IsEqual(Container(10051).ListItem.Property(call),tv)] | [Skin.HasSetting(extended.info.override.play)]</visible>
+                <onclick condition="[!String.IsEmpty(Container(10051).ListItem.DBID) + !String.IsEmpty(Container(10051).ListItem.Property(file)) + !String.IsEqual(Container(10051).ListItem.Property(call),tv)] + !Skin.HasSetting(extended.info.override.play)">PlayMedia($INFO[Container(10051).ListItem.Property(file)])</onclick>
+                <onclick condition="!Window.IsVisible(MyVideoNav.xml) + [!String.IsEmpty(Container(10051).ListItem.DBID) + String.IsEqual(Container(10051).ListItem.Property(call),tv)] + !Skin.HasSetting(extended.info.override.play)">ActivateWindow(videos,videodb://tvshows/titles/$INFO[Container(10051).ListItem.DBID]/,return)</onclick>
+                <onclick condition="Window.IsVisible(MyVideoNav.xml) + [!String.IsEmpty(Container(10051).ListItem.DBID) + String.IsEqual(Container(10051).ListItem.Property(call),tv)] + !Skin.HasSetting(extended.info.override.play)">Container.Update(videodb://tvshows/titles/$INFO[Container(10051).ListItem.DBID]/)</onclick>
+                <onclick condition="!String.IsEmpty(Container(90051).ListItem.Property(TMDb_ID)) + Skin.HasSetting(extended.info.override.play)">RunPlugin(plugin://plugin.video.themoviedb.helper?info=play&amp;tmdb_id=$INFO[Container(90051).ListItem.Property(TMDb_ID)]&amp;type=movie)</onclick>
                 <onclick>Dialog.Close(all)</onclick>
+                <enable>[!String.IsEmpty(Container(90051).ListItem.Property(TMDb_ID)) + Skin.HasSetting(extended.info.override.play)] | !Skin.HasSetting(extended.info.override.play)</enable>
                 <include>buttondimensions</include>
                 <include content="buttontextures">
                     <param name="icon" value="buttonsdialogs/play.png"/>

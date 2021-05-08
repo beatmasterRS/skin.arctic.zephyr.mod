@@ -165,6 +165,7 @@
             <width>640</width>
             <orientation>vertical</orientation>
             <top>425</top>
+            <bottom>98</bottom>
             <itemgap>18</itemgap>
             <animation effect="slide" start="0,0" end="0,-130" time="150" condition="VideoPlayer.Content(LiveTV)">Conditional</animation>
 
@@ -384,24 +385,13 @@
 
             <!-- PLOT -->
             <control type="textbox" description="Plot">
-                <visible>Skin.HasSetting(furniture.flagiconsosd)</visible>
                 <width>100%</width>
-                <height>360</height>
+                <height max="540">auto</height>
                 <font>Tiny</font>
                 <align>left</align>
                 <textcolor>$VAR[OSDPanelWhite30]</textcolor>
                 <label fallback="19055">$VAR[PlayerPlotBox]</label>
                 <autoscroll delay="10000" time="4000" repeat="10000">[Window.IsActive(videoosd) | Window.IsActive(DialogFullScreenInfo.xml)] + System.IdleTime(1)</autoscroll>
-            </control>
-            <control type="textbox" description="Plot">
-                <animation effect="slide" start="0,0" end="0,10" time="150" condition="true">Conditional</animation>
-                <visible>!Skin.HasSetting(furniture.flagiconsosd)</visible>
-                <width>100%</width>
-                <height>430</height>
-                <font>Tiny</font>
-                <align>left</align>
-                <textcolor>$VAR[OSDPanelWhite30]</textcolor>
-                <label fallback="19055">$VAR[PlayerPlotBox]</label>
             </control>
         </control>
         <control type="group">
@@ -1456,6 +1446,19 @@
             <texturefocus colordiffuse="$VAR[ColorHighlight]">osd/timeline.png</texturefocus>
             <texturenofocus colordiffuse="Dark1">osd/timeline.png</texturenofocus>
             <onclick>ActivateWindow(pvrchannelguide)</onclick>
+        </control>
+        <control type="button" id="33">
+            <description>Settings</description>
+            <width>48</width>
+            <height>48</height>
+            <label/>
+            <font>noop</font>
+            <include>DefOSDUpDown</include>
+            <texturefocus colordiffuse="$VAR[ColorHighlight]" flipx="true">osd/teletext.png</texturefocus>
+            <texturenofocus colordiffuse="Dark1" flipx="true">osd/teletext.png</texturenofocus>
+            <onclick>Dialog.Close(VideoOSD)</onclick>
+            <onclick>ActivateWindow(Teletext)</onclick>
+            <visible>VideoPlayer.HasTeletext</visible>
         </control>        
         <control type="button" id="6">
             <width>48</width>
@@ -1824,13 +1827,13 @@
             <include>DefOSDUpDown</include>
             <texturefocus colordiffuse="$VAR[ColorHighlight]" flipx="true">osd/record.png</texturefocus>
             <texturenofocus colordiffuse="Dark1" flipx="true">osd/record.png</texturenofocus>
-            <usealttexture>Player.Recording</usealttexture>
+            <usealttexture>Pvr.IsRecordingPlayingChannel</usealttexture>
             <alttexturefocus colordiffuse="$VAR[ColorHighlight]" flipx="true">osd/record-on.png</alttexturefocus>
             <alttexturenofocus colordiffuse="Dark1" flipx="true">osd/record-on.png</alttexturenofocus>
-            <onclick>PlayerControl(Record)</onclick>
-            <enable>Player.CanRecord</enable>
+            <onclick>PVR.ToggleRecordPlayingChannel</onclick>
+            <enable>PVR.CanRecordPlayingChannel</enable>
             <visible>VideoPlayer.Content(LiveTV)</visible>
-            <animation effect="fade" start="100" end="33" time="100" condition="!Player.CanRecord">Conditional</animation>
+            <animation effect="fade" start="100" end="33" time="100" condition="!PVR.CanRecordPlayingChannel">Conditional</animation>
         </control>
         <control type="button" id="12">
             <description>Skip Back</description>
@@ -1942,6 +1945,19 @@
             <texturenofocus colordiffuse="Dark1">osd/plot.png</texturenofocus>
             <onclick>SetFocus(9601)</onclick>
         </control>
+        <control type="button" id="32">
+            <description>Settings</description>
+            <width>48</width>
+            <height>48</height>
+            <label/>
+            <font>noop</font>
+            <include>DefOSDUpDown</include>
+            <texturefocus colordiffuse="$VAR[ColorHighlight]" flipx="true">osd/teletext.png</texturefocus>
+            <texturenofocus colordiffuse="Dark1" flipx="true">osd/teletext.png</texturenofocus>
+            <onclick>Dialog.Close(VideoOSD)</onclick>
+            <onclick>ActivateWindow(Teletext)</onclick>
+            <visible>VideoPlayer.HasTeletext</visible>
+        </control>
         <control type="button" id="19">
             <description>Settings</description>
             <width>48</width>
@@ -1966,13 +1982,13 @@
             <include>DefOSDUpDown</include>
             <texturefocus colordiffuse="$VAR[ColorHighlight]" flipx="true">osd/record.png</texturefocus>
             <texturenofocus colordiffuse="$VAR[OSDPanelWhite30]" flipx="true">osd/record.png</texturenofocus>
-            <usealttexture>Player.Recording</usealttexture>
+            <usealttexture>Pvr.IsRecordingPlayingChannel</usealttexture>
             <alttexturefocus colordiffuse="$VAR[ColorHighlight]" flipx="true">osd/record-on.png</alttexturefocus>
             <alttexturenofocus colordiffuse="$VAR[OSDPanelWhite30]" flipx="true">osd/record-on.png</alttexturenofocus>
-            <onclick>PlayerControl(Record)</onclick>
-            <enable>Player.CanRecord</enable>
+            <onclick>PVR.ToggleRecordPlayingChannel</onclick>
+            <enable>PVR.CanRecordPlayingChannel</enable>
             <visible>VideoPlayer.Content(LiveTV)</visible>
-            <animation effect="fade" start="100" end="33" time="100" condition="!Player.CanRecord">Conditional</animation>
+            <animation effect="fade" start="100" end="33" time="100" condition="!PVR.CanRecordPlayingChannel">Conditional</animation>
         </control>
         <control type="button" id="12">
             <description>Skip Back</description>
@@ -2081,6 +2097,19 @@
             <texturefocus colordiffuse="$VAR[ColorHighlight]">osd/plot.png</texturefocus>
             <texturenofocus colordiffuse="$VAR[OSDPanelWhite30]">osd/plot.png</texturenofocus>
             <onclick>SetFocus(9601)</onclick>
+        </control>
+        <control type="button" id="31">
+            <description>Settings</description>
+            <width>48</width>
+            <height>48</height>
+            <label/>
+            <font>noop</font>
+            <include>DefOSDUpDown</include>
+            <texturefocus colordiffuse="$VAR[ColorHighlight]" flipx="true">osd/teletext.png</texturefocus>
+            <texturenofocus colordiffuse="Dark1" flipx="true">osd/teletext.png</texturenofocus>
+            <onclick>Dialog.Close(VideoOSD)</onclick>
+            <onclick>ActivateWindow(Teletext)</onclick>
+            <visible>VideoPlayer.HasTeletext</visible>
         </control>
         <control type="button" id="19">
             <description>Settings</description>

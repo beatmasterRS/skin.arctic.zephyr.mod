@@ -477,6 +477,19 @@
         <texturefocus colordiffuse="$VAR[ColorHighlight]">common/white.png</texturefocus>
         <alttexturefocus colordiffuse="$VAR[ColorHighlight]">common/white.png</alttexturefocus>
     </include>
+    
+    <include name="DefContextMenuLabel">
+        <enable>false</enable>
+        <textoffsetx>30</textoffsetx>
+        <font>Button</font>
+        <textcolor>PanelWhite30</textcolor>
+        <align>left</align>
+        <width>1310</width>
+        <disabledcolor>PanelWhite30</disabledcolor>
+        <height>70</height>
+        <texturefocus colordiffuse="$VAR[ColorHighlight]">common/white.png</texturefocus>
+        <alttexturefocus colordiffuse="$VAR[ColorHighlight]">common/white.png</alttexturefocus>
+    </include>
 
     <include name="DefSettingsButtonLabelInfo">
         <align>center</align>
@@ -678,25 +691,10 @@
         <value condition="String.Contains(Container(300).ListItem.Property(widget),RandomActors)">plugin://script.embuary.helper/?info=getitemsbyactor&amp;label='"$INFO[Container(301).ListItem.Label]"'</value>
     </variable>
 
-    <variable name="musiccontent">
-        <value condition="Container.Content(artists) + String.IsEqual(Window.Property(musiccontentinfo),2)">plugin://plugin.video.youtube/search/?q=$INFO[ListItem.Artist]</value>
-        <value condition="Container.Content(albums) + String.IsEqual(Window.Property(musiccontentinfo),2)">plugin://plugin.video.youtube/search/?q=$INFO[ListItem.Artist] $INFO[ListItem.Album] Album</value>
-        <value condition="Container.Content(songs) + String.IsEqual(Window.Property(musiccontentinfo),2)">plugin://plugin.video.youtube/search/?q=$INFO[ListItem.Artist] $INFO[ListItem.Title]</value>
-    </variable>
-
     <variable name="ContentMusicYoutube">
         <value condition="Container.Content(artists) + String.IsEqual(Window.Property(musicyoutube),1)">plugin://plugin.video.youtube/search/?q=$INFO[ListItem.Artist]</value>
         <value condition="Container.Content(albums) + String.IsEqual(Window.Property(musicyoutube),1)">plugin://plugin.video.youtube/search/?q=$INFO[ListItem.Artist] $INFO[ListItem.Album] Album</value>
         <value condition="Container.Content(songs) + String.IsEqual(Window.Property(musicyoutube),1)">plugin://plugin.video.youtube/search/?q=$INFO[ListItem.Artist] $INFO[ListItem.Title]</value>
-    </variable>
-
-    <variable name="ContentVideoSimilar">
-        <value condition="String.IsEqual(Window.Property(videosimilar),1) + Container.Content(tvshows)">plugin://plugin.video.themoviedb.helper?info=similar&amp;type=tv&amp;query=$INFO[ListItem.Label]</value>
-        <value condition="String.IsEqual(Window.Property(videosimilar),1) + Container.Content(movies)">plugin://plugin.video.themoviedb.helper?info=similar&amp;type=movie&amp;query=$INFO[ListItem.Label]</value>
-    </variable>
-
-    <variable name="ContentVideoStudio">
-        <value condition="String.IsEqual(Window.Property(videostudio),1)">plugin://plugin.video.themoviedb.helper?info=discover&amp;type=movie&amp;with_companies=$INFO[ListItem.Studio]</value>
     </variable>
 
     <variable name="ContentVideoYoutube">
@@ -716,6 +714,48 @@
         <value condition="String.IsEqual(Window(1105).Property(content),2)">plugin://plugin.video.themoviedb.helper?info=popular&amp;type=tv</value>
         <value condition="String.IsEqual(Window(1105).Property(content),3)">plugin://plugin.video.themoviedb.helper?info=on_the_air&amp;type=tv</value>
         <value>plugin://plugin.video.themoviedb.helper?info=airing_today&amp;type=tv</value>
+    </variable>
+    
+    <variable name="Def_Director_List">
+        <value condition="!Skin.HasSetting(extended.info.only.local)">plugin://plugin.video.themoviedb.helper/?info=crew_in_movies&amp;type=person&amp;filter_key=job&amp;filter_value=Director&amp;query=$INFO[ListItem.Director]&amp;exclude_key=title&amp;exclude_value=$INFO[ListItem.Title]&amp;nextpage=false</value>
+        <value>videodb://movies/titles/?xsp=%7b%22rules%22%3a%7b%22and%22%3a%5b%7b%22field%22%3a%22director%22%2c%22operator%22%3a%22is%22%2c%22value%22%3a%5b%22$INFO[ListItem.Director]%22%5d%7d%5d%7d%2c%22type%22%3a%22movies%22%7d</value>
+    </variable>
+
+    <variable name="Def_Director_Item">
+        <value condition="!Skin.HasSetting(extended.info.only.local)">RunScript(script.embuary.info,call=movie,query=$INFO[Container(9506).ListItem.Label])</value>
+        <value>RunScript(script.embuary.info,call=movie,dbid=$INFO[ListItem.DBID])</value>
+    </variable>
+    
+    <variable name="Def_Set_List">
+        <value condition="!Skin.HasSetting(extended.info.only.local)">plugin://plugin.video.themoviedb.helper/?info=collection&amp;type=movie&amp;query=$INFO[ListItem.Set]&amp;nextpage=false</value>
+        <value>videodb://movies/titles/?xsp=%7b%22rules%22%3a%7b%22and%22%3a%5b%7b%22field%22%3a%22set%22%2c%22operator%22%3a%22is%22%2c%22value%22%3a%5b%22$INFO[ListItem.Set]%22%5d%7d%5d%7d%2c%22type%22%3a%22movies%22%7d</value>
+    </variable>
+
+    <variable name="Def_Set_Item">
+        <value condition="!Skin.HasSetting(extended.info.only.local)">RunScript(script.embuary.info,call=movie,query=$INFO[Container(9515).ListItem.Label])</value>
+        <value>RunScript(script.embuary.info,call=movie,dbid=$INFO[ListItem.DBID])</value>
+    </variable>
+
+    <variable name="Def_Studio_List">
+        <value condition="!Skin.HasSetting(extended.info.only.local)">plugin://plugin.video.themoviedb.helper?info=discover&amp;type=movie&amp;with_companies=$INFO[Window(Home).Property(TMDBHelper.ListItem.Studio.1.TMDB_ID)]&amp;with_id=True&amp;exclude_key=title&amp;exclude_value=$INFO[ListItem.Title]&amp;nextpage=false</value>
+        <value>videodb://movies/titles/?xsp=%7b%22rules%22%3a%7b%22and%22%3a%5b%7b%22field%22%3a%22studio%22%2c%22operator%22%3a%22is%22%2c%22value%22%3a%5b%22$INFO[ListItem.Studio]%22%5d%7d%5d%7d%2c%22type%22%3a%22movies%22%7d</value>
+    </variable>
+    
+    <variable name="Def_Similar_List">        
+        <value condition="!Skin.HasSetting(extended.info.only.local) + String.IsEqual(Window.Property(videosimilar),1) + String.IsEqual(ListItem.DBType,tvshow)">plugin://plugin.video.themoviedb.helper?info=similar&amp;type=tv&amp;query=$INFO[ListItem.Label]</value>
+        <value condition="!Skin.HasSetting(extended.info.only.local) + String.IsEqual(Window.Property(videosimilar),1) + String.IsEqual(ListItem.DBType,movie)">plugin://plugin.video.themoviedb.helper?info=similar&amp;type=movie&amp;query=$INFO[ListItem.Label]</value>
+        <value condition="String.IsEqual(ListItem.DBType,movie)">plugin://script.embuary.helper/?info=getsimilar&amp;dbid=$INFO[ListItem.DBID]&amp;type=movie</value>
+        <value condition="String.IsEqual(ListItem.DBType,tvshow)">plugin://script.embuary.helper/?info=getsimilar&amp;dbid=$INFO[ListItem.DBID]&amp;type=tvshow</value>
+    </variable>
+
+    <variable name="Def_Similar_Item">
+        <value condition="!Skin.HasSetting(extended.info.only.local)">RunScript(script.embuary.info,call=movie,query=$INFO[Container(9502).ListItem.Label])</value>
+        <value>RunScript(script.embuary.info,call=movie,dbid=$INFO[ListItem.DBID])</value>
+    </variable>
+
+    <variable name="Def_Similar_Item_TV">
+        <value condition="!Skin.HasSetting(extended.info.only.local)">RunScript(script.embuary.info,call=tv,query=$INFO[Container(9502).ListItem.Label])</value>
+        <value>RunScript(script.embuary.info,call=tv,dbid=$INFO[ListItem.DBID])</value>
     </variable>
 
     <include name="DefHubWindow">
@@ -975,16 +1015,6 @@
                                 <width>70</width>
                                 <height>70</height>
                                 <texture colordiffuse="Dark2">$INFO[ListItem.Icon]</texture>
-                                <visible>String.Contains(ListItem.Icon,special://skin/extras/icons/)</visible>
-                            </control>
-                            <control type="image">
-                                <right>0</right>
-                                <top>5</top>
-                                <bottom>0</bottom>
-                                <width>70</width>
-                                <height>70</height>
-                                <texture colordiffuse="Dark2">$INFO[ListItem.Icon]</texture>
-                                <visible>!String.Contains(ListItem.Icon,special://skin/extras/icons/)</visible>
                             </control>
                             <control type="label">
                                 <left>30</left>
@@ -1010,16 +1040,6 @@
                                     <width>70</width>
                                     <height>70</height>
                                     <texture colordiffuse="Light1">$INFO[ListItem.Icon]</texture>
-                                    <visible>String.Contains(ListItem.Icon,special://skin/extras/icons/)</visible>
-                                </control>
-                                <control type="image">
-                                    <right>0</right>
-                                    <top>5</top>
-                                    <bottom>0</bottom>
-                                    <width>70</width>
-                                    <height>70</height>
-                                    <texture colordiffuse="Light1">$INFO[ListItem.Icon]</texture>
-                                    <visible>!String.Contains(ListItem.Icon,special://skin/extras/icons/)</visible>
                                 </control>
                                 <control type="label">
                                     <left>30</left>
@@ -1038,7 +1058,6 @@
                                     <bottom>0</bottom>
                                     <width>80</width>
                                     <texture colordiffuse="Dark1">$INFO[ListItem.Icon]</texture>
-                                    <visible>String.Contains(ListItem.Icon,special://skin/extras/icons/)</visible>
                                 </control>
                                 <control type="label">
                                     <left>30</left>
@@ -1274,24 +1293,15 @@
                 <aspectratio scalediffuse="false">$PARAM[aspect]</aspectratio>
                 <texture diffuse="diffuse/wall.png" background="true" fallback="$PARAM[fallbackpicture]">$VAR[CastImage]</texture>
                 <visible>$PARAM[thumb]</visible>
-                </control>
-                <control type="image">
-                    <left>10</left>
-                    <top>10</top>
-                    <right>30</right>
-                    <bottom>10</bottom>
-                    <aspectratio scalediffuse="false">scale</aspectratio>
-                    <texture diffuse="diffuse/wall.png" background="true" fallback="$PARAM[fallbackpicture]">$VAR[PosterImage]</texture>
-                    <visible>$PARAM[poster]</visible>
-                </control>
+            </control>
             <control type="image">
                 <left>10</left>
                 <top>10</top>
                 <right>30</right>
                 <bottom>10</bottom>
-                <aspectratio scalediffuse="false">keep</aspectratio>
-                <texture diffuse="diffuse/wall.png" background="true">$INFO[ListItem.Icon]</texture>
-                <visible>false</visible><!--default_false-->  
+                <aspectratio scalediffuse="false">scale</aspectratio>
+                <texture diffuse="diffuse/wall.png" background="true" fallback="$PARAM[fallbackpicture]">$VAR[PosterImage]</texture>
+                <visible>$PARAM[poster]</visible>
             </control>
             <control type="image">
                 <left>9</left>
@@ -1790,15 +1800,6 @@
                     <visible>true</visible><!--default_true-->
                 </control>
                 <control type="image">
-                    <left>10</left>
-                    <top>10</top>
-                    <right>30</right>
-                    <bottom>10</bottom>
-                    <aspectratio scalediffuse="false">keep</aspectratio>
-                    <texture diffuse="diffuse/wall.png" background="true">$INFO[ListItem.Icon]</texture>
-                    <visible>false</visible><!--default_false-->  
-                </control>
-                <control type="image">
                     <left>9</left>
                     <right>30</right>
                     <bottom>9</bottom>
@@ -1906,15 +1907,6 @@
                     <visible>$PARAM[poster]</visible>
                 </control>
                 <control type="image">
-                    <left>10</left>
-                    <top>10</top>
-                    <right>30</right>
-                    <bottom>10</bottom>
-                    <aspectratio scalediffuse="false">keep</aspectratio>
-                    <texture diffuse="diffuse/wall.png" background="true">$INFO[ListItem.Icon]</texture>
-                    <visible>false</visible><!--default_false-->  
-                </control>
-                <control type="image">
                     <left>9</left>
                     <right>30</right>
                     <bottom>9</bottom>
@@ -1982,20 +1974,33 @@
     <include name="DefMultiWidgetContainer">
         <param name="height" value="$PARAM[height]" default="325"/>
         <definition>
-            <include content="def_top" condition="Skin.HasSetting(homemenu.netflix)">
+            <include content="def_top" condition="Skin.HasSetting(homemenu.netflix) + !Skin.HasSetting(home.widgets.show.reflections)">
                 <param name="top" value="440" />
             </include>
-            <include content="def_top" condition="!Skin.HasSetting(homemenu.netflix)">
+            <include content="def_top" condition="!Skin.HasSetting(homemenu.netflix) + !Skin.HasSetting(home.widgets.show.reflections)">
                 <param name="top" value="60" />
+            </include>
+            <include content="def_top" condition="Skin.HasSetting(homemenu.netflix) + Skin.HasSetting(home.widgets.show.reflections)">
+                <param name="top" value="465" />
+            </include>
+            <include content="def_top" condition="!Skin.HasSetting(homemenu.netflix) + Skin.HasSetting(home.widgets.show.reflections)">
+                <param name="top" value="50" />
             </include>            
             <left>517</left>
             <width>1900</width>
-            <include content="def_height" condition="Skin.HasSetting(homemenu.netflix)">
+            <include content="def_height" condition="Skin.HasSetting(homemenu.netflix) + !Skin.HasSetting(home.widgets.show.reflections)">
                 <param name="height" value="325" />
             </include>
-            <include content="def_height" condition="!Skin.HasSetting(homemenu.netflix)">
+            <include content="def_height" condition="!Skin.HasSetting(homemenu.netflix) + !Skin.HasSetting(home.widgets.show.reflections)">
                 <param name="height" value="$PARAM[height]" />
             </include>
+            <include content="def_height" condition="Skin.HasSetting(homemenu.netflix) + Skin.HasSetting(home.widgets.show.reflections)">
+                <param name="height" value="365" />
+            </include>
+            <include content="def_height" condition="!Skin.HasSetting(homemenu.netflix) + Skin.HasSetting(home.widgets.show.reflections)">
+                <param name="height" value="$PARAM[height2]" />
+            </include>
+            
             <height>$PARAM[height]</height>
             <include condition="!Skin.HasSetting(widgets.fade)">Animation.Vertical.Widgets.Container</include>
             <autoscroll time="$PARAM[AutoTime]" delay="1000">$PARAM[AutoScrollCondition]</autoscroll>
@@ -2147,6 +2152,10 @@
     
     <include name="def_left">
         <left>$PARAM[left]</left>
+    </include>
+    
+    <include name="def_bottom">
+        <bottom>$PARAM[bottom]</bottom>
     </include>
     
     <include name="def_font">
@@ -2570,18 +2579,23 @@
         <itemlayout height="125" width="125" condition="String.IsEqual(Container(300).ListItem.Property(widgetaspect$PARAM[shortcutsidshort]),SquareSmall)">
             <include content="include.widget.square">
                 <param name="id" value="$PARAM[shortcutsid]"/>
+                <param name="height" value="125"/>
+                <param name="distance" value="$PARAM[distance]"/>
             </include>
         </itemlayout>
         <itemlayout height="175" width="222" condition="String.IsEqual(Container(300).ListItem.Property(widgetaspect$PARAM[shortcutsidshort]),SquareMedium)">
             <include content="include.widget.square">
                 <param name="id" value="$PARAM[shortcutsid]"/>
                 <param name="aspectratio" value="$PARAM[aspectratio]"/>
+                <param name="height" value="175"/>
+                <param name="distance" value="$PARAM[distance]"/>
             </include>
         </itemlayout>
         <itemlayout height="325" width="325" condition="!String.IsEqual(Container(300).ListItem.Property(widgetaspect$PARAM[shortcutsidshort]),SquareSmall) + !String.IsEqual(Container(300).ListItem.Property(widgetaspect$PARAM[shortcutsidshort]),SquareMedium)">
             <include content="include.widget.square">
                 <param name="id" value="$PARAM[shortcutsid]"/>
                 <param name="aspectratio" value="$PARAM[aspectratio]"/>
+                <param name="distance" value="$PARAM[distance]"/>
             </include>
         </itemlayout>
     </include>
@@ -2591,6 +2605,7 @@
         <itemlayout height="325" width="222" condition="!String.IsEqual(Container(300).ListItem.Property(widgetaspect$PARAM[shortcutsidshort]),Banner) + !String.IsEqual(Container(300).ListItem.Property(widgetaspect$PARAM[shortcutsidshort]),Square) + ![String.IsEqual(Container(300).ListItem.Property(widgetaspect$PARAM[shortcutsidshort]),Fanart) | String.IsEqual(Container(300).ListItem.Property(widgetaspect$PARAM[shortcutsidshort]),Thumbnail)]">
             <include content="include.widget.poster">
                 <param name="id" value="$PARAM[shortcutsid]"/>
+                <param name="reflections" value="Skin.HasSetting(home.widgets.show.reflections)"/>
             </include>
         </itemlayout>
         <itemlayout height="325" width="325" condition="String.IsEqual(Container(300).ListItem.Property(widgetaspect$PARAM[shortcutsidshort]),Square)">
@@ -2598,22 +2613,26 @@
                 <param name="id" value="$PARAM[shortcutsid]"/>
                 <param name="aspectratio" value="$PARAM[aspectratio]"/>
                 <param name="distance" value="$PARAM[distance]"/>
+                <param name="reflections" value="Skin.HasSetting(home.widgets.show.reflections)"/>
             </include>
         </itemlayout>
         <itemlayout height="325" width="562" condition="String.IsEqual(Container(300).ListItem.Property(widgetaspect$PARAM[shortcutsidshort]),Fanart)">
             <include content="include.widget.fanart">
                 <param name="id" value="$PARAM[shortcutsid]"/>
+                <param name="reflections" value="Skin.HasSetting(home.widgets.show.reflections)"/>
             </include>
         </itemlayout>
         <itemlayout height="325" width="1690" condition="String.IsEqual(Container(300).ListItem.Property(widgetaspect$PARAM[shortcutsidshort]),Banner)">
             <include content="include.widget.banner">
                 <param name="id" value="$PARAM[shortcutsid]"/>
+                <param name="reflections" value="Skin.HasSetting(home.widgets.show.reflections)"/>
             </include>
         </itemlayout>
         <itemlayout height="325" width="562" condition="String.IsEqual(Container(300).ListItem.Property(widgetaspect$PARAM[shortcutsidshort]),Thumbnail)">
             <include content="include.widget.thumb">
                 <param name="clearlogo" value="$PARAM[shortcutsclearlogo]"/>
                 <param name="id" value="$PARAM[shortcutsid]"/>
+                <param name="reflections" value="Skin.HasSetting(home.widgets.show.reflections)"/>
             </include>
         </itemlayout>
     </include>
@@ -2644,18 +2663,23 @@
         <focusedlayout height="125" width="125" condition="String.IsEqual(Container(300).ListItem.Property(widgetaspect$PARAM[shortcutsidshort]),SquareSmall)">
             <include content="include.widget.square.focus">
                 <param name="id" value="$PARAM[shortcutsid]"/>
+                <param name="height" value="125"/>
+                <param name="distance" value="$PARAM[distance]"/>
             </include>
         </focusedlayout>
         <focusedlayout height="175" width="222" condition="String.IsEqual(Container(300).ListItem.Property(widgetaspect$PARAM[shortcutsidshort]),SquareMedium)">
             <include content="include.widget.square.focus">
                 <param name="id" value="$PARAM[shortcutsid]"/>
                 <param name="aspectratio" value="$PARAM[aspectratio]"/>
+                <param name="height" value="175"/>
+                <param name="distance" value="$PARAM[distance]"/>
             </include>
         </focusedlayout>
         <focusedlayout height="325" width="325" condition="!String.IsEqual(Container(300).ListItem.Property(widgetaspect$PARAM[shortcutsidshort]),SquareSmall) + !String.IsEqual(Container(300).ListItem.Property(widgetaspect$PARAM[shortcutsidshort]),SquareMedium)">
             <include content="include.widget.square.focus">
                 <param name="id" value="$PARAM[shortcutsid]"/>
                 <param name="aspectratio" value="$PARAM[aspectratio]"/>
+                <param name="distance" value="$PARAM[distance]"/>
             </include>
         </focusedlayout>
     </include>
@@ -2665,6 +2689,7 @@
         <focusedlayout height="325" width="222" condition="!String.IsEqual(Container(300).ListItem.Property(widgetaspect$PARAM[shortcutsidshort]),Banner) + !String.IsEqual(Container(300).ListItem.Property(widgetaspect$PARAM[shortcutsidshort]),Square) + ![String.IsEqual(Container(300).ListItem.Property(widgetaspect$PARAM[shortcutsidshort]),Fanart) | String.IsEqual(Container(300).ListItem.Property(widgetaspect$PARAM[shortcutsidshort]),Thumbnail)]">
             <include content="include.widget.poster.focus">
                 <param name="id" value="$PARAM[shortcutsid]"/>
+                <param name="reflections" value="Skin.HasSetting(home.widgets.show.reflections)"/>
             </include>
         </focusedlayout>
         <focusedlayout height="325" width="325" condition="String.IsEqual(Container(300).ListItem.Property(widgetaspect$PARAM[shortcutsidshort]),Square)">
@@ -2672,22 +2697,26 @@
                 <param name="id" value="$PARAM[shortcutsid]"/>
                 <param name="aspectratio" value="$PARAM[aspectratio]"/>
                 <param name="distance" value="$PARAM[distance]"/>
+                <param name="reflections" value="Skin.HasSetting(home.widgets.show.reflections)"/>
             </include>
         </focusedlayout>
         <focusedlayout height="325" width="562" condition="String.IsEqual(Container(300).ListItem.Property(widgetaspect$PARAM[shortcutsidshort]),Fanart)">
             <include content="include.widget.fanart.focus">
                 <param name="id" value="$PARAM[shortcutsid]"/>
+                <param name="reflections" value="Skin.HasSetting(home.widgets.show.reflections)"/>
             </include>
         </focusedlayout>
         <focusedlayout height="325" width="1690" condition="String.IsEqual(Container(300).ListItem.Property(widgetaspect$PARAM[shortcutsidshort]),Banner)">
             <include content="include.widget.banner.focus">
                 <param name="id" value="$PARAM[shortcutsid]"/>
+                <param name="reflections" value="Skin.HasSetting(home.widgets.show.reflections)"/>
             </include>
         </focusedlayout>
         <focusedlayout height="325" width="562" condition="String.IsEqual(Container(300).ListItem.Property(widgetaspect$PARAM[shortcutsidshort]),Thumbnail)">
             <include content="include.widget.thumb.focus">
                 <param name="id" value="$PARAM[shortcutsid]"/>
                 <param name="clearlogo" value="$PARAM[shortcutsclearlogo]"/>
+                <param name="reflections" value="Skin.HasSetting(home.widgets.show.reflections)"/>
             </include>
         </focusedlayout>
     </include>
@@ -2712,12 +2741,14 @@
     </include>
 
     <include name="ClearLogoHomeImageContainer">
-        <animation effect="slide" start="0" end="0,30" time="0" condition="true">Conditional</animation>        
+        <animation effect="slide" start="0" end="0,30" time="0" condition="!Skin.HasSetting(home.widgets.show.reflections)">Conditional</animation>
+        <animation effect="slide" start="0" end="0,2" time="0" condition="Skin.HasSetting(home.widgets.show.reflections)">Conditional</animation>
         <animation effect="slide" start="0" end="0,-50" time="0" condition="$EXP[HomeIsVerticalMultiWidgets] + !Skin.HasSetting(home.oldmenuheight) + !Skin.HasSetting(submenu.compatibility)">Conditional</animation>        
         <animation effect="slide" start="0" end="-100,0" time="0" condition="$EXP[HomeIsVerticalMultiWidgets] + Skin.HasSetting(homemenu.only.icons) + Skin.HasSetting(home.showicons)">Conditional</animation>
         <animation effect="slide" start="0" end="-110,0" time="0" condition="Skin.HasSetting(home.vertical)">Conditional</animation>
         <animation effect="slide" start="0" end="50,0" time="0" condition="Skin.HasSetting(home.vertical) + Skin.HasSetting(homemenu.only.icons) + Skin.HasSetting(home.showicons)">Conditional</animation>
-        <animation effect="slide" start="0" end="0,385" time="0" condition="Integer.IsEqual(Container(301).NumItems,1) + !String.Contains(Container(300).ListItem.Property(widgetFullscreen),yes)">Conditional</animation>
+        <animation effect="slide" start="0" end="0,385" time="0" condition="!Skin.HasSetting(home.widgets.show.reflections) + Integer.IsEqual(Container(301).NumItems,1) + !String.Contains(Container(300).ListItem.Property(widgetFullscreen),yes)">Conditional</animation>
+        <animation effect="slide" start="0" end="0,415" time="0" condition="Skin.HasSetting(home.widgets.show.reflections) + Integer.IsEqual(Container(301).NumItems,1) + !String.Contains(Container(300).ListItem.Property(widgetFullscreen),yes)">Conditional</animation>
         <animation effect="slide" start="0" end="0,-28" time="0" condition="Skin.HasSetting(home.oldmenuheight) | Skin.HasSetting(submenu.compatibility)">Conditional</animation>
         <animation type="WindowClose" condition="!$EXP[HomeIsVerticalMultiWidgets]">
             <effect type="slide" start="0" end="0,250" time="150"/>
@@ -3287,6 +3318,7 @@
     
     <include name="TvShowProviderIcon">
         <control type="image">
+            <top>20</top>
             <width>28</width>
             <height>28</height>
             <texture diffuse="common/box.png">$INFO[Window(Home).Property(TMDbHelper.ListItem.Provider.$PARAM[icon].Icon)]</texture>
@@ -3303,5 +3335,96 @@
             <onfocus>ClearProperty(skinshortcuts-Widget,Home)</onfocus>
             <onfocus>SetFocus($PARAM[setfocus])</onfocus>
         </control> 
+    </include>
+    
+    <include name="MusicVisualisation_RatingStar">
+        <param name="height" value="$PARAM[height]" default="35"/>
+        <definition>
+        <control type="image">
+            <width>$PARAM[height]</width>
+            <height>$PARAM[height]</height>
+            <centertop>50%</centertop>
+            <texture colordiffuse="$VAR[ColorHighlight]">backg/$VAR[FlagstarMusic$PARAM[Flagstar]].png</texture>
+            <visible>Integer.IsGreater(MusicPlayer.Time,0)</visible>
+            <visible>!Skin.HasSetting(musicosd.numericrating)</visible>
+            <animation type="Visible" condition="Integer.IsGreater(MusicPlayer.UserRating,$PARAM[IsGreater])">
+                <effect type="fade" start="0" end="100" time="200"/>
+                <effect type="zoom" center="auto" tween="back" easing="out" delay="$PARAM[delayin]" start="90" end="130" time="200"/>
+                <effect type="zoom" center="auto" delay="$PARAM[delay]" start="110" end="77" time="200"/>
+            </animation>
+            <animation type="WindowOpen" condition="Integer.IsGreater(MusicPlayer.UserRating,$PARAM[IsGreater])">
+                <effect type="fade" start="0" end="100" time="200"/>
+                <effect type="zoom" center="auto" tween="back" easing="out" delay="$PARAM[delayin]" start="90" end="130" time="200"/>
+                <effect type="zoom" center="auto" delay="$PARAM[delay]" start="110" end="77" time="200"/>
+            </animation>
+            <animation type="Hidden">
+                <effect type="fade" start="100" end="0" time="400"/>
+            </animation>
+        </control>
+        </definition>
+    </include>
+    
+    <include name="MusicVisualisation_RatingStars">
+        <param name="height" value="$PARAM[height]" default="35"/>
+        <definition>
+        <include content="MusicVisualisation_RatingStar">
+            <param name="delay" value="2200" />
+            <param name="delayin" value="2000" />
+            <param name="height" value="$PARAM[height]" />
+            <param name="IsGreater" value="0" />
+            <param name="Flagstar" value="1" />
+        </include>
+        <include content="MusicVisualisation_RatingStar">
+            <param name="delay" value="2250" />
+            <param name="delayin" value="2050" />
+            <param name="height" value="$PARAM[height]" />
+            <param name="IsGreater" value="2" />
+            <param name="Flagstar" value="2" />
+        </include>
+        <include content="MusicVisualisation_RatingStar">
+            <param name="delay" value="2300" />
+            <param name="delayin" value="2100" />
+            <param name="height" value="$PARAM[height]" />
+            <param name="IsGreater" value="4" />
+            <param name="Flagstar" value="3" />
+        </include>
+        <include content="MusicVisualisation_RatingStar">
+            <param name="delay" value="2350" />
+            <param name="delayin" value="2150" />
+            <param name="height" value="$PARAM[height]" />
+            <param name="IsGreater" value="6" />
+            <param name="Flagstar" value="4" />
+        </include>
+        <include content="MusicVisualisation_RatingStar">
+            <param name="delay" value="2400" />
+            <param name="delayin" value="2200" />
+            <param name="height" value="$PARAM[height]" />
+            <param name="IsGreater" value="8" />
+            <param name="Flagstar" value="5" />
+        </include>
+        </definition>
+    </include>
+    
+    <include name="Alternative_Title_Overlay">
+        <control type="group">
+            <visible>!String.IsEqual(ListItem.Label,..)</visible>
+            <top>8</top>
+            <control type="image">
+                <top>257</top>
+                <right>10</right>
+                <height>50</height>
+                <left>10</left>
+                <texture colordiffuse="D9333333">common/black-back.png</texture>
+            </control>
+            <control type="label">
+                <top>255</top>
+                <width>180</width>
+                <height>50</height>
+                <left>20</left>
+                <font>Mini</font>
+                <textcolor>PanelWhite100</textcolor>
+                <label>$INFO[ListItem.Label]</label>
+            </control>
+        </control>
     </include>
 </includes>
