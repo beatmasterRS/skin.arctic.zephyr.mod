@@ -1356,8 +1356,9 @@
         <value condition="Window.IsVisible(script-embuary-video.xml)">$INFO[Container(10051).ListItem.Tagline]</value>
         <value condition="String.IsEqual(Window.Property(moviecontent),3)">$INFO[ListItem.Genre]</value>
         <value condition="String.IsEqual(Window.Property(moviecontent),2)">$INFO[ListItem.Genre]</value>
-        <value condition="String.IsEmpty(Window.Property(moviecontent))">$INFO[ListItem.Tagline]</value>
-        <value>$INFO[ListItem.Tagline]</value>
+        <value condition="String.IsEmpty(Window.Property(moviecontent) + !String.IsEmpty(ListItem.Tagline) + !Skin.HasSetting(show.tagline.never) + !Skin.HasSetting(show.tagline.notempty))">$INFO[ListItem.Tagline]</value>
+        <value condition="!String.IsEmpty(ListItem.Tagline) + !Skin.HasSetting(show.tagline.never) + !Skin.HasSetting(show.tagline.notempty)">$INFO[ListItem.Tagline]</value>
+        <value condition="String.IsEmpty(ListItem.Tagline) + !Skin.HasSetting(show.tagline.never) + !Skin.HasSetting(show.tagline.notempty)">$LOCALIZE[19055]</value>
     </variable>
 
     <variable name="ListInfoUpdatingLabel">
@@ -1455,6 +1456,12 @@
         <value condition="Skin.HasSetting(show.clearart)">$LOCALIZE[37755]</value>
         <value condition="Skin.HasSetting(show.studiologos)">$LOCALIZE[37798]</value>
         <value>$LOCALIZE[37799]</value>
+    </variable>
+
+    <variable name="InfoTypeLabelTagline">
+        <value condition="Skin.HasSetting(show.tagline.notempty)">$LOCALIZE[37996]</value>
+        <value condition="Skin.HasSetting(show.tagline.never)">$LOCALIZE[37997]</value>
+        <value>$LOCALIZE[37643]</value>
     </variable>
 
     <variable name="OSDMusicTypeLabel">
