@@ -1974,6 +1974,7 @@
     <include name="DefMultiWidgetContainer">
         <param name="height" value="$PARAM[height]" default="325"/>
         <param name="orientation" value="$PARAM[orientation]" default="horizontal"/>
+        <param name="ispvrlayout" value="$PARAM[ispvrlayout]" default="false"/>
         <definition>            
             <include content="def_top" condition="Skin.HasSetting(homemenu.netflix) + !Skin.HasSetting(home.widgets.show.reflections)">
                 <param name="top" value="440" />
@@ -1989,6 +1990,9 @@
             </include>            
             <left>517</left>
             <width>1900</width>
+            <include content="def_height" condition="$PARAM[ispvrlayout]">
+                <param name="height" value="325" />
+            </include>
             <include content="def_height" condition="Skin.HasSetting(homemenu.netflix) + !Skin.HasSetting(home.widgets.show.reflections)">
                 <param name="height" value="325" />
             </include>
@@ -2614,7 +2618,7 @@
                     <width>100%</width>
                     <left>10</left>
                     <height>62</height>
-                    <texture border="5" diffuse="common/box.png">common/white.png</texture>
+                    <texture border="5" colordiffuse="Fallback" diffuse="common/box.png">common/white.png</texture>
                     <colordiffuse>Black12</colordiffuse>
                 </control>
                 <control type="image">
@@ -2676,18 +2680,28 @@
         <focusedlayout height="63" width="1760">
             <control type="group">
                 <top>10</top>
-                <control type="image">
+                <control type="image" id="2">
+                    <width>100%</width>
                     <left>10</left>
-                    <width>100%</width>
                     <height>62</height>
-                    <texture border="5" diffuse="common/box.png" colordiffuse="$VAR[ColorSelectOtherBar]">common/white.png</texture>
-                    <visible>!Control.HasFocus(11) + !Control.HasFocus(11441)</visible>
+                    <texture border="5" colordiffuse="Fallback" diffuse="common/box.png">common/white.png</texture>
+                    <colordiffuse>Black12</colordiffuse>
                 </control>
-                <control type="image">
-                    <width>100%</width>
-                    <height>62</height>
-                    <texture border="5" diffuse="common/box.png" colordiffuse="$VAR[ColorHighlightOtherBar]">common/gradient-box-wide.png</texture>
-                    <visible>!Control.HasFocus(11) + !Control.HasFocus(11441)</visible>
+                <control type="group">
+                    <animation effect="fade" start="100" end="0" time="150" condition="!Control.HasFocus($PARAM[shortcutsid])">Conditional</animation>
+                    <control type="image">
+                        <left>10</left>
+                        <width>100%</width>
+                        <height>62</height>
+                        <texture border="5" diffuse="common/box.png" colordiffuse="$VAR[ColorSelectOtherBar]">common/white.png</texture>
+                        <visible>!Control.HasFocus(11) + !Control.HasFocus(11441)</visible>
+                    </control>
+                    <control type="image">
+                        <width>100%</width>
+                        <height>62</height>
+                        <texture border="5" diffuse="common/box.png" colordiffuse="$VAR[ColorHighlightOtherBar]">common/gradient-box-wide.png</texture>
+                        <visible>!Control.HasFocus(11) + !Control.HasFocus(11441)</visible>
+                    </control>
                 </control>
                 <control type="image">
                     <left>70</left>
