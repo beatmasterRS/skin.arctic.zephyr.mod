@@ -7,25 +7,45 @@
         <include content="forced_view" condition="Skin.HasSetting(enable.forcedviews)">
             <param name="string" value="$LOCALIZE[37590]" />
         </include>
-        <top>550</top>
-        <left>-225</left>
-        <width>2200</width>
+        <include content="def_top" condition="!Skin.HasSetting(510IconSizeSmall)">
+            <param name="top" value="550" />
+        </include>
+        <include content="def_top" condition="Skin.HasSetting(510IconSizeSmall)">
+            <param name="top" value="615" />
+        </include>
+        <include content="def_left" condition="!Skin.HasSetting(510IconSizeSmall)">
+            <param name="left" value="0" />
+        </include>
+        <include content="def_left" condition="Skin.HasSetting(510IconSizeSmall)">
+            <param name="left" value="-145" />
+        </include>        
+        <include content="def_width" condition="!Skin.HasSetting(510IconSizeSmall)">
+            <param name="width" value="1998" />
+        </include>
+        <include content="def_width" condition="Skin.HasSetting(510IconSizeSmall)">
+            <param name="width" value="2100" />
+        </include>
         <height>395</height>
         <onup condition="!Skin.HasSetting(global.kioskmode)">9000</onup>
         <ondown>1651</ondown>
         <orientation>horizontal</orientation>
         <preloaditems>2</preloaditems>
-        <pagecontrol>1651</pagecontrol>
-        <focusposition>2</focusposition>
+        <pagecontrol>1651</pagecontrol>        
+        <include content="def_focusposition" condition="!Skin.HasSetting(510IconSizeSmall)">
+            <param name="focusposition" value="1" />
+        </include>
+        <include content="def_focusposition" condition="Skin.HasSetting(510IconSizeSmall)">
+            <param name="focusposition" value="2" />
+        </include>
         <viewtype label="37590">list</viewtype>
         <include>ScrolltimeViewsList</include>
-        <itemlayout height="325" width="222">
+        <itemlayout height="325" width="222" condition="!Skin.HasSetting(510IconSizeSmall)">
             <include content="include.widget.poster">
                 <param name="id" value="510"/>
                 <param name="reflections" value="Skin.HasSetting(show.reflections)"/>
             </include>
         </itemlayout>
-        <focusedlayout height="325" width="222">
+        <focusedlayout height="325" width="222" condition="!Skin.HasSetting(510IconSizeSmall)">
             <control type="group">
                 <animation center="127,168" easing="inout" effect="zoom" end="120" start="100" time="300" tween="sine">Focus</animation>
                 <animation center="127,168" easing="inout" effect="zoom" end="100" start="120" time="300" tween="sine">UnFocus</animation>
@@ -95,6 +115,46 @@
                     <param name="top" value="1" />
                 </include>
              </control>
+        </focusedlayout>        
+        <itemlayout height="264" width="180" condition="Skin.HasSetting(510IconSizeSmall)">
+            <include content="include.widget.poster">
+                <param name="id" value="510"/>
+                <param name="height" value="264"/>
+                <param name="top" value="242"/>
+                <param name="height_reflection" value="264"/>
+                <param name="reflections" value="Skin.HasSetting(show.reflections)"/>
+            </include>
+        </itemlayout>
+        <focusedlayout height="264" width="180" condition="Skin.HasSetting(510IconSizeSmall)">
+            <control type="group">
+                <animation center="90,168" easing="inout" effect="zoom" end="120" start="100" time="300" tween="sine">Focus</animation>
+                <animation center="90,168" easing="inout" effect="zoom" end="100" start="120" time="300" tween="sine">UnFocus</animation>
+                <control type="image">
+                    <visible>!String.IsEqual(ListItem.Label,..) + !String.IsEmpty(ListItem.Art(discart)) + Skin.HasSetting(ShowDiscart510)</visible>
+                    <left>12</left>
+                    <top>10</top>
+                    <width>156</width>
+                    <height>156</height>                    
+                    <texture>$INFO[ListItem.Art(discart)]</texture>
+                    <animation type="Focus" reversible="false">
+                        <effect type="slide" start="0,0" end="0,-78" time="350 "tween="sine" easing="inout" delay="1000" />
+                    </animation>
+                </control>
+                <control type="group">
+                    <height>264</height>
+                    <top>242</top>
+                    <control type="image">
+                        <left>10</left>
+                        <top>10</top>
+                        <right>10</right>
+                        <bottom>10</bottom>
+                        <aspectratio scalediffuse="false">scale</aspectratio>
+                        <texture flipy="true" diffuse="diffuse/listposter-ref-widgets.png" background="true">$VAR[PosterImage]</texture>
+                        <visible>Skin.HasSetting(show.reflections)</visible>
+                    </control>
+                </control>
+                <include>510_Focus_Code</include>
+             </control>
         </focusedlayout>
     </include>
 
@@ -108,6 +168,61 @@
         <control type="fixedlist" id="510">
             <include>510Content</include>
         </control>
+    </include>
+    
+    <include name="510_Focus_Code">
+        <control type="image">
+            <left>0</left>
+            <top>0</top>
+            <right>0</right>
+            <bottom>0</bottom>
+            <texture border="11">common/$VAR[nofocus-shadow10]</texture>
+        </control>
+        <control type="image">
+            <left>10</left>
+            <top>10</top>
+            <right>10</right>
+            <bottom>10</bottom>
+            <texture colordiffuse="Fallback" border="4" background="true">common/diffuse_box.png</texture>
+        </control>
+        <control type="image">
+            <left>9</left>
+            <top>9</top>
+            <right>9</right>
+            <bottom>9</bottom>
+            <texture colordiffuse="BoxWidget" border="4" background="true">common/box21.png</texture>
+            <visible>!Skin.HasSetting(thumbnails.white)</visible>
+        </control>
+        <control type="image">
+            <left>7</left>
+            <top>7</top>
+            <right>7</right>
+            <bottom>7</bottom>
+            <texture colordiffuse="$VAR[ColorSquares]" border="20">common/selectbox.png</texture>
+            <visible>Control.HasFocus(510)</visible>
+            <include>Animation.SelectBoxHome</include>
+        </control>
+        <control type="image">
+            <left>7</left>
+            <top>7</top>
+            <right>7</right>
+            <bottom>7</bottom>
+            <texture colordiffuse="$VAR[ColorHighlightSelectbox2]" border="20">common/gradient-selectbox.png</texture>
+            <visible>Control.HasFocus(510)</visible>
+            <include>Animation.SelectBoxHome</include>
+        </control>
+        <control type="image">
+            <left>10</left>
+            <top>10</top>
+            <right>10</right>
+            <bottom>10</bottom>
+            <aspectratio scalediffuse="false">scale</aspectratio>
+            <texture diffuse="diffuse/widgetposter_new.png" background="true" fallback="DefaultMovies.png">$VAR[PosterImage]</texture>
+        </control>
+        <include content="IndicatorPoster">
+            <param name="right" value="1" />
+            <param name="top" value="1" />
+        </include>
     </include>
 
     <include name="View_510_Minimal">
@@ -150,7 +265,15 @@
                     <top>300</top>
                     <bottom>17</bottom>
                     <font>Tiny</font>
-                    <height>144</height>
+                    <include content="def_height" condition="!Skin.HasSetting(510IconSizeSmall)">
+                        <param name="height" value="144" />
+                    </include>
+                    <include content="def_height" condition="Skin.HasSetting(510IconSizeSmall) + Skin.HasSetting(ShowDiscart510)">
+                        <param name="height" value="144" />
+                    </include>
+                    <include content="def_height" condition="Skin.HasSetting(510IconSizeSmall) + !Skin.HasSetting(ShowDiscart510)">
+                        <param name="height" value="216" />
+                    </include>
                     <textcolor>Dark2</textcolor>
                     <selectedcolor>Dark2</selectedcolor>
                     <label>$INFO[ListItem.Plot]</label>
