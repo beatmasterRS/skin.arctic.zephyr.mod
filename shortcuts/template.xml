@@ -577,6 +577,9 @@
     <!-- Widget 1 -->
     <other include="widget-vertical.1">
         <property name="id" tag="mainmenuid"/>
+        <property name="ispvrlayout" tag="property" attribute="name|widget" value="epg">true</property>
+        <property name="ispvrlayout">false</property>
+        <property name="isnormallayout" tag="property" attribute="name|widget" value="epg">false</property>
         <property name="isnormallayout" tag="property" attribute="name|widgetTarget" value="weather">false</property>
         <property name="isnormallayout" tag="property" attribute="name|widgetTarget" value="system">false</property>
         <property name="isnormallayout" tag="property" attribute="name|widget" value="mysubmenu">false</property>
@@ -608,6 +611,7 @@
         <!-- more content -->
         <property name="targetcontent" tag="property" attribute="name|widgetType" value="favourite">favourites</property>
         <property name="targetcontent" tag="property" attribute="name|widgetTarget" value="music">music</property>
+        <property name="targetcontent" tag="property" attribute="name|widgetTarget" value="pvr">pvr</property>
         <property name="targetcontent" tag="property" attribute="name|widgetTarget" value="videos">videos</property>
         <property name="targetcontent" tag="property" attribute="name|widgetTarget" value="addons">addons</property>
         <property name="targetcontent">$VAR[DefWidgetTarget]</property>
@@ -638,6 +642,9 @@
         <property name="aspectratio">keep</property>
         <property name="distance" tag="property" attribute="name|widgetEdgeDistance" value="yes">30</property>
         <property name="distance">10</property>
+        
+        <property name="orientation" tag="property" attribute="name|widget" value="epg">vertical</property>
+        <property name="orientation">horizontal</property>
         <controls>
             <control type="group" id="301$SKINSHORTCUTS[id]2199">
                 <control type="grouplist">
@@ -661,6 +668,7 @@
                     <param name="idshort" value="$SKINSHORTCUTS[id]"/>
                     <param name="backid" value="301$SKINSHORTCUTS[id]1"/>
                     <param name="AutoTime" value="$SKINSHORTCUTS[widgetauto]"/>
+                    <param name="orientation" value="$SKINSHORTCUTS[orientation]"/>
                     <param name="AutoScrollCondition" value="!Control.HasFocus(301$SKINSHORTCUTS[id]1) + !Control.HasFocus(4752) + !String.IsEmpty(Container(300).ListItem.Property(widgetAuto)) + !String.IsEqual(Container(300).ListItem.Property(widgetListType),list) + System.IdleTime(1)"/>
                 </include>
                 <!-- ItemLayouts -->
@@ -671,6 +679,15 @@
                     <param name="aspectratio" value="$SKINSHORTCUTS[aspectratio]"/>
                     <param name="distance" value="$SKINSHORTCUTS[distance]"/>
                 </include>
+                
+                <include content="TemplatePvrItemLayout" condition="$SKINSHORTCUTS[ispvrlayout]">
+                    <param name="shortcutsid" value="301$SKINSHORTCUTS[id]1"/>
+                    <param name="shortcutsidshort" value=""/>
+                    <param name="shortcutsclearlogo" value="$SKINSHORTCUTS[widgetclearlogothumb]"/>
+                    <param name="aspectratio" value="$SKINSHORTCUTS[aspectratio]"/>
+                    <param name="distance" value="$SKINSHORTCUTS[distance]"/>
+                </include>
+                
                 <include content="TemplateWeatherItemLayout" condition="$SKINSHORTCUTS[isweatherlayout]">
                     <param name="shortcutsid" value="301$SKINSHORTCUTS[id]1"/>
                     <param name="shortcutsidshort" value=""/>
@@ -696,6 +713,15 @@
                     <param name="aspectratio" value="$SKINSHORTCUTS[aspectratio]"/>
                     <param name="distance" value="$SKINSHORTCUTS[distance]"/>
                 </include>
+                
+                <include content="TemplatePvrFocusLayout" condition="$SKINSHORTCUTS[ispvrlayout]">
+                    <param name="shortcutsid" value="301$SKINSHORTCUTS[id]1"/>
+                    <param name="shortcutsidshort" value=""/>
+                    <param name="shortcutsclearlogo" value="$SKINSHORTCUTS[widgetclearlogothumb]"/>
+                    <param name="aspectratio" value="$SKINSHORTCUTS[aspectratio]"/>
+                    <param name="distance" value="$SKINSHORTCUTS[distance]"/>
+                </include>
+                
                 <include content="TemplateWeatherFocusLayout" condition="$SKINSHORTCUTS[isweatherlayout]">
                     <param name="shortcutsid" value="301$SKINSHORTCUTS[id]1"/>
                     <param name="shortcutsidshort" value=""/>
@@ -729,7 +755,7 @@
                 </include>
                 <control type="grouplist">
                     <skinshortcuts>visibility</skinshortcuts>
-                    <include content="FullScreenInfoSub" condition="$SKINSHORTCUTS[isnormallayout]">
+                    <include content="FullScreenInfoSub" condition="$SKINSHORTCUTS[isnormallayout] | $SKINSHORTCUTS[ispvrlayout]">
                         <param name="id" value="301$SKINSHORTCUTS[id]1"/>
                         <param name="labelisvisible" value="$SKINSHORTCUTS[labelisvisible]"/>
                     </include>

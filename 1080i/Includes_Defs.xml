@@ -1973,7 +1973,8 @@
 
     <include name="DefMultiWidgetContainer">
         <param name="height" value="$PARAM[height]" default="325"/>
-        <definition>
+        <param name="orientation" value="$PARAM[orientation]" default="horizontal"/>
+        <definition>            
             <include content="def_top" condition="Skin.HasSetting(homemenu.netflix) + !Skin.HasSetting(home.widgets.show.reflections)">
                 <param name="top" value="440" />
             </include>
@@ -2021,7 +2022,7 @@
             <onleft condition="$EXP[HomeIsVerticalMultiWidgets]">300</onleft>
             <preloaditems>1</preloaditems>
             <focusposition>0</focusposition>
-            <orientation>horizontal</orientation>
+            <orientation>$PARAM[orientation]</orientation>
             <include>ScrolltimeWidgetsList</include>
         </definition>
     </include>
@@ -2603,7 +2604,145 @@
             </include>
         </itemlayout>
     </include>
-
+    
+    
+    <include name="TemplatePvrItemLayout">
+        <itemlayout height="63" width="1760">
+            <control type="group">
+                <top>10</top>
+                <control type="image" id="2">
+                    <width>100%</width>
+                    <left>10</left>
+                    <height>62</height>
+                    <texture border="5" diffuse="common/box.png">common/white.png</texture>
+                    <colordiffuse>Black12</colordiffuse>
+                </control>
+                <control type="image">
+                    <left>70</left>
+                    <width>130</width>                        
+                    <bottom>0</bottom>
+                    <top>10</top>
+                    <aspectratio align="center" aligny="center">keep</aspectratio>
+                    <texture>$INFO[ListItem.Icon]</texture>
+                </control>
+            </control>
+            
+            <control type="group">
+                <top>10</top>
+                <control type="label">
+                    <posx>223</posx>
+                    <width>190</width>
+                    <aligny>center</aligny>
+                    <height>62</height>
+                    <font>ChannelInfo</font>
+                    <textcolor>Selected</textcolor>
+                    <label>$INFO[ListItem.ChannelName]</label>
+                </control>
+                <control type="label">
+                    <centerleft>45</centerleft>
+                    <width>90</width>
+                    <align>center</align>
+                    <aligny>center</aligny>
+                    <height>62</height>
+                    <font>ChannelInfo</font>
+                    <textcolor>Selected</textcolor>
+                    <label>$INFO[ListItem.ChannelNumberLabel]</label>
+                </control>
+                
+                <control type="label">
+                    <posx>423</posx>
+                    <width>390</width>
+                    <aligny>center</aligny>
+                    <height>62</height>
+                    <font>ChannelInfo</font>
+                    <textcolor>Dark2</textcolor>
+                    <label>$INFO[ListItem.StartTime] - $INFO[ListItem.EndTime]</label>
+                </control>
+                <control type="label">
+                    <posx>583</posx>
+                    <width>390</width>
+                    <aligny>center</aligny>
+                    <height>62</height>
+                    <font>ChannelInfo</font>
+                    <textcolor>Dark2</textcolor>
+                    <label>$INFO[ListItem.Title]</label>
+                </control>
+            </control>
+            
+        </itemlayout>
+    </include>
+    
+    <include name="TemplatePvrFocusLayout">
+        <focusedlayout height="63" width="1760">
+            <control type="group">
+                <top>10</top>
+                <control type="image">
+                    <left>10</left>
+                    <width>100%</width>
+                    <height>62</height>
+                    <texture border="5" diffuse="common/box.png" colordiffuse="$VAR[ColorSelectOtherBar]">common/white.png</texture>
+                    <visible>!Control.HasFocus(11) + !Control.HasFocus(11441)</visible>
+                </control>
+                <control type="image">
+                    <width>100%</width>
+                    <height>62</height>
+                    <texture border="5" diffuse="common/box.png" colordiffuse="$VAR[ColorHighlightOtherBar]">common/gradient-box-wide.png</texture>
+                    <visible>!Control.HasFocus(11) + !Control.HasFocus(11441)</visible>
+                </control>
+                <control type="image">
+                    <left>70</left>
+                    <width>130</width>                        
+                    <bottom>0</bottom>
+                    <top>10</top>
+                    <aspectratio align="center" aligny="center">keep</aspectratio>
+                    <texture>$INFO[ListItem.Icon]</texture>
+                </control>
+            </control>
+            <control type="group">
+                <top>10</top>
+                <control type="label">
+                    <posx>223</posx>
+                    <width>190</width>
+                    <aligny>center</aligny>
+                    <height>62</height>
+                    <font>ChannelInfo</font>
+                    <textcolor>Selected</textcolor>
+                    <label>$INFO[ListItem.ChannelName]</label>
+                </control>
+                <control type="label">
+                    <centerleft>45</centerleft>
+                    <width>90</width>
+                    <align>center</align>
+                    <aligny>center</aligny>
+                    <height>62</height>
+                    <font>ChannelInfo</font>
+                    <textcolor>Selected</textcolor>
+                    <label>$INFO[ListItem.ChannelNumberLabel]</label>
+                </control>
+                
+                <control type="label">
+                    <posx>423</posx>
+                    <width>390</width>
+                    <aligny>center</aligny>
+                    <height>62</height>
+                    <font>ChannelInfo</font>
+                    <textcolor>Selected</textcolor>
+                    <label>$INFO[ListItem.StartTime] - $INFO[ListItem.EndTime]</label>
+                </control>
+                <control type="label">
+                    <posx>583</posx>
+                    <width>390</width>
+                    <aligny>center</aligny>
+                    <height>62</height>
+                    <font>ChannelInfo</font>
+                    <textcolor>Selected</textcolor>
+                    <label>$INFO[ListItem.Title]</label>
+                </control>
+            </control>
+        </focusedlayout>
+    </include>
+    
+    
     <!-- Normal Layout -->
     <include name="TemplateNormalItemLayout">
         <itemlayout height="325" width="222" condition="!String.IsEqual(Container(300).ListItem.Property(widgetaspect$PARAM[shortcutsidshort]),Banner) + !String.IsEqual(Container(300).ListItem.Property(widgetaspect$PARAM[shortcutsidshort]),Square) + ![String.IsEqual(Container(300).ListItem.Property(widgetaspect$PARAM[shortcutsidshort]),Fanart) | String.IsEqual(Container(300).ListItem.Property(widgetaspect$PARAM[shortcutsidshort]),Thumbnail)]">
