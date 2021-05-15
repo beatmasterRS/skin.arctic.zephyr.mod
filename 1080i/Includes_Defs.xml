@@ -1973,7 +1973,8 @@
 
     <include name="DefMultiWidgetContainer">
         <param name="height" value="$PARAM[height]" default="325"/>
-        <definition>
+        <param name="orientation" value="$PARAM[orientation]" default="horizontal"/>
+        <definition>            
             <include content="def_top" condition="Skin.HasSetting(homemenu.netflix) + !Skin.HasSetting(home.widgets.show.reflections)">
                 <param name="top" value="440" />
             </include>
@@ -2000,7 +2001,6 @@
             <include content="def_height" condition="!Skin.HasSetting(homemenu.netflix) + Skin.HasSetting(home.widgets.show.reflections)">
                 <param name="height" value="$PARAM[height2]" />
             </include>
-            
             <height>$PARAM[height]</height>
             <include condition="!Skin.HasSetting(widgets.fade)">Animation.Vertical.Widgets.Container</include>
             <autoscroll time="$PARAM[AutoTime]" delay="1000">$PARAM[AutoScrollCondition]</autoscroll>
@@ -2021,7 +2021,7 @@
             <onleft condition="$EXP[HomeIsVerticalMultiWidgets]">300</onleft>
             <preloaditems>1</preloaditems>
             <focusposition>0</focusposition>
-            <orientation>horizontal</orientation>
+            <orientation>$PARAM[orientation]</orientation>
             <include>ScrolltimeWidgetsList</include>
         </definition>
     </include>
@@ -2604,6 +2604,20 @@
         </itemlayout>
     </include>
 
+    <include name="TemplatePvrItemLayout">
+        <itemlayout height="61.9" width="1756">
+            <include>include.widget.pvr</include>            
+        </itemlayout>
+    </include>
+    
+    <include name="TemplatePvrFocusLayout">
+        <focusedlayout height="61.9" width="1756">
+            <include content="include.widget.pvr.focus">
+                <param name="shortcutsid" value="$PARAM[shortcutsid]"/>
+            </include>
+        </focusedlayout>
+    </include>    
+    
     <!-- Normal Layout -->
     <include name="TemplateNormalItemLayout">
         <itemlayout height="325" width="222" condition="!String.IsEqual(Container(300).ListItem.Property(widgetaspect$PARAM[shortcutsidshort]),Banner) + !String.IsEqual(Container(300).ListItem.Property(widgetaspect$PARAM[shortcutsidshort]),Square) + ![String.IsEqual(Container(300).ListItem.Property(widgetaspect$PARAM[shortcutsidshort]),Fanart) | String.IsEqual(Container(300).ListItem.Property(widgetaspect$PARAM[shortcutsidshort]),Thumbnail)]">
