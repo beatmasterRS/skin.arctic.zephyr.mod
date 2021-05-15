@@ -6175,7 +6175,7 @@
                     <include content="MultiWidgetsHeader" condition="$PARAM[labelisvisible]">
                         <param name="id" value="$PARAM[id]"/>
                     </include>
-                    <include condition="Skin.HasSetting(homemenu.netflix)">IntentButton</include>
+                    <include condition="Skin.HasSetting(homemenu.netflix) + !Skin.HasSetting(home.netflix.clearlogo)">IntentButton</include>
                     <include content="MultiWidgetsPlotLabel" condition="Skin.HasSetting(homemenu.netflix)">
                         <param name="id" value="$PARAM[id]"/>
                         <param name="plotminheight" value="0"/>
@@ -6233,6 +6233,12 @@
         <definition>
         <param name="left" value="$PARAM[left]" default="0"/>
         <param name="visible" value="$PARAM[visible]" default="true"/>
+        <control type="image" description="clearlogo" id="$PARAM[id]37">
+            <height>110</height>
+            <aspectratio scalediffuse="true" align="left">keep</aspectratio>
+            <texture background="true">$INFO[Container($PARAM[id]).ListItem.Art(clearlogo)]</texture>
+            <visible>$PARAM[visible] + Skin.HasSetting(home.netflix.clearlogo) + Skin.HasSetting(homemenu.netflix) + !String.IsEmpty(Container($PARAM[id]).ListItem.Art(clearlogo))</visible>
+        </control>
         <control type="label">
             <include content="def_font" condition="Skin.HasSetting(homemenu.netflix)">
                 <param name="font" value="Largenetflix" />
@@ -6246,7 +6252,7 @@
             <textcolor>Dark1</textcolor>
             <label>$PARAM[label]</label>
             <include condition="Skin.HasSetting(homemenu.label.autoscroll)">LabelScroll</include>
-            <visible>$PARAM[visible]</visible>            
+            <visible>$PARAM[visible] + [!Skin.HasSetting(home.netflix.clearlogo) | [Skin.HasSetting(home.netflix.clearlogo) + Skin.HasSetting(homemenu.netflix) + String.IsEmpty(Container($PARAM[id]).ListItem.Art(clearlogo))]]</visible>            
         </control>
         </definition>
     </include>
@@ -6257,29 +6263,34 @@
         <include content="MultiWidgetsHeaderLabel">
             <param name="label" value="$INFO[Container($PARAM[id]).ListItem.TvShowTitle,, - ]$INFO[Container($PARAM[id]).ListItem.Label]" />
             <param name="visible" value="!String.StartsWith(Container($PARAM[id]).ListItem.FolderPath,pvr://) + String.IsEqual(Container($PARAM[id]).ListItem.DBType,episode)" />
+            <param name="id" value="$PARAM[id]" />
         </include>
         
         <!-- All Other -->
         <include content="MultiWidgetsHeaderLabel">
             <param name="label" value="$INFO[Container($PARAM[id]).ListItem.Label]" />
             <param name="visible" value="!String.StartsWith(Container($PARAM[id]).ListItem.FolderPath,pvr://) + !String.IsEqual(Container($PARAM[id]).ListItem.DBType,episode) + String.IsEmpty(Container($PARAM[id]).ListItem.Property(Item))" />
+            <param name="id" value="$PARAM[id]" />
         </include>
         
         <!-- GTO -->
         <include content="MultiWidgetsHeaderLabel">
             <param name="label" value="$INFO[Container($PARAM[id]).ListItem.Label2]$INFO[Container($PARAM[id]).ListItem.Property(StartTime), (,)]" />
             <param name="visible" value="!String.StartsWith(Container($PARAM[id]).ListItem.FolderPath,pvr://) + !String.IsEqual(Container($PARAM[id]).ListItem.DBType,episode) + !String.IsEmpty(Container($PARAM[id]).ListItem.Property(Item)) + !String.IsEmpty(Container($PARAM[id]).ListItem.Label2)" />
+            <param name="id" value="$PARAM[id]" />
         </include>
         
         <!-- PVR -->
         <include content="MultiWidgetsHeaderLabel">
             <param name="label" value="$INFO[Container($PARAM[id]).ListItem.Title]" />
             <param name="visible" value="String.StartsWith(Container($PARAM[id]).ListItem.FolderPath,pvr://) + !String.IsEmpty(Container($PARAM[id]).ListItem.Title)" />
+            <param name="id" value="$PARAM[id]" />
         </include>
         
         <include content="MultiWidgetsHeaderLabel">
             <param name="label" value="$INFO[Container($PARAM[id]).ListItem.Label]" />
             <param name="visible" value="String.StartsWith(Container($PARAM[id]).ListItem.FolderPath,pvr://) + String.IsEmpty(Container($PARAM[id]).ListItem.Title)" />
+            <param name="id" value="$PARAM[id]" />
         </include>
      
     </include>
