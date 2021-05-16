@@ -84,11 +84,20 @@
                 <font>SmallBold</font>
                 <label fallback="19055">$INFO[ListItem.Title]</label>
                 <include condition="Skin.HasSetting(views.label.autoscroll)">LabelScroll</include>
-            </control>            
+                <visible>!Skin.HasSetting(view.netflix.clearlogo) | [Skin.HasSetting(view.netflix.clearlogo) + String.IsEmpty(ListItem.Art(clearlogo))]</visible>
+            </control> 
+
             <control type="grouplist">
-                <top>40</top>
+                <visible>!Skin.HasSetting(view.netflix.clearlogo) | [Skin.HasSetting(view.netflix.clearlogo) + String.IsEmpty(ListItem.Art(clearlogo))]</visible>
                 <orientation>vertical</orientation>
                 <itemgap>0</itemgap>
+                <top>40</top>
+                <control type="image" description="clearlogo">
+                    <height>102</height>
+                    <aspectratio scalediffuse="true" align="left">keep</aspectratio>
+                    <texture background="true">$INFO[ListItem.Art(clearlogo)]</texture>
+                    <visible>Skin.HasSetting(view.netflix.clearlogo) + !String.IsEmpty(ListItem.Art(clearlogo))</visible>
+                </control>
                 <control type="label">
                     <aligny>center</aligny>
                     <font>Tiny</font>
@@ -98,7 +107,39 @@
                 </control>                
                 <control type="textbox">
                     <font>Tiny</font>
-                    <height min="36" max="180">auto</height>
+                    <height min="36" max="177">auto</height>
+                    <textcolor>Dark2</textcolor>
+                    <selectedcolor>Dark2</selectedcolor>
+                    <label>$INFO[ListItem.Plot]</label>
+                </control>                
+                <control type="label">
+                    <aligny>center</aligny>
+                    <font>Tiny</font>
+                    <textcolor>Dark2</textcolor>
+                    <selectedcolor>Dark2</selectedcolor>
+                    <label>$VAR[509_Row_1]</label>
+                </control>
+            </control>       
+            <control type="grouplist">
+                <visible>[Skin.HasSetting(view.netflix.clearlogo) + !String.IsEmpty(ListItem.Art(clearlogo))]</visible>
+                <top>25</top>
+                <orientation>vertical</orientation>
+                <itemgap>0</itemgap>
+                <control type="image" description="clearlogo">
+                    <height>102</height>
+                    <aspectratio scalediffuse="true" align="left">keep</aspectratio>
+                    <texture background="true">$INFO[ListItem.Art(clearlogo)]</texture>
+                </control>
+                <control type="textbox">
+                    <font>Tiny</font>
+                    <height>15</height>
+                    <textcolor>Dark2</textcolor>
+                    <selectedcolor>Dark2</selectedcolor>
+                    <label />
+                </control>
+                <control type="textbox">
+                    <font>Tiny</font>
+                    <height min="36" max="144">auto</height>
                     <textcolor>Dark2</textcolor>
                     <selectedcolor>Dark2</selectedcolor>
                     <label>$INFO[ListItem.Plot]</label>
