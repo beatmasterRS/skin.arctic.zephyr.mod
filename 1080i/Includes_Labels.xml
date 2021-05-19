@@ -129,7 +129,7 @@
 
     <variable name="509_Row_1">
         <value condition="Container.Content(tvshows) | Container.Content(seasons)">$INFO[ListItem.Year,,  •  ]$INFO[ListItem.Property(TotalEpisodes),, $LOCALIZE[20360]] $INFO[ListItem.Property(UnWatchedEpisodes),  •  , $LOCALIZE[16101]]</value>
-        <value condition="ListItem.IsCollection">$INFO[Container(44023).NumItems]$INFO[Window(Home).Property(TMDbHelper.ListItem.Set.NumItems),/,] $LOCALIZE[37542]</value>
+        <value condition="ListItem.IsCollection">$INFO[Container(44023).NumItems]$INFO[Window(Home).Property(TMDbHelper.ListItem.Set.NumItems),/, $LOCALIZE[37542]]</value>
         <value>$INFO[ListItem.Year]$VAR[LabelDurationTimeCheck,  •  ,]$INFO[ListItem.Rating,  •  ,]</value>
     </variable>
 
@@ -146,6 +146,7 @@
     </variable>
 
     <variable name="513_Row_1">
+        <value condition="!String.IsEmpty(ListItem.Genre) + !String.IsEmpty(ListItem.Duration)">$VAR[LabelDurationTimeCheck,,  •  ]$INFO[ListItem.Genre]</value>
         <value condition="!String.IsEmpty(ListItem.Genre)">$INFO[ListItem.Genre]</value>
         <value>$LOCALIZE[19055]</value>
     </variable>
@@ -339,6 +340,7 @@
     <variable name="LabelGenre">
         <value condition="ListItem.IsCollection + !String.IsEmpty(Window(home).Property(SkinInfo.Set.Movies.Genre))">$INFO[Window(home).Property(SkinInfo.Set.Movies.Genre)]</value>
         <value condition="ListItem.IsCollection + !String.IsEmpty(Window(Home).Property(TMDbHelper.ListItem.Set.Years))">$INFO[Window(Home).Property(TMDbHelper.ListItem.Set.Years)]$INFO[Container(44023).NumItems,  •  , $LOCALIZE[342]]$INFO[ListItem.Rating,  •  ,]</value>
+        <value condition="ListItem.IsCollection">$INFO[Container(44023).NumItems,, $LOCALIZE[342]]$INFO[ListItem.Rating,  •  ,]</value>
         <value condition="Container.Content(albums)">$INFO[ListItem.Album]</value>
         <value condition="Control.HasFocus(5161)">$INFO[Container(5161).ListItem.Season,$LOCALIZE[20373] ,]$INFO[Container(5161).ListItem.Episode,  •  $LOCALIZE[20359] ,]$INFO[Container(5161).ListItem.Premiered,  •  ,]$VAR[LabelDurationTimeCheck,  •  ,]</value>
         <value condition="Container.Content(tvshows) | Container.Content(seasons)">$INFO[ListItem.Property(TotalEpisodes),, $LOCALIZE[20360]]$INFO[ListItem.Property(UnWatchedEpisodes),  •  , $LOCALIZE[16101]]$INFO[ListItem.Studio,  •  ]</value>
@@ -348,31 +350,6 @@
         <value condition="!String.IsEmpty(Window(home).Property(Set.Movies.Genre))">$INFO[Window(home).Property(Set.Movies.Genre)]</value>
         <value condition="!String.IsEmpty(ListItem.Property(Artist_Genre))">$INFO[ListItem.Property(Artist_Genre)]</value>
         <value>$LOCALIZE[19055]</value>
-    </variable>
-    
-    <variable name="LabelSub_1_GenreAlbum">
-        <value condition="ListItem.IsCollection + !String.IsEmpty(Window(home).Property(SkinInfo.Set.Movies.Genre))">$INFO[Window(home).Property(SkinInfo.Set.Movies.Genre)]</value>        
-        <value condition="Container.Content(albums)">$INFO[ListItem.Album]</value>
-        <value condition="Container.Content(tvshows) | Container.Content(seasons) | Container.Content(episodes)">$INFO[ListItem.Genre]</value>
-        <value condition="!String.IsEmpty(ListItem.Genre)">$INFO[ListItem.Genre]</value>
-        <value condition="!String.IsEmpty(Window(home).Property(SkinHelper.MovieSet.Genre))">$INFO[Window(home).Property(SkinHelper.MovieSet.Genre)]</value>
-        <value condition="!String.IsEmpty(Window(home).Property(Set.Movies.Genre))">$INFO[Window(home).Property(Set.Movies.Genre)]</value>
-        <value condition="!String.IsEmpty(ListItem.Property(Artist_Genre))">$INFO[ListItem.Property(Artist_Genre)]</value>
-        <value>$LOCALIZE[19055]</value>
-    </variable>
-    
-    <variable name="LabelSub_2_YearDurationRating">
-        <value condition="ListItem.IsCollection + !String.IsEmpty(Window(Home).Property(TMDbHelper.ListItem.Set.Years))">$INFO[Window(Home).Property(TMDbHelper.ListItem.Set.Years),,  •  ]$INFO[Container(44023).NumItems]$INFO[Window(Home).Property(TMDbHelper.ListItem.Set.NumItems),/,] $LOCALIZE[37542]$INFO[ListItem.Rating,  •  ,]</value>        
-        <value condition="ListItem.IsCollection">$INFO[Container(44023).NumItems]$INFO[Window(Home).Property(TMDbHelper.ListItem.Set.NumItems),/,] $LOCALIZE[37542]$INFO[ListItem.Rating,  •  ,]</value>
-        <value condition="Container.Content(tvshows) | Container.Content(seasons)">$INFO[ListItem.Year,,  •  ]$INFO[ListItem.Property(TotalEpisodes),, $LOCALIZE[20360]] $INFO[ListItem.Property(UnWatchedEpisodes),  •  , $LOCALIZE[16101]]</value>        
-        <value condition="Container.Content(episodes)">$INFO[ListItem.Season,$LOCALIZE[20373] ,]$INFO[ListItem.Episode,  •  $LOCALIZE[20359] ,]$VAR[LabelPremieredYear]$VAR[LabelDurationTimeCheck,  •  ,]$INFO[ListItem.Rating,  •  ,]</value>
-        <value condition="Container.Content(movies) | Container.Content(sets)">$INFO[ListItem.Year]$VAR[LabelDurationTimeCheck,  •  ,]$INFO[ListItem.Rating,  •  ,]</value>
-        <value>$LOCALIZE[19055]</value>
-    </variable>
-    
-    <variable name="LabelPremieredYear">
-        <value condition="!String.IsEmpty(ListItem.Premiered)">$INFO[ListItem.Premiered,  •  ,]</value>
-        <value condition="!String.IsEmpty(ListItem.Year)">$INFO[ListItem.Year,  •  ,]</value>
     </variable>
     
     <variable name="LabelMusicTagline">
@@ -1440,7 +1417,7 @@
 
     <variable name="LabelArtistAlbum">
         <value condition="ListItem.IsCollection">$INFO[Window(Home).Property(TMDbHelper.ListItem.Set.Years)]</value>
-        <value condition="Container.Content(artists)">$INFO[ListItem.Genre]$INFO[ListItem.Property(Artist_YearsActive),  •  ,]</value>
+        <value condition="Container.Content(artists)">$INFO[ListItem.Genre]$INFO[ListItem.Property(Artist_Born),  •  ,]</value>
         <value condition="Container.Content(albums)">$INFO[ListItem.Artist]$INFO[ListItem.Year,  •  ,]$INFO[ListItem.Genre,  •  ,]</value>
         <value condition="Container.Content(movies)">$VAR[513_Row_1]</value>
         <value condition="Container.Content(tvshows)">$INFO[ListItem.Episode,, $LOCALIZE[20360]]$INFO[ListItem.Property(UnWatchedEpisodes),  •  , $LOCALIZE[16101]]$INFO[ListItem.Duration(mins),  •  , $LOCALIZE[31102]]$INFO[ListItem.Rating,  •  ]</value>
@@ -1449,7 +1426,20 @@
     <variable name="LabelArtistAlbumDescription">
         <value condition="!String.IsEmpty(ListItem.Property(Artist_Description)) + Container.Content(artists)">$INFO[ListItem.Property(Artist_Description)]</value>
         <value condition="!String.IsEmpty(ListItem.Property(Album_Description)) + Container.Content(albums)">$INFO[ListItem.Property(Album_Description)]</value>
-        <value condition="Container.Content(movies) | Container.Content(tvshows) | Container.Content(sets) | Container.Content(episodes)">$INFO[ListItem.Plot]</value>
+        <value condition="Container.Content(movies) | Container.Content(tvshows)">$INFO[ListItem.Plot]</value>
+    </variable>    
+    
+    <variable name="LabelTagline514">
+        <value condition="ListItem.IsCollection">$INFO[Container(44023).NumItems]$INFO[Window(Home).Property(TMDbHelper.ListItem.Set.NumItems),/,] $LOCALIZE[37542]</value>
+        <value condition="Container.Content(tvshows)">$INFO[ListItem.Genre]</value>
+        <value>$INFO[ListItem.Tagline]</value>
+    </variable>
+    
+    <variable name="LabelTagline501">
+        <value condition="ListItem.IsCollection + !String.IsEmpty(Window(home).Property(SkinInfo.Set.Movies.Runtime))">$INFO[ListItem.Year,,  •  ]$INFO[Window(home).Property(SkinInfo.Set.Movies.Runtime),, $LOCALIZE[12391]]</value>
+        <value condition="ListItem.IsCollection">$INFO[ListItem.Year]</value>
+        <value condition="Container.Content(tvshows)">$INFO[ListItem.Year]</value>
+        <value>$INFO[ListItem.Year,,  •  ]$VAR[LabelDurationTimeCheckInfo]</value>
     </variable>
 
     <variable name="LabelExtendedInfoPlot">
