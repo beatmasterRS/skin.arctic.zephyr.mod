@@ -3,7 +3,9 @@
 <includes>
 
     <include name="522Content">
-        <visible>Container.Content(movies) | Container.Content(tvshows) | Container.Content(seasons) | Container.Content(episodes)</visible>
+        <param name="offset" default="72" />
+        <definition>
+        <visible>Container.Content(movies) | Container.Content(seasons) | Container.Content(episodes) | Container.Content(episodes)</visible>
         <include content="forced_view" condition="Skin.HasSetting(enable.forcedviews)">
             <param name="string" value="$LOCALIZE[37971] $LOCALIZE[20360]" />
         </include>
@@ -13,29 +15,39 @@
         <include content="def_top" condition="Skin.HasSetting(home.widgets.show.reflections)">
             <param name="top" value="556" />
         </include>
-        <left>-490</left>
-        <width>2810</width>
+        <left>0</left>
+        <right>0</right>
         <height>365</height>
         <onup condition="!Skin.HasSetting(global.kioskmode)">9000</onup>
         <ondown>1646</ondown>
         <orientation>horizontal</orientation>
         <preloaditems>2</preloaditems>
         <pagecontrol>1646</pagecontrol>
-        <focusposition>1</focusposition>
+        <focusposition>0</focusposition>
+        <movement>2</movement>
         <viewtype label="$LOCALIZE[37971] $LOCALIZE[20360]">list</viewtype>
         <include>ScrolltimeViewsList</include>
-        <itemlayout height="365" width="562">
-            <include content="include.widget.landscape">
-                <param name="id" value="522"/>
-                <param name="reflections" value="Skin.HasSetting(show.reflections)"/>
-            </include>
+        <itemlayout height="325" width="562">
+            <control type="group">
+                <left>$PARAM[offset]</left>
+                <right>-$PARAM[offset]</right>
+                <include content="include.widget.landscape">
+                    <param name="id" value="522"/>
+                    <param name="reflections" value="Skin.HasSetting(show.reflections)"/>
+                </include>
+            </control>
         </itemlayout>
-        <focusedlayout height="365" width="562">
-            <include content="include.widget.landscape.focus">
-                <param name="id" value="522"/>
-                <param name="reflections" value="Skin.HasSetting(show.reflections)"/>
-            </include>
+        <focusedlayout height="325" width="562">
+            <control type="group">
+                <left>$PARAM[offset]</left>
+                <right>-$PARAM[offset]</right>
+                <include content="include.widget.landscape.focus">
+                    <param name="id" value="522"/>
+                    <param name="reflections" value="Skin.HasSetting(show.reflections)"/>
+                </include>
+            </control>
         </focusedlayout>
+        </definition>
     </include>
 
     <include name="522Wrap">

@@ -3,7 +3,9 @@
 <includes>
 
     <include name="521Content">
-        <visible>Container.Content(movies) | Container.Content(tvshows) | Container.Content(seasons) | Container.Content(episodes) | Container.Content(sets)</visible>
+        <param name="offset" default="72" />
+        <definition>
+        <visible>Container.Content(movies) | Container.Content(tvshows) | Container.Content(seasons) | Container.Content(episodes) | Container.Content(sets)<</visible>
         <include content="forced_view" condition="Skin.HasSetting(enable.forcedviews)">
             <param name="string" value="$LOCALIZE[37971]" />
         </include>
@@ -13,29 +15,39 @@
         <include content="def_top" condition="Skin.HasSetting(home.widgets.show.reflections)">
             <param name="top" value="556" />
         </include>
-        <left>-149</left>
-        <width>2150</width>
+        <left>0</left>
+        <right>0</right>
         <height>365</height>
         <onup condition="!Skin.HasSetting(global.kioskmode)">9000</onup>
         <ondown>1644</ondown>
         <orientation>horizontal</orientation>
         <preloaditems>2</preloaditems>
         <pagecontrol>1644</pagecontrol>
-        <focusposition>1</focusposition>
+        <focusposition>0</focusposition>
         <viewtype label="37971">list</viewtype>
         <include>ScrolltimeViewsList</include>
+        <movement>7</movement>
         <itemlayout height="325" width="222">
-            <include content="include.widget.poster">
-                <param name="id" value="521"/>
-                <param name="reflections" value="Skin.HasSetting(show.reflections)"/>
-            </include>
+            <control type="group">
+                <left>$PARAM[offset]</left>
+                <right>-$PARAM[offset]</right>
+                <include content="include.widget.poster">
+                    <param name="id" value="521"/>
+                    <param name="reflections" value="Skin.HasSetting(show.reflections)"/>
+                </include>
+            </control>
         </itemlayout>
         <focusedlayout height="325" width="222">
-            <include content="include.widget.poster.focus">
-                <param name="id" value="521"/>
-                <param name="reflections" value="Skin.HasSetting(show.reflections)"/>
-            </include>
+            <control type="group">
+                <left>$PARAM[offset]</left>
+                <right>-$PARAM[offset]</right>
+                <include content="include.widget.poster.focus">
+                    <param name="id" value="521"/>
+                    <param name="reflections" value="Skin.HasSetting(show.reflections)"/>
+                </include>
+            </control>
         </focusedlayout>
+        </definition>
     </include>
 
     <include name="521Wrap">
