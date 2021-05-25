@@ -4,13 +4,21 @@
     <onunload>ClearProperty(SetUserRating,home)</onunload>
     <onunload>ClearProperty(SetUserRating2,home)</onunload>
     <onload condition="Skin.HasSetting(osd.alwaysshowmusicosd)">ActivateWindow(musicosd)</onload>
-    <!--<onload condition="Skin.HasSetting(osd.lyrics)">RunScript(script.cu.lrclyrics)</onload>-->
     <onload>RunScript(script.artistslideshow)</onload>
     <controls>
         <control type="visualisation" id="2">
             <visible>Skin.HasSetting(OSDVisualisation.ShowFanart) | [!Skin.HasSetting(musicvis.fanartfallback) + [!System.HasAddon(script.artistslideshow) | Skin.HasSetting(ArtistSlideShow.Disabled)]]</visible>
             <description>visualisation</description>
             <include>Dimensions_Fullscreen</include>
+        </control>
+        <control type="image">
+            <aspectratio>scale</aspectratio>
+            <include>Dimensions_Fullscreen</include>
+            <texture background="true">$INFO[Skin.String(fanart.fallback.music)]</texture>
+            <visible>!String.IsEmpty(Skin.String(fanart.fallback.music))</visible>
+            <animation effect="fade" start="100" end="65" time="0" condition="Skin.HasSetting(OSDVisualisation.ShowFanart)">Conditional</animation>
+            <animation effect="zoom" start="110" end="130" center="auto" time="10000" tween="sine" easing="inout" pulse="true" condition="Skin.HasSetting(ArtistSlideshow.Animate)">Conditional</animation>
+            <animation effect="slide" start="-30,-30" end="30,30" time="6000" tween="sine" easing="inout" pulse="true" condition="Skin.HasSetting(ArtistSlideshow.Animate)">Conditional</animation>
         </control>
         <control type="image">
             <aspectratio>scale</aspectratio>
@@ -223,7 +231,6 @@
                 <include>Animation.FadeIn</include>
                 <include>Animation.FadeOut</include>
                 <animation effect="fade" start="100" end="0" time="150" condition="Window.IsVisible(script-cu-lrclyrics-main.xml) + Skin.HasSetting(hideseekbaronlyrics)">Conditional</animation>
-                <!--<animation effect="fade" start="100" end="0" time="0" condition="Skin.HasSetting(osd.artistinfos) + !Skin.HasSetting(osd.usethemeNewOSDMusic)">Conditional</animation>-->
                 <animation effect="slide" start="0" end="-50,-105" time="150" condition="Skin.HasSetting(osd.usethemeNewOSDMusic)">Conditional</animation>
                 <animation effect="slide" start="0,0" end="0,-70" time="150" condition="Skin.HasSetting(osd.artistinfos)">Conditional</animation>
                 <animation effect="slide" start="0,0" end="0,-264" time="150" condition="Skin.HasSetting(osd.artistinfos) + !Skin.HasSetting(osd.usethemeNewOSDMusic)">Conditional</animation>
@@ -406,9 +413,7 @@
                     <effect type="slide" start="-130,0" end="0,0" tween="sine" easing="out" time="600" delay="700"/>
                 </animation>
                 <include>DefDiscArt</include>
-            </control>
-            
-            
+            </control>            
             <control type="group">
                 <top>627</top>
                 <left>70</left>
