@@ -2620,7 +2620,8 @@
     
     <!-- Normal Layout -->
     <include name="TemplateNormalItemLayout">
-        <param name="small" value="$PARAM[small]" default="false"/>
+        <param name="smallthumb" value="$PARAM[smallthumb]" default="false"/>
+        <param name="smallfanart" value="$PARAM[smallfanart]" default="false"/>
         <definition>
         <itemlayout height="325" width="222" condition="!String.IsEqual(Container(300).ListItem.Property(widgetaspect$PARAM[shortcutsidshort]),Banner) + !String.IsEqual(Container(300).ListItem.Property(widgetaspect$PARAM[shortcutsidshort]),Square) + ![String.IsEqual(Container(300).ListItem.Property(widgetaspect$PARAM[shortcutsidshort]),Fanart) | String.IsEqual(Container(300).ListItem.Property(widgetaspect$PARAM[shortcutsidshort]),Thumbnail)]">
             <include content="include.widget.poster">
@@ -2636,10 +2637,17 @@
                 <param name="reflections" value="Skin.HasSetting(home.widgets.show.reflections)"/>
             </include>
         </itemlayout>
-        <itemlayout height="325" width="562" condition="String.IsEqual(Container(300).ListItem.Property(widgetaspect$PARAM[shortcutsidshort]),Fanart)">
+        <itemlayout height="325" width="562" condition="String.IsEqual(Container(300).ListItem.Property(widgetaspect$PARAM[shortcutsidshort]),Fanart) + !$PARAM[smallfanart]">
             <include content="include.widget.fanart">
                 <param name="id" value="$PARAM[shortcutsid]"/>
                 <param name="reflections" value="Skin.HasSetting(home.widgets.show.reflections)"/>
+            </include>
+        </itemlayout>
+        <itemlayout height="325" width="400" condition="String.IsEqual(Container(300).ListItem.Property(widgetaspect$PARAM[shortcutsidshort]),Fanart) + $PARAM[smallfanart]">
+            <include content="include.widget.fanart">
+                <param name="id" value="$PARAM[shortcutsid]"/>
+                <param name="reflections" value="false"/>
+                <param name="small" value="$PARAM[smallfanart]"/>
             </include>
         </itemlayout>
         <itemlayout height="325" width="1690" condition="String.IsEqual(Container(300).ListItem.Property(widgetaspect$PARAM[shortcutsidshort]),Banner)">
@@ -2648,18 +2656,18 @@
                 <param name="reflections" value="Skin.HasSetting(home.widgets.show.reflections)"/>
             </include>
         </itemlayout>
-        <itemlayout height="325" width="562" condition="String.IsEqual(Container(300).ListItem.Property(widgetaspect$PARAM[shortcutsidshort]),Thumbnail) + !$PARAM[small]">
+        <itemlayout height="325" width="562" condition="String.IsEqual(Container(300).ListItem.Property(widgetaspect$PARAM[shortcutsidshort]),Thumbnail) + !$PARAM[smallthumb]">
             <include content="include.widget.thumb">
                 <param name="clearlogo" value="$PARAM[shortcutsclearlogo]"/>
                 <param name="id" value="$PARAM[shortcutsid]"/>
                 <param name="reflections" value="Skin.HasSetting(home.widgets.show.reflections)"/>
             </include>
         </itemlayout>
-        <itemlayout height="325" width="400" condition="String.IsEqual(Container(300).ListItem.Property(widgetaspect$PARAM[shortcutsidshort]),Thumbnail) + $PARAM[small]">
+        <itemlayout height="325" width="400" condition="String.IsEqual(Container(300).ListItem.Property(widgetaspect$PARAM[shortcutsidshort]),Thumbnail) + $PARAM[smallthumb]">
             <include content="include.widget.thumb">
                 <param name="clearlogo" value="$PARAM[shortcutsclearlogo]"/>
                 <param name="id" value="$PARAM[shortcutsid]"/>
-                <param name="small" value="$PARAM[small]"/>
+                <param name="small" value="$PARAM[smallthumb]"/>
                 <param name="reflections" value="false"/>
             </include>
         </itemlayout>
@@ -2715,7 +2723,8 @@
 
     <!-- Normal Focus Layout -->
     <include name="TemplateNormalFocusLayout">
-        <param name="small" value="$PARAM[small]" default="false"/>
+        <param name="smallthumb" value="$PARAM[smallthumb]" default="false"/>
+        <param name="smallfanart" value="$PARAM[smallfanart]" default="false"/>
         <definition>
         <focusedlayout height="325" width="222" condition="!String.IsEqual(Container(300).ListItem.Property(widgetaspect$PARAM[shortcutsidshort]),Banner) + !String.IsEqual(Container(300).ListItem.Property(widgetaspect$PARAM[shortcutsidshort]),Square) + ![String.IsEqual(Container(300).ListItem.Property(widgetaspect$PARAM[shortcutsidshort]),Fanart) | String.IsEqual(Container(300).ListItem.Property(widgetaspect$PARAM[shortcutsidshort]),Thumbnail)]">
             <include content="include.widget.poster.focus">
@@ -2731,10 +2740,17 @@
                 <param name="reflections" value="Skin.HasSetting(home.widgets.show.reflections)"/>
             </include>
         </focusedlayout>
-        <focusedlayout height="325" width="562" condition="String.IsEqual(Container(300).ListItem.Property(widgetaspect$PARAM[shortcutsidshort]),Fanart)">
+        <focusedlayout height="325" width="562" condition="String.IsEqual(Container(300).ListItem.Property(widgetaspect$PARAM[shortcutsidshort]),Fanart) + !$PARAM[smallfanart]">
             <include content="include.widget.fanart.focus">
                 <param name="id" value="$PARAM[shortcutsid]"/>
                 <param name="reflections" value="Skin.HasSetting(home.widgets.show.reflections)"/>
+            </include>
+        </focusedlayout>
+        <focusedlayout height="325" width="400" condition="String.IsEqual(Container(300).ListItem.Property(widgetaspect$PARAM[shortcutsidshort]),Fanart) + $PARAM[smallfanart]">
+            <include content="include.widget.fanart.focus">
+                <param name="id" value="$PARAM[shortcutsid]"/>
+                <param name="reflections" value="false"/>
+                <param name="small" value="$PARAM[smallfanart]"/>
             </include>
         </focusedlayout>
         <focusedlayout height="325" width="1690" condition="String.IsEqual(Container(300).ListItem.Property(widgetaspect$PARAM[shortcutsidshort]),Banner)">
@@ -2743,19 +2759,19 @@
                 <param name="reflections" value="Skin.HasSetting(home.widgets.show.reflections)"/>
             </include>
         </focusedlayout>
-        <focusedlayout height="325" width="562" condition="String.IsEqual(Container(300).ListItem.Property(widgetaspect$PARAM[shortcutsidshort]),Thumbnail) + !$PARAM[small]">
+        <focusedlayout height="325" width="562" condition="String.IsEqual(Container(300).ListItem.Property(widgetaspect$PARAM[shortcutsidshort]),Thumbnail) + !$PARAM[smallthumb]">
             <include content="include.widget.thumb.focus">
                 <param name="id" value="$PARAM[shortcutsid]"/>
                 <param name="clearlogo" value="$PARAM[shortcutsclearlogo]"/>
                 <param name="reflections" value="Skin.HasSetting(home.widgets.show.reflections)"/>
             </include>
         </focusedlayout>
-        <focusedlayout height="325" width="400" condition="String.IsEqual(Container(300).ListItem.Property(widgetaspect$PARAM[shortcutsidshort]),Thumbnail) + $PARAM[small]">
+        <focusedlayout height="325" width="400" condition="String.IsEqual(Container(300).ListItem.Property(widgetaspect$PARAM[shortcutsidshort]),Thumbnail) + $PARAM[smallthumb]">
             <include content="include.widget.thumb.focus">
                 <param name="id" value="$PARAM[shortcutsid]"/>
                 <param name="clearlogo" value="$PARAM[shortcutsclearlogo]"/>
                 <param name="reflections" value="false"/>
-                <param name="small" value="$PARAM[small]"/>
+                <param name="small" value="$PARAM[smallthumb]"/>
             </include>
         </focusedlayout>
         </definition>
