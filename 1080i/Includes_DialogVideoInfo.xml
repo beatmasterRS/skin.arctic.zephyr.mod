@@ -421,7 +421,7 @@
                     <include>Animation.FadeOutDialogInfo</include>
                     <left>570</left>
                     <right>SidePad</right>
-                    <top>555</top>
+                    <top>545</top>
                     <control type="grouplist">
                         <orientation>vertical</orientation>
                         <itemgap>-30</itemgap>
@@ -430,16 +430,18 @@
                         <control type="label">
                             <font>Tiny</font>
                             <textcolor>Dark1</textcolor>
-                            <label>[B]$LOCALIZE[20417][/B]</label>
+                            <label>[B]$LOCALIZE[20339][/B]</label>
                             <aligny>center</aligny>
                             <align>left</align>
+                            <visible>!String.IsEmpty(ListItem.Director) | !String.IsEmpty(Window(Home).Property(TMDbHelper.ListItem.Director))</visible>
                         </control>
                         <control type="label">
                             <font>Tiny</font>
                             <textcolor>Dark1</textcolor>
-                            <label>[B]$LOCALIZE[20339][/B]</label>
+                            <label>[B]$LOCALIZE[20417][/B]</label>
                             <aligny>center</aligny>
                             <align>left</align>
+                            <visible>!String.IsEmpty(ListItem.Writer) | !String.IsEmpty(Window(Home).Property(TMDbHelper.ListItem.Writer))</visible>
                         </control>
                         <control type="label">
                             <font>Tiny</font>
@@ -447,13 +449,7 @@
                             <label>[B]$LOCALIZE[572][/B]</label>
                             <aligny>center</aligny>
                             <align>left</align>
-                        </control>
-                        <control type="label">
-                            <font>Tiny</font>
-                            <textcolor>Dark1</textcolor>
-                            <label>[B]$LOCALIZE[37529][/B]</label>
-                            <aligny>center</aligny>
-                            <align>left</align>
+                            <visible>!String.IsEmpty(ListItem.Studio) | !String.IsEmpty(Window(Home).Property(TMDbHelper.ListItem.Studio))</visible>
                         </control>
                         <control type="label">
                             <font>Tiny</font>
@@ -461,6 +457,7 @@
                             <label>[B]$LOCALIZE[37530][/B]</label>
                             <aligny>center</aligny>
                             <align>left</align>
+                            <visible>!String.IsEmpty(Window(Home).Property(TMDbHelper.ListItem.Awards))</visible>
                         </control>
                         <control type="label">
                             <font>Tiny</font>
@@ -468,9 +465,18 @@
                             <label>[B]IMDB 250[/B]</label>
                             <aligny>center</aligny>
                             <align>left</align>
+                            <visible>!String.IsEmpty(ListItem.Top250) | !String.IsEmpty(Window(Home).Property(TMDbHelper.ListItem.Top250))</visible>
                         </control>
                         <control type="label">
-                            <visible>String.IsEqual(ListItem.DBType,movie) | String.IsEqual(ListItem.DBType,episode)</visible>
+                            <font>Tiny</font>
+                            <textcolor>Dark1</textcolor>
+                            <label>[B]$LOCALIZE[574][/B]</label>
+                            <aligny>center</aligny>
+                            <align>left</align>
+                            <visible>!String.IsEmpty(Window(Home).Property(TMDbHelper.ListItem.Country))</visible>
+                        </control>
+                        <control type="label">
+                            <visible>[String.IsEqual(ListItem.DBType,movie) | String.IsEqual(ListItem.DBType,episode)] + [!String.IsEmpty(ListItem.Property(AudioLanguage.1)) | !String.IsEmpty(ListItem.Property(SubtitleLanguage.1))]</visible>
                             <font>Tiny</font>
                             <textcolor>Dark1</textcolor>
                             <label>[B]$LOCALIZE[445][/B]</label>
@@ -478,7 +484,7 @@
                             <align>left</align>
                         </control>
                         <control type="label">
-                            <visible>String.IsEqual(ListItem.DBType,tvshow)</visible>
+                            <visible>String.IsEqual(ListItem.DBType,tvshow) + !String.IsEmpty(Window(Home).Property(TMDbHelper.ListItem.Provider.1.Icon))</visible>
                             <font>Tiny</font>
                             <textcolor>Dark1</textcolor>
                             <label>[B]$LOCALIZE[19101][/B]</label>
@@ -491,30 +497,27 @@
                         <itemgap>-30</itemgap>
                         <height>400</height>
                         <width>650</width>
-                        <left>200</left>
-                        <control type="label">
-                            <font>Tiny</font>
-                            <textcolor>Dark2</textcolor>
-                            <label fallback="19055">$VAR[Label_Writer]</label>
-                            <aligny>center</aligny>
-                        </control>
+                        <left>210</left>
                         <control type="label">
                             <font>Tiny</font>
                             <textcolor>Dark2</textcolor>
                             <label fallback="19055">$VAR[Label_Director]</label>
                             <aligny>center</aligny>
+                            <visible>!String.IsEmpty(ListItem.Director) | !String.IsEmpty(Window(Home).Property(TMDbHelper.ListItem.Director))</visible>
+                        </control>
+                        <control type="label">
+                            <font>Tiny</font>
+                            <textcolor>Dark2</textcolor>
+                            <label fallback="19055">$VAR[Label_Writer]</label>
+                            <aligny>center</aligny>
+                            <visible>!String.IsEmpty(ListItem.Writer) | !String.IsEmpty(Window(Home).Property(TMDbHelper.ListItem.Writer))</visible>
                         </control>
                         <control type="label">
                             <font>Tiny</font>
                             <textcolor>Dark2</textcolor>
                             <label fallback="19055">$VAR[Label_Studio]</label>
                             <aligny>center</aligny>
-                        </control>
-                        <control type="label">
-                            <font>Tiny</font>
-                            <textcolor>Dark2</textcolor>
-                            <label fallback="19055">$INFO[Window(Home).Property(TMDbHelper.ListItem.Premiered)]</label>
-                            <aligny>center</aligny>
+                            <visible>!String.IsEmpty(ListItem.Studio) | !String.IsEmpty(Window(Home).Property(TMDbHelper.ListItem.Studio))</visible>
                         </control>
                         <control type="label">
                             <font>Tiny</font>
@@ -522,108 +525,118 @@
                             <textcolor>Dark2</textcolor>
                             <label fallback="19055">$INFO[Window(Home).Property(TMDbHelper.ListItem.Awards)]</label>
                             <aligny>center</aligny>
+                            <visible>!String.IsEmpty(Window(Home).Property(TMDbHelper.ListItem.Awards))</visible>
                         </control>
                         <control type="label">
                             <font>Tiny</font>
                             <textcolor>Dark2</textcolor>
                             <label fallback="19055">$VAR[Label_Top250]</label>
                             <aligny>center</aligny>
+                            <visible>!String.IsEmpty(ListItem.Top250) | !String.IsEmpty(Window(Home).Property(TMDbHelper.ListItem.Top250))</visible>
                         </control>
                         <control type="label">
                             <font>Tiny</font>
                             <textcolor>Dark2</textcolor>
-                            <label>19055</label>
+                            <label fallback="19055">$INFO[Window(Home).Property(TMDbHelper.ListItem.Country)]</label>
                             <aligny>center</aligny>
-                            <visible>String.IsEqual(ListItem.DBType,tvshow) + String.IsEmpty(Window(Home).Property(TMDbHelper.ListItem.Provider.1.Icon))</visible>
+                            <visible>!String.IsEmpty(Window(Home).Property(TMDbHelper.ListItem.Country))</visible>
+                        </control>						
+                        <control type="grouplist">
+                            <visible>String.IsEqual(ListItem.DBType,movie) | String.IsEqual(ListItem.DBType,episode)</visible>
+                            <orientation>horizontal</orientation>
+                            <usecontrolcoords>true</usecontrolcoords>
+                            <control type="image">
+                                <top>20</top>
+                                <width>28</width>
+                                <aligny>center</aligny>
+                                <height>28</height>
+                                <texture>$INFO[ListItem.Property(AudioLanguage.1),flags/lang/,.png]</texture>
+                                <visible>!String.IsEmpty(ListItem.Property(AudioLanguage.1))</visible>
+                            </control>
+                            <control type="image">
+                                <top>20</top>
+                                <width>28</width>
+                                <height>28</height>
+                                <texture>$INFO[ListItem.Property(AudioLanguage.2),flags/lang/,.png]</texture>
+                                <visible>!String.IsEmpty(ListItem.Property(AudioLanguage.2))</visible>
+                            </control>
+                            <control type="image">
+                                <top>20</top>
+                                <width>28</width>
+                                <height>28</height>
+                                <texture>$INFO[ListItem.Property(AudioLanguage.3),flags/lang/,.png]</texture>
+                                <visible>!String.IsEmpty(ListItem.Property(AudioLanguage.3))</visible>
+                            </control>
+                            <control type="image">
+                                <top>20</top>
+                                <width>28</width>
+                                <height>28</height>
+                                <texture>$INFO[ListItem.Property(AudioLanguage.4),flags/lang/,.png]</texture>
+                                <visible>!String.IsEmpty(ListItem.Property(AudioLanguage.4))</visible>
+                            </control>
+                            <control type="image">
+                                <top>20</top>
+                                <width>28</width>
+                                <height>28</height>
+                                <texture>$INFO[ListItem.Property(AudioLanguage.5),flags/lang/,.png]</texture>
+                                <visible>!String.IsEmpty(ListItem.Property(AudioLanguage.5))</visible>
+                            </control>
+                            <control type="image">
+                                <top>20</top>
+                                <width>28</width>
+                                <height>28</height>
+                                <texture>$INFO[ListItem.Property(SubtitleLanguage.1),flags/lang/,.png]</texture>
+                                <visible>!String.IsEmpty(ListItem.Property(SubtitleLanguage.1))</visible>
+                                <colordiffuse>ff777777</colordiffuse>
+                            </control>
+                            <control type="image">
+                                <top>20</top>
+                                <width>28</width>
+                                <height>28</height>
+                                <texture>$INFO[ListItem.Property(SubtitleLanguage.2),flags/lang/,.png]</texture>
+                                <visible>!String.IsEmpty(ListItem.Property(SubtitleLanguage.2))</visible>
+                                <colordiffuse>ff777777</colordiffuse>
+                            </control>
+                            <control type="image">
+                                <top>20</top>
+                                <width>28</width>
+                                <height>28</height>
+                                <texture>$INFO[ListItem.Property(SubtitleLanguage.3),flags/lang/,.png]</texture>
+                                <visible>!String.IsEmpty(ListItem.Property(SubtitleLanguage.3))</visible>
+                                <colordiffuse>ff777777</colordiffuse>
+                            </control>
+                            <control type="image">
+                                <top>20</top>
+                                <width>28</width>
+                                <height>28</height>
+                                <texture>$INFO[ListItem.Property(SubtitleLanguage.4),flags/lang/,.png]</texture>
+                                <visible>!String.IsEmpty(ListItem.Property(SubtitleLanguage.4))</visible>
+                                <colordiffuse>ff777777</colordiffuse>
+                            </control>
+                            <control type="image">
+                                <top>20</top>
+                                <width>28</width>
+                                <height>28</height>
+                                <texture>$INFO[ListItem.Property(SubtitleLanguage.5),flags/lang/,.png]</texture>
+                                <visible>!String.IsEmpty(ListItem.Property(SubtitleLanguage.5))</visible>
+                                <colordiffuse>ff777777</colordiffuse>
+                            </control>
                         </control>
-                    </control>
-                    <control type="grouplist">
-                        <top>237</top>
-                        <left>200</left>
-                        <visible>String.IsEqual(ListItem.DBType,tvshow)</visible>
-                        <orientation>horizontal</orientation>
-                        <height>28</height>                         
-                        <include content="TvShowProviderIcon"><param name="icon" value="1" /></include>
-                        <include content="TvShowProviderIcon"><param name="icon" value="2" /></include>
-                        <include content="TvShowProviderIcon"><param name="icon" value="3" /></include>
-                        <include content="TvShowProviderIcon"><param name="icon" value="4" /></include>
-                        <include content="TvShowProviderIcon"><param name="icon" value="5" /></include>
-                        <include content="TvShowProviderIcon"><param name="icon" value="6" /></include>
-                        <include content="TvShowProviderIcon"><param name="icon" value="7" /></include>
-                        <include content="TvShowProviderIcon"><param name="icon" value="8" /></include>
-                        <include content="TvShowProviderIcon"><param name="icon" value="9" /></include>
-                    </control>
-                    <control type="grouplist">
-                        <visible>String.IsEqual(ListItem.DBType,movie) | String.IsEqual(ListItem.DBType,episode)</visible>
-                        <orientation>horizontal</orientation>
-                        <top>237</top>
-                        <left>200</left>
-                        <height>28</height>
-                        <control type="image">
-                            <width>28</width>
-                            <height>28</height>
-                            <texture>$INFO[ListItem.Property(AudioLanguage.1),flags/lang/,.png]</texture>
-                            <visible>!String.IsEmpty(ListItem.Property(AudioLanguage.1))</visible>
-                        </control>
-                        <control type="image">
-                            <width>28</width>
-                            <height>28</height>
-                            <texture>$INFO[ListItem.Property(AudioLanguage.2),flags/lang/,.png]</texture>
-                            <visible>!String.IsEmpty(ListItem.Property(AudioLanguage.2))</visible>
-                        </control>
-                        <control type="image">
-                            <width>28</width>
-                            <height>28</height>
-                            <texture>$INFO[ListItem.Property(AudioLanguage.3),flags/lang/,.png]</texture>
-                            <visible>!String.IsEmpty(ListItem.Property(AudioLanguage.3))</visible>
-                        </control>
-                        <control type="image">
-                            <width>28</width>
-                            <height>28</height>
-                            <texture>$INFO[ListItem.Property(AudioLanguage.4),flags/lang/,.png]</texture>
-                            <visible>!String.IsEmpty(ListItem.Property(AudioLanguage.4))</visible>
-                        </control>
-                        <control type="image">
-                            <width>28</width>
-                            <height>28</height>
-                            <texture>$INFO[ListItem.Property(AudioLanguage.5),flags/lang/,.png]</texture>
-                            <visible>!String.IsEmpty(ListItem.Property(AudioLanguage.5))</visible>
-                        </control>
-                        <control type="image">
-                            <width>28</width>
-                            <height>28</height>
-                            <texture>$INFO[ListItem.Property(SubtitleLanguage.1),flags/lang/,.png]</texture>
-                            <visible>!String.IsEmpty(ListItem.Property(SubtitleLanguage.1))</visible>
-                            <colordiffuse>ff777777</colordiffuse>
-                        </control>
-                        <control type="image">
-                            <width>28</width>
-                            <height>28</height>
-                            <texture>$INFO[ListItem.Property(SubtitleLanguage.2),flags/lang/,.png]</texture>
-                            <visible>!String.IsEmpty(ListItem.Property(SubtitleLanguage.2))</visible>
-                            <colordiffuse>ff777777</colordiffuse>
-                        </control>
-                        <control type="image">
-                            <width>28</width>
-                            <height>28</height>
-                            <texture>$INFO[ListItem.Property(SubtitleLanguage.3),flags/lang/,.png]</texture>
-                            <visible>!String.IsEmpty(ListItem.Property(SubtitleLanguage.3))</visible>
-                            <colordiffuse>ff777777</colordiffuse>
-                        </control>
-                        <control type="image">
-                            <width>28</width>
-                            <height>28</height>
-                            <texture>$INFO[ListItem.Property(SubtitleLanguage.4),flags/lang/,.png]</texture>
-                            <visible>!String.IsEmpty(ListItem.Property(SubtitleLanguage.4))</visible>
-                            <colordiffuse>ff777777</colordiffuse>
-                        </control>
-                        <control type="image">
-                            <width>28</width>
-                            <height>28</height>
-                            <texture>$INFO[ListItem.Property(SubtitleLanguage.5),flags/lang/,.png]</texture>
-                            <visible>!String.IsEmpty(ListItem.Property(SubtitleLanguage.5))</visible>
-                            <colordiffuse>ff777777</colordiffuse>
-                        </control>
+                        <control type="grouplist">
+                            <usecontrolcoords>true</usecontrolcoords>
+                            <visible>String.IsEqual(ListItem.DBType,tvshow) + !String.IsEmpty(Window(Home).Property(TMDbHelper.ListItem.Provider.1.Icon))</visible>
+                            <orientation>horizontal</orientation>
+                            <height>48</height>                         
+                            <include content="TvShowProviderIcon"><param name="icon" value="1" /></include>
+                            <include content="TvShowProviderIcon"><param name="icon" value="2" /></include>
+                            <include content="TvShowProviderIcon"><param name="icon" value="3" /></include>
+                            <include content="TvShowProviderIcon"><param name="icon" value="4" /></include>
+                            <include content="TvShowProviderIcon"><param name="icon" value="5" /></include>
+                            <include content="TvShowProviderIcon"><param name="icon" value="6" /></include>
+                            <include content="TvShowProviderIcon"><param name="icon" value="7" /></include>
+                            <include content="TvShowProviderIcon"><param name="icon" value="8" /></include>
+                            <include content="TvShowProviderIcon"><param name="icon" value="9" /></include>
+                        </control>                        
                     </control>
                     <control type="image" description="clearlogo">
                         <fadetime>ClearArtFadetime</fadetime>
@@ -914,10 +927,10 @@
                         <param name="visi" value="String.IsEqual(Window.Property(moviecontent),7)"/>
                         <param name="animation" value="Animation.cast"/>
                         <param name="controlid" value="9506"/>
-                        <param name="ContentToLoad" value="plugin://plugin.video.themoviedb.helper/?info=crew_in_movies&amp;type=person&amp;filter_key=job&amp;filter_value=Director&amp;query=$INFO[ListItem.Director]&amp;exclude_key=title&amp;exclude_value=$INFO[ListItem.Title]&amp;nextpage=false"/>
+                        <param name="ContentToLoad" value="$VAR[Def_Director_List]"/>
                         <param name="visible.layouts" value="Control.HasFocus(9506) | Control.HasFocus(6) | Window.IsVisible(DialogBusy.xml)"/>
                         <param name="storageicon.backgroundlist" value="true"/>
-                        <param name="onclick1" value="RunScript(script.embuary.info,call=movie,query=$INFO[Container(9506).ListItem.Label]))"/>
+                        <param name="onclick1" value="$VAR[Def_Director_Item]"/>
                         <param name="listleft" value="-840"/>
                         <param name="labeltwovisible" value="true"/>
                         <param name="poster" value="true" />
@@ -929,6 +942,31 @@
                         <param name="alignleft" value="450"/>
                     </include>
     
+                    <!-- By Sets -->
+                    <include content="VideoListCast" condition="String.IsEqual(ListItem.DBType,movie) + !String.IsEqual(ListItem.DBType,set)">
+                        <param name="arrowleft" value="-598"/>
+                        <param name="arrowtop" value="342"/>
+                        <param name="arrowright" value="155"/>                        
+                        <param name="condition.includecontent" value="true"/>                        
+                        <param name="fallbackpicture" value="pbtmdb.png"/>
+                        <param name="visi" value="String.IsEqual(Window.Property(moviecontent),8)"/>
+                        <param name="animation" value="Animation.cast"/>
+                        <param name="controlid" value="9515"/>
+                        <param name="ContentToLoad" value="$VAR[Def_Set_List]"/>
+                        <param name="visible.layouts" value="Control.HasFocus(9515) | Control.HasFocus(6) | Window.IsVisible(DialogBusy.xml)"/>
+                        <param name="storageicon.backgroundlist" value="true"/>
+                        <param name="onclick1" value="$VAR[Def_Set_Item]"/>
+                        <param name="listleft" value="-840"/>
+                        <param name="labeltwovisible" value="true"/>
+                        <param name="poster" value="true" />
+                        <param name="thumb" value="false" />
+                    </include>
+                    <include content="ListInfoUpdating">
+                        <param name="visi" value="String.IsEqual(Window.Property(moviecontent),8)"/>
+                        <param name="controlid" value="9515"/>
+                        <param name="alignleft" value="450"/>
+                    </include>
+
                     <!-- Similar Movies -->
                     <include content="VideoListCast" condition="String.IsEqual(ListItem.DBType,movie) + !String.IsEqual(ListItem.DBType,set)">
                         <param name="arrowleft" value="-598"/>
@@ -939,13 +977,15 @@
                         <param name="visi" value="String.IsEqual(Window.Property(moviecontent),2)"/>
                         <param name="animation" value="Animation.cast"/>
                         <param name="controlid" value="9502"/>
-                        <param name="ContentToLoad" value="$VAR[ContentVideoSimilar]"/>
+                        <param name="ContentToLoad" value="$VAR[Def_Similar_List]"/>
                         <param name="visible.layouts" value="Control.HasFocus(9502) | Control.HasFocus(6) | Window.IsVisible(DialogBusy.xml)"/>
                         <param name="storageicon.backgroundlist" value="true"/>
-                        <param name="onclick1" value="RunScript(script.embuary.info,call=movie,query=$INFO[Container(9502).ListItem.Label]))"/>
-                        <param name="onup1" value="RunScript(script.embuary.info,call=movie,query=$INFO[Container(9502).ListItem.Label]))"/>
+                        <param name="onclick1" value="$VAR[Def_Similar_Item]"/>
+                        <param name="onup1" value="$VAR[Def_Similar_Item]"/>
                         <param name="listleft" value="-840"/>
                         <param name="labeltwovisible" value="true"/>
+                        <param name="poster" value="true" />
+                        <param name="thumb" value="false" />
                     </include>
     
                     <!-- Similar TV Shows -->
@@ -958,13 +998,15 @@
                         <param name="visi" value="String.IsEqual(Window.Property(moviecontent),2)"/>
                         <param name="animation" value="Animation.cast"/>
                         <param name="controlid" value="9502"/>
-                        <param name="ContentToLoad" value="$VAR[ContentVideoSimilar]"/>
+                        <param name="ContentToLoad" value="$VAR[Def_Similar_List]"/>
                         <param name="visible.layouts" value="Control.HasFocus(9502) | Control.HasFocus(6) | Window.IsVisible(DialogBusy.xml)"/>
                         <param name="storageicon.backgroundlist" value="true"/>
-                        <param name="onclick1" value="RunScript(script.embuary.info,call=tv,query=$INFO[Container(9502).ListItem.Label]))"/>
-                        <param name="onup1" value="RunScript(script.embuary.info,call=tv,query=$INFO[Container(9502).ListItem.Label]))"/>
+                        <param name="onclick1" value="$VAR[Def_Similar_Item_TV]"/>
+                        <param name="onup1" value="$VAR[Def_Similar_Item_TV]"/>
                         <param name="listleft" value="-840"/>
                         <param name="labeltwovisible" value="true"/>
+                        <param name="poster" value="true" />
+                        <param name="thumb" value="false" />
                     </include>
                     <include content="ListInfoUpdating">
                         <param name="visi" value="String.IsEqual(Window.Property(moviecontent),2)"/>
@@ -973,7 +1015,7 @@
                     </include>
 
                     <!-- Studio -->
-                    <include content="VideoListCast">
+                    <include content="VideoListCast" condition="String.IsEqual(ListItem.DBType,movie) + !String.IsEqual(ListItem.DBType,set)">
                         <param name="arrowleft" value="-598"/>
                         <param name="arrowtop" value="342"/>
                         <param name="arrowright" value="155"/>                        
@@ -982,20 +1024,48 @@
                         <param name="visi" value="String.IsEqual(Window.Property(moviecontent),3)"/>
                         <param name="animation" value="Animation.cast"/>
                         <param name="controlid" value="9503"/>
-                        <param name="ContentToLoad" value="$VAR[ContentVideoStudio]"/>
+                        <param name="ContentToLoad" value="$VAR[Def_Studio_List]"/>
                         <param name="visible.layouts" value="Control.HasFocus(9503) | Control.HasFocus(6) | Window.IsVisible(DialogBusy.xml)"/>
                         <param name="storageicon.backgroundlist" value="true"/>
-                        <param name="onclick1" value="RunScript(script.embuary.info,call=movie,query=$INFO[Container(9503).ListItem.Label]))"/>
-                        <param name="onup1" value="RunScript(script.embuary.info,call=movie,query=$INFO[Container(9503).ListItem.Label]))"/>
+                        <param name="onclick1" value="$VAR[Def_Studio_Item]"/>
+                        <param name="onup1" value="$VAR[Def_Studio_Item]"/>
                         <param name="listleft" value="-840"/>
                         <param name="labeltwovisible" value="true"/>
+                        <param name="poster" value="true" />
+                        <param name="thumb" value="false" />
                     </include>
                     <include content="ListInfoUpdating">
                         <param name="visi" value="String.IsEqual(Window.Property(moviecontent),3)"/>
                         <param name="controlid" value="9503"/>
                         <param name="alignleft" value="450"/>
                     </include>
-    
+
+                    <!-- Studio TV Shows -->
+                    <include content="VideoListCast" condition="String.IsEqual(ListItem.DBType,tvshow) + !String.IsEqual(ListItem.DBType,set)">
+                        <param name="arrowleft" value="-598"/>
+                        <param name="arrowtop" value="342"/>
+                        <param name="arrowright" value="155"/>                        
+                        <param name="condition.includecontent" value="true"/>                        
+                        <param name="fallbackpicture" value="pbtmdb.png"/>
+                        <param name="visi" value="String.IsEqual(Window.Property(moviecontent),3)"/>
+                        <param name="animation" value="Animation.cast"/>
+                        <param name="controlid" value="9503"/>
+                        <param name="ContentToLoad" value="$VAR[Def_Studio_List]"/>
+                        <param name="visible.layouts" value="Control.HasFocus(9503) | Control.HasFocus(6) | Window.IsVisible(DialogBusy.xml)"/>
+                        <param name="storageicon.backgroundlist" value="true"/>
+                        <param name="onclick1" value="$VAR[Def_Studio_Item_TV]"/>
+                        <param name="onup1" value="$VAR[Def_Studio_Item_TV]"/>
+                        <param name="listleft" value="-840"/>
+                        <param name="labeltwovisible" value="true"/>
+                        <param name="poster" value="true" />
+                        <param name="thumb" value="false" />
+                    </include>
+                    <include content="ListInfoUpdating">
+                        <param name="visi" value="String.IsEqual(Window.Property(moviecontent),3)"/>
+                        <param name="controlid" value="9503"/>
+                        <param name="alignleft" value="450"/>
+                    </include>
+
                     <!-- Youtube -->
                     <include content="VideoListSquare" condition="!String.IsEqual(ListItem.DBType,set)">
                         <param name="arrowleft" value="-748"/>
