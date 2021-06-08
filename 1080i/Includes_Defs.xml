@@ -737,10 +737,22 @@
     </variable>
 
     <variable name="Def_Studio_List">
+        <value condition="!Skin.HasSetting(extended.info.only.local) + String.IsEqual(ListItem.DBType,tvshow)">plugin://plugin.video.themoviedb.helper?info=discover&amp;type=tv&amp;with_companies=$INFO[Window(Home).Property(TMDBHelper.ListItem.Studio.1.TMDB_ID)]&amp;with_id=True&amp;exclude_key=title&amp;exclude_value=$INFO[ListItem.Title]&amp;nextpage=false</value>
+        <value condition="Skin.HasSetting(extended.info.only.local) + String.IsEqual(ListItem.DBType,tvshow)">videodb://tvshows/titles/?xsp=%7b%22rules%22%3a%7b%22and%22%3a%5b%7b%22field%22%3a%22studio%22%2c%22operator%22%3a%22is%22%2c%22value%22%3a%5b%22$INFO[ListItem.Studio]%22%5d%7d%5d%7d%2c%22type%22%3a%22tvshows%22%7d</value>
         <value condition="!Skin.HasSetting(extended.info.only.local)">plugin://plugin.video.themoviedb.helper?info=discover&amp;type=movie&amp;with_companies=$INFO[Window(Home).Property(TMDBHelper.ListItem.Studio.1.TMDB_ID)]&amp;with_id=True&amp;exclude_key=title&amp;exclude_value=$INFO[ListItem.Title]&amp;nextpage=false</value>
-        <value>videodb://movies/titles/?xsp=%7b%22rules%22%3a%7b%22and%22%3a%5b%7b%22field%22%3a%22studio%22%2c%22operator%22%3a%22is%22%2c%22value%22%3a%5b%22$INFO[ListItem.Studio]%22%5d%7d%5d%7d%2c%22type%22%3a%22movies%22%7d</value>
+        <value condition="Skin.HasSetting(extended.info.only.local)">videodb://movies/titles/?xsp=%7b%22rules%22%3a%7b%22and%22%3a%5b%7b%22field%22%3a%22studio%22%2c%22operator%22%3a%22is%22%2c%22value%22%3a%5b%22$INFO[ListItem.Studio]%22%5d%7d%5d%7d%2c%22type%22%3a%22movies%22%7d</value>
     </variable>
-    
+
+    <variable name="Def_Studio_Item">
+        <value condition="!Skin.HasSetting(extended.info.only.local)">RunScript(script.embuary.info,call=movie,query=$INFO[Container(9503).ListItem.Label])</value>
+        <value>RunScript(script.embuary.info,call=movie,dbid=$INFO[ListItem.DBID])</value>
+    </variable>
+
+    <variable name="Def_Studio_Item_TV">
+        <value condition="!Skin.HasSetting(extended.info.only.local)">RunScript(script.embuary.info,call=tv,query=$INFO[Container(9503).ListItem.Label])</value>
+        <value>RunScript(script.embuary.info,call=tv,dbid=$INFO[ListItem.DBID])</value>
+    </variable>
+	
     <variable name="Def_Similar_List">        
         <value condition="!Skin.HasSetting(extended.info.only.local) + String.IsEqual(Window.Property(videosimilar),1) + String.IsEqual(ListItem.DBType,tvshow)">plugin://plugin.video.themoviedb.helper?info=similar&amp;type=tv&amp;query=$INFO[ListItem.Label]</value>
         <value condition="!Skin.HasSetting(extended.info.only.local) + String.IsEqual(Window.Property(videosimilar),1) + String.IsEqual(ListItem.DBType,movie)">plugin://plugin.video.themoviedb.helper?info=similar&amp;type=movie&amp;query=$INFO[ListItem.Label]</value>

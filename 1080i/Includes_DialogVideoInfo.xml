@@ -1015,7 +1015,7 @@
                     </include>
 
                     <!-- Studio -->
-                    <include content="VideoListCast">
+                    <include content="VideoListCast" condition="String.IsEqual(ListItem.DBType,movie) + !String.IsEqual(ListItem.DBType,set)">
                         <param name="arrowleft" value="-598"/>
                         <param name="arrowtop" value="342"/>
                         <param name="arrowright" value="155"/>                        
@@ -1027,8 +1027,8 @@
                         <param name="ContentToLoad" value="$VAR[Def_Studio_List]"/>
                         <param name="visible.layouts" value="Control.HasFocus(9503) | Control.HasFocus(6) | Window.IsVisible(DialogBusy.xml)"/>
                         <param name="storageicon.backgroundlist" value="true"/>
-                        <param name="onclick1" value="RunScript(script.embuary.info,call=movie,query=$INFO[Container(9503).ListItem.Label]))"/>
-                        <param name="onup1" value="RunScript(script.embuary.info,call=movie,query=$INFO[Container(9503).ListItem.Label]))"/>
+                        <param name="onclick1" value="$VAR[Def_Studio_Item]"/>
+                        <param name="onup1" value="$VAR[Def_Studio_Item]"/>
                         <param name="listleft" value="-840"/>
                         <param name="labeltwovisible" value="true"/>
                         <param name="poster" value="true" />
@@ -1039,7 +1039,33 @@
                         <param name="controlid" value="9503"/>
                         <param name="alignleft" value="450"/>
                     </include>
-    
+
+                    <!-- Studio TV Shows -->
+                    <include content="VideoListCast" condition="String.IsEqual(ListItem.DBType,tvshow) + !String.IsEqual(ListItem.DBType,set)">
+                        <param name="arrowleft" value="-598"/>
+                        <param name="arrowtop" value="342"/>
+                        <param name="arrowright" value="155"/>                        
+                        <param name="condition.includecontent" value="true"/>                        
+                        <param name="fallbackpicture" value="pbtmdb.png"/>
+                        <param name="visi" value="String.IsEqual(Window.Property(moviecontent),3)"/>
+                        <param name="animation" value="Animation.cast"/>
+                        <param name="controlid" value="9503"/>
+                        <param name="ContentToLoad" value="$VAR[Def_Studio_List]"/>
+                        <param name="visible.layouts" value="Control.HasFocus(9503) | Control.HasFocus(6) | Window.IsVisible(DialogBusy.xml)"/>
+                        <param name="storageicon.backgroundlist" value="true"/>
+                        <param name="onclick1" value="$VAR[Def_Studio_Item_TV]"/>
+                        <param name="onup1" value="$VAR[Def_Studio_Item_TV]"/>
+                        <param name="listleft" value="-840"/>
+                        <param name="labeltwovisible" value="true"/>
+                        <param name="poster" value="true" />
+                        <param name="thumb" value="false" />
+                    </include>
+                    <include content="ListInfoUpdating">
+                        <param name="visi" value="String.IsEqual(Window.Property(moviecontent),3)"/>
+                        <param name="controlid" value="9503"/>
+                        <param name="alignleft" value="450"/>
+                    </include>
+
                     <!-- Youtube -->
                     <include content="VideoListSquare" condition="!String.IsEqual(ListItem.DBType,set)">
                         <param name="arrowleft" value="-748"/>
