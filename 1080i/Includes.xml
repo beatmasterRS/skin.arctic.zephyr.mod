@@ -478,7 +478,7 @@
                 <!-- AS 3 -->
                 <aspectratio>scale</aspectratio>
                 <include>Dimensions_Fullscreen</include>
-                <fadetime>BackgroundFanartFadetime</fadetime>
+                <include>BackgroundFanartFadetime</include>
                 <texture background="true">$INFO[Window(Visualisation).Property(ArtistSlideshow.Image)]</texture>
                 <visible>System.HasAddon(script.artistslideshow) + !Skin.HasSetting(ArtistSlideShow.Disabled)</visible>
                 <animation effect="fade" start="100" end="65" time="0" condition="Skin.HasSetting(OSDVisualisation.ShowFanart)">Conditional</animation>
@@ -561,10 +561,16 @@
         <imagepath background="true">$VAR[ImageBackG]</imagepath>
     </include>
 
-    <include name="FadetimeNormal">
-        <fadetime>BackgroundFanartFadetime</fadetime>
+    <include name="BackgroundFanartFadetime">
+        <include condition="Integer.IsEqual(Skin.String(Fadetime),600) | String.IsEmpty(Skin.String(Fadetime))">FadetimeDefault</include>
+        <include condition="Integer.IsEqual(Skin.String(Fadetime),1800)">FadetimeSlow</include>
+        <include condition="Integer.IsEqual(Skin.String(Fadetime),3600)">FadetimeSuperSlow</include>
     </include>
 
+    <include name="FadetimeDefault">
+        <fadetime>BackgroundFanartFadetime</fadetime>
+    </include>
+    
     <include name="FadetimeSlow">
         <fadetime>1800</fadetime>
     </include>
@@ -660,7 +666,7 @@
             <include>Dimensions_Fullscreen</include>
             <include>Animation.FadeFromHome</include>
             <animation effect="fade" end="0" start="100" time="350" tween="cubic" easing="inout" condition="Window.IsVisible(home)">WindowClose</animation>
-            <fadetime>BackgroundFanartFadetime</fadetime>
+            <include>BackgroundFanartFadetime</include>
             <timeperimage>HomeTimePerImage</timeperimage>
             <randomize>true</randomize>
             <aspectratio>scale</aspectratio>
@@ -678,8 +684,7 @@
             <include>Dimensions_Fullscreen</include>
             <include>Animation.FadeFromHome</include>
             <animation effect="fade" end="0" start="20" time="350" condition="Window.IsVisible(home)">WindowClose</animation>
-            <include condition="Integer.IsEqual(Skin.String(Fadetime),600) | String.IsEmpty(Skin.String(Fadetime))">FadetimeNormal</include>
-            <fadetime>BackgroundFanartFadetime</fadetime>
+            <include>BackgroundFanartFadetime</include>
             <timeperimage>HomeTimePerImage</timeperimage>
             <randomize>true</randomize>
             <aspectratio>scale</aspectratio>
@@ -698,8 +703,7 @@
             <include>Dimensions_Fullscreen</include>
             <include>Animation.FadeFromHome</include>
             <animation effect="fade" end="0" start="20" time="350" condition="Window.IsVisible(home)">WindowClose</animation>
-            <include condition="Integer.IsEqual(Skin.String(Fadetime),600) | String.IsEmpty(Skin.String(Fadetime))">FadetimeNormal</include>
-            <fadetime>BackgroundFanartFadetime</fadetime>
+            <include>BackgroundFanartFadetime</include>
             <timeperimage>HomeTimePerImage</timeperimage>
             <randomize>true</randomize>
             <aspectratio>scale</aspectratio>
@@ -738,7 +742,7 @@
             <animation effect="fade" end="80" start="80" time="0" condition="Integer.IsEqual(Skin.String(FadeNetflixPreview),80)">Conditional</animation>
             <animation effect="fade" end="90" start="90" time="0" condition="Integer.IsEqual(Skin.String(FadeNetflixPreview),90)">Conditional</animation>
             <animation effect="fade" end="100" start="100" time="0" condition="Integer.IsEqual(Skin.String(FadeNetflixPreview),100)">Conditional</animation>
-            <fadetime>BackgroundFanartFadetime</fadetime>
+            <include>BackgroundFanartFadetime</include>
             <timeperimage>HomeTimePerImage</timeperimage>
             <randomize>true</randomize>
             <aspectratio>scale</aspectratio>
@@ -767,7 +771,7 @@
             <visible>!Skin.HasSetting(global.hidefanart)</visible>
             <include>Dimensions_Fullscreen</include>
             <include condition="!Skin.HasSetting(home.vertical)">Animation.FadeFromHome</include>
-            <fadetime>BackgroundFanartFadetime</fadetime>
+            <include>BackgroundFanartFadetime</include>
             <timeperimage>HomeTimePerImage</timeperimage>
             <randomize>true</randomize>
             <aspectratio>scale</aspectratio>
@@ -794,7 +798,7 @@
             <animation effect="fade" end="50" start="50" time="0" condition="Integer.IsEqual(Skin.String(BackgroundBrightnessBlur),50)">Conditional</animation>
             <animation effect="fade" end="55" start="55" time="0" condition="Integer.IsEqual(Skin.String(BackgroundBrightnessBlur),55)">Conditional</animation>
             <animation effect="fade" end="60" start="60" time="0" condition="Integer.IsEqual(Skin.String(BackgroundBrightnessBlur),60)">Conditional</animation>
-            <fadetime>BackgroundFanartFadetime</fadetime>
+            <include>BackgroundFanartFadetime</include>
             <timeperimage>HomeTimePerImage</timeperimage>
             <randomize>true</randomize>
             <aspectratio>scale</aspectratio>
@@ -1043,7 +1047,7 @@
             <visible>!Skin.HasSetting(weather.hidefanart)</visible>
             <width>100%</width>
             <height>100%</height>
-            <fadetime>BackgroundFanartFadetime</fadetime>
+            <include>BackgroundFanartFadetime</include>
             <timeperimage>HomeTimePerImage</timeperimage>
             <randomize>true</randomize>
             <aspectratio>scale</aspectratio>
@@ -1140,7 +1144,7 @@
                 <visible>!Skin.HasSetting(weather.hidefanart) + String.Contains(Skin.String(weather.fanart.path),multi) + !String.IsEmpty(Skin.String(weather.fanart.path))</visible>
                 <width>100%</width>
                 <height>100%</height>
-                <fadetime>BackgroundFanartFadetime</fadetime>
+                <include>BackgroundFanartFadetime</include>
                 <timeperimage>HomeTimePerImage</timeperimage>
                 <randomize>true</randomize>
                 <aspectratio>scale</aspectratio>
