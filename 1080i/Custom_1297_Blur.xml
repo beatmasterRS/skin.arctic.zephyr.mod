@@ -68,12 +68,20 @@
                 <height>614</height>
                 <control type="image">
                     <texture background="true">$INFO[Window(home).Property(MyProp_blurred)]</texture>
-                    <fadetime>BackgroundFanartFadetime</fadetime>
-                    <animation effect="fade" end="0" start="100" time="0" condition="Integer.IsEqual(Skin.String(BackgroundBlur),0)">Conditional</animation>
-                    <animation effect="fade" end="20" start="100" time="0" condition="Integer.IsEqual(Skin.String(BackgroundBlur),20)">Conditional</animation>
-                    <animation effect="fade" end="40" start="100" time="0" condition="Integer.IsEqual(Skin.String(BackgroundBlur),40)">Conditional</animation>
-                    <animation effect="fade" end="60" start="100" time="0" condition="Integer.IsEqual(Skin.String(BackgroundBlur),60)">Conditional</animation>
-                    <animation effect="fade" end="80" start="100" time="0" condition="Integer.IsEqual(Skin.String(BackgroundBlur),80)">Conditional</animation>
+                    <include>BackgroundFanartFadetime</include>
+                    <animation effect="fade" end="5" start="100" time="0" condition="Integer.IsEqual(Skin.String(BackgroundBrightnessBlur),5)">Conditional</animation>
+                    <animation effect="fade" end="0" start="100" time="0" condition="!String.IsEmpty(Skin.String(BackgroundBrightnessBlur)) + Integer.IsEqual(Skin.String(BackgroundBrightnessBlur),0)">Conditional</animation>
+                    <animation effect="fade" end="10" start="100" time="0" condition="Integer.IsEqual(Skin.String(BackgroundBrightnessBlur),10)">Conditional</animation>
+                    <animation effect="fade" end="15" start="100" time="0" condition="Integer.IsEqual(Skin.String(BackgroundBrightnessBlur),15)">Conditional</animation>
+                    <animation effect="fade" end="20" start="100" time="0" condition="Integer.IsEqual(Skin.String(BackgroundBrightnessBlur),20)">Conditional</animation>
+                    <animation effect="fade" end="25" start="100" time="0" condition="String.IsEmpty(Skin.String(BackgroundBrightnessBlur)) | Integer.IsEqual(Skin.String(BackgroundBrightnessBlur),25)">Conditional</animation>
+                    <animation effect="fade" end="30" start="100" time="0" condition="Integer.IsEqual(Skin.String(BackgroundBrightnessBlur),30)">Conditional</animation>
+                    <animation effect="fade" end="35" start="100" time="0" condition="Integer.IsEqual(Skin.String(BackgroundBrightnessBlur),35)">Conditional</animation>
+                    <animation effect="fade" end="40" start="100" time="0" condition="Integer.IsEqual(Skin.String(BackgroundBrightnessBlur),40)">Conditional</animation>
+                    <animation effect="fade" end="45" start="100" time="0" condition="Integer.IsEqual(Skin.String(BackgroundBrightnessBlur),45)">Conditional</animation>
+                    <animation effect="fade" end="50" start="100" time="0" condition="Integer.IsEqual(Skin.String(BackgroundBrightnessBlur),50)">Conditional</animation>
+                    <animation effect="fade" end="55" start="100" time="0" condition="Integer.IsEqual(Skin.String(BackgroundBrightnessBlur),55)">Conditional</animation>
+                    <animation effect="fade" end="60" start="100" time="0" condition="Integer.IsEqual(Skin.String(BackgroundBrightnessBlur),60)">Conditional</animation>
                 </control>
                 <animation effect="fade" start="0" end="100" time="200" delay="0" tween="quadratic">WindowOpen</animation>
                 <animation effect="fade" start="0" end="100" time="200" delay="300" tween="quadratic">Visible</animation>
@@ -86,7 +94,7 @@
                 <height>614</height>
                 <control type="image">
                     <texture background="true" fallback="special://skin/extras/views/cars.jpg">$VAR[CustomBlurImage]</texture>
-                    <fadetime>BackgroundFanartFadetime</fadetime>
+                    <include>BackgroundFanartFadetime</include>
                 </control>
                 <animation effect="fade" start="100" end="0" time="200" delay="0" tween="quadratic">Hidden</animation>
                 <animation effect="fade" start="0" end="100" time="200" delay="0" tween="quadratic">Visible</animation>
@@ -98,11 +106,11 @@
                 <height>614</height>
                 <control type="image" description="Background">
                     <texture>common/bg.jpg</texture>
-                    <include condition="Skin.HasSetting(BlurEnabled)">Overlay510Blur</include>
-                    <include condition="!Skin.HasSetting(BlurEnabled)">Overlay510</include>
+                    <include>Overlay510Blur</include>
                 </control>
                 <animation effect="fade" start="100" end="0" time="200" delay="0" tween="quadratic">Hidden</animation>
                 <animation effect="fade" start="0" end="100" time="200" delay="0" tween="quadratic">Visible</animation>
+                <animation effect="fade" end="10" start="10" time="0" condition="true">Conditional</animation>
             </control>
             <control type="group">
                 <right>95</right>
@@ -111,11 +119,11 @@
                 <height>614</height>
                 <control type="image" description="FanartOverlay">
                     <texture>common/floor.png</texture>
-                    <include condition="Skin.HasSetting(BlurEnabled)">IncludeFloorFadeBlur</include>
-                    <include condition="!Skin.HasSetting(BlurEnabled)">IncludeFloorFade</include>
+                    <include>IncludeFloorFadeBlur</include>
                 </control>
                 <animation effect="fade" start="100" end="0" time="200" delay="0" tween="quadratic">Hidden</animation>
                 <animation effect="fade" start="0" end="100" time="200" delay="0" tween="quadratic">Visible</animation>
+                <animation effect="fade" end="10" start="10" time="0" condition="true">Conditional</animation>
             </control>
             <control type="grouplist" id="9000">
                 <description>Control Area</description>
@@ -133,22 +141,19 @@
                 <itemgap>0</itemgap>
                 <control type="button" id="9003">
                     <onback>Skin.Reset(NoBlurFoto)</onback>
-                    <label>$LOCALIZE[37639] (1-10)</label>
-                    <label2>$INFO[Skin.String(BlurRadius)]</label2>
-                    <onclick>ActivateWindow(1281)</onclick>
+                    <label>$LOCALIZE[37639]</label>
+                    <label2>$VAR[Label_BlurRadius]</label2>
+                    <onclick>SetProperty(includesetting,BlurRadius,home)</onclick>
+                    <onclick>ActivateWindow(1248)</onclick>
                     <include>DefDialogButtonsBlur</include>
                 </control>
                 <control type="button" id="9098">
                     <onback>Skin.Reset(NoBlurFoto)</onback>
-                    <label>$LOCALIZE[37727]:</label>
-                    <label2>$VAR[BackgroundBlurLabel]%</label2>
-                    <onclick condition="Integer.IsEqual(Skin.String(BackgroundBlur),100) | String.IsEmpty(Skin.String(BackgroundBlur))">Skin.SetString(BackgroundBlur,80)</onclick>
-                    <onclick condition="Integer.IsEqual(Skin.String(BackgroundBlur),80)">Skin.SetString(BackgroundBlur,60)</onclick>
-                    <onclick condition="Integer.IsEqual(Skin.String(BackgroundBlur),60)">Skin.SetString(BackgroundBlur,40)</onclick>
-                    <onclick condition="Integer.IsEqual(Skin.String(BackgroundBlur),40)">Skin.SetString(BackgroundBlur,20)</onclick>
-                    <onclick condition="Integer.IsEqual(Skin.String(BackgroundBlur),20)">Skin.SetString(BackgroundBlur,0)</onclick>
-                    <onclick condition="Integer.IsEqual(Skin.String(BackgroundBlur),0)">Skin.SetString(BackgroundBlur,100)</onclick>
                     <include>DefDialogButtonsBlur</include>
+                    <label>464</label>
+                    <label2>$VAR[BackgroundBrightnessBlurLabel]</label2>
+                    <onclick>SetProperty(includesetting,BackgroundBrightnessBlur,home)</onclick>
+                    <onclick>ActivateWindow(1248)</onclick>
                 </control>
                 <control type="radiobutton" id="9099">
                     <onback>Skin.Reset(NoBlurFoto)</onback>
@@ -158,17 +163,7 @@
                     <textureradiofocus colordiffuse="PanelWhite70">buttons/radio-on.png</textureradiofocus>
                     <textureradionofocus colordiffuse="PanelWhite70">buttons/radio-off.png</textureradionofocus>
                     <include>DefContextButtonBlur</include>
-                </control>
-                <control type="button" id="9045">
-                    <onback>Skin.Reset(NoBlurFoto)</onback>
-                    <label>$LOCALIZE[37812]</label>
-                    <label2>$VAR[FadetimeLabel]</label2>
-                    <include>DefContextButtonBlur</include>
-                    <onclick condition="Integer.IsEqual(Skin.String(Fadetime),600) | String.IsEmpty(Skin.String(Fadetime))">Skin.SetString(Fadetime,1800)</onclick>
-                    <onclick condition="Integer.IsEqual(Skin.String(Fadetime),1800)">Skin.SetString(Fadetime,3600)</onclick>
-                    <onclick condition="Integer.IsEqual(Skin.String(Fadetime),3600)">Skin.SetString(Fadetime,600)</onclick>
-                    <ondown>SetFocus(9199)</ondown>
-                </control>
+                </control>             
             </control>
             <control type="scrollbar" id="1224">
                 <onback>50</onback>
@@ -188,7 +183,7 @@
             <control type="grouplist" id="9100">
                 <left>110</left>
                 <top>760</top>
-                <onup>9045</onup>
+                <onup>9099</onup>
                 <orientation>horizontal</orientation>
                 <include>listdimensions</include>
                 <control type="radiobutton" id="9199">
@@ -207,8 +202,9 @@
                     <onback>Skin.Reset(NoBlurFoto)</onback>
                     <ondown>9001</ondown>
                     <onright>9201</onright>
-                    <label>No</label>
-                    <onclick>Skin.SetString(BlurRadius,6)</onclick>
+                    <label />
+                    <onclick>Skin.SetString(BackgroundBrightnessBlur,25)</onclick>
+                    <onclick>Skin.SetString(BlurRadius,2)</onclick>
                     <onclick>RunScript(script.embuary.helper,action=blurimg,file='"$VAR[CustomBlurImage]"',prop=MyProp)</onclick>
                     <include>buttondimensionssquareblur</include>
                     <include content="buttontextures">

@@ -208,74 +208,82 @@
     </include>
 
     <include name="Fanart_Info">
+        <param name="top" value="$PARAM[top]" default="206"/>
+        <param name="width_condition" value="$PARAM[width_condition]" default="Skin.HasSetting(furniture.overlayinfobalken)"/>
+        <param name="visible" value="$PARAM[visible]" default="true"/>
+        <param name="visible_progress" value="$PARAM[visible_progress]" default="true"/>
+        <param name="infobox_height" value="$PARAM[infobox_height]" default="290"/>
+        <definition>
         <control type="group">
             <left>$PARAM[posx]</left>
             <width>645</width>
-            <top>206</top>
+            <top>$PARAM[top]</top>
             <height>660</height>
             <control type="group">
                 <height>370</height>
                 <visible>[!Skin.HasSetting(57list.low) + Control.IsVisible(57)] | !Control.IsVisible(57)</visible>
                 <visible>[!Skin.HasSetting(56media.low) + Control.IsVisible(56)] | !Control.IsVisible(56)</visible>
-                <control type="image">
-                    <width>100%</width>
-                    <height>100%</height>
-                    <texture border="10">common/$VAR[nofocus-shadow10]</texture>
-                </control>
-                <control type="image">
-                    <left>10</left>
-                    <top>10</top>
-                    <right>10</right>
-                    <bottom>10</bottom>
-                    <texture colordiffuse="Fallback" border="4" background="true">common/diffuse_box.png</texture>
-                </control>                
-                <control type="image">
-                    <left>10</left>
-                    <top>10</top>
-                    <right>10</right>
-                    <bottom>10</bottom>
-                    <fadetime>PosterFanartFadetime</fadetime>
-                    <aspectratio align="center" aligny="center" scalediffuse="false">scale</aspectratio>
-                    <texture diffuse="diffuse/diffuse_box.png" border="4" background="true">$VAR[FanartImage]</texture>
-                </control>
-                <control type="image">
-                    <left>9</left>
-                    <top>9</top>
-                    <right>9</right>
-                    <bottom>9</bottom>
-                    <texture colordiffuse="Box2" border="4" background="true">common/box21.png</texture>
-                    <visible>!Skin.HasSetting(thumbnails.white)</visible>
+                <control type="group">
+                    <visible>$PARAM[visible]</visible>
+                    <control type="image">
+                        <width>100%</width>
+                        <height>100%</height>
+                        <texture border="10">common/$VAR[nofocus-shadow10]</texture>
+                    </control>
+                    <control type="image">
+                        <left>10</left>
+                        <top>10</top>
+                        <right>10</right>
+                        <bottom>10</bottom>
+                        <texture colordiffuse="Fallback" border="4" background="true">common/diffuse_box.png</texture>
+                    </control>                
+                    <control type="image">
+                        <left>10</left>
+                        <top>10</top>
+                        <right>10</right>
+                        <bottom>10</bottom>
+                        <fadetime>PosterFanartFadetime</fadetime>
+                        <aspectratio align="center" aligny="center" scalediffuse="false">scale</aspectratio>
+                        <texture diffuse="diffuse/diffuse_box.png" border="4" background="true">$VAR[FanartImage]</texture>
+                    </control>
+                    <control type="image">
+                        <left>9</left>
+                        <top>9</top>
+                        <right>9</right>
+                        <bottom>9</bottom>
+                        <texture colordiffuse="Box2" border="4" background="true">common/box21.png</texture>
+                        <visible>!Skin.HasSetting(thumbnails.white)</visible>
+                    </control>
                 </control>
             </control>
             <control type="group">
                 <left>10</left>
                 <right>10</right>
                 <posy>370</posy>
-                <height>290</height>
-                <control type="label">
-                    <top>8</top>
-                    <aligny>center</aligny>
-                    <height>64</height>
-                    <width>500</width>
-                    <font>SmallBold</font>
-                    <textcolor>Dark1</textcolor>
-                    <selectedcolor>Dark1</selectedcolor>
-                    <label>$VAR[LabelDirector]</label>
-                </control>
-                <control type="label">
-                    <top>48</top>
-                    <height>64</height>
-                    <include content="def_width" condition="!Skin.HasSetting(furniture.overlayinfobalken)">
-                        <param name="width" value="100%"/>
+                <height>$PARAM[infobox_height]</height>
+                <control type="group">
+                    <include content="def_width" condition="$PARAM[width_condition]">
+                        <param name="width" value="520"/>
                     </include>
-                    <include content="def_width" condition="Skin.HasSetting(furniture.overlayinfobalken)">
-                        <param name="width" value="510"/>
-                    </include>
-                    <aligny>center</aligny>
-                    <font>Tiny</font>
-                    <textcolor>Dark1</textcolor>
-                    <selectedcolor>Dark1</selectedcolor>
-                    <label>$VAR[LabelGenre]</label>
+                    <width>100%</width>
+                    <control type="label">
+                        <top>8</top>
+                        <aligny>center</aligny>
+                        <height>64</height>
+                        <font>SmallBold</font>
+                        <textcolor>Dark1</textcolor>
+                        <selectedcolor>Dark1</selectedcolor>
+                        <label>$VAR[LabelDirector]</label>
+                    </control>
+                    <control type="label">
+                        <top>48</top>
+                        <height>64</height>
+                        <aligny>center</aligny>
+                        <font>Tiny</font>
+                        <textcolor>Dark1</textcolor>
+                        <selectedcolor>Dark1</selectedcolor>
+                        <label>$VAR[LabelGenre]</label>
+                    </control>
                 </control>
                 <control type="textbox">
                     <top>124</top>
@@ -292,7 +300,7 @@
                 <left>526</left>
                 <width>155</width>
                 <height>155</height>
-                <visible>Skin.HasSetting(furniture.overlayinfobalken) + !String.IsEqual(ListItem.Label,..) + !String.IsEqual(ListItem.DBType,set) + !Window.IsVisible(MyMusicNav.xml)</visible>
+                <visible>Skin.HasSetting(furniture.overlayinfobalken) + !String.IsEqual(ListItem.Label,..) + !String.IsEqual(ListItem.DBType,set) + !Window.IsVisible(MyMusicNav.xml) + $PARAM[visible_progress]</visible>
                 <control type="group">
                     <control type="image" description="Back">
                         <centertop>44%</centertop>
@@ -340,5 +348,6 @@
                 </control>
             </control>
         </control>
+        </definition>
     </include>
 </includes>

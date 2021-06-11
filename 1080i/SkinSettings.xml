@@ -262,13 +262,8 @@
                             <include>DefSettingsButtonGradient</include>                            
                             <label>$LOCALIZE[464]</label>
                             <label2>$VAR[FadeNetflixPreviewLabel]</label2>
-                            <onclick condition="String.IsEmpty(Skin.String(FadeNetflixPreview))">Skin.SetString(FadeNetflixPreview,100)</onclick>
-                            <onclick condition="Integer.IsEqual(Skin.String(FadeNetflixPreview),100)">Skin.SetString(FadeNetflixPreview,90)</onclick>
-                            <onclick condition="Integer.IsEqual(Skin.String(FadeNetflixPreview),90)">Skin.SetString(FadeNetflixPreview,80)</onclick>
-                            <onclick condition="Integer.IsEqual(Skin.String(FadeNetflixPreview),80)">Skin.SetString(FadeNetflixPreview,70)</onclick>
-                            <onclick condition="Integer.IsEqual(Skin.String(FadeNetflixPreview),70)">Skin.SetString(FadeNetflixPreview,60)</onclick>
-                            <onclick condition="Integer.IsEqual(Skin.String(FadeNetflixPreview),60)">Skin.SetString(FadeNetflixPreview,50)</onclick>
-                            <onclick condition="Integer.IsEqual(Skin.String(FadeNetflixPreview),50)">Skin.Reset(FadeNetflixPreview)</onclick>
+                            <onclick>SetProperty(includesetting,FadeNetflixPreview,home)</onclick>
+                            <onclick>ActivateWindow(1248)</onclick>
                             <visible>[ $EXP[HomeIsModernMultiWidgets] | $EXP[HomeIsVerticalMultiWidgets] ] + Skin.HasSetting(homemenu.netflix) + !Skin.HasSetting(hide.homemenu.netflix.preview)</visible>
                         </control>
                         <control type="button" id="98781">
@@ -454,10 +449,8 @@
                             <include>DefSettingsButtonGradient</include>
                             <label>$LOCALIZE[31000]</label>
                             <label2>$VAR[DefWidgetLimit]</label2>
-                            <onclick condition="String.IsEqual(Skin.String(WidgetLimit),$LOCALIZE[37030])">Skin.SetString(WidgetLimit,10)</onclick>
-                            <onclick condition="String.IsEqual(Skin.String(WidgetLimit),50)">Skin.SetString(WidgetLimit,$LOCALIZE[37030])</onclick>
-                            <onclick condition="String.IsEqual(Skin.String(WidgetLimit),25)">Skin.SetString(WidgetLimit,50)</onclick>
-                            <onclick condition="!String.IsEqual(Skin.String(WidgetLimit),$LOCALIZE[37030]) + !String.IsEqual(Skin.String(WidgetLimit),25) + !String.IsEqual(Skin.String(WidgetLimit),50)">Skin.SetString(WidgetLimit,25)</onclick>
+                            <onclick>SetProperty(includesetting,DefWidgetLimit,home)</onclick>
+                            <onclick>ActivateWindow(1248)</onclick>
                         </control>
                         <control type="button" id="9842" description="Set hub items limit">
                             <width>1310</width>
@@ -465,10 +458,8 @@
                             <include>DefSettingsButtonGradient</include>
                             <label>$LOCALIZE[37860]</label>
                             <label2>$VAR[DefHubLimit]</label2>
-                            <onclick condition="String.IsEqual(Skin.String(HubLimit),$LOCALIZE[37030])">Skin.SetString(HubLimit,10)</onclick>
-                            <onclick condition="String.IsEqual(Skin.String(HubLimit),50)">Skin.SetString(HubLimit,$LOCALIZE[37030])</onclick>
-                            <onclick condition="String.IsEqual(Skin.String(HubLimit),25)">Skin.SetString(HubLimit,50)</onclick>
-                            <onclick condition="!String.IsEqual(Skin.String(HubLimit),$LOCALIZE[37030]) + !String.IsEqual(Skin.String(HubLimit),25) + !String.IsEqual(Skin.String(HubLimit),50)">Skin.SetString(HubLimit,25)</onclick>
+                            <onclick>SetProperty(includesetting,DefHubLimit,home)</onclick>
+                            <onclick>ActivateWindow(1248)</onclick>
                         </control>
                         <control type="radiobutton" id="9844" description="more item">
                             <width>1310</width>
@@ -716,6 +707,26 @@
                             <include>DefSettingsLabel</include>
                             <label>37599</label>
                         </control>
+                        <control type="button" id="97141">
+                            <width>1310</width>
+                            <visible>ControlGroup(9100).HasFocus(9102)</visible>
+                            <include>DefSettingsButtonGradient</include>
+                            <label>464</label>
+                            <label2>$VAR[BackgroundBrightnessLabel]</label2>
+                            <onclick>SetProperty(includesetting,BackgroundBrightness,home)</onclick>
+                            <onclick>ActivateWindow(1248)</onclick>
+                            <enable>!$EXP[HomeIsSpotlight] + !$EXP[HomeIsClassic] + !$EXP[HomeIsModern]</enable>
+                        </control>
+                        <control type="button" id="9045">
+                            <width>1310</width>
+                            <label>$LOCALIZE[37812]</label>
+                            <label2>$VAR[FadetimeLabel]</label2>
+                            <include>DefSettingsButtonGradient</include>
+                            <onclick condition="Integer.IsEqual(Skin.String(Fadetime),600) | String.IsEmpty(Skin.String(Fadetime))">Skin.SetString(Fadetime,400)</onclick>
+                            <onclick condition="Integer.IsEqual(Skin.String(Fadetime),400)">Skin.SetString(Fadetime,3600)</onclick>
+                            <onclick condition="Integer.IsEqual(Skin.String(Fadetime),3600)">Skin.SetString(Fadetime,1800)</onclick>
+                            <onclick condition="Integer.IsEqual(Skin.String(Fadetime),1800)">Skin.SetString(Fadetime,600)</onclick>
+                        </control>
                         <control type="radiobutton" id="9714" description="Show fanart">
                             <width>1310</width>
                             <visible>ControlGroup(9100).HasFocus(9102)</visible>
@@ -794,14 +805,8 @@
                             <include>DefSettingsButtonGradient</include>
                             <label>$LOCALIZE[37760]</label>
                             <label2>$INFO[Skin.String(OSD_Timeout),, $LOCALIZE[37899]]</label2>                            
-                            <onclick condition="!Skin.String(OSD_Timeout)">Skin.SetString(OSD_Timeout,3)</onclick>
-                            <onclick condition="Skin.String(OSD_Timeout,3)">Skin.SetString(OSD_Timeout,5)</onclick>
-                            <onclick condition="Skin.String(OSD_Timeout,5)">Skin.SetString(OSD_Timeout,10)</onclick>
-                            <onclick condition="Skin.String(OSD_Timeout,10)">Skin.SetString(OSD_Timeout,15)</onclick>
-                            <onclick condition="Skin.String(OSD_Timeout,15)">Skin.SetString(OSD_Timeout,20)</onclick>
-                            <onclick condition="Skin.String(OSD_Timeout,20)">Skin.SetString(OSD_Timeout,25)</onclick>
-                            <onclick condition="Skin.String(OSD_Timeout,25)">Skin.SetString(OSD_Timeout,30)</onclick>
-                            <onclick condition="Skin.String(OSD_Timeout,30)">Skin.Reset(OSD_Timeout)</onclick>
+                            <onclick>SetProperty(includesetting,OSD_Timeout,home)</onclick>
+                            <onclick>ActivateWindow(1248)</onclick>
                         </control>
         
                         <!-- Video -->
@@ -1150,12 +1155,8 @@
                             <include>DefSettingsButtonGradient</include>
                             <label>37933</label>
                             <label2>$VAR[Label_TrailerCount]</label2>
-                            <onclick condition="!Skin.String(TrailerCount)">Skin.SetString(TrailerCount,1)</onclick>
-                            <onclick condition="Skin.String(TrailerCount,1)">Skin.SetString(TrailerCount,2)</onclick>
-                            <onclick condition="Skin.String(TrailerCount,2)">Skin.SetString(TrailerCount,3)</onclick>
-                            <onclick condition="Skin.String(TrailerCount,3)">Skin.SetString(TrailerCount,4)</onclick>
-                            <onclick condition="Skin.String(TrailerCount,4)">Skin.SetString(TrailerCount,5)</onclick>
-                            <onclick condition="Skin.String(TrailerCount,5)">Skin.Reset(TrailerCount)</onclick>
+                            <onclick>SetProperty(includesetting,TrailerCount,home)</onclick>
+                            <onclick>ActivateWindow(1248)</onclick>
                         </control>
                     </control>
     
@@ -2158,6 +2159,19 @@
                             <label>37994</label>
                             <selected>Skin.HasSetting(extended.info.override.play)</selected>
                             <onclick>Skin.ToggleSetting(extended.info.override.play)</onclick>
+                        </control>
+                        <control type="button" id="12301">
+                            <visible>ControlGroup(9100).HasFocus(9107)</visible>
+                            <include>DefSettingsLabel</include>
+                            <label>38022</label>
+                        </control>
+                        <control type="radiobutton" id="12302">
+                            <width>1310</width>
+                            <visible>ControlGroup(9100).HasFocus(9107)</visible>
+                            <include>DefSettingsButtonGradient</include>
+                            <label>38023</label>
+                            <selected>Skin.HasSetting(addon.upnext.use.thumbnail)</selected>
+                            <onclick>Skin.ToggleSetting(addon.upnext.use.thumbnail)</onclick>
                         </control>
                         <control type="button" id="12023">
                             <visible>ControlGroup(9100).HasFocus(9107)</visible>

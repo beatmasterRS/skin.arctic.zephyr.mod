@@ -482,10 +482,10 @@
         <enable>false</enable>
         <textoffsetx>30</textoffsetx>
         <font>Button</font>
-        <textcolor>PanelWhite30</textcolor>
+        <textcolor>Dark3</textcolor>
         <align>left</align>
         <width>1310</width>
-        <disabledcolor>PanelWhite30</disabledcolor>
+        <disabledcolor>Dark3</disabledcolor>
         <height>70</height>
         <texturefocus colordiffuse="$VAR[ColorHighlight]">common/white.png</texturefocus>
         <alttexturefocus colordiffuse="$VAR[ColorHighlight]">common/white.png</alttexturefocus>
@@ -737,10 +737,22 @@
     </variable>
 
     <variable name="Def_Studio_List">
+        <value condition="!Skin.HasSetting(extended.info.only.local) + String.IsEqual(ListItem.DBType,tvshow)">plugin://plugin.video.themoviedb.helper?info=discover&amp;type=tv&amp;with_companies=$INFO[Window(Home).Property(TMDBHelper.ListItem.Studio.1.TMDB_ID)]&amp;with_id=True&amp;exclude_key=title&amp;exclude_value=$INFO[ListItem.Title]&amp;nextpage=false</value>
+        <value condition="Skin.HasSetting(extended.info.only.local) + String.IsEqual(ListItem.DBType,tvshow)">videodb://tvshows/titles/?xsp=%7b%22rules%22%3a%7b%22and%22%3a%5b%7b%22field%22%3a%22studio%22%2c%22operator%22%3a%22is%22%2c%22value%22%3a%5b%22$INFO[ListItem.Studio]%22%5d%7d%5d%7d%2c%22type%22%3a%22tvshows%22%7d</value>
         <value condition="!Skin.HasSetting(extended.info.only.local)">plugin://plugin.video.themoviedb.helper?info=discover&amp;type=movie&amp;with_companies=$INFO[Window(Home).Property(TMDBHelper.ListItem.Studio.1.TMDB_ID)]&amp;with_id=True&amp;exclude_key=title&amp;exclude_value=$INFO[ListItem.Title]&amp;nextpage=false</value>
-        <value>videodb://movies/titles/?xsp=%7b%22rules%22%3a%7b%22and%22%3a%5b%7b%22field%22%3a%22studio%22%2c%22operator%22%3a%22is%22%2c%22value%22%3a%5b%22$INFO[ListItem.Studio]%22%5d%7d%5d%7d%2c%22type%22%3a%22movies%22%7d</value>
+        <value condition="Skin.HasSetting(extended.info.only.local)">videodb://movies/titles/?xsp=%7b%22rules%22%3a%7b%22and%22%3a%5b%7b%22field%22%3a%22studio%22%2c%22operator%22%3a%22is%22%2c%22value%22%3a%5b%22$INFO[ListItem.Studio]%22%5d%7d%5d%7d%2c%22type%22%3a%22movies%22%7d</value>
     </variable>
-    
+
+    <variable name="Def_Studio_Item">
+        <value condition="!Skin.HasSetting(extended.info.only.local)">RunScript(script.embuary.info,call=movie,query=$INFO[Container(9503).ListItem.Label])</value>
+        <value>RunScript(script.embuary.info,call=movie,dbid=$INFO[ListItem.DBID])</value>
+    </variable>
+
+    <variable name="Def_Studio_Item_TV">
+        <value condition="!Skin.HasSetting(extended.info.only.local)">RunScript(script.embuary.info,call=tv,query=$INFO[Container(9503).ListItem.Label])</value>
+        <value>RunScript(script.embuary.info,call=tv,dbid=$INFO[ListItem.DBID])</value>
+    </variable>
+	
     <variable name="Def_Similar_List">        
         <value condition="!Skin.HasSetting(extended.info.only.local) + String.IsEqual(Window.Property(videosimilar),1) + String.IsEqual(ListItem.DBType,tvshow)">plugin://plugin.video.themoviedb.helper?info=similar&amp;type=tv&amp;query=$INFO[ListItem.Label]</value>
         <value condition="!Skin.HasSetting(extended.info.only.local) + String.IsEqual(Window.Property(videosimilar),1) + String.IsEqual(ListItem.DBType,movie)">plugin://plugin.video.themoviedb.helper?info=similar&amp;type=movie&amp;query=$INFO[ListItem.Label]</value>
@@ -2620,7 +2632,7 @@
     
     <!-- Normal Layout -->
     <include name="TemplateNormalItemLayout">
-        <itemlayout height="325" width="222" condition="!String.IsEqual(Container(300).ListItem.Property(widgetaspect$PARAM[shortcutsidshort]),Banner) + !String.IsEqual(Container(300).ListItem.Property(widgetaspect$PARAM[shortcutsidshort]),Square) + ![String.IsEqual(Container(300).ListItem.Property(widgetaspect$PARAM[shortcutsidshort]),Fanart) | String.IsEqual(Container(300).ListItem.Property(widgetaspect$PARAM[shortcutsidshort]),Thumbnail)]">
+        <itemlayout height="325" width="222" condition="!String.IsEqual(Container(300).ListItem.Property(widgetaspect$PARAM[shortcutsidshort]),Banner) + !String.IsEqual(Container(300).ListItem.Property(widgetaspect$PARAM[shortcutsidshort]),FanartSmall) + !String.IsEqual(Container(300).ListItem.Property(widgetaspect$PARAM[shortcutsidshort]),ThumbnailSmall) + !String.IsEqual(Container(300).ListItem.Property(widgetaspect$PARAM[shortcutsidshort]),ThumbnailPosterSmall) + !String.IsEqual(Container(300).ListItem.Property(widgetaspect$PARAM[shortcutsidshort]),Square) + ![String.IsEqual(Container(300).ListItem.Property(widgetaspect$PARAM[shortcutsidshort]),Fanart) | String.IsEqual(Container(300).ListItem.Property(widgetaspect$PARAM[shortcutsidshort]),Thumbnail)]">
             <include content="include.widget.poster">
                 <param name="id" value="$PARAM[shortcutsid]"/>
                 <param name="reflections" value="Skin.HasSetting(home.widgets.show.reflections)"/>
@@ -2640,6 +2652,13 @@
                 <param name="reflections" value="Skin.HasSetting(home.widgets.show.reflections)"/>
             </include>
         </itemlayout>
+        <itemlayout height="325" width="400" condition="String.IsEqual(Container(300).ListItem.Property(widgetaspect$PARAM[shortcutsidshort]),FanartSmall)">
+            <include content="include.widget.fanart">
+                <param name="id" value="$PARAM[shortcutsid]"/>
+                <param name="reflections" value="false"/>
+                <param name="small" value="true"/>
+            </include>
+        </itemlayout>
         <itemlayout height="325" width="1690" condition="String.IsEqual(Container(300).ListItem.Property(widgetaspect$PARAM[shortcutsidshort]),Banner)">
             <include content="include.widget.banner">
                 <param name="id" value="$PARAM[shortcutsid]"/>
@@ -2651,6 +2670,23 @@
                 <param name="clearlogo" value="$PARAM[shortcutsclearlogo]"/>
                 <param name="id" value="$PARAM[shortcutsid]"/>
                 <param name="reflections" value="Skin.HasSetting(home.widgets.show.reflections)"/>
+            </include>
+        </itemlayout>
+        <itemlayout height="325" width="400" condition="String.IsEqual(Container(300).ListItem.Property(widgetaspect$PARAM[shortcutsidshort]),ThumbnailSmall)">
+            <include content="include.widget.thumb">
+                <param name="clearlogo" value="$PARAM[shortcutsclearlogo]"/>
+                <param name="id" value="$PARAM[shortcutsid]"/>
+                <param name="small" value="true"/>
+                <param name="reflections" value="false"/>
+            </include>
+        </itemlayout>
+        <itemlayout height="325" width="542" condition="String.IsEqual(Container(300).ListItem.Property(widgetaspect$PARAM[shortcutsidshort]),ThumbnailPosterSmall)">
+            <include content="include.widget.thumb">
+                <param name="clearlogo" value="false"/>
+                <param name="id" value="$PARAM[shortcutsid]"/>
+                <param name="small" value="true"/>
+                <param name="poster" value="true"/>
+                <param name="reflections" value="false"/>
             </include>
         </itemlayout>
     </include>
@@ -2704,7 +2740,7 @@
 
     <!-- Normal Focus Layout -->
     <include name="TemplateNormalFocusLayout">
-        <focusedlayout height="325" width="222" condition="!String.IsEqual(Container(300).ListItem.Property(widgetaspect$PARAM[shortcutsidshort]),Banner) + !String.IsEqual(Container(300).ListItem.Property(widgetaspect$PARAM[shortcutsidshort]),Square) + ![String.IsEqual(Container(300).ListItem.Property(widgetaspect$PARAM[shortcutsidshort]),Fanart) | String.IsEqual(Container(300).ListItem.Property(widgetaspect$PARAM[shortcutsidshort]),Thumbnail)]">
+        <focusedlayout height="325" width="222" condition="!String.IsEqual(Container(300).ListItem.Property(widgetaspect$PARAM[shortcutsidshort]),Banner) + !String.IsEqual(Container(300).ListItem.Property(widgetaspect$PARAM[shortcutsidshort]),Square) + !String.IsEqual(Container(300).ListItem.Property(widgetaspect$PARAM[shortcutsidshort]),FanartSmall) + !String.IsEqual(Container(300).ListItem.Property(widgetaspect$PARAM[shortcutsidshort]),ThumbnailSmall) + !String.IsEqual(Container(300).ListItem.Property(widgetaspect$PARAM[shortcutsidshort]),ThumbnailPosterSmall) + ![String.IsEqual(Container(300).ListItem.Property(widgetaspect$PARAM[shortcutsidshort]),Fanart) | String.IsEqual(Container(300).ListItem.Property(widgetaspect$PARAM[shortcutsidshort]),Thumbnail)]">
             <include content="include.widget.poster.focus">
                 <param name="id" value="$PARAM[shortcutsid]"/>
                 <param name="reflections" value="Skin.HasSetting(home.widgets.show.reflections)"/>
@@ -2724,6 +2760,13 @@
                 <param name="reflections" value="Skin.HasSetting(home.widgets.show.reflections)"/>
             </include>
         </focusedlayout>
+        <focusedlayout height="325" width="400" condition="String.IsEqual(Container(300).ListItem.Property(widgetaspect$PARAM[shortcutsidshort]),FanartSmall)">
+            <include content="include.widget.fanart.focus">
+                <param name="id" value="$PARAM[shortcutsid]"/>
+                <param name="reflections" value="false"/>
+                <param name="small" value="true"/>
+            </include>
+        </focusedlayout>
         <focusedlayout height="325" width="1690" condition="String.IsEqual(Container(300).ListItem.Property(widgetaspect$PARAM[shortcutsidshort]),Banner)">
             <include content="include.widget.banner.focus">
                 <param name="id" value="$PARAM[shortcutsid]"/>
@@ -2735,6 +2778,23 @@
                 <param name="id" value="$PARAM[shortcutsid]"/>
                 <param name="clearlogo" value="$PARAM[shortcutsclearlogo]"/>
                 <param name="reflections" value="Skin.HasSetting(home.widgets.show.reflections)"/>
+            </include>
+        </focusedlayout>
+        <focusedlayout height="325" width="400" condition="String.IsEqual(Container(300).ListItem.Property(widgetaspect$PARAM[shortcutsidshort]),ThumbnailSmall)">
+            <include content="include.widget.thumb.focus">
+                <param name="id" value="$PARAM[shortcutsid]"/>
+                <param name="clearlogo" value="$PARAM[shortcutsclearlogo]"/>
+                <param name="reflections" value="false"/>
+                <param name="small" value="true"/>
+            </include>
+        </focusedlayout>
+        <focusedlayout height="325" width="542" condition="String.IsEqual(Container(300).ListItem.Property(widgetaspect$PARAM[shortcutsidshort]),ThumbnailPosterSmall)">
+            <include content="include.widget.thumb.focus">
+                <param name="id" value="$PARAM[shortcutsid]"/>
+                <param name="clearlogo" value="false"/>
+                <param name="reflections" value="false"/>
+                <param name="small" value="true"/>
+                <param name="poster" value="true"/>
             </include>
         </focusedlayout>
     </include>

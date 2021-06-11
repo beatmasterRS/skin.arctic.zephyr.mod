@@ -64,14 +64,16 @@
     <include name="scrollbar_hor">
         <param name="showscroll" default="true" />
         <param name="jumpbar" default="true"/>
+        <param name="onup" default="50"/>
+        <param name="bottom" default="200"/>
         <definition>
           <onback>50</onback>
           <left>SidePad</left>
           <width>1760</width>
-          <bottom>200</bottom>
+          <bottom>$PARAM[bottom]</bottom>
           <orientation>horizontal</orientation>
           <height>8</height>
-          <onup>50</onup>
+          <onup>$PARAM[onup]</onup>
           <ondown condition="$PARAM[jumpbar]">390000</ondown>
           <texturesliderbackground border="4" colordiffuse="Dark4">scrollbar/scrollv.png</texturesliderbackground>
           <texturesliderbar border="4" colordiffuse="Dark3">scrollbar/scrollv.png</texturesliderbar>
@@ -1334,7 +1336,7 @@
             <include>Animation.FurnitureVisible</include>
             <visible>!Skin.HasSetting(furniture.coloredicons)</visible>
             <visible>!Skin.HasSetting(furniture.flags)</visible>
-            <visible>[Container.Content(movies) | Container.Content(episodes) | Container.Content(tvshows) | Container.Content(sets) | Container.Content(seasons)] | [Window.IsVisible(home) + ControlGroup(301).HasFocus() + [String.IsEqual(ListItem.DBType,movie) | String.IsEqual(ListItem.DBType,episode) | String.IsEqual(ListItem.DBType,tvshow) | String.IsEqual(ListItem.DBType,season)] + [Skin.HasSetting(home.vertical) + Skin.HasSetting(home.vertical.widgets)] + !Skin.HasSetting(hide.furniture.flags.vertical.widgets)]</visible>
+            <visible>[Container.Content(movies) | Container.Content(musicvideos) | Container.Content(episodes) | Container.Content(tvshows) | Container.Content(sets) | Container.Content(seasons)] | [Window.IsVisible(home) + ControlGroup(301).HasFocus() + [String.IsEqual(ListItem.DBType,movie) | String.IsEqual(ListItem.DBType,episode) | String.IsEqual(ListItem.DBType,tvshow) | String.IsEqual(ListItem.DBType,season)] + [Skin.HasSetting(home.vertical) + Skin.HasSetting(home.vertical.widgets)] + !Skin.HasSetting(hide.furniture.flags.vertical.widgets)]</visible>
             <visible>!String.IsEqual(ListItem.Label,..)</visible>
             <include>Animation.FadeIn</include>
             <include>Animation.FadeOut</include>
@@ -1761,7 +1763,7 @@
             <include>Animation.FurnitureVisible</include>
             <visible>Skin.HasSetting(furniture.coloredicons)</visible>
             <visible>!Skin.HasSetting(furniture.flags)</visible>
-            <visible>[Container.Content(movies) | Container.Content(episodes) | Container.Content(sets) | Container.Content(tvshows) | Container.Content(seasons)] | [Window.IsVisible(home) + ControlGroup(301).HasFocus() + [String.IsEqual(ListItem.DBType,movie) | String.IsEqual(ListItem.DBType,episode) | String.IsEqual(ListItem.DBType,tvshow) | String.IsEqual(ListItem.DBType,season)] + [Skin.HasSetting(home.vertical) + Skin.HasSetting(home.vertical.widgets)] + !Skin.HasSetting(hide.furniture.flags.vertical.widgets)]</visible>
+            <visible>[Container.Content(movies) | Container.Content(musicvideos) | Container.Content(episodes) | Container.Content(sets) | Container.Content(tvshows) | Container.Content(seasons)] | [Window.IsVisible(home) + ControlGroup(301).HasFocus() + [String.IsEqual(ListItem.DBType,movie) | String.IsEqual(ListItem.DBType,episode) | String.IsEqual(ListItem.DBType,tvshow) | String.IsEqual(ListItem.DBType,season)] + [Skin.HasSetting(home.vertical) + Skin.HasSetting(home.vertical.widgets)] + !Skin.HasSetting(hide.furniture.flags.vertical.widgets)]</visible>
             <visible>!String.IsEqual(ListItem.Label,..)</visible>
             <include>Animation.FadeIn</include>
             <include>Animation.FadeOut</include>
@@ -2961,6 +2963,7 @@
         <value condition="Container.Content(addons)">special://skin/extras/icons/addons.png</value>
         <value condition="String.Contains(Container.FolderPath,videodb://musicvideos/,Left)">special://skin/extras/icons/musicvideo.png</value>
         <value condition="Window.IsVisible(script-skin_helper_service-ColorPicker.xml)">special://skin/extras/icons/wand.png</value>
+        <value condition="Window.IsVisible(Custom_1297_Blur.xml)">special://skin/extras/icons/wand.png</value>
         <value condition="Window.IsVisible(MyPVRChannels.xml) | Window.IsVisible(MyPVRSearch.xml) | Window.IsVisible(MyPVRTimers.xml) | Window.IsVisible(MyPVRGuide.xml) | Window.IsVisible(MyPVRRecordings.xml)">special://skin/extras/icons/livetv.png</value>
         <value condition="Window.IsVisible(MyMusicPlaylistEditor.xml) | Window.IsVisible(MyMusicNav.xml) | Window.IsVisible(MyMusicSongs.xml)">special://skin/extras/icons/songs.png</value>
         <value condition="Window.IsVisible(MyPics.xml)">special://skin/extras/icons/pictures.png</value>
@@ -2992,6 +2995,7 @@
 
     <variable name="MainHeaderLabel">
         <value condition="Skin.HasSetting(hide.busydialog) + Window.IsVisible(DialogBusy.xml)">$LOCALIZE[20186]...</value>
+        <value condition="Window.IsVisible(Custom_1297_Blur.xml)">$LOCALIZE[37756]</value>
         <value condition="Window.IsVisible(script-skin_helper_service-ColorPicker.xml)">$LOCALIZE[31238] $VAR[ColorPickerHeaderLabel,$LOCALIZE[38002] ,]</value>
         <value condition="Window.IsVisible(script-globalsearch.xml)">$LOCALIZE[37772] $INFO[Window.Property(GlobalSearch.SearchString),","]</value>
         <value condition="Window.IsVisible(service-CoreELEC-Settings-mainWindow.xml)">$LOCALIZE[37950]</value>
