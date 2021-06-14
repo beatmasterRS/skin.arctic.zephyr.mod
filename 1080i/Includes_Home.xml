@@ -6488,34 +6488,34 @@
         <!-- Episode -->
         <include content="MultiWidgetsHeaderLabel">
             <param name="label" value="$INFO[Container($PARAM[id]).ListItem.TvShowTitle,, - ]$INFO[Container($PARAM[id]).ListItem.Label]" />
-            <param name="visible" value="!String.StartsWith(Container($PARAM[id]).ListItem.FolderPath,pvr://) + String.IsEqual(Container($PARAM[id]).ListItem.DBType,episode)" />
+            <param name="visible" value="[!String.StartsWith(Container($PARAM[id]).ListItem.FolderPath,pvr://) + String.IsEqual(Container($PARAM[id]).ListItem.DBType,episode)] + [!Skin.HasSetting(home.netflix.info) | ![Control.HasFocus(302) | Control.HasFocus(300)]]" />
             <param name="id" value="$PARAM[id]" />
         </include>
         
         <!-- All Other -->
         <include content="MultiWidgetsHeaderLabel">
             <param name="label" value="$INFO[Container($PARAM[id]).ListItem.Label]" />
-            <param name="visible" value="!String.StartsWith(Container($PARAM[id]).ListItem.FolderPath,pvr://) + !String.IsEqual(Container($PARAM[id]).ListItem.DBType,episode) + String.IsEmpty(Container($PARAM[id]).ListItem.Property(Item))" />
+            <param name="visible" value="[!String.StartsWith(Container($PARAM[id]).ListItem.FolderPath,pvr://) + !String.IsEqual(Container($PARAM[id]).ListItem.DBType,episode) + String.IsEmpty(Container($PARAM[id]).ListItem.Property(Item))] + [!Skin.HasSetting(home.netflix.info) | ![Control.HasFocus(302) | Control.HasFocus(300)]]" />
             <param name="id" value="$PARAM[id]" />
         </include>
         
         <!-- GTO -->
         <include content="MultiWidgetsHeaderLabel">
             <param name="label" value="$INFO[Container($PARAM[id]).ListItem.Label2]$INFO[Container($PARAM[id]).ListItem.Property(StartTime), (,)]" />
-            <param name="visible" value="!String.StartsWith(Container($PARAM[id]).ListItem.FolderPath,pvr://) + !String.IsEqual(Container($PARAM[id]).ListItem.DBType,episode) + !String.IsEmpty(Container($PARAM[id]).ListItem.Property(Item)) + !String.IsEmpty(Container($PARAM[id]).ListItem.Label2)" />
+            <param name="visible" value="[!String.StartsWith(Container($PARAM[id]).ListItem.FolderPath,pvr://) + !String.IsEqual(Container($PARAM[id]).ListItem.DBType,episode) + !String.IsEmpty(Container($PARAM[id]).ListItem.Property(Item)) + !String.IsEmpty(Container($PARAM[id]).ListItem.Label2)] + [!Skin.HasSetting(home.netflix.info) | ![Control.HasFocus(302) | Control.HasFocus(300)]]" />
             <param name="id" value="$PARAM[id]" />
         </include>
         
         <!-- PVR -->
         <include content="MultiWidgetsHeaderLabel">
             <param name="label" value="$INFO[Container($PARAM[id]).ListItem.Title]" />
-            <param name="visible" value="String.StartsWith(Container($PARAM[id]).ListItem.FolderPath,pvr://) + !String.IsEmpty(Container($PARAM[id]).ListItem.Title)" />
+            <param name="visible" value="[String.StartsWith(Container($PARAM[id]).ListItem.FolderPath,pvr://) + !String.IsEmpty(Container($PARAM[id]).ListItem.Title)] + [!Skin.HasSetting(home.netflix.info) | ![Control.HasFocus(302) | Control.HasFocus(300)]]" />
             <param name="id" value="$PARAM[id]" />
         </include>
         
         <include content="MultiWidgetsHeaderLabel">
             <param name="label" value="$INFO[Container($PARAM[id]).ListItem.Label]" />
-            <param name="visible" value="String.StartsWith(Container($PARAM[id]).ListItem.FolderPath,pvr://) + String.IsEmpty(Container($PARAM[id]).ListItem.Title)" />
+            <param name="visible" value="[String.StartsWith(Container($PARAM[id]).ListItem.FolderPath,pvr://) + String.IsEmpty(Container($PARAM[id]).ListItem.Title)] + [!Skin.HasSetting(home.netflix.info) | ![Control.HasFocus(302) | Control.HasFocus(300)]]" />
             <param name="id" value="$PARAM[id]" />
         </include>
      
@@ -6524,7 +6524,7 @@
     <include name="MultiWidgetsPlotLabel">
         <control type="grouplist">
             <height min="$PARAM[plotminheight]" max="$PARAM[plotmaxheight]">auto</height>
-            <visible>!String.IsEmpty(Container($PARAM[id]).ListItem.Property(Album_Description)) | !String.IsEmpty(Container($PARAM[id]).ListItem.Plot) | !String.IsEmpty(Container($PARAM[id]).ListItem.Property(Artist_Description)) | !String.IsEmpty(Container($PARAM[id]).ListItem.AddonDescription) | [!String.IsEmpty(Window(Home).Property(SkinHelper.ListItem.Plot)) + String.IsEqual(Container($PARAM[id]).ListItem.DBType,song) + ControlGroup(301).HasFocus()] | String.IsEqual(Container($PARAM[id]).ListItem.DBType,actor) | String.IsEqual(Container($PARAM[id]).ListItem.DBType,file)</visible>            
+            <visible>[!String.IsEmpty(Container($PARAM[id]).ListItem.Property(Album_Description)) | !String.IsEmpty(Container($PARAM[id]).ListItem.Plot) | !String.IsEmpty(Container($PARAM[id]).ListItem.Property(Artist_Description)) | !String.IsEmpty(Container($PARAM[id]).ListItem.AddonDescription) | [!String.IsEmpty(Window(Home).Property(SkinHelper.ListItem.Plot)) + String.IsEqual(Container($PARAM[id]).ListItem.DBType,song) + ControlGroup(301).HasFocus()] | String.IsEqual(Container($PARAM[id]).ListItem.DBType,actor) | String.IsEqual(Container($PARAM[id]).ListItem.DBType,file)] + [!Skin.HasSetting(home.netflix.info) | ![Control.HasFocus(302) | Control.HasFocus(300)]]</visible>            
             <include content="def_width" condition="Skin.HasSetting(homemenu.netflix)">
                 <param name="width" value="800" />
             </include>
@@ -6618,7 +6618,7 @@
         <control type="grouplist">
             <orientation>vertical</orientation>
             <itemgap>0</itemgap>
-            
+            <visible>!Skin.HasSetting(home.netflix.info) | [Skin.HasSetting(home.netflix.info) + ![Control.HasFocus(302) | Control.HasFocus(300)]]</visible>
             <control type="grouplist">
                 <itemgap>0</itemgap>
                 <visible>String.IsEqual(Container($PARAM[id]).ListItem.DBType,tvshow)</visible>
