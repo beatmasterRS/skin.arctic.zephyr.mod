@@ -491,12 +491,18 @@
 
     <include name="GlobalBackgroundFade">
         <colordiffuse>FanartFade</colordiffuse>
-        <animation effect="fade" end="15" start="15" time="0" condition="String.IsEmpty(Skin.String(BackgroundBrightness)) | Integer.IsEqual(Skin.String(BackgroundBrightness),15)">Conditional</animation>
-        <animation effect="fade" end="20" start="20" time="0" condition="Integer.IsEqual(Skin.String(BackgroundBrightness),20)">Conditional</animation>
-        <animation effect="fade" end="25" start="25" time="0" condition="Integer.IsEqual(Skin.String(BackgroundBrightness),25)">Conditional</animation>
-        <animation effect="fade" end="30" start="30" time="0" condition="Integer.IsEqual(Skin.String(BackgroundBrightness),30)">Conditional</animation>
-        <animation effect="fade" end="35" start="35" time="0" condition="Integer.IsEqual(Skin.String(BackgroundBrightness),35)">Conditional</animation>
-        <animation effect="fade" end="40" start="40" time="0" condition="Integer.IsEqual(Skin.String(BackgroundBrightness),40)">Conditional</animation>
+        <animation effect="fade" end="15" start="15" time="0" condition="[String.IsEmpty(Skin.String(BackgroundBrightness)) | Integer.IsEqual(Skin.String(BackgroundBrightness),15)] + !Skin.HasSetting(homemenu.clean.flix)">Conditional</animation>
+        <animation effect="fade" end="20" start="20" time="0" condition="Integer.IsEqual(Skin.String(BackgroundBrightness),20) + !Skin.HasSetting(homemenu.clean.flix)">Conditional</animation>
+        <animation effect="fade" end="25" start="25" time="0" condition="Integer.IsEqual(Skin.String(BackgroundBrightness),25) + !Skin.HasSetting(homemenu.clean.flix)">Conditional</animation>
+        <animation effect="fade" end="30" start="30" time="0" condition="Integer.IsEqual(Skin.String(BackgroundBrightness),30) + !Skin.HasSetting(homemenu.clean.flix)">Conditional</animation>
+        <animation effect="fade" end="35" start="35" time="0" condition="Integer.IsEqual(Skin.String(BackgroundBrightness),35) + !Skin.HasSetting(homemenu.clean.flix)">Conditional</animation>
+        <animation effect="fade" end="40" start="40" time="0" condition="Integer.IsEqual(Skin.String(BackgroundBrightness),40) + !Skin.HasSetting(homemenu.clean.flix)">Conditional</animation>
+        <animation effect="fade" end="60" start="60" time="0" condition="Skin.HasSetting(homemenu.clean.flix)">Conditional</animation>
+    </include>
+    
+    <include name="GlobalBackgroundFadeCleanFlix">
+        <colordiffuse>FanartFade</colordiffuse>
+        <animation effect="fade" end="25" start="25" time="0" condition="true">Conditional</animation>
     </include>
 
     <include name="GlobalBackgroundFadeBlur">
@@ -689,7 +695,7 @@
             <visible>!Skin.HasSetting(global.hidefanart) | Window.IsVisible(home)</visible>
             <include>Dimensions_Fullscreen</include>
             <include>Animation.FadeFromHome</include>
-            <animation effect="fade" end="0" start="20" time="350" condition="Window.IsVisible(home)">WindowClose</animation>
+            <animation effect="fade" end="0" start="100" time="350" condition="Window.IsVisible(home)">WindowClose</animation>
             <include>BackgroundFanartFadetime</include>
             <timeperimage>HomeTimePerImage</timeperimage>
             <randomize>true</randomize>
@@ -708,7 +714,7 @@
             <visible>!Skin.HasSetting(global.hidefanart) | Window.IsVisible(home)</visible>
             <include>Dimensions_Fullscreen</include>
             <include>Animation.FadeFromHome</include>
-            <animation effect="fade" end="0" start="20" time="350" condition="Window.IsVisible(home)">WindowClose</animation>
+            <animation effect="fade" end="0" start="100" time="350" condition="Window.IsVisible(home)">WindowClose</animation>
             <include>BackgroundFanartFadetime</include>
             <timeperimage>HomeTimePerImage</timeperimage>
             <randomize>true</randomize>
@@ -734,7 +740,7 @@
 
         <!-- Netflix Preview Window -->
         <control type="multiimage" description="Fanart">
-            <visible>[[Window.IsVisible(Home.xml) + Skin.HasSetting(homemenu.netflix) + !Skin.HasSetting(hide.homemenu.netflix.preview) + [$EXP[HomeIsModernMultiWidgets] | $EXP[HomeIsVerticalMultiWidgets]]] | [Control.IsVisible(510) | Control.IsVisible(520) | Control.IsVisible(521) | Control.IsVisible(522) | Control.IsVisible(523) | Control.IsVisible(524)]] + !Window.IsVisible(DialogVideoInfo.xml) + !Window.IsVisible(DialogMusicInfo.xml) + !Window.IsVisible(DialogAddonInfo.xml) + !Window.IsVisible(DialogPVRInfo.xml) + !Window.IsVisible(skin.arctic.zephyr.mod.script-gto-info.xml)</visible>
+            <visible>[[Window.IsVisible(Home.xml) + Skin.HasSetting(homemenu.netflix) + !Skin.HasSetting(hide.homemenu.netflix.preview) + [$EXP[HomeIsModernMultiWidgets] | $EXP[HomeIsVerticalMultiWidgets]]] | [Control.IsVisible(510) | Control.IsVisible(520) | Control.IsVisible(521) | Control.IsVisible(522) | Control.IsVisible(523) | Control.IsVisible(524)]] + !Window.IsVisible(DialogVideoInfo.xml) + !Window.IsVisible(DialogMusicInfo.xml) + !Window.IsVisible(DialogAddonInfo.xml) + !Window.IsVisible(DialogPVRInfo.xml) + !Window.IsVisible(skin.arctic.zephyr.mod.script-gto-info.xml) + !Skin.HasSetting(homemenu.clean.flix)</visible>
             <visible>!Player.HasMedia | [!Skin.HasSetting(global.showvideo) + Player.HasVideo] | [!Skin.HasSetting(global.showvisualisation) + Player.HasAudio]</visible>
             <visible>!Skin.HasSetting(global.hidefanart) | Window.IsVisible(home)</visible>
             <include>Animation.FadeFromHome</include>            
@@ -758,10 +764,16 @@
             <animation effect="slide" start="-20,-20" end="20,20" time="6000" tween="sine" easing="inout" pulse="true" condition="Skin.HasSetting(Fanart.Animate)">Conditional</animation>
         </control>
         <control type="image" description="FanartOverlay">
-            <visible>[!$EXP[HomeIsSpotlight] + !$EXP[HomeIsClassic] + !$EXP[HomeIsModern]] | !Window.IsVisible(Home.xml)</visible>
+            <visible>!Skin.HasSetting(homemenu.clean.flix) + [!$EXP[HomeIsSpotlight] + !$EXP[HomeIsClassic] + !$EXP[HomeIsModern]] | !Window.IsVisible(Home.xml)</visible>
             <include>Dimensions_Fullscreen</include>
             <include condition="!Skin.HasSetting(home.vertical)">Animation.FadeFromHome</include>
             <texture colordiffuse="FloorFade">common/floor.png</texture>
+        </control>
+        <control type="image" description="FanartOverlay">
+            <visible>Skin.HasSetting(homemenu.clean.flix) + Window.IsVisible(Home.xml)</visible>
+            <include>Dimensions_Fullscreen</include>
+            <include condition="!Skin.HasSetting(home.vertical)">Animation.FadeFromHome</include>
+            <texture colordiffuse="FloorFade">common/floor2.png</texture>
         </control>
     </include>
 
@@ -779,6 +791,7 @@
             <include condition="!Skin.HasSetting(home.vertical)">Animation.FadeFromHome</include>
             <include>BackgroundFanartFadetime</include>
             <timeperimage>HomeTimePerImage</timeperimage>
+            <include condition="Skin.HasSetting(homemenu.clean.flix)">GlobalBackgroundFadeCleanFlix</include>
             <randomize>true</randomize>
             <aspectratio>scale</aspectratio>
             <imagepath background="true">$VAR[GlobalFanart]</imagepath>
@@ -3105,6 +3118,7 @@
         <onclick>Skin.Reset(home.modernwidgets)</onclick>
         <onclick>Skin.Reset(home.vertical.widgets)</onclick>
         <onclick>Skin.Reset(homemenu.netflix)</onclick>
+        <onclick>Skin.Reset(homemenu.clean.flix)</onclick>
     </include>
     
     <variable name="HomemenuViewtypeImage">
@@ -3116,6 +3130,7 @@
         <value condition="Control.HasFocus(6)">6</value>
         <value condition="Control.HasFocus(7)">7</value>
         <value condition="Control.HasFocus(8)">8</value>
+        <value condition="Control.HasFocus(9)">9</value>
         <value>1</value>
     </variable>
     
@@ -3149,4 +3164,9 @@
     <include name="Item_Selected">
         <property name="ItemSelected">$LOCALIZE[37639]</property>
     </include>
+    
+    <variable name="WidgetColorSwitch">
+        <value condition="Skin.HasSetting(homemenu.clean.flix)">Dark2</value>
+        <value>Dark1</value>
+    </variable>
 </includes>
