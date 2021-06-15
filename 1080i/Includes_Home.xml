@@ -6300,6 +6300,7 @@
 
     <include name="HomeWidgetInfoWidgets">
         <include>WidgetsNavigationArrows</include>
+        <include>WidgetsItemsCount</include>
         <control type="group">
             <left>-444</left>
             <animation effect="slide" start="0" end="0,-27" time="150" condition="Skin.HasSetting(home.modernwidgets) + Skin.HasSetting(home.vertical.widgets) + Skin.HasSetting(home.oldmenuheight)">Conditional</animation>
@@ -6834,7 +6835,7 @@
             <animation effect="slide" start="0" end="0,-26" time="0" condition="Skin.HasSetting(homemenu.clean.flix) + Skin.HasSetting(submenu.compatibility) + !Skin.HasSetting(homemenu.clean.flix.no.slide)">Conditional</animation>
             <animation effect="slide" start="0" end="0,448" time="0" condition="Skin.HasSetting(homemenu.clean.flix) + ![Skin.HasSetting(home.oldmenuheight) | Skin.HasSetting(submenu.compatibility)] + !Skin.HasSetting(homemenu.clean.flix.no.slide)">Conditional</animation>
             <animation effect="slide" start="0" end="0,-24" time="0" condition="Skin.HasSetting(home.modernwidgets) + Skin.HasSetting(home.vertical.widgets) + Skin.HasSetting(home.oldmenuheight)">Conditional</animation>
-            <visible>Integer.IsGreater(Container(301).NumItems,2) + ControlGroup(301).HasFocus()</visible>
+            <visible>Integer.IsGreater(Container(301).NumItems,1) + ControlGroup(301).HasFocus()</visible>
             <visible>![Window.IsVisible(DialogVideoInfo.xml) | Window.IsVisible(DialogMusicInfo.xml) | Window.IsVisible(DialogPVRInfo.xml) | Window.IsVisible(DialogAddonInfo.xml) | Window.IsVisible(skin.arctic.zephyr.mod.script-gto-info.xml)]</visible>
             <control type="group">
                 <top>538</top>
@@ -6887,6 +6888,34 @@
                     <height>14</height>
                     <texture colordiffuse="Dark2" flipy="false">common/arrow-small.png</texture>
                 </control>
+            </control>
+        </control>
+    </include>
+    
+    <include name="WidgetsItemsCount">
+        <control type="group">
+            <include>Animation.DelayFadeIn600</include>
+            <include>Animation.FadeOut</include>
+            <include condition="!Skin.HasSetting(widgets.fade)">Animation.Vertical.Widgets.Label</include>
+            <visible>![Skin.HasSetting(extended.nowplaying) + Player.HasMedia]</visible>
+            <animation effect="slide" start="0" end="0,260" time="0" condition="[Skin.HasSetting(home.oldmenuheight) | Skin.HasSetting(submenu.compatibility)] + Skin.HasSetting(homemenu.clean.flix.no.slide)">Conditional</animation>
+            <animation effect="slide" start="0" end="0,5" time="0" condition="Skin.HasSetting(submenu.compatibility) + Skin.HasSetting(homemenu.clean.flix.no.slide)">Conditional</animation>
+            <animation effect="slide" start="0" end="0,286" time="0" condition="![Skin.HasSetting(home.oldmenuheight) | Skin.HasSetting(submenu.compatibility)] + Skin.HasSetting(homemenu.clean.flix.no.slide)">Conditional</animation> 
+            <animation effect="slide" start="0" end="0,472" time="0" condition="[Skin.HasSetting(home.oldmenuheight) | Skin.HasSetting(submenu.compatibility)] + !Skin.HasSetting(homemenu.clean.flix.no.slide)">Conditional</animation>
+            <animation effect="slide" start="0" end="0,-26" time="0" condition="Skin.HasSetting(submenu.compatibility) + !Skin.HasSetting(homemenu.clean.flix.no.slide)">Conditional</animation>
+            <animation effect="slide" start="0" end="0,448" time="0" condition="![Skin.HasSetting(home.oldmenuheight) | Skin.HasSetting(submenu.compatibility)] + !Skin.HasSetting(homemenu.clean.flix.no.slide)">Conditional</animation>
+            <animation effect="slide" start="0" end="30,0" time="0" condition="Integer.IsEqual(Container(301).NumItems,1)">Conditional</animation>            
+            <visible>Skin.HasSetting(homemenu.clean.flix)</visible>            
+            <visible>![Window.IsVisible(DialogVideoInfo.xml) | Window.IsVisible(DialogMusicInfo.xml) | Window.IsVisible(DialogPVRInfo.xml) | Window.IsVisible(DialogAddonInfo.xml) | Window.IsVisible(skin.arctic.zephyr.mod.script-gto-info.xml)] + !Control.HasFocus(300) + !Control.HasFocus(302)</visible>            
+            <control type="label">
+                <include>Animation.DelayFadeIn300</include>
+                <align>right</align>
+                <right>110</right>
+                <top>503</top>
+                <font>SmallNavi</font>
+                <width>250</width>
+                <textcolor>Dark2</textcolor>
+                <label>$VAR[LabelItemsCount]</label>
             </control>
         </control>
     </include>
