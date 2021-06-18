@@ -731,7 +731,7 @@
     <!-- Hidden list for counting sets/albumtracks -->
     <include name="MovieSetsList">
         <control type="list" id="44321">
-            <visible>String.IsEqual(Container(301).ListItem.DBType,set)</visible>
+            <visible>String.IsEqual(Container(301).ListItem.DBType,set) + !String.IsEmpty(Container(301).ListItem.DBID)</visible>
             <include>HiddenListControl</include>
             <content>videodb://movies/sets/$INFO[Container(301).ListItem.DBID]/?setid=$INFO[Container(301).ListItem.DBID]</content>
         </control>
@@ -744,7 +744,7 @@
 
     <include name="AlbumAndSetsCount">
         <control type="list" id="44023">
-            <visible>ListItem.IsCollection</visible>
+            <visible>ListItem.IsCollection + !String.IsEmpty(ListItem.DBID)</visible>
             <include>HiddenListControl</include>
             <content>videodb://movies/sets/$INFO[ListItem.DBID]/?setid=$INFO[ListItem.DBID]</content>
         </control>
