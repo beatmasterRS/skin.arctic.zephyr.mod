@@ -4800,7 +4800,7 @@
                             <textcolor>$VAR[ColorHighlight]</textcolor>
                             <font>HomeFO</font>
                             <label>$INFO[ListItem.Label]</label>
-                            <visible>!Skin.HasSetting(home.showicons)</visible>
+                            <visible>!Skin.HasSetting(home.showicons) + !Skin.HasSetting(homemenu.items.underlined)</visible>
                             <animation effect="fade" start="100" end="50" delay="0" time="150" condition="!Control.HasFocus(300) + !Control.HasFocus(302)">Conditional</animation>
                         </control>
                         <control type="label">
@@ -4813,7 +4813,7 @@
                             <font>HomeFO</font>
                             <label>$INFO[ListItem.Label]</label>
                             <visible>Skin.HasSetting(home.showicons)</visible>
-                            <visible>!Skin.HasSetting(homemenu.only.icons)</visible>
+                            <visible>!Skin.HasSetting(homemenu.only.icons) + !Skin.HasSetting(homemenu.items.underlined)</visible>
                             <animation effect="fade" start="100" end="50" delay="0" time="150" condition="!Control.HasFocus(300) + !Control.HasFocus(302)">Conditional</animation>
                         </control>
                         <control type="image">
@@ -4822,7 +4822,7 @@
                             <top>1</top>
                             <height>80</height>
                             <texture colordiffuse="$VAR[ColorHighlight]">$INFO[ListItem.Icon]</texture>
-                            <visible>Skin.HasSetting(home.showicons) + ![Skin.HasSetting(homemenu.only.icons) + Skin.HasSetting(home.showicons) + Skin.HasSetting(homemenu.items.underlined)]</visible>
+                            <visible>Skin.HasSetting(home.showicons) + !Skin.HasSetting(homemenu.items.underlined)</visible>
                             <animation effect="fade" start="100" end="50" delay="0" time="150" condition="!Control.HasFocus(300) + !Control.HasFocus(302)">Conditional</animation>
                         </control>
                         <control type="image">
@@ -4831,25 +4831,73 @@
                             <top>1</top>
                             <height>80</height>
                             <texture colordiffuse="Dark1">$INFO[ListItem.Icon]</texture>
-                            <visible>Skin.HasSetting(homemenu.only.icons) + Skin.HasSetting(home.showicons) + Skin.HasSetting(homemenu.items.underlined)</visible>
+                            <visible>Skin.HasSetting(home.showicons) + Skin.HasSetting(homemenu.only.icons) + Skin.HasSetting(homemenu.items.underlined)</visible>
                             <animation effect="fade" start="100" end="50" delay="0" time="150" condition="!Control.HasFocus(300) + !Control.HasFocus(302)">Conditional</animation>
-                        </control>                        
+                        </control>
                         <control type="group">
                             <top>68</top>
                             <left>332</left>
                             <width>50</width>
                             <height>4</height>
                             <animation effect="fade" start="100" end="50" delay="0" time="150" condition="!Control.HasFocus(300) + !Control.HasFocus(302)">Conditional</animation>
-                            <visible>Skin.HasSetting(homemenu.only.icons) + Skin.HasSetting(home.showicons) + Skin.HasSetting(homemenu.items.underlined)</visible>
-                            <control type="image">                                
+                            <visible>Skin.HasSetting(home.showicons) + Skin.HasSetting(homemenu.only.icons) + Skin.HasSetting(homemenu.items.underlined)</visible>
+                            <control type="image">
                                 <texture colordiffuse="$VAR[ColorHighlight]">common/box.png</texture>                    
                             </control>
                             <control type="image">
                                 <texture colordiffuse="$VAR[ColorHighlightSelectbox2]">common/gradient-box.png</texture>
                             </control>
-                        </control>                        
-        
-                        <!-- Set TMDbHelper WidgetContainer -->
+                        </control>
+                        <control type="grouplist">
+                            <orientation>horizontal</orientation>
+                            <right>30</right>
+                            <left>0</left>
+                            <top>8</top>
+                            <align>right</align>
+                            <aligny>center</aligny>
+                            <height>100%</height>
+                            <control type="button">
+                                <textcolor>Dark1</textcolor>
+                                <font>HomeFO</font>
+                                <textoffsetx>0</textoffsetx>
+                                <width>auto</width>
+                                <texturenofocus border="8" colordiffuse="$VAR[ColorHighlight]">common/underline2.png</texturenofocus>
+                                <label>$INFO[Container(300).ListItem.Label]</label>
+                            </control>
+                            <visible>[!Skin.HasSetting(home.showicons) + Skin.HasSetting(homemenu.items.underlined) + $EXP[HomeIsModernMultiWidgets]] | [!Skin.HasSetting(home.showicons) + Skin.HasSetting(homemenu.items.underlined) + $EXP[HomeIsVerticalMultiWidgets]]</visible>
+                            <animation effect="fade" start="100" end="50" delay="0" time="150" condition="!Control.HasFocus(300) + !Control.HasFocus(302)">Conditional</animation>
+                        </control>
+                        <control type="group">
+                            <top>6</top>
+                            <control type="image">
+                                <right>10</right>
+                                <width>80</width>
+                                <top>-5</top>
+                                <height>80</height>
+                                <texture colordiffuse="Dark1">$INFO[ListItem.Icon]</texture>
+                            </control>
+                            <control type="grouplist">
+                                <top>1</top>
+                                <orientation>horizontal</orientation>
+                                <right>29</right>
+                                <left>0</left>
+                                <align>right</align>
+                                <aligny>center</aligny>
+                                <height>100%</height>
+                                <control type="button">
+                                    <textcolor>Dark1</textcolor>
+                                    <font>Home</font>
+                                    <textoffsetx>0</textoffsetx>
+                                    <width>auto</width>
+                                    <texturenofocus border="8" colordiffuse="$VAR[ColorHighlight]">common/underline2.png</texturenofocus>
+                                    <label>$INFO[Container(300).ListItem.Label]       </label>
+                                </control>
+                            </control>
+                            <visible>!Skin.HasSetting(homemenu.only.icons) + Skin.HasSetting(home.showicons) + Skin.HasSetting(homemenu.items.underlined)</visible>
+                            <animation effect="fade" start="100" end="50" delay="0" time="150" condition="!Control.HasFocus(300) + !Control.HasFocus(302)">Conditional</animation>
+                        </control>
+
+                         <!-- Set TMDbHelper WidgetContainer -->
                         <include condition="$EXP[HomeIsModernMultiWidgets] | $EXP[HomeIsVerticalMultiWidgets]">SetWidgetContainerForTMDB</include>
                     </focusedlayout>
                     <content>
@@ -4890,7 +4938,7 @@
                             <font>Home</font>
                             <label>$INFO[ListItem.Label]</label>
                             <visible>![Skin.HasSetting(homemenu.only.icons) + Skin.HasSetting(home.showicons)]</visible>
-                        </control>                        
+                        </control>
                         <control type="image">
                             <right>10</right>
                             <top>1</top>
@@ -4898,9 +4946,27 @@
                             <height>80</height>
                             <texture colordiffuse="Dark3">$INFO[ListItem.Icon]</texture>
                             <visible>Skin.HasSetting(homemenu.only.icons) + Skin.HasSetting(home.showicons)</visible>
-                        </control>                        
+                        </control>
                     </itemlayout>
                     <focusedlayout width="427" height="80">
+                        <control type="grouplist">
+                            <orientation>horizontal</orientation>
+                            <right>30</right>
+                            <left>0</left>
+                            <top>8</top>
+                            <align>right</align>
+                            <aligny>center</aligny>
+                            <height>100%</height>
+                            <control type="button">
+                                <textcolor>Dark1</textcolor>
+                                <font>Home</font>
+                                <textoffsetx>0</textoffsetx>
+                                <width>auto</width>
+                                <texturenofocus border="8" colordiffuse="$VAR[ColorHighlight]">common/underline2.png</texturenofocus>
+                                <label>$INFO[ListItem.Label]</label>
+                            </control>
+                            <visible>![Skin.HasSetting(homemenu.only.icons) + Skin.HasSetting(home.showicons)] + Skin.HasSetting(homemenu.items.underlined)</visible>
+                        </control> 
                         <control type="label">
                             <right>30</right>
                             <left>0</left>
@@ -4910,8 +4976,8 @@
                             <textcolor>$VAR[ColorHighlight]</textcolor>
                             <font>Home</font>
                             <label>$INFO[ListItem.Label]</label>
-                            <visible>![Skin.HasSetting(homemenu.only.icons) + Skin.HasSetting(home.showicons)]</visible>
-                        </control>                        
+                            <visible>![Skin.HasSetting(homemenu.only.icons) + Skin.HasSetting(home.showicons)] + !Skin.HasSetting(homemenu.items.underlined)</visible>
+                        </control>
                         <control type="image">
                             <right>10</right>
                             <width>80</width>
@@ -4919,7 +4985,7 @@
                             <height>80</height>
                             <texture colordiffuse="$VAR[ColorHighlight]">$INFO[ListItem.Icon]</texture>
                             <visible>Skin.HasSetting(home.showicons) + Skin.HasSetting(homemenu.only.icons) + !Skin.HasSetting(homemenu.items.underlined)</visible>
-                        </control>                        
+                        </control>
                         <control type="image">
                             <right>10</right>
                             <width>80</width>
@@ -4934,13 +5000,13 @@
                             <width>50</width>
                             <height>4</height>
                             <visible>Skin.HasSetting(homemenu.only.icons) + Skin.HasSetting(home.showicons) + Skin.HasSetting(homemenu.items.underlined)</visible>
-                            <control type="image">                                
-                                <texture colordiffuse="$VAR[ColorHighlight]">common/box.png</texture>                    
+                            <control type="image">
+                                <texture colordiffuse="$VAR[ColorHighlight]">common/box.png</texture>
                             </control>
                             <control type="image">
                                 <texture colordiffuse="$VAR[ColorHighlightSelectbox2]">common/gradient-box.png</texture>
                             </control>
-                        </control>                        
+                        </control>
                     </focusedlayout>
                     <content>
                         <include>skinshortcuts-submenu</include>
@@ -5062,8 +5128,8 @@
                         <!-- Widgets -->
                         <include>Widgets</include>
                         
-                    </control>                    
-                    <include>ExtendedNowPlaying</include>                    
+                    </control>
+                    <include>ExtendedNowPlaying</include>
                 </control>
             </control>
             <control type="button" id="4567">
