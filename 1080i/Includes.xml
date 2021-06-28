@@ -376,8 +376,8 @@
         <value condition="Window.IsVisible(home) + String.IsEmpty(Container(301).ListItem.Property(backgroundPlaylist)) + !Container(301).IsUpdating + [$EXP[HomeIsModernMultiWidgets] | $EXP[HomeIsVerticalMultiWidgets]] + !String.IsEmpty(ListItem.Property(FanartCode)) + !String.Contains(Skin.String(weather.fanart.path),multi) + !Skin.HasSetting(home.dontshowfanart) + !String.IsEmpty(Skin.String(weather.fanart.path))">$INFO[Skin.String(weather.fanart.path)]$INFO[ListItem.Property(FanartCode),,.jpg]</value>
         <value condition="Window.IsVisible(home) + String.IsEmpty(Container(301).ListItem.Property(backgroundPlaylist)) + !Container(301).IsUpdating + [$EXP[HomeIsModernMultiWidgets] | $EXP[HomeIsVerticalMultiWidgets]] + !String.IsEmpty(ListItem.Property(FanartCode)) + String.Contains(Skin.String(weather.fanart.path),multi) + !Skin.HasSetting(home.dontshowfanart) + !String.IsEmpty(Skin.String(weather.fanart.path))">$INFO[Skin.String(weather.fanart.path)]$INFO[ListItem.Property(FanartCode)]/</value>
         <value condition="Window.IsVisible(weather) + !String.IsEmpty(Skin.String(weather.fanart.path))">$INFO[Skin.String(weather.fanart.path)]$INFO[Window(Weather).Property(Current.FanartCode)]/</value>
-        <value condition="Window.IsVisible(home) + !String.IsEmpty(Skin.String(weather.fanart.path)) + [String.IsEqual(Container(300).ListItem.Property(widget),weatherdaily) | String.IsEqual(Container(300).ListItem.Property(widget),weatherhourly)] + !Skin.HasSetting(home.dontshowfanart) + String.Contains(Skin.String(weather.fanart.path),multi) + String.IsEmpty(Container(300).ListItem.Property(Background))">$INFO[Skin.String(weather.fanart.path)]$INFO[Window(Weather).Property(Current.FanartCode)]/</value>
-        <value condition="Window.IsVisible(home) + !String.IsEmpty(Skin.String(weather.fanart.path)) + [String.IsEqual(Container(300).ListItem.Property(widget),weatherdaily) | String.IsEqual(Container(300).ListItem.Property(widget),weatherhourly)] + !Skin.HasSetting(home.dontshowfanart) + !String.Contains(Skin.String(weather.fanart.path),multi) + String.IsEmpty(Container(300).ListItem.Property(Background))">$INFO[Skin.String(weather.fanart.path)]$INFO[Window(Weather).Property(Current.FanartCode),,.jpg]</value>
+        <value condition="Window.IsVisible(home) + ![Skin.HasSetting(extended.nowplaying) + !Skin.HasSetting(home.hide.nowplaying) + [$EXP[HomeIsModernMultiWidgets] | $EXP[HomeIsVerticalMultiWidgets]]] + !String.IsEmpty(Skin.String(weather.fanart.path)) + [String.IsEqual(Container(300).ListItem.Property(widget),weatherdaily) | String.IsEqual(Container(300).ListItem.Property(widget),weatherhourly)] + !Skin.HasSetting(home.dontshowfanart) + String.Contains(Skin.String(weather.fanart.path),multi) + String.IsEmpty(Container(300).ListItem.Property(Background))">$INFO[Skin.String(weather.fanart.path)]$INFO[Window(Weather).Property(Current.FanartCode)]/</value>
+        <value condition="Window.IsVisible(home) + ![Skin.HasSetting(extended.nowplaying) + !Skin.HasSetting(home.hide.nowplaying) + [$EXP[HomeIsModernMultiWidgets] | $EXP[HomeIsVerticalMultiWidgets]]] + !String.IsEmpty(Skin.String(weather.fanart.path)) + [String.IsEqual(Container(300).ListItem.Property(widget),weatherdaily) | String.IsEqual(Container(300).ListItem.Property(widget),weatherhourly)] + !Skin.HasSetting(home.dontshowfanart) + !String.Contains(Skin.String(weather.fanart.path),multi) + String.IsEmpty(Container(300).ListItem.Property(Background))">$INFO[Skin.String(weather.fanart.path)]$INFO[Window(Weather).Property(Current.FanartCode),,.jpg]</value>
         <value condition="!String.IsEmpty(Control.GetLabel(4399)) + Skin.HasSetting(EnableExtraFanart) + !Skin.HasSetting(global.hidefanart)">$INFO[Control.GetLabel(4399)]</value>
 
         <!-- Now Playing -->
@@ -3148,4 +3148,18 @@
         <value condition="Skin.HasSetting(homemenu.clean.flix)">Dark2</value>
         <value>Dark1</value>
     </variable>
+    
+    <variable name="Tmdb_Type">
+        <value condition="String.IsEqual(Window(home).Property(Item_DBTYPE),movie) | String.IsEqual(Window(home).Property(Item_DBTYPE),set)">movie</value>
+        <value condition="String.IsEqual(Window(home).Property(Item_DBTYPE),tvshow) | String.IsEqual(Window(home).Property(Item_DBTYPE),season) | String.IsEqual(Window(home).Property(Item_DBTYPE),episode)">tv</value>
+    </variable>
+    
+    <variable name="Info_Query">
+        <value condition="!String.IsEmpty(Window(home).Property(Item_Title)) + !String.IsEmpty(Window(home).Property(Item_Year))">query=$INFO[Window(home).Property(Item_Title)]&amp;year=$INFO[Window(home).Property(Item_Year)]</value>
+        <value condition="!String.IsEmpty(Window(home).Property(Item_Title))">query=$INFO[Window(home).Property(Item_Title)]</value>
+    </variable>
+    
+    <include name="Image_Content_Additional_Fanart">
+        <content>$VAR[Image_Content_Additional_Fanart]</content>
+    </include>
 </includes>
