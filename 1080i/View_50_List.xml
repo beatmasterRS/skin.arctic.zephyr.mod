@@ -315,7 +315,7 @@
                     <left>ListSquareX</left>
                     <right>SidePad</right>
                     <onleft condition="!Skin.HasSetting(global.kioskmode)">9000</onleft>
-                    <onright>1679</onright>
+                    <onright>2000</onright>
                     <onup>50</onup>
                     <ondown>50</ondown>
                     <pagecontrol>1679</pagecontrol>
@@ -356,6 +356,16 @@
             </control>
             <include>View_50_SidePoster_Square</include>
         </control>
+        <control type="button" id="2000">
+            <onleft>50</onleft>
+            <onright>1679</onright>
+            <onclick>SetFocus(50)</onclick>
+            <onclick>Action(Queue)</onclick>
+            <onup>SetFocus(50)</onup>
+            <onup>UP</onup>
+            <ondown>SetFocus(50)</ondown>
+            <ondown>DOWN</ondown>
+        </control>        
     </include>
 
     <include name="View_50_List_Square">
@@ -848,6 +858,15 @@
             <texture colordiffuse="$VAR[ColorHighlight]">indicator/playlist.png</texture>
             <visible>ListItem.IsPlaying</visible>
         </control>
+        <control type="image">
+            <left>45</left>
+            <centertop>33</centertop>
+            <width>46</width>
+            <height>46</height>
+            <aspectratio aligny="top">keep</aspectratio>
+            <texture colordiffuse="Dark1">buttons/add.png</texture>
+            <visible>ListItem.IsPlaying</visible>
+        </control> 
         <control type="label">
             <visible>String.IsEqual(Container.SortMethod,$LOCALIZE[31527])</visible>
             <posx>30</posx>
@@ -862,7 +881,7 @@
         </control>
         <control type="label">
             <visible>String.IsEqual(Container.SortMethod,$LOCALIZE[31527])</visible>
-            <posx>78</posx>
+            <posx>90</posx>
             <width>760</width>
             <aligny>center</aligny>
             <height>64</height>
@@ -886,7 +905,7 @@
         </control>
         <control type="label">
             <visible>!String.IsEqual(Container.SortMethod,$LOCALIZE[31527])</visible>
-            <posx>78</posx>
+            <posx>90</posx>
             <width>auto</width>
             <aligny>center</aligny>
             <height>64</height>
@@ -1000,16 +1019,27 @@
         </control>
         <control type="image">
             <left>25</left>
-            <centertop>32</centertop>
+            <centertop>33</centertop>
             <width>32</width>
             <height>32</height>
             <aspectratio aligny="top">keep</aspectratio>
             <texture colordiffuse="Light1">indicator/playlist.png</texture>
-            <visible>ListItem.IsPlaying</visible>
+            <animation effect="fade" start="100" end="33" time="150" condition="Control.HasFocus(2000)">Conditional</animation>
+            <visible>Container.Content(songs) | String.IsEqual(ListItem.DBTYPE,song)</visible>
         </control>
+        <control type="image">
+            <left>45</left>
+            <centertop>33</centertop>
+            <width>46</width>
+            <height>46</height>
+            <aspectratio aligny="top">keep</aspectratio>
+            <texture colordiffuse="Light1">buttons/add.png</texture>
+            <animation effect="fade" start="100" end="33" time="150" condition="!Control.HasFocus(2000)">Conditional</animation>
+            <visible>Container.Content(songs) | String.IsEqual(ListItem.DBTYPE,song)</visible>
+        </control>        
         <control type="label">
             <visible>String.IsEqual(Container.SortMethod,$LOCALIZE[31527])</visible>
-            <posx>30</posx>
+            <posx>90</posx>
             <width>810</width>
             <aligny>center</aligny>
             <height>64</height>
@@ -1021,7 +1051,7 @@
         </control>
         <control type="label">
             <visible>String.IsEqual(Container.SortMethod,$LOCALIZE[31527])</visible>
-            <posx>78</posx>
+            <posx>90</posx>
             <width>760</width>
             <aligny>center</aligny>
             <height>64</height>
@@ -1033,7 +1063,7 @@
         </control>
         <control type="label">
             <visible>!String.IsEqual(Container.SortMethod,$LOCALIZE[31527])</visible>
-            <posx>30</posx>
+            <posx>90</posx>
             <width>auto</width>
             <aligny>center</aligny>
             <height>64</height>
@@ -1045,7 +1075,7 @@
         </control>
         <control type="label">
             <visible>!String.IsEqual(Container.SortMethod,$LOCALIZE[31527])</visible>
-            <posx>78</posx>
+            <posx>90</posx>
             <width>auto</width>
             <aligny>center</aligny>
             <height>64</height>
