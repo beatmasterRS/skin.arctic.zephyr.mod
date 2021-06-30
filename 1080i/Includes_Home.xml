@@ -6762,6 +6762,63 @@
                     <include>MultiWidgetsSubLabelDefinition</include>
                     <label>$INFO[Container($PARAM[id]).ListItem.Rating,  •  ]$VAR[RtMclabel]</label>
                 </control>
+                <control type="grouplist">
+                    <visible>!Skin.HasSetting(hide.markers)</visible>
+                    <orientation>horizontal</orientation>
+                    <control type="label">
+                        <include>MultiWidgetsSubLabelDefinition</include>
+                        <label>  •  </label>
+                        <visible>Container($PARAM[id]).ListItem.IsResumable | 
+                        [String.IsEqual(Container($PARAM[id]).ListItem.Overlay,OverlayWatched.png) + !Container($PARAM[id]).ListItem.IsResumable + !Skin.HasSetting(hide.markers.watched)] | 
+                        [String.IsEqual(Container($PARAM[id]).ListItem.Overlay,OverlayUnwatched.png) + !Container($PARAM[id]).ListItem.IsResumable + !Skin.HasSetting(hide.markers.newcontent) + 
+                            [
+                                String.IsEqual(Window(Home).Property(LatestEpisode.1.ShowTitle),Container($PARAM[id]).ListItem.TvShowTitle)
+                                | String.IsEqual(Window(Home).Property(LatestEpisode.2.ShowTitle),Container($PARAM[id]).ListItem.TvShowTitle)
+                                | String.IsEqual(Window(Home).Property(LatestEpisode.3.ShowTitle),Container($PARAM[id]).ListItem.TvShowTitle)
+                                | String.IsEqual(Window(Home).Property(LatestEpisode.4.ShowTitle),Container($PARAM[id]).ListItem.TvShowTitle)
+                                | String.IsEqual(Window(Home).Property(LatestEpisode.5.ShowTitle),Container($PARAM[id]).ListItem.TvShowTitle)
+                                | String.IsEqual(Window(Home).Property(LatestEpisode.6.ShowTitle),Container($PARAM[id]).ListItem.TvShowTitle)
+                                | String.IsEqual(Window(Home).Property(LatestEpisode.7.ShowTitle),Container($PARAM[id]).ListItem.TvShowTitle)
+                                | String.IsEqual(Window(Home).Property(LatestEpisode.8.ShowTitle),Container($PARAM[id]).ListItem.TvShowTitle)
+                                | String.IsEqual(Window(Home).Property(LatestEpisode.9.ShowTitle),Container($PARAM[id]).ListItem.TvShowTitle)
+                                | String.IsEqual(Window(Home).Property(LatestEpisode.10.ShowTitle),Container($PARAM[id]).ListItem.TvShowTitle)
+                            ]
+                        ]</visible>
+                    </control>
+                    
+                    <!-- Resumable -->
+                    <control type="label">
+                        <include>Def_Watched_Indicators_Clean</include>
+                        <label>[COLOR=Dark2]&#62596;[/COLOR]</label>
+                        <visible>Container($PARAM[id]).ListItem.IsResumable</visible>
+                    </control>
+                    
+                    <!-- Watched -->
+                    <control type="label">
+                        <include>Def_Watched_Indicators_Clean</include>
+                        <label>[COLOR=FF00DD44]&#10003;[/COLOR]</label>
+                        <visible>String.IsEqual(Container($PARAM[id]).ListItem.Overlay,OverlayWatched.png) + !Container($PARAM[id]).ListItem.IsResumable + !Skin.HasSetting(hide.markers.watched)</visible>
+                    </control>
+                    
+                    <!-- New -->
+                    <control type="label">
+                        <include>Def_Watched_Indicators_Clean</include>
+                        <label>[COLOR=ColoredIcons]&#62079;[/COLOR]</label>
+                        <visible>String.IsEqual(Container($PARAM[id]).ListItem.Overlay,OverlayUnwatched.png) + !Container($PARAM[id]).ListItem.IsResumable + !Skin.HasSetting(hide.markers.newcontent) +                         
+                        [
+                            String.IsEqual(Window(Home).Property(LatestEpisode.1.ShowTitle),Container($PARAM[id]).ListItem.TvShowTitle)
+                            | String.IsEqual(Window(Home).Property(LatestEpisode.2.ShowTitle),Container($PARAM[id]).ListItem.TvShowTitle)
+                            | String.IsEqual(Window(Home).Property(LatestEpisode.3.ShowTitle),Container($PARAM[id]).ListItem.TvShowTitle)
+                            | String.IsEqual(Window(Home).Property(LatestEpisode.4.ShowTitle),Container($PARAM[id]).ListItem.TvShowTitle)
+                            | String.IsEqual(Window(Home).Property(LatestEpisode.5.ShowTitle),Container($PARAM[id]).ListItem.TvShowTitle)
+                            | String.IsEqual(Window(Home).Property(LatestEpisode.6.ShowTitle),Container($PARAM[id]).ListItem.TvShowTitle)
+                            | String.IsEqual(Window(Home).Property(LatestEpisode.7.ShowTitle),Container($PARAM[id]).ListItem.TvShowTitle)
+                            | String.IsEqual(Window(Home).Property(LatestEpisode.8.ShowTitle),Container($PARAM[id]).ListItem.TvShowTitle)
+                            | String.IsEqual(Window(Home).Property(LatestEpisode.9.ShowTitle),Container($PARAM[id]).ListItem.TvShowTitle)
+                            | String.IsEqual(Window(Home).Property(LatestEpisode.10.ShowTitle),Container($PARAM[id]).ListItem.TvShowTitle)
+                        ]</visible>
+                    </control>
+                </control>  
             </control>
 
             <control type="grouplist">
@@ -6796,52 +6853,90 @@
                     <include>MultiWidgetsSubLabelDefinition</include>
                     <label>$INFO[Container($PARAM[id]).ListItem.Rating,  •  ]$VAR[RtMclabel]</label>
                 </control>
-                <control type="grouplist" id="3000">
-                    <visible>!Skin.HasSetting(hide.markers)</visible>
-                    <orientation>horizontal</orientation>                    
+                <control type="grouplist">
+                    <visible>!Skin.HasSetting(hide.markers) + Skin.HasSetting(homemenu.clean.flix)</visible>
+                    <orientation>horizontal</orientation>
                     <control type="label">
                         <include>MultiWidgetsSubLabelDefinition</include>
                         <label>  •  </label>
                         <visible>Container($PARAM[id]).ListItem.IsResumable | 
                         [String.IsEqual(Container($PARAM[id]).ListItem.Overlay,OverlayWatched.png) + !Container($PARAM[id]).ListItem.IsResumable + !Skin.HasSetting(hide.markers.watched)] | 
-                        [String.IsEqual(Container($PARAM[id]).ListItem.Overlay,OverlayUnwatched.png) + !Container($PARAM[id]).ListItem.IsResumable + !Skin.HasSetting(hide.markers.newcontent)]</visible>
+                        [String.IsEqual(Container($PARAM[id]).ListItem.Overlay,OverlayUnwatched.png) + !Container($PARAM[id]).ListItem.IsResumable + !Skin.HasSetting(hide.markers.newcontent) + [
+                                [
+                                    String.IsEqual(Window(Home).Property(LatestMovie.1.Title),Container($PARAM[id]).ListItem.Label)
+                                    | String.IsEqual(Window(Home).Property(LatestMovie.2.Title),Container($PARAM[id]).ListItem.Label)
+                                    | String.IsEqual(Window(Home).Property(LatestMovie.3.Title),Container($PARAM[id]).ListItem.Label)
+                                    | String.IsEqual(Window(Home).Property(LatestMovie.4.Title),Container($PARAM[id]).ListItem.Label)
+                                    | String.IsEqual(Window(Home).Property(LatestMovie.5.Title),Container($PARAM[id]).ListItem.Label)
+                                    | String.IsEqual(Window(Home).Property(LatestMovie.6.Title),Container($PARAM[id]).ListItem.Label)
+                                    | String.IsEqual(Window(Home).Property(LatestMovie.7.Title),Container($PARAM[id]).ListItem.Label)
+                                    | String.IsEqual(Window(Home).Property(LatestMovie.8.Title),Container($PARAM[id]).ListItem.Label)
+                                    | String.IsEqual(Window(Home).Property(LatestMovie.9.Title),Container($PARAM[id]).ListItem.Label)
+                                    | String.IsEqual(Window(Home).Property(LatestMovie.10.Title),Container($PARAM[id]).ListItem.Label)
+                                ]
+                                |
+                                [
+                                    String.IsEqual(Window(Home).Property(LatestEpisode.1.EpisodeTitle),Container($PARAM[id]).ListItem.Title)
+                                    | String.IsEqual(Window(Home).Property(LatestEpisode.2.EpisodeTitle),Container($PARAM[id]).ListItem.Title)
+                                    | String.IsEqual(Window(Home).Property(LatestEpisode.3.EpisodeTitle),Container($PARAM[id]).ListItem.Title)
+                                    | String.IsEqual(Window(Home).Property(LatestEpisode.4.EpisodeTitle),Container($PARAM[id]).ListItem.Title)
+                                    | String.IsEqual(Window(Home).Property(LatestEpisode.5.EpisodeTitle),Container($PARAM[id]).ListItem.Title)
+                                    | String.IsEqual(Window(Home).Property(LatestEpisode.6.EpisodeTitle),Container($PARAM[id]).ListItem.Title)
+                                    | String.IsEqual(Window(Home).Property(LatestEpisode.7.EpisodeTitle),Container($PARAM[id]).ListItem.Title)
+                                    | String.IsEqual(Window(Home).Property(LatestEpisode.8.EpisodeTitle),Container($PARAM[id]).ListItem.Title)
+                                    | String.IsEqual(Window(Home).Property(LatestEpisode.9.EpisodeTitle),Container($PARAM[id]).ListItem.Title)
+                                    | String.IsEqual(Window(Home).Property(LatestEpisode.10.EpisodeTitle),Container($PARAM[id]).ListItem.Title)
+                                ]
+                            ]
+                        ]</visible>
                     </control>
                     
                     <!-- Resumable -->
-                    <control type="label" id="3001">                    
-                        <aligny>center</aligny>
-                        <width>40</width>
-                        <height>40</height>
-                        <textcolor>WatchedIcons</textcolor>
-                        <selectedcolor>WatchedIcons</selectedcolor>
-                        <font>SymbolPoster</font>
+                    <control type="label">
+                        <include>Def_Watched_Indicators_Clean</include>
                         <label>[COLOR=Dark2]&#62596;[/COLOR]</label>
                         <visible>Container($PARAM[id]).ListItem.IsResumable</visible>
                     </control>
                     
                     <!-- Watched -->
-                    <control type="label" id="3002">        
-                        <aligny>center</aligny>
-                        <width>40</width>
-                        <height>40</height>
-                        <textcolor>WatchedIcons</textcolor>
-                        <selectedcolor>WatchedIcons</selectedcolor>
-                        <font>SymbolPoster</font>
+                    <control type="label">
+                        <include>Def_Watched_Indicators_Clean</include>
                         <label>[COLOR=FF00DD44]&#10003;[/COLOR]</label>
                         <visible>String.IsEqual(Container($PARAM[id]).ListItem.Overlay,OverlayWatched.png) + !Container($PARAM[id]).ListItem.IsResumable + !Skin.HasSetting(hide.markers.watched)</visible>
                     </control>
                     
                     <!-- New -->
-                    <control type="label" id="3003">
-                        <aligny>center</aligny>
-                        <width>40</width>
-                        <height>40</height>
-                        <textcolor>WatchedIcons</textcolor>
-                        <selectedcolor>WatchedIcons</selectedcolor>
-                        <font>SymbolPoster</font>
+                    <control type="label">
+                        <include>Def_Watched_Indicators_Clean</include>
                         <label>[COLOR=ColoredIcons]&#62079;[/COLOR]</label>
-                        <visible>String.IsEqual(Container($PARAM[id]).ListItem.Overlay,OverlayUnwatched.png) + !Container($PARAM[id]).ListItem.IsResumable + !Skin.HasSetting(hide.markers.newcontent)</visible>
-                    </control>                
+                        <visible>String.IsEqual(Container($PARAM[id]).ListItem.Overlay,OverlayUnwatched.png) + !Container($PARAM[id]).ListItem.IsResumable + !Skin.HasSetting(hide.markers.newcontent) + [
+                            [
+                                String.IsEqual(Window(Home).Property(LatestMovie.1.Title),Container($PARAM[id]).ListItem.Label)
+                                | String.IsEqual(Window(Home).Property(LatestMovie.2.Title),Container($PARAM[id]).ListItem.Label)
+                                | String.IsEqual(Window(Home).Property(LatestMovie.3.Title),Container($PARAM[id]).ListItem.Label)
+                                | String.IsEqual(Window(Home).Property(LatestMovie.4.Title),Container($PARAM[id]).ListItem.Label)
+                                | String.IsEqual(Window(Home).Property(LatestMovie.5.Title),Container($PARAM[id]).ListItem.Label)
+                                | String.IsEqual(Window(Home).Property(LatestMovie.6.Title),Container($PARAM[id]).ListItem.Label)
+                                | String.IsEqual(Window(Home).Property(LatestMovie.7.Title),Container($PARAM[id]).ListItem.Label)
+                                | String.IsEqual(Window(Home).Property(LatestMovie.8.Title),Container($PARAM[id]).ListItem.Label)
+                                | String.IsEqual(Window(Home).Property(LatestMovie.9.Title),Container($PARAM[id]).ListItem.Label)
+                                | String.IsEqual(Window(Home).Property(LatestMovie.10.Title),Container($PARAM[id]).ListItem.Label)
+                            ]
+                            |
+                            [
+                                String.IsEqual(Window(Home).Property(LatestEpisode.1.EpisodeTitle),Container($PARAM[id]).ListItem.Title)
+                                | String.IsEqual(Window(Home).Property(LatestEpisode.2.EpisodeTitle),Container($PARAM[id]).ListItem.Title)
+                                | String.IsEqual(Window(Home).Property(LatestEpisode.3.EpisodeTitle),Container($PARAM[id]).ListItem.Title)
+                                | String.IsEqual(Window(Home).Property(LatestEpisode.4.EpisodeTitle),Container($PARAM[id]).ListItem.Title)
+                                | String.IsEqual(Window(Home).Property(LatestEpisode.5.EpisodeTitle),Container($PARAM[id]).ListItem.Title)
+                                | String.IsEqual(Window(Home).Property(LatestEpisode.6.EpisodeTitle),Container($PARAM[id]).ListItem.Title)
+                                | String.IsEqual(Window(Home).Property(LatestEpisode.7.EpisodeTitle),Container($PARAM[id]).ListItem.Title)
+                                | String.IsEqual(Window(Home).Property(LatestEpisode.8.EpisodeTitle),Container($PARAM[id]).ListItem.Title)
+                                | String.IsEqual(Window(Home).Property(LatestEpisode.9.EpisodeTitle),Container($PARAM[id]).ListItem.Title)
+                                | String.IsEqual(Window(Home).Property(LatestEpisode.10.EpisodeTitle),Container($PARAM[id]).ListItem.Title)
+                            ]
+                        ]</visible>
+                    </control>
                 </control> 
             </control>
             <control type="label">
