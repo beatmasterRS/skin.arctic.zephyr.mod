@@ -315,7 +315,8 @@
                     <left>ListSquareX</left>
                     <right>SidePad</right>
                     <onleft condition="!Skin.HasSetting(global.kioskmode)">9000</onleft>
-                    <onright>1679</onright>
+                    <onright condition="Container.Content(songs) | String.IsEqual(ListItem.DBTYPE,song)">2000</onright>
+                    <onright condition="![Container.Content(songs) | String.IsEqual(ListItem.DBTYPE,song)]">1679</onright>
                     <onup>50</onup>
                     <ondown>50</ondown>
                     <pagecontrol>1679</pagecontrol>
@@ -355,6 +356,17 @@
                 </control>
             </control>
             <include>View_50_SidePoster_Square</include>
+        </control>
+        <control type="button" id="2000">
+            <include>HiddenButton</include>
+            <onleft>50</onleft>
+            <onright>1679</onright>
+            <onclick>SetFocus(50)</onclick>
+            <onclick>Action(Queue)</onclick>
+            <onup>SetFocus(50)</onup>
+            <onup>UP</onup>
+            <ondown>SetFocus(50)</ondown>
+            <ondown>DOWN</ondown>
         </control>
     </include>
 
@@ -1006,13 +1018,27 @@
         </control>
         <control type="image">
             <left>25</left>
-            <centertop>32</centertop>
+            <centertop>33</centertop>
             <width>32</width>
             <height>32</height>
             <aspectratio aligny="top">keep</aspectratio>
             <texture colordiffuse="Light1">indicator/playlist.png</texture>
             <visible>ListItem.IsPlaying</visible>
             <animation effect="slide" start="0" end="0,-3" time="0" condition="!Skin.HasSetting(No50ListInfo)">Conditional</animation>
+            <animation effect="fade" start="100" end="0" time="150" condition="Control.HasFocus(2000)" reversible="false">Hidden</animation>
+            <animation effect="fade" start="100" end="0" time="150" condition="Control.HasFocus(2000)" reversible="false">Visible</animation>
+            <visible>[Container.Content(songs) | String.IsEqual(ListItem.DBTYPE,song)] + !Control.HasFocus(2000)</visible>
+        </control>
+        <control type="image">
+            <left>20</left>
+            <centertop>33</centertop>
+            <width>44</width>
+            <height>44</height>
+            <aspectratio aligny="top">keep</aspectratio>
+            <texture colordiffuse="Light1">buttons/add.png</texture>
+            <animation effect="slide" start="0" end="0,-3" time="0" condition="!Skin.HasSetting(No50ListInfo)">Conditional</animation>
+            <animation effect="fade" start="0" end="100" time="350" delay="250" condition="Control.HasFocus(2000)" reversible="false">Conditional</animation>
+            <visible>[Container.Content(songs) | String.IsEqual(ListItem.DBTYPE,song)] + Control.HasFocus(2000)</visible>
         </control>
         <control type="label">
             <visible>String.IsEqual(Container.SortMethod,$LOCALIZE[31527])</visible>
@@ -1026,6 +1052,7 @@
             <selectedcolor>Light1</selectedcolor>
             <visible>!ListItem.IsPlaying</visible>
             <animation effect="slide" start="0" end="0,-5" time="0" condition="!Skin.HasSetting(No50ListInfo)">Conditional</animation>
+            <animation effect="slide" start="0" end="48" time="0" condition="[Container.Content(songs) | String.IsEqual(ListItem.DBTYPE,song)]">Conditional</animation>
         </control>
         <control type="label">
             <visible>String.IsEqual(Container.SortMethod,$LOCALIZE[31527])</visible>
@@ -1052,6 +1079,7 @@
             <selectedcolor>Light1</selectedcolor>
             <visible>!ListItem.IsPlaying</visible>
             <animation effect="slide" start="0" end="0,-5" time="0" condition="!Skin.HasSetting(No50ListInfo)">Conditional</animation>
+            <animation effect="slide" start="0" end="48" time="0" condition="[Container.Content(songs) | String.IsEqual(ListItem.DBTYPE,song)]">Conditional</animation>
         </control>
         <control type="label">
             <visible>!String.IsEqual(Container.SortMethod,$LOCALIZE[31527])</visible>
