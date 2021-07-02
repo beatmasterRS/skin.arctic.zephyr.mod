@@ -325,7 +325,7 @@
                         <include>50itemlayout_square</include>
                     </itemlayout>
                     <itemlayout condition="!Skin.HasSetting(No50ListInfo) + [Container.Content(songs) | Container.Content(albums) | Container.Content(artists)]" width="ListSquareW" height="91.4">
-                        <include>50itemlayout_square</include>
+                        <include>50itemlayout_square_info</include>
                     </itemlayout>
                     <focusedlayout condition="Skin.HasSetting(No50ListInfo) | [!Container.Content(songs) + !Container.Content(albums) + !Container.Content(artists)]" width="ListSquareW" height="64">
                         <control type="group">
@@ -340,11 +340,11 @@
                     <focusedlayout condition="!Skin.HasSetting(No50ListInfo) + [Container.Content(songs) | Container.Content(albums) | Container.Content(artists)]" width="ListSquareW" height="91.4">
                         <control type="group">
                             <visible>!Control.HasFocus(60)</visible>
-                            <include>50focuslayout_square</include>
+                            <include>50focuslayout_square_info</include>
                         </control>
                         <control type="group">
                             <visible>Control.HasFocus(60)</visible>
-                            <include>50itemlayout_square</include>
+                            <include>50itemlayout_square_info</include>
                         </control>
                     </focusedlayout>
                 </control>
@@ -838,11 +838,11 @@
             <selectedcolor>PanelWhite100</selectedcolor>
         </control>
     </include>
-
-    <include name="50itemlayout_square">
+    
+    <include name="50itemlayout_square_info">
         <control type="image">
             <left>25</left>
-            <centertop>32</centertop>
+            <centertop>29</centertop>
             <width>32</width>
             <height>32</height>
             <aspectratio aligny="top">keep</aspectratio>
@@ -850,7 +850,8 @@
             <visible>ListItem.IsPlaying</visible>
         </control>
         <control type="label">
-            <visible>String.IsEqual(Container.SortMethod,$LOCALIZE[31527])</visible>
+            <top>-5</top>
+            <visible>String.IsEqual(Container.SortMethod,$LOCALIZE[38018])</visible>
             <posx>30</posx>
             <width>810</width>
             <aligny>center</aligny>
@@ -862,7 +863,8 @@
             <visible>!ListItem.IsPlaying</visible>
         </control>
         <control type="label">
-            <visible>String.IsEqual(Container.SortMethod,$LOCALIZE[31527])</visible>
+            <top>-5</top>
+            <visible>String.IsEqual(Container.SortMethod,$LOCALIZE[38018])</visible>
             <posx>78</posx>
             <width>760</width>
             <aligny>center</aligny>
@@ -874,7 +876,8 @@
             <visible>ListItem.IsPlaying</visible>
         </control>
         <control type="label">
-            <visible>!String.IsEqual(Container.SortMethod,$LOCALIZE[31527])</visible>
+            <top>-5</top>
+            <visible>!String.IsEqual(Container.SortMethod,$LOCALIZE[38018])</visible>
             <posx>30</posx>
             <width>auto</width>
             <aligny>center</aligny>
@@ -886,7 +889,240 @@
             <visible>!ListItem.IsPlaying</visible>
         </control>
         <control type="label">
-            <visible>!String.IsEqual(Container.SortMethod,$LOCALIZE[31527])</visible>
+            <top>-5</top>
+            <visible>!String.IsEqual(Container.SortMethod,$LOCALIZE[38018])</visible>
+            <posx>78</posx>
+            <width>auto</width>
+            <aligny>center</aligny>
+            <height>64</height>
+            <font>SmallNavi</font>
+            <label>$INFO[ListItem.Label]</label>
+            <textcolor>Dark1</textcolor>
+            <selectedcolor>Dark1</selectedcolor>
+            <visible>ListItem.IsPlaying</visible>
+        </control>
+        <control type="label">
+            <top>-5</top>
+            <right>30</right>
+            <width>500</width>
+            <aligny>center</aligny>
+            <height>64</height>
+            <align>right</align>
+            <font>SmallNavi</font>
+            <textcolor>Dark1</textcolor>
+            <selectedcolor>Dark1</selectedcolor>
+            <label>$INFO[ListItem.Duration]</label>
+            <visible>Container.Content(songs)</visible>
+            <animation effect="slide" start="0" end="-130" time="0" condition="String.IsEqual(Container.SortMethod,$LOCALIZE[38018])">Conditional</animation>
+        </control>
+        <control type="image">
+            <right>97</right>
+            <centertop>29</centertop>
+            <width>30</width>
+            <height>30</height>
+            <aspectratio aligny="top">keep</aspectratio>
+            <texture colordiffuse="Dark1">backg/star10.png</texture>
+            <visible>!String.IsEqual(ListItem.Label,..) + String.IsEqual(Container.SortMethod,$LOCALIZE[38018])</visible>
+        </control>
+        <control type="label">
+            <top>28</top>
+            <posx>30</posx>
+            <width>auto</width>
+            <aligny>center</aligny>
+            <height>64</height>
+            <font>Small24</font>
+            <label>$VAR[50ListExtendedMusic]</label>
+            <textcolor>Dark2</textcolor>
+            <selectedcolor>Dark1</selectedcolor>
+            <visible>[Container.Content(songs) | Container.Content(albums) | Container.Content(artists)]</visible>
+        </control>
+        <control type="label">
+            <top>-5</top>
+            <right>30</right>
+            <width>500</width>
+            <aligny>center</aligny>
+            <height>64</height>
+            <align>right</align>
+            <font>SmallNavi</font>
+            <textcolor>Dark1</textcolor>
+            <selectedcolor>Dark1</selectedcolor>
+            <label fallback="0.0">$INFO[ListItem.UserRating,,.0]</label>
+            <visible>!String.IsEqual(ListItem.Label,..) + String.IsEqual(Container.SortMethod,$LOCALIZE[38018])</visible>
+        </control>
+    </include>
+
+    <include name="50focuslayout_square_info">
+        <control type="image">
+            <width>100%</width>
+            <height>100%</height>
+            <texture border="8" colordiffuse="$VAR[ColorSelectBar]">common/box.png</texture>
+            <include>ListViewScrollAnim</include>
+        </control>
+        <control type="image">
+            <width>100%</width>
+            <height>100%</height>
+            <texture border="8" colordiffuse="$VAR[ColorHighlight2]">common/gradient-box-wide.png</texture>
+            <include>ListViewScrollAnim</include>
+        </control>
+        <control type="image">
+            <left>25</left>
+            <centertop>29</centertop>
+            <width>32</width>
+            <height>32</height>
+            <aspectratio aligny="top">keep</aspectratio>
+            <texture colordiffuse="Light1">indicator/playlist.png</texture>
+            <visible>ListItem.IsPlaying</visible>
+        </control>
+        <control type="label">
+            <top>-5</top>
+            <visible>String.IsEqual(Container.SortMethod,$LOCALIZE[38018])</visible>
+            <posx>30</posx>
+            <width>810</width>
+            <aligny>center</aligny>
+            <height>64</height>
+            <font>SmallNavi</font>
+            <label>$INFO[ListItem.Label]</label>
+            <textcolor>Light1</textcolor>
+            <selectedcolor>Light1</selectedcolor>
+            <visible>!ListItem.IsPlaying</visible>
+        </control>
+        <control type="label">
+            <top>-5</top>
+            <visible>String.IsEqual(Container.SortMethod,$LOCALIZE[38018])</visible>
+            <posx>78</posx>
+            <width>760</width>
+            <aligny>center</aligny>
+            <height>64</height>
+            <font>SmallNavi</font>
+            <label>$INFO[ListItem.Label]</label>
+            <textcolor>Light1</textcolor>
+            <selectedcolor>Light1</selectedcolor>
+            <visible>ListItem.IsPlaying</visible>
+        </control>
+        <control type="label">
+            <top>-5</top>
+            <visible>!String.IsEqual(Container.SortMethod,$LOCALIZE[38018])</visible>
+            <posx>30</posx>
+            <width>auto</width>
+            <aligny>center</aligny>
+            <height>64</height>
+            <font>SmallNavi</font>
+            <label>$INFO[ListItem.Label]</label>
+            <textcolor>Light1</textcolor>
+            <selectedcolor>Light1</selectedcolor>
+            <visible>!ListItem.IsPlaying</visible>
+        </control>
+        <control type="label">
+            <top>-5</top>
+            <visible>!String.IsEqual(Container.SortMethod,$LOCALIZE[38018])</visible>
+            <posx>78</posx>
+            <width>auto</width>
+            <aligny>center</aligny>
+            <height>64</height>
+            <font>SmallNavi</font>
+            <label>$INFO[ListItem.Label]</label>
+            <textcolor>Light1</textcolor>
+            <selectedcolor>Light1</selectedcolor>
+            <visible>ListItem.IsPlaying</visible>
+        </control>
+        <control type="label">
+            <top>-5</top>
+            <right>30</right>
+            <width>500</width>
+            <aligny>center</aligny>
+            <height>64</height>
+            <align>right</align>
+            <font>SmallNavi</font>
+            <textcolor>Light1</textcolor>
+            <selectedcolor>Light1</selectedcolor>
+            <label>$INFO[ListItem.Duration]</label>
+            <visible>Container.Content(songs)</visible>
+            <animation effect="slide" start="0" end="-130" time="0" condition="String.IsEqual(Container.SortMethod,$LOCALIZE[38018])">Conditional</animation>
+        </control>
+        <control type="image">
+            <right>97</right>
+            <centertop>29</centertop>
+            <width>30</width>
+            <height>30</height>
+            <aspectratio aligny="top">keep</aspectratio>
+            <texture colordiffuse="Light1">backg/star10.png</texture>
+            <visible>!String.IsEqual(ListItem.Label,..) + String.IsEqual(Container.SortMethod,$LOCALIZE[38018])</visible>
+        </control>
+        <control type="label">
+            <top>28</top>
+            <posx>30</posx>
+            <width>auto</width>
+            <aligny>center</aligny>
+            <height>64</height>
+            <font>Small24</font>
+            <label>$VAR[50ListExtendedMusic] - $INFO[Container.SortMethod]</label>
+            <textcolor>Light1</textcolor>
+            <selectedcolor>Light1</selectedcolor>
+            <visible>[Container.Content(songs) | Container.Content(albums) | Container.Content(artists)]</visible>
+        </control>
+        <control type="label">
+            <top>-5</top>
+            <right>30</right>
+            <width>500</width>
+            <aligny>center</aligny>
+            <height>64</height>
+            <align>right</align>
+            <font>SmallNavi</font>
+            <textcolor>Light1</textcolor>
+            <selectedcolor>Light1</selectedcolor>
+            <label fallback="0.0">$INFO[ListItem.UserRating,,.0]</label>
+            <visible>!String.IsEqual(ListItem.Label,..) + String.IsEqual(Container.SortMethod,$LOCALIZE[38018])</visible>
+        </control>
+    </include>
+
+    <include name="50itemlayout_square">
+        <control type="image">
+            <left>25</left>
+            <centertop>34</centertop>
+            <width>32</width>
+            <height>32</height>
+            <aspectratio aligny="top">keep</aspectratio>
+            <texture colordiffuse="$VAR[ColorHighlight]">indicator/playlist.png</texture>
+            <visible>ListItem.IsPlaying</visible>
+        </control>
+        <control type="label">
+            <visible>String.IsEqual(Container.SortMethod,$LOCALIZE[38018])</visible>
+            <posx>30</posx>
+            <width>810</width>
+            <aligny>center</aligny>
+            <height>64</height>
+            <font>SmallNavi</font>
+            <label>$INFO[ListItem.Label]</label>
+            <textcolor>Dark1</textcolor>
+            <selectedcolor>Dark1</selectedcolor>
+            <visible>!ListItem.IsPlaying</visible>
+        </control>
+        <control type="label">
+            <visible>String.IsEqual(Container.SortMethod,$LOCALIZE[38018])</visible>
+            <posx>78</posx>
+            <width>760</width>
+            <aligny>center</aligny>
+            <height>64</height>
+            <font>SmallNavi</font>
+            <label>$INFO[ListItem.Label]</label>
+            <textcolor>Dark1</textcolor>
+            <selectedcolor>Dark1</selectedcolor>
+            <visible>ListItem.IsPlaying</visible>
+        </control>
+        <control type="label">
+            <visible>!String.IsEqual(Container.SortMethod,$LOCALIZE[38018])</visible>
+            <posx>30</posx>
+            <width>auto</width>
+            <aligny>center</aligny>
+            <height>64</height>
+            <font>SmallNavi</font>
+            <label>$INFO[ListItem.Label]</label>
+            <textcolor>Dark1</textcolor>
+            <selectedcolor>Dark1</selectedcolor>
+            <visible>!ListItem.IsPlaying</visible>
+        </control>
+        <control type="label">
+            <visible>!String.IsEqual(Container.SortMethod,$LOCALIZE[38018])</visible>
             <posx>78</posx>
             <width>auto</width>
             <aligny>center</aligny>
@@ -908,7 +1144,7 @@
             <selectedcolor>Dark1</selectedcolor>
             <label>$INFO[ListItem.Duration]</label>
             <visible>Container.Content(songs)</visible>
-            <animation effect="slide" start="0" end="-130" time="0" condition="String.IsEqual(Container.SortMethod,$LOCALIZE[31527])">Conditional</animation>
+            <animation effect="slide" start="0" end="-130" time="0" condition="String.IsEqual(Container.SortMethod,$LOCALIZE[38018])">Conditional</animation>
         </control>
         <control type="image">
             <right>97</right>
@@ -917,7 +1153,7 @@
             <height>32</height>
             <aspectratio aligny="top">keep</aspectratio>
             <texture colordiffuse="Dark1">backg/star10.png</texture>
-            <visible>!String.IsEqual(ListItem.Label,..) + String.IsEqual(Container.SortMethod,$LOCALIZE[31527])</visible>
+            <visible>!String.IsEqual(ListItem.Label,..) + String.IsEqual(Container.SortMethod,$LOCALIZE[38018])</visible>
         </control>
         <control type="label">
             <right>30</right>
@@ -929,7 +1165,7 @@
             <textcolor>Dark1</textcolor>
             <selectedcolor>Dark1</selectedcolor>
             <label>$INFO[ListItem.Label2]</label>
-            <visible>!Container.Content(songs) + !String.IsEqual(Container.SortMethod,$LOCALIZE[31527])</visible>
+            <visible>!Container.Content(songs) + !String.IsEqual(Container.SortMethod,$LOCALIZE[38018])</visible>
             <visible>!String.Contains(Container.FolderPath,plugin://plugin.video.youtube)</visible>
         </control>
         <control type="label">
@@ -961,18 +1197,6 @@
             <visible>!ListItem.IsFolder</visible>
         </control>
         <control type="label">
-            <top>28</top>
-            <posx>30</posx>
-            <width>auto</width>
-            <aligny>center</aligny>
-            <height>64</height>
-            <font>Small24</font>
-            <label>$VAR[50ListExtendedMusic]</label>
-            <textcolor>Dark2</textcolor>
-            <selectedcolor>Dark1</selectedcolor>
-            <visible>!Skin.HasSetting(No50ListInfo) + [Container.Content(songs) | Container.Content(albums) | Container.Content(artists)]</visible>
-        </control>
-        <control type="label">
             <right>30</right>
             <width>500</width>
             <aligny>center</aligny>
@@ -982,7 +1206,7 @@
             <textcolor>Dark1</textcolor>
             <selectedcolor>Dark1</selectedcolor>
             <label fallback="0.0">$INFO[ListItem.UserRating,,.0]</label>
-            <visible>!String.IsEqual(ListItem.Label,..) + String.IsEqual(Container.SortMethod,$LOCALIZE[31527])</visible>
+            <visible>!String.IsEqual(ListItem.Label,..) + String.IsEqual(Container.SortMethod,$LOCALIZE[38018])</visible>
         </control>
     </include>
 
@@ -1001,7 +1225,7 @@
         </control>
         <control type="image">
             <left>25</left>
-            <centertop>32</centertop>
+            <centertop>34</centertop>
             <width>32</width>
             <height>32</height>
             <aspectratio aligny="top">keep</aspectratio>
@@ -1009,7 +1233,7 @@
             <visible>ListItem.IsPlaying</visible>
         </control>
         <control type="label">
-            <visible>String.IsEqual(Container.SortMethod,$LOCALIZE[31527])</visible>
+            <visible>String.IsEqual(Container.SortMethod,$LOCALIZE[38018])</visible>
             <posx>30</posx>
             <width>810</width>
             <aligny>center</aligny>
@@ -1021,7 +1245,7 @@
             <visible>!ListItem.IsPlaying</visible>
         </control>
         <control type="label">
-            <visible>String.IsEqual(Container.SortMethod,$LOCALIZE[31527])</visible>
+            <visible>String.IsEqual(Container.SortMethod,$LOCALIZE[38018])</visible>
             <posx>78</posx>
             <width>760</width>
             <aligny>center</aligny>
@@ -1033,7 +1257,7 @@
             <visible>ListItem.IsPlaying</visible>
         </control>
         <control type="label">
-            <visible>!String.IsEqual(Container.SortMethod,$LOCALIZE[31527])</visible>
+            <visible>!String.IsEqual(Container.SortMethod,$LOCALIZE[38018])</visible>
             <posx>30</posx>
             <width>auto</width>
             <aligny>center</aligny>
@@ -1045,7 +1269,7 @@
             <visible>!ListItem.IsPlaying</visible>
         </control>
         <control type="label">
-            <visible>!String.IsEqual(Container.SortMethod,$LOCALIZE[31527])</visible>
+            <visible>!String.IsEqual(Container.SortMethod,$LOCALIZE[38018])</visible>
             <posx>78</posx>
             <width>auto</width>
             <aligny>center</aligny>
@@ -1067,7 +1291,7 @@
             <selectedcolor>Light1</selectedcolor>
             <label>$INFO[ListItem.Duration]</label>
             <visible>Container.Content(songs)</visible>
-            <animation effect="slide" start="0" end="-130" time="0" condition="String.IsEqual(Container.SortMethod,$LOCALIZE[31527])">Conditional</animation>
+            <animation effect="slide" start="0" end="-130" time="0" condition="String.IsEqual(Container.SortMethod,$LOCALIZE[38018])">Conditional</animation>
         </control>
         <control type="image">
             <right>97</right>
@@ -1076,7 +1300,7 @@
             <height>32</height>
             <aspectratio aligny="top">keep</aspectratio>
             <texture colordiffuse="Light1">backg/star10.png</texture>
-            <visible>!String.IsEqual(ListItem.Label,..) + String.IsEqual(Container.SortMethod,$LOCALIZE[31527])</visible>
+            <visible>!String.IsEqual(ListItem.Label,..) + String.IsEqual(Container.SortMethod,$LOCALIZE[38018])</visible>
         </control>
         <control type="label">
             <right>30</right>
@@ -1088,7 +1312,7 @@
             <textcolor>Light1</textcolor>
             <selectedcolor>Light1</selectedcolor>
             <label>$INFO[ListItem.Label2]</label>
-            <visible>!Container.Content(songs) + !String.IsEqual(Container.SortMethod,$LOCALIZE[31527])</visible>
+            <visible>!Container.Content(songs) + !String.IsEqual(Container.SortMethod,$LOCALIZE[38018])</visible>
             <visible>!String.Contains(Container.FolderPath,plugin://plugin.video.youtube)</visible>
         </control>
         <control type="label">
@@ -1120,18 +1344,6 @@
             <visible>!ListItem.IsFolder</visible>
         </control>
         <control type="label">
-            <top>28</top>
-            <posx>30</posx>
-            <width>auto</width>
-            <aligny>center</aligny>
-            <height>64</height>
-            <font>Small24</font>
-            <label>$VAR[50ListExtendedMusic]</label>
-            <textcolor>Light1</textcolor>
-            <selectedcolor>Light1</selectedcolor>
-            <visible>!Skin.HasSetting(No50ListInfo) + [Container.Content(songs) | Container.Content(albums) | Container.Content(artists)]</visible>
-        </control>
-        <control type="label">
             <right>30</right>
             <width>500</width>
             <aligny>center</aligny>
@@ -1141,14 +1353,14 @@
             <textcolor>Light1</textcolor>
             <selectedcolor>Light1</selectedcolor>
             <label fallback="0.0">$INFO[ListItem.UserRating,,.0]</label>
-            <visible>!String.IsEqual(ListItem.Label,..) + String.IsEqual(Container.SortMethod,$LOCALIZE[31527])</visible>
+            <visible>!String.IsEqual(ListItem.Label,..) + String.IsEqual(Container.SortMethod,$LOCALIZE[38018])</visible>
         </control>
     </include>
 
     <include name="50itemlayout_square_playlist">
         <control type="image">
             <left>25</left>
-            <centertop>32</centertop>
+            <centertop>34</centertop>
             <width>32</width>
             <height>32</height>
             <aspectratio aligny="top">keep</aspectratio>
@@ -1205,7 +1417,7 @@
         </control>
         <control type="image">
             <left>25</left>
-            <centertop>32</centertop>
+            <centertop>34</centertop>
             <width>32</width>
             <height>32</height>
             <aspectratio aligny="top">keep</aspectratio>
@@ -1250,7 +1462,7 @@
     <include name="50itemlayout_square_playlist_info">
         <control type="image">
             <left>25</left>
-            <centertop>27</centertop>
+            <centertop>29</centertop>
             <width>32</width>
             <height>32</height>
             <aspectratio aligny="top">keep</aspectratio>
@@ -1282,7 +1494,7 @@
             <visible>ListItem.IsPlaying</visible>
         </control>
         <control type="label">
-            <right>45</right>
+            <right>30</right>
             <top>-5</top>
             <width>500</width>
             <aligny>center</aligny>
@@ -1303,7 +1515,7 @@
             <font>Small24</font>
             <label>$VAR[LabelPlaylist]</label>
             <textcolor>Dark2</textcolor>
-            <selectedcolor>Dark1</selectedcolor>
+            <selectedcolor>Dark2</selectedcolor>
         </control>
         <control type="label">
             <visible>Skin.HasSetting(list.show.filename) + !String.IsEqual(ListItem.Label,..)</visible>
@@ -1335,7 +1547,7 @@
         </control>
         <control type="image">
             <left>25</left>
-            <centertop>27</centertop>
+            <centertop>29</centertop>
             <width>32</width>
             <height>32</height>
             <aspectratio aligny="top">keep</aspectratio>
@@ -1367,7 +1579,7 @@
             <visible>ListItem.IsPlaying</visible>
         </control>
         <control type="label">
-            <right>45</right>
+            <right>30</right>
             <top>-5</top>
             <width>500</width>
             <aligny>center</aligny>
@@ -1387,8 +1599,8 @@
             <height>64</height>
             <align>left</align>
             <font>Small24</font>
-            <textcolor>Light2</textcolor>
-            <selectedcolor>Light2</selectedcolor>
+            <textcolor>Light1</textcolor>
+            <selectedcolor>Light1</selectedcolor>
             <label>$VAR[LabelPlaylist]</label>
         </control>
         <control type="label">
@@ -1400,8 +1612,8 @@
             <height>64</height>
             <align>left</align>
             <font>Small24</font>
-            <textcolor>Light2</textcolor>
-            <selectedcolor>Light2</selectedcolor>
+            <textcolor>Light1</textcolor>
+            <selectedcolor>Light1</selectedcolor>
             <label>$VAR[50ListFolderPathFile]</label>
         </control>
     </include>
