@@ -2304,7 +2304,7 @@
             <height>250</height>
             <top>642</top>
             <left>100</left>
-            <texture diffuse="backg/diffuse.png">$VAR[MusicDiscart]</texture>
+            <texture diffuse="diffuse/diffuse_cd.png">$VAR[MusicDiscart]</texture>
             <animation effect="rotate" center="auto" time="6000" end="-360" condition="true" loop="true">Conditional</animation>
         </control>
     </include>
@@ -2677,9 +2677,6 @@
             <include content="include.widget.pvr.focus">
                 <param name="shortcutsid" value="$PARAM[shortcutsid]"/>
             </include>
-            <include content="SetWidgetContainerPosition" condition="$EXP[HomeIsCleanMinimal]">
-                <param name="id" value="$PARAM[shortcutsid]" />
-            </include>
         </focusedlayout>
     </include>
 
@@ -2759,14 +2756,17 @@
 
     <!-- Systeminfo Focus Layout -->
     <include name="TemplateSystemFocusLayout">
+        <param name="enablehelperbutton" value="$PARAM[enablehelperbutton]" default="false"/>
+        <definition>
         <focusedlayout height="325" width="355">
             <include content="include.widget.square.system.focus">
                 <param name="id" value="$PARAM[shortcutsid]"/>
             </include>
-            <include content="SetWidgetContainerPosition" condition="$EXP[HomeIsCleanMinimal]">
+            <include content="SetWidgetContainerPosition" condition="$EXP[HomeIsCleanMinimal] + $PARAM[enablehelperbutton]">
                 <param name="id" value="$PARAM[shortcutsid]" />
             </include>
         </focusedlayout>
+        </definition>
     </include>
 
     <include name="TemplateSubmenuFocusLayout">
@@ -2776,9 +2776,6 @@
                 <param name="height" value="125"/>
                 <param name="distance" value="$PARAM[distance]"/>
             </include>
-            <include content="SetWidgetContainerPosition" condition="$EXP[HomeIsCleanMinimal]">
-                <param name="id" value="$PARAM[shortcutsid]" />
-            </include>
         </focusedlayout>
         <focusedlayout height="175" width="222" condition="String.IsEqual(Container(300).ListItem.Property(widgetaspect$PARAM[shortcutsidshort]),SquareMedium)">
             <include content="include.widget.square.focus">
@@ -2787,9 +2784,6 @@
                 <param name="height" value="175"/>
                 <param name="distance" value="$PARAM[distance]"/>
             </include>
-            <include content="SetWidgetContainerPosition" condition="$EXP[HomeIsCleanMinimal]">
-                <param name="id" value="$PARAM[shortcutsid]" />
-            </include>
         </focusedlayout>
         <focusedlayout height="325" width="325" condition="!String.IsEqual(Container(300).ListItem.Property(widgetaspect$PARAM[shortcutsidshort]),SquareSmall) + !String.IsEqual(Container(300).ListItem.Property(widgetaspect$PARAM[shortcutsidshort]),SquareMedium)">
             <include content="include.widget.square.focus">
@@ -2797,84 +2791,65 @@
                 <param name="aspectratio" value="$PARAM[aspectratio]"/>
                 <param name="distance" value="$PARAM[distance]"/>
             </include>
-            <include content="SetWidgetContainerPosition" condition="$EXP[HomeIsCleanMinimal]">
-                <param name="id" value="$PARAM[shortcutsid]" />
-            </include>
         </focusedlayout>
     </include>
 
     <!-- Normal Focus Layout -->
     <include name="TemplateNormalFocusLayout">
-        <focusedlayout height="325" width="222" condition="!String.IsEqual(Container(300).ListItem.Property(widgetaspect$PARAM[shortcutsidshort]),Banner) + !String.IsEqual(Container(300).ListItem.Property(widgetaspect$PARAM[shortcutsidshort]),Square) + !String.IsEqual(Container(300).ListItem.Property(widgetaspect$PARAM[shortcutsidshort]),FanartSmall) + !String.IsEqual(Container(300).ListItem.Property(widgetaspect$PARAM[shortcutsidshort]),ThumbnailSmall) + !String.IsEqual(Container(300).ListItem.Property(widgetaspect$PARAM[shortcutsidshort]),ThumbnailPosterSmall) + ![String.IsEqual(Container(300).ListItem.Property(widgetaspect$PARAM[shortcutsidshort]),Fanart) | String.IsEqual(Container(300).ListItem.Property(widgetaspect$PARAM[shortcutsidshort]),Thumbnail)]">
+        <param name="enablehelperbutton" value="$PARAM[enablehelperbutton]" default="false"/>
+        <definition>
+        <focusedlayout height="325" width="222" condition="[!String.IsEqual(Container(300).ListItem.Property(widgetaspect$PARAM[shortcutsidshort]),Banner) + !String.IsEqual(Container(300).ListItem.Property(widgetaspect$PARAM[shortcutsidshort]),Square) + !String.IsEqual(Container(300).ListItem.Property(widgetaspect$PARAM[shortcutsidshort]),FanartSmall) + !String.IsEqual(Container(300).ListItem.Property(widgetaspect$PARAM[shortcutsidshort]),ThumbnailSmall) + !String.IsEqual(Container(300).ListItem.Property(widgetaspect$PARAM[shortcutsidshort]),ThumbnailPosterSmall) + ![String.IsEqual(Container(300).ListItem.Property(widgetaspect$PARAM[shortcutsidshort]),Fanart) | String.IsEqual(Container(300).ListItem.Property(widgetaspect$PARAM[shortcutsidshort]),Thumbnail)]] | $EXP[HomeIsCleanMinimal]">
             <include content="include.widget.poster.focus">
                 <param name="id" value="$PARAM[shortcutsid]"/>
                 <param name="reflections" value="Skin.HasSetting(home.widgets.show.reflections)"/>
             </include>
-            <include content="SetWidgetContainerPosition" condition="$EXP[HomeIsCleanMinimal]">
+            <include content="SetWidgetContainerPosition" condition="$EXP[HomeIsCleanMinimal] + $PARAM[enablehelperbutton]">
                 <param name="id" value="$PARAM[shortcutsid]" />
             </include>
         </focusedlayout>
-        <focusedlayout height="325" width="325" condition="String.IsEqual(Container(300).ListItem.Property(widgetaspect$PARAM[shortcutsidshort]),Square)">
+        <focusedlayout height="325" width="325" condition="String.IsEqual(Container(300).ListItem.Property(widgetaspect$PARAM[shortcutsidshort]),Square) + !$EXP[HomeIsCleanMinimal]">
             <include content="include.widget.square.focus">
                 <param name="id" value="$PARAM[shortcutsid]"/>
                 <param name="aspectratio" value="$PARAM[aspectratio]"/>
                 <param name="distance" value="$PARAM[distance]"/>
                 <param name="reflections" value="Skin.HasSetting(home.widgets.show.reflections)"/>
             </include>
-            <include content="SetWidgetContainerPosition" condition="$EXP[HomeIsCleanMinimal]">
-                <param name="id" value="$PARAM[shortcutsid]" />
-            </include>
         </focusedlayout>
-        <focusedlayout height="325" width="562" condition="String.IsEqual(Container(300).ListItem.Property(widgetaspect$PARAM[shortcutsidshort]),Fanart)">
+        <focusedlayout height="325" width="562" condition="String.IsEqual(Container(300).ListItem.Property(widgetaspect$PARAM[shortcutsidshort]),Fanart) + !$EXP[HomeIsCleanMinimal]">
             <include content="include.widget.fanart.focus">
                 <param name="id" value="$PARAM[shortcutsid]"/>
                 <param name="reflections" value="Skin.HasSetting(home.widgets.show.reflections)"/>
             </include>
-            <include content="SetWidgetContainerPosition" condition="$EXP[HomeIsCleanMinimal]">
-                <param name="id" value="$PARAM[shortcutsid]" />
-            </include>
         </focusedlayout>
-        <focusedlayout height="325" width="400" condition="String.IsEqual(Container(300).ListItem.Property(widgetaspect$PARAM[shortcutsidshort]),FanartSmall)">
+        <focusedlayout height="325" width="400" condition="String.IsEqual(Container(300).ListItem.Property(widgetaspect$PARAM[shortcutsidshort]),FanartSmall) + !$EXP[HomeIsCleanMinimal]">
             <include content="include.widget.fanart.focus">
                 <param name="id" value="$PARAM[shortcutsid]"/>
                 <param name="reflections" value="false"/>
                 <param name="small" value="true"/>
             </include>
-            <include content="SetWidgetContainerPosition" condition="$EXP[HomeIsCleanMinimal]">
-                <param name="id" value="$PARAM[shortcutsid]" />
-            </include>
         </focusedlayout>
-        <focusedlayout height="325" width="1690" condition="String.IsEqual(Container(300).ListItem.Property(widgetaspect$PARAM[shortcutsidshort]),Banner)">
+        <focusedlayout height="325" width="1690" condition="String.IsEqual(Container(300).ListItem.Property(widgetaspect$PARAM[shortcutsidshort]),Banner) + !$EXP[HomeIsCleanMinimal]">
             <include content="include.widget.banner.focus">
                 <param name="id" value="$PARAM[shortcutsid]"/>
                 <param name="reflections" value="Skin.HasSetting(home.widgets.show.reflections)"/>
             </include>
-            <include content="SetWidgetContainerPosition" condition="$EXP[HomeIsCleanMinimal]">
-                <param name="id" value="$PARAM[shortcutsid]" />
-            </include>
         </focusedlayout>
-        <focusedlayout height="325" width="562" condition="String.IsEqual(Container(300).ListItem.Property(widgetaspect$PARAM[shortcutsidshort]),Thumbnail)">
+        <focusedlayout height="325" width="562" condition="String.IsEqual(Container(300).ListItem.Property(widgetaspect$PARAM[shortcutsidshort]),Thumbnail) + !$EXP[HomeIsCleanMinimal]">
             <include content="include.widget.thumb.focus">
                 <param name="id" value="$PARAM[shortcutsid]"/>
                 <param name="clearlogo" value="$PARAM[shortcutsclearlogo]"/>
                 <param name="reflections" value="Skin.HasSetting(home.widgets.show.reflections)"/>
             </include>
-            <include content="SetWidgetContainerPosition" condition="$EXP[HomeIsCleanMinimal]">
-                <param name="id" value="$PARAM[shortcutsid]" />
-            </include>
         </focusedlayout>
-        <focusedlayout height="325" width="400" condition="String.IsEqual(Container(300).ListItem.Property(widgetaspect$PARAM[shortcutsidshort]),ThumbnailSmall)">
+        <focusedlayout height="325" width="400" condition="String.IsEqual(Container(300).ListItem.Property(widgetaspect$PARAM[shortcutsidshort]),ThumbnailSmall) + !$EXP[HomeIsCleanMinimal]">
             <include content="include.widget.thumb.focus">
                 <param name="id" value="$PARAM[shortcutsid]"/>
                 <param name="clearlogo" value="$PARAM[shortcutsclearlogo]"/>
                 <param name="reflections" value="false"/>
                 <param name="small" value="true"/>
             </include>
-            <include content="SetWidgetContainerPosition" condition="$EXP[HomeIsCleanMinimal]">
-                <param name="id" value="$PARAM[shortcutsid]" />
-            </include>
         </focusedlayout>
-        <focusedlayout height="325" width="542" condition="String.IsEqual(Container(300).ListItem.Property(widgetaspect$PARAM[shortcutsidshort]),ThumbnailPosterSmall)">
+        <focusedlayout height="325" width="542" condition="String.IsEqual(Container(300).ListItem.Property(widgetaspect$PARAM[shortcutsidshort]),ThumbnailPosterSmall) + !$EXP[HomeIsCleanMinimal]">
             <include content="include.widget.thumb.focus">
                 <param name="id" value="$PARAM[shortcutsid]"/>
                 <param name="clearlogo" value="false"/>
@@ -2882,38 +2857,33 @@
                 <param name="small" value="true"/>
                 <param name="poster" value="true"/>
             </include>
-            <include content="SetWidgetContainerPosition" condition="$EXP[HomeIsCleanMinimal]">
-                <param name="id" value="$PARAM[shortcutsid]" />
-            </include>
         </focusedlayout>
+        </definition>
     </include>
 
     <!-- Weather Focus Layout -->
     <include name="TemplateWeatherFocusLayout">
-        <focusedlayout height="325" width="222" condition="[String.IsEqual(Container(300).ListItem.Property(widgetaspect$PARAM[shortcutsidshort]),Poster) | String.IsEmpty(Container(300).ListItem.Property(widgetaspect$PARAM[shortcutsidshort]))]">
+        <param name="enablehelperbutton" value="$PARAM[enablehelperbutton]" default="false"/>
+        <definition>
+        <focusedlayout height="325" width="222" condition="[String.IsEqual(Container(300).ListItem.Property(widgetaspect$PARAM[shortcutsidshort]),Poster) | String.IsEmpty(Container(300).ListItem.Property(widgetaspect$PARAM[shortcutsidshort]))] | $EXP[HomeIsCleanMinimal]">
             <include content="weatherlayoutwidgetsvertical.poster.focus">
                 <param name="id" value="$PARAM[shortcutsid]"/>
             </include>
-            <include content="SetWidgetContainerPosition" condition="$EXP[HomeIsCleanMinimal]">
+            <include content="SetWidgetContainerPosition" condition="$EXP[HomeIsCleanMinimal] + $PARAM[enablehelperbutton]">
                 <param name="id" value="$PARAM[shortcutsid]" />
             </include>
         </focusedlayout>
-        <focusedlayout height="325" width="355" condition="!String.IsEqual(Container(300).ListItem.Property(widgetaspect$PARAM[shortcutsidshort]),Fanart) + !String.IsEqual(Container(300).ListItem.Property(widgetaspect$PARAM[shortcutsidshort]),Thumbnail) + !String.IsEqual(Container(300).ListItem.Property(widgetaspect$PARAM[shortcutsidshort]),Poster) + !String.IsEmpty(Container(300).ListItem.Property(widgetaspect$PARAM[shortcutsidshort]))">
+        <focusedlayout height="325" width="355" condition="[!String.IsEqual(Container(300).ListItem.Property(widgetaspect$PARAM[shortcutsidshort]),Fanart) + !String.IsEqual(Container(300).ListItem.Property(widgetaspect$PARAM[shortcutsidshort]),Thumbnail) + !String.IsEqual(Container(300).ListItem.Property(widgetaspect$PARAM[shortcutsidshort]),Poster) + !String.IsEmpty(Container(300).ListItem.Property(widgetaspect$PARAM[shortcutsidshort]))] + !$EXP[HomeIsCleanMinimal]">
             <include content="weatherlayoutwidgetsvertical.square.focus">
                 <param name="id" value="$PARAM[shortcutsid]"/>
             </include>
-            <include content="SetWidgetContainerPosition" condition="$EXP[HomeIsCleanMinimal]">
-                <param name="id" value="$PARAM[shortcutsid]" />
-            </include>
         </focusedlayout>
-        <focusedlayout height="325" width="591" condition="String.IsEqual(Container(300).ListItem.Property(widgetaspect$PARAM[shortcutsidshort]),Fanart) | String.IsEqual(Container(300).ListItem.Property(widgetaspect$PARAM[shortcutsidshort]),Thumbnail)">
+        <focusedlayout height="325" width="591" condition="[String.IsEqual(Container(300).ListItem.Property(widgetaspect$PARAM[shortcutsidshort]),Fanart) | String.IsEqual(Container(300).ListItem.Property(widgetaspect$PARAM[shortcutsidshort]),Thumbnail)] + !$EXP[HomeIsCleanMinimal]">
             <include content="weatherlayoutwidgetsvertical.fanart.focus">
                 <param name="id" value="$PARAM[shortcutsid]"/>
             </include>
-            <include content="SetWidgetContainerPosition" condition="$EXP[HomeIsCleanMinimal]">
-                <param name="id" value="$PARAM[shortcutsid]" />
-            </include>
         </focusedlayout>
+        </definition>
     </include>
 
     <include name="ClearLogoHomeImageContainer">
@@ -3010,7 +2980,7 @@
             <width>$PARAM[width]</width>
             <height>$PARAM[width]</height>
             <centertop>50%</centertop>
-            <texture colordiffuse="$VAR[ColorHighlight]">backg/$VAR[$PARAM[Star]].png</texture>
+            <texture colordiffuse="$VAR[ColorHighlight]">misc/$VAR[$PARAM[Star]].png</texture>
             <visible>$PARAM[visible]</visible>
         </control>
         </definition>
@@ -3071,6 +3041,7 @@
         <param name="width" value="$PARAM[width]" default="300"/>
         <param name="visible" value="$PARAM[visible]" default="true"/>
         <param name="discart" value="$PARAM[discart]" default="$VAR[MusicDiscart]"/>
+        <param name="diffuse" value="$PARAM[diffuse]" default="diffuse/diffuse_cd_full.png"/>
         <definition>
         <control type="image">
             <aspectratio scalediffuse="false">scale</aspectratio>
@@ -3258,7 +3229,7 @@
                  <top>8</top>
                  <width>100</width>
                  <height>100</height>
-                 <texture colordiffuse="$VAR[ColorIndicatorBackgroundInprogress]">backg/OverlayWatched.png</texture>
+                 <texture colordiffuse="$VAR[ColorIndicatorBackgroundInprogress]">misc/OverlayWatched.png</texture>
                  <visible>!Skin.HasSetting(hide.markers) + ListItem.IsResumable + !Skin.HasSetting(hide.markers.inprogress)</visible>
             </control>
             <control type="image">
@@ -3266,7 +3237,7 @@
                  <top>8</top>
                  <width>100</width>
                  <height>100</height>
-                 <texture colordiffuse="$VAR[ColorIndicatorBackgroundWatched]">backg/OverlayWatched.png</texture>
+                 <texture colordiffuse="$VAR[ColorIndicatorBackgroundWatched]">misc/OverlayWatched.png</texture>
                  <visible>!Skin.HasSetting(hide.markers) + !ListItem.IsResumable + String.IsEqual(ListItem.Overlay,OverlayWatched.png) + !Skin.HasSetting(hide.markers.watched)</visible>
             </control>
             <control type="image">
@@ -3274,7 +3245,7 @@
                  <top>8</top>
                  <width>100</width>
                  <height>100</height>
-                 <texture colordiffuse="$VAR[ColorIndicatorBackgroundNew]">backg/OverlayWatched.png</texture>
+                 <texture colordiffuse="$VAR[ColorIndicatorBackgroundNew]">misc/OverlayWatched.png</texture>
                  <visible>!Skin.HasSetting(hide.markers) + !ListItem.IsResumable + [[String.IsEqual(ListItem.Overlay,OverlayUnwatched.png) + [$EXP[IsNewMovie] | $EXP[IsNewTVShow] | $EXP[IsNewEpisode]]]] + !Skin.HasSetting(hide.markers.newcontent)</visible>
             </control>
             <control type="label">
@@ -3320,7 +3291,7 @@
             <width>$PARAM[height]</width>
             <height>$PARAM[height]</height>
             <centertop>50%</centertop>
-            <texture colordiffuse="$VAR[ColorHighlight]">backg/$VAR[FlagstarMusic$PARAM[Flagstar]].png</texture>
+            <texture colordiffuse="$VAR[ColorHighlight]">misc/$VAR[FlagstarMusic$PARAM[Flagstar]].png</texture>
             <visible>Integer.IsGreater(MusicPlayer.Time,0)</visible>
             <visible>!Skin.HasSetting(musicosd.numericrating)</visible>
             <animation type="Visible" condition="Integer.IsGreater(MusicPlayer.UserRating,$PARAM[IsGreater])">
@@ -3407,5 +3378,14 @@
     <include name="UpdateColorbox">
         <onclick>AlarmClock(nms1,SetProperty(NINE_manual_set,"var=main,set=$INFO[Skin.String(colorbox_main)]|var=comp,set=$INFO[Skin.String(colorbox_comp)]|var=quality,set=$INFO[Skin.String(colorbox_quality)]|var=blursize,set=$INFO[Skin.String(colorbox_blursize)]|var=bitsize,set=$INFO[Skin.String(colorbox_bitsize)]|var=pixelsize,set=$INFO[Skin.String(colorbox_pixelsize)]|var=black,set=$INFO[Skin.String(colorbox_black)]|var=white,set=$INFO[Skin.String(colorbox_white)]|var=blend,set=$INFO[Skin.String(colorbox_blend)]|var=desat,set=$INFO[Skin.String(colorbox_desat)]",home),00:00,silent)</onclick>
         <onclick>AlarmClock(nms2,SetProperty(FIVE_daemon_fire,True,home),00:01,silent)</onclick>
+    </include>
+    
+    <include name="Def_Watched_Indicators_Clean">
+        <aligny>center</aligny>
+        <width>38</width>
+        <height>38</height>
+        <textcolor>WatchedIcons</textcolor>
+        <selectedcolor>WatchedIcons</selectedcolor>
+        <font>SymbolPoster</font>
     </include>
 </includes>

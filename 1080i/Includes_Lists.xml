@@ -27,9 +27,12 @@
     <include name="ListInfoUpdating">
         <param name="alignleft" value="$PARAM[alignleft]" default="750"/>
         <param name="alignbottom" value="$PARAM[alignbottom]" default="240"/>
+        <param name="visi2" value="$PARAM[visi2]" default="false"/>
         <definition>
         <control type="group">
             <visible>$PARAM[visi]</visible>
+            <include>Animation.FadeOut</include>
+            <include>Animation.FadeIn</include>
             <centerleft>$PARAM[alignleft]</centerleft>
             <centerbottom>$PARAM[alignbottom]</centerbottom>
             <control type="group">
@@ -37,7 +40,8 @@
                 <right>0</right>
                 <width>1000</width>
                 <visible>Container($PARAM[controlid]).IsUpdating</visible>
-                <include>Animation.FadeIn</include>
+                <include>Animation.DelayFadeIn</include>
+                <include>Animation.FadeOut</include>
                 <control type="image">
                     <description>Busy animation</description>
                     <left>322</left>
@@ -67,8 +71,9 @@
                 </control>
             </control>
             <control type="group">
-                <visible>!Container($PARAM[controlid]).IsUpdating + !Integer.IsGreater(Container($PARAM[controlid]).NumItems,0)</visible>
+                <visible>[!Container($PARAM[controlid]).IsUpdating + !Integer.IsGreater(Container($PARAM[controlid]).NumItems,0)] | [$PARAM[visi2]]</visible>
                 <include>Animation.DelayFadeIn</include>
+                <include>Animation.FadeOut2</include>
                 <top>72</top>
                 <control type="label">
                     <right>0</right>
@@ -740,7 +745,7 @@
         <control type="list" id="44023">
             <visible>ListItem.IsCollection + !String.IsEmpty(ListItem.DBID)</visible>
             <include>HiddenListControl</include>
-            <content>videodb://movies/sets/$INFO[ListItem.DBID]/?setid=$INFO[ListItem.DBID]</content>
+            <content>$VAR[SetsPath]</content>
         </control>
         <control type="list" id="44022">
             <visible>String.IsEqual(ListItem.DBType,album)</visible>
