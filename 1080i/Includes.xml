@@ -475,7 +475,7 @@
         <control type="group">
             <visible>Player.HasAudio + Skin.HasSetting(global.showvisualisation)</visible>
             <control type="visualisation">
-                <visible>Skin.HasSetting(ArtistSlideShow.Disabled) | !System.HasAddon(script.artistslideshow) | Skin.HasSetting(OSDVisualisation.ShowFanart)</visible>
+                <visible>Skin.HasSetting(ArtistSlideShow.Disabled) | !System.AddonIsEnabled(script.artistslideshow) | Skin.HasSetting(OSDVisualisation.ShowFanart)</visible>
                 <description>visualisation</description>
                 <include>Dimensions_Fullscreen</include>
             </control>
@@ -486,7 +486,7 @@
                 <include>Dimensions_Fullscreen</include>
                 <include>BackgroundFanartFadetime</include>
                 <texture background="true">$INFO[Window(Visualisation).Property(ArtistSlideshow.Image)]</texture>
-                <visible>System.HasAddon(script.artistslideshow) + !Skin.HasSetting(ArtistSlideShow.Disabled)</visible>
+                <visible>System.AddonIsEnabled(script.artistslideshow) + !Skin.HasSetting(ArtistSlideShow.Disabled)</visible>
                 <animation effect="fade" start="100" end="65" time="0" condition="Skin.HasSetting(OSDVisualisation.ShowFanart)">Conditional</animation>
                 <animation effect="zoom" start="110" end="130" center="auto" time="10000" tween="sine" easing="inout" pulse="true" condition="Skin.HasSetting(ArtistSlideshow.Animate)">Conditional</animation>
                 <animation effect="slide" start="-30,-30" end="30,30" time="6000" tween="sine" easing="inout" pulse="true" condition="Skin.HasSetting(ArtistSlideshow.Animate)">Conditional</animation>
@@ -634,7 +634,7 @@
             <timeperimage>HomeTimePerImage</timeperimage>
             <randomize>true</randomize>
             <imagepath background="true">$VAR[GlobalFanart]</imagepath>
-            <visible>System.HasAddon(script.colorbox)</visible>
+            <visible>System.AddonIsEnabled(script.colorbox)</visible>
             <visible>Skin.HasSetting(BlurEnabled)</visible>
         </control>
     </include>
@@ -1553,7 +1553,7 @@
                 <include content="buttontextures">
                     <param name="icon" value="buttonsdialogs/trailer.png"/>
                 </include>
-                <visible>!String.IsEmpty(ListItem.IMDBNumber) + Skin.HasSetting(Use.IMDB.Trailer) + System.HasAddon(plugin.video.imdb.trailers) + !Skin.HasSetting(PlayTrailerWindowed)</visible>
+                <visible>!String.IsEmpty(ListItem.IMDBNumber) + Skin.HasSetting(Use.IMDB.Trailer) + System.AddonIsEnabled(plugin.video.imdb.trailers) + !Skin.HasSetting(PlayTrailerWindowed)</visible>
                 <onclick>Dialog.Close(2003)</onclick>
                 <onclick>PlayMedia(plugin://plugin.video.imdb.trailers/?action=play_id&amp;imdb=$INFO[ListItem.IMDBNumber])</onclick>
                 <visible>!Skin.HasSetting(hidebutton.video.trailer)</visible>
@@ -1608,7 +1608,7 @@
                 <include content="buttontextures">
                     <param name="icon" value="buttonsdialogs/trailer.png"/>
                 </include>
-                <visible>[!String.IsEmpty(ListItem.Trailer) + Skin.HasSetting(PlayTrailerWindowed) + !Skin.HasSetting(Use.IMDB.Trailer)] | [Skin.HasSetting(PlayTrailerWindowed) + Skin.HasSetting(Use.IMDB.Trailer) + !String.IsEmpty(ListItem.IMDBNumber) + System.HasAddon(plugin.video.imdb.trailers)] | [Skin.HasSetting(PlayTrailerWindowed) + System.AddonIsEnabled(script.bingie.helper) + String.IsEqual(ListItem.DBType,tvshow)]</visible>
+                <visible>[!String.IsEmpty(ListItem.Trailer) + Skin.HasSetting(PlayTrailerWindowed) + !Skin.HasSetting(Use.IMDB.Trailer)] | [Skin.HasSetting(PlayTrailerWindowed) + Skin.HasSetting(Use.IMDB.Trailer) + !String.IsEmpty(ListItem.IMDBNumber) + System.AddonIsEnabled(plugin.video.imdb.trailers)] | [Skin.HasSetting(PlayTrailerWindowed) + System.AddonIsEnabled(script.bingie.helper) + String.IsEqual(ListItem.DBType,tvshow)]</visible>
                 <onclick condition="!Skin.HasSetting(Use.IMDB.Trailer) + !String.IsEqual(ListItem.DBType,tvshow)">PlayMedia($INFO[ListItem.Trailer],1)</onclick>
                 <onclick condition="Skin.HasSetting(Use.IMDB.Trailer) + !String.IsEqual(ListItem.DBType,tvshow)">PlayMedia(plugin://plugin.video.imdb.trailers/?action=play_id&amp;imdb=$INFO[ListItem.IMDBNumber],1)</onclick>
                 <onclick condition="String.IsEqual(ListItem.DBType,tvshow) + System.AddonIsEnabled(script.bingie.helper)">RunScript(script.bingie.helper,action=playtrailer,MODE=windowed,title=$INFO[ListItem.Title,, $LOCALIZE[36902]],local=true)</onclick>
@@ -1639,7 +1639,7 @@
                 <include content="buttontextures">
                     <param name="icon" value="buttonsdialogs/more.png"/>
                 </include>
-                <visible>System.HasAddon(plugin.video.specialfeatures)</visible>
+                <visible>System.AddonIsEnabled(plugin.video.specialfeatures)</visible>
                 <visible>String.IsEqual(Window(home).Property(SpecialFeatures.Visible),true)</visible>
                 <onclick>Action(close)</onclick>
                 <onclick>RunScript(plugin.video.specialfeatures,listitem)</onclick>
@@ -2043,7 +2043,7 @@
                 </include>
                 <onclick>Action(close)</onclick>
                 <onclick>RunScript(plugin.video.iptv.recorder,$ESCINFO[ListItem.ChannelName],$ESCINFO[ListItem.Title],$ESCINFO[ListItem.Date],$ESCINFO[ListItem.Duration],$ESCINFO[ListItem.Plot])</onclick>
-                <visible>System.hasAddon(plugin.video.iptv.recorder)</visible>
+                <visible>System.AddonIsEnabled(plugin.video.iptv.recorder)</visible>
             </control>
             <control type="radiobutton" id="667">
                 <include>buttondimensionssquare</include>
@@ -2052,7 +2052,7 @@
                 </include>
                 <onclick>Action(close)</onclick>
                 <onclick>ActivateWindow(10025,&quot;plugin://plugin.video.iptv.recorder/recordings&quot;,return)</onclick>
-                <visible>System.hasAddon(plugin.video.iptv.recorder)</visible>
+                <visible>System.AddonIsEnabled(plugin.video.iptv.recorder)</visible>
             </control>
             <control type="radiobutton" id="10">
                 <include>buttondimensionssquare</include>
@@ -2491,7 +2491,7 @@
                         <onclick condition="String.IsEqual(ListItem.DBType,set)">RunScript(script.artwork.beef, mode=gui, mediatype=set, dbid=$INFO[ListItem.DBID])</onclick>
                         <onclick condition="String.IsEqual(ListItem.DBType,episode)">RunScript(script.artwork.beef, mode=gui, mediatype=episode, dbid=$INFO[ListItem.DBID])</onclick>
                         <onclick condition="String.IsEqual(ListItem.DBType,album)">RunScript(script.artwork.beef, mode=gui, mediatype=album, dbid=$INFO[ListItem.DBID])</onclick>
-                        <visible>system.hasaddon(script.artwork.beef) + System.AddonIsEnabled(script.artwork.beef)</visible>
+                        <visible>System.AddonIsEnabled(script.artwork.beef)</visible>
                     </control>
                     <control type="button" id="81">
                         <description>Filter</description>
@@ -2506,7 +2506,7 @@
                         <onclick condition="String.IsEqual(ListItem.DBType,set)">RunScript(script.artwork.beef, mode=auto, mediatype=set, dbid=$INFO[ListItem.DBID])</onclick>
                         <onclick condition="String.IsEqual(ListItem.DBType,episode)">RunScript(script.artwork.beef, mode=auto, mediatype=episode, dbid=$INFO[ListItem.DBID])</onclick>
                         <onclick condition="String.IsEqual(ListItem.DBType,album)">RunScript(script.artwork.beef, mode=auto, mediatype=album, dbid=$INFO[ListItem.DBID])</onclick>
-                        <visible>system.hasaddon(script.artwork.beef) + System.AddonIsEnabled(script.artwork.beef)</visible>
+                        <visible>System.AddonIsEnabled(script.artwork.beef)</visible>
                     </control>
                     <control type="button" id="97">
                         <include>DefContextButtonGradient</include>
