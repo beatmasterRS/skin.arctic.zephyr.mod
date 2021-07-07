@@ -692,23 +692,6 @@
             <label>584</label>
             <altlabel>585</altlabel>
         </control>
-        <control type="button" id="7">
-            <description>Playlist</description>
-            <include>DefContextButtonGradient</include>
-            <align>left</align>
-            <label>136</label>
-            <onclick>SetFocus(50)</onclick>
-            <visible>Window.IsVisible(MyMusicSongs.xml)</visible>
-            <visible>!String.IsEqual(Container.FolderPath,special://musicplaylists/)</visible>
-        </control>
-        <control type="button" id="9098">
-            <description>Now Playing</description>
-            <include>DefContextButtonGradient</include>
-            <label>13350</label>
-            <align>left</align>
-            <onclick>ActivateWindow(MusicPlaylist)</onclick>
-            <visible>Integer.IsGreater(Playlist.Length(music),1)</visible>
-        </control>
     </include>
 
     <include name="DefHomeRight520">
@@ -1243,7 +1226,7 @@
                     <include>DefContextButtonGradient</include>
                     <usealttexture>Library.IsScanningVideo</usealttexture>
                 </control>
-                <include>ControlButtons</include>
+                <include>ButtonPlaylist</include>
                 <control type="button" id="5555">
                     <include>DefContextButtonGradient</include>
                     <align>left</align>
@@ -2384,6 +2367,7 @@
         <param name="height" value="$PARAM[height]" default="70"/>
         <param name="slide" value="$PARAM[slide]" default="70"/>
         <param name="border" value="$PARAM[border]" default="5"/>
+        <param name="visible" value="$PARAM[visible]" default="true"/>
         <param name="image" value="$PARAM[image]" default="common/white.png"/>
         <param name="overlayfix" value="$PARAM[overlayfix]" default="false"/>
         <param name="colordiffuse" value="$PARAM[colordiffuse]" default="$VAR[ColorSelectOtherBar]"/>
@@ -2394,8 +2378,8 @@
                 <height>$PARAM[height]</height>
                 <width>$PARAM[width]</width>
                 <texture colordiffuse="$PARAM[colordiffuse]" border="$PARAM[border]">$PARAM[image]</texture>
-                <visible>ControlGroup($PARAM[controlid]).HasFocus()</visible>
-                <include condition="$PARAM[overlayfix]">Animation.FadeIn.Gradient</include>
+                <visible>ControlGroup($PARAM[controlid]).HasFocus() + $PARAM[visible]</visible>
+                <include condition="$PARAM[overlayfix]" content="Animation.FadeIn.Gradient"><param name="delay" value="$PARAM[delay]" /></include>
                 <include content="Def_Gradient_Settings_Image_Animation_Container">
                     <param name="controlid" value="$PARAM[controlid]" />
                     <param name="slide" value="$PARAM[slide]" />
