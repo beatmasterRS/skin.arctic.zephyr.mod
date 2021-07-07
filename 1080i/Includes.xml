@@ -78,6 +78,7 @@
     <expression name="Widget4Enabled">String.IsEqual(Container(300).ListItem.Property(widgetEnable.4),yes)</expression>
     <expression name="Widget5Enabled">String.IsEqual(Container(300).ListItem.Property(widgetEnable.5),yes)</expression>
     <expression name="Widget6Enabled">String.IsEqual(Container(300).ListItem.Property(widgetEnable.6),yes)</expression>
+    <expression name="HasHomemenuAutoSlideOutAnimation">Skin.HasSetting(homemenu.horizontal.slide) + $EXP[HomeIsModernMultiWidgets] + !Skin.HasSetting(homemenu.clean.flix)</expression>
     <expression name="IsAudioCodecATMOS">
         String.Contains(ListItem.FileNameAndPath,.atmos.) | String.Contains(ListItem.FileNameAndPath,.atmos-)
         | [VideoPlayer.IsFullscreen + [String.Contains(Player.FileNameAndPath,.atmos.) | String.Contains(Player.FileNameAndPath,.atmos-)]]
@@ -3313,4 +3314,30 @@
     <variable name="SetsPath">
         <value condition="ListItem.IsCollection + !String.IsEmpty(ListItem.DBID)">videodb://movies/sets/$INFO[ListItem.DBID]/?setid=$INFO[ListItem.DBID]</value>
     </variable>
+    
+    <include name="SlideOutItemsButton">
+        <control type="button">
+            <include>HiddenButton</include>
+            <onfocus>AlarmClock(slide_out,SetFocus(2011),00:05,silent)</onfocus>
+            <onfocus condition="Control.HasFocus(300)">SetProperty(LastMenuItem,300,home)</onfocus>
+            <onfocus condition="Control.HasFocus(302)">SetProperty(LastMenuItem,302,home)</onfocus>
+        </control>
+    </include>
+    
+    <include name="SlideOutHomemenuButton">
+        <control type="button" id="2011">
+            <visible allowhiddenfocus="true">false</visible>
+            <include>HiddenButton</include>
+            <onup condition="!String.IsEmpty(Window(home).Property(LastMenuItem))">SetFocus($INFO[Window(home).Property(LastMenuItem)])</onup>
+            <onleft condition="!String.IsEmpty(Window(home).Property(LastMenuItem))">SetFocus($INFO[Window(home).Property(LastMenuItem)])</onleft>
+            <onright condition="!String.IsEmpty(Window(home).Property(LastMenuItem))">SetFocus($INFO[Window(home).Property(LastMenuItem)])</onright>
+            <ondown condition="!String.IsEmpty(Window(home).Property(LastMenuItem))">SetFocus($INFO[Window(home).Property(LastMenuItem)])</ondown>
+            <onback condition="!String.IsEmpty(Window(home).Property(LastMenuItem))">SetFocus($INFO[Window(home).Property(LastMenuItem)])</onback>
+            <onup condition="String.IsEmpty(Window(home).Property(LastMenuItem))">300</onup>
+            <onleft condition="String.IsEmpty(Window(home).Property(LastMenuItem))">300</onleft>
+            <onright condition="String.IsEmpty(Window(home).Property(LastMenuItem))">300</onright>
+            <ondown condition="String.IsEmpty(Window(home).Property(LastMenuItem))">300</ondown>
+            <onback condition="String.IsEmpty(Window(home).Property(LastMenuItem))">300</onback>
+        </control>
+    </include>
 </includes>

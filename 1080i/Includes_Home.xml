@@ -2657,49 +2657,52 @@
                 </control>
             </control>
             <include>Furniture_Clock</include>
-            <control type="image">
-                <visible>Integer.IsGreater(Container(300).NumItems,6)</visible>
-                <top>962</top>
-                <left>52</left>
-                <width>16</width>
-                <height>16</height>
-                <texture colordiffuse="Dark2" flipx="true">common/arrow-small-right.png</texture>
-            </control>
-            <control type="image">
-                <visible>Integer.IsGreater(Container(300).NumItems,6)</visible>
-                <visible>!Skin.HasSetting(furniture.clock)</visible>
-                <top>962</top>
-                <right>470</right>
-                <width>16</width>
-                <height>16</height>
-                <texture colordiffuse="Dark2" flipx="false">common/arrow-small-right.png</texture>
-            </control>
-            <control type="image">
-                <visible>Integer.IsGreater(Container(300).NumItems,6)</visible>
-                <visible>Skin.HasSetting(furniture.clock)</visible>
-                <top>962</top>
-                <right>32</right>
-                <width>16</width>
-                <height>16</height>
-                <texture colordiffuse="Dark2" flipx="false">common/arrow-small-right.png</texture>
-            </control>
-            <control type="list" id="300">
-                <include>Animation.FadeIn.Delay</include>
-                <include>Animation.FadeOut</include>
-                <description>Home Wraplist</description>
-                <left>SidePad</left>
-                <onfocus>ClearProperty(ContainerPosition,home)</onfocus>
-                <include condition="!Skin.HasSetting(furniture.clock)">DefHomeRight520</include>
-                <include condition="Skin.HasSetting(furniture.clock)">DefHomeRightSidePad</include>
-                <onup condition="!Player.HasVideo | !Skin.HasSetting(global.showvideo)">301</onup>
-                <onup>301</onup>
-                <ondown condition="Integer.IsGreater(Container(302).NumItems,0)">SetFocus(302,0)</ondown>
-                <onleft>300</onleft>
-                <onright>300</onright>
-                <orientation>horizontal</orientation>
-                <scrolltime>200</scrolltime>
-                <include condition="Skin.HasSetting(home.showicons)">HomeContentIcon</include>
-                <include condition="!Skin.HasSetting(home.showicons)">HomeContentNoIcon</include>
+            <control type="group">
+                <animation effect="slide" start="0" end="0,163" time="150" condition="!Control.HasFocus(300) + !Control.HasFocus(302) + $EXP[HasHomemenuAutoSlideOutAnimation]">Conditional</animation>
+                <control type="image">
+                    <visible>Integer.IsGreater(Container(300).NumItems,6)</visible>
+                    <top>962</top>
+                    <left>52</left>
+                    <width>16</width>
+                    <height>16</height>
+                    <texture colordiffuse="Dark2" flipx="true">common/arrow-small-right.png</texture>
+                </control>
+                <control type="image">
+                    <visible>Integer.IsGreater(Container(300).NumItems,6)</visible>
+                    <visible>!Skin.HasSetting(furniture.clock)</visible>
+                    <top>962</top>
+                    <right>470</right>
+                    <width>16</width>
+                    <height>16</height>
+                    <texture colordiffuse="Dark2" flipx="false">common/arrow-small-right.png</texture>
+                </control>
+                <control type="image">
+                    <visible>Integer.IsGreater(Container(300).NumItems,6)</visible>
+                    <visible>Skin.HasSetting(furniture.clock)</visible>
+                    <top>962</top>
+                    <right>32</right>
+                    <width>16</width>
+                    <height>16</height>
+                    <texture colordiffuse="Dark2" flipx="false">common/arrow-small-right.png</texture>
+                </control>                
+                <control type="list" id="300">                
+                    <include>Animation.FadeIn.Delay</include>
+                    <include>Animation.FadeOut</include>
+                    <description>Home Wraplist</description>
+                    <left>SidePad</left>
+                    <onfocus>ClearProperty(ContainerPosition,home)</onfocus>
+                    <include condition="!Skin.HasSetting(furniture.clock)">DefHomeRight520</include>
+                    <include condition="Skin.HasSetting(furniture.clock)">DefHomeRightSidePad</include>
+                    <onup condition="!Player.HasVideo | !Skin.HasSetting(global.showvideo)">301</onup>
+                    <onup>301</onup>
+                    <ondown condition="Integer.IsGreater(Container(302).NumItems,0)">SetFocus(302,0)</ondown>
+                    <onleft>300</onleft>
+                    <onright>300</onright>
+                    <orientation>horizontal</orientation>
+                    <scrolltime>200</scrolltime>
+                    <include condition="Skin.HasSetting(home.showicons)">HomeContentIcon</include>
+                    <include condition="!Skin.HasSetting(home.showicons)">HomeContentNoIcon</include>
+                </control>
             </control>
         </control>
     </include>
@@ -2823,6 +2826,7 @@
                         <include>DefContextButton</include>
                         <label>$INFO[ListItem.Label]</label>
                     </control>
+                    <include condition="$EXP[HasHomemenuAutoSlideOutAnimation]">SlideOutItemsButton</include>
                 </focusedlayout>
                 <content>
                     <include>skinshortcuts-submenu</include>
@@ -2932,6 +2936,7 @@
                             <animation effect="fade" end="100" start="0" delay="300" time="400" reversible="false">Focus</animation>
                         </control>
                     </control>
+                    <include condition="$EXP[HasHomemenuAutoSlideOutAnimation]">SlideOutItemsButton</include>
                 </focusedlayout>
                 <content>
                     <include>skinshortcuts-submenu</include>
@@ -3677,6 +3682,7 @@
 
             <!-- Set TMDbHelper WidgetContainer -->
             <include condition="$EXP[HomeIsModernMultiWidgets] | $EXP[HomeIsVerticalMultiWidgets]">SetWidgetContainerForTMDB</include>
+            <include condition="$EXP[HasHomemenuAutoSlideOutAnimation]">SlideOutItemsButton</include>
         </focusedlayout>
         <content>
             <include>skinshortcuts-mainmenu</include>
@@ -3780,6 +3786,7 @@
 
             <!-- Set TMDbHelper WidgetContainer -->
             <include condition="$EXP[HomeIsModernMultiWidgets] | $EXP[HomeIsVerticalMultiWidgets]">SetWidgetContainerForTMDB</include>
+            <include condition="$EXP[HasHomemenuAutoSlideOutAnimation]">SlideOutItemsButton</include>
         </focusedlayout>
         <content>
             <include>skinshortcuts-mainmenu</include>
