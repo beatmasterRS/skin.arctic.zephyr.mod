@@ -3315,12 +3315,29 @@
         <value condition="ListItem.IsCollection + !String.IsEmpty(ListItem.DBID)">videodb://movies/sets/$INFO[ListItem.DBID]/?setid=$INFO[ListItem.DBID]</value>
     </variable>
     
-    <include name="SlideOutButton">
+    <include name="SlideOutItemsButton">
         <control type="button">
             <include>HiddenButton</include>
             <onfocus>AlarmClock(slide_out,SetFocus(2011),00:05,silent)</onfocus>
             <onfocus condition="Control.HasFocus(300)">SetProperty(LastMenuItem,300,home)</onfocus>
             <onfocus condition="Control.HasFocus(302)">SetProperty(LastMenuItem,302,home)</onfocus>
+        </control>
+    </include>
+    
+    <include name="SlideOutHomemenuButton">
+        <control type="button" id="2011">
+            <visible allowhiddenfocus="true">false</visible>
+            <include>HiddenButton</include>
+            <onup condition="!String.IsEmpty(Window(home).Property(LastMenuItem))">SetFocus($INFO[Window(home).Property(LastMenuItem)])</onup>
+            <onleft condition="!String.IsEmpty(Window(home).Property(LastMenuItem))">SetFocus($INFO[Window(home).Property(LastMenuItem)])</onleft>
+            <onright condition="!String.IsEmpty(Window(home).Property(LastMenuItem))">SetFocus($INFO[Window(home).Property(LastMenuItem)])</onright>
+            <ondown condition="!String.IsEmpty(Window(home).Property(LastMenuItem))">SetFocus($INFO[Window(home).Property(LastMenuItem)])</ondown>
+            <onback condition="!String.IsEmpty(Window(home).Property(LastMenuItem))">SetFocus($INFO[Window(home).Property(LastMenuItem)])</onback>
+            <onup condition="String.IsEmpty(Window(home).Property(LastMenuItem))">300</onup>
+            <onleft condition="String.IsEmpty(Window(home).Property(LastMenuItem))">300</onleft>
+            <onright condition="String.IsEmpty(Window(home).Property(LastMenuItem))">300</onright>
+            <ondown condition="String.IsEmpty(Window(home).Property(LastMenuItem))">300</ondown>
+            <onback condition="String.IsEmpty(Window(home).Property(LastMenuItem))">300</onback>
         </control>
     </include>
 </includes>
