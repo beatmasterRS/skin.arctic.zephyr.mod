@@ -2970,12 +2970,6 @@
         <content>plugin://script.embuary.helper/?info=jumptoletter&amp;showall=true&amp;reload=$INFO[Container.NumItems]</content>
     </include>
 
-    <include name="DefUpdateBlur">
-        <onclick>Skin.SetString(BlurRadius,$PARAM[number])</onclick>
-        <onclick>RunScript(script.embuary.helper,action=blurimg,file='"$VAR[CustomBlurImage]"',prop=MyProp)</onclick>
-        <onclick>Close</onclick>
-    </include>
-
     <include name="Def_Flag">
         <param name="left" value="$PARAM[left]" default="0"/>
         <param name="visible" value="$PARAM[visible]" default="true"/>
@@ -3384,8 +3378,12 @@
     </include>
 
     <include name="UpdateLitebox">
-        <onclick>AlarmClock(nms1,SetProperty(NINE_manual_set,"var=main,set=$INFO[Skin.String(main)]|var=comp,set=$INFO[Skin.String(comp)]|var=quality,set=$INFO[Skin.String(quality)]|var=blursize,set=$INFO[Skin.String(blursize)]|var=bitsize,set=$INFO[Skin.String(bitsize)]|var=pixelsize,set=$INFO[Skin.String(pixelsize)]|var=black,set=$INFO[Skin.String(black)]|var=white,set=$INFO[Skin.String(white)]|var=blend,set=$INFO[Skin.String(blend)]|var=desat,set=$INFO[Skin.String(desat)]",home),00:00,silent)</onclick>
-        <onclick>AlarmClock(nms2,SetProperty(FIVE_daemon_fire,True,home),00:01,silent)</onclick>
+        <onclick>SetProperty(FIVE_daemon_set,$INFO[Skin.String(litebox_effect)],home)</onclick>
+        <onclick>AlarmClock(nms1,SetProperty(NINE_manual_set,"var=main,set=$INFO[Skin.String(litebox_main)]|var=comp,set=$INFO[Skin.String(litebox_comp)]|var=quality,set=$INFO[Skin.String(litebox_quality)]|var=blursize,set=$INFO[Skin.String(litebox_blursize)]|var=bitsize,set=$INFO[Skin.String(litebox_bitsize)]|var=pixelsize,set=$INFO[Skin.String(litebox_pixelsize)]|var=black,set=$INFO[Skin.String(litebox_black)]|var=white,set=$INFO[Skin.String(litebox_white)]|var=desat,set=$INFO[Skin.String(litebox_desat)]",home),00:00,silent)</onclick>
+        <onclick>AlarmClock(nms2,SetProperty(FIVE_daemon_fire,True,home),00:02,silent)</onclick>
+        
+        <onclick>AlarmClock(busy_start,SetProperty(busyloader,1,home),00:00,silent)</onclick>
+        <onclick>AlarmClock(busy_end,ClearProperty(busyloader,home),00:02,silent)</onclick>
     </include>
     
     <include name="Def_Watched_Indicators_Clean">
