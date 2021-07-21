@@ -307,7 +307,7 @@
                             <selected>Skin.HasSetting(homemenu.netflix.preview.fullscreen)</selected>
                             <onclick>Skin.ToggleSetting(homemenu.netflix.preview.fullscreen)</onclick>
                             <visible>[$EXP[HomeIsModernMultiWidgetsNetflix] | $EXP[HomeIsVerticalMultiWidgetsNetflix]] + !Skin.HasSetting(hide.homemenu.netflix.preview)</visible>
-                            <enable>Skin.HasSetting(BlurEnabled) + Skin.HasSetting(BlurOnHome)</enable>
+                            <enable>Skin.HasSetting(EnableEffects) + Skin.HasSetting(BlurOnHome)</enable>
                         </control>
                         <control type="button" id="9877" description="Fade Netflix preview window">
                             <width>1360</width>
@@ -853,7 +853,7 @@
                             <align>left</align>
                             <label>31581</label>
                             <visible>ControlGroup(9100).HasFocus(9102)</visible>
-                            <selected>Skin.HasSetting(BlurEnabled)</selected>
+                            <selected>Skin.HasSetting(EnableEffects)</selected>
                             
                             <!-- Install, if not installed -->
                             <onclick condition="!System.HasAddon(script.litebox)">InstallAddon(script.litebox)</onclick>
@@ -875,20 +875,20 @@
                             <onclick>Skin.SetString(colorbox_comp,main:hls*0.75;0;0@fhls*-;0.45;0.9)</onclick>
                             
                             <!-- Enable/disable blur -->
-                            <onclick condition="System.AddonIsEnabled(script.litebox)">Skin.ToggleSetting(BlurEnabled)</onclick>
+                            <onclick condition="System.AddonIsEnabled(script.litebox)">Skin.ToggleSetting(EnableEffects)</onclick>
                             
                             <!-- Wait 1 second, then start litebox -->
-                            <onclick condition="System.AddonIsEnabled(script.litebox) + !Skin.HasSetting(BlurEnabled)">AlarmClock(nms4,RunScript(script.litebox,daemon=True),00:01,true)</onclick>
+                            <onclick condition="System.AddonIsEnabled(script.litebox) + !Skin.HasSetting(EnableEffects)">AlarmClock(nms4,RunScript(script.litebox,daemon=True),00:01,true)</onclick>
                             <onclick>SetProperty(FIVE_daemon_set,$INFO[Skin.String(colorbox_effect)],home)</onclick>
                             <onclick condition="System.AddonIsEnabled(script.litebox)">AlarmClock(nms1,SetProperty(NINE_manual_set,"var=main,set=$INFO[Skin.String(colorbox_main)]|var=comp,set=$INFO[Skin.String(colorbox_comp)]|var=quality,set=$INFO[Skin.String(colorbox_quality)]|var=blursize,set=$INFO[Skin.String(colorbox_blursize)]|var=bitsize,set=$INFO[Skin.String(colorbox_bitsize)]|var=pixelsize,set=$INFO[Skin.String(colorbox_pixelsize)]|var=black,set=$INFO[Skin.String(colorbox_black)]|var=white,set=$INFO[Skin.String(colorbox_white)]|var=blend,set=$INFO[Skin.String(colorbox_blend)]|var=desat,set=$INFO[Skin.String(colorbox_desat)]",home),00:03,true)</onclick>
                             
                             <!-- Enable/disable blur settings -->
-                            <onclick condition="System.AddonIsEnabled(script.litebox) + !Skin.HasSetting(BlurEnabled)">AlarmClock(Esb,Skin.SetBool(BlurSettingsEnabled),00:03,true)</onclick>
-                            <onclick condition="System.AddonIsEnabled(script.litebox) + Skin.HasSetting(BlurEnabled)">Skin.Reset(BlurSettingsEnabled)</onclick>
+                            <onclick condition="System.AddonIsEnabled(script.litebox) + !Skin.HasSetting(EnableEffects)">AlarmClock(Esb,Skin.SetBool(EnableEffectsSettings),00:03,true)</onclick>
+                            <onclick condition="System.AddonIsEnabled(script.litebox) + Skin.HasSetting(EnableEffects)">Skin.Reset(EnableEffectsSettings)</onclick>
                             
                             <!-- Show busyloader to be sure litebox has enough time to start, before enable blur settings -->                            
-                            <onclick condition="System.AddonIsEnabled(script.litebox) + !Skin.HasSetting(BlurEnabled)">AlarmClock(busy_start,SetProperty(BusyloaderSettings,1,home),00:00,silent)</onclick>
-                            <onclick condition="System.AddonIsEnabled(script.litebox) + !Skin.HasSetting(BlurEnabled)">AlarmClock(busy_end,ClearProperty(BusyloaderSettings,home),00:03,silent)</onclick>
+                            <onclick condition="System.AddonIsEnabled(script.litebox) + !Skin.HasSetting(EnableEffects)">AlarmClock(busy_start,SetProperty(BusyloaderSettings,1,home),00:00,silent)</onclick>
+                            <onclick condition="System.AddonIsEnabled(script.litebox) + !Skin.HasSetting(EnableEffects)">AlarmClock(busy_end,ClearProperty(BusyloaderSettings,home),00:03,silent)</onclick>
                         </control>
                         <control type="button" id="9712">
                             <width>1360</width>
@@ -899,7 +899,7 @@
                             <onclick condition="!System.HasAddon(script.litebox)">InstallAddon(script.litebox)</onclick>
                             <onclick>ActivateWindow(1297)</onclick>
                             <onfocus>Skin.Reset(NoBlurFoto)</onfocus>
-                            <enable>Skin.HasSetting(BlurEnabled) + Skin.HasSetting(BlurSettingsEnabled)</enable>
+                            <enable>Skin.HasSetting(EnableEffects) + Skin.HasSetting(EnableEffectsSettings)</enable>
                         </control>
                         <control type="grouplist" id="9713">
                             <visible>ControlGroup(9100).HasFocus(9102)</visible>
