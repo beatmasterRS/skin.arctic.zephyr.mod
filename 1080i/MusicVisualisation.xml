@@ -147,13 +147,17 @@
         <control type="group">
             <visible>!Window.IsVisible(musicosd)</visible>
             <visible>Window.IsVisible(script-cu-lrclyrics-main.xml) | Player.Seeking | Player.DisplayAfterSeek | Player.Paused | Player.Forwarding | Player.Rewinding | Player.ShowInfo</visible>
-            <animation effect="slide" start="0,110" end="0" time="150" tween="quadratic">Visible</animation>
-            <animation effect="slide" start="0,110" end="0" time="150" tween="quadratic">WindowOpen</animation>
-            <animation effect="slide" end="0,160" start="0" time="150" tween="quadratic">Hidden</animation>
-            <animation effect="slide" end="0,120" start="0" time="150" tween="quadratic" condition="Window.IsVisible(script-cu-lrclyrics-main.xml) + Skin.HasSetting(hideseekbaronlyrics) + !Skin.HasSetting(osd.usethemeNewOSDMusic)">Conditional</animation>
-            <animation effect="slide" end="0,280" start="0" time="150" tween="quadratic" condition="Window.IsVisible(script-cu-lrclyrics-main.xml) + Skin.HasSetting(hideseekbaronlyrics) + Skin.HasSetting(osd.usethemeNewOSDMusic)">Conditional</animation>
-            <animation effect="slide" end="0,160" start="0" time="150" tween="quadratic">WindowClose</animation>
+            <animation effect="slide" start="0,110" end="0" time="150">Visible</animation>
+            <animation effect="slide" start="0,110" end="0" time="150">WindowOpen</animation>            
+            <animation type="Hidden">
+                <effect type="fade" start="100" end="0" time="150"/>
+                <effect type="slide" end="0,160" start="0" time="150"/>
+            </animation>            
+            <animation effect="slide" end="0,120" start="0" time="150" condition="Window.IsVisible(script-cu-lrclyrics-main.xml) + Skin.HasSetting(hideseekbaronlyrics) + !Skin.HasSetting(osd.usethemeNewOSDMusic)">Conditional</animation>
+            <animation effect="slide" end="0,280" start="0" time="150" condition="Window.IsVisible(script-cu-lrclyrics-main.xml) + Skin.HasSetting(hideseekbaronlyrics) + Skin.HasSetting(osd.usethemeNewOSDMusic)">Conditional</animation>
+            <animation effect="slide" end="0,160" start="0" time="150">WindowClose</animation>
             <animation effect="slide" start="0,0" end="0,-10" time="150" condition="Skin.HasSetting(osd.usethemeNewOSDMusic)">Conditional</animation>
+            <animation effect="fade" start="100" end="0" time="150" condition="!Player.ShowInfo">Conditional</animation>
             <control type="image">
                 <top>111r</top>
                 <width>100%</width>
@@ -196,30 +200,12 @@
                 <include>Animation.FadeIn</include>
                 <include>Animation.FadeOut</include>
             </control>
-            <control type="label" description="Duration Total Time">
-                <animation effect="slide" start="0,0" end="0,-50" time="150" condition="Skin.HasSetting(osd.usethemeNewOSDMusic)">Conditional</animation>
-                <animation effect="slide" start="0,0" end="-50," time="0" condition="Skin.HasSetting(osd.usethemeNewOSDMusic)">Conditional</animation>
-                <visible>Skin.HasSetting(osd.usethemeNewOSDMusic)</visible>
-                <include>Animation.FadeIn</include>
-                <include>Animation.FadeOut</include>
-                <right>SidePad</right>
-                <bottom>38</bottom>
-                <width>300</width>
-                <height>64</height>
-                <align>right</align>
-                <width>400</width>
-                <bottom>13</bottom>
-                <height>40</height>
-                <font>Tiny</font>
-                <textcolor>$VAR[OSDPanelWhite70Music]</textcolor>
-                <label>$INFO[Player.Time]$INFO[Player.Duration,  /  ,]</label>
-            </control>
             <control type="image">
                 <visible>Skin.HasSetting(ShowClearArtMusicOSD)</visible>
                 <visible>!Window.IsVisible(musicosd)</visible>
                 <visible>Player.Seeking | Player.DisplayAfterSeek | Player.Paused | Player.Forwarding | Player.Rewinding | Player.ShowInfo</visible>
                 <right>SidePad</right>
-                <bottom>110</bottom>
+                <bottom>111</bottom>
                 <width>350</width>
                 <height>197</height>
                 <fadetime>ClearArtFadetime</fadetime>
@@ -255,29 +241,67 @@
                 <animation effect="slide" start="0,335" end="0,0" time="100" reversible="false" condition="Player.ShowInfo + !Skin.HasSetting(osd.usethemeNewOSDMusic) + Skin.HasSetting(osd.artistinfos)">Conditional</animation>
                 <animation effect="slide" end="0,335" start="0,0" time="450" reversible="false" easing="out" tween="back" delay="100" condition="!Player.ShowInfo + !Skin.HasSetting(osd.usethemeNewOSDMusic) + Skin.HasSetting(osd.artistinfos)">Conditional</animation>
             </control>
-            <control type="grouplist">
-                <animation effect="slide" start="0,0" end="0,-70" time="150" condition="Skin.HasSetting(osd.artistinfos)">Conditional</animation>
+            <control type="group">
                 <visible>Skin.HasSetting(osd.usethemeNewOSDMusic)</visible>
-                <include>Animation.FadeIn</include>
-                <include>Animation.FadeOut</include>
-                <right>130</right>
-                <bottom>142</bottom>
-                <width>1400</width>
-                <height>64</height>
-                <orientation>horizontal</orientation>
-                <align>right</align>
-                <itemgap>12</itemgap>
-                <usecontrolcoords>true</usecontrolcoords>
-                <include>MusicVisualisation_RatingStars</include>
-                <control type="label">
-                    <width>auto</width>
-                    <height>60</height>
-                    <label>$INFO[MusicPlayer.UserRating,,.0]</label>
-                    <aligny>center</aligny>
-                    <textcolor>$VAR[OSDPanelWhite30]</textcolor>
-                    <font>Flag</font>
-                    <textcolor>Dark1</textcolor>
-                    <visible>Skin.HasSetting(musicosd.numericrating) + Integer.IsGreater(MusicPlayer.UserRating,0)</visible>
+                <control type="label" description="Duration Total Time">
+                    <animation effect="slide" start="0,0" end="0,-50" time="150" condition="Skin.HasSetting(osd.usethemeNewOSDMusic)">Conditional</animation>
+                    <animation effect="slide" start="0,0" end="-50," time="0" condition="Skin.HasSetting(osd.usethemeNewOSDMusic)">Conditional</animation>
+                    <visible>Skin.HasSetting(osd.usethemeNewOSDMusic)</visible>
+                    <include>Animation.FadeIn</include>
+                    <include>Animation.FadeOut</include>
+                    <right>SidePad</right>
+                    <bottom>38</bottom>
+                    <width>300</width>
+                    <height>64</height>
+                    <align>right</align>
+                    <width>400</width>
+                    <bottom>13</bottom>
+                    <height>40</height>
+                    <font>Tiny</font>
+                    <textcolor>$VAR[OSDPanelWhite70Music]</textcolor>
+                    <label>$INFO[Player.Time]$INFO[Player.Duration,  /  ,]</label>
+                </control>
+                <control type="grouplist">
+                    <animation effect="slide" start="0,0" end="0,-70" time="150" condition="Skin.HasSetting(osd.artistinfos)">Conditional</animation>
+                    <visible>Skin.HasSetting(osd.usethemeNewOSDMusic)</visible>
+                    <include>Animation.FadeIn</include>
+                    <include>Animation.FadeOut</include>
+                    <right>130</right>
+                    <bottom>142</bottom>
+                    <width>1400</width>
+                    <height>64</height>
+                    <orientation>horizontal</orientation>
+                    <align>right</align>
+                    <itemgap>12</itemgap>
+                    <usecontrolcoords>true</usecontrolcoords>
+                    <include>MusicVisualisation_RatingStars</include>
+                    <control type="label">
+                        <width>auto</width>
+                        <height>60</height>
+                        <label>$INFO[MusicPlayer.UserRating,,.0]</label>
+                        <aligny>center</aligny>
+                        <textcolor>$VAR[OSDPanelWhite30]</textcolor>
+                        <font>Flag</font>
+                        <textcolor>Dark1</textcolor>
+                        <visible>Skin.HasSetting(musicosd.numericrating) + Integer.IsGreater(MusicPlayer.UserRating,0)</visible>
+                    </control>
+                </control>
+                <control type="group">
+                    <animation effect="fade" start="0" end="100" delay="150" time="150">Visible</animation>
+                    <animation effect="fade" start="0" end="100" delay="150" time="150">WindowOpen</animation>
+                    <animation effect="slide" end="0,110" start="0" time="150" tween="quadratic">Hidden</animation>
+                    <animation effect="slide" end="0,110" start="0" time="150" tween="quadratic">WindowClose</animation>
+                    <top>110r</top>
+                    <bottom>0</bottom>
+                    <width>100%</width>
+                    <include content="MusicVisualisationInfoMatrx">
+                        <param name="left" value="SidePadNewOSD" />
+                        <param name="visible" value="!Skin.HasSetting(ShowMusicCd)" />
+                    </include>
+                    <include content="MusicVisualisationInfoMatrx">
+                        <param name="left" value="560" />
+                        <param name="visible" value="Skin.HasSetting(ShowMusicCd)" />
+                    </include>
                 </control>
             </control>
             <control type="grouplist">
@@ -367,24 +391,7 @@
                     </control>
                 </control>
             </control>
-            <control type="group">
-                <visible>Skin.HasSetting(osd.usethemeNewOSDMusic)</visible>
-                <animation effect="fade" start="0" end="100" delay="150" time="150">Visible</animation>
-                <animation effect="fade" start="0" end="100" delay="150" time="150">WindowOpen</animation>
-                <animation effect="slide" end="0,110" start="0" time="150" tween="quadratic">Hidden</animation>
-                <animation effect="slide" end="0,110" start="0" time="150" tween="quadratic">WindowClose</animation>
-                <top>110r</top>
-                <bottom>0</bottom>
-                <width>100%</width>
-                <include content="MusicVisualisationInfoMatrx">
-                    <param name="left" value="SidePadNewOSD" />
-                    <param name="visible" value="!Skin.HasSetting(ShowMusicCd)" />
-                </include>
-                <include content="MusicVisualisationInfoMatrx">
-                    <param name="left" value="560" />
-                    <param name="visible" value="Skin.HasSetting(ShowMusicCd)" />
-                </include>
-            </control>
+            
         </control>
         <control type="group">
             <visible>Skin.HasSetting(AlternativeCd) + Skin.HasSetting(ShowMusicCd)</visible>
