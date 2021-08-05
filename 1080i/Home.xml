@@ -11,6 +11,11 @@
     <onunload condition="$EXP[HasHomemenuAutoSlideOutAnimation]">CancelAlarm(slide_out,true)</onunload>
     <onunload>ClearProperty(TMDbHelper.WidgetContainer,home)</onunload>
     <onload condition="!$EXP[HomeIsModernMultiWidgets] + !$EXP[HomeIsVerticalMultiWidgets]">SetProperty(TMDbHelper.WidgetContainer,301,home)</onload>
+    
+    <onload condition="!Skin.HasSetting(disable.startup.window)">SetProperty(startupwindow,1,home)</onload>
+    <onload condition="String.IsEmpty(Skin.String(StartupPlaylist)) + !Skin.HasSetting(disable.startup.window)">AlarmClock(GoHome,ClearProperty(startupwindow,home),00:03,silent,false)</onload>
+    
+    
     <controls>
         <include>GlobalBackground</include>
 
@@ -59,6 +64,40 @@
             <visible>!Window.IsVisible(DialogMusicInfo.xml)</visible>
             <include condition="![Skin.HasSetting(home.vertical) + Skin.HasSetting(home.vertical.widgets)]">HomeClearLogo</include>
         </control>
+        
+        
+        <control type="group">
+            <visible>!String.IsEmpty(Window(home).Property(startupwindow))</visible>
+            <animation effect="fade" start="100" end="0" time="500" tween="quadratic">Hidden</animation>
+            <control type="image" description="Background">
+                <include>Dimensions_Fullscreen</include>
+                <texture colordiffuse="$VAR[StartupDiffuse]">$VAR[StartupFanart]</texture>
+                <visible>String.IsEmpty(Skin.String(StartupPlaylist))</visible>
+            </control>
+            <control type="label">
+                <description>Loading</description>
+                <width>100%</width>
+                <height>100%</height>
+                <align>center</align>
+                <aligny>center</aligny>
+                <label>Arctic [COLOR=$VAR[ColorHighlight]]Zephyr[/COLOR]</label>
+                <font>EpisodeNumber</font>
+                <textcolor>Dark1</textcolor>
+                <visible>String.IsEmpty(Skin.String(StartupPlaylist)) + String.IsEmpty(Skin.String(startupfanart.fallback))</visible>
+            </control>
+            <control type="image">
+                <left>1020</left>
+                <top>605</top>
+                <width>331</width>
+                <height>60</height>
+                <centertop>50%</centertop>
+                <texture>misc/matrix.png</texture>
+                <animation effect="fade" start="0" end="100" time="800" delay="1800" tween="quadratic">WindowOpen</animation>
+                <visible>String.IsEmpty(Skin.String(StartupPlaylist)) + String.IsEmpty(Skin.String(startupfanart.fallback))</visible>
+            </control>
+        </control>
+        
+        
         <!--<control type="label">
             <left>60</left>
             <right>60</right>
@@ -67,15 +106,6 @@
             <textcolor>Dark1</textcolor>
             <height>45</height>
             <label fallback="19055">$INFO[Container(301).NumItems]</label>
-        </control>
-        <control type="label">
-            <left>60</left>
-            <right>60</right>
-            <posy>100</posy>
-            <font>EpisodeNumberNew</font>
-            <textcolor>Dark1</textcolor>
-            <height>45</height>
-            <label fallback="19055">$INFO[Window(home).Property(LastId)]</label>
         </control>-->
     </controls>
 </window>
