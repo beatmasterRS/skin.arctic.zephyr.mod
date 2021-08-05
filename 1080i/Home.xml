@@ -11,7 +11,7 @@
     <onunload condition="$EXP[HasHomemenuAutoSlideOutAnimation]">CancelAlarm(slide_out,true)</onunload>
     <onunload>ClearProperty(TMDbHelper.WidgetContainer,home)</onunload>
     <onload condition="!$EXP[HomeIsModernMultiWidgets] + !$EXP[HomeIsVerticalMultiWidgets]">SetProperty(TMDbHelper.WidgetContainer,301,home)</onload>   
-    <onload condition="!String.IsEmpty(Window(home).Property(startupwindow)) + !Skin.HasSetting(disable.startup.window)">AlarmClock(GoHome,ClearProperty(startupwindow,home),00:03,silent,false)</onload>
+    <onload condition="!String.IsEmpty(Window(home).Property(startupwindow))">AlarmClock(GoHome,ClearProperty(startupwindow,home),00:03,silent,false)</onload>
     <onload condition="!String.IsEmpty(Window(home).Property(startupwindow)) + !String.IsEmpty(Skin.String(StartupPlaylist))">AlarmClock(PM,PlayMedia($ESCINFO[Skin.String(StartupPlaylist)]),00:00,silent,false)</onload>
     <onunload condition="!String.IsEmpty(Window(home).Property(startupwindow))">ClearProperty(startupwindow,home)</onunload>
     <controls>
@@ -63,14 +63,15 @@
             <include condition="![Skin.HasSetting(home.vertical) + Skin.HasSetting(home.vertical.widgets)]">HomeClearLogo</include>
         </control>
         
-        
+        <!-- Startup Window -->
         <control type="image" description="Background">
+            <visible>!String.IsEmpty(Window(home).Property(startupwindow)) + !Skin.HasSetting(disable.startup.window)</visible>
             <include>Dimensions_Fullscreen</include>
             <texture colordiffuse="ff000000">common/white.png</texture>
-            <animation effect="fade" start="100" end="0" time="500" tween="quadratic" delay="1000" condition="String.IsEmpty(Window(home).Property(startupwindow))">Conditional</animation>
+            <animation effect="fade" start="100" end="0" time="500" tween="quadratic" delay="1000">Hidden</animation>
         </control>
         <control type="group">
-            <visible>!String.IsEmpty(Window(home).Property(startupwindow))</visible>
+            <visible>!String.IsEmpty(Window(home).Property(startupwindow)) + !Skin.HasSetting(disable.startup.window)</visible>
             <animation effect="fade" start="100" end="0" time="500" tween="quadratic">Hidden</animation>
             <control type="image" description="Background">
                 <include>Dimensions_Fullscreen</include>
