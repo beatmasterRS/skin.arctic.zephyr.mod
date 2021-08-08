@@ -1,11 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!-- Foundation -->
 <window>
-    <defaultcontrol always="true" condition="!Skin.HasSetting(disable.startup.window)">9315</defaultcontrol>
     <onload>SetProperty(SkinInitStarted,1,home)</onload>
     <onload condition="!Skin.HasSetting(TMDbHelper.Service)">Skin.ToggleSetting(TMDbHelper.Service)</onload>
     <onload condition="!Skin.HasSetting(SkinHelper.EnableAnimatedPosters)">Skin.SetBool(SkinHelper.EnableAnimatedPosters)</onload>
-    <onload condition="Skin.HasSetting(disable.startup.window)">ReplaceWindow($INFO[System.StartupWindow])</onload>
     <onload condition="!Skin.HasSetting(SkinHelper.EnablePVRThumbs)">Skin.SetBool(SkinHelper.EnablePVRThumbs)</onload>
     <onload condition="!Skin.HasSetting(SkinHelper.EnableMusicArt)">Skin.SetBool(SkinHelper.EnableMusicArt)</onload>
     <onload condition="!Skin.String(colorbox_effect)">Skin.SetString(colorbox_effect,blur)</onload>
@@ -23,10 +21,9 @@
     <onload condition="Skin.HasSetting(lock.skinsettings) + !String.IsEqual(Skin.String(skincolors),SKINDEFAULT) + !String.IsEmpty(Skin.String(skincolors))">RunScript(script.embuary.helper,action=setkodisetting,setting=lookandfeel.skincolors,value=$INFO[Skin.String(skincolors)])</onload>
     <onload condition="Skin.HasSetting(lock.skinsettings) + !String.IsEqual(Skin.String(skintheme),SKINDEFAULT) + !String.IsEmpty(Skin.String(skintheme))">RunScript(script.embuary.helper,action=setkodisetting,setting=lookandfeel.skintheme,value=$INFO[Skin.String(skintheme)])</onload>
     <onload condition="Skin.HasSetting(lock.skinsettings) + !String.IsEqual(Skin.String(skinfont),SKINDEFAULT) + !String.IsEmpty(Skin.String(skinfont))">RunScript(script.embuary.helper,action=setkodisetting,setting=lookandfeel.font,value=$INFO[Skin.String(skinfont)])</onload>
-    
-    <onunload>CancelAlarm(GoHome,true)</onunload>
+    <onload condition="System.AddonIsEnabled(script.skin.info.service)">RunScript(script.skin.info.service)</onload>
 
-    <!-- First start -->
+    <!-- First start settings -->
     <onload condition="!Skin.HasSetting(startup.init)">Skin.SetBool(global.hidecirles)</onload>
     <onload condition="!Skin.HasSetting(startup.init)">Skin.SetBool(home.modernwidgets)</onload>
     <onload condition="!Skin.HasSetting(startup.init)">Skin.SetBool(home.vertical.widgets)</onload>
@@ -43,45 +40,10 @@
     <onload condition="!Skin.HasSetting(startup.init)">Skin.SetString(kodilogocolor.name,ff0385B5)</onload>
     <onload condition="!Skin.HasSetting(startup.init)">Skin.SetString(kodilogocolorgradient.name,ff00b36c)</onload>
     <onload condition="!Skin.HasSetting(startup.init)">Skin.SetBool(startup.init)</onload>
-    <controls>
-        <control type="group">
-            <visible>!Skin.HasSetting(disable.startup.window)</visible>
-            <control type="image" description="Background">
-                <include>Dimensions_Fullscreen</include>
-                <texture colordiffuse="$VAR[StartupDiffuse]">$VAR[StartupFanart]</texture>
-                <animation effect="fade" start="100" end="0" time="500" tween="quadratic">WindowClose</animation>
-                <visible>String.IsEmpty(Skin.String(StartupPlaylist))</visible>
-            </control>
-            <control type="button" id="9315">
-                <visible allowhiddenfocus="true">false</visible>
-                <onfocus condition="System.AddonIsEnabled(script.skin.info.service)">RunScript(script.skin.info.service)</onfocus>
-                <onfocus condition="String.IsEmpty(Window(home).Property(SkinInitStarted)) + !String.IsEmpty(Skin.String(StartupPlaylist))">PlayMedia($ESCINFO[Skin.String(StartupPlaylist)])</onfocus>
-                <onfocus condition="!Player.HasVideo + !String.IsEmpty(Skin.String(StartupPlaylist))">ReplaceWindow(Home)</onfocus>
-                <onfocus condition="String.IsEmpty(Skin.String(StartupPlaylist)) + !Skin.HasSetting(disable.startup.window)">AlarmClock(GoHome,ReplaceWindow(home),00:03,silent,false)</onfocus>
-            </control>
-            <control type="label">
-                <description>Loading</description>
-                <width>100%</width>
-                <height>100%</height>
-                <align>center</align>
-                <aligny>center</aligny>
-                <label>Arctic [COLOR=$VAR[ColorHighlight]]Zephyr[/COLOR]</label>
-                <font>EpisodeNumber</font>
-                <textcolor>Dark1</textcolor>
-                <animation effect="fade" start="100" end="0" time="500" tween="quadratic">WindowClose</animation>
-                <visible>String.IsEmpty(Skin.String(StartupPlaylist)) + String.IsEmpty(Skin.String(startupfanart.fallback))</visible>
-            </control>
-            <control type="image">
-                <left>1020</left>
-                <top>605</top>
-                <width>331</width>
-                <height>60</height>
-                <centertop>50%</centertop>
-                <texture>misc/matrix.png</texture>
-                <animation effect="fade" start="0" end="100" time="800" delay="1800" tween="quadratic">WindowOpen</animation>
-                <animation effect="fade" start="100" end="0" time="500" tween="quadratic">WindowClose</animation>
-                <visible>String.IsEmpty(Skin.String(StartupPlaylist)) + String.IsEmpty(Skin.String(startupfanart.fallback))</visible>
-            </control>
-        </control>
-    </controls>
+    
+    <!-- Go home -->
+    <onload condition="!Skin.HasSetting(disable.startup.window)">ReplaceWindow(1150)</onload>
+    <onload condition="Skin.HasSetting(disable.startup.window)">ReplaceWindow($INFO[System.StartupWindow])</onload>    
+    
+    <controls/>
 </window>
