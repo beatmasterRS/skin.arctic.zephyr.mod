@@ -1555,24 +1555,79 @@
     </include>
 
     <include name="def_widgetfocus">
-        <control type="image">
-            <left>3</left>
-            <top>3</top>
-            <right>3</right>
-            <bottom>3</bottom>
-            <texture colordiffuse="$VAR[ColorSquares]" border="20">common/selectbox.png</texture>
-            <visible>Control.HasFocus($PARAM[id])</visible>
-            <include>Animation.SelectBoxHome</include>
+        <param name="glow_height" value="$PARAM[glow_height]" default="320"/>
+        <param name="glow_top" value="$PARAM[glow_top]" default="2"/>
+        <param name="glow_left" value="$PARAM[glow_left]" default="0"/>
+        <param name="glow_right" value="$PARAM[glow_right]" default="1"/>
+        <param name="glow_zoom" value="$PARAM[glow_zoom]" default="108"/>
+        <definition>
+        <control type="group">
+            <visible>Skin.HasSetting(items.focus.glow)</visible>
+            <animation center="auto" effect="zoom" end="$PARAM[glow_zoom]" start="100" time="0" condition="true">Conditional</animation>
+            <control type="image">
+                <left>$PARAM[glow_left]</left>
+                <top>$PARAM[glow_top]</top>
+                <right>$PARAM[glow_right]</right>
+                <bottom>0</bottom>
+                <height>$PARAM[glow_height]</height>
+                <texture colordiffuse="$VAR[ColorSquares]" border="20">common/selectbox2.png</texture>
+                <visible>Control.HasFocus($PARAM[id])</visible>
+                <include>Animation.SelectBoxHome</include>
+            </control>
+            <control type="image">
+                <left>$PARAM[glow_left]</left>
+                <top>$PARAM[glow_top]</top>
+                <right>$PARAM[glow_right]</right>
+                <bottom>0</bottom>
+                <height>$PARAM[glow_height]</height>
+                <texture colordiffuse="$VAR[ColorHighlightSelectbox2]" border="20">common/gradient-selectbox2.png</texture>
+                <visible>Control.HasFocus($PARAM[id])</visible>
+                <include>Animation.SelectBoxHome</include>
+            </control>
         </control>
-        <control type="image">
-            <left>3</left>
-            <top>3</top>
-            <right>3</right>
-            <bottom>3</bottom>
-            <texture colordiffuse="$VAR[ColorHighlightSelectbox2]" border="20">common/gradient-selectbox.png</texture>
-            <visible>Control.HasFocus($PARAM[id])</visible>
-            <include>Animation.SelectBoxHome</include>
+        <control type="group">
+            <visible>!Skin.HasSetting(items.focus.zoom)</visible>
+            <control type="image">
+                <left>3</left>
+                <top>3</top>
+                <right>3</right>
+                <bottom>3</bottom>
+                <texture colordiffuse="$VAR[ColorSquares]" border="20">common/selectbox.png</texture>
+                <visible>Control.HasFocus($PARAM[id])</visible>
+                <include>Animation.SelectBoxHome</include>
+            </control>
+            <control type="image">
+                <left>3</left>
+                <top>3</top>
+                <right>3</right>
+                <bottom>3</bottom>
+                <texture colordiffuse="$VAR[ColorHighlightSelectbox2]" border="20">common/gradient-selectbox.png</texture>
+                <visible>Control.HasFocus($PARAM[id])</visible>
+                <include>Animation.SelectBoxHome</include>
+            </control>
         </control>
+        <control type="group">
+            <visible>Skin.HasSetting(items.focus.zoom)</visible>
+            <control type="image">
+                <left>4</left>
+                <top>4</top>
+                <right>4</right>
+                <bottom>4</bottom>
+                <texture colordiffuse="$VAR[ColorSquares]" border="20">common/selectbox.png</texture>
+                <visible>Control.HasFocus($PARAM[id])</visible>
+                <include>Animation.SelectBoxHome</include>
+            </control>
+            <control type="image">
+                <left>4</left>
+                <top>4</top>
+                <right>4</right>
+                <bottom>4</bottom>
+                <texture colordiffuse="$VAR[ColorHighlightSelectbox2]" border="20">common/gradient-selectbox.png</texture>
+                <visible>Control.HasFocus($PARAM[id])</visible>
+                <include>Animation.SelectBoxHome</include>
+            </control>
+        </control>
+        </definition>
     </include>
 
     <include name="def_second_widgetfocus">
@@ -1906,6 +1961,11 @@
         <include>def_weatherposter</include>
         <include content="def_widgetfocus">
             <param name="id" value="$PARAM[id]"/>
+            <param name="glow_height" value="$PARAM[glow_height]" />
+            <param name="glow_top" value="$PARAM[glow_top]"/>
+            <param name="glow_zoom" value="$PARAM[glow_zoom]"/>
+            <param name="glow_left" value="$PARAM[glow_left]"/>
+            <param name="glow_right" value="$PARAM[glow_right]"/>
         </include>
     </include>
 
@@ -1913,6 +1973,11 @@
         <include>def_weathersquare</include>
         <include content="def_widgetfocus">
             <param name="id" value="$PARAM[id]"/>
+            <param name="glow_height" value="$PARAM[glow_height]" />
+            <param name="glow_top" value="$PARAM[glow_top]"/>
+            <param name="glow_zoom" value="$PARAM[glow_zoom]"/>
+            <param name="glow_left" value="$PARAM[glow_left]"/>
+            <param name="glow_right" value="$PARAM[glow_right]"/>
         </include>
     </include>
 
@@ -1920,6 +1985,11 @@
         <include>def_weatherfanart</include>
         <include content="def_widgetfocus">
             <param name="id" value="$PARAM[id]"/>
+            <param name="glow_height" value="$PARAM[glow_height]" />
+            <param name="glow_top" value="$PARAM[glow_top]"/>
+            <param name="glow_zoom" value="$PARAM[glow_zoom]"/>
+            <param name="glow_left" value="$PARAM[glow_left]"/>
+            <param name="glow_right" value="$PARAM[glow_right]"/>
         </include>
     </include>
 
@@ -5759,9 +5829,7 @@
             </control>
         </control>
         <control type="group">
-            <include condition="Skin.HasSetting(focus.items.zoom)" content="Animation.Focus.Zoom">
-                <param name="centerleft" value="70" />
-            </include>
+            <include condition="Skin.HasSetting(items.focus.zoom)">Animation.Focus.Zoom</include>
             <height>$PARAM[height]</height>
             <include content="def_widgetposter">
                 <param name="indicatorbackground" value="$PARAM[indicatorbackground]" />
@@ -5769,6 +5837,11 @@
             </include>
             <include content="def_widgetfocus">
                 <param name="id" value="$PARAM[id]"/>
+                <param name="glow_height" value="$PARAM[glow_height]" />
+                <param name="glow_top" value="$PARAM[glow_top]"/>
+                <param name="glow_zoom" value="$PARAM[glow_zoom]"/>
+                <param name="glow_left" value="$PARAM[glow_left]"/>
+                <param name="glow_right" value="$PARAM[glow_right]"/>
             </include>
         </control>
         </definition>
@@ -5807,7 +5880,7 @@
             </control>
         </control>
         <control type="group">
-            <include condition="Skin.HasSetting(focus.items.zoom)">Animation.Focus.Zoom</include>
+            <include condition="Skin.HasSetting(items.focus.zoom)">Animation.Focus.Zoom</include>
             <height>$PARAM[height]</height>
             <include content="def_widgetseason">
                 <param name="indicatorbackground" value="$PARAM[indicatorbackground]" />
@@ -5815,6 +5888,11 @@
             </include>
             <include content="def_widgetfocus">
                 <param name="id" value="$PARAM[id]"/>
+                <param name="glow_height" value="$PARAM[glow_height]" />
+                <param name="glow_top" value="$PARAM[glow_top]"/>
+                <param name="glow_zoom" value="$PARAM[glow_zoom]"/>
+                <param name="glow_left" value="$PARAM[glow_left]"/>
+                <param name="glow_right" value="$PARAM[glow_right]"/>
             </include>
         </control>
         </definition>
@@ -5840,9 +5918,7 @@
             </control>
         </control>
         <control type="group">
-            <include condition="Skin.HasSetting(focus.items.zoom)" content="Animation.Focus.Zoom">
-                <param name="centerleft" value="160" />
-            </include>
+            <include condition="Skin.HasSetting(items.focus.zoom)">Animation.Focus.Zoom</include>
             <height>$PARAM[height]</height>
             <include content="def_widgetsquare">
                 <param name="aspectratio" value="$PARAM[aspectratio]"/>
@@ -5850,6 +5926,11 @@
             </include>
             <include content="def_widgetfocus">
                 <param name="id" value="$PARAM[id]"/>
+                <param name="glow_height" value="$PARAM[glow_height]" />
+                <param name="glow_top" value="$PARAM[glow_top]"/>
+                <param name="glow_zoom" value="$PARAM[glow_zoom]"/>
+                <param name="glow_left" value="$PARAM[glow_left]"/>
+                <param name="glow_right" value="$PARAM[glow_right]"/>
             </include>
         </control>
         </definition>
@@ -5859,6 +5940,11 @@
         <include>def_widgetsquare_system</include>
         <include content="def_widgetfocus">
             <param name="id" value="$PARAM[id]"/>
+            <param name="glow_height" value="$PARAM[glow_height]" />
+            <param name="glow_top" value="$PARAM[glow_top]"/>
+            <param name="glow_zoom" value="$PARAM[glow_zoom]"/>
+            <param name="glow_left" value="$PARAM[glow_left]"/>
+                <param name="glow_right" value="$PARAM[glow_right]"/>
         </include>
     </include>
 
@@ -5867,7 +5953,6 @@
         <param name="height" value="$PARAM[height]" default="325"/>
         <param name="top" value="$PARAM[top]" default="305"/>
         <param name="small" value="$PARAM[smallfanart]" default="false"/>
-        <param name="centerleft" value="$PARAM[centerleft]" default="230"/>
         <definition>
         <control type="group">
             <height>$PARAM[height]</height>
@@ -5883,9 +5968,7 @@
             </control>
         </control>
         <control type="group">
-            <include condition="Skin.HasSetting(focus.items.zoom)" content="Animation.Focus.Zoom">
-                <param name="centerleft" value="$PARAM[centerleft]" />
-            </include>
+            <include condition="Skin.HasSetting(items.focus.zoom)">Animation.Focus.Zoom</include>
             <height>$PARAM[height]</height>
             <include content="def_widgetfanart">
                 <param name="indicatorbackground" value="$PARAM[indicatorbackground]" />
@@ -5893,6 +5976,11 @@
             </include>
             <include content="def_widgetfocus">
                 <param name="id" value="$PARAM[id]"/>
+                <param name="glow_height" value="$PARAM[glow_height]" />
+                <param name="glow_top" value="$PARAM[glow_top]"/>
+                <param name="glow_zoom" value="$PARAM[glow_zoom]"/>
+                <param name="glow_left" value="$PARAM[glow_left]"/>
+                <param name="glow_right" value="$PARAM[glow_right]"/>
             </include>
         </control>
         </definition>
@@ -5917,15 +6005,18 @@
             </control>
         </control>
         <control type="group">
-            <include condition="Skin.HasSetting(focus.items.zoom)" content="Animation.Focus.Zoom">
-                <param name="centerleft" value="$PARAM[centerleft]" default="290" />
-            </include>
+            <include condition="Skin.HasSetting(items.focus.zoom)">Animation.Focus.Zoom</include>
             <height>$PARAM[height]</height>
             <include content="def_widgetlandscape">
                 <param name="indicatorbackground" value="$PARAM[indicatorbackground]" />
             </include>
             <include content="def_widgetfocus">
                 <param name="id" value="$PARAM[id]"/>
+                <param name="glow_height" value="$PARAM[glow_height]" />
+                <param name="glow_top" value="$PARAM[glow_top]"/>
+                <param name="glow_zoom" value="$PARAM[glow_zoom]"/>
+                <param name="glow_left" value="$PARAM[glow_left]"/>
+                <param name="glow_right" value="$PARAM[glow_right]"/>
             </include>
         </control>
         </definition>
@@ -5935,15 +6026,18 @@
         <param name="height" value="$PARAM[height]" default="325"/>
         <definition>
         <control type="group">
-            <include condition="Skin.HasSetting(focus.items.zoom)" content="Animation.Focus.Zoom">
-                <param name="centerleft" value="280" />
-            </include>
+            <include condition="Skin.HasSetting(items.focus.zoom)">Animation.Focus.Zoom</include>
             <height>$PARAM[height]</height>
             <include content="def_widgetbanner">
                 <param name="indicatorbackground" value="$PARAM[indicatorbackground]" />
             </include>
             <include content="def_widgetfocus">
                 <param name="id" value="$PARAM[id]"/>
+                <param name="glow_height" value="$PARAM[glow_height]" />
+                <param name="glow_top" value="$PARAM[glow_top]"/>
+                <param name="glow_zoom" value="$PARAM[glow_zoom]"/>
+                <param name="glow_left" value="$PARAM[glow_left]"/>
+                <param name="glow_right" value="$PARAM[glow_right]"/>
             </include>
         </control>
         <control type="group">
@@ -5982,7 +6076,7 @@
             </control>
         </control>
         <control type="group">
-            <include condition="Skin.HasSetting(focus.items.zoom)">Animation.Focus.Zoom</include>
+            <include condition="Skin.HasSetting(items.focus.zoom)">Animation.Focus.Zoom</include>
             <height>$PARAM[height]</height>
             <include content="def_widgetthumb">
                 <param name="clearlogo" value="$PARAM[clearlogo]"/>
@@ -5992,6 +6086,11 @@
             </include>
             <include content="def_widgetfocus">
                 <param name="id" value="$PARAM[id]"/>
+                <param name="glow_height" value="$PARAM[glow_height]" />
+                <param name="glow_top" value="$PARAM[glow_top]"/>
+                <param name="glow_zoom" value="$PARAM[glow_zoom]"/>
+                <param name="glow_left" value="$PARAM[glow_left]"/>
+                <param name="glow_right" value="$PARAM[glow_right]"/>
             </include>
         </control>
         </definition>
