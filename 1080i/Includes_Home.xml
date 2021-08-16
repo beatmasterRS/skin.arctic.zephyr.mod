@@ -4362,6 +4362,9 @@
     </include>
 
     <include name="InfoSubWidgetSystem">
+        <param name="issettingslayout" value="$PARAM[issettingslayout]" default="false"/>
+        <param name="id" value="$PARAM[id]"/>
+        <definition>
         <include content="def_top" condition="Skin.HasSetting(homemenu.clean.flix) + [Skin.HasSetting(home.oldmenuheight) | Skin.HasSetting(submenu.compatibility)] + !Skin.HasSetting(hidewidgettitle)">
             <param name="top" value="-386" />
         </include>
@@ -4387,7 +4390,11 @@
             <param name="top" value="-427" />
         </include>
         <left>527</left>
-        <include>InfoSubWidgetSystemInclude</include>
+        <include condition="!$PARAM[issettingslayout]">InfoSubWidgetSystemInclude</include>
+        <include condition="$PARAM[issettingslayout]" content="InfoSubWidgetSettingsInclude">
+            <param name="id" value="$PARAM[id]"/>
+        </include>
+        </definition>
     </include>
 
     <include name="MultiWidgetsHeaderLabel">

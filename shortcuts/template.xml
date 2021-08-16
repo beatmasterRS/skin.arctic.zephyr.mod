@@ -585,6 +585,91 @@
             </item>
         </controls>
     </other>
+    
+    <!-- Widget for Settings -->
+    <other include="SettingsInfoContent">
+        <controls>
+            <item id="1">
+                <label>14206</label>
+                <label2>31275</label2>
+                <icon>special://skin/extras/icons/paintbrush.png</icon>
+                <onclick>activatewindow(InterfaceSettings)</onclick>
+            </item>
+            <item id="2">
+                <label>14202</label>
+                <label2>31276</label2>
+                <icon>special://skin/extras/icons/tags.png</icon>
+                <onclick>activatewindow(MediaSettings)</onclick>
+            </item>
+            <item id="3">
+                <label>14200</label>
+                <label2>31277</label2>
+                <icon>special://skin/extras/icons/equalizer.png</icon>
+                <onclick>activatewindow(PlayerSettings)</onclick>
+            </item>
+            <item id="12">
+                <label>20077</label>
+                <label2>31166</label2>
+                <icon>special://skin/extras/icons/year.png</icon>
+                <onclick>activatewindow(SkinSettings)</onclick>
+            </item>
+            <item id="8">
+                <label>13000</label>
+                <label2>31161</label2>
+                <icon>special://skin/extras/icons/configure.png</icon>
+                <onclick>activatewindow(SystemSettings)</onclick>
+            </item>
+            <item id="7">
+                <label>14036</label>
+                <label2>31164</label2>
+                <icon>special://skin/extras/icons/network.png</icon>
+                <onclick>activatewindow(servicesettings)</onclick>
+            </item>
+            <item id="9">
+                <label>13200</label>
+                <label2>31165</label2>
+                <icon>special://skin/extras/icons/actor.png</icon>
+                <onclick>activatewindow(Profiles)</onclick>
+            </item>
+            <item id="4">
+                <label>24001</label>
+                <label2>31162</label2>
+                <icon>special://skin/extras/icons/addons.png</icon>
+                <onclick>activatewindow(AddonBrowser)</onclick>
+            </item>
+            <item id="10">
+                <label>130</label>
+                <label2>31167</label2>
+                <icon>special://skin/extras/icons/sysinfo.png</icon>
+                <onclick>activatewindow(7)</onclick>
+            </item>
+            <item id="11">
+                <label>19191</label>
+                <label2>31163</label2>
+                <icon>special://skin/extras/icons/livetv.png</icon>
+                <onclick>activatewindow(pvrsettings)</onclick>
+            </item>
+            <item id="5">
+                <label>LibreELEC $LOCALIZE[5]</label>
+                <label2>31373</label2>
+                <icon>special://skin/extras/icons/libreelec.png</icon>
+                <onclick>RunScript(service.libreelec.settings)</onclick>
+                <visible>System.HasAddon(service.libreelec.settings)</visible>
+            </item>
+            <item id="6">
+                <label>CoreELEC $LOCALIZE[5]</label>
+                <label2>31374</label2>
+                <icon>special://skin/extras/icons/coreelec.png</icon>
+                <onclick>RunScript(service.coreelec.settings)</onclick>
+                <visible>System.HasAddon(service.coreelec.settings)</visible>
+            </item>
+            <item id="14">
+                <label>$LOCALIZE[7]</label>
+                <icon>special://skin/extras/icons/filemanager.png</icon>
+                <onclick>ActivateWindow(filemanager)</onclick>
+            </item>
+        </controls>
+    </other>
 
     <!-- Widget 1 -->
     <other include="widget-vertical.1">
@@ -598,6 +683,8 @@
         <property name="isnormallayout" tag="property" attribute="name|widgetTarget" value="system">false</property>
         <property name="isnormallayout" tag="property" attribute="name|widget" value="mysubmenu">false</property>
         <property name="isnormallayout">true</property>
+        <property name="issettingslayout" tag="property" attribute="name|widget" value="settings">true</property>
+        <property name="issettingslayout">false</property>
         <property name="issystemlayout" tag="property" attribute="name|widgetTarget" value="system">true</property>
         <property name="issystemlayout">false</property>
         <property name="issubmenulayout" tag="property" attribute="name|widget" value="mysubmenu">true</property>
@@ -772,6 +859,8 @@
                     <include condition="$SKINSHORTCUTS[issystemlayout]" content="InfoSubWidgetSystem">
                         <param name="fadecondition" value="!Control.HasFocus(301$SKINSHORTCUTS[id]2) + !Control.HasFocus(301$SKINSHORTCUTS[id]3)"/>
                         <param name="includefadecondition" value="true"/>
+                        <param name="issettingslayout" value="$SKINSHORTCUTS[issettingslayout]"/>
+                        <param name="id" value="301$SKINSHORTCUTS[id]1"/>
                     </include>
                 </control>
                 <control type="grouplist">
@@ -795,6 +884,8 @@
         <property name="isnormallayout" tag="property" attribute="name|widgetTarget.2" value="weather">false</property>
         <property name="isnormallayout" tag="property" attribute="name|widgetTarget.2" value="system">false</property>
         <property name="isnormallayout">true</property>
+        <property name="issettingslayout" tag="property" attribute="name|widget.2" value="settings">true</property>
+        <property name="issettingslayout">false</property>
         <property name="issystemlayout" tag="property" attribute="name|widgetTarget.2" value="system">true</property>
         <property name="issystemlayout">false</property>
         <property name="isweatherlayout" tag="property" attribute="name|widgetTarget.2" value="weather">true</property>
@@ -951,7 +1042,10 @@
                 </control>
                 <control type="grouplist">
                     <skinshortcuts>visibility</skinshortcuts>
-                    <include condition="$SKINSHORTCUTS[issystemlayout]">InfoSubWidgetSystem</include>
+                    <include condition="$SKINSHORTCUTS[issystemlayout]" content="InfoSubWidgetSystem">
+                        <param name="issettingslayout" value="$SKINSHORTCUTS[issettingslayout]"/>
+                        <param name="id" value="301$SKINSHORTCUTS[id]2" />
+                    </include>
                 </control>
                 <control type="grouplist">
                     <skinshortcuts>visibility</skinshortcuts>
@@ -974,6 +1068,8 @@
         <property name="isnormallayout" tag="property" attribute="name|widgetTarget.3" value="weather">false</property>
         <property name="isnormallayout" tag="property" attribute="name|widgetTarget.3" value="system">false</property>
         <property name="isnormallayout">true</property>
+        <property name="issettingslayout" tag="property" attribute="name|widget.3" value="settings">true</property>
+        <property name="issettingslayout">false</property>
         <property name="issystemlayout" tag="property" attribute="name|widgetTarget.3" value="system">true</property>
         <property name="issystemlayout">false</property>
         <property name="isweatherlayout" tag="property" attribute="name|widgetTarget.3" value="weather">true</property>
@@ -1129,7 +1225,10 @@
                 </control>
                 <control type="grouplist">
                     <skinshortcuts>visibility</skinshortcuts>
-                    <include condition="$SKINSHORTCUTS[issystemlayout]">InfoSubWidgetSystem</include>
+                    <include condition="$SKINSHORTCUTS[issystemlayout]" content="InfoSubWidgetSystem">
+                        <param name="issettingslayout" value="$SKINSHORTCUTS[issettingslayout]"/>
+                        <param name="id" value="301$SKINSHORTCUTS[id]3" />
+                    </include>
                 </control>
                 <control type="grouplist">
                     <skinshortcuts>visibility</skinshortcuts>
@@ -1152,6 +1251,8 @@
         <property name="isnormallayout" tag="property" attribute="name|widgetTarget.4" value="weather">false</property>
         <property name="isnormallayout" tag="property" attribute="name|widgetTarget.4" value="system">false</property>
         <property name="isnormallayout">true</property>
+        <property name="issettingslayout" tag="property" attribute="name|widget.4" value="settings">true</property>
+        <property name="issettingslayout">false</property>
         <property name="issystemlayout" tag="property" attribute="name|widgetTarget.4" value="system">true</property>
         <property name="issystemlayout">false</property>
         <property name="isweatherlayout" tag="property" attribute="name|widgetTarget.4" value="weather">true</property>
@@ -1307,7 +1408,10 @@
                 </control>
                 <control type="grouplist">
                     <skinshortcuts>visibility</skinshortcuts>
-                    <include condition="$SKINSHORTCUTS[issystemlayout]">InfoSubWidgetSystem</include>
+                    <include condition="$SKINSHORTCUTS[issystemlayout]" content="InfoSubWidgetSystem">
+                        <param name="issettingslayout" value="$SKINSHORTCUTS[issettingslayout]"/>
+                        <param name="id" value="301$SKINSHORTCUTS[id]4" />
+                    </include>
                 </control>
                 <control type="grouplist">
                     <skinshortcuts>visibility</skinshortcuts>
@@ -1330,6 +1434,8 @@
         <property name="isnormallayout" tag="property" attribute="name|widgetTarget.5" value="weather">false</property>
         <property name="isnormallayout" tag="property" attribute="name|widgetTarget.5" value="system">false</property>
         <property name="isnormallayout">true</property>
+        <property name="issettingslayout" tag="property" attribute="name|widget.5" value="settings">true</property>
+        <property name="issettingslayout">false</property>
         <property name="issystemlayout" tag="property" attribute="name|widgetTarget.5" value="system">true</property>
         <property name="issystemlayout">false</property>
         <property name="isweatherlayout" tag="property" attribute="name|widgetTarget.5" value="weather">true</property>
@@ -1485,7 +1591,10 @@
                 </control>
                 <control type="grouplist">
                     <skinshortcuts>visibility</skinshortcuts>
-                    <include condition="$SKINSHORTCUTS[issystemlayout]">InfoSubWidgetSystem</include>
+                    <include condition="$SKINSHORTCUTS[issystemlayout]" content="InfoSubWidgetSystem">
+                        <param name="issettingslayout" value="$SKINSHORTCUTS[issettingslayout]"/>
+                        <param name="id" value="301$SKINSHORTCUTS[id]5" />
+                    </include>
                 </control>
                 <control type="grouplist">
                     <skinshortcuts>visibility</skinshortcuts>
@@ -1508,6 +1617,8 @@
         <property name="isnormallayout" tag="property" attribute="name|widgetTarget.6" value="weather">false</property>
         <property name="isnormallayout" tag="property" attribute="name|widgetTarget.6" value="system">false</property>
         <property name="isnormallayout">true</property>
+        <property name="issettingslayout" tag="property" attribute="name|widget.6" value="settings">true</property>
+        <property name="issettingslayout">false</property>
         <property name="issystemlayout" tag="property" attribute="name|widgetTarget.6" value="system">true</property>
         <property name="issystemlayout">false</property>
         <property name="isweatherlayout" tag="property" attribute="name|widgetTarget.6" value="weather">true</property>
@@ -1663,7 +1774,10 @@
                 </control>
                 <control type="grouplist">
                     <skinshortcuts>visibility</skinshortcuts>
-                    <include condition="$SKINSHORTCUTS[issystemlayout]">InfoSubWidgetSystem</include>
+                    <include condition="$SKINSHORTCUTS[issystemlayout]" content="InfoSubWidgetSystem">
+                        <param name="issettingslayout" value="$SKINSHORTCUTS[issettingslayout]"/>
+                        <param name="id" value="301$SKINSHORTCUTS[id]6" />
+                    </include>
                 </control>
                 <control type="grouplist">
                     <skinshortcuts>visibility</skinshortcuts>
