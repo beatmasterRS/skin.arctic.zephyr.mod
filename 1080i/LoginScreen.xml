@@ -1,7 +1,5 @@
 <window>
     <defaultcontrol always="true">52</defaultcontrol>
-    <backgroundcolor>0</backgroundcolor>
-    <onload condition="String.IsEmpty(Window(home).Property(SkinInitStarted)) + !String.IsEmpty(Skin.String(StartupPlaylist))">PlayMedia($ESCINFO[Skin.String(StartupPlaylist)])</onload>
     <onload>SetProperty(SkinInitStarted,1,home)</onload>
     <controls>
         <control type="group">
@@ -55,35 +53,38 @@
                 </itemlayout>
                 <focusedlayout height="120">
                     <control type="image">
+                        <visible>String.StartsWith(ListItem.Icon,Default)</visible>
                         <left>13</left>
                         <centertop>50%</centertop>
                         <width>100</width>
                         <height>100</height>
-                        <texture>other_textures/circle.png</texture>
+                        <aspectratio scalediffuse="false">scale</aspectratio>
+                        <texture colordiffuse="Dark1" diffuse="other_textures/circle_full.png" fallback="DefaultActor.png">$INFO[Listitem.Icon]</texture>
                         <animation effect="slide" start="0,120" end="0,0" time="300" reversible="false" tween="back" easing="out" condition="Container(52).OnPrevious">Focus</animation>
                         <animation effect="slide" start="0,-120" end="0,0" time="300" reversible="false" tween="back" easing="out" condition="Container(52).OnNext">Focus</animation>
+                        <animation effect="fade" start="100" end="50" time="300" tween="sine" easing="inout" condition="!Control.HasFocus(52)">Conditional</animation>
                     </control>
                     <control type="image">
-                        <left>8</left>
+                        <visible>!String.StartsWith(ListItem.Icon,Default)</visible>
+                        <left>13</left>
                         <centertop>50%</centertop>
-                        <width>111</width>
-                        <height>111</height>
+                        <width>100</width>
+                        <height>100</height>
                         <aspectratio scalediffuse="false">scale</aspectratio>
-                        <texture diffuse="diffuse/dialogselect.png" fallback="DefaultActor.png">$INFO[Listitem.Icon]</texture>
+                        <texture diffuse="other_textures/circle_full.png" fallback="DefaultActor.png">$INFO[Listitem.Icon]</texture>
                         <animation effect="slide" start="0,120" end="0,0" time="300" reversible="false" tween="back" easing="out" condition="Container(52).OnPrevious">Focus</animation>
                         <animation effect="slide" start="0,-120" end="0,0" time="300" reversible="false" tween="back" easing="out" condition="Container(52).OnNext">Focus</animation>
-                        <visible>!Skin.HasSetting(global.hidecirles)</visible>
+                        <animation effect="fade" start="100" end="50" time="300" tween="sine" easing="inout" condition="!Control.HasFocus(52)">Conditional</animation>
                     </control>
                     <control type="image">
-                        <left>8</left>
+                        <left>13</left>
                         <centertop>50%</centertop>
-                        <width>111</width>
-                        <height>111</height>
-                        <aspectratio scalediffuse="false">scale</aspectratio>
-                        <texture fallback="DefaultActor.png">$INFO[Listitem.Icon]</texture>
+                        <width>100</width>
+                        <height>100</height>
+                        <texture colordiffuse="Dark1">other_textures/circle.png</texture>
                         <animation effect="slide" start="0,120" end="0,0" time="300" reversible="false" tween="back" easing="out" condition="Container(52).OnPrevious">Focus</animation>
                         <animation effect="slide" start="0,-120" end="0,0" time="300" reversible="false" tween="back" easing="out" condition="Container(52).OnNext">Focus</animation>
-                        <visible>Skin.HasSetting(global.hidecirles)</visible>
+                        <animation effect="fade" start="100" end="50" time="300" tween="sine" easing="inout" condition="!Control.HasFocus(52)">Conditional</animation>
                     </control>
                     <control type="group">
                         <animation type="Focus" condition="Container(52).OnNext | Container(52).OnPrevious" reversible="false">
