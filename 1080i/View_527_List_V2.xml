@@ -1,0 +1,84 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Foundation -->
+<includes>
+
+    <include name="View_527_List_V2">
+        <control type="group">
+            <include>Animation.Common</include>
+            <visible>Control.IsVisible(527)</visible>
+            <control type="list" id="527">
+                <oninfo condition="Container.Content(actors)">RunScript(script.embuary.info,call=person,query='"$INFO[ListItem.Label]"')</oninfo>
+                <visible>String.Contains(Container.FolderPath,plugin://plugin.program.advanced.launcher/,left) | Container.Content(musicvideos) | Container.Content(movies) | Container.Content(tvshows) | Container.Content(actors) | Container.Content(sets) | Container.Content(seasons) | [Container.Content(files) + !String.Contains(Container.FolderPath,plugin://,left) + !String.IsEqual(Container.FolderPath,library://video/movies/) + !String.IsEqual(Container.FolderPath,library://video/tvshows/) + !String.IsEqual(Container.FolderPath,special://videoplaylists/)] | [Container.Content(episodes) + !String.Contains(Container.FolderPath,plugin://,left)]</visible>
+                <include content="forced_view" condition="Skin.HasSetting(enable.forcedviews)">
+                    <param name="string" value="$LOCALIZE[535] $LOCALIZE[31591]" />
+                </include>
+                <top>541</top>
+                <width>1400</width>
+                <height>PosterH</height>
+                <left>530</left>
+                <onleft condition="!Skin.HasSetting(global.kioskmode)">9000</onleft>
+                <ondown>1727</ondown>
+                <onup>9000</onup>
+                <orientation>horizontal</orientation>
+                <pagecontrol>1727</pagecontrol>
+                <viewtype label="$LOCALIZE[535] $LOCALIZE[31591]">list</viewtype>
+                <include>ScrolltimeViewsList</include>
+                <itemlayout height="325" width="222">
+                    <include content="include.widget.poster">
+                        <param name="id" value="527"/>
+                        <param name="reflections" value="Skin.HasSetting(show.reflections)"/>
+                    </include>
+                </itemlayout>
+                <focusedlayout height="325" width="222">
+                    <include content="include.widget.poster.focus">
+                        <param name="id" value="527"/>
+                        <param name="reflections" value="Skin.HasSetting(show.reflections)"/>
+                    </include>
+                </focusedlayout>
+            </control>        
+            <control type="group">
+                <left>540</left>
+                <right>SidePad</right>
+                <top>230</top>
+                <control type="label">
+                    <textcolor>Dark1</textcolor>
+                    <font>SmallBold</font>
+                    <label fallback="19055">$INFO[ListItem.Title]</label>
+                    <include condition="Skin.HasSetting(labels.autoscroll)">LabelScroll</include>
+                </control>
+                <control type="grouplist">
+                    <orientation>vertical</orientation>
+                    <itemgap>0</itemgap>
+                    <top>40</top>
+                    <control type="label">
+                        <aligny>center</aligny>
+                        <font>Tiny</font>
+                        <textcolor>Dark1</textcolor>
+                        <selectedcolor>Dark1</selectedcolor>
+                        <label>$VAR[LabelSub_1_GenreAlbum]</label>
+                    </control>
+                    <control type="textbox">
+                        <font>Tiny</font>
+                        <height>108</height>
+                        <textcolor>Dark2</textcolor>
+                        <selectedcolor>Dark2</selectedcolor>
+                        <label>$INFO[ListItem.Plot]</label>
+                    </control>
+                    <control type="label">
+                        <aligny>center</aligny>
+                        <font>Tiny</font>
+                        <textcolor>Dark2</textcolor>
+                        <selectedcolor>Dark2</selectedcolor>
+                        <label>$VAR[LabelSub_2_YearDurationRating]</label>
+                    </control>
+                </control>
+            </control>        
+            <control type="scrollbar" id="1727">
+                <include content="scrollbar_hor">
+                    <param name="scrollid" value="1727"/>
+                </include>
+            </control>
+            <include>View_50_SidePoster</include>
+        </control>
+    </include>
+</includes>
