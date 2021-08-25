@@ -2,43 +2,68 @@
 <!-- Foundation -->
 <includes>
 
+    <include name="527Content">
+        <visible>Container.Content(musicvideos) | Container.Content(movies) | Container.Content(tvshows) | Container.Content(actors) | Container.Content(sets) | Container.Content(seasons)</visible>
+        <include content="forced_view" condition="Skin.HasSetting(enable.forcedviews)">
+            <param name="string" value="$LOCALIZE[535] $LOCALIZE[31591]" />
+        </include>
+        <top>541</top>
+        <width>1500</width>
+        <height>PosterH</height>
+        <left>530</left>
+        <onleft>527</onleft>
+        <onright>527</onright>
+        <ondown>1727</ondown>
+        <onup condition="!Skin.HasSetting(global.kioskmode)">9000</onup>
+        <orientation>horizontal</orientation>
+        <pagecontrol>1727</pagecontrol>
+        <viewtype label="$LOCALIZE[535] $LOCALIZE[31591]">list</viewtype>
+        <include>ScrolltimeViewsList</include>
+        <itemlayout height="325" width="222">
+            <include content="include.widget.poster">
+                <param name="id" value="527"/>
+                <param name="reflections" value="Skin.HasSetting(show.reflections)"/>
+            </include>
+        </itemlayout>
+        <focusedlayout height="325" width="222">
+            <include content="include.widget.poster.focus">
+                <param name="id" value="527"/>
+                <param name="reflections" value="Skin.HasSetting(show.reflections)"/>
+                <param name="glow_height" value="318"/>
+                <param name="glow_top" value="3"/>
+                <param name="glow_left" value="-1"/>
+            </include>
+        </focusedlayout>
+    </include>
+    
+    <include name="527Wrap">
+        <include>ViewSlideForJumpBar</include>
+        <control type="wraplist" id="527">
+            <include>527Content</include>
+        </control>
+    </include>
+
+    <include name="527Fixed">
+        <include>ViewSlideForJumpBar</include>
+        <control type="fixedlist" id="527">
+            <include>527Content</include>
+        </control>
+    </include>
+    
+    <include name="527List">
+        <include>ViewSlideForJumpBar</include>
+        <control type="list" id="527">
+            <include>527Content</include>
+        </control>
+    </include>
+    
     <include name="View_527_List_V2">
         <control type="group">
             <include>Animation.Common</include>
             <visible>Control.IsVisible(527)</visible>
-            <control type="list" id="527">
-                <oninfo condition="Container.Content(actors)">RunScript(script.embuary.info,call=person,query='"$INFO[ListItem.Label]"')</oninfo>
-                <visible>String.Contains(Container.FolderPath,plugin://plugin.program.advanced.launcher/,left) | Container.Content(musicvideos) | Container.Content(movies) | Container.Content(tvshows) | Container.Content(actors) | Container.Content(sets) | Container.Content(seasons) | [Container.Content(files) + !String.Contains(Container.FolderPath,plugin://,left) + !String.IsEqual(Container.FolderPath,library://video/movies/) + !String.IsEqual(Container.FolderPath,library://video/tvshows/) + !String.IsEqual(Container.FolderPath,special://videoplaylists/)] | [Container.Content(episodes) + !String.Contains(Container.FolderPath,plugin://,left)]</visible>
-                <include content="forced_view" condition="Skin.HasSetting(enable.forcedviews)">
-                    <param name="string" value="$LOCALIZE[535] $LOCALIZE[31591]" />
-                </include>
-                <top>541</top>
-                <width>1500</width>
-                <height>PosterH</height>
-                <left>530</left>
-                <onleft condition="!Skin.HasSetting(global.kioskmode)">9000</onleft>
-                <ondown>1727</ondown>
-                <onup>9000</onup>
-                <orientation>horizontal</orientation>
-                <pagecontrol>1727</pagecontrol>
-                <viewtype label="$LOCALIZE[535] $LOCALIZE[31591]">list</viewtype>
-                <include>ScrolltimeViewsList</include>
-                <itemlayout height="325" width="222">
-                    <include content="include.widget.poster">
-                        <param name="id" value="527"/>
-                        <param name="reflections" value="Skin.HasSetting(show.reflections)"/>
-                    </include>
-                </itemlayout>
-                <focusedlayout height="325" width="222">
-                    <include content="include.widget.poster.focus">
-                        <param name="id" value="527"/>
-                        <param name="reflections" value="Skin.HasSetting(show.reflections)"/>
-                        <param name="glow_height" value="318"/>
-                        <param name="glow_top" value="3"/>
-                        <param name="glow_left" value="-1"/>
-                    </include>
-                </focusedlayout>
-            </control>        
+            <include condition="!Skin.HasSetting(527.fixedlist) + !Skin.HasSetting(527.wraplist)">527List</include>
+            <include condition="Skin.HasSetting(527.wraplist)">527Wrap</include>
+            <include condition="Skin.HasSetting(527.fixedlist)">527Fixed</include>
             <control type="group">
                 <left>540</left>
                 <right>SidePad</right>
@@ -75,7 +100,7 @@
                         <label>$VAR[LabelSub_2_YearDurationRating]</label>
                     </control>
                 </control>
-            </control>        
+            </control>
             <control type="scrollbar" id="1727">
                 <include content="scrollbar_hor">
                     <param name="scrollid" value="1727"/>
