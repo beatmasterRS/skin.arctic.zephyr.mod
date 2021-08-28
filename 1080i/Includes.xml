@@ -80,7 +80,7 @@
     <expression name="Widget6Enabled">String.IsEqual(Container(300).ListItem.Property(widgetEnable.6),yes)</expression>
     <expression name="HasHomemenuAutoSlideOutAnimation">Skin.HasSetting(homemenu.slide) + [[$EXP[HomeIsModernMultiWidgets] + !Skin.HasSetting(homemenu.clean.flix)] | [$EXP[HomeIsVerticalMultiWidgets] + !Skin.HasSetting(homemenu.vertical.noslide)]]</expression>
 
-    <expression name="AutoTrailerIsPlaying">Window.IsVisible(Home.xml) + !Window.IsVisible(DialogVideoInfo.xml) + Skin.HasSetting(home.netflix.autoplay.trailer) + [$EXP[HomeIsModernMultiWidgetsNetflix] | $EXP[HomeIsVerticalMultiWidgetsNetflix]] + Player.HasMedia + String.IsEqual(Skin.String(TrailerPath),Player.FileNameAndPath)</expression>
+    <expression name="AutoTrailerIsPlaying">Window.IsVisible(Home.xml) + !Window.IsVisible(DialogVideoInfo.xml) + Skin.HasSetting(home.netflix.autoplay.trailer) + [$EXP[HomeIsModernMultiWidgetsNetflix] | $EXP[HomeIsVerticalMultiWidgetsNetflix]] + Player.HasMedia + String.IsEqual(Skin.String(TrailerPath2),Player.FileNameAndPath)</expression>
     <expression name="IsAudioCodecATMOS">
         String.Contains(ListItem.FileNameAndPath,.atmos.) | String.Contains(ListItem.FileNameAndPath,.atmos-)
         | [VideoPlayer.IsFullscreen + [String.Contains(Player.FileNameAndPath,.atmos.) | String.Contains(Player.FileNameAndPath,.atmos-)]]
@@ -2946,11 +2946,14 @@
             <!-- Reset Last Trailer Path -->
             <onfocus condition="Skin.HasSetting(home.netflix.autoplay.trailer) + !Player.HasMedia + !String.IsEqual(Skin.String(TrailerPath),ListItem.Trailer)">Skin.Reset(TrailerPath)</onfocus>
             
-            <!-- Start  Background Fade -->
+            <!-- Start Background Fade -->
             <onfocus condition="Skin.HasSetting(home.netflix.autoplay.trailer) + !String.IsEmpty(ListItem.Trailer) + !Player.HasMedia + !String.IsEqual(Skin.String(TrailerPath),ListItem.Trailer)">AlarmClock(SetAutoTrailerControlStartBackgroundFade,SetProperty(TrailerFade,1,home),00:05,silent)</onfocus>
             
-            <!-- Set Trailer Path and Start -->
+            <!-- Set Trailer Path -->
             <onfocus condition="Skin.HasSetting(home.netflix.autoplay.trailer) + !String.IsEmpty(ListItem.Trailer) + !Player.HasMedia + !String.IsEqual(Skin.String(TrailerPath),ListItem.Trailer)">AlarmClock(SetAutoTrailerControlSetTrailerPath,Skin.SetString(TrailerPath,$INFO[ListItem.Trailer]),00:05,silent)</onfocus>
+            <onfocus condition="Skin.HasSetting(home.netflix.autoplay.trailer) + !String.IsEmpty(ListItem.Trailer) + !Player.HasMedia + !String.IsEqual(Skin.String(TrailerPath),ListItem.Trailer)">AlarmClock(SetAutoTrailerControlSetTrailerPath2,Skin.SetString(TrailerPath2,$INFO[ListItem.Trailer]),00:05,silent)</onfocus>
+            
+            <!-- Start Trailer -->
             <onfocus condition="Skin.HasSetting(home.netflix.autoplay.trailer) + !String.IsEmpty(ListItem.Trailer) + !Player.HasMedia + !String.IsEqual(Skin.String(TrailerPath),ListItem.Trailer)">AlarmClock(SetAutoTrailerControlStartTrailer,PlayMedia($ESCINFO[ListItem.Trailer],1),00:05,silent)</onfocus>
             
             <!-- Cancel Alarm On Unfocus -->
