@@ -80,6 +80,7 @@
     <expression name="Widget6Enabled">String.IsEqual(Container(300).ListItem.Property(widgetEnable.6),yes)</expression>
     <expression name="HasHomemenuAutoSlideOutAnimation">Skin.HasSetting(homemenu.slide) + [[$EXP[HomeIsModernMultiWidgets] + !Skin.HasSetting(homemenu.clean.flix)] | [$EXP[HomeIsVerticalMultiWidgets] + !Skin.HasSetting(homemenu.vertical.noslide)]]</expression>
 
+    <expression name="AutoTrailerIsPlaying">Window.IsVisible(Home.xml) + Skin.HasSetting(AutoTrailer) + Player.HasMedia + String.IsEqual(Skin.String(TrailerPath),Player.FileNameAndPath)</expression>
     <expression name="IsAudioCodecATMOS">
         String.Contains(ListItem.FileNameAndPath,.atmos.) | String.Contains(ListItem.FileNameAndPath,.atmos-)
         | [VideoPlayer.IsFullscreen + [String.Contains(Player.FileNameAndPath,.atmos.) | String.Contains(Player.FileNameAndPath,.atmos-)]]
@@ -790,8 +791,14 @@
         </control>
         
         <!-- Trailer Window -->
+        <control type="image" description="Background">
+            <include>Dimensions_Fullscreen</include>
+            <texture colordiffuse="Background">common/bg.jpg</texture>
+            <visible>$EXP[AutoTrailerIsPlaying]</visible>
+            <animation effect="fade" end="0" start="100" time="1000">Hidden</animation>
+        </control>
         <control type="videowindow">
-            <visible>Window.IsVisible(Home.xml) + Skin.HasSetting(AutoTrailer) + Player.HasMedia + String.IsEqual(Skin.String(TrailerPath),Player.FileNameAndPath)</visible>
+            <visible>$EXP[AutoTrailerIsPlaying]</visible>
             <include>Dimensions_Fullscreen</include>
         </control>
     </include>
@@ -2930,7 +2937,7 @@
             <visible>false</visible>
             
             <!-- Reset Last Trailer Path -->
-            <onfocus condition="Skin.HasSetting(AutoTrailer) + !Player.HasMedia + !String.IsEqual(Skin.String(TrailerPath),ListItem.Trailer)">AlarmClock(SetAutoTrailerControlResetTrailerPath,Skin.Reset(TrailerPath),00:01,silent)</onfocus> 
+            <onfocus condition="Skin.HasSetting(AutoTrailer) + !Player.HasMedia + !String.IsEqual(Skin.String(TrailerPath),ListItem.Trailer)">Skin.Reset(TrailerPath)</onfocus> 
             
             <!-- Set Trailer Path and Start -->           
             <onfocus condition="Skin.HasSetting(AutoTrailer) + !String.IsEmpty(ListItem.Trailer) + !Player.HasMedia + !String.IsEqual(Skin.String(TrailerPath),ListItem.Trailer)">AlarmClock(SetAutoTrailerControlSetTrailerPath,Skin.SetString(TrailerPath,$INFO[ListItem.Trailer]),00:05,silent)</onfocus>
