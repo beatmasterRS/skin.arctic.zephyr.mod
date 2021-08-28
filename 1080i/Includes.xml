@@ -788,6 +788,12 @@
             <include condition="!Skin.HasSetting(home.vertical)">Animation.FadeFromHome</include>
             <texture colordiffuse="FloorFade">common/floor2.png</texture>
         </control>
+        
+        <!-- Trailer Window -->
+        <control type="videowindow">
+            <visible>Window.IsVisible(Home.xml) + Skin.HasSetting(AutoTrailer) + Player.HasMedia + String.IsEqual(Skin.String(TrailerPath),Player.FileNameAndPath)</visible>
+            <include>Dimensions_Fullscreen</include>
+        </control>
     </include>
 
     <include name="GlobalBackgroundExtended">
@@ -2916,6 +2922,23 @@
         <control type="button">
             <visible>false</visible>
             <onfocus>SetProperty(ContainerPosition,$INFO[Container($PARAM[id]).CurrentItem] / $INFO[Container($PARAM[id]).NumItems],home)</onfocus>
+        </control>
+    </include>
+    
+    <include name="SetAutoTrailerControl">
+        <control type="button">
+            <visible>false</visible>
+            
+            <!-- Reset Last Trailer Path -->
+            <onfocus condition="Skin.HasSetting(AutoTrailer) + !Player.HasMedia + !String.IsEqual(Skin.String(TrailerPath),ListItem.Trailer)">AlarmClock(SetAutoTrailerControlResetTrailerPath,Skin.Reset(TrailerPath),00:01,silent)</onfocus> 
+            
+            <!-- Set Trailer Path and Start -->           
+            <onfocus condition="Skin.HasSetting(AutoTrailer) + !String.IsEmpty(ListItem.Trailer) + !Player.HasMedia + !String.IsEqual(Skin.String(TrailerPath),ListItem.Trailer)">AlarmClock(SetAutoTrailerControlSetTrailerPath,Skin.SetString(TrailerPath,$INFO[ListItem.Trailer]),00:05,silent)</onfocus>
+            <onfocus condition="Skin.HasSetting(AutoTrailer) + !String.IsEmpty(ListItem.Trailer) + !Player.HasMedia + !String.IsEqual(Skin.String(TrailerPath),ListItem.Trailer)">AlarmClock(SetAutoTrailerControlStartTrailer,PlayMedia($ESCINFO[ListItem.Trailer],1),00:05,silent)</onfocus>
+            
+            <!-- Cancel Alarm On Unfocus -->
+            <onunfocus condition="Skin.HasSetting(AutoTrailer)">CancelAlarm(SetAutoTrailerControlStartTrailer,true)</onunfocus>
+            <onunfocus condition="Skin.HasSetting(AutoTrailer)">CancelAlarm(SetAutoTrailerControlSetTrailerPath,true)</onunfocus>
         </control>
     </include>
 
