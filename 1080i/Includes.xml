@@ -682,6 +682,19 @@
             <visible>!$EXP[HomeIsSpotlight] + !$EXP[HomeIsClassic] + !$EXP[HomeIsModern]</visible>
             <animation effect="fade" start="100" end="75" time="200" condition="Player.HasVideo + Skin.HasSetting(global.showvideo) | Player.HasAudio + Skin.HasSetting(global.showvisualisation)">Conditional</animation>
         </control>
+        
+        <control type="videowindow">
+            <visible>$EXP[AutoTrailerIsPlaying]</visible>
+            <width>1280</width>
+            <height>720</height>
+            <right>0</right>
+            <top>0</top>
+        </control>
+        <control type="image" description="Background">
+            <visible>$EXP[AutoTrailerIsPlaying]</visible>
+            <include>Dimensions_Fullscreen</include>
+            <texture colordiffuse="Background">common/trailerwindow.png</texture>
+        </control>
 
         <!-- Global Fanart -->
         <control type="multiimage" description="Fanart">
@@ -699,6 +712,7 @@
             <imagepath background="true">$VAR[GlobalFanart]</imagepath>
             <animation effect="zoom" start="110" end="120" center="auto" time="10000" tween="sine" easing="inout" pulse="true" condition="Skin.HasSetting(Fanart.Animate)">Conditional</animation>
             <animation effect="slide" start="-20,-20" end="20,20" time="6000" tween="sine" easing="inout" pulse="true" condition="Skin.HasSetting(Fanart.Animate)">Conditional</animation>
+            <include>Animation.AutoTrailer.FadeOut.Background</include>
         </control>
 
         <!-- BLUR Global Fanart -->
@@ -737,6 +751,7 @@
             <include condition="Skin.HasSetting(BlurOnHome)">ImagePathBlurLitebox</include>
             <animation effect="zoom" start="110" end="120" center="auto" time="10000" tween="sine" easing="inout" pulse="true" condition="Skin.HasSetting(Fanart.Animate)">Conditional</animation>
             <animation effect="slide" start="-20,-20" end="20,20" time="6000" tween="sine" easing="inout" pulse="true" condition="Skin.HasSetting(Fanart.Animate)">Conditional</animation>
+            <include>Animation.AutoTrailer.FadeOut.Background</include>
         </control>
 
         <!-- Fallback -->
@@ -750,6 +765,7 @@
             <texture background="true">$INFO[Skin.String(fanart.fallback)]</texture>
             <animation effect="zoom" start="110" end="120" center="auto" time="10000" tween="sine" easing="inout" pulse="true" condition="Skin.HasSetting(Fanart.Animate)">Conditional</animation>
             <animation effect="slide" start="-20,-20" end="20,20" time="6000" tween="sine" easing="inout" pulse="true" condition="Skin.HasSetting(Fanart.Animate)">Conditional</animation>
+            <include>Animation.AutoTrailer.FadeOut.Background</include>
         </control>
 
         <!-- Netflix Preview Window -->
@@ -776,41 +792,21 @@
             <include condition="!Skin.HasSetting(homemenu.netflix.preview.fullscreen)">NetflixPreviewWindow</include>
             <animation effect="zoom" start="110" end="120" center="auto" time="10000" tween="sine" easing="inout" pulse="true" condition="Skin.HasSetting(Fanart.Animate)">Conditional</animation>
             <animation effect="slide" start="-20,-20" end="20,20" time="6000" tween="sine" easing="inout" pulse="true" condition="Skin.HasSetting(Fanart.Animate)">Conditional</animation>
+            <include>Animation.AutoTrailer.FadeOut.Background</include>
         </control>
         <control type="image" description="FanartOverlay">
             <visible>!Skin.HasSetting(homemenu.clean.flix) + [!$EXP[HomeIsSpotlight] + !$EXP[HomeIsClassic] + !$EXP[HomeIsModern]] | !Window.IsVisible(Home.xml)</visible>
             <include>Dimensions_Fullscreen</include>
             <include condition="!Skin.HasSetting(home.vertical)">Animation.FadeFromHome</include>
             <texture colordiffuse="FloorFade">common/floor.png</texture>
+            <include>Animation.AutoTrailer.FadeOut.Background</include>
         </control>
         <control type="image" description="FanartOverlay">
             <visible>Skin.HasSetting(homemenu.clean.flix) + Window.IsVisible(Home.xml)</visible>
             <include>Dimensions_Fullscreen</include>
             <include condition="!Skin.HasSetting(home.vertical)">Animation.FadeFromHome</include>
             <texture colordiffuse="FloorFade">common/floor2.png</texture>
-        </control>
-        
-        <!-- Trailer Window -->
-        <control type="image" description="Background">
-            <visible>$EXP[AutoTrailerIsPlaying]</visible>
-            <include>Dimensions_Fullscreen</include>
-            <texture colordiffuse="Background">common/bg.jpg</texture>
-            <animation effect="fade" end="0" start="100" time="500">Hidden</animation>
-            <animation effect="fade" end="100" start="0" time="500">Visible</animation>
-        </control>
-        <control type="videowindow">
-            <visible>$EXP[AutoTrailerIsPlaying]</visible>
-            <width>1280</width>
-            <height>720</height>
-            <right>0</right>
-            <top>0</top>
-        </control>
-        <control type="image" description="Background">
-            <visible>$EXP[AutoTrailerIsPlaying]</visible>
-            <include>Dimensions_Fullscreen</include>
-            <texture colordiffuse="Background">common/trailerwindow.png</texture>
-            <animation effect="fade" end="0" start="100" time="500">Hidden</animation>
-            <animation effect="fade" end="100" start="0" time="0">Visible</animation>
+            <include>Animation.AutoTrailer.FadeOut.Background</include>
         </control>
     </include>
 
@@ -2948,15 +2944,21 @@
             <visible>false</visible>
             
             <!-- Reset Last Trailer Path -->
-            <onfocus condition="Skin.HasSetting(home.netflix.autoplay.trailer) + !Player.HasMedia + !String.IsEqual(Skin.String(TrailerPath),ListItem.Trailer)">Skin.Reset(TrailerPath)</onfocus> 
+            <onfocus condition="Skin.HasSetting(home.netflix.autoplay.trailer) + !Player.HasMedia + !String.IsEqual(Skin.String(TrailerPath),ListItem.Trailer)">Skin.Reset(TrailerPath)</onfocus>
             
-            <!-- Set Trailer Path and Start -->           
+            <!-- Set Trailer Path and Start -->
+            <onfocus condition="Skin.HasSetting(home.netflix.autoplay.trailer) + !String.IsEmpty(ListItem.Trailer) + !Player.HasMedia + !String.IsEqual(Skin.String(TrailerPath),ListItem.Trailer)">AlarmClock(SetAutoTrailerControlStartBackgroundFade,SetProperty(TrailerFade,1,home),00:04,silent)</onfocus>
+                       
             <onfocus condition="Skin.HasSetting(home.netflix.autoplay.trailer) + !String.IsEmpty(ListItem.Trailer) + !Player.HasMedia + !String.IsEqual(Skin.String(TrailerPath),ListItem.Trailer)">AlarmClock(SetAutoTrailerControlSetTrailerPath,Skin.SetString(TrailerPath,$INFO[ListItem.Trailer]),00:05,silent)</onfocus>
             <onfocus condition="Skin.HasSetting(home.netflix.autoplay.trailer) + !String.IsEmpty(ListItem.Trailer) + !Player.HasMedia + !String.IsEqual(Skin.String(TrailerPath),ListItem.Trailer)">AlarmClock(SetAutoTrailerControlStartTrailer,PlayMedia($ESCINFO[ListItem.Trailer],1),00:05,silent)</onfocus>
             
             <!-- Cancel Alarm On Unfocus -->
             <onunfocus condition="Skin.HasSetting(home.netflix.autoplay.trailer)">CancelAlarm(SetAutoTrailerControlStartTrailer,true)</onunfocus>
             <onunfocus condition="Skin.HasSetting(home.netflix.autoplay.trailer)">CancelAlarm(SetAutoTrailerControlSetTrailerPath,true)</onunfocus>
+            <onunfocus condition="Skin.HasSetting(home.netflix.autoplay.trailer)">CancelAlarm(SetAutoTrailerControlStartBackgroundFade,true)</onunfocus>
+            
+            <!-- FadeIn Background On Unfocus -->
+            <onunfocus condition="Skin.HasSetting(home.netflix.autoplay.trailer)">ClearProperty(TrailerFade,home)</onunfocus>
         </control>
     </include>
 
