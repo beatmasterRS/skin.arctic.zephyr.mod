@@ -81,6 +81,11 @@
     <expression name="HasHomemenuAutoSlideOutAnimation">Skin.HasSetting(homemenu.slide) + [[$EXP[HomeIsModernMultiWidgets] + !Skin.HasSetting(homemenu.clean.flix)] | [$EXP[HomeIsVerticalMultiWidgets] + !Skin.HasSetting(homemenu.vertical.noslide)]]</expression>
 
     <expression name="AutoTrailerIsPlaying">[[Window.IsVisible(Home.xml) + [$EXP[HomeIsModernMultiWidgetsNetflix] | $EXP[HomeIsVerticalMultiWidgetsNetflix]]] | Control.IsVisible(521) | Control.IsVisible(522) | Control.IsVisible(510)] + !Window.IsVisible(DialogVideoInfo.xml) + Skin.HasSetting(home.netflix.autoplay.trailer) + Player.HasMedia + String.IsEqual(Skin.String(TrailerPath2),Player.FileNameAndPath)</expression>
+    <expression name="TrailerIsReadyAutoStop">Skin.HasSetting(trailer.stop.onunfocus) + !String.IsEmpty(ListItem.Trailer) + !String.IsEqual(Skin.String(TrailerPath),ListItem.Trailer)</expression>
+    <expression name="TrailerIsReady">!Skin.HasSetting(trailer.stop.onunfocus) + !String.IsEmpty(ListItem.Trailer) + !Player.HasMedia + !String.IsEqual(Skin.String(TrailerPath),ListItem.Trailer)</expression>
+    <expression name="TrailerIsPlaying">String.IsEqual(Skin.String(TrailerPath2),Player.FileNameAndPath) + !String.IsEmpty(Player.FileNameAndPath)</expression>
+    <expression name="TrailerSettingIsAutoStop">Skin.HasSetting(home.netflix.autoplay.trailer) + Skin.HasSetting(trailer.stop.onunfocus)</expression>
+
     <expression name="IsAudioCodecATMOS">
         String.Contains(ListItem.FileNameAndPath,.atmos.) | String.Contains(ListItem.FileNameAndPath,.atmos-)
         | [VideoPlayer.IsFullscreen + [String.Contains(Player.FileNameAndPath,.atmos.) | String.Contains(Player.FileNameAndPath,.atmos-)]]
@@ -2952,33 +2957,40 @@
             <onfocus condition="!Player.HasMedia + !String.IsEqual(Skin.String(TrailerPath),ListItem.Trailer)">Skin.Reset(TrailerPath)</onfocus>
             
             
+            <!-- Dont Stop Playback On Unfocus Setting -->
+            <!-- Set Trailer Window -->
+            <onfocus condition="!Skin.HasSetting(trailer.stop.onunfocus) + Window.IsVisible(MyVideoNav.xml) + !String.IsEmpty(ListItem.Trailer) + !Player.HasMedia + !String.IsEqual(Skin.String(TrailerPath),ListItem.Trailer)">AlarmClock(SetAutoTrailerControlSetTrailerWindow,Skin.SetString(TrailerWindow,myvideonav),00:0$INFO[Skin.String(NetflixTrailerDelay)],silent)</onfocus>
+            
             <!-- Start Background Fade -->
-            <onfocus condition="!Skin.HasSetting(trailer.stop.onunfocus) + !String.IsEmpty(ListItem.Trailer) + !Player.HasMedia + !String.IsEqual(Skin.String(TrailerPath),ListItem.Trailer)">AlarmClock(SetAutoTrailerControlStartBackgroundFade,SetProperty(TrailerFade,1,home),00:0$INFO[Skin.String(NetflixTrailerDelay)],silent)</onfocus>
+            <onfocus condition="$EXP[TrailerIsReady]">AlarmClock(SetAutoTrailerControlStartBackgroundFade,SetProperty(TrailerFade,1,home),00:0$INFO[Skin.String(NetflixTrailerDelay)],silent)</onfocus>
             
             <!-- Set Trailer Path -->
-            <onfocus condition="!Skin.HasSetting(trailer.stop.onunfocus) + !String.IsEmpty(ListItem.Trailer) + !Player.HasMedia + !String.IsEqual(Skin.String(TrailerPath),ListItem.Trailer)">AlarmClock(SetAutoTrailerControlSetTrailerPath,Skin.SetString(TrailerPath,$INFO[ListItem.Trailer]),00:0$INFO[Skin.String(NetflixTrailerDelay)],silent)</onfocus>
-            <onfocus condition="!Skin.HasSetting(trailer.stop.onunfocus) + !String.IsEmpty(ListItem.Trailer) + !Player.HasMedia + !String.IsEqual(Skin.String(TrailerPath),ListItem.Trailer)">AlarmClock(SetAutoTrailerControlSetTrailerPath2,Skin.SetString(TrailerPath2,$INFO[ListItem.Trailer]),00:0$INFO[Skin.String(NetflixTrailerDelay)],silent)</onfocus>
+            <onfocus condition="$EXP[TrailerIsReady]">AlarmClock(SetAutoTrailerControlSetTrailerPath,Skin.SetString(TrailerPath,$INFO[ListItem.Trailer]),00:0$INFO[Skin.String(NetflixTrailerDelay)],silent)</onfocus>
+            <onfocus condition="$EXP[TrailerIsReady]">AlarmClock(SetAutoTrailerControlSetTrailerPath2,Skin.SetString(TrailerPath2,$INFO[ListItem.Trailer]),00:0$INFO[Skin.String(NetflixTrailerDelay)],silent)</onfocus>
             
             <!-- Start Trailer -->
-            <onfocus condition="!Skin.HasSetting(trailer.stop.onunfocus) + !String.IsEmpty(ListItem.Trailer) + !Player.HasMedia + !String.IsEqual(Skin.String(TrailerPath),ListItem.Trailer)">AlarmClock(SetAutoTrailerControlStartTrailer,PlayMedia($ESCINFO[ListItem.Trailer],1),00:0$INFO[Skin.String(NetflixTrailerDelay)],silent)</onfocus>
+            <onfocus condition="$EXP[TrailerIsReady]">AlarmClock(SetAutoTrailerControlStartTrailer,PlayMedia($ESCINFO[ListItem.Trailer],1),00:0$INFO[Skin.String(NetflixTrailerDelay)],silent)</onfocus>
             
             
-            <!-- Stop Playback On Unfocus -->
+            <!-- Stop Playback On Unfocus Setting -->
+            <!-- Set Trailer Window -->
+            <onfocus condition="Skin.HasSetting(trailer.stop.onunfocus) + Window.IsVisible(MyVideoNav.xml) + !String.IsEmpty(ListItem.Trailer) + !String.IsEqual(Skin.String(TrailerPath),ListItem.Trailer)">AlarmClock(SetAutoTrailerControlSetTrailerWindow,Skin.SetString(TrailerWindow,myvideonav),00:0$INFO[Skin.String(NetflixTrailerDelay)],silent)</onfocus>
+            
             <!-- Start Background Fade -->
-            <onfocus condition="Skin.HasSetting(trailer.stop.onunfocus) + !String.IsEmpty(ListItem.Trailer) + !String.IsEqual(Skin.String(TrailerPath),ListItem.Trailer)">AlarmClock(SetAutoTrailerControlStartBackgroundFade,SetProperty(TrailerFade,1,home),00:0$INFO[Skin.String(NetflixTrailerDelay)],silent)</onfocus>
+            <onfocus condition="$EXP[TrailerIsReadyAutoStop]">AlarmClock(SetAutoTrailerControlStartBackgroundFade,SetProperty(TrailerFade,1,home),00:0$INFO[Skin.String(NetflixTrailerDelay)],silent)</onfocus>
             
             <!-- Set Trailer Path -->
-            <onfocus condition="Skin.HasSetting(trailer.stop.onunfocus) + !String.IsEmpty(ListItem.Trailer) + !String.IsEqual(Skin.String(TrailerPath),ListItem.Trailer)">AlarmClock(SetAutoTrailerControlSetTrailerPath,Skin.SetString(TrailerPath,$INFO[ListItem.Trailer]),00:0$INFO[Skin.String(NetflixTrailerDelay)],silent)</onfocus>
-            <onfocus condition="Skin.HasSetting(trailer.stop.onunfocus) + !String.IsEmpty(ListItem.Trailer) + !String.IsEqual(Skin.String(TrailerPath),ListItem.Trailer)">AlarmClock(SetAutoTrailerControlSetTrailerPath2,Skin.SetString(TrailerPath2,$INFO[ListItem.Trailer]),00:0$INFO[Skin.String(NetflixTrailerDelay)],silent)</onfocus>
+            <onfocus condition="$EXP[TrailerIsReadyAutoStop]">AlarmClock(SetAutoTrailerControlSetTrailerPath,Skin.SetString(TrailerPath,$INFO[ListItem.Trailer]),00:0$INFO[Skin.String(NetflixTrailerDelay)],silent)</onfocus>
+            <onfocus condition="$EXP[TrailerIsReadyAutoStop]">AlarmClock(SetAutoTrailerControlSetTrailerPath2,Skin.SetString(TrailerPath2,$INFO[ListItem.Trailer]),00:0$INFO[Skin.String(NetflixTrailerDelay)],silent)</onfocus>
             
             <!-- Start Trailer -->
-            <onfocus condition="Skin.HasSetting(trailer.stop.onunfocus) + !String.IsEmpty(ListItem.Trailer) + !String.IsEqual(Skin.String(TrailerPath),ListItem.Trailer)">AlarmClock(SetAutoTrailerControlStartTrailer,PlayMedia($ESCINFO[ListItem.Trailer],1),00:0$INFO[Skin.String(NetflixTrailerDelay)],silent)</onfocus>
+            <onfocus condition="$EXP[TrailerIsReadyAutoStop]">AlarmClock(SetAutoTrailerControlStartTrailer,PlayMedia($ESCINFO[ListItem.Trailer],1),00:0$INFO[Skin.String(NetflixTrailerDelay)],silent)</onfocus>
             
             <!-- Stop Playback On Unfocus -->
-            <onunfocus condition="Skin.HasSetting(trailer.stop.onunfocus)">Skin.Reset(TrailerPath)</onunfocus>
-            <onunfocus condition="Skin.HasSetting(trailer.stop.onunfocus)">Skin.Reset(TrailerPath2)</onunfocus>
-            <onunfocus condition="Skin.HasSetting(trailer.stop.onunfocus)">ClearProperty(TrailerFade,home)</onunfocus>
-            <onunfocus condition="Skin.HasSetting(trailer.stop.onunfocus)">Stop</onunfocus>
+            <onunfocus condition="$EXP[TrailerSettingIsAutoStop]">Skin.Reset(TrailerPath)</onunfocus>
+            <onunfocus condition="$EXP[TrailerSettingIsAutoStop]">Skin.Reset(TrailerPath2)</onunfocus>
+            <onunfocus condition="$EXP[TrailerSettingIsAutoStop]">ClearProperty(TrailerFade,home)</onunfocus>
+            <onunfocus condition="$EXP[TrailerSettingIsAutoStop]">Stop</onunfocus>
 
 
             <!-- Cancel Alarm On Unfocus -->
