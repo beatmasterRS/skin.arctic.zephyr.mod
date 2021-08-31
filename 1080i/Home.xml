@@ -12,14 +12,6 @@
     <onunload>ClearProperty(TMDbHelper.WidgetContainer,home)</onunload>
     <onload condition="!$EXP[HomeIsModernMultiWidgets] + !$EXP[HomeIsVerticalMultiWidgets]">SetProperty(TMDbHelper.WidgetContainer,301,home)</onload>
     <onload condition="System.AddonIsEnabled(script.favourites)">RunScript(script.favourites)</onload>
-    
-    <!-- Auto Trailers -->
-    <onunload>CancelAlarm(SetAutoTrailerControlStartTrailer,true)</onunload>
-    <onunload>CancelAlarm(SetAutoTrailerControlSetTrailerPath,true)</onunload>
-    <onunload>CancelAlarm(SetAutoTrailerControlStartBackgroundFade,true)</onunload>
-    <onload condition="$EXP[TrailerSettingIsAutoStop]">Skin.Reset(TrailerPath)</onload>
-    <onload condition="$EXP[TrailerSettingIsAutoStop] + $EXP[TrailerIsPlaying] + String.IsEqual(Skin.String(TrailerWindow),myvideonav)">Stop</onload>
-    <onload>Skin.Reset(TrailerWindow)</onload>
     <controls>
         <include>GlobalBackground</include>
 
@@ -87,11 +79,11 @@
             <label fallback="19055">$INFO[Window(home).Property(LastId)]</label>
         </control>-->
         <control type="group">
-            <visible>Skin.HasSetting(home.netflix.autoplay.trailer) + Skin.HasSetting(DebugInfo) + Skin.HasSetting(DebugInfo.extended) + Window.IsVisible(Home.xml) + [$EXP[HomeIsModernMultiWidgetsNetflix] | $EXP[HomeIsVerticalMultiWidgetsNetflix]]</visible>
+            <visible>Skin.HasSetting(home.netflix.autoplay.trailer) + Skin.HasSetting(DebugInfo) + Skin.HasSetting(DebugInfo.extended) + [$EXP[HomeIsModernMultiWidgetsNetflix] | $EXP[HomeIsVerticalMultiWidgetsNetflix]]</visible>
             <control type="image">
-                <bottom>580</bottom>
+                <bottom>550</bottom>
                 <width>100%</width>
-                <height>200</height>
+                <height>230</height>
                 <texture colordiffuse="B3202020">common/white.png</texture>
             </control>        
             <control type="grouplist">
@@ -106,13 +98,11 @@
                     <font>Tiny</font>
                     <textcolor>FFFFFFFF</textcolor>
                     <label fallback="19055">ListItem $LOCALIZE[20410]: $INFO[ListItem.Trailer]</label>
-                    <visible>!String.IsEmpty(ListItem.Trailer)</visible>
                 </control>
                 <control type="label">
                     <font>Tiny</font>
                     <textcolor>FFFFFFFF</textcolor>
-                    <label fallback="19055">ListItem $LOCALIZE[20410]: no trailer available</label>
-                    <visible>String.IsEmpty(ListItem.Trailer)</visible>
+                    <label fallback="19055">Property: $INFO[Window(home).Property(listitem.trailer)]</label>
                 </control>
                 <control type="label">
                     <font>Tiny</font>
@@ -139,13 +129,13 @@
                     <font>Tiny</font>
                     <textcolor>FFFFFFFF</textcolor>
                     <label fallback="19055">$LOCALIZE[20410] $LOCALIZE[126]: should start in [B]$VAR[NetflixTrailerDelayLabel][/B] seconds, if focused</label>
-                    <visible>$EXP[TrailerIsReadyAutoStop] | $EXP[TrailerIsReady]</visible>
+                    <visible>$EXP[TrailerIsReady]</visible>
                 </control>
                 <control type="label">
                     <font>Tiny</font>
                     <textcolor>FFFFFFFF</textcolor>
                     <label fallback="19055">$LOCALIZE[20410] $LOCALIZE[126]: pending</label>
-                    <visible>!$EXP[TrailerIsReadyAutoStop] + !$EXP[TrailerIsReady] + !$EXP[TrailerIsPlaying]</visible>
+                    <visible>!$EXP[TrailerIsReady] + !$EXP[TrailerIsPlaying]</visible>
                 </control>
             </control>
         </control>
