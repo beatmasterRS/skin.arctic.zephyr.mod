@@ -80,13 +80,13 @@
     <expression name="Widget6Enabled">String.IsEqual(Container(300).ListItem.Property(widgetEnable.6),yes)</expression>
     <expression name="HasHomemenuAutoSlideOutAnimation">Skin.HasSetting(homemenu.slide) + [[$EXP[HomeIsModernMultiWidgets] + !Skin.HasSetting(homemenu.clean.flix)] | [$EXP[HomeIsVerticalMultiWidgets] + !Skin.HasSetting(homemenu.vertical.noslide)]]</expression>
 
-    <expression name="AutoTrailerIsPlaying">[[Window.IsVisible(Home.xml) + [$EXP[HomeIsModernMultiWidgetsNetflix] | $EXP[HomeIsVerticalMultiWidgetsNetflix]]] | Control.IsVisible(521) | Control.IsVisible(522) | Control.IsVisible(510)] + !Window.IsVisible(DialogVideoInfo.xml) + Skin.HasSetting(home.netflix.autoplay.trailer) + String.IsEqual(Skin.String(TrailerPath2),Player.FileNameAndPath) + !String.IsEmpty(Player.FileNameAndPath)</expression>
+    <expression name="AutoTrailerIsPlaying">[[Window.IsVisible(Home.xml) + [$EXP[HomeIsModernMultiWidgetsNetflix] | $EXP[HomeIsVerticalMultiWidgetsNetflix]]] | Control.IsVisible(521) | Control.IsVisible(522) | Control.IsVisible(510)] + !Window.IsVisible(DialogVideoInfo.xml) + Skin.HasSetting(home.netflix.autoplay.trailer) + String.IsEqual(Window(home).Property(TrailerPath2),Player.FileNameAndPath) + !String.IsEmpty(Player.FileNameAndPath)</expression>
 
-    <expression name="TrailerIsReady">!Player.HasMedia + !String.IsEmpty(Window(home).Property(listitem.trailer)) + !Window.IsVisible(DialogContextMenu.xml) + !Window.IsVisible(DialogVideoInfo.xml) + !String.IsEqual(Skin.String(TrailerPath),Window(home).Property(listitem.trailer)) + !String.IsEmpty(Window(home).Property(listitem.trailer))</expression>
+    <expression name="TrailerIsReady">!Player.HasMedia + !String.IsEmpty(Window(home).Property(listitem.trailer)) + !Window.IsVisible(DialogContextMenu.xml) + !Window.IsVisible(DialogVideoInfo.xml) + !String.IsEqual(Window(home).Property(TrailerPath),Window(home).Property(listitem.trailer)) + !String.IsEmpty(Window(home).Property(listitem.trailer))</expression>
     
-    <expression name="TrailerWaitingForPlayer">!String.IsEmpty(Skin.String(TrailerPath2)) + !String.IsEmpty(Skin.String(TrailerPath)) + String.IsEmpty(Player.FileNameAndPath)</expression>
+    <expression name="TrailerWaitingForPlayer">!String.IsEmpty(Window(home).Property(TrailerPath2)) + !String.IsEmpty(Window(home).Property(TrailerPath)) + String.IsEmpty(Player.FileNameAndPath)</expression>
     
-    <expression name="TrailerIsPlaying">String.IsEqual(Skin.String(TrailerPath2),Player.FileNameAndPath) + !String.IsEmpty(Player.FileNameAndPath)</expression>
+    <expression name="TrailerIsPlaying">String.IsEqual(Window(home).Property(TrailerPath2),Player.FileNameAndPath) + !String.IsEmpty(Player.FileNameAndPath)</expression>
 
     <expression name="IsAudioCodecATMOS">
         String.Contains(ListItem.FileNameAndPath,.atmos.) | String.Contains(ListItem.FileNameAndPath,.atmos-)
@@ -2959,7 +2959,7 @@
             <onfocus>SetProperty(listitem.trailer,$INFO[ListItem.Trailer],home)</onfocus>
             
             <!-- Reset / Stop On Unfocus-->
-            <onunfocus>Skin.Reset(TrailerPath)</onunfocus>
+            <onunfocus>ClearProperty(TrailerPath,home)</onunfocus>
             <onunfocus condition="$EXP[TrailerIsPlaying] + !Skin.HasSetting(trailer.dont.stop.on.unfocus)">Stop</onunfocus>
         </control>
     </include>
