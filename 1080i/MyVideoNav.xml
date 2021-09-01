@@ -5,8 +5,8 @@
     <menucontrol>9000</menucontrol>
     <views>50,550,501,507,509,510,511,512,513,504,56,57,53,55,555,59,54,51,58,52,500,514,515,516,517,519,520,521,522,524,526,527</views>
     <onload condition="System.AddonIsEnabled(script.skin.info.service) + String.IsEmpty(Window(home).Property(skininfos_daemon_running))">RunScript(script.skin.info.service)</onload>
-    <onunload condition="$EXP[TrailerIsPlaying]">Skin.Reset(TrailerPath)</onunload>
-    <onunload condition="$EXP[TrailerIsPlaying]">Stop</onunload>
+    <onunload condition="$EXP[TrailerIsPlaying] + !Skin.HasSetting(trailer.stop.onunfocus)">Skin.Reset(TrailerPath)</onunload>
+    <onunload condition="$EXP[TrailerIsPlaying] + !Skin.HasSetting(trailer.stop.onunfocus)">Stop</onunload>
     <controls>
         <include>GlobalBackground</include>
         <include>View_550_List</include>
@@ -799,12 +799,14 @@
                 <include>ControlButtons</include>
             </control>
         </control>
+        
+        <!-- Debugging -->
         <control type="group">
             <visible>Skin.HasSetting(home.netflix.autoplay.trailer) + Skin.HasSetting(DebugInfo) + Skin.HasSetting(DebugInfo.extended) + [Control.IsVisible(521) | Control.IsVisible(522) | Control.IsVisible(510)]</visible>
             <control type="image">
-                <bottom>550</bottom>
+                <bottom>530</bottom>
                 <width>100%</width>
-                <height>230</height>
+                <height>250</height>
                 <texture colordiffuse="B3202020">common/white.png</texture>
             </control>
             <control type="grouplist">
@@ -819,6 +821,13 @@
                     <font>Tiny</font>
                     <textcolor>FFFFFFFF</textcolor>
                     <label fallback="19055">ListItem $LOCALIZE[20410]: $INFO[ListItem.Trailer]</label>
+                    <visible>!String.IsEmpty(ListItem.Trailer)</visible>
+                </control>
+                <control type="label">
+                    <font>Tiny</font>
+                    <textcolor>FFFFFFFF</textcolor>
+                    <label fallback="19055">ListItem $LOCALIZE[20410]: no trailer available</label>
+                    <visible>String.IsEmpty(ListItem.Trailer)</visible>
                 </control>
                 <control type="label">
                     <font>Tiny</font>
@@ -828,17 +837,29 @@
                 <control type="label">
                     <font>Tiny</font>
                     <textcolor>FFFFFFFF</textcolor>
-                    <label fallback="19055">$LOCALIZE[20410] $LOCALIZE[573]: $INFO[Skin.String(TrailerPath)]</label>
+                    <label fallback="19055">$LOCALIZE[20410] $LOCALIZE[573] (last): $INFO[Skin.String(TrailerPath)]</label>
                 </control>
                 <control type="label">
                     <font>Tiny</font>
                     <textcolor>FFFFFFFF</textcolor>
-                    <label fallback="19055">$LOCALIZE[20410] $LOCALIZE[573] 2: $INFO[Skin.String(TrailerPath2)]</label>
+                    <label fallback="19055">$LOCALIZE[20410] $LOCALIZE[573] (current): $INFO[Skin.String(TrailerPath2)]</label>
                 </control>
                 <control type="label">
                     <font>Tiny</font>
                     <textcolor>FFFFFFFF</textcolor>
-                    <label fallback="19055">$LOCALIZE[14200] $LOCALIZE[573]: $INFO[Player.FileNameAndPath]</label>
+                    <label fallback="19055">$LOCALIZE[14200] $LOCALIZE[573] (current): $INFO[Player.FileNameAndPath]</label>
+                </control>                
+                <control type="label">
+                    <font>Tiny</font>
+                    <textcolor>FFFFFFFF</textcolor>
+                    <label fallback="19055">Background Helper: darken</label>
+                    <visible>!String.IsEmpty(Window(home).Property(TrailerFade))</visible>
+                </control>                
+                <control type="label">
+                    <font>Tiny</font>
+                    <textcolor>FFFFFFFF</textcolor>
+                    <label fallback="19055">Background Helper: normal</label>
+                    <visible>String.IsEmpty(Window(home).Property(TrailerFade))</visible>
                 </control>
                 <control type="label">
                     <font>Tiny</font>
@@ -855,8 +876,14 @@
                 <control type="label">
                     <font>Tiny</font>
                     <textcolor>FFFFFFFF</textcolor>
+                    <label fallback="19055">$LOCALIZE[20410] $LOCALIZE[126]: waiting for player</label>
+                    <visible>$EXP[TrailerWaitingForPlayer]</visible>
+                </control>
+                <control type="label">
+                    <font>Tiny</font>
+                    <textcolor>FFFFFFFF</textcolor>
                     <label fallback="19055">$LOCALIZE[20410] $LOCALIZE[126]: pending</label>
-                    <visible>!$EXP[TrailerIsReady] + !$EXP[TrailerIsPlaying]</visible>
+                    <visible>!$EXP[TrailerIsReady] + !$EXP[TrailerIsPlaying] + !$EXP[TrailerWaitingForPlayer]</visible>
                 </control>
             </control>
         </control>

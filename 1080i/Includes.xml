@@ -84,6 +84,8 @@
 
     <expression name="TrailerIsReady">!Player.HasMedia + !String.IsEmpty(Window(home).Property(listitem.trailer)) + !Window.IsVisible(DialogContextMenu.xml) + !Window.IsVisible(DialogVideoInfo.xml) + !String.IsEqual(Skin.String(TrailerPath),Window(home).Property(listitem.trailer)) + !String.IsEmpty(Window(home).Property(listitem.trailer))</expression>
     
+    <expression name="TrailerWaitingForPlayer">!String.IsEmpty(Skin.String(TrailerPath2)) + !String.IsEmpty(Skin.String(TrailerPath)) + String.IsEmpty(Player.FileNameAndPath)</expression>
+    
     <expression name="TrailerIsPlaying">String.IsEqual(Skin.String(TrailerPath2),Player.FileNameAndPath) + !String.IsEmpty(Player.FileNameAndPath)</expression>
 
     <expression name="IsAudioCodecATMOS">
@@ -2958,7 +2960,7 @@
             
             <!-- Reset / Stop On Unfocus-->
             <onunfocus>Skin.Reset(TrailerPath)</onunfocus>
-            <onunfocus condition="$EXP[TrailerIsPlaying]">Stop</onunfocus>
+            <onunfocus condition="$EXP[TrailerIsPlaying] + !Skin.HasSetting(trailer.stop.onunfocus)">Stop</onunfocus>
         </control>
     </include>
 
