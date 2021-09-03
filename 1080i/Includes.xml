@@ -618,6 +618,43 @@
             <include>Dimensions_Fullscreen</include>
         </control>
     </include>
+    
+    <include name="TrailerWindowNormal">
+        <control type="videowindow">
+            <visible>$EXP[AutoTrailerIsPlaying]</visible>
+            <width>1280</width>
+            <height>720</height>
+            <right>0</right>
+            <top>0</top>
+            <animation type="WindowClose" reversible="false">
+                <effect type="zoom" center="auto" start="100" end="0" time="0" />
+            </animation>
+        </control>
+        <control type="image" description="Background">
+            <visible>$EXP[AutoTrailerIsPlaying]</visible>
+            <include>Dimensions_Fullscreen</include>
+            <texture colordiffuse="Background">common/trailerwindow.png</texture>
+        </control>
+    </include>
+    
+    <include name="TrailerWindowZoom">
+        <control type="videowindow">
+            <visible>$EXP[AutoTrailerIsPlaying]</visible>
+            <width>1333</width>
+            <height>750</height>
+            <right>0</right>
+            <top>-95</top>
+            <animation type="WindowClose" reversible="false">
+                <effect type="zoom" center="auto" start="100" end="0" time="0" />
+            </animation>
+        </control>
+        <control type="image" description="Background">
+            <visible>$EXP[AutoTrailerIsPlaying]</visible>
+            <top>-95</top>
+            <include>Dimensions_Fullscreen</include>
+            <texture colordiffuse="Background">common/trailerwindow.png</texture>
+        </control>
+    </include>
 
     <include name="GlobalBackground">
         <control type="multiimage" id="7975">
@@ -693,21 +730,8 @@
         </control>
         
         <!-- Trailer Window Home -->
-        <control type="videowindow">
-            <visible>$EXP[AutoTrailerIsPlaying]</visible>
-            <width>1280</width>
-            <height>720</height>
-            <right>0</right>
-            <top>0</top>
-            <animation type="WindowClose" reversible="false">
-                <effect type="zoom" center="auto" start="100" end="0" time="0" />
-            </animation>
-        </control>
-        <control type="image" description="Background">
-            <visible>$EXP[AutoTrailerIsPlaying]</visible>
-            <include>Dimensions_Fullscreen</include>
-            <texture colordiffuse="Background">common/trailerwindow.png</texture>
-        </control>
+        <include condition="!Skin.HasSetting(home.netflix.autoplay.trailer.zoom)">TrailerWindowNormal</include>
+        <include condition="Skin.HasSetting(home.netflix.autoplay.trailer.zoom)">TrailerWindowZoom</include>
 
         <!-- Global Fanart -->
         <control type="multiimage" description="Fanart">
