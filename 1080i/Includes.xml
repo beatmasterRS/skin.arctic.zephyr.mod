@@ -2958,9 +2958,12 @@
             <!-- Set Property / Skin String -->
             <onfocus>SetProperty(listitem.trailer,$INFO[ListItem.Trailer],home)</onfocus>
             
-            <!-- Reset / Stop On Unfocus-->
-            <onunfocus>ClearProperty(TrailerPath,home)</onunfocus>
-            <onunfocus condition="$EXP[TrailerIsPlaying] + !Skin.HasSetting(trailer.dont.stop.on.unfocus)">Stop</onunfocus>
+            <!-- Reset / Stop On Unfocus -->
+            <onunfocus condition="String.IsEmpty(Window(home).Property(TrailerIsPlayingFullscreen))">ClearProperty(TrailerPath,home)</onunfocus>
+            <onunfocus condition="$EXP[TrailerIsPlaying] + !Skin.HasSetting(trailer.dont.stop.on.unfocus) + String.IsEmpty(Window(home).Property(TrailerIsPlayingFullscreen))">Stop</onunfocus>
+            
+            <!-- Reset Fullscreen Property -->
+            <onunfocus condition="!String.IsEmpty(Window(home).Property(TrailerIsPlayingFullscreen))">ClearProperty(TrailerIsPlayingFullscreen,home)</onunfocus>
         </control>
     </include>
 
