@@ -637,20 +637,22 @@
         </control>
     </include>
     
-    <include name="TrailerWindowZoom">
+    <include name="TrailerWindowCustom">
         <control type="videowindow">
             <visible>$EXP[AutoTrailerIsPlaying]</visible>
-            <width>1333</width>
-            <height>750</height>
+            <width>1316</width>
+            <height>740</height>
             <right>0</right>
-            <top>-95</top>
+            <top>0</top>
+            <animation effect="slide" start="0,0" end="0,-90" time="0" condition="!String.IsEqual(VideoPlayer.VideoAspect,1.85) + !String.IsEqual(VideoPlayer.VideoAspect,1.66) + !String.IsEqual(VideoPlayer.VideoAspect,1.33) + !String.IsEmptyVideoPlayer.VideoAspect)">Conditional</animation>
             <animation type="WindowClose" reversible="false">
                 <effect type="zoom" center="auto" start="100" end="0" time="0" />
             </animation>
         </control>
         <control type="image" description="Background">
+            <animation effect="slide" start="0,0" end="0,-90" time="0" condition="!String.IsEqual(VideoPlayer.VideoAspect,1.85) + !String.IsEqual(VideoPlayer.VideoAspect,1.66) + !String.IsEqual(VideoPlayer.VideoAspect,1.33) + !String.IsEmptyVideoPlayer.VideoAspect)">Conditional</animation>
             <visible>$EXP[AutoTrailerIsPlaying]</visible>
-            <top>-95</top>
+            <top>0</top>
             <include>Dimensions_Fullscreen</include>
             <texture colordiffuse="Background">common/trailerwindow.png</texture>
         </control>
@@ -730,8 +732,8 @@
         </control>
         
         <!-- Trailer Window Home -->
-        <include condition="!Skin.HasSetting(home.netflix.autoplay.trailer.zoom)">TrailerWindowNormal</include>
-        <include condition="Skin.HasSetting(home.netflix.autoplay.trailer.zoom)">TrailerWindowZoom</include>
+        <include condition="!Skin.HasSetting(home.netflix.autoplay.trailer.custom.window)">TrailerWindowNormal</include>
+        <include condition="Skin.HasSetting(home.netflix.autoplay.trailer.custom.window)">TrailerWindowCustom</include>
 
         <!-- Global Fanart -->
         <control type="multiimage" description="Fanart">
