@@ -83,7 +83,8 @@
     <expression name="TrailerIsReady">[Window.IsVisible(Home.xml) | Window.IsVisible(MyVideoNav.xml)] + !Control.HasFocus(300) + !Player.HasMedia + !String.IsEmpty(Window(home).Property(listitem.trailer)) + !System.HasVisibleModalDialog + !Window.IsVisible(script-globalsearch.xml) + !String.IsEqual(Window(home).Property(TrailerPath),Window(home).Property(listitem.trailer))</expression>    
     <expression name="TrailerWaitingForPlayer">!String.IsEmpty(Window(home).Property(TrailerPath2)) + !String.IsEmpty(Window(home).Property(TrailerPath)) + String.IsEmpty(Player.FileNameAndPath)</expression>    
     <expression name="TrailerIsPlaying">String.IsEqual(Window(home).Property(TrailerPath2),Player.FileNameAndPath) + !String.IsEmpty(Player.FileNameAndPath)</expression>    
-    <expression name="AutoTrailerDebugging">Skin.HasSetting(DebugInfo.extended) + Skin.HasSetting(home.netflix.autoplay.trailer) + Skin.HasSetting(DebugInfo.extended)</expression>
+    <expression name="AutoTrailerDebugging">Skin.HasSetting(DebugInfo.extended) + Skin.HasSetting(home.netflix.autoplay.trailer) + Skin.HasSetting(DebugInfo.extended)</expression>    
+    <expression name="ExtendedNowPlayingIsVisible">Skin.HasSetting(extended.nowplaying) + Player.HasMedia + !ControlGroup(301).HasFocus()</expression>
     <expression name="IsAudioCodecATMOS">
         String.Contains(ListItem.FileNameAndPath,.atmos.) | String.Contains(ListItem.FileNameAndPath,.atmos-)
         | [VideoPlayer.IsFullscreen + [String.Contains(Player.FileNameAndPath,.atmos.) | String.Contains(Player.FileNameAndPath,.atmos-)]]
@@ -615,7 +616,7 @@
     
     <include name="TrailerWindowNormal">
         <control type="videowindow">
-            <visible>$EXP[TrailerWindowIsActive]</visible>
+            <visible>$EXP[TrailerWindowIsActive] + !$EXP[ExtendedNowPlayingIsVisible]</visible>
             <width>1280</width>
             <height>720</height>
             <right>0</right>
@@ -625,7 +626,7 @@
             </animation>
         </control>
         <control type="image" description="Background">
-            <visible>$EXP[TrailerWindowIsActive]</visible>
+            <visible>$EXP[TrailerWindowIsActive] + !$EXP[ExtendedNowPlayingIsVisible]</visible>
             <include>Dimensions_Fullscreen</include>
             <texture colordiffuse="Background">common/trailerwindow.png</texture>
         </control>
@@ -633,7 +634,7 @@
     
     <include name="TrailerWindowCustom">
         <control type="videowindow">
-            <visible>$EXP[TrailerWindowIsActive]</visible>
+            <visible>$EXP[TrailerWindowIsActive] + !$EXP[ExtendedNowPlayingIsVisible]</visible>
             <width>1280</width>
             <height>720</height>
             <right>0</right>
@@ -647,7 +648,7 @@
         <control type="image" description="Background">
             <animation effect="slide" start="0,0" end="0,-50" time="0" condition="String.IsEqual(VideoPlayer.VideoAspect,1.85) + !String.IsEmptyVideoPlayer.VideoAspect)">Conditional</animation>
             <animation effect="slide" start="0,0" end="0,-90" time="0" condition="!String.IsEqual(VideoPlayer.VideoAspect,1.85) + !String.IsEqual(VideoPlayer.VideoAspect,1.78) + !String.IsEqual(VideoPlayer.VideoAspect,1.66) + !String.IsEqual(VideoPlayer.VideoAspect,1.37) + !String.IsEqual(VideoPlayer.VideoAspect,1.33) + !String.IsEmptyVideoPlayer.VideoAspect)">Conditional</animation>
-            <visible>$EXP[TrailerWindowIsActive]</visible>
+            <visible>$EXP[TrailerWindowIsActive] + !$EXP[ExtendedNowPlayingIsVisible]</visible>
             <top>0</top>
             <include>Dimensions_Fullscreen</include>
             <texture colordiffuse="Background">common/trailerwindow.png</texture>
