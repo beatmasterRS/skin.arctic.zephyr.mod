@@ -2,7 +2,7 @@
 <window type="dialog" id="1195">
 
     <!-- Delay -->
-    <visible>Skin.HasSetting(home.netflix.autoplay.trailer) + !System.HasVisibleModalDialog + !Window.IsVisible(script-globalsearch.xml) + !Player.HasMedia + !String.IsEmpty(Window(home).Property(listitem.trailer)) + !Control.HasFocus(300) + [
+    <visible>$EXP[TrailerIsReady] + [
     [String.IsEqual(Skin.String(NetflixTrailerDelay),3) + System.IdleTime(3)]
     |
     [String.IsEqual(Skin.String(NetflixTrailerDelay),5) + System.IdleTime(5)]
@@ -13,13 +13,13 @@
     ]</visible>
     
     <!-- Start Background Fade -->
-    <onload condition="$EXP[TrailerIsReady]">SetProperty(TrailerFade,1,home)</onload>
+    <onload>SetProperty(TrailerFade,1,home)</onload>
     
     <!-- Set Trailer Path -->
-    <onload condition="$EXP[TrailerIsReady]">SetProperty(TrailerPath,$INFO[ListItem.Trailer],home)</onload>
-    <onload condition="$EXP[TrailerIsReady]">SetProperty(TrailerPath2,$INFO[ListItem.Trailer],home)</onload>
+    <onload>SetProperty(TrailerPath,$INFO[ListItem.Trailer],home)</onload>
+    <onload>SetProperty(TrailerPath2,$INFO[ListItem.Trailer],home)</onload>
     
     <!-- Start Trailer -->
-    <onload condition="$EXP[TrailerIsReady]">PlayMedia($ESCINFO[ListItem.Trailer],1)</onload> 
+    <onload>PlayMedia($ESCINFO[ListItem.Trailer],1)</onload> 
     <controls />
 </window>
