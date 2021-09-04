@@ -2,22 +2,22 @@
 <window type="dialog" id="1195">
 
     <!-- Delay -->
-    <visible>Skin.HasSetting(home.netflix.autoplay.trailer) + [Window.IsVisible(Home.xml) | Window.IsVisible(MyVideoNav.xml)] + !Control.HasFocus(300) + !System.HasVisibleModalDialog + !Window.IsVisible(script-globalsearch.xml) + [String.IsEqual(Skin.String(NetflixTrailerDelay),3) + System.IdleTime(3) + !Player.HasMedia + !String.IsEmpty(Window(home).Property(listitem.trailer))]
+    <visible>Skin.HasSetting(home.netflix.autoplay.trailer) + $EXP[TrailerIsReady] + [[String.IsEqual(Skin.String(NetflixTrailerDelay),3) + System.IdleTime(3)]
     |
-    [String.IsEqual(Skin.String(NetflixTrailerDelay),5) + System.IdleTime(5) + !Player.HasMedia + !String.IsEmpty(Window(home).Property(listitem.trailer))]
+    [String.IsEqual(Skin.String(NetflixTrailerDelay),5) + System.IdleTime(5)]
     |
-    [String.IsEqual(Skin.String(NetflixTrailerDelay),7) + System.IdleTime(7) + !Player.HasMedia + !String.IsEmpty(Window(home).Property(listitem.trailer))]
+    [String.IsEqual(Skin.String(NetflixTrailerDelay),7) + System.IdleTime(7)]
     |
-    [String.IsEqual(Skin.String(NetflixTrailerDelay),9) + System.IdleTime(9) + !Player.HasMedia + !String.IsEmpty(Window(home).Property(listitem.trailer))]</visible>
+    [String.IsEqual(Skin.String(NetflixTrailerDelay),9) + System.IdleTime(9)]]</visible>
     
     <!-- Start Background Fade -->
-    <onload condition="$EXP[TrailerIsReady]">SetProperty(TrailerFade,1,home)</onload>
+    <onload>SetProperty(TrailerFade,1,home)</onload>
     
     <!-- Set Trailer Path -->
-    <onload condition="$EXP[TrailerIsReady]">SetProperty(TrailerPath,$INFO[ListItem.Trailer],home)</onload>
-    <onload condition="$EXP[TrailerIsReady]">SetProperty(TrailerPath2,$INFO[ListItem.Trailer],home)</onload>
+    <onload>SetProperty(TrailerPath,$INFO[ListItem.Trailer],home)</onload>
+    <onload>SetProperty(TrailerPath2,$INFO[ListItem.Trailer],home)</onload>
     
     <!-- Start Trailer -->
-    <onload condition="$EXP[TrailerIsReady]">PlayMedia($ESCINFO[ListItem.Trailer],1)</onload> 
+    <onload>PlayMedia($ESCINFO[ListItem.Trailer],1)</onload> 
     <controls />
 </window>
