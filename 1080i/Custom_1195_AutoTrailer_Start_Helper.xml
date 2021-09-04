@@ -2,22 +2,30 @@
 <window type="dialog" id="1195">
 
     <!-- Delay -->
-    <visible>Skin.HasSetting(home.netflix.autoplay.trailer) + !Control.HasFocus(300) + [String.IsEqual(Skin.String(NetflixTrailerDelay),3) + System.IdleTime(3) + !Player.HasMedia + !String.IsEmpty(Window(home).Property(listitem.trailer)) + !System.HasVisibleModalDialog + !Window.IsVisible(script-globalsearch.xml)]
+    <visible>$EXP[TrailerIsReady] + [
+    [String.IsEqual(Skin.String(NetflixTrailerDelay),3) + System.IdleTime(3)]
     |
-    [String.IsEqual(Skin.String(NetflixTrailerDelay),5) + System.IdleTime(5) + !Player.HasMedia + !String.IsEmpty(Window(home).Property(listitem.trailer)) + !System.HasVisibleModalDialog + !Window.IsVisible(script-globalsearch.xml)]
+    [[String.IsEqual(Skin.String(NetflixTrailerDelay),5) | !Skin.String(NetflixTrailerDelay)] + System.IdleTime(5)]
     |
-    [String.IsEqual(Skin.String(NetflixTrailerDelay),7) + System.IdleTime(7) + !Player.HasMedia + !String.IsEmpty(Window(home).Property(listitem.trailer)) + !System.HasVisibleModalDialog + !Window.IsVisible(script-globalsearch.xml)]
+    [String.IsEqual(Skin.String(NetflixTrailerDelay),7) + System.IdleTime(7)]
     |
-    [String.IsEqual(Skin.String(NetflixTrailerDelay),9) + System.IdleTime(9) + !Player.HasMedia + !String.IsEmpty(Window(home).Property(listitem.trailer)) + !System.HasVisibleModalDialog + !Window.IsVisible(script-globalsearch.xml)]</visible>
+    [String.IsEqual(Skin.String(NetflixTrailerDelay),9) + System.IdleTime(9)]
+    |
+    [String.IsEqual(Skin.String(NetflixTrailerDelay),11) + System.IdleTime(11)]
+    |
+    [String.IsEqual(Skin.String(NetflixTrailerDelay),13) + System.IdleTime(13)]
+    |
+    [String.IsEqual(Skin.String(NetflixTrailerDelay),15) + System.IdleTime(15)]
+    ]</visible>
     
     <!-- Start Background Fade -->
-    <onload condition="!String.IsEqual(Window(home).Property(TrailerPath),Window(home).Property(listitem.trailer)) + !String.IsEmpty(Window(home).Property(listitem.trailer)) + !System.HasVisibleModalDialog + !Window.IsVisible(script-globalsearch.xml)">SetProperty(TrailerFade,1,home)</onload>
+    <onload>SetProperty(TrailerFade,1,home)</onload>
     
     <!-- Set Trailer Path -->
-    <onload condition="!String.IsEqual(Window(home).Property(TrailerPath),Window(home).Property(listitem.trailer)) + !String.IsEmpty(Window(home).Property(listitem.trailer)) + !System.HasVisibleModalDialog + !Window.IsVisible(script-globalsearch.xml)">SetProperty(TrailerPath,$INFO[ListItem.Trailer],home)</onload>
-    <onload condition="!String.IsEqual(Window(home).Property(TrailerPath),Window(home).Property(listitem.trailer)) + !String.IsEmpty(Window(home).Property(listitem.trailer)) + !System.HasVisibleModalDialog + !Window.IsVisible(script-globalsearch.xml)">SetProperty(TrailerPath2,$INFO[ListItem.Trailer],home)</onload>
+    <onload>SetProperty(TrailerPath,$INFO[ListItem.Trailer],home)</onload>
+    <onload>SetProperty(TrailerPath2,$INFO[ListItem.Trailer],home)</onload>
     
     <!-- Start Trailer -->
-    <onload condition="!String.IsEqual(Window(home).Property(TrailerPath),Window(home).Property(listitem.trailer)) + !String.IsEmpty(Window(home).Property(listitem.trailer)) + !System.HasVisibleModalDialog + !Window.IsVisible(script-globalsearch.xml)">PlayMedia($ESCINFO[ListItem.Trailer],1)</onload> 
+    <onload>PlayMedia($ESCINFO[ListItem.Trailer],1)</onload> 
     <controls />
 </window>

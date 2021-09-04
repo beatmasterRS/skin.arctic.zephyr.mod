@@ -79,17 +79,11 @@
     <expression name="Widget5Enabled">String.IsEqual(Container(300).ListItem.Property(widgetEnable.5),yes)</expression>
     <expression name="Widget6Enabled">String.IsEqual(Container(300).ListItem.Property(widgetEnable.6),yes)</expression>
     <expression name="HasHomemenuAutoSlideOutAnimation">Skin.HasSetting(homemenu.slide) + [[$EXP[HomeIsModernMultiWidgets] + !Skin.HasSetting(homemenu.clean.flix)] | [$EXP[HomeIsVerticalMultiWidgets] + !Skin.HasSetting(homemenu.vertical.noslide)]]</expression>
-
-    <expression name="AutoTrailerIsPlaying">[[Window.IsVisible(Home.xml) + [$EXP[HomeIsModernMultiWidgetsNetflix] | $EXP[HomeIsVerticalMultiWidgetsNetflix]]] | Control.IsVisible(521) | Control.IsVisible(522) | Control.IsVisible(510)] + !Window.IsVisible(DialogVideoInfo.xml) + Skin.HasSetting(home.netflix.autoplay.trailer) + String.IsEqual(Window(home).Property(TrailerPath2),Player.FileNameAndPath) + !String.IsEmpty(Player.FileNameAndPath)</expression>
-
-    <expression name="TrailerIsReady">!Player.HasMedia + !String.IsEmpty(Window(home).Property(listitem.trailer)) + !System.HasVisibleModalDialog + !Window.IsVisible(script-globalsearch.xml) + !String.IsEqual(Window(home).Property(TrailerPath),Window(home).Property(listitem.trailer)) + !String.IsEmpty(Window(home).Property(listitem.trailer))</expression>
-    
-    <expression name="TrailerWaitingForPlayer">!String.IsEmpty(Window(home).Property(TrailerPath2)) + !String.IsEmpty(Window(home).Property(TrailerPath)) + String.IsEmpty(Player.FileNameAndPath)</expression>
-    
-    <expression name="TrailerIsPlaying">String.IsEqual(Window(home).Property(TrailerPath2),Player.FileNameAndPath) + !String.IsEmpty(Player.FileNameAndPath)</expression>
-    
+    <expression name="TrailerWindowIsActive">[[Window.IsVisible(Home.xml) + [$EXP[HomeIsModernMultiWidgetsNetflix] | $EXP[HomeIsVerticalMultiWidgetsNetflix]]] | Control.IsVisible(521) | Control.IsVisible(522) | Control.IsVisible(510)] + !Window.IsVisible(DialogVideoInfo.xml) + Skin.HasSetting(home.netflix.autoplay.trailer) + String.IsEqual(Window(home).Property(TrailerPath2),Player.FileNameAndPath) + !String.IsEmpty(Player.FileNameAndPath)</expression>
+    <expression name="TrailerIsReady">[Window.IsVisible(Home.xml) | Window.IsVisible(MyVideoNav.xml)] + !Control.HasFocus(300) + !Player.HasMedia + !String.IsEmpty(Window(home).Property(listitem.trailer)) + !System.HasVisibleModalDialog + !Window.IsVisible(script-globalsearch.xml) + !String.IsEqual(Window(home).Property(TrailerPath),Window(home).Property(listitem.trailer))</expression>    
+    <expression name="TrailerWaitingForPlayer">!String.IsEmpty(Window(home).Property(TrailerPath2)) + !String.IsEmpty(Window(home).Property(TrailerPath)) + String.IsEmpty(Player.FileNameAndPath)</expression>    
+    <expression name="TrailerIsPlaying">String.IsEqual(Window(home).Property(TrailerPath2),Player.FileNameAndPath) + !String.IsEmpty(Player.FileNameAndPath)</expression>    
     <expression name="AutoTrailerDebugging">Skin.HasSetting(DebugInfo.extended) + Skin.HasSetting(home.netflix.autoplay.trailer) + Skin.HasSetting(DebugInfo.extended)</expression>
-
     <expression name="IsAudioCodecATMOS">
         String.Contains(ListItem.FileNameAndPath,.atmos.) | String.Contains(ListItem.FileNameAndPath,.atmos-)
         | [VideoPlayer.IsFullscreen + [String.Contains(Player.FileNameAndPath,.atmos.) | String.Contains(Player.FileNameAndPath,.atmos-)]]
@@ -621,7 +615,7 @@
     
     <include name="TrailerWindowNormal">
         <control type="videowindow">
-            <visible>$EXP[AutoTrailerIsPlaying]</visible>
+            <visible>$EXP[TrailerWindowIsActive]</visible>
             <width>1280</width>
             <height>720</height>
             <right>0</right>
@@ -631,7 +625,7 @@
             </animation>
         </control>
         <control type="image" description="Background">
-            <visible>$EXP[AutoTrailerIsPlaying]</visible>
+            <visible>$EXP[TrailerWindowIsActive]</visible>
             <include>Dimensions_Fullscreen</include>
             <texture colordiffuse="Background">common/trailerwindow.png</texture>
         </control>
@@ -639,7 +633,7 @@
     
     <include name="TrailerWindowCustom">
         <control type="videowindow">
-            <visible>$EXP[AutoTrailerIsPlaying]</visible>
+            <visible>$EXP[TrailerWindowIsActive]</visible>
             <width>1280</width>
             <height>720</height>
             <right>0</right>
@@ -653,7 +647,7 @@
         <control type="image" description="Background">
             <animation effect="slide" start="0,0" end="0,-50" time="0" condition="String.IsEqual(VideoPlayer.VideoAspect,1.85) + !String.IsEmptyVideoPlayer.VideoAspect)">Conditional</animation>
             <animation effect="slide" start="0,0" end="0,-90" time="0" condition="!String.IsEqual(VideoPlayer.VideoAspect,1.85) + !String.IsEqual(VideoPlayer.VideoAspect,1.78) + !String.IsEqual(VideoPlayer.VideoAspect,1.66) + !String.IsEqual(VideoPlayer.VideoAspect,1.37) + !String.IsEqual(VideoPlayer.VideoAspect,1.33) + !String.IsEmptyVideoPlayer.VideoAspect)">Conditional</animation>
-            <visible>$EXP[AutoTrailerIsPlaying]</visible>
+            <visible>$EXP[TrailerWindowIsActive]</visible>
             <top>0</top>
             <include>Dimensions_Fullscreen</include>
             <texture colordiffuse="Background">common/trailerwindow.png</texture>
@@ -4609,5 +4603,10 @@
     
     <variable name="PlaylistsCountItemPath">
         <value condition="String.StartsWith(Container(300).ListItem.Property(path),ActivateWindow) + String.Contains(Container(300).ListItem.Property(path),Videos) + String.Contains(Container(300).ListItem.Property(path),playlists) + !String.Contains(Container(300).ListItem.Property(path),.xsp)">special://videoplaylists/</value>
+    </variable>
+    
+    <variable name="RandomMovies">
+        <value condition="Skin.HasSetting(home.netflix.autoplay.trailer) + System.AddonIsEnabled(service.library.data.provider)">plugin://service.library.data.provider?type=randommovies&amp;reload=$INFO[Window.Property(randommovies)]</value>
+        <value>special://skin/extras/playlists/RandomMovies.xsp</value>
     </variable>
 </includes>
