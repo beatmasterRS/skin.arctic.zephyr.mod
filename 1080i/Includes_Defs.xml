@@ -2004,6 +2004,9 @@
     <include name="DefMultiWidgetContainer">
         <param name="height" value="$PARAM[height]" default="325"/>
         <param name="orientation" value="$PARAM[orientation]" default="horizontal"/>
+        <param name="moveleft" value="$PARAM[moveleft]" default="false"/>
+        <param name="moveleftpx" value="$PARAM[moveleftpx]" default="292"/>
+        <param name="widgetwidth" value="$PARAM[widgetwidth]" default="2100"/>
         <definition>
             <include content="def_top" condition="Skin.HasSetting(homemenu.clean.flix)">
                 <param name="top" value="200" />
@@ -2020,7 +2023,13 @@
             <include content="def_top" condition="!Skin.HasSetting(homemenu.netflix) + Skin.HasSetting(home.widgets.show.reflections)">
                 <param name="top" value="50" />
             </include>
+            <include content="def_left" condition="$EXP[HomeIsModernMultiWidgetsNetflix] + $PARAM[moveleft]">
+                <param name="left" value="$PARAM[moveleftpx]" />
+            </include>
             <left>515</left>
+            <include content="def_width" condition="$EXP[HomeIsModernMultiWidgets] + !Skin.HasSetting(homemenu.clean.flix) + $PARAM[moveleft]">
+                <param name="width" value="$PARAM[widgetwidth]" />
+            </include>            
             <include content="def_width" condition="Skin.HasSetting(homemenu.clean.flix)">
                 <param name="width" value="225" />
             </include>
@@ -2064,6 +2073,9 @@
             <onback condition="Integer.IsEqual(Container($PARAM[id]).Position,0) + !Container($PARAM[id]).HasPrevious + Skin.HasSetting(disable.widgets.onback.go.back.to.position.0)">SetFocus(300)</onback>
             <onleft condition="$EXP[HomeIsVerticalMultiWidgets]">300</onleft>
             <preloaditems>1</preloaditems>
+            <include content="def_focusposition" condition="$EXP[HomeIsModernMultiWidgets] + !Skin.HasSetting(homemenu.clean.flix) + $PARAM[moveleft]">
+                <param name="focusposition" value="1" />
+            </include>
             <focusposition>0</focusposition>
             <orientation>$PARAM[orientation]</orientation>
             <include>ScrolltimeWidgetsList</include>
