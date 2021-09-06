@@ -79,7 +79,13 @@
     <expression name="Widget5Enabled">String.IsEqual(Container(300).ListItem.Property(widgetEnable.5),yes)</expression>
     <expression name="Widget6Enabled">String.IsEqual(Container(300).ListItem.Property(widgetEnable.6),yes)</expression>
     <expression name="HasHomemenuAutoSlideOutAnimation">Skin.HasSetting(homemenu.slide) + [[$EXP[HomeIsModernMultiWidgets] + !Skin.HasSetting(homemenu.clean.flix)] | [$EXP[HomeIsVerticalMultiWidgets] + !Skin.HasSetting(homemenu.vertical.noslide)]]</expression>
-
+    
+    <expression name="TrailerWindowIsActive">Skin.HasSetting(home.netflix.autoplay.trailer) + [[Window.IsVisible(Home.xml) + [$EXP[HomeIsModernMultiWidgetsNetflix] | $EXP[HomeIsVerticalMultiWidgetsNetflix]]] | Control.IsVisible(521) | Control.IsVisible(522) | Control.IsVisible(510)] + !Window.IsVisible(DialogVideoInfo.xml) + String.IsEqual(Window(home).Property(TrailerPath2),Player.FileNameAndPath) + !String.IsEmpty(Player.FileNameAndPath)</expression>
+    <expression name="TrailerIsReady">Skin.HasSetting(home.netflix.autoplay.trailer) + [Window.IsVisible(Home.xml) | Window.IsVisible(MyVideoNav.xml)] + !Control.HasFocus(300) + !Player.HasMedia + !String.IsEmpty(Window(home).Property(listitem.trailer)) + !System.HasVisibleModalDialog + !Window.IsVisible(script-globalsearch.xml) + !String.IsEqual(Window(home).Property(TrailerPath),Window(home).Property(listitem.trailer))</expression>
+    <expression name="TrailerWaitingForPlayer">!String.IsEmpty(Window(home).Property(TrailerPath2)) + !String.IsEmpty(Window(home).Property(TrailerPath)) + String.IsEmpty(Player.FileNameAndPath)</expression>
+    <expression name="TrailerIsPlaying">String.IsEqual(Window(home).Property(TrailerPath2),Player.FileNameAndPath) + !String.IsEmpty(Player.FileNameAndPath)</expression>
+    <expression name="AutoTrailerDebugging">Skin.HasSetting(home.netflix.autoplay.trailer) + Skin.HasSetting(DebugInfo.extended) + Skin.HasSetting(DebugInfo.extended)</expression>
+    <expression name="ExtendedNowPlayingIsVisible">Skin.HasSetting(extended.nowplaying) + Player.HasMedia + !ControlGroup(301).HasFocus()</expression>
     <expression name="IsAudioCodecATMOS">
         String.Contains(ListItem.FileNameAndPath,.atmos.) | String.Contains(ListItem.FileNameAndPath,.atmos-)
         | [VideoPlayer.IsFullscreen + [String.Contains(Player.FileNameAndPath,.atmos.) | String.Contains(Player.FileNameAndPath,.atmos-)]]
@@ -608,6 +614,29 @@
             <include>Dimensions_Fullscreen</include>
         </control>
     </include>
+    
+    <include name="TrailerWindow">
+        <control type="videowindow">
+            <visible>$EXP[TrailerWindowIsActive] + !$EXP[ExtendedNowPlayingIsVisible]</visible>
+            <width>1280</width>
+            <height>720</height>
+            <right>0</right>
+            <top>0</top>
+            <animation effect="slide" start="0,0" end="0,-50" time="0" condition="Skin.HasSetting(home.netflix.autoplay.trailer.custom.window) + String.IsEqual(VideoPlayer.VideoAspect,1.85) + !String.IsEmptyVideoPlayer.VideoAspect)">Conditional</animation>
+            <animation effect="slide" start="0,0" end="0,-90" time="0" condition="Skin.HasSetting(home.netflix.autoplay.trailer.custom.window) + !String.IsEqual(VideoPlayer.VideoAspect,1.85) + !String.IsEqual(VideoPlayer.VideoAspect,1.78) + !String.IsEqual(VideoPlayer.VideoAspect,1.66) + !String.IsEqual(VideoPlayer.VideoAspect,1.37) + !String.IsEqual(VideoPlayer.VideoAspect,1.33) + !String.IsEmptyVideoPlayer.VideoAspect)">Conditional</animation>
+            <animation type="WindowClose" reversible="false">
+                <effect type="zoom" center="auto" start="100" end="0" time="0" />
+            </animation>
+        </control>
+        <control type="image" description="Background">
+            <animation effect="slide" start="0,0" end="0,-50" time="0" condition="Skin.HasSetting(home.netflix.autoplay.trailer.custom.window) + String.IsEqual(VideoPlayer.VideoAspect,1.85) + !String.IsEmptyVideoPlayer.VideoAspect)">Conditional</animation>
+            <animation effect="slide" start="0,0" end="0,-90" time="0" condition="Skin.HasSetting(home.netflix.autoplay.trailer.custom.window) + !String.IsEqual(VideoPlayer.VideoAspect,1.85) + !String.IsEqual(VideoPlayer.VideoAspect,1.78) + !String.IsEqual(VideoPlayer.VideoAspect,1.66) + !String.IsEqual(VideoPlayer.VideoAspect,1.37) + !String.IsEqual(VideoPlayer.VideoAspect,1.33) + !String.IsEmptyVideoPlayer.VideoAspect)">Conditional</animation>
+            <visible>$EXP[TrailerWindowIsActive] + !$EXP[ExtendedNowPlayingIsVisible]</visible>
+            <top>0</top>
+            <include>Dimensions_Fullscreen</include>
+            <texture colordiffuse="Background">common/trailerwindow.png</texture>
+        </control>
+    </include>
 
     <include name="GlobalBackground">
         <control type="multiimage" id="7975">
@@ -681,6 +710,9 @@
             <visible>!$EXP[HomeIsSpotlight] + !$EXP[HomeIsClassic] + !$EXP[HomeIsModern]</visible>
             <animation effect="fade" start="100" end="75" time="200" condition="Player.HasVideo + Skin.HasSetting(global.showvideo) | Player.HasAudio + Skin.HasSetting(global.showvisualisation)">Conditional</animation>
         </control>
+        
+        <!-- Trailer Window Home -->
+        <include condition="Skin.HasSetting(home.netflix.autoplay.trailer)">TrailerWindow</include>
 
         <!-- Global Fanart -->
         <control type="multiimage" description="Fanart">
@@ -698,6 +730,7 @@
             <imagepath background="true">$VAR[GlobalFanart]</imagepath>
             <animation effect="zoom" start="110" end="120" center="auto" time="10000" tween="sine" easing="inout" pulse="true" condition="Skin.HasSetting(Fanart.Animate)">Conditional</animation>
             <animation effect="slide" start="-20,-20" end="20,20" time="6000" tween="sine" easing="inout" pulse="true" condition="Skin.HasSetting(Fanart.Animate)">Conditional</animation>
+            <include>Animation.AutoTrailer.FadeOut.Background</include>
         </control>
 
         <!-- BLUR Global Fanart -->
@@ -716,6 +749,7 @@
             <include>ImagePathBlurLitebox</include>
             <animation effect="zoom" start="110" end="120" center="auto" time="10000" tween="sine" easing="inout" pulse="true" condition="Skin.HasSetting(Fanart.Animate)">Conditional</animation>
             <animation effect="slide" start="-20,-20" end="20,20" time="6000" tween="sine" easing="inout" pulse="true" condition="Skin.HasSetting(Fanart.Animate)">Conditional</animation>
+            <include>Animation.AutoTrailer.FadeOut.Background</include>
         </control>
 
         <!-- BLUR Global Fanart Home-->
@@ -736,6 +770,7 @@
             <include condition="Skin.HasSetting(BlurOnHome)">ImagePathBlurLitebox</include>
             <animation effect="zoom" start="110" end="120" center="auto" time="10000" tween="sine" easing="inout" pulse="true" condition="Skin.HasSetting(Fanart.Animate)">Conditional</animation>
             <animation effect="slide" start="-20,-20" end="20,20" time="6000" tween="sine" easing="inout" pulse="true" condition="Skin.HasSetting(Fanart.Animate)">Conditional</animation>
+            <include>Animation.AutoTrailer.FadeOut.Background</include>
         </control>
 
         <!-- Fallback -->
@@ -749,6 +784,7 @@
             <texture background="true">$INFO[Skin.String(fanart.fallback)]</texture>
             <animation effect="zoom" start="110" end="120" center="auto" time="10000" tween="sine" easing="inout" pulse="true" condition="Skin.HasSetting(Fanart.Animate)">Conditional</animation>
             <animation effect="slide" start="-20,-20" end="20,20" time="6000" tween="sine" easing="inout" pulse="true" condition="Skin.HasSetting(Fanart.Animate)">Conditional</animation>
+            <include>Animation.AutoTrailer.FadeOut.Background</include>
         </control>
 
         <!-- Netflix Preview Window -->
@@ -775,18 +811,21 @@
             <include condition="!Skin.HasSetting(homemenu.netflix.preview.fullscreen)">NetflixPreviewWindow</include>
             <animation effect="zoom" start="110" end="120" center="auto" time="10000" tween="sine" easing="inout" pulse="true" condition="Skin.HasSetting(Fanart.Animate)">Conditional</animation>
             <animation effect="slide" start="-20,-20" end="20,20" time="6000" tween="sine" easing="inout" pulse="true" condition="Skin.HasSetting(Fanart.Animate)">Conditional</animation>
+            <include>Animation.AutoTrailer.FadeOut.Background</include>
         </control>
         <control type="image" description="FanartOverlay">
             <visible>!Skin.HasSetting(homemenu.clean.flix) + [!$EXP[HomeIsSpotlight] + !$EXP[HomeIsClassic] + !$EXP[HomeIsModern]] | !Window.IsVisible(Home.xml)</visible>
             <include>Dimensions_Fullscreen</include>
             <include condition="!Skin.HasSetting(home.vertical)">Animation.FadeFromHome</include>
             <texture colordiffuse="FloorFade">common/floor.png</texture>
+            <include>Animation.AutoTrailer.FadeOut.Background</include>
         </control>
         <control type="image" description="FanartOverlay">
             <visible>Skin.HasSetting(homemenu.clean.flix) + Window.IsVisible(Home.xml)</visible>
             <include>Dimensions_Fullscreen</include>
             <include condition="!Skin.HasSetting(home.vertical)">Animation.FadeFromHome</include>
             <texture colordiffuse="FloorFade">common/floor2.png</texture>
+            <include>Animation.AutoTrailer.FadeOut.Background</include>
         </control>
     </include>
 
@@ -2918,6 +2957,22 @@
             <onfocus>SetProperty(ContainerPosition,$INFO[Container($PARAM[id]).CurrentItem] / $INFO[Container($PARAM[id]).NumItems],home)</onfocus>
         </control>
     </include>
+    
+    <include name="SetAutoTrailerControl">
+        <control type="button">
+            <visible>false</visible>
+            
+            <!-- Set Property / Skin String -->
+            <onfocus>SetProperty(listitem.trailer,$INFO[ListItem.Trailer],home)</onfocus>
+            
+            <!-- Reset / Stop On Unfocus -->
+            <onunfocus condition="String.IsEmpty(Window(home).Property(TrailerIsPlayingFullscreen))">ClearProperty(TrailerPath,home)</onunfocus>
+            <onunfocus condition="$EXP[TrailerIsPlaying] + !Skin.HasSetting(trailer.dont.stop.on.unfocus) + String.IsEmpty(Window(home).Property(TrailerIsPlayingFullscreen))">Stop</onunfocus>
+            
+            <!-- Reset Fullscreen Property -->
+            <onunfocus condition="!String.IsEmpty(Window(home).Property(TrailerIsPlayingFullscreen))">ClearProperty(TrailerIsPlayingFullscreen,home)</onunfocus>
+        </control>
+    </include>
 
     <include name="MusicVisualisationInfoMatrx">
         <control type="group">
@@ -4531,5 +4586,11 @@
     
     <variable name="PlaylistsCountItemPath">
         <value condition="String.StartsWith(Container(300).ListItem.Property(path),ActivateWindow) + String.Contains(Container(300).ListItem.Property(path),Videos) + String.Contains(Container(300).ListItem.Property(path),playlists) + !String.Contains(Container(300).ListItem.Property(path),.xsp)">special://videoplaylists/</value>
+    </variable>
+    
+    <variable name="RandomMovies">
+        <value condition="Skin.HasSetting(home.netflix.autoplay.trailer) + System.AddonIsEnabled(script.skin.helper.widgets)">plugin://script.skin.helper.widgets/?action=random&amp;mediatype=movies&amp;reload=$INFO[Window(Home).Property(widgetreload2)]</value>
+        <value condition="Skin.HasSetting(home.netflix.autoplay.trailer)">special://skin/extras/playlists/Spotlight.xsp</value>
+        <value>special://skin/extras/playlists/RandomMovies.xsp</value>
     </variable>
 </includes>
