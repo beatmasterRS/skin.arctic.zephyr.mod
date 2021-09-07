@@ -4262,8 +4262,11 @@
                 <include condition="!Skin.HasSetting(widgets.fade)">Animation.Vertical.Widgets.Label</include>
                 <control type="grouplist">
                     <left>526</left>
-                    <include content="def_width" condition="Skin.HasSetting(homemenu.netflix)">
+                    <include content="def_width" condition="Skin.HasSetting(homemenu.netflix) + !Skin.HasSetting(home.netflix.autoplay.trailer)">
                         <param name="width" value="800" />
+                    </include>
+                    <include content="def_width" condition="Skin.HasSetting(homemenu.netflix) + Skin.HasSetting(home.netflix.autoplay.trailer)">
+                        <param name="width" value="700" />
                     </include>
                     <include content="def_width" condition="!Skin.HasSetting(homemenu.netflix)">
                         <param name="width" value="1322" />
@@ -4458,7 +4461,10 @@
         <control type="grouplist">
             <height min="$PARAM[plotminheight]" max="$PARAM[plotmaxheight]">auto</height>
             <visible>!String.IsEmpty(Container($PARAM[id]).ListItem.Property(Album_Description)) | !String.IsEmpty(Container($PARAM[id]).ListItem.Plot) | !String.IsEmpty(Container($PARAM[id]).ListItem.Property(Artist_Description)) | !String.IsEmpty(Container($PARAM[id]).ListItem.AddonDescription) | [!String.IsEmpty(Window(Home).Property(SkinHelper.ListItem.Plot)) + String.IsEqual(Container($PARAM[id]).ListItem.DBType,song) + ControlGroup(301).HasFocus()] | String.IsEqual(Container($PARAM[id]).ListItem.DBType,actor) | String.IsEqual(Container($PARAM[id]).ListItem.DBType,file)</visible>
-            <include content="def_width" condition="Skin.HasSetting(homemenu.netflix)">
+            <include content="def_width" condition="Skin.HasSetting(homemenu.netflix) + !Skin.HasSetting(home.netflix.autoplay.trailer)">
+                <param name="width" value="800" />
+            </include>
+            <include content="def_width" condition="Skin.HasSetting(homemenu.netflix) + Skin.HasSetting(home.netflix.autoplay.trailer)">
                 <param name="width" value="700" />
             </include>
             <include content="def_width" condition="$EXP[HomeIsVerticalMultiWidgets] + Skin.HasSetting(homemenu.only.icons) + Skin.HasSetting(home.showicons)">
