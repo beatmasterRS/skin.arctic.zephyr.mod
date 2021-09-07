@@ -709,7 +709,6 @@
         <property name="labelisvisible">true</property>
         <property name="content" tag="property" attribute="name|widgetPath"/>
         <property name="content">$VAR[DefWidgetContent]</property>
-        <!-- more content -->
         <property name="targetcontent" tag="property" attribute="name|widgetType" value="favourite">favourites</property>
         <property name="targetcontent" tag="property" attribute="name|widgetTarget" value="music">music</property>
         <property name="targetcontent" tag="property" attribute="name|widgetTarget" value="pvr">pvr</property>
@@ -759,17 +758,17 @@
         <property name="moveleftpx" tag="property" attribute="name|widgetaspect" value="SquareMedium">293</property>
         <property name="moveleftpx" tag="property" attribute="name|widget" value="mysubmenu">190</property>
         <property name="moveleftpx">293</property>
-        <property name="widgetwidth" tag="property" attribute="name|widgetaspect" value="Banner">3600</property>
-        <property name="widgetwidth" tag="property" attribute="name|widgetTarget" value="system">2275</property>
-        <property name="widgetwidth" tag="property" attribute="name|widgetaspect" value="Thumbnail">2410</property>
-        <property name="widgetwidth" tag="property" attribute="name|widgetaspect" value="Fanart">2410</property>
-        <property name="widgetwidth" tag="property" attribute="name|widgetaspect" value="FanartSmall">2250</property>
-        <property name="widgetwidth" tag="property" attribute="name|widgetaspect" value="ThumbnailSmall">2250</property>
-        <property name="widgetwidth" tag="property" attribute="name|widgetaspect" value="ThumbnailPosterSmall">2420</property>
-        <property name="widgetwidth" tag="property" attribute="name|widgetaspect" value="Square">2275</property>
-        <property name="widgetwidth" tag="property" attribute="name|widgetaspect" value="SquareSmall">2200</property>
-        <property name="widgetwidth" tag="property" attribute="name|widgetaspect" value="SquareMedium">2200</property>
-        <property name="widgetwidth">2100</property>
+        <property name="containerwidth" tag="property" attribute="name|widgetaspect" value="Banner">3600</property>
+        <property name="containerwidth" tag="property" attribute="name|widgetTarget" value="system">2275</property>
+        <property name="containerwidth" tag="property" attribute="name|widgetaspect" value="Thumbnail">2410</property>
+        <property name="containerwidth" tag="property" attribute="name|widgetaspect" value="Fanart">2410</property>
+        <property name="containerwidth" tag="property" attribute="name|widgetaspect" value="FanartSmall">2250</property>
+        <property name="containerwidth" tag="property" attribute="name|widgetaspect" value="ThumbnailSmall">2250</property>
+        <property name="containerwidth" tag="property" attribute="name|widgetaspect" value="ThumbnailPosterSmall">2420</property>
+        <property name="containerwidth" tag="property" attribute="name|widgetaspect" value="Square">2275</property>
+        <property name="containerwidth" tag="property" attribute="name|widgetaspect" value="SquareSmall">2200</property>
+        <property name="containerwidth" tag="property" attribute="name|widgetaspect" value="SquareMedium">2200</property>
+        <property name="containerwidth">2100</property>
         <property name="focusposition" tag="property" attribute="name|widgetListType" value="list">0</property>
         <property name="focusposition">1</property>
         <property name="widgetaspectcheck" tag="property" attribute="name|widget" value="settings">Square</property>
@@ -800,7 +799,6 @@
                 <skinshortcuts>visibility</skinshortcuts>
                 <include content="DefMultiWidgetContainer">
                     <param name="id" value="301$SKINSHORTCUTS[id]1"/>
-                    <param name="shortcutsidshort" value=""/>
                     <param name="height" value="$SKINSHORTCUTS[layoutheight]"/>
                     <param name="height2" value="$SKINSHORTCUTS[layoutheight2]"/>
                     <param name="idshort" value="$SKINSHORTCUTS[id]"/>
@@ -811,13 +809,12 @@
                     <param name="animation_condition" value="Control.HasFocus(301$SKINSHORTCUTS[id]2) | Control.HasFocus(301$SKINSHORTCUTS[id]3)" />
                     <param name="moveleft" value="$SKINSHORTCUTS[moveleft]"/>
                     <param name="moveleftpx" value="$SKINSHORTCUTS[moveleftpx]"/>
-                    <param name="widgetwidth" value="$SKINSHORTCUTS[widgetwidth]"/>
+                    <param name="containerwidth" value="$SKINSHORTCUTS[containerwidth]"/>
                     <param name="focusposition" value="$SKINSHORTCUTS[focusposition]"/>
                 </include>
                 <!-- ItemLayouts -->
                 <include content="TemplateNormalItemLayout" condition="$SKINSHORTCUTS[isnormallayout]">
                     <param name="shortcutsid" value="301$SKINSHORTCUTS[id]1"/>
-                    <param name="shortcutsidshort" value=""/>
                     <param name="shortcutsclearlogo" value="$SKINSHORTCUTS[widgetclearlogothumb]"/>
                     <param name="aspectratio" value="$SKINSHORTCUTS[aspectratio]"/>
                     <param name="distance" value="$SKINSHORTCUTS[distance]"/>
@@ -829,12 +826,8 @@
                     <param name="ThumbnailPosterSmall" value="$PYTHON['true' if widgetaspectcheck in 'ThumbPoSmall' else 'false']"/>
                     <param name="Square" value="$PYTHON['true' if widgetaspectcheck in 'Square' else 'false']"/>
                 </include>
-                <include content="TemplatePvrItemLayout" condition="$SKINSHORTCUTS[ispvrlayout]">
-                    <param name="shortcutsid" value="301$SKINSHORTCUTS[id]1"/>
-                    <param name="shortcutsidshort" value=""/>
-                </include>
+                <include condition="$SKINSHORTCUTS[ispvrlayout]">TemplatePvrItemLayout</include>
                 <include content="TemplateWeatherItemLayout" condition="$SKINSHORTCUTS[isweatherlayout]">
-                    <param name="shortcutsidshort" value=""/>
                     <param name="Fanart" value="$PYTHON['true' if widgetaspectcheck in 'Fanart' else 'false']"/>
                     <param name="Square" value="$PYTHON['true' if widgetaspectcheck in 'Square' else 'false']"/>
                 </include>
@@ -843,7 +836,6 @@
                 </include>
                 <include content="TemplateSubmenuItemLayout" condition="$SKINSHORTCUTS[issubmenulayout]">
                     <param name="shortcutsid" value="301$SKINSHORTCUTS[id]1"/>
-                    <param name="shortcutsidshort" value=""/>
                     <param name="shortcutsclearlogo" value="$SKINSHORTCUTS[widgetclearlogothumb]"/>
                     <param name="aspectratio" value="$SKINSHORTCUTS[aspectratio]"/>
                     <param name="distance" value="$SKINSHORTCUTS[distance]"/>
@@ -853,7 +845,6 @@
                 <!-- FocusLayouts -->
                 <include content="TemplateNormalFocusLayout" condition="$SKINSHORTCUTS[isnormallayout]">
                     <param name="shortcutsid" value="301$SKINSHORTCUTS[id]1"/>
-                    <param name="shortcutsidshort" value=""/>
                     <param name="shortcutsclearlogo" value="$SKINSHORTCUTS[widgetclearlogothumb]"/>
                     <param name="aspectratio" value="$SKINSHORTCUTS[aspectratio]"/>
                     <param name="distance" value="$SKINSHORTCUTS[distance]"/>
@@ -868,21 +859,17 @@
                 </include>
                 <include content="TemplatePvrFocusLayout" condition="$SKINSHORTCUTS[ispvrlayout]">
                     <param name="shortcutsid" value="301$SKINSHORTCUTS[id]1"/>
-                    <param name="shortcutsidshort" value=""/>
                 </include>
                 <include content="TemplateWeatherFocusLayout" condition="$SKINSHORTCUTS[isweatherlayout]">
                     <param name="shortcutsid" value="301$SKINSHORTCUTS[id]1"/>
-                    <param name="shortcutsidshort" value=""/>
                     <param name="Fanart" value="$PYTHON['true' if widgetaspectcheck in 'Fanart' else 'false']"/>
                     <param name="Square" value="$PYTHON['true' if widgetaspectcheck in 'Square' else 'false']"/>
                 </include>
                 <include content="TemplateSystemFocusLayout" condition="$SKINSHORTCUTS[issystemlayout]">
                     <param name="shortcutsid" value="301$SKINSHORTCUTS[id]1"/>
-                    <param name="shortcutsidshort" value=""/>
                 </include>
                 <include content="TemplateSubmenuFocusLayout" condition="$SKINSHORTCUTS[issubmenulayout]">
                     <param name="shortcutsid" value="301$SKINSHORTCUTS[id]1"/>
-                    <param name="shortcutsidshort" value=""/>
                     <param name="shortcutsclearlogo" value="$SKINSHORTCUTS[widgetclearlogothumb]"/>
                     <param name="aspectratio" value="$SKINSHORTCUTS[aspectratio]"/>
                     <param name="distance" value="$SKINSHORTCUTS[distance]"/>
@@ -973,7 +960,6 @@
         <property name="contentitemmore">$VAR[DefWidgetContent]</property>
         <property name="IsGTO" tag="property" attribute="name|widget.2" value="GTO">true</property>
         <property name="IsGTO">false</property>
-        <!-- more content -->
         <property name="targetcontent" tag="property" attribute="name|widgetType.2" value="favourite">favourites</property>
         <property name="targetcontent" tag="property" attribute="name|widgetTarget.2" value="music">music</property>
         <property name="targetcontent" tag="property" attribute="name|widgetTarget.2" value="videos">videos</property>
@@ -1021,17 +1007,17 @@
         <property name="moveleftpx" tag="property" attribute="name|widgetaspect.2" value="SquareSmall">390</property>
         <property name="moveleftpx" tag="property" attribute="name|widgetaspect.2" value="SquareMedium">293</property>
         <property name="moveleftpx">293</property>
-        <property name="widgetwidth" tag="property" attribute="name|widgetaspect.2" value="Banner">3600</property>
-        <property name="widgetwidth" tag="property" attribute="name|widgetTarget.2" value="system">2275</property>
-        <property name="widgetwidth" tag="property" attribute="name|widgetaspect.2" value="Thumbnail">2410</property>
-        <property name="widgetwidth" tag="property" attribute="name|widgetaspect.2" value="Fanart">2410</property>
-        <property name="widgetwidth" tag="property" attribute="name|widgetaspect.2" value="FanartSmall">2250</property>
-        <property name="widgetwidth" tag="property" attribute="name|widgetaspect.2" value="ThumbnailSmall">2250</property>
-        <property name="widgetwidth" tag="property" attribute="name|widgetaspect.2" value="ThumbnailPosterSmall">2420</property>
-        <property name="widgetwidth" tag="property" attribute="name|widgetaspect.2" value="Square">2275</property>
-        <property name="widgetwidth" tag="property" attribute="name|widgetaspect.2" value="SquareSmall">2200</property>
-        <property name="widgetwidth" tag="property" attribute="name|widgetaspect.2" value="SquareMedium">2200</property>
-        <property name="widgetwidth">2100</property>
+        <property name="containerwidth" tag="property" attribute="name|widgetaspect.2" value="Banner">3600</property>
+        <property name="containerwidth" tag="property" attribute="name|widgetTarget.2" value="system">2275</property>
+        <property name="containerwidth" tag="property" attribute="name|widgetaspect.2" value="Thumbnail">2410</property>
+        <property name="containerwidth" tag="property" attribute="name|widgetaspect.2" value="Fanart">2410</property>
+        <property name="containerwidth" tag="property" attribute="name|widgetaspect.2" value="FanartSmall">2250</property>
+        <property name="containerwidth" tag="property" attribute="name|widgetaspect.2" value="ThumbnailSmall">2250</property>
+        <property name="containerwidth" tag="property" attribute="name|widgetaspect.2" value="ThumbnailPosterSmall">2420</property>
+        <property name="containerwidth" tag="property" attribute="name|widgetaspect.2" value="Square">2275</property>
+        <property name="containerwidth" tag="property" attribute="name|widgetaspect.2" value="SquareSmall">2200</property>
+        <property name="containerwidth" tag="property" attribute="name|widgetaspect.2" value="SquareMedium">2200</property>
+        <property name="containerwidth">2100</property>
         <property name="focusposition" tag="property" attribute="name|widgetListType.2" value="list">0</property>
         <property name="focusposition">1</property> 
         <property name="widgetaspectcheck" tag="property" attribute="name|widget.2" value="settings">Square</property>
@@ -1061,7 +1047,6 @@
                 <onclick condition="$SKINSHORTCUTS[IsGTO]">RunPlugin(plugin://script.service.gto?action=info&amp;item=$INFO[ListItem.Property(Item)])</onclick>
                 <include content="DefMultiWidgetContainer">
                     <param name="id" value="301$SKINSHORTCUTS[id]2"/>
-                    <param name="shortcutsidshort" value=".2"/>
                     <param name="height" value="$SKINSHORTCUTS[layoutheight]"/>
                     <param name="height2" value="$SKINSHORTCUTS[layoutheight2]"/>
                     <param name="idshort" value="$SKINSHORTCUTS[id]"/>
@@ -1072,13 +1057,12 @@
                     <param name="animation_condition" value="Control.HasFocus(301$SKINSHORTCUTS[id]1) | Control.HasFocus(301$SKINSHORTCUTS[id]3) | Control.HasFocus(301$SKINSHORTCUTS[id]4)" />
                     <param name="moveleft" value="$SKINSHORTCUTS[moveleft]"/>
                     <param name="moveleftpx" value="$SKINSHORTCUTS[moveleftpx]"/>
-                    <param name="widgetwidth" value="$SKINSHORTCUTS[widgetwidth]"/>
+                    <param name="containerwidth" value="$SKINSHORTCUTS[containerwidth]"/>
                     <param name="focusposition" value="$SKINSHORTCUTS[focusposition]"/>
                 </include>
                 <!-- ItemLayouts -->
                 <include content="TemplateNormalItemLayout" condition="$SKINSHORTCUTS[isnormallayout]">
                     <param name="shortcutsid" value="301$SKINSHORTCUTS[id]2"/>
-                    <param name="shortcutsidshort" value=".2"/>
                     <param name="shortcutsclearlogo" value="$SKINSHORTCUTS[widgetclearlogothumb]"/>
                     <param name="aspectratio" value="$SKINSHORTCUTS[aspectratio]"/>
                     <param name="distance" value="$SKINSHORTCUTS[distance]"/>
@@ -1090,12 +1074,8 @@
                     <param name="ThumbnailPosterSmall" value="$PYTHON['true' if widgetaspectcheck in 'ThumbPoSmall' else 'false']"/>
                     <param name="Square" value="$PYTHON['true' if widgetaspectcheck in 'Square' else 'false']"/>  
                 </include>
-                <include content="TemplatePvrItemLayout" condition="$SKINSHORTCUTS[ispvrlayout]">
-                    <param name="shortcutsid" value="301$SKINSHORTCUTS[id]2"/>
-                    <param name="shortcutsidshort" value=".2"/>
-                </include>
+                <include condition="$SKINSHORTCUTS[ispvrlayout]">TemplatePvrItemLayout</include>
                 <include content="TemplateWeatherItemLayout" condition="$SKINSHORTCUTS[isweatherlayout]">
-                    <param name="shortcutsidshort" value=".2"/>
                     <param name="Fanart" value="$PYTHON['true' if widgetaspectcheck in 'Fanart' else 'false']"/>
                     <param name="Square" value="$PYTHON['true' if widgetaspectcheck in 'Square' else 'false']"/>
                 </include>
@@ -1105,7 +1085,6 @@
                 <!-- FocusLayouts -->
                 <include content="TemplateNormalFocusLayout" condition="$SKINSHORTCUTS[isnormallayout]">
                     <param name="shortcutsid" value="301$SKINSHORTCUTS[id]2"/>
-                    <param name="shortcutsidshort" value=".2"/>
                     <param name="shortcutsclearlogo" value="$SKINSHORTCUTS[widgetclearlogothumb]"/>
                     <param name="aspectratio" value="$SKINSHORTCUTS[aspectratio]"/>
                     <param name="distance" value="$SKINSHORTCUTS[distance]"/>
@@ -1120,17 +1099,14 @@
                 </include>
                 <include content="TemplatePvrFocusLayout" condition="$SKINSHORTCUTS[ispvrlayout]">
                     <param name="shortcutsid" value="301$SKINSHORTCUTS[id]2"/>
-                    <param name="shortcutsidshort" value=".2"/>
                 </include>
                 <include content="TemplateWeatherFocusLayout" condition="$SKINSHORTCUTS[isweatherlayout]">
                     <param name="shortcutsid" value="301$SKINSHORTCUTS[id]2"/>
-                    <param name="shortcutsidshort" value=".2"/>
                     <param name="Fanart" value="$PYTHON['true' if widgetaspectcheck in 'Fanart' else 'false']"/>
                     <param name="Square" value="$PYTHON['true' if widgetaspectcheck in 'Square' else 'false']"/>
                 </include>
                 <include content="TemplateSystemFocusLayout" condition="$SKINSHORTCUTS[issystemlayout]">
                     <param name="shortcutsid" value="301$SKINSHORTCUTS[id]2"/>
-                    <param name="shortcutsidshort" value=".2"/>
                 </include>
                 <content limit="$SKINSHORTCUTS[widgetlimit]" target="$SKINSHORTCUTS[target]" sortby="$SKINSHORTCUTS[sortby]" sortorder="$SKINSHORTCUTS[sort]">$SKINSHORTCUTS[content]</content>
                 <include content="morecontent" condition="Skin.HasSetting(enable.morewidget)">
@@ -1213,7 +1189,6 @@
         <property name="contentitemmore">$VAR[DefWidgetContent]</property>
         <property name="IsGTO" tag="property" attribute="name|widget.3" value="GTO">true</property>
         <property name="IsGTO">false</property>
-        <!-- more content -->
         <property name="targetcontent" tag="property" attribute="name|widgetType.3" value="favourite">favourites</property>
         <property name="targetcontent" tag="property" attribute="name|widgetTarget.3" value="music">music</property>
         <property name="targetcontent" tag="property" attribute="name|widgetTarget.3" value="videos">videos</property>
@@ -1260,17 +1235,17 @@
         <property name="moveleftpx" tag="property" attribute="name|widgetaspect.3" value="SquareSmall">390</property>
         <property name="moveleftpx" tag="property" attribute="name|widgetaspect.3" value="SquareMedium">293</property>
         <property name="moveleftpx">293</property>
-        <property name="widgetwidth" tag="property" attribute="name|widgetaspect.3" value="Banner">3600</property>
-        <property name="widgetwidth" tag="property" attribute="name|widgetTarget.3" value="system">2275</property>
-        <property name="widgetwidth" tag="property" attribute="name|widgetaspect.3" value="Thumbnail">2410</property>
-        <property name="widgetwidth" tag="property" attribute="name|widgetaspect.3" value="Fanart">2410</property>
-        <property name="widgetwidth" tag="property" attribute="name|widgetaspect.3" value="FanartSmall">2250</property>
-        <property name="widgetwidth" tag="property" attribute="name|widgetaspect.3" value="ThumbnailSmall">2250</property>
-        <property name="widgetwidth" tag="property" attribute="name|widgetaspect.3" value="ThumbnailPosterSmall">2420</property>
-        <property name="widgetwidth" tag="property" attribute="name|widgetaspect.3" value="Square">2275</property>
-        <property name="widgetwidth" tag="property" attribute="name|widgetaspect.3" value="SquareSmall">2200</property>
-        <property name="widgetwidth" tag="property" attribute="name|widgetaspect.3" value="SquareMedium">2200</property>
-        <property name="widgetwidth">2100</property>
+        <property name="containerwidth" tag="property" attribute="name|widgetaspect.3" value="Banner">3600</property>
+        <property name="containerwidth" tag="property" attribute="name|widgetTarget.3" value="system">2275</property>
+        <property name="containerwidth" tag="property" attribute="name|widgetaspect.3" value="Thumbnail">2410</property>
+        <property name="containerwidth" tag="property" attribute="name|widgetaspect.3" value="Fanart">2410</property>
+        <property name="containerwidth" tag="property" attribute="name|widgetaspect.3" value="FanartSmall">2250</property>
+        <property name="containerwidth" tag="property" attribute="name|widgetaspect.3" value="ThumbnailSmall">2250</property>
+        <property name="containerwidth" tag="property" attribute="name|widgetaspect.3" value="ThumbnailPosterSmall">2420</property>
+        <property name="containerwidth" tag="property" attribute="name|widgetaspect.3" value="Square">2275</property>
+        <property name="containerwidth" tag="property" attribute="name|widgetaspect.3" value="SquareSmall">2200</property>
+        <property name="containerwidth" tag="property" attribute="name|widgetaspect.3" value="SquareMedium">2200</property>
+        <property name="containerwidth">2100</property>
         <property name="focusposition" tag="property" attribute="name|widgetListType.3" value="list">0</property>
         <property name="focusposition">1</property> 
         <property name="widgetaspectcheck" tag="property" attribute="name|widget.3" value="settings">Square</property>
@@ -1301,7 +1276,6 @@
                 <include content="DefMultiWidgetContainer">
                     <param name="id" value="301$SKINSHORTCUTS[id]3"/>
                     <param name="backid" value="301$SKINSHORTCUTS[id]1"/>
-                    <param name="shortcutsidshort" value=".3"/>
                     <param name="height" value="$SKINSHORTCUTS[layoutheight]"/>
                     <param name="height2" value="$SKINSHORTCUTS[layoutheight2]"/>
                     <param name="idshort" value="$SKINSHORTCUTS[id]"/>
@@ -1311,13 +1285,12 @@
                     <param name="animation_condition" value="Control.HasFocus(301$SKINSHORTCUTS[id]2) | Control.HasFocus(301$SKINSHORTCUTS[id]4) | Control.HasFocus(301$SKINSHORTCUTS[id]5)" />
                     <param name="moveleft" value="$SKINSHORTCUTS[moveleft]"/>
                     <param name="moveleftpx" value="$SKINSHORTCUTS[moveleftpx]"/>
-                    <param name="widgetwidth" value="$SKINSHORTCUTS[widgetwidth]"/>
+                    <param name="containerwidth" value="$SKINSHORTCUTS[containerwidth]"/>
                     <param name="focusposition" value="$SKINSHORTCUTS[focusposition]"/>
                 </include>
                 <!-- ItemLayouts -->
                 <include content="TemplateNormalItemLayout" condition="$SKINSHORTCUTS[isnormallayout]">
                     <param name="shortcutsid" value="301$SKINSHORTCUTS[id]3"/>
-                    <param name="shortcutsidshort" value=".3"/>
                     <param name="shortcutsclearlogo" value="$SKINSHORTCUTS[widgetclearlogothumb]"/>
                     <param name="aspectratio" value="$SKINSHORTCUTS[aspectratio]"/>
                     <param name="distance" value="$SKINSHORTCUTS[distance]"/>
@@ -1329,12 +1302,8 @@
                     <param name="ThumbnailPosterSmall" value="$PYTHON['true' if widgetaspectcheck in 'ThumbPoSmall' else 'false']"/>
                     <param name="Square" value="$PYTHON['true' if widgetaspectcheck in 'Square' else 'false']"/>  
                 </include>
-                <include content="TemplatePvrItemLayout" condition="$SKINSHORTCUTS[ispvrlayout]">
-                    <param name="shortcutsid" value="301$SKINSHORTCUTS[id]3"/>
-                    <param name="shortcutsidshort" value=".3"/>
-                </include>
+                <include condition="$SKINSHORTCUTS[ispvrlayout]">TemplatePvrItemLayout</include>
                 <include content="TemplateWeatherItemLayout" condition="$SKINSHORTCUTS[isweatherlayout]">
-                    <param name="shortcutsidshort" value=".3"/>
                     <param name="Fanart" value="$PYTHON['true' if widgetaspectcheck in 'Fanart' else 'false']"/>
                     <param name="Square" value="$PYTHON['true' if widgetaspectcheck in 'Square' else 'false']"/>
                 </include>
@@ -1344,7 +1313,6 @@
                 <!-- FocusLayouts -->
                 <include content="TemplateNormalFocusLayout" condition="$SKINSHORTCUTS[isnormallayout]">
                     <param name="shortcutsid" value="301$SKINSHORTCUTS[id]3"/>
-                    <param name="shortcutsidshort" value=".3"/>
                     <param name="shortcutsclearlogo" value="$SKINSHORTCUTS[widgetclearlogothumb]"/>
                     <param name="aspectratio" value="$SKINSHORTCUTS[aspectratio]"/>
                     <param name="distance" value="$SKINSHORTCUTS[distance]"/>
@@ -1359,17 +1327,14 @@
                 </include>
                 <include content="TemplatePvrFocusLayout" condition="$SKINSHORTCUTS[ispvrlayout]">
                     <param name="shortcutsid" value="301$SKINSHORTCUTS[id]3"/>
-                    <param name="shortcutsidshort" value=".3"/>
                 </include>
                 <include content="TemplateWeatherFocusLayout" condition="$SKINSHORTCUTS[isweatherlayout]">
                     <param name="shortcutsid" value="301$SKINSHORTCUTS[id]3"/>
-                    <param name="shortcutsidshort" value=".3"/>
                     <param name="Fanart" value="$PYTHON['true' if widgetaspectcheck in 'Fanart' else 'false']"/>
                     <param name="Square" value="$PYTHON['true' if widgetaspectcheck in 'Square' else 'false']"/>
                 </include>
                 <include content="TemplateSystemFocusLayout" condition="$SKINSHORTCUTS[issystemlayout]">
                     <param name="shortcutsid" value="301$SKINSHORTCUTS[id]3"/>
-                    <param name="shortcutsidshort" value=".3"/>
                 </include>
                 <content limit="$SKINSHORTCUTS[widgetlimit]" target="$SKINSHORTCUTS[target]" sortby="$SKINSHORTCUTS[sortby]" sortorder="$SKINSHORTCUTS[sort]">$SKINSHORTCUTS[content]</content>
                 <include content="morecontent" condition="Skin.HasSetting(enable.morewidget)">
@@ -1452,7 +1417,6 @@
         <property name="contentitemmore">$VAR[DefWidgetContent]</property>
         <property name="IsGTO" tag="property" attribute="name|widget.4" value="GTO">true</property>
         <property name="IsGTO">false</property>
-        <!-- more content -->
         <property name="targetcontent" tag="property" attribute="name|widgetType.4" value="favourite">favourites</property>
         <property name="targetcontent" tag="property" attribute="name|widgetTarget.4" value="music">music</property>
         <property name="targetcontent" tag="property" attribute="name|widgetTarget.4" value="videos">videos</property>
@@ -1499,17 +1463,17 @@
         <property name="moveleftpx" tag="property" attribute="name|widgetaspect.4" value="SquareSmall">390</property>
         <property name="moveleftpx" tag="property" attribute="name|widgetaspect.4" value="SquareMedium">293</property>
         <property name="moveleftpx">293</property>
-        <property name="widgetwidth" tag="property" attribute="name|widgetaspect.4" value="Banner">3600</property>
-        <property name="widgetwidth" tag="property" attribute="name|widgetTarget.4" value="system">2275</property>
-        <property name="widgetwidth" tag="property" attribute="name|widgetaspect.4" value="Thumbnail">2410</property>
-        <property name="widgetwidth" tag="property" attribute="name|widgetaspect.4" value="Fanart">2410</property>
-        <property name="widgetwidth" tag="property" attribute="name|widgetaspect.4" value="FanartSmall">2250</property>
-        <property name="widgetwidth" tag="property" attribute="name|widgetaspect.4" value="ThumbnailSmall">2250</property>
-        <property name="widgetwidth" tag="property" attribute="name|widgetaspect.4" value="ThumbnailPosterSmall">2420</property>
-        <property name="widgetwidth" tag="property" attribute="name|widgetaspect.4" value="Square">2275</property>
-        <property name="widgetwidth" tag="property" attribute="name|widgetaspect.4" value="SquareSmall">2200</property>
-        <property name="widgetwidth" tag="property" attribute="name|widgetaspect.4" value="SquareMedium">2200</property>
-        <property name="widgetwidth">2100</property>
+        <property name="containerwidth" tag="property" attribute="name|widgetaspect.4" value="Banner">3600</property>
+        <property name="containerwidth" tag="property" attribute="name|widgetTarget.4" value="system">2275</property>
+        <property name="containerwidth" tag="property" attribute="name|widgetaspect.4" value="Thumbnail">2410</property>
+        <property name="containerwidth" tag="property" attribute="name|widgetaspect.4" value="Fanart">2410</property>
+        <property name="containerwidth" tag="property" attribute="name|widgetaspect.4" value="FanartSmall">2250</property>
+        <property name="containerwidth" tag="property" attribute="name|widgetaspect.4" value="ThumbnailSmall">2250</property>
+        <property name="containerwidth" tag="property" attribute="name|widgetaspect.4" value="ThumbnailPosterSmall">2420</property>
+        <property name="containerwidth" tag="property" attribute="name|widgetaspect.4" value="Square">2275</property>
+        <property name="containerwidth" tag="property" attribute="name|widgetaspect.4" value="SquareSmall">2200</property>
+        <property name="containerwidth" tag="property" attribute="name|widgetaspect.4" value="SquareMedium">2200</property>
+        <property name="containerwidth">2100</property>
         <property name="focusposition" tag="property" attribute="name|widgetListType.4" value="list">0</property>
         <property name="focusposition">1</property> 
         <property name="widgetaspectcheck" tag="property" attribute="name|widget.4" value="settings">Square</property>
@@ -1539,7 +1503,6 @@
                 <onclick condition="$SKINSHORTCUTS[IsGTO]">RunPlugin(plugin://script.service.gto?action=info&amp;item=$INFO[ListItem.Property(Item)])</onclick>
                 <include content="DefMultiWidgetContainer">
                     <param name="id" value="301$SKINSHORTCUTS[id]4"/>
-                    <param name="shortcutsidshort" value=".4"/>
                     <param name="height" value="$SKINSHORTCUTS[layoutheight]"/>
                     <param name="height2" value="$SKINSHORTCUTS[layoutheight2]"/>
                     <param name="idshort" value="$SKINSHORTCUTS[id]"/>
@@ -1550,13 +1513,12 @@
                     <param name="animation_condition" value="Control.HasFocus(301$SKINSHORTCUTS[id]2) | Control.HasFocus(301$SKINSHORTCUTS[id]3) | Control.HasFocus(301$SKINSHORTCUTS[id]5)" />
                     <param name="moveleft" value="$SKINSHORTCUTS[moveleft]"/>
                     <param name="moveleftpx" value="$SKINSHORTCUTS[moveleftpx]"/>
-                    <param name="widgetwidth" value="$SKINSHORTCUTS[widgetwidth]"/>
+                    <param name="containerwidth" value="$SKINSHORTCUTS[containerwidth]"/>
                     <param name="focusposition" value="$SKINSHORTCUTS[focusposition]"/>
                 </include>
                 <!-- ItemLayouts -->
                 <include content="TemplateNormalItemLayout" condition="$SKINSHORTCUTS[isnormallayout]">
                     <param name="shortcutsid" value="301$SKINSHORTCUTS[id]4"/>
-                    <param name="shortcutsidshort" value=".4"/>
                     <param name="shortcutsclearlogo" value="$SKINSHORTCUTS[widgetclearlogothumb]"/>
                     <param name="aspectratio" value="$SKINSHORTCUTS[aspectratio]"/>
                     <param name="distance" value="$SKINSHORTCUTS[distance]"/>
@@ -1568,12 +1530,8 @@
                     <param name="ThumbnailPosterSmall" value="$PYTHON['true' if widgetaspectcheck in 'ThumbPoSmall' else 'false']"/>
                     <param name="Square" value="$PYTHON['true' if widgetaspectcheck in 'Square' else 'false']"/>  
                 </include>
-                <include content="TemplatePvrItemLayout" condition="$SKINSHORTCUTS[ispvrlayout]">
-                    <param name="shortcutsid" value="301$SKINSHORTCUTS[id]4"/>
-                    <param name="shortcutsidshort" value=".4"/>
-                </include>
+                <include condition="$SKINSHORTCUTS[ispvrlayout]">TemplatePvrItemLayout</include>
                 <include content="TemplateWeatherItemLayout" condition="$SKINSHORTCUTS[isweatherlayout]">
-                    <param name="shortcutsidshort" value=".4"/>
                     <param name="Fanart" value="$PYTHON['true' if widgetaspectcheck in 'Fanart' else 'false']"/>
                     <param name="Square" value="$PYTHON['true' if widgetaspectcheck in 'Square' else 'false']"/>
                 </include>
@@ -1583,7 +1541,6 @@
                 <!-- FocusLayouts -->
                 <include content="TemplateNormalFocusLayout" condition="$SKINSHORTCUTS[isnormallayout]">
                     <param name="shortcutsid" value="301$SKINSHORTCUTS[id]4"/>
-                    <param name="shortcutsidshort" value=".4"/>
                     <param name="shortcutsclearlogo" value="$SKINSHORTCUTS[widgetclearlogothumb]"/>
                     <param name="aspectratio" value="$SKINSHORTCUTS[aspectratio]"/>
                     <param name="distance" value="$SKINSHORTCUTS[distance]"/>
@@ -1598,17 +1555,14 @@
                 </include>
                 <include content="TemplatePvrFocusLayout" condition="$SKINSHORTCUTS[ispvrlayout]">
                     <param name="shortcutsid" value="301$SKINSHORTCUTS[id]4"/>
-                    <param name="shortcutsidshort" value=".4"/>
                 </include>
                 <include content="TemplateWeatherFocusLayout" condition="$SKINSHORTCUTS[isweatherlayout]">
                     <param name="shortcutsid" value="301$SKINSHORTCUTS[id]4"/>
-                    <param name="shortcutsidshort" value=".4"/>
                     <param name="Fanart" value="$PYTHON['true' if widgetaspectcheck in 'Fanart' else 'false']"/>
                     <param name="Square" value="$PYTHON['true' if widgetaspectcheck in 'Square' else 'false']"/>
                 </include>
                 <include content="TemplateSystemFocusLayout" condition="$SKINSHORTCUTS[issystemlayout]">
                     <param name="shortcutsid" value="301$SKINSHORTCUTS[id]4"/>
-                    <param name="shortcutsidshort" value=".4"/>
                 </include>
                 <content limit="$SKINSHORTCUTS[widgetlimit]" target="$SKINSHORTCUTS[target]" sortby="$SKINSHORTCUTS[sortby]" sortorder="$SKINSHORTCUTS[sort]">$SKINSHORTCUTS[content]</content>
                 <include content="morecontent" condition="Skin.HasSetting(enable.morewidget)">
@@ -1691,7 +1645,6 @@
         <property name="contentitemmore">$VAR[DefWidgetContent]</property>
         <property name="IsGTO" tag="property" attribute="name|widget.5" value="GTO">true</property>
         <property name="IsGTO">false</property>
-        <!-- more content -->
         <property name="targetcontent" tag="property" attribute="name|widgetType.5" value="favourite">favourites</property>
         <property name="targetcontent" tag="property" attribute="name|widgetTarget.5" value="music">music</property>
         <property name="targetcontent" tag="property" attribute="name|widgetTarget.5" value="videos">videos</property>
@@ -1738,17 +1691,17 @@
         <property name="moveleftpx" tag="property" attribute="name|widgetaspect.5" value="SquareSmall">390</property>
         <property name="moveleftpx" tag="property" attribute="name|widgetaspect.5" value="SquareMedium">293</property>
         <property name="moveleftpx">293</property>
-        <property name="widgetwidth" tag="property" attribute="name|widgetaspect.5" value="Banner">3600</property>
-        <property name="widgetwidth" tag="property" attribute="name|widgetTarget.5" value="system">2275</property>
-        <property name="widgetwidth" tag="property" attribute="name|widgetaspect.5" value="Thumbnail">2410</property>
-        <property name="widgetwidth" tag="property" attribute="name|widgetaspect.5" value="Fanart">2410</property>
-        <property name="widgetwidth" tag="property" attribute="name|widgetaspect.5" value="FanartSmall">2250</property>
-        <property name="widgetwidth" tag="property" attribute="name|widgetaspect.5" value="ThumbnailSmall">2250</property>
-        <property name="widgetwidth" tag="property" attribute="name|widgetaspect.5" value="ThumbnailPosterSmall">2420</property>
-        <property name="widgetwidth" tag="property" attribute="name|widgetaspect.5" value="Square">2275</property>
-        <property name="widgetwidth" tag="property" attribute="name|widgetaspect.5" value="SquareSmall">2200</property>
-        <property name="widgetwidth" tag="property" attribute="name|widgetaspect.5" value="SquareMedium">2200</property>
-        <property name="widgetwidth">2100</property>
+        <property name="containerwidth" tag="property" attribute="name|widgetaspect.5" value="Banner">3600</property>
+        <property name="containerwidth" tag="property" attribute="name|widgetTarget.5" value="system">2275</property>
+        <property name="containerwidth" tag="property" attribute="name|widgetaspect.5" value="Thumbnail">2410</property>
+        <property name="containerwidth" tag="property" attribute="name|widgetaspect.5" value="Fanart">2410</property>
+        <property name="containerwidth" tag="property" attribute="name|widgetaspect.5" value="FanartSmall">2250</property>
+        <property name="containerwidth" tag="property" attribute="name|widgetaspect.5" value="ThumbnailSmall">2250</property>
+        <property name="containerwidth" tag="property" attribute="name|widgetaspect.5" value="ThumbnailPosterSmall">2420</property>
+        <property name="containerwidth" tag="property" attribute="name|widgetaspect.5" value="Square">2275</property>
+        <property name="containerwidth" tag="property" attribute="name|widgetaspect.5" value="SquareSmall">2200</property>
+        <property name="containerwidth" tag="property" attribute="name|widgetaspect.5" value="SquareMedium">2200</property>
+        <property name="containerwidth">2100</property>
         <property name="focusposition" tag="property" attribute="name|widgetListType.5" value="list">0</property>
         <property name="focusposition">1</property> 
         <property name="widgetaspectcheck" tag="property" attribute="name|widget.5" value="settings">Square</property>
@@ -1778,7 +1731,6 @@
                 <onclick condition="$SKINSHORTCUTS[IsGTO]">RunPlugin(plugin://script.service.gto?action=info&amp;item=$INFO[ListItem.Property(Item)])</onclick>
                 <include content="DefMultiWidgetContainer">
                     <param name="id" value="301$SKINSHORTCUTS[id]5"/>
-                    <param name="shortcutsidshort" value=".5"/>
                     <param name="height" value="$SKINSHORTCUTS[layoutheight]"/>
                     <param name="height2" value="$SKINSHORTCUTS[layoutheight2]"/>
                     <param name="idshort" value="$SKINSHORTCUTS[id]"/>
@@ -1789,13 +1741,12 @@
                     <param name="animation_condition" value="Control.HasFocus(301$SKINSHORTCUTS[id]3) | Control.HasFocus(301$SKINSHORTCUTS[id]4) | Control.HasFocus(301$SKINSHORTCUTS[id]6)" />
                     <param name="moveleft" value="$SKINSHORTCUTS[moveleft]"/>
                     <param name="moveleftpx" value="$SKINSHORTCUTS[moveleftpx]"/>
-                    <param name="widgetwidth" value="$SKINSHORTCUTS[widgetwidth]"/>
+                    <param name="containerwidth" value="$SKINSHORTCUTS[containerwidth]"/>
                     <param name="focusposition" value="$SKINSHORTCUTS[focusposition]"/>
                 </include>
                 <!-- ItemLayouts -->
                 <include content="TemplateNormalItemLayout" condition="$SKINSHORTCUTS[isnormallayout]">
                     <param name="shortcutsid" value="301$SKINSHORTCUTS[id]5"/>
-                    <param name="shortcutsidshort" value=".5"/>
                     <param name="shortcutsclearlogo" value="$SKINSHORTCUTS[widgetclearlogothumb]"/>
                     <param name="aspectratio" value="$SKINSHORTCUTS[aspectratio]"/>
                     <param name="distance" value="$SKINSHORTCUTS[distance]"/>
@@ -1807,12 +1758,8 @@
                     <param name="ThumbnailPosterSmall" value="$PYTHON['true' if widgetaspectcheck in 'ThumbPoSmall' else 'false']"/>
                     <param name="Square" value="$PYTHON['true' if widgetaspectcheck in 'Square' else 'false']"/>  
                 </include>
-                <include content="TemplatePvrItemLayout" condition="$SKINSHORTCUTS[ispvrlayout]">
-                    <param name="shortcutsid" value="301$SKINSHORTCUTS[id]5"/>
-                    <param name="shortcutsidshort" value=".5"/>
-                </include>
+                <include condition="$SKINSHORTCUTS[ispvrlayout]">TemplatePvrItemLayout</include>
                 <include content="TemplateWeatherItemLayout" condition="$SKINSHORTCUTS[isweatherlayout]">
-                    <param name="shortcutsidshort" value=".5"/>
                     <param name="Fanart" value="$PYTHON['true' if widgetaspectcheck in 'Fanart' else 'false']"/>
                     <param name="Square" value="$PYTHON['true' if widgetaspectcheck in 'Square' else 'false']"/>
                 </include>
@@ -1822,7 +1769,6 @@
                 <!-- FocusLayouts -->
                 <include content="TemplateNormalFocusLayout" condition="$SKINSHORTCUTS[isnormallayout]">
                     <param name="shortcutsid" value="301$SKINSHORTCUTS[id]5"/>
-                    <param name="shortcutsidshort" value=".5"/>
                     <param name="shortcutsclearlogo" value="$SKINSHORTCUTS[widgetclearlogothumb]"/>
                     <param name="aspectratio" value="$SKINSHORTCUTS[aspectratio]"/>
                     <param name="distance" value="$SKINSHORTCUTS[distance]"/>
@@ -1837,17 +1783,14 @@
                 </include>
                 <include content="TemplatePvrFocusLayout" condition="$SKINSHORTCUTS[ispvrlayout]">
                     <param name="shortcutsid" value="301$SKINSHORTCUTS[id]5"/>
-                    <param name="shortcutsidshort" value=".5"/>
                 </include>
                 <include content="TemplateWeatherFocusLayout" condition="$SKINSHORTCUTS[isweatherlayout]">
                     <param name="shortcutsid" value="301$SKINSHORTCUTS[id]5"/>
-                    <param name="shortcutsidshort" value=".5"/>
                     <param name="Fanart" value="$PYTHON['true' if widgetaspectcheck in 'Fanart' else 'false']"/>
                     <param name="Square" value="$PYTHON['true' if widgetaspectcheck in 'Square' else 'false']"/>
                 </include>
                 <include content="TemplateSystemFocusLayout" condition="$SKINSHORTCUTS[issystemlayout]">
                     <param name="shortcutsid" value="301$SKINSHORTCUTS[id]5"/>
-                    <param name="shortcutsidshort" value=".5"/>
                 </include>
                 <content limit="$SKINSHORTCUTS[widgetlimit]" target="$SKINSHORTCUTS[target]" sortby="$SKINSHORTCUTS[sortby]" sortorder="$SKINSHORTCUTS[sort]">$SKINSHORTCUTS[content]</content>
                 <include content="morecontent" condition="Skin.HasSetting(enable.morewidget)">
@@ -1930,7 +1873,6 @@
         <property name="contentitemmore">$VAR[DefWidgetContent]</property>
         <property name="IsGTO" tag="property" attribute="name|widget.6" value="GTO">true</property>
         <property name="IsGTO">false</property>
-        <!-- more content -->
         <property name="targetcontent" tag="property" attribute="name|widgetType.6" value="favourite">favourites</property>
         <property name="targetcontent" tag="property" attribute="name|widgetTarget.6" value="music">music</property>
         <property name="targetcontent" tag="property" attribute="name|widgetTarget.6" value="videos">videos</property>
@@ -1977,17 +1919,17 @@
         <property name="moveleftpx" tag="property" attribute="name|widgetaspect.6" value="SquareSmall">390</property>
         <property name="moveleftpx" tag="property" attribute="name|widgetaspect.6" value="SquareMedium">293</property>
         <property name="moveleftpx">293</property>
-        <property name="widgetwidth" tag="property" attribute="name|widgetaspect.6" value="Banner">3600</property>
-        <property name="widgetwidth" tag="property" attribute="name|widgetTarget.6" value="system">2275</property>
-        <property name="widgetwidth" tag="property" attribute="name|widgetaspect.6" value="Thumbnail">2410</property>
-        <property name="widgetwidth" tag="property" attribute="name|widgetaspect.6" value="Fanart">2410</property>
-        <property name="widgetwidth" tag="property" attribute="name|widgetaspect.6" value="FanartSmall">2250</property>
-        <property name="widgetwidth" tag="property" attribute="name|widgetaspect.6" value="ThumbnailSmall">2250</property>
-        <property name="widgetwidth" tag="property" attribute="name|widgetaspect.6" value="ThumbnailPosterSmall">2420</property>
-        <property name="widgetwidth" tag="property" attribute="name|widgetaspect.6" value="Square">2275</property>
-        <property name="widgetwidth" tag="property" attribute="name|widgetaspect.6" value="SquareSmall">2200</property>
-        <property name="widgetwidth" tag="property" attribute="name|widgetaspect.6" value="SquareMedium">2200</property>
-        <property name="widgetwidth">2100</property>
+        <property name="containerwidth" tag="property" attribute="name|widgetaspect.6" value="Banner">3600</property>
+        <property name="containerwidth" tag="property" attribute="name|widgetTarget.6" value="system">2275</property>
+        <property name="containerwidth" tag="property" attribute="name|widgetaspect.6" value="Thumbnail">2410</property>
+        <property name="containerwidth" tag="property" attribute="name|widgetaspect.6" value="Fanart">2410</property>
+        <property name="containerwidth" tag="property" attribute="name|widgetaspect.6" value="FanartSmall">2250</property>
+        <property name="containerwidth" tag="property" attribute="name|widgetaspect.6" value="ThumbnailSmall">2250</property>
+        <property name="containerwidth" tag="property" attribute="name|widgetaspect.6" value="ThumbnailPosterSmall">2420</property>
+        <property name="containerwidth" tag="property" attribute="name|widgetaspect.6" value="Square">2275</property>
+        <property name="containerwidth" tag="property" attribute="name|widgetaspect.6" value="SquareSmall">2200</property>
+        <property name="containerwidth" tag="property" attribute="name|widgetaspect.6" value="SquareMedium">2200</property>
+        <property name="containerwidth">2100</property>
         <property name="focusposition" tag="property" attribute="name|widgetListType.6" value="list">0</property>
         <property name="focusposition">1</property> 
         <property name="widgetaspectcheck" tag="property" attribute="name|widget.6" value="settings">Square</property>
@@ -2017,7 +1959,6 @@
                 <onclick condition="$SKINSHORTCUTS[IsGTO]">RunPlugin(plugin://script.service.gto?action=info&amp;item=$INFO[ListItem.Property(Item)])</onclick>
                 <include content="DefMultiWidgetContainer">
                     <param name="id" value="301$SKINSHORTCUTS[id]6"/>
-                    <param name="shortcutsidshort" value=".6"/>
                     <param name="height" value="$SKINSHORTCUTS[layoutheight]"/>
                     <param name="height2" value="$SKINSHORTCUTS[layoutheight2]"/>
                     <param name="idshort" value="$SKINSHORTCUTS[id]"/>
@@ -2028,13 +1969,12 @@
                     <param name="animation_condition" value="Control.HasFocus(301$SKINSHORTCUTS[id]4) | Control.HasFocus(301$SKINSHORTCUTS[id]5)" />
                     <param name="moveleft" value="$SKINSHORTCUTS[moveleft]"/>
                     <param name="moveleftpx" value="$SKINSHORTCUTS[moveleftpx]"/>
-                    <param name="widgetwidth" value="$SKINSHORTCUTS[widgetwidth]"/>
+                    <param name="containerwidth" value="$SKINSHORTCUTS[containerwidth]"/>
                     <param name="focusposition" value="$SKINSHORTCUTS[focusposition]"/>
                 </include>
                 <!-- ItemLayouts -->
                 <include content="TemplateNormalItemLayout" condition="$SKINSHORTCUTS[isnormallayout]">
                     <param name="shortcutsid" value="301$SKINSHORTCUTS[id]6"/>
-                    <param name="shortcutsidshort" value=".6"/>
                     <param name="shortcutsclearlogo" value="$SKINSHORTCUTS[widgetclearlogothumb]"/>
                     <param name="aspectratio" value="$SKINSHORTCUTS[aspectratio]"/>
                     <param name="distance" value="$SKINSHORTCUTS[distance]"/>
@@ -2046,12 +1986,8 @@
                     <param name="ThumbnailPosterSmall" value="$PYTHON['true' if widgetaspectcheck in 'ThumbPoSmall' else 'false']"/>
                     <param name="Square" value="$PYTHON['true' if widgetaspectcheck in 'Square' else 'false']"/>  
                 </include>
-                <include content="TemplatePvrItemLayout" condition="$SKINSHORTCUTS[ispvrlayout]">
-                    <param name="shortcutsid" value="301$SKINSHORTCUTS[id]6"/>
-                    <param name="shortcutsidshort" value=".6"/>
-                </include>
+                <include condition="$SKINSHORTCUTS[ispvrlayout]">TemplatePvrItemLayout</include>
                 <include content="TemplateWeatherItemLayout" condition="$SKINSHORTCUTS[isweatherlayout]">
-                    <param name="shortcutsidshort" value=".6"/>
                     <param name="Fanart" value="$PYTHON['true' if widgetaspectcheck in 'Fanart' else 'false']"/>
                     <param name="Square" value="$PYTHON['true' if widgetaspectcheck in 'Square' else 'false']"/>
                 </include>
@@ -2061,7 +1997,6 @@
                 <!-- FocusLayouts -->
                 <include content="TemplateNormalFocusLayout" condition="$SKINSHORTCUTS[isnormallayout]">
                     <param name="shortcutsid" value="301$SKINSHORTCUTS[id]6"/>
-                    <param name="shortcutsidshort" value=".6"/>
                     <param name="shortcutsclearlogo" value="$SKINSHORTCUTS[widgetclearlogothumb]"/>
                     <param name="aspectratio" value="$SKINSHORTCUTS[aspectratio]"/>
                     <param name="distance" value="$SKINSHORTCUTS[distance]"/>
@@ -2076,17 +2011,14 @@
                 </include>
                 <include content="TemplatePvrFocusLayout" condition="$SKINSHORTCUTS[ispvrlayout]">
                     <param name="shortcutsid" value="301$SKINSHORTCUTS[id]6"/>
-                    <param name="shortcutsidshort" value=".6"/>
                 </include>
                 <include content="TemplateWeatherFocusLayout" condition="$SKINSHORTCUTS[isweatherlayout]">
                     <param name="shortcutsid" value="301$SKINSHORTCUTS[id]6"/>
-                    <param name="shortcutsidshort" value=".6"/>
                     <param name="Fanart" value="$PYTHON['true' if widgetaspectcheck in 'Fanart' else 'false']"/>
                     <param name="Square" value="$PYTHON['true' if widgetaspectcheck in 'Square' else 'false']"/>
                 </include>
                 <include content="TemplateSystemFocusLayout" condition="$SKINSHORTCUTS[issystemlayout]">
                     <param name="shortcutsid" value="301$SKINSHORTCUTS[id]6"/>
-                    <param name="shortcutsidshort" value=".6"/>
                 </include>
                 <content limit="$SKINSHORTCUTS[widgetlimit]" target="$SKINSHORTCUTS[target]" sortby="$SKINSHORTCUTS[sortby]" sortorder="$SKINSHORTCUTS[sort]">$SKINSHORTCUTS[content]</content>
                 <include content="morecontent" condition="Skin.HasSetting(enable.morewidget)">
