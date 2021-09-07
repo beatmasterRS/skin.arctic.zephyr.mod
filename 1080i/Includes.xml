@@ -80,7 +80,7 @@
     <expression name="Widget6Enabled">String.IsEqual(Container(300).ListItem.Property(widgetEnable.6),yes)</expression>
     <expression name="HasHomemenuAutoSlideOutAnimation">Skin.HasSetting(homemenu.slide) + [[$EXP[HomeIsModernMultiWidgets] + !Skin.HasSetting(homemenu.clean.flix)] | [$EXP[HomeIsVerticalMultiWidgets] + !Skin.HasSetting(homemenu.vertical.noslide)]]</expression>
     
-    <expression name="TrailerWindowIsActive">Skin.HasSetting(home.netflix.autoplay.trailer) + [[Window.IsVisible(Home.xml) + [$EXP[HomeIsModernMultiWidgetsNetflix] | $EXP[HomeIsVerticalMultiWidgetsNetflix]]] | Control.IsVisible(521) | Control.IsVisible(522) | Control.IsVisible(510)] + !Window.IsVisible(DialogVideoInfo.xml) + String.IsEqual(Window(home).Property(TrailerPath2),Player.FileNameAndPath) + !String.IsEmpty(Player.FileNameAndPath)</expression>
+    <expression name="TrailerWindowIsActive">Skin.HasSetting(home.netflix.autoplay.trailer) + [[Window.IsVisible(Home.xml) + [$EXP[HomeIsModernMultiWidgetsNetflix] | $EXP[HomeIsCleanMinimal] | $EXP[HomeIsVerticalMultiWidgetsNetflix]]] | Control.IsVisible(521) | Control.IsVisible(522) | Control.IsVisible(510)] + !Window.IsVisible(DialogVideoInfo.xml) + String.IsEqual(Window(home).Property(TrailerPath2),Player.FileNameAndPath) + !String.IsEmpty(Player.FileNameAndPath)</expression>
     <expression name="TrailerIsReady">Skin.HasSetting(home.netflix.autoplay.trailer) + [Window.IsVisible(Home.xml) | Window.IsVisible(MyVideoNav.xml)] + !Control.HasFocus(300) + !Player.HasMedia + !String.IsEmpty(Window(home).Property(listitem.trailer)) + !System.HasVisibleModalDialog + !Window.IsVisible(script-globalsearch.xml) + !String.IsEqual(Window(home).Property(TrailerPath),Window(home).Property(listitem.trailer))</expression>
     <expression name="TrailerWaitingForPlayer">!String.IsEmpty(Window(home).Property(TrailerPath2)) + !String.IsEmpty(Window(home).Property(TrailerPath)) + String.IsEmpty(Player.FileNameAndPath)</expression>
     <expression name="TrailerIsPlaying">String.IsEqual(Window(home).Property(TrailerPath2),Player.FileNameAndPath) + !String.IsEmpty(Player.FileNameAndPath)</expression>
@@ -637,6 +637,13 @@
             <texture colordiffuse="Background">common/trailerwindow.png</texture>
         </control>
     </include>
+    
+    <include name="TrailerWindowFullscreen">
+        <control type="videowindow">
+            <visible>$EXP[TrailerWindowIsActive] + !$EXP[ExtendedNowPlayingIsVisible]</visible>
+            <include>Dimensions_Fullscreen</include>
+        </control>
+    </include>
 
     <include name="GlobalBackground">
         <control type="multiimage" id="7975">
@@ -711,8 +718,11 @@
             <animation effect="fade" start="100" end="75" time="200" condition="Player.HasVideo + Skin.HasSetting(global.showvideo) | Player.HasAudio + Skin.HasSetting(global.showvisualisation)">Conditional</animation>
         </control>
         
+        
+        
         <!-- Trailer Window Home -->
-        <include condition="Skin.HasSetting(home.netflix.autoplay.trailer)">TrailerWindow</include>
+        <include condition="Skin.HasSetting(home.netflix.autoplay.trailer) + !$EXP[HomeIsCleanMinimal]">TrailerWindow</include>
+        <include condition="Skin.HasSetting(home.netflix.autoplay.trailer) + $EXP[HomeIsCleanMinimal]">TrailerWindowFullscreen</include>
 
         <!-- Global Fanart -->
         <control type="multiimage" description="Fanart">
@@ -825,7 +835,6 @@
             <include>Dimensions_Fullscreen</include>
             <include condition="!Skin.HasSetting(home.vertical)">Animation.FadeFromHome</include>
             <texture colordiffuse="FloorFade">common/floor2.png</texture>
-            <include>Animation.AutoTrailer.FadeOut.Background</include>
         </control>
     </include>
 
