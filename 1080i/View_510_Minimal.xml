@@ -28,6 +28,8 @@
         <height>395</height>
         <onup condition="!Skin.HasSetting(global.kioskmode)">9000</onup>
         <ondown>1651</ondown>
+        <onunfocus condition="Skin.HasSetting(home.netflix.autoplay.trailer)">ClearProperty(listitem.trailer,home)</onunfocus>
+        <onfocus condition="Skin.HasSetting(home.netflix.autoplay.trailer)">ClearProperty(TrailerIsPlayingFullscreen,home)</onfocus>
         <orientation>horizontal</orientation>
         <preloaditems>2</preloaditems>
         <pagecontrol>1651</pagecontrol>
@@ -86,6 +88,13 @@
                 </control>
                 <control type="group">
                     <visible>!Skin.HasSetting(use.default.selectbox)</visible>
+                    <include content="def_widget_glow">
+                        <param name="glow_top" value="5" />
+                        <param name="glow_left" value="1" />
+                        <param name="glow_right" value="2" />
+                        <param name="glow_height" value="313" />
+                        <param name="id" value="510" />
+                    </include>
                     <control type="image">
                         <left>7</left>
                         <top>6</top>
@@ -107,6 +116,13 @@
                 </control>
                 <control type="group">
                     <visible>Skin.HasSetting(use.default.selectbox)</visible>
+                    <include content="def_widget_glow">
+                        <param name="glow_top" value="3" />
+                        <param name="glow_left" value="0" />
+                        <param name="glow_right" value="0" />
+                        <param name="glow_height" value="317" />
+                        <param name="id" value="510" />
+                    </include>
                     <control type="image">
                         <left>3.5</left>
                         <top>3.3</top>
@@ -139,6 +155,7 @@
                     <param name="top" value="1" />
                 </include>
              </control>
+             <include condition="Skin.HasSetting(home.netflix.autoplay.trailer)">SetAutoTrailerControl</include>
         </focusedlayout>
         <itemlayout height="264" width="180" condition="Skin.HasSetting(510IconSizeSmall)">
             <include content="include.widget.poster">
@@ -179,6 +196,7 @@
                 </control>
                 <include>510_Focus_Code</include>
              </control>
+             <include condition="Skin.HasSetting(home.netflix.autoplay.trailer)">SetAutoTrailerControl</include>
         </focusedlayout>
     </include>
 
@@ -219,6 +237,13 @@
         </control>
         <control type="group">
             <visible>!Skin.HasSetting(use.default.selectbox)</visible>
+            <include content="def_widget_glow">
+                <param name="glow_top" value="5" />
+                <param name="glow_left" value="1" />
+                <param name="glow_right" value="2" />
+                <param name="glow_height" value="253" />
+                <param name="id" value="510" />
+            </include>
             <control type="image">
                 <left>7</left>
                 <top>7</top>
@@ -240,6 +265,13 @@
         </control>
         <control type="group">
             <visible>Skin.HasSetting(use.default.selectbox)</visible>
+            <include content="def_widget_glow">
+                <param name="glow_top" value="2" />
+                <param name="glow_left" value="-3" />
+                <param name="glow_right" value="-3" />
+                <param name="glow_height" value="260" />
+                <param name="id" value="510" />
+            </include>
             <control type="image">
                 <left>2.3</left>
                 <top>2</top>
@@ -296,7 +328,7 @@
                     <textcolor>Dark1</textcolor>
                     <font>SmallBold</font>
                     <label fallback="19055">$INFO[ListItem.Title]</label>
-                    <include condition="Skin.HasSetting(views.label.autoscroll)">LabelScroll</include>
+                    <include condition="Skin.HasSetting(labels.autoscroll)">LabelScroll</include>
                 </control>
                 <control type="label">
                     <visible>!String.IsEqual(ListItem.Label,..)</visible>

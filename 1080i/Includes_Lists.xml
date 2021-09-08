@@ -235,6 +235,7 @@
         <param name="condition.includecontent" value="$PARAM[condition.includecontent]" default="false"/>
         <param name="condition.isnotsets" value="$PARAM[condition.isnotsets]" default="true"/>
         <param name="condition.issets" value="$PARAM[condition.issets]" default="false"/>
+        <param name="condition.castfadeout" value="$PARAM[condition.castfadeout]" default="false"/>
         <definition>
 
             <!-- INFOCONTENT -->
@@ -368,6 +369,7 @@
                 <width>2288</width>
                 <height>670</height>
                 <onup>$PARAM[onup1]</onup>
+                <include condition="$PARAM[condition.castfadeout]">Animation.CastFadeOut</include>
                 <onup condition="Control.HasFocus(50) + !ListItem.IsCollection">SetProperty(down,1)</onup>
                 <onleft>$PARAM[controlid]</onleft>
                 <onright>$PARAM[controlid]</onright>
@@ -778,4 +780,18 @@
         <value condition="String.IsEqual(Window(home).Property(extendedtype),tv)">plugin://plugin.video.themoviedb.helper/?info=details&amp;type=tv&amp;query=$INFO[Container(10051).ListItem.Label]</value>
         <value>plugin://plugin.video.themoviedb.helper/?info=details&amp;type=movie&amp;query=$INFO[Container(10051).ListItem.Label]</value>
     </variable>
+    
+    <include name="Header_PlayListStats">
+        <control type="list">
+            <include>HiddenListControl</include>
+            <content>$VAR[PlayListStatsPath]</content>
+        </control>
+    </include>
+    
+    <include name="Header_PlaylistsCountItem">
+        <control type="list" id="9986">
+            <include>HiddenListControl</include>
+            <content>$VAR[PlaylistsCountItemPath]</content>
+        </control>
+    </include>
 </includes>

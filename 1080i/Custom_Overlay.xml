@@ -61,12 +61,19 @@
                 </control>
             </control>
         </control>
+        <control type="image">
+            <top>0</top>
+            <width>100%</width>
+            <height>550</height>
+            <texture colordiffuse="4D202020">common/white.png</texture>
+            <visible>Skin.HasSetting(DebugInfo)</visible>
+        </control>
         <control type="grouplist">
             <posx>15</posx>
             <posy>-10</posy>
             <width>1820</width>
-            <height>450</height>
-            <itemgap>-24</itemgap>
+            <height>750</height>
+            <itemgap>-35</itemgap>
             <visible>Skin.HasSetting(DebugInfo)</visible>
 
             <!-- Window labels -->
@@ -597,11 +604,98 @@
                 <visible>Skin.HasSetting(DebugInfo.extended)</visible>
             </control>
             <control type="label">
-                <textcolor>FFFFFFFF</textcolor>
                 <font>Tiny</font>
-                <align>left</align>
-                <label fallback="No VideoResolution">$INFO[ListItem.VideoResolution,Current VideoResolution: ]</label>
-                <visible>Skin.HasSetting(DebugInfo.extended)</visible>
+                <textcolor>FFFFFFFF</textcolor>
+                <label fallback="19055">ListItem $LOCALIZE[20410] Property: $INFO[Window(home).Property(listitem.trailer)]</label>
+                <visible>$EXP[AutoTrailerDebugging]</visible>
+            </control>
+            <control type="label">
+                <font>Tiny</font>
+                <textcolor>FFFFFFFF</textcolor>
+                <label fallback="19055">$LOCALIZE[20410] $LOCALIZE[573] (last): $INFO[Window(home).Property(TrailerPath)]</label>
+                <visible>$EXP[AutoTrailerDebugging]</visible>
+            </control>
+            <control type="label">
+                <font>Tiny</font>
+                <textcolor>FFFFFFFF</textcolor>
+                <label fallback="19055">$LOCALIZE[20410] $LOCALIZE[573] (current): $INFO[Window(home).Property(TrailerPath2)]</label>
+                <visible>$EXP[AutoTrailerDebugging]</visible>
+            </control>
+            <control type="label">
+                <font>Tiny</font>
+                <textcolor>FFFFFFFF</textcolor>
+                <label fallback="19055">$LOCALIZE[14200] $LOCALIZE[573]: $INFO[Player.FileNameAndPath]</label>
+                <visible>$EXP[AutoTrailerDebugging]</visible>
+            </control>                
+            <control type="label">
+                <font>Tiny</font>
+                <textcolor>FFFFFFFF</textcolor>
+                <label fallback="19055">Background Status: clear</label>
+                <visible>!String.IsEmpty(Window(home).Property(TrailerFade))</visible>
+                <visible>$EXP[AutoTrailerDebugging]</visible>
+            </control>                
+            <control type="label">
+                <font>Tiny</font>
+                <textcolor>FFFFFFFF</textcolor>
+                <label fallback="19055">Background Status: normal</label>
+                <visible>String.IsEmpty(Window(home).Property(TrailerFade))</visible>
+                <visible>$EXP[AutoTrailerDebugging]</visible>
+            </control>                
+            <control type="label">
+                <font>Tiny</font>
+                <textcolor>FFFFFFFF</textcolor>
+                <label fallback="19055">Background Helper Status: active</label>
+                <visible>Window.IsVisible(Custom_1194_AutoTrailer_Background_Helper.xml)</visible>
+                <visible>$EXP[AutoTrailerDebugging]</visible>
+            </control>
+            <control type="label">
+                <font>Tiny</font>
+                <textcolor>FFFFFFFF</textcolor>
+                <label fallback="19055">Background Helper Status: pending</label>
+                <visible>!Window.IsVisible(Custom_1194_AutoTrailer_Background_Helper.xml)</visible>
+                <visible>$EXP[AutoTrailerDebugging]</visible>
+            </control>                
+            <control type="label">
+                <font>Tiny</font>
+                <textcolor>FFFFFFFF</textcolor>
+                <label fallback="19055">Autostart Helper Status: active</label>
+                <visible>Window.IsVisible(Custom_1195_AutoTrailer_Start_Helper.xml)</visible>
+                <visible>$EXP[AutoTrailerDebugging]</visible>
+            </control>
+            <control type="label">
+                <font>Tiny</font>
+                <textcolor>FFFFFFFF</textcolor>
+                <label fallback="19055">Autostart Helper Status: pending</label>
+                <visible>!Window.IsVisible(Custom_1195_AutoTrailer_Start_Helper.xml)</visible>
+                <visible>$EXP[AutoTrailerDebugging]</visible>
+            </control>
+            <control type="label">
+                <font>Tiny</font>
+                <textcolor>FFFFFFFF</textcolor>
+                <label fallback="19055">$LOCALIZE[20410] $LOCALIZE[126]: $VAR[TrailerStatus]</label>
+                <visible>$EXP[TrailerIsPlaying]</visible>
+                <visible>$EXP[AutoTrailerDebugging]</visible>
+            </control>
+            <control type="label">
+                <font>Tiny</font>
+                <textcolor>FFFFFFFF</textcolor>
+                <label fallback="19055">$LOCALIZE[20410] $LOCALIZE[126]: should start in [B]$VAR[NetflixTrailerDelayLabel][/B] seconds, if focused</label>
+                <visible>$EXP[TrailerIsReady]</visible>
+                <visible>$EXP[AutoTrailerDebugging]</visible>
+            </control>
+            <control type="label">
+                <font>Tiny</font>
+                <textcolor>FFFFFFFF</textcolor>
+                <label fallback="19055">$LOCALIZE[20410] $LOCALIZE[126]: waiting for player</label>
+                <visible>$EXP[TrailerWaitingForPlayer]</visible>
+                <visible>$EXP[AutoTrailerDebugging]</visible>
+            </control>
+            <control type="label">
+                <font>Tiny</font>
+                <textcolor>FFFFFFFF</textcolor>
+                <label fallback="19055">$LOCALIZE[20410] $LOCALIZE[126]: pending</label>
+                <visible>!$EXP[TrailerIsReady] + !$EXP[TrailerIsPlaying] + !$EXP[TrailerWaitingForPlayer]</visible>
+                <visible>$EXP[AutoTrailerDebugging]</visible>
             </control>
         </control>
     </controls>
