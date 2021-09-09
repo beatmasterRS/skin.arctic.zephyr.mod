@@ -1554,7 +1554,7 @@
                 </include>
             </control>
 
-            <!-- IMDB Trailer, only movies -->
+            <!-- IMDB Trailer -->
             <control type="radiobutton" id="1235">
                 <onfocus>ClearProperty(moviecontent)</onfocus>
                 <onfocus>ClearProperty(ShowDisc)</onfocus>
@@ -1576,21 +1576,22 @@
                 <include content="buttontextures">
                     <param name="icon" value="buttonsdialogs/trailer.png"/>
                 </include>
-                <visible>[!String.IsEmpty(ListItem.Trailer) + !Skin.HasSetting(PlayTrailerWindowed)] + !Skin.HasSetting(Use.IMDB.Trailer) + !String.IsEqual(ListItem.DBType,tvshow)</visible>
+                <visible>[!String.IsEmpty(ListItem.Trailer) + !Skin.HasSetting(PlayTrailerWindowed)] + !Skin.HasSetting(Use.IMDB.Trailer)</visible>
                 <visible>!Skin.HasSetting(hidebutton.video.trailer)</visible>
             </control>
 
-            <!-- Youtube Trailer, only TV Shows, Bingie -->
-            <control type="radiobutton" id="1998">
-                <onfocus>ClearProperty(moviecontent)</onfocus>
+            <!-- Trailer Windowed, Mixed -->
+            <control type="radiobutton" id="1223">
+                <onfocus condition="!String.IsEqual(Window.Property(moviecontent),6)">ClearProperty(moviecontent)</onfocus>
                 <onfocus>ClearProperty(ShowDisc)</onfocus>
+                <onfocus>SetProperty(moviecontent,6)</onfocus>
                 <include>buttondimensions</include>
                 <include content="buttontextures">
                     <param name="icon" value="buttonsdialogs/trailer.png"/>
                 </include>
-                <visible>String.IsEqual(ListItem.DBType,tvshow) + System.AddonIsEnabled(script.bingie.helper) + !Skin.HasSetting(PlayTrailerWindowed)</visible>
-                <onclick condition="String.IsEqual(ListItem.DBType,tvshow) + System.AddonIsEnabled(script.bingie.helper)">RunScript(script.bingie.helper,action=playtrailer,MODE=fullscreen,title=$INFO[ListItem.Title,, $LOCALIZE[36902]],local=true)</onclick>
-                <onclick>Dialog.Close(2003,force)</onclick>
+                <visible>Skin.HasSetting(PlayTrailerWindowed) + [[Skin.HasSetting(Use.IMDB.Trailer) + !String.IsEmpty(ListItem.IMDBNumber) + System.AddonIsEnabled(plugin.video.imdb.trailers)] | [!String.IsEmpty(ListItem.Trailer) + !Skin.HasSetting(Use.IMDB.Trailer)]]</visible>
+                <onclick condition="!Skin.HasSetting(Use.IMDB.Trailer)">PlayMedia($INFO[ListItem.Trailer],1)</onclick>
+                <onclick condition="Skin.HasSetting(Use.IMDB.Trailer)">PlayMedia(plugin://plugin.video.imdb.trailers/?action=play_id&amp;imdb=$INFO[ListItem.IMDBNumber],1)</onclick>
                 <visible>!Skin.HasSetting(hidebutton.video.trailer)</visible>
             </control>
 
@@ -1606,22 +1607,6 @@
                 <onclick>RunScript(script.embuary.helper,action=playcinema,dbid=$INFO[ListItem.DBID],type=$INFO[ListItem.DBType],title='$ESCINFO[ListItem.Title]')</onclick>
                 <visible>String.IsEqual(ListItem.DBTYPE,movie) | String.IsEqual(ListItem.DBTYPE,episode)</visible>
                 <visible>Skin.HasSetting(hidebutton.video.cinema)</visible>
-            </control>
-
-            <!-- Trailer Windowed, Mixed -->
-            <control type="radiobutton" id="1223">
-                <onfocus condition="!String.IsEqual(Window.Property(moviecontent),6)">ClearProperty(moviecontent)</onfocus>
-                <onfocus>ClearProperty(ShowDisc)</onfocus>
-                <onfocus>SetProperty(moviecontent,6)</onfocus>
-                <include>buttondimensions</include>
-                <include content="buttontextures">
-                    <param name="icon" value="buttonsdialogs/trailer.png"/>
-                </include>
-                <visible>[!String.IsEmpty(ListItem.Trailer) + Skin.HasSetting(PlayTrailerWindowed) + !Skin.HasSetting(Use.IMDB.Trailer)] | [Skin.HasSetting(PlayTrailerWindowed) + Skin.HasSetting(Use.IMDB.Trailer) + !String.IsEmpty(ListItem.IMDBNumber) + System.AddonIsEnabled(plugin.video.imdb.trailers)] | [Skin.HasSetting(PlayTrailerWindowed) + System.AddonIsEnabled(script.bingie.helper) + String.IsEqual(ListItem.DBType,tvshow)]</visible>
-                <onclick condition="!Skin.HasSetting(Use.IMDB.Trailer) + !String.IsEqual(ListItem.DBType,tvshow)">PlayMedia($INFO[ListItem.Trailer],1)</onclick>
-                <onclick condition="Skin.HasSetting(Use.IMDB.Trailer) + !String.IsEqual(ListItem.DBType,tvshow)">PlayMedia(plugin://plugin.video.imdb.trailers/?action=play_id&amp;imdb=$INFO[ListItem.IMDBNumber],1)</onclick>
-                <onclick condition="String.IsEqual(ListItem.DBType,tvshow) + System.AddonIsEnabled(script.bingie.helper)">RunScript(script.bingie.helper,action=playtrailer,MODE=windowed,title=$INFO[ListItem.Title,, $LOCALIZE[36902]],local=true)</onclick>
-                <visible>!Skin.HasSetting(hidebutton.video.trailer)</visible>
             </control>
             <control type="radiobutton" id="7">
                 <onfocus>ClearProperty(moviecontent)</onfocus>
