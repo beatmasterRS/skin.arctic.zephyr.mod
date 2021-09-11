@@ -2004,8 +2004,7 @@
     <include name="DefMultiWidgetContainer">
         <param name="height" value="$PARAM[height]" default="325"/>
         <param name="orientation" value="$PARAM[orientation]" default="horizontal"/>
-        <param name="moveleft" value="$PARAM[moveleft]" default="false"/>
-        <param name="moveleftpx" value="$PARAM[moveleftpx]" default="293"/>
+        <param name="movement" value="$PARAM[movement]" default="7"/>
         <param name="containerwidth" value="$PARAM[containerwidth]" default="2100"/>
         <definition>
             <include content="def_top" condition="Skin.HasSetting(homemenu.clean.flix)">
@@ -2022,18 +2021,10 @@
             </include>
             <include content="def_top" condition="!Skin.HasSetting(homemenu.netflix) + Skin.HasSetting(home.widgets.show.reflections)">
                 <param name="top" value="50" />
-            </include>
-            <include content="def_left" condition="$EXP[HomeIsModernMultiWidgets] + $PARAM[moveleft] + Skin.HasSetting(old.widgets.movement)">
-                <param name="left" value="$PARAM[moveleftpx]" />
-            </include>
-            <left>515</left>
-            <include content="def_width" condition="$EXP[HomeIsModernMultiWidgets] + !Skin.HasSetting(homemenu.clean.flix) + $PARAM[moveleft] + Skin.HasSetting(old.widgets.movement)">
-                <param name="width" value="$PARAM[containerwidth]" />
-            </include>            
+            </include>         
             <include content="def_width" condition="Skin.HasSetting(homemenu.clean.flix)">
                 <param name="width" value="225" />
             </include>
-            <width>1900</width>
             <animation effect="fade" start="0" end="0" time="0" condition="Skin.HasSetting(homemenu.clean.flix)">Conditional</animation>
             <include content="def_height" condition="Skin.HasSetting(homemenu.clean.flix)">
                 <param name="height" value="565" />
@@ -2051,6 +2042,9 @@
                 <param name="height" value="$PARAM[height2]" />
             </include>
             <height>$PARAM[height]</height>
+            <include content="def_left" condition="![$EXP[HomeIsModernMultiWidgets] + !Skin.HasSetting(homemenu.clean.flix)] | Skin.HasSetting(old.widgets.movement)"><param name="left" value="70" /></include>
+            <left>0</left>
+            <right>0</right>
             <include content="Animation.FadeOutHomeFullscreenWidget" condition="$EXP[HomeIsModernMultiWidgetsNetflix] | $EXP[HomeIsVerticalMultiWidgetsNetflix]">
                 <param name="condition" value="$PARAM[animation_condition]"/>
             </include>
@@ -2072,10 +2066,8 @@
             <onback condition="Integer.IsEqual(Container($PARAM[id]).Position,0) + !Container($PARAM[id]).HasPrevious + !Skin.HasSetting(disable.widgets.onback.go.back.to.position.0)">SetFocus(4567)</onback>
             <onback condition="Integer.IsEqual(Container($PARAM[id]).Position,0) + !Container($PARAM[id]).HasPrevious + Skin.HasSetting(disable.widgets.onback.go.back.to.position.0)">SetFocus(300)</onback>
             <onleft condition="$EXP[HomeIsVerticalMultiWidgets]">300</onleft>
-            <preloaditems>1</preloaditems>
-            <include content="def_focusposition" condition="$EXP[HomeIsModernMultiWidgets] + !Skin.HasSetting(homemenu.clean.flix) + $PARAM[moveleft] + Skin.HasSetting(old.widgets.movement)">
-                <param name="focusposition" value="1" />
-            </include>
+            <preloaditems>4</preloaditems>
+            <movement>$PARAM[movement]</movement>
             <focusposition>0</focusposition>
             <orientation>$PARAM[orientation]</orientation>
             <include>ScrolltimeWidgetsList</include>
@@ -2640,9 +2632,15 @@
     <!-- Systeminfo Layout -->
     <include name="TemplateSystemItemLayout">
         <itemlayout height="325" width="325">
-            <include content="include.widget.square.system">
-                <param name="id" value="$PARAM[shortcutsid]"/>
-            </include>
+            <control type="group">
+                <include content="def_left" condition="$EXP[HomeIsModernMultiWidgets] + !Skin.HasSetting(homemenu.clean.flix) + !Skin.HasSetting(old.widgets.movement)"><param name="left" value="70" /></include>
+                <control type="group">
+                    <width>325</width>
+                    <include content="include.widget.square.system">
+                        <param name="id" value="$PARAM[shortcutsid]"/>
+                    </include>
+                </control>
+            </control>
         </itemlayout>
     </include>
 
@@ -2652,45 +2650,75 @@
         <param name="Square" default="false"/>
         <definition>
         <itemlayout height="125" width="125" condition="$PARAM[SquareSmall]">
-            <include content="include.widget.square">
-                <param name="id" value="$PARAM[shortcutsid]"/>
-                <param name="height" value="125"/>
-                <param name="distance" value="$PARAM[distance]"/>
-            </include>
+            <control type="group">
+                <include content="def_left" condition="$EXP[HomeIsModernMultiWidgets] + !Skin.HasSetting(homemenu.clean.flix) + !Skin.HasSetting(old.widgets.movement)"><param name="left" value="70" /></include>
+                <control type="group">
+                    <width>125</width>
+                    <include content="include.widget.square">
+                        <param name="id" value="$PARAM[shortcutsid]"/>
+                        <param name="height" value="125"/>
+                        <param name="distance" value="$PARAM[distance]"/>
+                    </include>
+                </control>
+            </control>
         </itemlayout>
         <itemlayout height="175" width="222" condition="$PARAM[SquareMedium]">
-            <include content="include.widget.square">
-                <param name="id" value="$PARAM[shortcutsid]"/>
-                <param name="aspectratio" value="$PARAM[aspectratio]"/>
-                <param name="height" value="175"/>
-                <param name="distance" value="$PARAM[distance]"/>
-            </include>
+            <control type="group">
+                <include content="def_left" condition="$EXP[HomeIsModernMultiWidgets] + !Skin.HasSetting(homemenu.clean.flix) + !Skin.HasSetting(old.widgets.movement)"><param name="left" value="70" /></include>
+                <control type="group">
+                    <width>222</width>
+                    <include content="include.widget.square">
+                        <param name="id" value="$PARAM[shortcutsid]"/>
+                        <param name="aspectratio" value="$PARAM[aspectratio]"/>
+                        <param name="height" value="175"/>
+                        <param name="distance" value="$PARAM[distance]"/>
+                    </include>
+                </control>
+            </control>
         </itemlayout>
         <itemlayout height="325" width="325" condition="![$PARAM[SquareSmall] | $PARAM[SquareMedium]]">
-            <include content="include.widget.square">
-                <param name="id" value="$PARAM[shortcutsid]"/>
-                <param name="aspectratio" value="$PARAM[aspectratio]"/>
-                <param name="distance" value="$PARAM[distance]"/>
-            </include>
+            <control type="group">
+                <include content="def_left" condition="$EXP[HomeIsModernMultiWidgets] + !Skin.HasSetting(homemenu.clean.flix) + !Skin.HasSetting(old.widgets.movement)"><param name="left" value="70" /></include>
+                <control type="group">
+                    <width>325</width>
+                    <include content="include.widget.square">
+                        <param name="id" value="$PARAM[shortcutsid]"/>
+                        <param name="aspectratio" value="$PARAM[aspectratio]"/>
+                        <param name="distance" value="$PARAM[distance]"/>
+                    </include>
+                </control>
+            </control>
         </itemlayout>
         </definition>
     </include>
 
     <include name="TemplatePvrItemLayout">
         <itemlayout height="61.9" width="1756">
-            <include>include.widget.pvr</include>
+            <control type="group">
+                <include content="def_left" condition="$EXP[HomeIsModernMultiWidgets] + !Skin.HasSetting(homemenu.clean.flix) + !Skin.HasSetting(old.widgets.movement)"><param name="left" value="70" /></include>
+                <control type="group">
+                    <width>1756</width>
+                    <include>include.widget.pvr</include>
+                </control>
+            </control>
         </itemlayout>
     </include>
 
     <include name="TemplatePvrFocusLayout">
         <focusedlayout height="61.9" width="1756">
-            <include content="include.widget.pvr.focus">
-                <param name="shortcutsid" value="$PARAM[shortcutsid]"/>
-                <param name="glow_top" value="-4"/>
-                <param name="glow_left" value="53"/>
-                <param name="glow_right" value="36"/>
-                <param name="glow_height" value="85"/>
-            </include>
+            <control type="group">
+                <include content="def_left" condition="$EXP[HomeIsModernMultiWidgets] + !Skin.HasSetting(homemenu.clean.flix) + !Skin.HasSetting(old.widgets.movement)"><param name="left" value="70" /></include>
+                <control type="group">
+                    <width>1756</width>
+                    <include content="include.widget.pvr.focus">
+                        <param name="shortcutsid" value="$PARAM[shortcutsid]"/>
+                        <param name="glow_top" value="-4"/>
+                        <param name="glow_left" value="53"/>
+                        <param name="glow_right" value="36"/>
+                        <param name="glow_height" value="85"/>
+                    </include>
+                </control>
+            </control>
         </focusedlayout>
     </include>
 
@@ -2707,61 +2735,109 @@
         <param name="SquareMedium" default="false"/>
         <definition>
         <itemlayout height="325" width="222" condition="![$PARAM[Banner] | $PARAM[Thumbnail] | $PARAM[Fanart] | $PARAM[FanartSmall] | $PARAM[ThumbnailSmall] | $PARAM[ThumbnailPosterSmall] | $PARAM[Square]]">
-            <include content="include.widget.poster">
-                <param name="id" value="$PARAM[shortcutsid]"/>
-                <param name="reflections" value="Skin.HasSetting(home.widgets.show.reflections)"/>
-            </include>
+            <control type="group">
+                <include content="def_left" condition="$EXP[HomeIsModernMultiWidgets] + !Skin.HasSetting(homemenu.clean.flix) + !Skin.HasSetting(old.widgets.movement)"><param name="left" value="70" /></include>
+                <control type="group">
+                    <width>222</width>
+                    <include content="include.widget.poster">
+                        <param name="id" value="$PARAM[shortcutsid]"/>
+                        <param name="reflections" value="Skin.HasSetting(home.widgets.show.reflections)"/>
+                    </include>
+                </control>
+            </control>
         </itemlayout>
         <itemlayout height="325" width="325" condition="$PARAM[Square]">
-            <include content="include.widget.square">
-                <param name="id" value="$PARAM[shortcutsid]"/>
-                <param name="aspectratio" value="$PARAM[aspectratio]"/>
-                <param name="distance" value="$PARAM[distance]"/>
-                <param name="reflections" value="Skin.HasSetting(home.widgets.show.reflections)"/>
-            </include>
+            <control type="group">
+                <include content="def_left" condition="$EXP[HomeIsModernMultiWidgets] + !Skin.HasSetting(homemenu.clean.flix) + !Skin.HasSetting(old.widgets.movement)"><param name="left" value="70" /></include>
+                <control type="group">
+                    <width>325</width>
+                    <include content="include.widget.square">
+                        <param name="id" value="$PARAM[shortcutsid]"/>
+                        <param name="aspectratio" value="$PARAM[aspectratio]"/>
+                        <param name="distance" value="$PARAM[distance]"/>
+                        <param name="reflections" value="Skin.HasSetting(home.widgets.show.reflections)"/>
+                    </include>
+                </control>
+            </control>
         </itemlayout>
         <itemlayout height="325" width="562" condition="$PARAM[Fanart]">
-            <include content="include.widget.fanart">
-                <param name="id" value="$PARAM[shortcutsid]"/>
-                <param name="reflections" value="Skin.HasSetting(home.widgets.show.reflections)"/>
-            </include>
+            <control type="group">
+                <include content="def_left" condition="$EXP[HomeIsModernMultiWidgets] + !Skin.HasSetting(homemenu.clean.flix) + !Skin.HasSetting(old.widgets.movement)"><param name="left" value="70" /></include>
+                <control type="group">
+                    <width>562</width>
+                    <include content="include.widget.fanart">
+                        <param name="id" value="$PARAM[shortcutsid]"/>
+                        <param name="reflections" value="Skin.HasSetting(home.widgets.show.reflections)"/>
+                    </include>
+                </control>
+            </control>
         </itemlayout>
         <itemlayout height="325" width="400" condition="$PARAM[FanartSmall]">
-            <include content="include.widget.fanart">
-                <param name="id" value="$PARAM[shortcutsid]"/>
-                <param name="reflections" value="false"/>
-                <param name="small" value="true"/>
-            </include>
+            <control type="group">
+                <include content="def_left" condition="$EXP[HomeIsModernMultiWidgets] + !Skin.HasSetting(homemenu.clean.flix) + !Skin.HasSetting(old.widgets.movement)"><param name="left" value="70" /></include>
+                <control type="group">
+                    <width>400</width>
+                    <include content="include.widget.fanart">
+                        <param name="id" value="$PARAM[shortcutsid]"/>
+                        <param name="reflections" value="false"/>
+                        <param name="small" value="true"/>
+                    </include>
+                </control>
+            </control>
         </itemlayout>
         <itemlayout height="325" width="1690" condition="$PARAM[Banner]">
-            <include content="include.widget.banner">
-                <param name="id" value="$PARAM[shortcutsid]"/>
-                <param name="reflections" value="Skin.HasSetting(home.widgets.show.reflections)"/>
-            </include>
+            <control type="group">
+                <include content="def_left" condition="$EXP[HomeIsModernMultiWidgets] + !Skin.HasSetting(homemenu.clean.flix) + !Skin.HasSetting(old.widgets.movement)"><param name="left" value="70" /></include>
+                <control type="group">
+                    <width>1690</width>
+                    <include content="include.widget.banner">
+                        <param name="id" value="$PARAM[shortcutsid]"/>
+                        <param name="reflections" value="Skin.HasSetting(home.widgets.show.reflections)"/>
+                    </include>
+                </control>
+            </control>
         </itemlayout>
         <itemlayout height="325" width="562" condition="$PARAM[Thumbnail]">
-            <include content="include.widget.thumb">
-                <param name="clearlogo" value="$PARAM[shortcutsclearlogo]"/>
-                <param name="id" value="$PARAM[shortcutsid]"/>
-                <param name="reflections" value="Skin.HasSetting(home.widgets.show.reflections)"/>
-            </include>
+            <control type="group">
+                <include content="def_left" condition="$EXP[HomeIsModernMultiWidgets] + !Skin.HasSetting(homemenu.clean.flix) + !Skin.HasSetting(old.widgets.movement)"><param name="left" value="70" /></include>
+                <control type="group">
+                    <width>562</width>
+                    <include content="include.widget.thumb">
+                        <param name="clearlogo" value="$PARAM[shortcutsclearlogo]"/>
+                        <param name="id" value="$PARAM[shortcutsid]"/>
+                        <param name="reflections" value="Skin.HasSetting(home.widgets.show.reflections)"/>
+                    </include>
+                </control>
+            </control>
         </itemlayout>
         <itemlayout height="325" width="400" condition="$PARAM[ThumbnailSmall]">
-            <include content="include.widget.thumb">
-                <param name="clearlogo" value="$PARAM[shortcutsclearlogo]"/>
-                <param name="id" value="$PARAM[shortcutsid]"/>
-                <param name="small" value="true"/>
-                <param name="reflections" value="false"/>
-            </include>
+            <control type="group">
+                <include content="def_left" condition="$EXP[HomeIsModernMultiWidgets] + !Skin.HasSetting(homemenu.clean.flix) + !Skin.HasSetting(old.widgets.movement)"><param name="left" value="70" /></include>
+                <control type="group">
+                    <width>400</width>
+                    <include content="include.widget.thumb">
+                        <param name="clearlogo" value="$PARAM[shortcutsclearlogo]"/>
+                        <param name="id" value="$PARAM[shortcutsid]"/>
+                        <param name="small" value="true"/>
+                        <param name="reflections" value="false"/>
+                    </include>
+                </control>
+            </control>
         </itemlayout>
         <itemlayout height="325" width="542" condition="$PARAM[ThumbnailPosterSmall]">
-            <include content="include.widget.thumb">
-                <param name="clearlogo" value="false"/>
-                <param name="id" value="$PARAM[shortcutsid]"/>
-                <param name="small" value="true"/>
-                <param name="poster" value="true"/>
-                <param name="reflections" value="false"/>
-            </include>
+            <control type="group">
+                <include content="def_left" condition="$EXP[HomeIsModernMultiWidgets] + !Skin.HasSetting(homemenu.clean.flix) + !Skin.HasSetting(old.widgets.movement)"><param name="left" value="70" /></include>
+                <control type="group">
+                    <width>542</width>
+                    <include content="include.widget.thumb">
+                        <param name="clearlogo" value="false"/>
+                        <param name="id" value="$PARAM[shortcutsid]"/>
+                        <param name="small" value="true"/>
+                        <param name="poster" value="true"/>
+                        <param name="reflections" value="false"/>
+                    </include>
+                </control>
+            </control>
         </itemlayout>
         </definition>
     </include>
@@ -2772,13 +2848,31 @@
         <param name="Square" default="false"/>
         <definition>
         <itemlayout height="325" width="222" condition="![$PARAM[Fanart] | $PARAM[Square]]">
-            <include>weatherlayoutwidgetsvertical.poster</include>
+            <control type="group">
+                <include content="def_left" condition="$EXP[HomeIsModernMultiWidgets] + !Skin.HasSetting(homemenu.clean.flix) + !Skin.HasSetting(old.widgets.movement)"><param name="left" value="70" /></include>
+                <control type="group">
+                    <width>222</width>
+                    <include>weatherlayoutwidgetsvertical.poster</include>
+                </control>
+            </control>
         </itemlayout>
         <itemlayout height="325" width="325" condition="$PARAM[Square]">
-            <include>weatherlayoutwidgetsvertical.square</include>
+            <control type="group">
+                <include content="def_left" condition="$EXP[HomeIsModernMultiWidgets] + !Skin.HasSetting(homemenu.clean.flix) + !Skin.HasSetting(old.widgets.movement)"><param name="left" value="70" /></include>
+                <control type="group">
+                    <width>325</width>
+                    <include>weatherlayoutwidgetsvertical.square</include>
+                </control>
+            </control>
         </itemlayout>
         <itemlayout height="325" width="562" condition="$PARAM[Fanart]">
-            <include>weatherlayoutwidgetsvertical.fanart</include>
+            <control type="group">
+                <include content="def_left" condition="$EXP[HomeIsModernMultiWidgets] + !Skin.HasSetting(homemenu.clean.flix) + !Skin.HasSetting(old.widgets.movement) + !Skin.HasSetting(old.widgets.movement)"><param name="left" value="70" /></include>
+                <control type="group">
+                    <width>562</width>
+                    <include>weatherlayoutwidgetsvertical.fanart</include>
+                </control>
+            </control>
         </itemlayout>
         </definition>
     </include>
@@ -2788,11 +2882,17 @@
         <param name="enablehelperbutton" value="$PARAM[enablehelperbutton]" default="false"/>
         <definition>
         <focusedlayout height="325" width="325">
-            <include content="include.widget.square.system.focus">
-                <param name="id" value="$PARAM[shortcutsid]"/>
-                <param name="glow_left" value="2"/>
-                <param name="glow_right" value="3"/>
-            </include>
+            <control type="group">
+                <include content="def_left" condition="$EXP[HomeIsModernMultiWidgets] + !Skin.HasSetting(homemenu.clean.flix) + !Skin.HasSetting(old.widgets.movement)"><param name="left" value="70" /></include>
+                <width>325</width>
+                <control type="group">
+                    <include content="include.widget.square.system.focus">
+                        <param name="id" value="$PARAM[shortcutsid]"/>
+                        <param name="glow_left" value="2"/>
+                        <param name="glow_right" value="3"/>
+                    </include>
+                </control>
+            </control>
             <include content="SetWidgetContainerPosition" condition="$EXP[HomeIsCleanMinimal] + $PARAM[enablehelperbutton]">
                 <param name="id" value="$PARAM[shortcutsid]" />
             </include>
@@ -2806,34 +2906,52 @@
         <param name="Square" default="false"/>
         <definition>
         <focusedlayout height="125" width="125" condition="$PARAM[SquareSmall]">
-            <include content="include.widget.square.focus">
-                <param name="id" value="$PARAM[shortcutsid]"/>
-                <param name="height" value="125"/>
-                <param name="distance" value="$PARAM[distance]"/>
-                <param name="glow_left" value="-4"/>
-                <param name="glow_right" value="-2"/>
-                <param name="glow_top" value="-4"/>
-                <param name="glow_height" value="130"/>
-            </include>
+            <control type="group">
+                <include content="def_left" condition="$EXP[HomeIsModernMultiWidgets] + !Skin.HasSetting(homemenu.clean.flix) + !Skin.HasSetting(old.widgets.movement)"><param name="left" value="70" /></include>
+                <control type="group">
+                    <width>125</width>
+                    <include content="include.widget.square.focus">
+                        <param name="id" value="$PARAM[shortcutsid]"/>
+                        <param name="height" value="125"/>
+                        <param name="distance" value="$PARAM[distance]"/>
+                        <param name="glow_left" value="-4"/>
+                        <param name="glow_right" value="-2"/>
+                        <param name="glow_top" value="-4"/>
+                        <param name="glow_height" value="130"/>
+                    </include>
+                </control>
+            </control>
         </focusedlayout>
         <focusedlayout height="175" width="222" condition="$PARAM[SquareMedium]">
-            <include content="include.widget.square.focus">
-                <param name="id" value="$PARAM[shortcutsid]"/>
-                <param name="aspectratio" value="$PARAM[aspectratio]"/>
-                <param name="height" value="175"/>
-                <param name="distance" value="$PARAM[distance]"/>
-                <param name="glow_left" value="-2"/>
-                <param name="glow_right" value="-1"/>
-                <param name="glow_top" value="-4"/>
-                <param name="glow_height" value="181"/>
-            </include>
+            <control type="group">
+                <include content="def_left" condition="$EXP[HomeIsModernMultiWidgets] + !Skin.HasSetting(homemenu.clean.flix) + !Skin.HasSetting(old.widgets.movement)"><param name="left" value="70" /></include>
+                <control type="group">
+                    <width>222</width>
+                    <include content="include.widget.square.focus">
+                        <param name="id" value="$PARAM[shortcutsid]"/>
+                        <param name="aspectratio" value="$PARAM[aspectratio]"/>
+                        <param name="height" value="175"/>
+                        <param name="distance" value="$PARAM[distance]"/>
+                        <param name="glow_left" value="-2"/>
+                        <param name="glow_right" value="-1"/>
+                        <param name="glow_top" value="-4"/>
+                        <param name="glow_height" value="181"/>
+                    </include>
+                </control>
+            </control>
         </focusedlayout>
         <focusedlayout height="325" width="325" condition="![$PARAM[SquareSmall] | $PARAM[SquareMedium]]">
-            <include content="include.widget.square.focus">
-                <param name="id" value="$PARAM[shortcutsid]"/>
-                <param name="aspectratio" value="$PARAM[aspectratio]"/>
-                <param name="distance" value="$PARAM[distance]"/>
-            </include>
+            <control type="group">
+                <include content="def_left" condition="$EXP[HomeIsModernMultiWidgets] + !Skin.HasSetting(homemenu.clean.flix) + !Skin.HasSetting(old.widgets.movement)"><param name="left" value="70" /></include>
+                <control type="group">
+                    <width>325</width>
+                    <include content="include.widget.square.focus">
+                        <param name="id" value="$PARAM[shortcutsid]"/>
+                        <param name="aspectratio" value="$PARAM[aspectratio]"/>
+                        <param name="distance" value="$PARAM[distance]"/>
+                    </include>
+                </control>
+            </control>
         </focusedlayout>
         </definition>
     </include>
@@ -2852,85 +2970,133 @@
         <param name="enablehelperbutton" value="$PARAM[enablehelperbutton]" default="false"/>
         <definition>
         <focusedlayout height="325" width="222" condition="![$PARAM[Banner] | $PARAM[Thumbnail] | $PARAM[Fanart] | $PARAM[FanartSmall] | $PARAM[ThumbnailSmall] | $PARAM[ThumbnailPosterSmall] | $PARAM[Square]]">
-            <include content="include.widget.poster.focus">
-                <param name="id" value="$PARAM[shortcutsid]"/>
-                <param name="reflections" value="Skin.HasSetting(home.widgets.show.reflections)"/>
-            </include>
-            <include content="SetWidgetContainerPosition" condition="$EXP[HomeIsCleanMinimal] + $PARAM[enablehelperbutton]">
-                <param name="id" value="$PARAM[shortcutsid]" />
-            </include>
+            <control type="group">
+                <include content="def_left" condition="$EXP[HomeIsModernMultiWidgets] + !Skin.HasSetting(homemenu.clean.flix) + !Skin.HasSetting(old.widgets.movement)"><param name="left" value="70" /></include>
+                <control type="group">
+                    <width>222</width>
+                    <include content="include.widget.poster.focus">
+                        <param name="id" value="$PARAM[shortcutsid]"/>
+                        <param name="reflections" value="Skin.HasSetting(home.widgets.show.reflections)"/>
+                    </include>
+                    <include content="SetWidgetContainerPosition" condition="$EXP[HomeIsCleanMinimal] + $PARAM[enablehelperbutton]">
+                        <param name="id" value="$PARAM[shortcutsid]" />
+                    </include>
+                </control>
+            </control>
             <include condition="Skin.HasSetting(home.netflix.autoplay.trailer) + [$EXP[HomeIsModernMultiWidgetsNetflix] | $EXP[HomeIsVerticalMultiWidgetsNetflix] | $EXP[HomeIsCleanMinimal]]">SetAutoTrailerControl</include>
         </focusedlayout>
         <focusedlayout height="325" width="325" condition="$PARAM[Square]">
-            <include content="include.widget.square.focus">
-                <param name="id" value="$PARAM[shortcutsid]"/>
-                <param name="aspectratio" value="$PARAM[aspectratio]"/>
-                <param name="distance" value="$PARAM[distance]"/>
-                <param name="reflections" value="Skin.HasSetting(home.widgets.show.reflections)"/>
-                <param name="glow_left" value="1"/>
-                <param name="glow_right" value="2"/>
-            </include>
+            <control type="group">
+                <include content="def_left" condition="$EXP[HomeIsModernMultiWidgets] + !Skin.HasSetting(homemenu.clean.flix) + !Skin.HasSetting(old.widgets.movement)"><param name="left" value="70" /></include>
+                <control type="group">
+                    <width>325</width>
+                    <include content="include.widget.square.focus">
+                        <param name="id" value="$PARAM[shortcutsid]"/>
+                        <param name="aspectratio" value="$PARAM[aspectratio]"/>
+                        <param name="distance" value="$PARAM[distance]"/>
+                        <param name="reflections" value="Skin.HasSetting(home.widgets.show.reflections)"/>
+                        <param name="glow_left" value="1"/>
+                        <param name="glow_right" value="2"/>
+                    </include>
+                </control>
+            </control>
             <include condition="Skin.HasSetting(home.netflix.autoplay.trailer) + [$EXP[HomeIsModernMultiWidgetsNetflix] | $EXP[HomeIsVerticalMultiWidgetsNetflix] | $EXP[HomeIsCleanMinimal]]">SetAutoTrailerControl</include>
         </focusedlayout>
         <focusedlayout height="325" width="562" condition="$PARAM[Fanart]">
-            <include content="include.widget.fanart.focus">
-                <param name="id" value="$PARAM[shortcutsid]"/>
-                <param name="reflections" value="Skin.HasSetting(home.widgets.show.reflections)"/>
-                <param name="glow_left" value="10"/>
-                <param name="glow_right" value="11"/>
-            </include>
+            <control type="group">
+                <include content="def_left" condition="$EXP[HomeIsModernMultiWidgets] + !Skin.HasSetting(homemenu.clean.flix) + !Skin.HasSetting(old.widgets.movement)"><param name="left" value="70" /></include>
+                <control type="group">
+                    <width>562</width>
+                    <include content="include.widget.fanart.focus">
+                        <param name="id" value="$PARAM[shortcutsid]"/>
+                        <param name="reflections" value="Skin.HasSetting(home.widgets.show.reflections)"/>
+                        <param name="glow_left" value="10"/>
+                        <param name="glow_right" value="11"/>
+                    </include>
+                </control>
+            </control>
             <include condition="Skin.HasSetting(home.netflix.autoplay.trailer) + [$EXP[HomeIsModernMultiWidgetsNetflix] | $EXP[HomeIsVerticalMultiWidgetsNetflix] | $EXP[HomeIsCleanMinimal]]">SetAutoTrailerControl</include>
         </focusedlayout>
         <focusedlayout height="325" width="400" condition="$PARAM[FanartSmall]">
-            <include content="include.widget.fanart.focus">
-                <param name="id" value="$PARAM[shortcutsid]"/>
-                <param name="reflections" value="false"/>
-                <param name="small" value="true"/>
-                <param name="glow_left" value="4"/>
-                <param name="glow_right" value="5"/>
-            </include>
+            <control type="group">
+                <include content="def_left" condition="$EXP[HomeIsModernMultiWidgets] + !Skin.HasSetting(homemenu.clean.flix) + !Skin.HasSetting(old.widgets.movement)"><param name="left" value="70" /></include>
+                <control type="group">
+                    <width>400</width>
+                    <include content="include.widget.fanart.focus">
+                        <param name="id" value="$PARAM[shortcutsid]"/>
+                        <param name="reflections" value="false"/>
+                        <param name="small" value="true"/>
+                        <param name="glow_left" value="4"/>
+                        <param name="glow_right" value="5"/>
+                    </include>
+                </control>
+            </control>
             <include condition="Skin.HasSetting(home.netflix.autoplay.trailer) + [$EXP[HomeIsModernMultiWidgetsNetflix] | $EXP[HomeIsVerticalMultiWidgetsNetflix] | $EXP[HomeIsCleanMinimal]]">SetAutoTrailerControl</include>
         </focusedlayout>
         <focusedlayout height="325" width="1690" condition="$PARAM[Banner]">
-            <include content="include.widget.banner.focus">
-                <param name="id" value="$PARAM[shortcutsid]"/>
-                <param name="reflections" value="Skin.HasSetting(home.widgets.show.reflections)"/>
-                <param name="glow_left" value="52"/>
-                <param name="glow_right" value="52"/>
-            </include>
+            <control type="group">
+                <include content="def_left" condition="$EXP[HomeIsModernMultiWidgets] + !Skin.HasSetting(homemenu.clean.flix) + !Skin.HasSetting(old.widgets.movement)"><param name="left" value="70" /></include>
+                <control type="group">
+                    <width>1690</width>
+                    <include content="include.widget.banner.focus">
+                        <param name="id" value="$PARAM[shortcutsid]"/>
+                        <param name="reflections" value="Skin.HasSetting(home.widgets.show.reflections)"/>
+                        <param name="glow_left" value="52"/>
+                        <param name="glow_right" value="52"/>
+                    </include>
+                </control>
+            </control>
             <include condition="Skin.HasSetting(home.netflix.autoplay.trailer) + [$EXP[HomeIsModernMultiWidgetsNetflix] | $EXP[HomeIsVerticalMultiWidgetsNetflix] | $EXP[HomeIsCleanMinimal]]">SetAutoTrailerControl</include>
         </focusedlayout>
         <focusedlayout height="325" width="562" condition="$PARAM[Thumbnail]">
-            <include content="include.widget.thumb.focus">
-                <param name="id" value="$PARAM[shortcutsid]"/>
-                <param name="clearlogo" value="$PARAM[shortcutsclearlogo]"/>
-                <param name="reflections" value="Skin.HasSetting(home.widgets.show.reflections)"/>
-                <param name="glow_left" value="10"/>
-                <param name="glow_right" value="11"/>
-            </include>
+            <control type="group">
+                <include content="def_left" condition="$EXP[HomeIsModernMultiWidgets] + !Skin.HasSetting(homemenu.clean.flix) + !Skin.HasSetting(old.widgets.movement)"><param name="left" value="70" /></include>
+                <control type="group">
+                    <width>562</width>
+                    <include content="include.widget.thumb.focus">
+                        <param name="id" value="$PARAM[shortcutsid]"/>
+                        <param name="clearlogo" value="$PARAM[shortcutsclearlogo]"/>
+                        <param name="reflections" value="Skin.HasSetting(home.widgets.show.reflections)"/>
+                        <param name="glow_left" value="10"/>
+                        <param name="glow_right" value="11"/>
+                    </include>
+                </control>
+            </control>
             <include condition="Skin.HasSetting(home.netflix.autoplay.trailer) + [$EXP[HomeIsModernMultiWidgetsNetflix] | $EXP[HomeIsVerticalMultiWidgetsNetflix] | $EXP[HomeIsCleanMinimal]]">SetAutoTrailerControl</include>
         </focusedlayout>
         <focusedlayout height="325" width="400" condition="$PARAM[ThumbnailSmall]">
-            <include content="include.widget.thumb.focus">
-                <param name="id" value="$PARAM[shortcutsid]"/>
-                <param name="clearlogo" value="$PARAM[shortcutsclearlogo]"/>
-                <param name="reflections" value="false"/>
-                <param name="small" value="true"/>
-                <param name="glow_left" value="4"/>
-                <param name="glow_right" value="5"/>
-            </include>
+            <control type="group">
+                <include content="def_left" condition="$EXP[HomeIsModernMultiWidgets] + !Skin.HasSetting(homemenu.clean.flix) + !Skin.HasSetting(old.widgets.movement)"><param name="left" value="70" /></include>
+                <control type="group">
+                    <width>400</width>
+                    <include content="include.widget.thumb.focus">
+                        <param name="id" value="$PARAM[shortcutsid]"/>
+                        <param name="clearlogo" value="$PARAM[shortcutsclearlogo]"/>
+                        <param name="reflections" value="false"/>
+                        <param name="small" value="true"/>
+                        <param name="glow_left" value="4"/>
+                        <param name="glow_right" value="5"/>
+                    </include>
+                </control>
+            </control>
             <include condition="Skin.HasSetting(home.netflix.autoplay.trailer) + [$EXP[HomeIsModernMultiWidgetsNetflix] | $EXP[HomeIsVerticalMultiWidgetsNetflix] | $EXP[HomeIsCleanMinimal]]">SetAutoTrailerControl</include>
         </focusedlayout>
         <focusedlayout height="325" width="542" condition="$PARAM[ThumbnailPosterSmall]">
-            <include content="include.widget.thumb.focus">
-                <param name="id" value="$PARAM[shortcutsid]"/>
-                <param name="clearlogo" value="false"/>
-                <param name="reflections" value="false"/>
-                <param name="small" value="true"/>
-                <param name="poster" value="true"/>
-                <param name="glow_left" value="10"/>
-                <param name="glow_right" value="11"/>
-            </include>
+            <control type="group">
+                <include content="def_left" condition="$EXP[HomeIsModernMultiWidgets] + !Skin.HasSetting(homemenu.clean.flix) + !Skin.HasSetting(old.widgets.movement)"><param name="left" value="70" /></include>
+                <control type="group">
+                    <width>542</width>
+                    <include content="include.widget.thumb.focus">
+                        <param name="id" value="$PARAM[shortcutsid]"/>
+                        <param name="clearlogo" value="false"/>
+                        <param name="reflections" value="false"/>
+                        <param name="small" value="true"/>
+                        <param name="poster" value="true"/>
+                        <param name="glow_left" value="10"/>
+                        <param name="glow_right" value="11"/>
+                    </include>
+                </control>
+            </control>
             <include condition="Skin.HasSetting(home.netflix.autoplay.trailer) + [$EXP[HomeIsModernMultiWidgetsNetflix] | $EXP[HomeIsVerticalMultiWidgetsNetflix] | $EXP[HomeIsCleanMinimal]]">SetAutoTrailerControl</include>
         </focusedlayout>
         </definition>
@@ -2943,26 +3109,44 @@
         <param name="enablehelperbutton" value="$PARAM[enablehelperbutton]" default="false"/>
         <definition>
         <focusedlayout height="325" width="222" condition="![$PARAM[Square] | $PARAM[Fanart]]">
-            <include content="weatherlayoutwidgetsvertical.poster.focus">
-                <param name="id" value="$PARAM[shortcutsid]"/>
-            </include>
+            <control type="group">
+                <include content="def_left" condition="$EXP[HomeIsModernMultiWidgets] + !Skin.HasSetting(homemenu.clean.flix) + !Skin.HasSetting(old.widgets.movement)"><param name="left" value="70" /></include>
+                <control type="group">
+                    <width>222</width>
+                    <include content="weatherlayoutwidgetsvertical.poster.focus">
+                        <param name="id" value="$PARAM[shortcutsid]"/>
+                    </include>
+                </control>
+            </control>
             <include content="SetWidgetContainerPosition" condition="$EXP[HomeIsCleanMinimal] + $PARAM[enablehelperbutton]">
                 <param name="id" value="$PARAM[shortcutsid]" />
             </include>
         </focusedlayout>
         <focusedlayout height="325" width="325" condition="$PARAM[Square]">
-            <include content="weatherlayoutwidgetsvertical.square.focus">
-                <param name="id" value="$PARAM[shortcutsid]"/>
-                <param name="glow_left" value="2"/>
-                <param name="glow_right" value="3"/>
-            </include>
+            <control type="group">
+                <include content="def_left" condition="$EXP[HomeIsModernMultiWidgets] + !Skin.HasSetting(homemenu.clean.flix) + !Skin.HasSetting(old.widgets.movement)"><param name="left" value="70" /></include>
+                <control type="group">
+                    <width>325</width>
+                    <include content="weatherlayoutwidgetsvertical.square.focus">
+                        <param name="id" value="$PARAM[shortcutsid]"/>
+                        <param name="glow_left" value="2"/>
+                        <param name="glow_right" value="3"/>
+                    </include>
+                </control>
+            </control>
         </focusedlayout>
         <focusedlayout height="325" width="562" condition="$PARAM[Fanart]">
-            <include content="weatherlayoutwidgetsvertical.fanart.focus">
-                <param name="id" value="$PARAM[shortcutsid]"/>
-                <param name="glow_left" value="11"/>
-                <param name="glow_right" value="11"/>
-            </include>
+            <control type="group">
+                <include content="def_left" condition="$EXP[HomeIsModernMultiWidgets] + !Skin.HasSetting(homemenu.clean.flix) + !Skin.HasSetting(old.widgets.movement)"><param name="left" value="70" /></include>
+                <control type="group">
+                    <width>562</width>
+                    <include content="weatherlayoutwidgetsvertical.fanart.focus">
+                        <param name="id" value="$PARAM[shortcutsid]"/>
+                        <param name="glow_left" value="11"/>
+                        <param name="glow_right" value="11"/>
+                    </include>
+                </control>
+            </control>
         </focusedlayout>
         </definition>
     </include>
