@@ -13,6 +13,7 @@
         <include content="def_top" condition="Skin.HasSetting(home.widgets.show.reflections)">
             <param name="top" value="556" />
         </include>
+        <include content="def_left" condition="!Skin.HasSetting(old.widgets.movement)"><param name="left" value="0" /></include>
         <left>-151</left>
         <width>2150</width>
         <height>365</height>
@@ -23,44 +24,67 @@
         <orientation>horizontal</orientation>
         <preloaditems>2</preloaditems>
         <pagecontrol>1611</pagecontrol>
-        <include content="def_focusposition" condition="!Skin.HasSetting(521.alternative)">
+        <include content="def_focusposition" condition="!Skin.HasSetting(521.alternative) + Skin.HasSetting(old.widgets.movement)">
             <param name="focusposition" value="1" />
         </include>
-        <include content="def_focusposition" condition="Skin.HasSetting(521.alternative)">
+        <include content="def_focusposition" condition="Skin.HasSetting(521.alternative) + Skin.HasSetting(old.widgets.movement)">
             <param name="focusposition" value="5" />
-        </include>        
+        </include>
+        <include content="def_focusposition" condition="Skin.HasSetting(521.alternative) + !Skin.HasSetting(old.widgets.movement)">
+            <param name="focusposition" value="4" />
+        </include>
+        <focusposition>0</focusposition>
+        <include content="def_movement" condition="!Skin.HasSetting(old.widgets.movement) + !Skin.HasSetting(521.alternative)"><param name="movement" value="7" /></include>
         <viewtype label="31491">list</viewtype>
         <include>ScrolltimeViewsList</include>
         <itemlayout height="325" width="222">
-            <include content="include.widget.poster">
-                <param name="id" value="521"/>
-                <param name="reflections" value="Skin.HasSetting(show.reflections)"/>
-            </include>
+            <control type="group">
+                <include content="def_left" condition="!Skin.HasSetting(old.widgets.movement)"><param name="left" value="70" /></include>
+                <control type="group">
+                    <width>222</width>
+                    <include content="include.widget.poster">
+                        <param name="id" value="521"/>
+                        <param name="reflections" value="Skin.HasSetting(show.reflections)"/>
+                    </include>
+                </control>
+            </control>
         </itemlayout>
         <focusedlayout height="325" width="222" condition="!Skin.HasSetting(521.alternative)">
-            <include content="include.widget.poster.focus">
-                <param name="id" value="521"/>
-                <param name="reflections" value="Skin.HasSetting(show.reflections)"/>
-            </include>
+            <control type="group">
+                <include content="def_left" condition="!Skin.HasSetting(old.widgets.movement)"><param name="left" value="70" /></include>
+                <control type="group">
+                    <width>222</width>
+                    <include content="include.widget.poster.focus">
+                        <param name="id" value="521"/>
+                        <param name="reflections" value="Skin.HasSetting(show.reflections)"/>
+                    </include>
+                </control>
+            </control>
             <include condition="Skin.HasSetting(home.netflix.autoplay.trailer)">SetAutoTrailerControl</include>
         </focusedlayout>
         <focusedlayout height="325" width="222" condition="Skin.HasSetting(521.alternative)">
-            <control type="image">
-                <left>0</left>
-                <top>10</top>
-                <width>220</width>
-                <height>220</height>
-                <texture>$INFO[ListItem.Art(discart)]</texture>
-                <animation type="Focus" reversible="false">
-                    <effect type="slide" start="0,0" end="0,-140" time="500" tween="cubic" delay="1000" />
-                </animation>
+            <control type="group">
+                <include content="def_left" condition="!Skin.HasSetting(old.widgets.movement)"><param name="left" value="70" /></include>
+                <control type="group">
+                    <width>222</width>
+                    <control type="image">
+                        <left>0</left>
+                        <top>10</top>
+                        <width>220</width>
+                        <height>220</height>
+                        <texture>$INFO[ListItem.Art(discart)]</texture>
+                        <animation type="Focus" reversible="false">
+                            <effect type="slide" start="0,0" end="0,-140" time="500" tween="cubic" delay="1000" />
+                        </animation>
+                    </control>
+                    <include content="include.widget.poster.focus">
+                        <param name="id" value="521"/>
+                        <param name="zoom" value="115"/>
+                        <param name="zoom_condition" value="Skin.HasSetting(521.alternative)"/>
+                        <param name="reflections" value="Skin.HasSetting(show.reflections)"/>
+                    </include>
+                </control>
             </control>
-            <include content="include.widget.poster.focus">
-                <param name="id" value="521"/>
-                <param name="zoom" value="115"/>
-                <param name="zoom_condition" value="Skin.HasSetting(521.alternative)"/>
-                <param name="reflections" value="Skin.HasSetting(show.reflections)"/>
-            </include>
             <include condition="Skin.HasSetting(home.netflix.autoplay.trailer)">SetAutoTrailerControl</include>
         </focusedlayout>
     </include>
