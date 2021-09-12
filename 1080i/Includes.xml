@@ -4601,4 +4601,76 @@
         <value condition="Skin.HasSetting(home.netflix.autoplay.trailer)">special://skin/extras/playlists/Spotlight.xsp</value>
         <value>special://skin/extras/playlists/RandomMovies.xsp</value>
     </variable>
+    
+    <include name="SearchNavigationArrows">
+        <control type="group">
+            <include>Animation.DelayFadeIn600</include>
+            <include>Animation.FadeOut</include>
+            <include condition="!Skin.HasSetting(widgets.fade)">Animation.Vertical.Widgets.Label</include>
+            <visible>Integer.IsGreater(Container(3000).NumItems,1) + ControlGroup(3000).HasFocus()</visible>
+            <visible>![Window.IsVisible(DialogVideoInfo.xml) | Window.IsVisible(DialogMusicInfo.xml) | Window.IsVisible(DialogPVRInfo.xml) | Window.IsVisible(DialogAddonInfo.xml) | Window.IsVisible(skin.arctic.zephyr.mod.script-gto-info.xml)]</visible>
+            <control type="group">
+                <top>538</top>
+                <visible>Container(3000).HasNext</visible>
+                <include>Animation.DelayFadeIn300</include>
+                <include>Animation.FadeOut</include>
+                <control type="image">
+                    <top>0</top>
+                    <right>SidePad</right>
+                    <width>14</width>
+                    <height>14</height>
+                    <texture colordiffuse="Dark2">common/arrow-small.png</texture>
+                </control>
+            </control>
+            <control type="group">
+                <top>538</top>
+                <visible>!Container(3000).HasNext</visible>
+                <include>Animation.DelayFadeIn300</include>
+                <include>Animation.FadeOut</include>
+                <control type="image">
+                    <top>0</top>
+                    <right>SidePad</right>
+                    <width>14</width>
+                    <height>14</height>
+                    <texture colordiffuse="Dark2" flipy="true">common/arrow-small.png</texture>
+                </control>
+            </control>
+            <control type="group">
+                <top>512</top>
+                <visible>Container(3000).HasPrevious</visible>
+                <include>Animation.DelayFadeIn300</include>
+                <include>Animation.FadeOut</include>
+                <control type="image">
+                    <top>13</top>
+                    <right>SidePad</right>
+                    <width>14</width>
+                    <height>14</height>
+                    <texture colordiffuse="Dark2" flipy="true">common/arrow-small.png</texture>
+                </control>
+            </control>
+            <control type="group">
+                <top>512</top>
+                <visible>!Container(3000).HasPrevious</visible>
+                <include>Animation.DelayFadeIn300</include>
+                <include>Animation.FadeOut</include>
+                <control type="image">
+                    <top>13</top>
+                    <right>SidePad</right>
+                    <width>14</width>
+                    <height>14</height>
+                    <texture colordiffuse="Dark2" flipy="false">common/arrow-small.png</texture>
+                </control>
+            </control>
+        </control>
+    </include>
+    
+    <include name="ExtendedSearchControl">
+        <control type="button">
+            <visible>false</visible>
+            
+            <!-- Set Property / Skin String -->
+            <onfocus>SetProperty(searchterm,$INFO[Container(50).ListItem.Label],home)</onfocus>
+            <onunfocus>ClearProperty(searchterm,home)</onunfocus>
+        </control>
+    </include>
 </includes>
