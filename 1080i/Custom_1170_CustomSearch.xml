@@ -2,7 +2,7 @@
 <window type="window" id="1170">
     <onload condition="String.IsEmpty(Skin.String(searchterm))">Action(Close)</onload>
     <onunload>ClearProperty(searchterm,home)</onunload>
-    <onunload>RunScript(script.embuary.helper,action=resetposition,container=3000)</onunload>
+    <onload condition="!String.IsEmpty(Window(home).Property(searchterm))">RunScript(script.embuary.helper,action=resetposition,container=3000||3101||3201||3301||3401||3501||3601||3701||3801||3901||4001||4101||4201||4301||4401||4501||4901||5001)</onload>
     <defaultcontrol always="true">3000</defaultcontrol>
     <controls>
         <include>GlobalBackground</include>
@@ -138,8 +138,35 @@
                     <param name="content" value="videodb://tvshows/titles/-1/-1/-1/-1/?xsp=%7B%22order%22%3A%7B%22direction%22%3A%22ascending%22%2C%22ignorefolders%22%3A0%2C%22method%22%3A%22sorttitle%22%7D%2C%22rules%22%3A%7B%22and%22%3A%5B%7B%22field%22%3A%22plot%22%2C%22operator%22%3A%22contains%22%2C%22value%22%3A%5B%22$INFO[Skin.String(searchterm)]%22%5D%7D%5D%7D%2C%22type%22%3A%22episodes%22%7D" />
                     <param name="label" value="$LOCALIZE[31622]" />
                 </include>
+                
+                <!-- Artists -->
+                <include content="def_searchlayout">
+                    <param name="container_id" value="4501" />
+                    <param name="group_id" value="4500" />
+                    <param name="Square" value="true" />
+                    <param name="content" value="musicdb://artists/?xsp=%7B%22order%22%3A%7B%22direction%22%3A%22ascending%22%2C%22ignorefolders%22%3A0%2C%22method%22%3A%22artist%22%7D%2C%22rules%22%3A%7B%22and%22%3A%5B%7B%22field%22%3A%22artist%22%2C%22operator%22%3A%22contains%22%2C%22value%22%3A%5B%22$INFO[Skin.String(searchterm)]%22%5D%7D%5D%7D%2C%22type%22%3A%22artists%22%7D" />
+                    <param name="target" value="music" />
+                    <param name="label" value="$LOCALIZE[31624]" />
+                </include>
+                
+                <!-- Youtube -->
+                <include content="def_searchlayout" condition="System.AddonIsEnabled(plugin.video.youtube)">
+                    <param name="container_id" value="4901" />
+                    <param name="group_id" value="4900" />
+                    <param name="Thumbnail" value="true" />
+                    <param name="content" value="plugin://plugin.video.youtube/kodion/search/query/?q=$INFO[Skin.String(searchterm)]&amp;search_type=videos" />
+                    <param name="label" value="$LOCALIZE[31141]" />
+                </include>
+                
+                <!-- Netflix -->
+                <include content="def_searchlayout" condition="System.AddonIsEnabled(plugin.video.netflix)">
+                    <param name="container_id" value="5001" />
+                    <param name="group_id" value="5000" />
+                    <param name="Thumbnail" value="true" />
+                    <param name="content" value="plugin://plugin.video.netflix/directory/search/search/?query=$INFO[Skin.String(searchterm)]" />
+                    <param name="label" value="$LOCALIZE[31014]" />
+                </include>
             </control>
-            
             
             <control type="label">
                 <align>center</align>
