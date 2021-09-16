@@ -13,16 +13,74 @@
 
             <!-- Menu -->
             <control type="group">
-                <animation condition="Control.HasFocus(9000)" effect="slide" end="100,0" start="0,0" reversible="true" time="300" tween="sine">Conditional</animation>
+                <animation condition="Control.HasFocus(9100)" effect="slide" end="200,0" start="0,0" reversible="true" time="300" tween="sine">Conditional</animation>
                 <control type="group">
-                    <left>-100</left>
+                    <left>-200</left>
                     <control type="image">                    
-                        <width>180</width>
+                        <width>280</width>
                         <height>1080</height>
                         <texture colordiffuse="Fallback">common/white.png</texture>
                     </control>
                 </control>
-
+                
+                <!-- Settings, Search -->
+                <control type="list" id="9100">
+                    <left>-200</left>
+                    <top>150</top>  
+                    <ondown>9100</ondown>
+                    <onup>9100</onup>
+                    <onleft>3000</onleft>
+                    <onright>3000</onright>
+                    <onback>3000</onback>
+                    <orientation>vertical</orientation>
+                    <scrolltime>200</scrolltime>
+                    <animation effect="fade" start="100" end="33" time="150" condition="!Control.HasFocus(9100)">Conditional</animation>
+                    <itemlayout width="280" height="70">
+                        <control type="label">
+                            <aligny>center</aligny>
+                            <width>100%</width>
+                            <centertop>50%</centertop>
+                            <height>100%</height>
+                            <textcolor>Dark2</textcolor>
+                            <left>30</left>
+                            <include>DefContextButton</include>
+                            <label>$INFO[ListItem.Label]</label>
+                        </control>
+                    </itemlayout>
+                    <focusedlayout width="280" height="70">
+                        <control type="image">
+                            <width>100%</width>
+                            <height>100%</height>
+                            <texture colordiffuse="$VAR[ColorSelectOtherBar]">common/white.png</texture>
+                        </control>
+                        <control type="image">
+                            <width>100%</width>
+                            <height>100%</height>
+                            <texture border="8" colordiffuse="$VAR[ColorHighlightOtherBar]">common/gradient-box-wide.png</texture>
+                        </control>
+                        <control type="label">
+                            <aligny>center</aligny>
+                            <width>100%</width>
+                            <centertop>50%</centertop>
+                            <height>100%</height>
+                            <textcolor>Selected</textcolor>
+                            <left>30</left>
+                            <include>DefContextButton</include>
+                            <label>$INFO[ListItem.Label]</label>
+                        </control>
+                    </focusedlayout>
+                    <content>
+                        <item>
+                            <label>New Search</label>
+                            <onclick>Skin.SetString(searchterm)</onclick>
+                            <onclick>ReloadSkin()</onclick>
+                        </item>
+                        <item>
+                            <label>$LOCALIZE[5]</label>
+                        </item>
+                    </content>             
+                </control>
+                
                 <!-- Results -->
                 <control type="grouplist" id="3000">
                     <top>90</top>
@@ -37,7 +95,8 @@
                     <include condition="!String.IsEmpty(Skin.String(searchterm))">Custom_Search_Items</include>                    
                     <control type="button" id="9001">
                         <onleft>9000</onleft>
-                        <include>HiddenButton</include>   
+                        <include>HiddenButton</include>
+                        <!--<onfocus condition="Integer.IsGreater(Container(3000).NumItems,1) + !Container(3000).IsUpdating">Down</onfocus>-->
                     </control>
                 </control>
                 <control type="label">
@@ -50,39 +109,9 @@
                     <label>31222</label>
                     <visible>!Integer.IsGreater(Container(3000).NumItems,1) + !Container(3000).IsUpdating</visible>
                     <include>Animation.Vertical.Widgets.Title</include>
-                </control> 
-            </control>
-            <control type="group">
-                <left>0</left>
-                <top>140</top>
-                <animation condition="!Control.HasFocus(9000)" effect="fade" end="33" start="100" time="300">Conditional</animation>
-                <animation condition="Control.HasFocus(9000)" effect="slide" end="50,0" start="0,0" reversible="true" time="300" tween="sine">Conditional</animation>
-                <control type="image">
-                    <left>0</left>
-                    <top>0</top>
-                    <width>80</width>
-                    <height>80</height>
-                    <texture colordiffuse="$VAR[ColorHighlight]">globalsearch-roundbutton.png</texture>
-                </control>
-                <control type="image">
-                    <left>25</left>
-                    <top>25</top>
-                    <width>30</width>
-                    <height>30</height>
-                    <texture colordiffuse="FFF0F0F0">common/lupe.png</texture>
-                </control>
-                <control type="button" id="9000">
-                    <label/>
-                    <texturefocus/>
-                    <texturenofocus/>
-                    <onclick>Skin.SetString(searchterm)</onclick>
-                    <onclick>ReloadSkin()</onclick>
-                    <ondown>3000</ondown>
-                    <onleft>3000</onleft>
-                    <onright>3000</onright>
-                    <onup>3000</onup>
-                </control>
-            </control>
+                </control>            
+                                
+            </control>            
             <include>Furniture_Flags</include>
             <include>SearchNavigationArrows</include>
         </control>
