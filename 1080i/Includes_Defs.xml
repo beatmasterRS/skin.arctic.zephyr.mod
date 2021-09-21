@@ -2021,7 +2021,7 @@
             </include>
             <include content="def_top" condition="!Skin.HasSetting(homemenu.netflix) + Skin.HasSetting(home.widgets.show.reflections)">
                 <param name="top" value="50" />
-            </include>         
+            </include>
             <include content="def_width" condition="Skin.HasSetting(homemenu.clean.flix)">
                 <param name="width" value="225" />
             </include>
@@ -2051,7 +2051,8 @@
             <include condition="!Skin.HasSetting(widgets.fade)">Animation.Vertical.Widgets.Container</include>
             <autoscroll time="$PARAM[AutoTime]" delay="1000">$PARAM[AutoScrollCondition]</autoscroll>
             <onfocus>SetProperty(TMDbHelper.WidgetContainer,$PARAM[id],Home)</onfocus>
-            <onfocus>SetProperty(BackToId,$PARAM[backid],Home)</onfocus>
+            <onfocus condition="Integer.IsGreater(Container(301$PARAM[idshort]1).NumItems,0)">SetProperty(BackToId,$PARAM[backid],Home)</onfocus>
+            <onfocus condition="Integer.IsEqual(Container(301$PARAM[idshort]1).NumItems,0) + Control.IsVisible(301$PARAM[idshort]2)">SetProperty(BackToId,301$PARAM[idshort]2,Home)</onfocus>
             <onfocus condition="$EXP[HasHomemenuAutoSlideOutAnimation]">CancelAlarm(slide_out,true)</onfocus>
             <onfocus condition="Integer.IsGreater(Container(301$PARAM[idshort]1).NumItems,0) + Control.IsVisible(301$PARAM[idshort]1)">SetProperty(LastId,301$PARAM[idshort]1,Home)</onfocus>
             <onfocus condition="Integer.IsGreater(Container(301$PARAM[idshort]2).NumItems,0) + Control.IsVisible(301$PARAM[idshort]2)">SetProperty(LastId,301$PARAM[idshort]2,Home)</onfocus>
@@ -2061,13 +2062,15 @@
             <onfocus condition="Integer.IsGreater(Container(301$PARAM[idshort]6).NumItems,0) + Control.IsVisible(301$PARAM[idshort]6)">SetProperty(LastId,301$PARAM[idshort]6,Home)</onfocus>
             <onback condition="[!Integer.IsEqual(Container($PARAM[id]).Position,0) | Container($PARAM[id]).HasPrevious] + !Skin.HasSetting(widget.items.onback.go.back.to.position.0)">PageUp</onback>
             <onback condition="[!Integer.IsEqual(Container($PARAM[id]).Position,0) | Container($PARAM[id]).HasPrevious] + !Skin.HasSetting(widget.items.onback.go.back.to.position.0)">PageUp</onback>
-            <onback condition="[!Integer.IsEqual(Container($PARAM[id]).Position,0) | Container($PARAM[id]).HasPrevious] + !Skin.HasSetting(widget.items.onback.go.back.to.position.0)">PageUp</onback>            
+            <onback condition="[!Integer.IsEqual(Container($PARAM[id]).Position,0) | Container($PARAM[id]).HasPrevious] + !Skin.HasSetting(widget.items.onback.go.back.to.position.0)">PageUp</onback>
             <onback condition="[!Integer.IsEqual(Container($PARAM[id]).Position,0) | Container($PARAM[id]).HasPrevious] + Skin.HasSetting(widget.items.onback.go.back.to.position.0)">SetFocus($PARAM[id],0,absolute)</onback>
-            <onback condition="[!Integer.IsEqual(Container($PARAM[id]).Position,0) | Container($PARAM[id]).HasPrevious] + Skin.HasSetting(widget.items.onback.go.back.to.position.0) + Skin.HasSetting(widget.items.onback.go.back.to.position.0.setfocus.home)">SetFocus(300)</onback>            
+            <onback condition="[!Integer.IsEqual(Container($PARAM[id]).Position,0) | Container($PARAM[id]).HasPrevious] + Skin.HasSetting(widget.items.onback.go.back.to.position.0) + Skin.HasSetting(widget.items.onback.go.back.to.position.0.setfocus.home) + Skin.HasSetting(disable.widgets.onback.go.back.to.position.0)">SetFocus(300)</onback>
+            <onback condition="[!Integer.IsEqual(Container($PARAM[id]).Position,0) | Container($PARAM[id]).HasPrevious] + Skin.HasSetting(widget.items.onback.go.back.to.position.0) + Skin.HasSetting(widget.items.onback.go.back.to.position.0.setfocus.home) + !Skin.HasSetting(disable.widgets.onback.go.back.to.position.0)">SetFocus(4567)</onback>
             <onback condition="Integer.IsEqual(Container($PARAM[id]).Position,0) + !Container($PARAM[id]).HasPrevious + !Skin.HasSetting(disable.widgets.onback.go.back.to.position.0)">SetFocus($PARAM[backid])</onback>
             <onback condition="Integer.IsEqual(Container($PARAM[id]).Position,0) + !Container($PARAM[id]).HasPrevious + !Skin.HasSetting(disable.widgets.onback.go.back.to.position.0)">SetFocus(4567)</onback>
             <onback condition="Integer.IsEqual(Container($PARAM[id]).Position,0) + !Container($PARAM[id]).HasPrevious + Skin.HasSetting(disable.widgets.onback.go.back.to.position.0)">SetFocus(300)</onback>
-            <onleft condition="$EXP[HomeIsVerticalMultiWidgets]">300</onleft>
+            <onleft condition="$EXP[HomeIsVerticalMultiWidgets] + !Skin.HasSetting(disable.widgets.onback.go.back.to.position.0)">SetFocus(4567)</onleft>
+            <onleft condition="$EXP[HomeIsVerticalMultiWidgets] + Skin.HasSetting(disable.widgets.onback.go.back.to.position.0)">300</onleft>
             <preloaditems>4</preloaditems>
             <!--<movement>$PARAM[movement]</movement>-->
             <focusposition>0</focusposition>
@@ -2221,7 +2224,7 @@
     <include name="def_font">
         <font>$PARAM[font]</font>
     </include>
-    
+
     <include name="def_textheight">
         <height min="$PARAM[height_min]" max="$PARAM[height_max]">auto</height>
     </include>
@@ -3673,7 +3676,7 @@
         <selectedcolor>WatchedIcons</selectedcolor>
         <font>SymbolPoster</font>
     </include>
-    
+
     <include name="def_weatherfanart.widgets">
         <param name="bordertopbottom" value="$PARAM[bordertopbottom]" default="10"/>
         <param name="borderleftright" value="$PARAM[borderleftright]" default="10"/>
@@ -3969,7 +3972,7 @@
             <visible>!Skin.HasSetting(thumbnails.white)</visible>
         </control>
     </include>
-    
+
     <!-- Includes Widget layouts -->
     <include name="def_widgetposter">
         <param name="indicatorbackground" value="$PARAM[indicatorbackground]" default="false"/>
@@ -4550,7 +4553,7 @@
         <include>more</include>
         </definition>
     </include>
-    
+
     <include name="def_widgetpvrfocus">
         <control type="image">
             <left>3</left>
@@ -4712,8 +4715,8 @@
         </control>
         </definition>
     </include>
-    
-    <include name="def_widgetfocus">       
+
+    <include name="def_widgetfocus">
         <include content="def_widget_glow">
             <param name="glow_height" value="$PARAM[glow_height]" />
             <param name="glow_top" value="$PARAM[glow_top]" />
@@ -4721,7 +4724,7 @@
             <param name="glow_right" value="$PARAM[glow_right]" />
             <param name="glow_zoom" value="$PARAM[glow_zoom]" />
             <param name="id" value="$PARAM[id]" />
-        </include>        
+        </include>
         <control type="group">
             <visible>!Skin.HasSetting(items.focus.zoom)</visible>
             <control type="image">
