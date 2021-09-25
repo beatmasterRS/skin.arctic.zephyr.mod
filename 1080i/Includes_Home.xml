@@ -1,14 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <includes>
 
-    <include name="HomeActorsEmbuary">
-        <control type="list" id="9705">
-            <visible>String.IsEqual(Container(300).ListItem.Property(widget),RandomActors)</visible>
-            <include>HiddenListControl</include>
-            <content>$VAR[InfoContentEmbuaryActors]</content>
-        </control>
-    </include>
-
     <include name="HomeClearLogo">
 
         <!-- Classic > bottomright > Disable UpWidget  -->
@@ -539,35 +531,7 @@
                 <texture colordiffuse="BoxNotification" border="4">common/box21.png</texture>
                 <visible>!Skin.HasSetting(thumbnails.white)</visible>
             </control>
-            <control type="image">
-                <description>Busy animation</description>
-                <centerleft>54</centerleft>
-                <centertop>54</centertop>
-                <width>100</width>
-                <height>100</height>
-                <texture>dialog/loading-back.png</texture>
-                <aspectratio>keep</aspectratio>
-            </control>
-            <control type="image">
-                <description>Busy animation</description>
-                <centerleft>54</centerleft>
-                <centertop>54</centertop>
-                <width>100</width>
-                <height>100</height>
-                <animation effect="rotate" condition="true" start="360" end="0" loop="true" time="1000" center="auto">Conditional</animation>
-                <texture colordiffuse="$VAR[ColorHighlight]">dialog/loading-spinner.png</texture>
-                <aspectratio>keep</aspectratio>
-            </control>
-            <control type="label">
-                <description>Busy label</description>
-                <posx>105</posx>
-                <posy>30</posy>
-                <width>720</width>
-                <height>48</height>
-                <align>left</align>
-                <label>$LOCALIZE[31138]...</label>
-                <textcolor>Dark1</textcolor>
-            </control>
+            <include>BusySpinner</include>
         </control>
     </include>
 
@@ -582,35 +546,7 @@
             <visible>[!String.IsEqual(Container(300).ListItem.Property(widget),weatherdaily) + !String.IsEqual(Container(300).ListItem.Property(widget),weatherhourly) + Container(301).IsUpdating] | [!Weather.IsFetched + [String.IsEqual(Container(300).ListItem.Property(widget),weatherdaily) | String.IsEqual(Container(300).ListItem.Property(widget),weatherhourly)]]</visible>
             <include>Animation.FadeIn</include>
             <include>Animation.FadeOut</include>
-            <control type="image">
-                <description>Busy animation</description>
-                <centerleft>54</centerleft>
-                <centertop>54</centertop>
-                <width>100</width>
-                <height>100</height>
-                <texture>dialog/loading-back.png</texture>
-                <aspectratio>keep</aspectratio>
-            </control>
-            <control type="image">
-                <description>Busy animation</description>
-                <centerleft>54</centerleft>
-                <centertop>54</centertop>
-                <width>100</width>
-                <height>100</height>
-                <animation effect="rotate" condition="true" start="360" end="0" loop="true" time="1000" center="auto">Conditional</animation>
-                <texture colordiffuse="$VAR[ColorHighlight]">dialog/loading-spinner.png</texture>
-                <aspectratio>keep</aspectratio>
-            </control>
-            <control type="label">
-                <description>Busy label</description>
-                <posx>105</posx>
-                <posy>30</posy>
-                <width>720</width>
-                <height>48</height>
-                <align>left</align>
-                <label>$LOCALIZE[31138]...</label>
-                <textcolor>Dark1</textcolor>
-            </control>
+            <include>BusySpinner</include>
         </control>
     </include>
 
@@ -1704,6 +1640,7 @@
                     <onup condition="!Player.HasVideo | !Skin.HasSetting(global.showvideo)">301</onup>
                     <onup>301</onup>
                     <ondown condition="Integer.IsGreater(Container(302).NumItems,0)">SetFocus(302,0)</ondown>
+                    <onback condition="Skin.HasSetting(home.onback.go.to.first.widget) + Integer.IsGreater(Container(301).NumItems,0)">SetFocus(301)</onback>
                     <onleft>300</onleft>
                     <onright>300</onright>
                     <orientation>horizontal</orientation>
@@ -2302,35 +2239,7 @@
                         <height>117</height>
                         <visible>Container(301).IsUpdating | [[String.IsEqual(Container(300).ListItem.Property(widget),weatherdaily) | String.IsEqual(Container(300).ListItem.Property(widget),weatherhourly)] + !Weather.IsFetched]</visible>
                         <animation effect="fade" start="0" end="100" delay="500" time="200" reversible="false">Visible</animation>
-                        <control type="image">
-                            <description>Busy animation</description>
-                            <centerleft>54</centerleft>
-                            <centertop>54</centertop>
-                            <width>100</width>
-                            <height>100</height>
-                            <texture>dialog/loading-back.png</texture>
-                            <aspectratio>keep</aspectratio>
-                        </control>
-                        <control type="image">
-                            <description>Busy animation</description>
-                            <centerleft>54</centerleft>
-                            <centertop>54</centertop>
-                            <width>100</width>
-                            <height>100</height>
-                            <animation effect="rotate" condition="true" start="360" end="0" loop="true" time="1000" center="auto">Conditional</animation>
-                            <texture colordiffuse="$VAR[ColorHighlight]">dialog/loading-spinner.png</texture>
-                            <aspectratio>keep</aspectratio>
-                        </control>
-                        <control type="label">
-                            <description>Busy label</description>
-                            <posx>105</posx>
-                            <posy>30</posy>
-                            <width>720</width>
-                            <height>48</height>
-                            <align>left</align>
-                            <label>$LOCALIZE[31138]...</label>
-                            <textcolor>Dark1</textcolor>
-                        </control>
+                        <include>BusySpinner</include>
                     </control>
                 </control>
 
@@ -2968,35 +2877,7 @@
                     <visible>[![String.IsEqual(Container(300).ListItem.Property(widget),weatherdaily) | String.IsEqual(Container(300).ListItem.Property(widget),weatherhourly)] + Container(301).IsUpdating] | [!Weather.IsFetched + [String.IsEqual(Container(300).ListItem.Property(widget),weatherdaily) | String.IsEqual(Container(300).ListItem.Property(widget),weatherhourly)]]</visible>
                     <include>Animation.FadeIn</include>
                     <include>Animation.FadeOut</include>
-                    <control type="image">
-                        <description>Busy animation</description>
-                        <centerleft>54</centerleft>
-                        <centertop>54</centertop>
-                        <width>100</width>
-                        <height>100</height>
-                        <texture>dialog/loading-back.png</texture>
-                        <aspectratio>keep</aspectratio>
-                    </control>
-                    <control type="image">
-                        <description>Busy animation</description>
-                        <centerleft>54</centerleft>
-                        <centertop>54</centertop>
-                        <width>100</width>
-                        <height>100</height>
-                        <animation effect="rotate" condition="true" start="360" end="0" loop="true" time="1000" center="auto">Conditional</animation>
-                        <texture colordiffuse="$VAR[ColorHighlight]">dialog/loading-spinner.png</texture>
-                        <aspectratio>keep</aspectratio>
-                    </control>
-                    <control type="label">
-                        <description>Busy label</description>
-                        <posx>105</posx>
-                        <posy>30</posy>
-                        <width>720</width>
-                        <height>48</height>
-                        <align>left</align>
-                        <label>$LOCALIZE[31138]...</label>
-                        <textcolor>Dark1</textcolor>
-                    </control>
+                    <include>BusySpinner</include>
                 </control>
                 <control type="group">
                     <animation effect="fade" start="100" end="0" time="0" reversible="false" condition="[![String.IsEqual(Container(300).ListItem.Property(widget),weatherdaily) | String.IsEqual(Container(300).ListItem.Property(widget),weatherhourly)] + [!Integer.IsGreater(Container(301).NumItems,0) | Container(301).IsUpdating]] | [!Weather.IsFetched + [String.IsEqual(Container(300).ListItem.Property(widget),weatherdaily) | String.IsEqual(Container(300).ListItem.Property(widget),weatherhourly)]]">Conditional</animation>
@@ -3698,6 +3579,7 @@
                     <orientation>vertical</orientation>
                     <onright>301</onright>
                     <onleft>302</onleft>
+                    <onback condition="Skin.HasSetting(home.onback.go.to.first.widget) + Integer.IsGreater(Container(301).NumItems,0)">SetFocus(301)</onback>
                     <scrolltime>200</scrolltime>
                     <onfocus>ClearProperty(listitem.trailer,home)</onfocus>
                     <itemlayout width="407" height="80">
@@ -4003,35 +3885,7 @@
                     <visible>[![String.IsEqual(Container(300).ListItem.Property(widget),weatherdaily) | String.IsEqual(Container(300).ListItem.Property(widget),weatherhourly)] + Container(301).IsUpdating] | [!Weather.IsFetched + [String.IsEqual(Container(300).ListItem.Property(widget),weatherdaily) | String.IsEqual(Container(300).ListItem.Property(widget),weatherhourly)]]</visible>
                     <include>Animation.FadeIn</include>
                     <include>Animation.FadeOut</include>
-                    <control type="image">
-                        <description>Busy animation</description>
-                        <centerleft>54</centerleft>
-                        <centertop>54</centertop>
-                        <width>100</width>
-                        <height>100</height>
-                        <texture>dialog/loading-back.png</texture>
-                        <aspectratio>keep</aspectratio>
-                    </control>
-                    <control type="image">
-                        <description>Busy animation</description>
-                        <centerleft>54</centerleft>
-                        <centertop>54</centertop>
-                        <width>100</width>
-                        <height>100</height>
-                        <animation effect="rotate" condition="true" start="360" end="0" loop="true" time="1000" center="auto">Conditional</animation>
-                        <texture colordiffuse="$VAR[ColorHighlight]">dialog/loading-spinner.png</texture>
-                        <aspectratio>keep</aspectratio>
-                    </control>
-                    <control type="label">
-                        <description>Busy label</description>
-                        <posx>105</posx>
-                        <posy>30</posy>
-                        <width>720</width>
-                        <height>48</height>
-                        <align>left</align>
-                        <label>$LOCALIZE[31138]...</label>
-                        <textcolor>Dark1</textcolor>
-                    </control>
+                    <include>BusySpinner</include>
                 </control>
                 <control type="group">
                     <animation effect="slide" start="0" end="0,30" time="0" condition="Skin.HasSetting(home.showheader) + [Skin.HasSetting(home.vertical) + Skin.HasSetting(home.vertical.widgets)]">Conditional</animation>
@@ -4061,7 +3915,8 @@
                         <include content="def_bottom" condition="Skin.HasSetting(home.widgets.show.reflections) + Skin.HasSetting(homemenu.netflix)">
                             <param name="bottom" value="160" />
                         </include>
-                        <width>2500</width>
+                        <left>444</left>
+                        <width>1920</width>
                         <onup condition="Skin.HasSetting(enable.widgets.onup.go.back.to.last.widget)">301</onup>
                         <onup condition="!Skin.HasSetting(enable.widgets.onup.go.back.to.last.widget)">300</onup>
                         <ondown condition="Skin.HasSetting(enable.widgets.onup.go.back.to.last.widget)">301</ondown>
@@ -4092,7 +3947,7 @@
         </include>
         <usecontrolcoords>true</usecontrolcoords>
         <height>40</height>
-        <left>526</left>
+        <left>80</left>
         <visible>!Skin.HasSetting(homemenu.clean.flix) | [Skin.HasSetting(homemenu.clean.flix) + !Skin.HasSetting(hidewidgettitle)]</visible>
         <include condition="Skin.HasSetting(homemenu.clean.flix) + !Skin.HasSetting(homemenu.clean.flix.no.slide)">Animation.Home.Clean</include>
         <include content="def_top" condition="Skin.HasSetting(homemenu.clean.flix) + !Skin.HasSetting(hidewidgettitle) + [Skin.HasSetting(home.oldmenuheight) | Skin.HasSetting(submenu.compatibility)]">
@@ -4194,7 +4049,7 @@
         <include>WidgetsNavigationArrows</include>
         <include>WidgetsItemsCount</include>
         <control type="group">
-            <left>-444</left>
+            <left>0</left>
             <animation effect="slide" start="0" end="0,-27" time="150" condition="Skin.HasSetting(home.modernwidgets) + Skin.HasSetting(home.vertical.widgets) + Skin.HasSetting(home.oldmenuheight)">Conditional</animation>
 
             <!-- Widget -->
@@ -4222,7 +4077,7 @@
                 <include content="def_bottom" condition="Skin.HasSetting(home.widgets.show.reflections)">
                     <param name="bottom" value="160" />
                 </include>
-                <width>2385</width>
+                <width>1920</width>
                 <onup condition="!Skin.HasSetting(disable.widgets.onup.go.back.to.last.item)">SetFocus(8888)</onup>
                 <onup condition="Skin.HasSetting(disable.widgets.onup.go.back.to.last.item)">300</onup>
                 <ondown condition="Skin.HasSetting(disable.widgets.ondown.go.back.to.position.0)">300</ondown>
@@ -4261,7 +4116,7 @@
                 <animation effect="fade" start="100" end="0" time="150" condition="!ControlGroup(301).HasFocus() + Skin.HasSetting(home.hide.netflix.plot) + Skin.HasSetting(homemenu.netflix) + !Skin.HasSetting(homemenu.clean.flix)">Conditional</animation>
                 <include condition="!Skin.HasSetting(widgets.fade)">Animation.Vertical.Widgets.Label</include>
                 <control type="grouplist">
-                    <left>526</left>
+                    <left>80</left>
                     <include content="def_width" condition="Skin.HasSetting(homemenu.netflix) + !Skin.HasSetting(home.netflix.autoplay.trailer)">
                         <param name="width" value="800" />
                     </include>
@@ -4351,7 +4206,7 @@
         <include content="def_top" condition="!Skin.HasSetting(homemenu.netflix) + Skin.HasSetting(home.widgets.show.reflections)">
             <param name="top" value="-427" />
         </include>
-        <left>527</left>
+        <left>80</left>
         <include>InfoSubWidgetWeatherNormal</include>
     </include>
 
@@ -4383,7 +4238,7 @@
         <include content="def_top" condition="!Skin.HasSetting(homemenu.netflix) + Skin.HasSetting(home.widgets.show.reflections)">
             <param name="top" value="-427" />
         </include>
-        <left>527</left>
+        <left>80</left>
         <include condition="!$PARAM[issettingslayout]">InfoSubWidgetSystemInclude</include>
         <include condition="$PARAM[issettingslayout]" content="InfoSubWidgetSettingsInclude">
             <param name="id" value="$PARAM[id]"/>
@@ -4540,8 +4395,15 @@
             <!-- Actor -->
             <control type="textbox">
                 <include>MultiWidgetsPlotLabelDefinition</include>
+                <label fallback="19055">$INFO[Container(44422).ListItemAbsolute(0).Label,$ADDON[script.embuary.info 32017]: ]$INFO[Container(44422).ListItemAbsolute(1).Label,$COMMA ]$INFO[Container(44422).ListItemAbsolute(2).Label,$COMMA ]$INFO[Container(44422).ListItemAbsolute(3).Label,$COMMA ]$INFO[Container(44422).ListItemAbsolute(4).Label,$COMMA ]$INFO[Container(44422).ListItemAbsolute(5).Label,$COMMA ]</label>
+                <visible>String.IsEqual(Container($PARAM[id]).ListItem.DBType,actor)</visible>
+            </control>
+            
+            <!-- Files -->
+            <control type="textbox">
+                <include>MultiWidgetsPlotLabelDefinition</include>
                 <label>19055</label>
-                <visible>String.IsEqual(Container($PARAM[id]).ListItem.DBType,actor) | String.IsEqual(Container($PARAM[id]).ListItem.DBType,file)</visible>
+                <visible>String.IsEqual(Container($PARAM[id]).ListItem.DBType,file)</visible>
             </control>
 
             <!-- Misc -->

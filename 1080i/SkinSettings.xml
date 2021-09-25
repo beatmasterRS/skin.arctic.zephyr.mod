@@ -870,7 +870,7 @@
                             <!-- Show busyloader to be sure litebox has enough time to start, before enable blur settings -->
                             <onclick condition="System.AddonIsEnabled(script.litebox) + !Skin.HasSetting(EnableEffects)">AlarmClock(busy_start,SetProperty(BusyloaderSettings,1,home),00:00,silent)</onclick>
                             <onclick condition="System.AddonIsEnabled(script.litebox) + !Skin.HasSetting(EnableEffects)">AlarmClock(busy_end,ClearProperty(BusyloaderSettings,home),00:03,silent)</onclick>
-                            
+
                             <!-- Show busyloader to be sure litebox has enough time to end -->
                             <onclick condition="System.AddonIsEnabled(script.litebox) + Skin.HasSetting(EnableEffects)">AlarmClock(busy_start2,SetProperty(BusyloaderSettings,1,home),00:00,silent)</onclick>
                             <onclick condition="System.AddonIsEnabled(script.litebox) + Skin.HasSetting(EnableEffects)">AlarmClock(busy_end2,ClearProperty(BusyloaderSettings,home),00:01,silent)</onclick>
@@ -2076,7 +2076,23 @@
                             <selected>Skin.HasSetting(labels.autoscroll)</selected>
                             <onclick>Skin.ToggleSetting(labels.autoscroll)</onclick>
                         </control>
-                        <control type="radiobutton" id="9880" description="Netflix Trailer">
+                        <control type="grouplist" id="988100">
+                            <visible>ControlGroup(9100).HasFocus(9106)</visible>
+                            <orientation>horizontal</orientation>
+                            <enable>false</enable>
+                            <height>70</height>
+                            <control type="button">
+                                <enable>false</enable>
+                                <textoffsetx>30</textoffsetx>
+                                <font>Button</font>
+                                <align>left</align>
+                                <width>1310</width>
+                                <disabledcolor>PanelWhite30</disabledcolor>
+                                <height>70</height>
+                                <label>31603</label>
+                            </control>
+                        </control>
+                        <control type="radiobutton" id="988101" description="Enable Auto Trailer">
                             <width>1360</width>
                             <visible>ControlGroup(9100).HasFocus(9106)</visible>
                             <include>DefSettingsButtonGradientSkinSettings</include>
@@ -2084,7 +2100,7 @@
                             <selected>Skin.HasSetting(home.netflix.autoplay.trailer)</selected>
                             <onclick>Skin.ToggleSetting(home.netflix.autoplay.trailer)</onclick>
                         </control>
-                        <control type="button" id="9881" description="Netflix Trailer Delay">
+                        <control type="button" id="988102" description="Auto Trailer Delay">
                             <width>1360</width>
                             <visible>ControlGroup(9100).HasFocus(9106)</visible>
                             <include>DefSettingsButtonGradientSkinSettings</include>
@@ -2094,22 +2110,45 @@
                             <onclick>ActivateWindow(1248)</onclick>
                             <visible>Skin.HasSetting(home.netflix.autoplay.trailer)</visible>
                         </control>
-                        <control type="radiobutton" id="988098" description="Netflix Trailer Zoom">
+                        <control type="button" id="988103" description="Auto Trailer Black Bars">
                             <width>1360</width>
                             <visible>ControlGroup(9100).HasFocus(9106)</visible>
                             <include>DefSettingsButtonGradientSkinSettings</include>
                             <label>$LOCALIZE[31297]$LOCALIZE[31595]</label>
-                            <selected>Skin.HasSetting(home.netflix.autoplay.trailer.custom.window)</selected>
-                            <onclick>Skin.ToggleSetting(home.netflix.autoplay.trailer.custom.window)</onclick>
+                            <label2>$VAR[NetflixTrailerBlackBarsLabel]</label2>
+                            <onclick condition="!Skin.HasSetting(home.netflix.autoplay.trailer.custom.window) + !Skin.HasSetting(home.netflix.autoplay.trailer.custom.window.force)">Skin.SetBool(home.netflix.autoplay.trailer.custom.window)</onclick>
+                            <onclick condition="Skin.HasSetting(home.netflix.autoplay.trailer.custom.window)">Skin.SetBool(home.netflix.autoplay.trailer.custom.window.force)</onclick>
+                            <onclick condition="Skin.HasSetting(home.netflix.autoplay.trailer.custom.window)">Skin.Reset(home.netflix.autoplay.trailer.custom.window)</onclick>
+                            <onclick condition="Skin.HasSetting(home.netflix.autoplay.trailer.custom.window.force)">Skin.Reset(home.netflix.autoplay.trailer.custom.window.force)</onclick>
                             <visible>Skin.HasSetting(home.netflix.autoplay.trailer)</visible>
                         </control>
-                        <control type="radiobutton" id="988099" description="Netflix Trailer Dont Stop">
+                        <control type="radiobutton" id="988104" description="Auto Trailer Stop">
                             <width>1360</width>
                             <visible>ControlGroup(9100).HasFocus(9106)</visible>
                             <include>DefSettingsButtonGradientSkinSettings</include>
                             <label>$LOCALIZE[31297]$LOCALIZE[31594]</label>
                             <selected>!Skin.HasSetting(trailer.dont.stop.on.unfocus)</selected>
                             <onclick>Skin.ToggleSetting(trailer.dont.stop.on.unfocus)</onclick>
+                            <visible>Skin.HasSetting(home.netflix.autoplay.trailer)</visible>
+                        </control>
+                        <control type="radiobutton" id="988105" description="Auto Trailer Pause When DialogVideoInfo">
+                            <width>1360</width>
+                            <visible>ControlGroup(9100).HasFocus(9106)</visible>
+                            <include>DefSettingsButtonGradientSkinSettings</include>
+                            <label>$LOCALIZE[31297]$LOCALIZE[31602]</label>
+                            <selected>Skin.HasSetting(trailer.stop.on.dialogvideoinfo)</selected>
+                            <onclick>Skin.ToggleSetting(trailer.stop.on.dialogvideoinfo)</onclick>
+                            <onclick condition="!Skin.HasSetting(trailer.stop.on.dialogvideoinfo)">Skin.Reset(trailer.pause.on.dialogvideoinfo)</onclick>
+                            <visible>Skin.HasSetting(home.netflix.autoplay.trailer)</visible>
+                        </control>
+                        <control type="radiobutton" id="988106" description="Auto Trailer Stop When DialogVideoInfo">
+                            <width>1360</width>
+                            <visible>ControlGroup(9100).HasFocus(9106)</visible>
+                            <include>DefSettingsButtonGradientSkinSettings</include>
+                            <label>$LOCALIZE[31297]$LOCALIZE[31601]</label>
+                            <selected>Skin.HasSetting(trailer.pause.on.dialogvideoinfo)</selected>
+                            <onclick>Skin.ToggleSetting(trailer.pause.on.dialogvideoinfo)</onclick>
+                            <onclick condition="!Skin.HasSetting(trailer.pause.on.dialogvideoinfo)">Skin.Reset(trailer.stop.on.dialogvideoinfo)</onclick>
                             <visible>Skin.HasSetting(home.netflix.autoplay.trailer)</visible>
                         </control>
                         <control type="grouplist" id="9259">
@@ -2205,7 +2244,7 @@
                             <label>31155</label>
                             <selected>!Skin.HasSetting(furniture.nowplaying)</selected>
                             <onclick>Skin.ToggleSetting(furniture.nowplaying)</onclick>
-                        </control>                        
+                        </control>
                         <control type="radiobutton" id="9277" description="Clearlogo">
                             <width>1360</width>
                             <visible>ControlGroup(9100).HasFocus(9106)</visible>
@@ -2384,7 +2423,7 @@
                             <align>left</align>
                             <label>$LOCALIZE[31590]</label>
                             <label2>$VAR[Label_ItemsGlow]</label2>
-                            <width>1360</width>                            
+                            <width>1360</width>
                             <onclick condition="!Skin.HasSetting(items.focus.glow)">Skin.SetBool(items.focus.glow)</onclick>
                             <onclick condition="!Skin.HasSetting(items.focus.glow)">Skin.SetBool(items.focus.glow.low)</onclick>
                             <onclick condition="Skin.HasSetting(items.focus.glow) + !Skin.HasSetting(items.focus.glow.full) + Skin.HasSetting(items.focus.glow.low)">Skin.Reset(items.focus.glow.low)</onclick>
@@ -2539,7 +2578,6 @@
                         <control type="radiobutton" id="12011">
                             <width>1360</width>
                             <visible>ControlGroup(9100).HasFocus(9107)</visible>
-                            <visible>$EXP[HomeIsModernMultiWidgets]</visible>
                             <include>DefSettingsButtonGradientSkinSettings</include>
                             <label>31503</label>
                             <selected>Skin.HasSetting(disable.widgets.onup.go.back.to.last.item)</selected>
@@ -2549,7 +2587,6 @@
                         <control type="radiobutton" id="12012">
                             <width>1360</width>
                             <visible>ControlGroup(9100).HasFocus(9107)</visible>
-                            <visible>$EXP[HomeIsModernMultiWidgets]</visible>
                             <include>DefSettingsButtonGradientSkinSettings</include>
                             <label>31504</label>
                             <selected>Skin.HasSetting(disable.widgets.ondown.go.back.to.position.0)</selected>
@@ -2559,13 +2596,39 @@
                         <control type="radiobutton" id="12030">
                             <width>1360</width>
                             <visible>ControlGroup(9100).HasFocus(9107)</visible>
-                            <visible>$EXP[HomeIsVerticalMultiWidgets]</visible>
                             <include>DefSettingsButtonGradientSkinSettings</include>
                             <label>31505</label>
                             <selected>Skin.HasSetting(enable.widgets.onup.go.back.to.last.widget)</selected>
                             <onclick>Skin.ToggleSetting(enable.widgets.onup.go.back.to.last.widget)</onclick>
                             <onclick>ReloadSkin()</onclick>
                             <enable>$EXP[HomeIsVerticalMultiWidgets]</enable>
+                        </control>
+                        <control type="radiobutton" id="12031">
+                            <width>1360</width>
+                            <visible>ControlGroup(9100).HasFocus(9107)</visible>
+                            <include>DefSettingsButtonGradientSkinSettings</include>
+                            <label>31607</label>
+                            <selected>Skin.HasSetting(widget.items.onback.go.back.to.position.0)</selected>
+                            <onclick>Skin.ToggleSetting(widget.items.onback.go.back.to.position.0)</onclick>
+                            <enable>$EXP[HomeIsVerticalMultiWidgets] | $EXP[HomeIsModernMultiWidgets]</enable>
+                        </control>
+                        <control type="radiobutton" id="12032">
+                            <width>1360</width>
+                            <visible>ControlGroup(9100).HasFocus(9107)</visible>
+                            <include>DefSettingsButtonGradientSkinSettings</include>
+                            <label>$LOCALIZE[31297]$LOCALIZE[31608]</label>
+                            <selected>Skin.HasSetting(widget.items.onback.go.back.to.position.0.setfocus.home)</selected>
+                            <onclick>Skin.ToggleSetting(widget.items.onback.go.back.to.position.0.setfocus.home)</onclick>
+                            <visible>[$EXP[HomeIsVerticalMultiWidgets] | $EXP[HomeIsModernMultiWidgets]] + Skin.HasSetting(widget.items.onback.go.back.to.position.0)</visible>
+                        </control>
+                        <control type="radiobutton" id="12033">
+                            <width>1360</width>
+                            <visible>ControlGroup(9100).HasFocus(9107)</visible>
+                            <include>DefSettingsButtonGradientSkinSettings</include>
+                            <label>31623</label>
+                            <selected>Skin.HasSetting(home.onback.go.to.first.widget)</selected>
+                            <onclick>Skin.ToggleSetting(home.onback.go.to.first.widget)</onclick>
+                            <enable>$EXP[HomeIsVerticalMultiWidgets] | $EXP[HomeIsModernMultiWidgets]</enable>
                         </control>
                         <control type="grouplist" id="12013">
                             <visible>ControlGroup(9100).HasFocus(9107)</visible>
@@ -2653,6 +2716,14 @@
                             <label>31553</label>
                             <selected>Skin.HasSetting(settings.show.logo)</selected>
                             <onclick>Skin.ToggleSetting(settings.show.logo)</onclick>
+                        </control>
+                        <control type="radiobutton" id="12034" description="ignore addon background">
+                            <width>1360</width>
+                            <visible>ControlGroup(9100).HasFocus(9107)</visible>
+                            <include>DefSettingsButtonGradientSkinSettings</include>
+                            <label>31625</label>
+                            <selected>Skin.HasSetting(disable.background.addons.fanart)</selected>
+                            <onclick>Skin.ToggleSetting(disable.background.addons.fanart)</onclick>
                         </control>
                         <control type="grouplist" id="12026">
                             <visible>ControlGroup(9100).HasFocus(9107)</visible>

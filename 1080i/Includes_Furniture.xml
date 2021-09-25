@@ -67,7 +67,6 @@
     </include>
 
     <include name="scrollbar_hor">
-        <param name="showscroll" default="true" />
         <param name="jumpbar" default="true"/>
         <param name="onup" default="50"/>
         <param name="bottom" default="200"/>
@@ -83,7 +82,7 @@
         <texturesliderbackground border="4" colordiffuse="Dark4">scrollbar/scrollv.png</texturesliderbackground>
         <texturesliderbar border="4" colordiffuse="Dark3">scrollbar/scrollv.png</texturesliderbar>
         <texturesliderbarfocus border="4" colordiffuse="Dark2">scrollbar/scrollv.png</texturesliderbarfocus>
-        <animation effect="fade" start="100" end="0" time="400" condition="!Control.HasFocus($PARAM[scrollid]) + [!Container.Scrolling | [$PARAM[showscroll] + [Control.IsVisible(510) | Control.IsVisible(520) | Control.IsVisible(521) | Control.IsVisible(522) | Control.IsVisible(523) | Control.IsVisible(524)]]]">Conditional</animation>
+        <animation effect="fade" start="100" end="0" time="400" condition="!Control.HasFocus($PARAM[scrollid]) + !Container.Scrolling">Conditional</animation>
         </definition>
     </include>
 
@@ -110,6 +109,8 @@
         <control type="group">
             <animation effect="slide" start="0,0" end="-120,0" time="400" tween="quadratic" easing="out" condition="ControlGroup(290000).HasFocus()">Conditional</animation>
             <animation effect="slide" start="0,0" end="32,0" time="400" reversible="true" tween="quadratic" easing="out" condition="ControlGroup(290000).HasFocus()">Conditional</animation>
+            <animation effect="slide" start="0,0" end="0,15" time="0" condition="Control.Isvisible(521) | Control.Isvisible(522) | Control.Isvisible(523)">Conditional</animation>
+            <animation effect="slide" start="0,0" end="0,10" time="0" condition="Control.Isvisible(510)">Conditional</animation>
             <left>1931</left>
             <top>215</top>
             <control type="image">
@@ -691,8 +692,8 @@
                     <centertop>50%</centertop>
                     <height>64</height>
                     <left>10</left>
-                    <texture colordiffuse="Dark1">flags/3D.png</texture>
-                    <visible>ListItem.IsStereoscopic</visible>
+                    <texture colordiffuse="Dark1">flags/3d.png</texture>
+                    <visible>ListItem.IsStereoscopic | String.Contains(ListItem.Filenameandpath,.3D)</visible>
                 </control>
                 <control type="image">
                     <width>84</width>
@@ -701,8 +702,7 @@
                     <left>10</left>
                     <texture colordiffuse="Dark1">flags/$VAR[ImageBluray].png</texture>
                     <aspectratio aligny="center" align="center">keep</aspectratio>
-                    <visible>Skin.HasSetting(furniture.flagicons)</visible>
-                    <visible>[String.Contains(ListItem.FilenameAndPath,bluray) | String.Contains(ListItem.FilenameAndPath,bdrip) | String.Contains(ListItem.FilenameAndPath,bd25) | String.Contains(ListItem.FilenameAndPath,bd50) | String.Contains(ListItem.FilenameAndPath,blu-ray)]</visible>
+                    <visible>Skin.HasSetting(furniture.flagicons) + !String.Contains(ListItem.Filenameandpath,.3D) + [String.Contains(ListItem.FilenameAndPath,bluray) | String.Contains(ListItem.FilenameAndPath,bdrip) | String.Contains(ListItem.FilenameAndPath,bd25) | String.Contains(ListItem.FilenameAndPath,bd50) | String.Contains(ListItem.FilenameAndPath,blu-ray)]</visible>
                 </control>
                 <control type="image" description="WEB-DL">
                     <width>84</width>
@@ -1127,8 +1127,8 @@
                     <centertop>50%</centertop>
                     <height>64</height>
                     <left>10</left>
-                    <texture>flags/color/other/3D.png</texture>
-                    <visible>ListItem.IsStereoscopic</visible>
+                    <texture>flags/color/other/3d.png</texture>
+                    <visible>ListItem.IsStereoscopic | String.Contains(ListItem.Filenameandpath,.3D)</visible>
                 </control>
                 <control type="image">
                     <width>84</width>
@@ -1137,8 +1137,7 @@
                     <left>10</left>
                     <texture>flags/color/other/$VAR[ImageBluray].png</texture>
                     <aspectratio aligny="center" align="center">keep</aspectratio>
-                    <visible>Skin.HasSetting(furniture.flagicons)</visible>
-                    <visible>[String.Contains(ListItem.FilenameAndPath,bluray) | String.Contains(ListItem.FilenameAndPath,bdrip) | String.Contains(ListItem.FilenameAndPath,bd25) | String.Contains(ListItem.FilenameAndPath,bd50) | String.Contains(ListItem.FilenameAndPath,blu-ray)]</visible>
+                    <visible>Skin.HasSetting(furniture.flagicons) + !String.Contains(ListItem.Filenameandpath,.3D) + [String.Contains(ListItem.FilenameAndPath,bluray) | String.Contains(ListItem.FilenameAndPath,bdrip) | String.Contains(ListItem.FilenameAndPath,bd25) | String.Contains(ListItem.FilenameAndPath,bd50) | String.Contains(ListItem.FilenameAndPath,blu-ray)]</visible>
                 </control>
                 <control type="image" description="WEB-DL">
                     <width>84</width>
@@ -1560,8 +1559,8 @@
                 <centertop>50%</centertop>
                 <height>64</height>
                 <left>10</left>
-                <texture colordiffuse="Dark1">flags/3D.png</texture>
-                <visible>ListItem.IsStereoscopic</visible>
+                <texture colordiffuse="Dark1">flags/3d.png</texture>
+                <visible>ListItem.IsStereoscopic | String.Contains(ListItem.Filenameandpath,.3D)</visible>
             </control>
             <control type="image" description="Bluray">
                 <width>84</width>
@@ -1570,8 +1569,7 @@
                 <left>10</left>
                 <texture colordiffuse="Dark1">flags/$VAR[ImageBluray].png</texture>
                 <aspectratio aligny="center" align="center">keep</aspectratio>
-                <visible>Skin.HasSetting(furniture.flagicons) + !Skin.HasSetting(furniture.flags.bluray)</visible>
-                <visible>[String.Contains(ListItem.FilenameAndPath,bluray) | String.Contains(ListItem.FilenameAndPath,bdrip) | String.Contains(ListItem.FilenameAndPath,bd25) | String.Contains(ListItem.FilenameAndPath,bd50) | String.Contains(ListItem.FilenameAndPath,blu-ray)]</visible>
+                <visible>Skin.HasSetting(furniture.flagicons) + !Skin.HasSetting(furniture.flags.bluray) + !String.Contains(ListItem.Filenameandpath,.3D) + [String.Contains(ListItem.FilenameAndPath,bluray) | String.Contains(ListItem.FilenameAndPath,bdrip) | String.Contains(ListItem.FilenameAndPath,bd25) | String.Contains(ListItem.FilenameAndPath,bd50) | String.Contains(ListItem.FilenameAndPath,blu-ray)]</visible>
             </control>
             <control type="image" description="WEB-DL">
                 <width>84</width>
@@ -1588,8 +1586,7 @@
                 <left>10</left>
                 <aspectratio aligny="center" align="center">keep</aspectratio>
                 <texture colordiffuse="Dark1">flags/hddvd.png</texture>
-                <visible>Skin.HasSetting(furniture.flagicons) + !Skin.HasSetting(furniture.flags.bluray)</visible>
-                <visible>String.Contains(ListItem.FilenameAndPath,hddvd)</visible>
+                <visible>Skin.HasSetting(furniture.flagicons) + !Skin.HasSetting(furniture.flags.bluray) + String.Contains(ListItem.FilenameAndPath,hddvd)</visible>
             </control>
             <control type="image" description="DVD">
                 <width>84</width>
@@ -1598,8 +1595,7 @@
                 <left>10</left>
                 <aspectratio aligny="center" align="center">keep</aspectratio>
                 <texture colordiffuse="Dark1">flags/dvd.png</texture>
-                <visible>Skin.HasSetting(furniture.flagicons) + !Skin.HasSetting(furniture.flags.bluray)</visible>
-                <visible>String.Contains(ListItem.FilenameAndPath,dvd) + !String.Contains(ListItem.FilenameAndPath,hddvd)</visible>
+                <visible>Skin.HasSetting(furniture.flagicons) + !Skin.HasSetting(furniture.flags.bluray) + String.Contains(ListItem.FilenameAndPath,dvd) + !String.Contains(ListItem.FilenameAndPath,hddvd)</visible>
             </control>
             <control type="image" description="IMDB Top 250">
                 <width>84</width>
@@ -2006,8 +2002,8 @@
                 <centertop>50%</centertop>
                 <height>64</height>
                 <left>10</left>
-                <texture>flags/color/other/3D.png</texture>
-                <visible>ListItem.IsStereoscopic</visible>
+                <texture>flags/color/other/3d.png</texture>
+                <visible>ListItem.IsStereoscopic | String.Contains(ListItem.Filenameandpath,.3D)</visible>
             </control>
             <control type="image" description="Bluray">
                 <width>84</width>
@@ -2016,8 +2012,7 @@
                 <left>10</left>
                 <texture>flags/color/other/$VAR[ImageBluray].png</texture>
                 <aspectratio aligny="center" align="center">keep</aspectratio>
-                <visible>Skin.HasSetting(furniture.flagicons) + !Skin.HasSetting(furniture.flags.bluray)</visible>
-                <visible>[String.Contains(ListItem.FilenameAndPath,bluray) | String.Contains(ListItem.FilenameAndPath,bdrip) | String.Contains(ListItem.FilenameAndPath,bd25) | String.Contains(ListItem.FilenameAndPath,bd50) | String.Contains(ListItem.FilenameAndPath,blu-ray)]</visible>
+                <visible>Skin.HasSetting(furniture.flagicons) + !Skin.HasSetting(furniture.flags.bluray) + !String.Contains(ListItem.Filenameandpath,.3D) + [String.Contains(ListItem.FilenameAndPath,bluray) | String.Contains(ListItem.FilenameAndPath,bdrip) | String.Contains(ListItem.FilenameAndPath,bd25) | String.Contains(ListItem.FilenameAndPath,bd50) | String.Contains(ListItem.FilenameAndPath,blu-ray)]</visible>
             </control>
             <control type="image" description="WEB-DL">
                 <width>84</width>
@@ -2398,8 +2393,8 @@
                 <width>64</width>
                 <height>64</height>
                 <left>10</left>
-                <texture colordiffuse="Dark1">flags/3D.png</texture>
-                <visible>Container(9500).ListItem.IsStereoscopic</visible>
+                <texture colordiffuse="Dark1">flags/3d.png</texture>
+                <visible>Container(9500).ListItem.IsStereoscopic | String.Contains(Container(9500).ListItem.Filenameandpath,.3D)</visible>
             </control>
             <control type="image">
                 <width>84</width>
@@ -2408,8 +2403,7 @@
                 <left>10</left>
                 <texture colordiffuse="Dark1">flags/$VAR[ImageBluray].png</texture>
                 <aspectratio aligny="center" align="center">keep</aspectratio>
-                <visible>Skin.HasSetting(furniture.flagicons)</visible>
-                <visible>[String.Contains(Container(9500).ListItem.FilenameAndPath,bluray) | String.Contains(Container(9500).ListItem.FilenameAndPath,bdrip) | String.Contains(Container(9500).ListItem.FilenameAndPath,bd25) | String.Contains(Container(9500).ListItem.FilenameAndPath,bd50) | String.Contains(Container(9500).ListItem.FilenameAndPath,blu-ray)]</visible>
+                <visible>Skin.HasSetting(furniture.flagicons) + !String.Contains(ListItem.Filenameandpath,.3D) + [String.Contains(Container(9500).ListItem.FilenameAndPath,bluray) | String.Contains(Container(9500).ListItem.FilenameAndPath,bdrip) | String.Contains(Container(9500).ListItem.FilenameAndPath,bd25) | String.Contains(Container(9500).ListItem.FilenameAndPath,bd50) | String.Contains(Container(9500).ListItem.FilenameAndPath,blu-ray)]</visible>
             </control>
             <control type="image" description="WEB-DL">
                 <width>84</width>
@@ -2754,8 +2748,8 @@
                 <width>48</width>
                 <height>64</height>
                 <left>10</left>
-                <texture>flags/color/other/3D.png</texture>
-                <visible>Container(9500).ListItem.IsStereoscopic</visible>
+                <texture>flags/color/other/3d.png</texture>
+                <visible>Container(9500).ListItem.IsStereoscopic | String.Contains(Container(9500).ListItem.Filenameandpath,.3D)</visible>
             </control>
             <control type="image">
                 <width>84</width>
@@ -2763,9 +2757,8 @@
                 <centertop>50%</centertop>
                 <height>64</height>
                 <texture>flags/color/other/$VAR[ImageBluray9500].png</texture>
-                <visible>Skin.HasSetting(furniture.flagicons)</visible>
                 <aspectratio aligny="center" align="center">keep</aspectratio>
-                <visible>[String.Contains(Container(9500).ListItem.FilenameAndPath,bluray) | String.Contains(Container(9500).ListItem.FilenameAndPath,bdrip) | String.Contains(Container(9500).ListItem.FilenameAndPath,bd25) | String.Contains(Container(9500).ListItem.FilenameAndPath,bd50) | String.Contains(Container(9500).ListItem.FilenameAndPath,blu-ray)]</visible>
+                <visible>Skin.HasSetting(furniture.flagicons) + !String.Contains(ListItem.Filenameandpath,.3D) + [String.Contains(Container(9500).ListItem.FilenameAndPath,bluray) | String.Contains(Container(9500).ListItem.FilenameAndPath,bdrip) | String.Contains(Container(9500).ListItem.FilenameAndPath,bd25) | String.Contains(Container(9500).ListItem.FilenameAndPath,bd50) | String.Contains(Container(9500).ListItem.FilenameAndPath,blu-ray)]</visible>
             </control>
             <control type="image" description="WEB-DL">
                 <width>84</width>
@@ -2781,8 +2774,7 @@
                 <height>64</height>
                 <aspectratio aligny="center" align="center">keep</aspectratio>
                 <texture>flags/color/other/dvd.png</texture>
-                <visible>Skin.HasSetting(furniture.flagicons)</visible>
-                <visible>String.Contains(Container(9500).ListItem.FilenameAndPath,hddvd)</visible>
+                <visible>Skin.HasSetting(furniture.flagicons) + String.Contains(Container(9500).ListItem.FilenameAndPath,hddvd)</visible>
             </control>
             <control type="image">
                 <width>64</width>
@@ -2790,8 +2782,7 @@
                 <height>64</height>
                 <aspectratio aligny="center" align="center">keep</aspectratio>
                 <texture>flags/color/other/dvd.png</texture>
-                <visible>Skin.HasSetting(furniture.flagicons)</visible>
-                <visible>String.Contains(Container(9500).ListItem.FilenameAndPath,dvd) + !String.Contains(Container(9500).ListItem.FilenameAndPath,hddvd)</visible>
+                <visible>Skin.HasSetting(furniture.flagicons) + String.Contains(Container(9500).ListItem.FilenameAndPath,dvd) + !String.Contains(Container(9500).ListItem.FilenameAndPath,hddvd)</visible>
             </control>
             <control type="image">
                 <width>84</width>
@@ -2978,7 +2969,7 @@
         <value condition="Container.Content(addons)">special://skin/extras/icons/addons.png</value>
         <value condition="String.Contains(Container.FolderPath,videodb://musicvideos/,Left)">special://skin/extras/icons/musicvideo.png</value>
         <value condition="Window.IsVisible(script-skin_helper_service-ColorPicker.xml)">special://skin/extras/icons/wand.png</value>
-        <value condition="Window.IsVisible(Custom_1297_Blur.xml)">special://skin/extras/icons/wand.png</value>
+        <value condition="Window.IsVisible(Custom_Blur.xml)">special://skin/extras/icons/wand.png</value>
         <value condition="Window.IsVisible(MyPVRChannels.xml) | Window.IsVisible(MyPVRSearch.xml) | Window.IsVisible(MyPVRTimers.xml) | Window.IsVisible(MyPVRGuide.xml) | Window.IsVisible(MyPVRRecordings.xml)">special://skin/extras/icons/livetv.png</value>
         <value condition="Window.IsVisible(MyMusicPlaylistEditor.xml) | Window.IsVisible(MyMusicNav.xml) | Window.IsVisible(MyMusicSongs.xml)">special://skin/extras/icons/songs.png</value>
         <value condition="Window.IsVisible(MyPics.xml)">special://skin/extras/icons/pictures.png</value>
@@ -3010,7 +3001,7 @@
 
     <variable name="MainHeaderLabel">
         <value condition="Skin.HasSetting(hide.busydialog) + Window.IsVisible(DialogBusy.xml)">$LOCALIZE[20186]...</value>
-        <value condition="Window.IsVisible(Custom_1297_Blur.xml)">$LOCALIZE[31580]</value>
+        <value condition="Window.IsVisible(Custom_Blur.xml)">$LOCALIZE[31580]</value>
         <value condition="Window.IsVisible(script-skin_helper_service-ColorPicker.xml)">$LOCALIZE[31238] $VAR[ColorPickerHeaderLabel,$LOCALIZE[31520] ,]</value>
         <value condition="Window.IsVisible(script-globalsearch.xml)">$LOCALIZE[31324] $INFO[Window.Property(GlobalSearch.SearchString),","]</value>
         <value condition="Window.IsVisible(service-CoreELEC-Settings-mainWindow.xml)">$LOCALIZE[31472]</value>
