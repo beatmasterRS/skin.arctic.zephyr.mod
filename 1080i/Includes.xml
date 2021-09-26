@@ -79,6 +79,7 @@
     <expression name="Widget5Enabled">String.IsEqual(Container(300).ListItem.Property(widgetEnable.5),yes)</expression>
     <expression name="Widget6Enabled">String.IsEqual(Container(300).ListItem.Property(widgetEnable.6),yes)</expression>
     <expression name="HasHomemenuAutoSlideOutAnimation">Skin.HasSetting(homemenu.slide) + [[$EXP[HomeIsModernMultiWidgets] + !Skin.HasSetting(homemenu.clean.flix)] | [$EXP[HomeIsVerticalMultiWidgets] + !Skin.HasSetting(homemenu.vertical.noslide)]]</expression>
+    <expression name="HasHomemenuAutoSlideOutAnimationTimer">Skin.HasSetting(homemenu.slide) + !Skin.HasSetting(only.hide.if.widgetcontainer.gets.focus) + [[$EXP[HomeIsModernMultiWidgets] + !Skin.HasSetting(homemenu.clean.flix)] | [$EXP[HomeIsVerticalMultiWidgets] + !Skin.HasSetting(homemenu.vertical.noslide)]]</expression>
     
     <expression name="TrailerWindowIsActive">Skin.HasSetting(home.netflix.autoplay.trailer) + [[Window.IsVisible(Home.xml) + [$EXP[HomeIsModernMultiWidgetsNetflix] | $EXP[HomeIsCleanMinimal] | $EXP[HomeIsVerticalMultiWidgetsNetflix]]] | Control.IsVisible(521) | Control.IsVisible(522) | Control.IsVisible(510)] + !Window.IsVisible(DialogVideoInfo.xml) + String.IsEqual(Window(home).Property(TrailerPath2),Player.FileNameAndPath) + !String.IsEmpty(Player.FileNameAndPath)</expression>
     <expression name="TrailerIsReady">Skin.HasSetting(home.netflix.autoplay.trailer) + [Window.IsVisible(Home.xml) | Window.IsVisible(MyVideoNav.xml)] + !Control.HasFocus(300) + !Player.HasMedia + !String.IsEmpty(Window(home).Property(listitem.trailer)) + !System.HasVisibleModalDialog + !Window.IsVisible(script-globalsearch.xml) + !String.IsEqual(Window(home).Property(TrailerPath),Window(home).Property(listitem.trailer)) + !System.IdleTime(30)</expression>
@@ -3345,7 +3346,7 @@
     <include name="SlideOutItemsButton">
         <control type="button">
             <include>HiddenButton</include>
-            <onfocus condition="!Skin.HasSetting(only.hide.if.widgetcontainer.gets.focus)">AlarmClock(slide_out,SetFocus(2011),00:05,silent)</onfocus>
+            <onfocus>AlarmClock(slide_out,SetFocus(2011),00:05,silent)</onfocus>
             <onfocus condition="Control.HasFocus(300)">SetProperty(LastMenuItem,300,home)</onfocus>
             <onfocus condition="Control.HasFocus(302)">SetProperty(LastMenuItem,302,home)</onfocus>
         </control>
