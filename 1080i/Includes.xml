@@ -78,8 +78,8 @@
     <expression name="Widget4Enabled">String.IsEqual(Container(300).ListItem.Property(widgetEnable.4),yes)</expression>
     <expression name="Widget5Enabled">String.IsEqual(Container(300).ListItem.Property(widgetEnable.5),yes)</expression>
     <expression name="Widget6Enabled">String.IsEqual(Container(300).ListItem.Property(widgetEnable.6),yes)</expression>
-    <expression name="HasHomemenuAutoSlideOutAnimation">Skin.HasSetting(homemenu.slide) + [[$EXP[HomeIsModernMultiWidgets] + !Skin.HasSetting(homemenu.clean.flix)] | [$EXP[HomeIsVerticalMultiWidgets] + !Skin.HasSetting(homemenu.vertical.noslide)]]</expression>
-    
+    <expression name="HasHomemenuAutoSlideOutAnimation">Skin.HasSetting(homemenu.slide) + [$EXP[HomeIsModernMultiWidgets] + !Skin.HasSetting(homemenu.clean.flix) + [!Skin.HasSetting(homemenu.modern.slide.on.widget) | [Skin.HasSetting(homemenu.modern.slide.on.widget) + !Control.HasFocus(300) + !Control.HasFocus(302) + !Control.HasFocus(2011)]] | [$EXP[HomeIsVerticalMultiWidgets] + !Skin.HasSetting(homemenu.vertical.noslide)]]</expression>
+
     <expression name="TrailerWindowIsActive">Skin.HasSetting(home.netflix.autoplay.trailer) + [[Window.IsVisible(Home.xml) + [$EXP[HomeIsModernMultiWidgetsNetflix] | $EXP[HomeIsCleanMinimal] | $EXP[HomeIsVerticalMultiWidgetsNetflix]]] | Control.IsVisible(521) | Control.IsVisible(522) | Control.IsVisible(510)] + !Window.IsVisible(DialogVideoInfo.xml) + String.IsEqual(Window(home).Property(TrailerPath2),Player.FileNameAndPath) + !String.IsEmpty(Player.FileNameAndPath)</expression>
     <expression name="TrailerIsReady">Skin.HasSetting(home.netflix.autoplay.trailer) + [Window.IsVisible(Home.xml) | Window.IsVisible(MyVideoNav.xml)] + !Control.HasFocus(300) + !Player.HasMedia + !String.IsEmpty(Window(home).Property(listitem.trailer)) + !System.HasVisibleModalDialog + !Window.IsVisible(script-globalsearch.xml) + !String.IsEqual(Window(home).Property(TrailerPath),Window(home).Property(listitem.trailer)) + !System.IdleTime(30)</expression>
     <expression name="TrailerWaitingForPlayer">!String.IsEmpty(Window(home).Property(TrailerPath2)) + !String.IsEmpty(Window(home).Property(TrailerPath)) + String.IsEmpty(Player.FileNameAndPath)</expression>
@@ -614,7 +614,7 @@
             <include>Dimensions_Fullscreen</include>
         </control>
     </include>
-    
+
     <include name="TrailerWindow">
         <control type="videowindow">
             <visible>$EXP[TrailerWindowIsActive] + !$EXP[ExtendedNowPlayingIsVisible] + ![$EXP[HomeIsCleanMinimal] + Window.IsVisible(Home)]</visible>
@@ -716,7 +716,7 @@
             <visible>!$EXP[HomeIsSpotlight] + !$EXP[HomeIsClassic] + !$EXP[HomeIsModern]</visible>
             <animation effect="fade" start="100" end="75" time="200" condition="Player.HasVideo + Skin.HasSetting(global.showvideo) | Player.HasAudio + Skin.HasSetting(global.showvisualisation)">Conditional</animation>
         </control>
-        
+
         <!-- Trailer Window Home -->
         <include condition="Skin.HasSetting(home.netflix.autoplay.trailer)">TrailerWindow</include>
 
@@ -2945,19 +2945,19 @@
             <onfocus>SetProperty(ContainerPosition,$INFO[Container($PARAM[id]).CurrentItem]$INFO[Container($PARAM[id]).NumItems, / ,],home)</onfocus>
         </control>
     </include>
-    
+
     <include name="SetAutoTrailerControl">
         <control type="button">
             <visible>false</visible>
-            
+
             <!-- Set Property / Skin String -->
             <onfocus>SetProperty(listitem.trailer,$INFO[ListItem.Trailer],home)</onfocus>
             <onfocus>SetProperty(listitem.trailer,$INFO[ListItem.Trailer],home)</onfocus>
-            
+
             <!-- Reset / Stop On Unfocus -->
             <onunfocus condition="String.IsEmpty(Window(home).Property(TrailerIsPlayingFullscreen))">ClearProperty(TrailerPath,home)</onunfocus>
             <onunfocus condition="$EXP[TrailerIsPlaying] + !Skin.HasSetting(trailer.dont.stop.on.unfocus) + String.IsEmpty(Window(home).Property(TrailerIsPlayingFullscreen))">Stop</onunfocus>
-            
+
             <!-- Reset Fullscreen Property -->
             <onunfocus condition="!String.IsEmpty(Window(home).Property(TrailerIsPlayingFullscreen))">ClearProperty(TrailerIsPlayingFullscreen,home)</onunfocus>
         </control>
@@ -3140,7 +3140,7 @@
     <variable name="AlbumPath">
         <value condition="ListItem.IsFolder + String.IsEqual(ListItem.DBType,album)">$INFO[ListItem.FolderPath]</value>
     </variable>
-    
+
     <variable name="ActorPath">
         <value condition="ListItem.IsFolder + String.IsEqual(Container(301).ListItem.DBType,actor)">$INFO[Container(301).ListItem.FolderPath]</value>
         <value condition="ListItem.IsFolder + String.IsEqual(ListItem.DBType,actor)">$INFO[ListItem.FolderPath]</value>
@@ -3505,7 +3505,7 @@
         </control>
         </definition>
     </include>
-    
+
     <include name="weatherlayoutwidgetsvertical.poster">
         <include>def_weatherposter</include>
     </include>
@@ -3571,7 +3571,7 @@
         </control>
         </definition>
     </include>
-    
+
     <include name="layoutweather">
         <itemlayout height="344" width="256" condition="String.IsEqual(Container(300).ListItem.Property(widgetaspect),Poster) | String.IsEmpty(Container(300).ListItem.Property(widgetaspect))">
             <control type="image">
@@ -4052,7 +4052,7 @@
             </control>
         </focusedlayout>
     </include>
-    
+
     <include name="include.widget.poster">
         <param name="reflections" value="$PARAM[reflections]" default="false"/>
         <param name="height" value="$PARAM[height]" default="325"/>
@@ -4591,22 +4591,22 @@
             </include>
         </control>
     </include>
-    
+
     <variable name="PlayListStatsPath">
         <value condition="String.StartsWith(Container(300).ListItem.Property(path),ActivateWindow) + String.Contains(Container(300).ListItem.Property(path),Videos) + String.Contains(Container(300).ListItem.Property(path),playlists) + String.Contains(Container(300).ListItem.Property(path),.xsp)">plugin://script.embuary.helper/?info=getpathstats&amp;path=$INFO[Container(300).ListItem.Property(path)]&amp;prefix=Playlist</value>
     </variable>
-    
+
     <variable name="PlaylistsCountItemPath">
         <value condition="String.StartsWith(Container(300).ListItem.Property(path),ActivateWindow) + String.Contains(Container(300).ListItem.Property(path),Videos) + String.Contains(Container(300).ListItem.Property(path),playlists) + !String.Contains(Container(300).ListItem.Property(path),.xsp)">special://videoplaylists/</value>
     </variable>
-    
+
     <variable name="RandomMovies">
         <value condition="Skin.HasSetting(home.netflix.autoplay.trailer) + System.AddonIsEnabled(service.library.data.provider) + ![Skin.HasSetting(EnableEffects) + Skin.HasSetting(BlurOnHome)]">plugin://service.library.data.provider?type=randommovies&amp;reload=$INFO[Window.Property(randommovies)]</value>
         <!--<value condition="Skin.HasSetting(home.netflix.autoplay.trailer) + System.AddonIsEnabled(script.skin.helper.widgets)">plugin://script.skin.helper.widgets/?action=random&amp;mediatype=movies&amp;reload=$INFO[Window(Home).Property(widgetreload2)]</value>-->
         <value condition="Skin.HasSetting(home.netflix.autoplay.trailer)">special://skin/extras/playlists/Spotlight.xsp</value>
         <value>special://skin/extras/playlists/RandomMovies.xsp</value>
     </variable>
-    
+
     <include name="BusySpinner">
         <param name="color" default="Dark1"/>
         <definition>
