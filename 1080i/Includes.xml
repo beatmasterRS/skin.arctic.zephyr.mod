@@ -2,7 +2,7 @@
 <!-- Foundation -->
 <includes>
     <include file="Defaults.xml"/>
-    <include file="IncludesVideoLyrics.xml"/>
+    <include file="Includes_VideoLyrics.xml"/>
     <include file="Includes_Lyrics.xml"/>
     <include file="Includes_Lists.xml"/>
     <include file="Includes_DialogVideoInfo.xml"/>
@@ -78,8 +78,8 @@
     <expression name="Widget4Enabled">String.IsEqual(Container(300).ListItem.Property(widgetEnable.4),yes)</expression>
     <expression name="Widget5Enabled">String.IsEqual(Container(300).ListItem.Property(widgetEnable.5),yes)</expression>
     <expression name="Widget6Enabled">String.IsEqual(Container(300).ListItem.Property(widgetEnable.6),yes)</expression>
-    <expression name="HasHomemenuAutoSlideOutAnimation">Skin.HasSetting(homemenu.slide) + [[$EXP[HomeIsModernMultiWidgets] + !Skin.HasSetting(homemenu.clean.flix)] | [$EXP[HomeIsVerticalMultiWidgets] + !Skin.HasSetting(homemenu.vertical.noslide)]]</expression>
-
+    <expression name="HasHomemenuAutoSlideOutAnimation">Skin.HasSetting(homemenu.slide) + !Skin.HasSetting(only.hide.if.widgetcontainer.gets.focus) + [[$EXP[HomeIsModernMultiWidgets] + !Skin.HasSetting(homemenu.clean.flix)] | [$EXP[HomeIsVerticalMultiWidgets] + !Skin.HasSetting(homemenu.vertical.noslide)]]</expression>
+    
     <expression name="TrailerWindowIsActive">Skin.HasSetting(home.netflix.autoplay.trailer) + [[Window.IsVisible(Home.xml) + [$EXP[HomeIsModernMultiWidgetsNetflix] | $EXP[HomeIsCleanMinimal] | $EXP[HomeIsVerticalMultiWidgetsNetflix]]] | Control.IsVisible(521) | Control.IsVisible(522) | Control.IsVisible(510)] + !Window.IsVisible(DialogVideoInfo.xml) + String.IsEqual(Window(home).Property(TrailerPath2),Player.FileNameAndPath) + !String.IsEmpty(Player.FileNameAndPath)</expression>
     <expression name="TrailerIsReady">Skin.HasSetting(home.netflix.autoplay.trailer) + [Window.IsVisible(Home.xml) | Window.IsVisible(MyVideoNav.xml)] + !Control.HasFocus(300) + !Player.HasMedia + !String.IsEmpty(Window(home).Property(listitem.trailer)) + !System.HasVisibleModalDialog + !Window.IsVisible(script-globalsearch.xml) + !String.IsEqual(Window(home).Property(TrailerPath),Window(home).Property(listitem.trailer)) + !System.IdleTime(30)</expression>
     <expression name="TrailerWaitingForPlayer">!String.IsEmpty(Window(home).Property(TrailerPath2)) + !String.IsEmpty(Window(home).Property(TrailerPath)) + String.IsEmpty(Player.FileNameAndPath)</expression>
@@ -386,7 +386,7 @@
         <value condition="Window.IsVisible(weather) + !String.IsEmpty(Skin.String(weather.fanart.path))">$INFO[Skin.String(weather.fanart.path)]$INFO[Window(Weather).Property(Current.FanartCode)]/</value>
         <value condition="Window.IsVisible(home) + ![Skin.HasSetting(extended.nowplaying) + Player.Playing + !Skin.HasSetting(home.hide.nowplaying) + [$EXP[HomeIsModernMultiWidgets] | $EXP[HomeIsVerticalMultiWidgets]]] + !String.IsEmpty(Skin.String(weather.fanart.path)) + [String.IsEqual(Container(300).ListItem.Property(widget),weatherdaily) | String.IsEqual(Container(300).ListItem.Property(widget),weatherhourly)] + !Skin.HasSetting(home.dontshowfanart) + String.Contains(Skin.String(weather.fanart.path),multi) + String.IsEmpty(Container(300).ListItem.Property(Background))">$INFO[Skin.String(weather.fanart.path)]$INFO[Window(Weather).Property(Current.FanartCode)]/</value>
         <value condition="Window.IsVisible(home) + ![Skin.HasSetting(extended.nowplaying) + Player.Playing + !Skin.HasSetting(home.hide.nowplaying) + [$EXP[HomeIsModernMultiWidgets] | $EXP[HomeIsVerticalMultiWidgets]]] + !String.IsEmpty(Skin.String(weather.fanart.path)) + [String.IsEqual(Container(300).ListItem.Property(widget),weatherdaily) | String.IsEqual(Container(300).ListItem.Property(widget),weatherhourly)] + !Skin.HasSetting(home.dontshowfanart) + !String.Contains(Skin.String(weather.fanart.path),multi) + String.IsEmpty(Container(300).ListItem.Property(Background))">$INFO[Skin.String(weather.fanart.path)]$INFO[Window(Weather).Property(Current.FanartCode),,.jpg]</value>
-        <value condition="!String.IsEmpty(Control.GetLabel(4399)) + Skin.HasSetting(EnableExtraFanart) + !Skin.HasSetting(global.hidefanart)">$INFO[Control.GetLabel(4399)]</value>
+        <value condition="!String.IsEmpty(Control.GetLabel(4399)) + Skin.HasSetting(EnableExtraFanart) + !Skin.HasSetting(global.hidefanart) + [!Skin.HasSetting(disable.background.addons.fanart) | [Skin.HasSetting(disable.background.addons.fanart) + !String.Contains(Control.GetLabel(4399),addons) + ![String.Contains(Control.GetLabel(4399),plugin) | String.Contains(Control.GetLabel(4399),script) | String.Contains(Control.GetLabel(4399),service)]]]">$INFO[Control.GetLabel(4399)]</value>
 
         <!-- Now Playing -->
         <value condition="Skin.HasSetting(extended.nowplaying) + Window.IsVisible(home) + !ControlGroup(301).HasFocus() + !Skin.HasSetting(home.dontshowfanart) + String.IsEmpty(Container(301).ListItem.Property(backgroundPlaylist)) + !String.IsEmpty(Window(Visualisation).Property(ArtistSlideshow.Image)) + Player.HasAudio">$INFO[Window(Visualisation).Property(ArtistSlideshow.Image)]</value>
@@ -399,7 +399,7 @@
         <value condition="!Skin.HasSetting(home.dontshowfanart) + [[Skin.HasSetting(home.vertical) + Skin.HasSetting(home.vertical.widgets)] | [!Skin.HasSetting(home.vertical) + !Skin.HasSetting(home.classicwidgets) + Skin.HasSetting(home.vertical.widgets)]] + Window.IsVisible(home) + !String.IsEqual(Container(300).ListItem.Property(background),playlistBackground) + !String.IsEmpty(ListItem.Property(Background))">$INFO[ListItem.Property(Background)]</value>
 
         <!--Multi Widget -->
-        <value condition="!Skin.HasSetting(home.dontshowfanart) + [[Skin.HasSetting(home.vertical) + Skin.HasSetting(home.vertical.widgets)] | [!Skin.HasSetting(home.vertical) + !Skin.HasSetting(home.classicwidgets) + Skin.HasSetting(home.vertical.widgets)]] + Window.IsVisible(home) + !String.IsEmpty(ListItem.Art(fanart))">$INFO[ListItem.Art(fanart)]</value>
+        <value condition="!Skin.HasSetting(home.dontshowfanart) + [[Skin.HasSetting(home.vertical) + Skin.HasSetting(home.vertical.widgets)] | [!Skin.HasSetting(home.vertical) + !Skin.HasSetting(home.classicwidgets) + Skin.HasSetting(home.vertical.widgets)]] + Window.IsVisible(home) + !String.IsEmpty(ListItem.Art(fanart)) + [!Skin.HasSetting(disable.background.addons.fanart) | [Skin.HasSetting(disable.background.addons.fanart) + !String.Contains(ListItem.Art(fanart),addons) + ![String.Contains(ListItem.Art(fanart),plugin) | String.Contains(ListItem.Art(fanart),script) | String.Contains(ListItem.Art(fanart),service)]]]">$INFO[ListItem.Art(fanart)]</value>
         <value condition="!Skin.HasSetting(home.dontshowfanart) + [[Skin.HasSetting(home.vertical) + Skin.HasSetting(home.vertical.widgets)] | [!Skin.HasSetting(home.vertical) + !Skin.HasSetting(home.classicwidgets) + Skin.HasSetting(home.vertical.widgets)]] + Window.IsVisible(home) + !String.IsEmpty(ListItem.Property(fanart))">$INFO[ListItem.Property(fanart)]</value>
 
         <!--Multi Widget -->
@@ -640,16 +640,16 @@
             <right>0</right>
             <top>0</top>
             <animation effect="slide" start="0,0" end="0,-90" time="0" condition="Skin.HasSetting(home.netflix.autoplay.trailer.custom.window.force)">Conditional</animation>
-            <animation effect="slide" start="0,0" end="0,-50" time="0" condition="Skin.HasSetting(home.netflix.autoplay.trailer.custom.window) + String.IsEqual(VideoPlayer.VideoAspect,1.85) + !String.IsEmptyVideoPlayer.VideoAspect)">Conditional</animation>
-            <animation effect="slide" start="0,0" end="0,-90" time="0" condition="Skin.HasSetting(home.netflix.autoplay.trailer.custom.window) + !String.IsEqual(VideoPlayer.VideoAspect,1.85) + !String.IsEqual(VideoPlayer.VideoAspect,1.78) + !String.IsEqual(VideoPlayer.VideoAspect,1.66) + !String.IsEqual(VideoPlayer.VideoAspect,1.37) + !String.IsEqual(VideoPlayer.VideoAspect,1.33) + !String.IsEmptyVideoPlayer.VideoAspect)">Conditional</animation>
+            <animation effect="slide" start="0,0" end="0,-50" time="0" condition="Skin.HasSetting(home.netflix.autoplay.trailer.custom.window) + String.IsEqual(VideoPlayer.VideoAspect,1.85) + !String.IsEmpty(VideoPlayer.VideoAspect)">Conditional</animation>
+            <animation effect="slide" start="0,0" end="0,-90" time="0" condition="Skin.HasSetting(home.netflix.autoplay.trailer.custom.window) + !String.IsEqual(VideoPlayer.VideoAspect,1.85) + !String.IsEqual(VideoPlayer.VideoAspect,1.78) + !String.IsEqual(VideoPlayer.VideoAspect,1.66) + !String.IsEqual(VideoPlayer.VideoAspect,1.37) + !String.IsEqual(VideoPlayer.VideoAspect,1.33) + !String.IsEmpty(VideoPlayer.VideoAspect)">Conditional</animation>
             <animation type="WindowClose" reversible="false">
                 <effect type="zoom" center="auto" start="100" end="0" time="0" />
             </animation>
         </control>
         <control type="image" description="Background">
             <animation effect="slide" start="0,0" end="0,-90" time="0" condition="Skin.HasSetting(home.netflix.autoplay.trailer.custom.window.force)">Conditional</animation>
-            <animation effect="slide" start="0,0" end="0,-50" time="0" condition="Skin.HasSetting(home.netflix.autoplay.trailer.custom.window) + String.IsEqual(VideoPlayer.VideoAspect,1.85) + !String.IsEmptyVideoPlayer.VideoAspect)">Conditional</animation>
-            <animation effect="slide" start="0,0" end="0,-90" time="0" condition="Skin.HasSetting(home.netflix.autoplay.trailer.custom.window) + !String.IsEqual(VideoPlayer.VideoAspect,1.85) + !String.IsEqual(VideoPlayer.VideoAspect,1.78) + !String.IsEqual(VideoPlayer.VideoAspect,1.66) + !String.IsEqual(VideoPlayer.VideoAspect,1.37) + !String.IsEqual(VideoPlayer.VideoAspect,1.33) + !String.IsEmptyVideoPlayer.VideoAspect)">Conditional</animation>
+            <animation effect="slide" start="0,0" end="0,-50" time="0" condition="Skin.HasSetting(home.netflix.autoplay.trailer.custom.window) + String.IsEqual(VideoPlayer.VideoAspect,1.85) + !String.IsEmpty(VideoPlayer.VideoAspect)">Conditional</animation>
+            <animation effect="slide" start="0,0" end="0,-90" time="0" condition="Skin.HasSetting(home.netflix.autoplay.trailer.custom.window) + !String.IsEqual(VideoPlayer.VideoAspect,1.85) + !String.IsEqual(VideoPlayer.VideoAspect,1.78) + !String.IsEqual(VideoPlayer.VideoAspect,1.66) + !String.IsEqual(VideoPlayer.VideoAspect,1.37) + !String.IsEqual(VideoPlayer.VideoAspect,1.33) + !String.IsEmpty(VideoPlayer.VideoAspect)">Conditional</animation>
             <visible>$EXP[TrailerWindowIsActive] + !$EXP[ExtendedNowPlayingIsVisible] + ![$EXP[HomeIsCleanMinimal] + Window.IsVisible(Home)]</visible>
             <top>0</top>
             <include>Dimensions_Fullscreen</include>
@@ -670,7 +670,7 @@
             <timeperimage>HomeTimePerImage</timeperimage>
             <randomize>true</randomize>
             <imagepath background="true">$VAR[GlobalFanart]</imagepath>
-            <visible>System.AddonIsEnabled(script.litebox) + Skin.HasSetting(EnableEffects) + !Window.IsVisible(Custom_1297_Blur.xml)</visible>
+            <visible>System.AddonIsEnabled(script.litebox) + Skin.HasSetting(EnableEffects) + !Window.IsVisible(Custom_Blur.xml)</visible>
         </control>
         <include condition="!Skin.HasSetting(global.showvideo) + Skin.HasSetting(background.video.fix.audio.errors)">HiddenVideoWindow</include>
         <include>GlobalVideoWindow</include>
@@ -3157,6 +3157,11 @@
     <variable name="AlbumPath">
         <value condition="ListItem.IsFolder + String.IsEqual(ListItem.DBType,album)">$INFO[ListItem.FolderPath]</value>
     </variable>
+    
+    <variable name="ActorPath">
+        <value condition="ListItem.IsFolder + String.IsEqual(Container(301).ListItem.DBType,actor)">$INFO[Container(301).ListItem.FolderPath]</value>
+        <value condition="ListItem.IsFolder + String.IsEqual(ListItem.DBType,actor)">$INFO[ListItem.FolderPath]</value>
+    </variable>
 
     <variable name="AlbumPath301">
         <value condition="Container(301).ListItem.IsFolder + String.IsEqual(Container(301).ListItem.DBType,album)">$INFO[Container(301).ListItem.FolderPath]</value>
@@ -4726,4 +4731,39 @@
         <value condition="Skin.HasSetting(home.netflix.autoplay.trailer)">special://skin/extras/playlists/Spotlight.xsp</value>
         <value>special://skin/extras/playlists/RandomMovies.xsp</value>
     </variable>
+    
+    <include name="BusySpinner">
+        <param name="color" default="Dark1"/>
+        <definition>
+        <control type="image">
+            <description>Busy animation</description>
+            <centerleft>54</centerleft>
+            <centertop>54</centertop>
+            <width>100</width>
+            <height>100</height>
+            <texture>dialog/loading-back.png</texture>
+            <aspectratio>keep</aspectratio>
+        </control>
+        <control type="image">
+            <description>Busy animation</description>
+            <centerleft>54</centerleft>
+            <centertop>54</centertop>
+            <width>100</width>
+            <height>100</height>
+            <animation effect="rotate" condition="true" start="360" end="0" loop="true" time="1000" center="auto">Conditional</animation>
+            <texture colordiffuse="$VAR[ColorHighlight]">dialog/loading-spinner.png</texture>
+            <aspectratio>keep</aspectratio>
+        </control>
+        <control type="label">
+            <description>Busy label</description>
+            <posx>105</posx>
+            <posy>30</posy>
+            <width>720</width>
+            <height>48</height>
+            <align>left</align>
+            <label>$LOCALIZE[31138]...</label>
+            <textcolor>$PARAM[color]</textcolor>
+        </control>
+        </definition>
+    </include>
 </includes>
