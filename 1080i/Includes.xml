@@ -1555,34 +1555,8 @@
                     <param name="icon" value="buttonsdialogs/info.png"/>
                 </include>
             </control>
-
-            <!-- IMDB Trailer -->
-            <control type="radiobutton" id="1235">
-                <onfocus>ClearProperty(moviecontent)</onfocus>
-                <onfocus>ClearProperty(ShowDisc)</onfocus>
-                <include>buttondimensions</include>
-                <include content="buttontextures">
-                    <param name="icon" value="buttonsdialogs/trailer.png"/>
-                </include>
-                <visible>!String.IsEmpty(ListItem.IMDBNumber) + Skin.HasSetting(Use.IMDB.Trailer) + System.AddonIsEnabled(plugin.video.imdb.trailers) + !Skin.HasSetting(PlayTrailerWindowed)</visible>
-                <onclick>Dialog.Close(2003)</onclick>
-                <onclick>PlayMedia(plugin://plugin.video.imdb.trailers/?action=play_id&amp;imdb=$INFO[ListItem.IMDBNumber])</onclick>
-                <visible>!Skin.HasSetting(hidebutton.video.trailer)</visible>
-            </control>
-
-            <!-- Trailer -->
-            <control type="radiobutton" id="11">
-                <onfocus>ClearProperty(moviecontent)</onfocus>
-                <onfocus>ClearProperty(ShowDisc)</onfocus>
-                <include>buttondimensions</include>
-                <include content="buttontextures">
-                    <param name="icon" value="buttonsdialogs/trailer.png"/>
-                </include>
-                <visible>!String.IsEmpty(ListItem.Trailer) + !Skin.HasSetting(PlayTrailerWindowed) + !Skin.HasSetting(Use.IMDB.Trailer)</visible>
-                <visible>!Skin.HasSetting(hidebutton.video.trailer)</visible>
-            </control>
             
-            <!-- Trailer -->
+            <!-- Trailer - ListItem.Trailer | IMDB.Trailer | Bingie.Helper -->
             <control type="radiobutton" id="1224">
                 <onfocus>ClearProperty(moviecontent)</onfocus>
                 <onfocus>ClearProperty(ShowDisc)</onfocus>
@@ -1590,12 +1564,15 @@
                 <include content="buttontextures">
                     <param name="icon" value="buttonsdialogs/trailer.png"/>
                 </include>
-                <visible>!Skin.HasSetting(PlayTrailerWindowed) + !Skin.HasSetting(Use.IMDB.Trailer) + String.IsEmpty(ListItem.Trailer) + System.AddonIsEnabled(script.bingie.helper)</visible>
-                <onclick condition="String.IsEmpty(ListItem.Trailer) + System.AddonIsEnabled(script.bingie.helper)">RunScript(script.bingie.helper,action=playtrailer,MODE=windowed,title=$INFO[ListItem.Title],local=true)</onclick>
+                <visible>!Skin.HasSetting(PlayTrailerWindowed) + [[Skin.HasSetting(Use.IMDB.Trailer) + !String.IsEmpty(ListItem.IMDBNumber)] | [!Skin.HasSetting(Use.IMDB.Trailer) + String.IsEmpty(ListItem.Trailer) + System.AddonIsEnabled(script.bingie.helper)] | [!Skin.HasSetting(Use.IMDB.Trailer) + !String.IsEmpty(ListItem.Trailer)]]</visible>                
+                <onclick condition="Skin.HasSetting(Use.IMDB.Trailer) | String.IsEmpty(ListItem.Trailer)">Dialog.Close(2003)</onclick>                
+                <onclick condition="Skin.HasSetting(Use.IMDB.Trailer)">PlayMedia(plugin://plugin.video.imdb.trailers/?action=play_id&amp;imdb=$INFO[ListItem.IMDBNumber])</onclick>
+                <onclick condition="!Skin.HasSetting(Use.IMDB.Trailer) + !String.IsEmpty(ListItem.Trailer)">SendClick(11)</onclick>
+                <onclick condition="!Skin.HasSetting(Use.IMDB.Trailer) + String.IsEmpty(ListItem.Trailer) + System.AddonIsEnabled(script.bingie.helper)">RunScript(script.bingie.helper,action=playtrailer,MODE=fullscreen,title=$INFO[ListItem.Title],local=true)</onclick>                
                 <visible>!Skin.HasSetting(hidebutton.video.trailer)</visible>
             </control>
 
-            <!-- Trailer Windowed, Mixed -->
+            <!-- Trailer Windowed - ListItem.Trailer | IMDB.Trailer | Bingie.Helper -->
             <control type="radiobutton" id="1223">
                 <onfocus condition="!String.IsEqual(Window.Property(moviecontent),6)">ClearProperty(moviecontent)</onfocus>
                 <onfocus>ClearProperty(ShowDisc)</onfocus>
