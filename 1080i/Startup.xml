@@ -1,6 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!-- Foundation -->
 <window>
+    <defaultcontrol always="true" condition="!Skin.HasSetting(disable.startup.window)">9315</defaultcontrol>
+    <onload condition="Skin.HasSetting(disable.startup.window)">ReplaceWindow($INFO[System.StartupWindow])</onload>
     <onload>SetProperty(SkinInitStarted,1,home)</onload>
     <onload condition="!Skin.HasSetting(TMDbHelper.Service)">Skin.ToggleSetting(TMDbHelper.Service)</onload>
     <onload condition="!Skin.HasSetting(SkinHelper.EnableAnimatedPosters)">Skin.SetBool(SkinHelper.EnableAnimatedPosters)</onload>
@@ -43,9 +45,46 @@
     <onload condition="!Skin.HasSetting(startup.init)">Skin.SetString(HubLimit,25)</onload>
     <onload condition="!Skin.HasSetting(startup.init)">Skin.SetBool(startup.init)</onload>
     
-    <!-- Go home -->
-    <onload condition="!Skin.HasSetting(disable.startup.window)">ReplaceWindow(1150)</onload>
-    <onload condition="Skin.HasSetting(disable.startup.window)">ReplaceWindow($INFO[System.StartupWindow])</onload>    
+    <controls>
     
-    <controls/>
+        <!-- Go home -->
+        <control type="group">
+            <visible>!Skin.HasSetting(disable.startup.window)</visible>
+            <control type="image" description="Background">
+                <include>Dimensions_Fullscreen</include>
+                <texture colordiffuse="$VAR[StartupDiffuse]">$VAR[StartupFanart]</texture>
+                <animation effect="fade" start="100" end="0" time="500" tween="quadratic">WindowClose</animation>
+                <visible>String.IsEmpty(Skin.String(StartupPlaylist))</visible>
+            </control>
+            <control type="button" id="9315">
+                <onfocus condition="System.AddonIsEnabled(script.skin.info.service)">RunScript(script.skin.info.service)</onfocus>
+                <onfocus condition="String.IsEmpty(Window(home).Property(SkinInitStarted)) + !String.IsEmpty(Skin.String(StartupPlaylist))">PlayMedia($ESCINFO[Skin.String(StartupPlaylist)])</onfocus>
+                <onfocus condition="!Player.HasVideo + !String.IsEmpty(Skin.String(StartupPlaylist))">ReplaceWindow($INFO[System.StartupWindow])</onfocus>
+                <onfocus condition="String.IsEmpty(Skin.String(StartupPlaylist)) + !Skin.HasSetting(disable.startup.window)">AlarmClock(GoHome,ReplaceWindow($INFO[System.StartupWindow]),00:04,silent,false)</onfocus>
+                <visible allowhiddenfocus="true">false</visible>
+            </control>
+            <control type="label">
+                <width>100%</width>
+                <height>100%</height>
+                <align>center</align>
+                <aligny>center</aligny>
+                <label>Arctic [COLOR=$VAR[ColorHighlight]]Zephyr[/COLOR]</label>
+                <font>EpisodeNumber</font>
+                <textcolor>Dark1</textcolor>
+                <animation effect="fade" start="100" end="0" time="500" tween="quadratic">WindowClose</animation>
+                <visible>String.IsEmpty(Skin.String(StartupPlaylist)) + String.IsEmpty(Skin.String(startupfanart.fallback))</visible>
+            </control>
+            <control type="image">
+                <left>1020</left>
+                <top>605</top>
+                <width>331</width>
+                <height>60</height>
+                <centertop>50%</centertop>
+                <texture>misc/matrix.png</texture>
+                <animation effect="fade" start="0" end="100" time="800" delay="2000" tween="quadratic">WindowOpen</animation>
+                <animation effect="fade" start="100" end="0" time="500" tween="quadratic">WindowClose</animation>
+                <visible>String.IsEmpty(Skin.String(StartupPlaylist)) + String.IsEmpty(Skin.String(startupfanart.fallback)) + Control.HasFocus(9315)</visible>
+            </control>
+        </control>    
+    </controls>
 </window>
