@@ -24,6 +24,7 @@
     <onload condition="Skin.HasSetting(lock.skinsettings) + !String.IsEqual(Skin.String(skintheme),SKINDEFAULT) + !String.IsEmpty(Skin.String(skintheme))">RunScript(script.embuary.helper,action=setkodisetting,setting=lookandfeel.skintheme,value=$INFO[Skin.String(skintheme)])</onload>
     <onload condition="Skin.HasSetting(lock.skinsettings) + !String.IsEqual(Skin.String(skinfont),SKINDEFAULT) + !String.IsEmpty(Skin.String(skinfont))">RunScript(script.embuary.helper,action=setkodisetting,setting=lookandfeel.font,value=$INFO[Skin.String(skinfont)])</onload>
     <onload condition="System.AddonIsEnabled(script.skin.info.service)">RunScript(script.skin.info.service)</onload>
+    <onunload>CancelAlarm(GoHome,true)</onunload>
 
     <!-- First start settings -->
     <onload condition="!Skin.HasSetting(startup.init)">Skin.SetBool(global.hidecirles)</onload>
@@ -57,8 +58,7 @@
                 <visible>String.IsEmpty(Skin.String(StartupPlaylist))</visible>
             </control>
             <control type="button" id="9315">
-                <onfocus condition="System.AddonIsEnabled(script.skin.info.service)">RunScript(script.skin.info.service)</onfocus>
-                <onfocus condition="String.IsEmpty(Window(home).Property(SkinInitStarted)) + !String.IsEmpty(Skin.String(StartupPlaylist))">PlayMedia($ESCINFO[Skin.String(StartupPlaylist)])</onfocus>
+                <onfocus condition="!Skin.HasSetting(disable.startup.window) + !String.IsEmpty(Skin.String(StartupPlaylist))">PlayMedia($ESCINFO[Skin.String(StartupPlaylist)])</onfocus>
                 <onfocus condition="!Player.HasVideo + !String.IsEmpty(Skin.String(StartupPlaylist))">ReplaceWindow($INFO[System.StartupWindow])</onfocus>
                 <onfocus condition="String.IsEmpty(Skin.String(StartupPlaylist)) + !Skin.HasSetting(disable.startup.window)">AlarmClock(GoHome,ReplaceWindow($INFO[System.StartupWindow]),00:04,silent,false)</onfocus>
                 <visible allowhiddenfocus="true">false</visible>
