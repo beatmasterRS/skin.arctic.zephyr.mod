@@ -79,7 +79,7 @@
     <expression name="Widget5Enabled">String.IsEqual(Container(300).ListItem.Property(widgetEnable.5),yes)</expression>
     <expression name="Widget6Enabled">String.IsEqual(Container(300).ListItem.Property(widgetEnable.6),yes)</expression>
     <expression name="HasHomemenuAutoSlideOutAnimation">Skin.HasSetting(homemenu.slide) + !Skin.HasSetting(only.hide.if.widgetcontainer.gets.focus) + [[$EXP[HomeIsModernMultiWidgets] + !Skin.HasSetting(homemenu.clean.flix)] | [$EXP[HomeIsVerticalMultiWidgets] + !Skin.HasSetting(homemenu.vertical.noslide)]]</expression>
-    
+
     <expression name="TrailerWindowIsActive">Skin.HasSetting(home.netflix.autoplay.trailer) + [[Window.IsVisible(Home.xml) + [$EXP[HomeIsModernMultiWidgetsNetflix] | $EXP[HomeIsCleanMinimal] | $EXP[HomeIsVerticalMultiWidgetsNetflix]]] | Control.IsVisible(521) | Control.IsVisible(522) | Control.IsVisible(510)] + !Window.IsVisible(DialogVideoInfo.xml) + String.IsEqual(Window(home).Property(TrailerPath2),Player.FileNameAndPath) + !String.IsEmpty(Player.FileNameAndPath)</expression>
     <expression name="TrailerIsReady">Skin.HasSetting(home.netflix.autoplay.trailer) + [Window.IsVisible(Home.xml) | Window.IsVisible(MyVideoNav.xml)] + !Control.HasFocus(300) + !Player.HasMedia + !String.IsEmpty(Window(home).Property(listitem.trailer)) + !System.HasVisibleModalDialog + !Window.IsVisible(script-globalsearch.xml) + !String.IsEqual(Window(home).Property(TrailerPath),Window(home).Property(listitem.trailer)) + !System.IdleTime(30)</expression>
     <expression name="TrailerWaitingForPlayer">!String.IsEmpty(Window(home).Property(TrailerPath2)) + !String.IsEmpty(Window(home).Property(TrailerPath)) + String.IsEmpty(Player.FileNameAndPath)</expression>
@@ -390,10 +390,9 @@
 
         <!-- Now Playing -->
         <value condition="Skin.HasSetting(extended.nowplaying) + Window.IsVisible(home) + !ControlGroup(301).HasFocus() + !Skin.HasSetting(home.dontshowfanart) + String.IsEmpty(Container(301).ListItem.Property(backgroundPlaylist)) + !String.IsEmpty(Window(Visualisation).Property(ArtistSlideshow.Image)) + Player.HasAudio">$INFO[Window(Visualisation).Property(ArtistSlideshow.Image)]</value>
-        <value condition="Skin.HasSetting(extended.nowplaying) + Window.IsVisible(home) + !ControlGroup(301).HasFocus() + !Skin.HasSetting(home.dontshowfanart) + String.IsEmpty(Container(301).ListItem.Property(backgroundPlaylist)) + !String.IsEmpty(Player.Art(fanart)) + Player.HasMedia">$INFO[Player.Art(fanart)]</value>
+        <value condition="Skin.HasSetting(extended.nowplaying) + Window.IsVisible(home) + !ControlGroup(301).HasFocus() + !Skin.HasSetting(home.dontshowfanart) + String.IsEmpty(Container(301).ListItem.Property(backgroundPlaylist)) + !String.IsEmpty(Player.Art(fanart)) + Player.HasMedia + [!Skin.HasSetting(disable.background.addons.fanart) | [Skin.HasSetting(disable.background.addons.fanart) + !String.Contains(Player.Art(fanart),addons) + ![String.Contains(Player.Art(fanart),plugin) | String.Contains(Player.Art(fanart),script) | String.Contains(Player.Art(fanart),service)]]]">$INFO[Player.Art(fanart)]</value>
         <value condition="Skin.HasSetting(extended.nowplaying) + Window.IsVisible(home) + !ControlGroup(301).HasFocus() + !Skin.HasSetting(home.dontshowfanart) + String.IsEmpty(Container(301).ListItem.Property(backgroundPlaylist)) + !String.IsEmpty(Skin.String(fanart.fallback.music)) + Player.HasAudio">$INFO[Skin.String(fanart.fallback.music)]</value>
         <value condition="Skin.HasSetting(extended.nowplaying) + Window.IsVisible(home) + !ControlGroup(301).HasFocus() + !Skin.HasSetting(home.dontshowfanart) + String.IsEmpty(Container(301).ListItem.Property(backgroundPlaylist)) + String.IsEmpty(Player.Art(fanart)) + String.IsEmpty(Window(Visualisation).Property(ArtistSlideshow.Image)) + Player.HasMedia + String.IsEmpty(Container(300).ListItem.Property(background))">common/null.png</value>
-
 
         <!-- Custom Widget Background -->
         <value condition="!Skin.HasSetting(home.dontshowfanart) + [[Skin.HasSetting(home.vertical) + Skin.HasSetting(home.vertical.widgets)] | [!Skin.HasSetting(home.vertical) + !Skin.HasSetting(home.classicwidgets) + Skin.HasSetting(home.vertical.widgets)]] + Window.IsVisible(home) + !String.IsEqual(Container(300).ListItem.Property(background),playlistBackground) + !String.IsEmpty(ListItem.Property(Background))">$INFO[ListItem.Property(Background)]</value>
@@ -1571,7 +1570,7 @@
                     <param name="icon" value="buttonsdialogs/info.png"/>
                 </include>
             </control>
-            
+
             <!-- Trailer - ListItem.Trailer | IMDB.Trailer | Bingie.Helper -->
             <control type="radiobutton" id="1224">
                 <onfocus>ClearProperty(moviecontent)</onfocus>
@@ -1580,11 +1579,11 @@
                 <include content="buttontextures">
                     <param name="icon" value="buttonsdialogs/trailer.png"/>
                 </include>
-                <visible>!Skin.HasSetting(PlayTrailerWindowed) + [[Skin.HasSetting(Use.IMDB.Trailer) + System.AddonIsEnabled(plugin.video.imdb.trailers) + !String.IsEmpty(ListItem.IMDBNumber)] | [!Skin.HasSetting(Use.IMDB.Trailer) + String.IsEmpty(ListItem.Trailer) + System.AddonIsEnabled(script.bingie.helper)] | [!Skin.HasSetting(Use.IMDB.Trailer) + !String.IsEmpty(ListItem.Trailer)]]</visible>                
-                <onclick condition="Skin.HasSetting(Use.IMDB.Trailer) | String.IsEmpty(ListItem.Trailer)">Dialog.Close(2003)</onclick>                
+                <visible>!Skin.HasSetting(PlayTrailerWindowed) + [[Skin.HasSetting(Use.IMDB.Trailer) + System.AddonIsEnabled(plugin.video.imdb.trailers) + !String.IsEmpty(ListItem.IMDBNumber)] | [!Skin.HasSetting(Use.IMDB.Trailer) + String.IsEmpty(ListItem.Trailer) + System.AddonIsEnabled(script.bingie.helper)] | [!Skin.HasSetting(Use.IMDB.Trailer) + !String.IsEmpty(ListItem.Trailer)]]</visible>
+                <onclick condition="Skin.HasSetting(Use.IMDB.Trailer) | String.IsEmpty(ListItem.Trailer)">Dialog.Close(2003)</onclick>
                 <onclick condition="!Skin.HasSetting(Use.IMDB.Trailer) + !String.IsEmpty(ListItem.Trailer)">SendClick(11)</onclick>
                 <onclick condition="!Skin.HasSetting(Use.IMDB.Trailer) + String.IsEmpty(ListItem.Trailer) + System.AddonIsEnabled(script.bingie.helper)">RunScript(script.bingie.helper,action=playtrailer,MODE=fullscreen,title=$INFO[ListItem.Title],local=true)</onclick>
-                <onclick condition="Skin.HasSetting(Use.IMDB.Trailer)">PlayMedia(plugin://plugin.video.imdb.trailers/?action=play_id&amp;imdb=$INFO[ListItem.IMDBNumber])</onclick>                
+                <onclick condition="Skin.HasSetting(Use.IMDB.Trailer)">PlayMedia(plugin://plugin.video.imdb.trailers/?action=play_id&amp;imdb=$INFO[ListItem.IMDBNumber])</onclick>
                 <visible>!Skin.HasSetting(hidebutton.video.trailer)</visible>
             </control>
 
@@ -3153,7 +3152,7 @@
     <variable name="AlbumPath">
         <value condition="ListItem.IsFolder + String.IsEqual(ListItem.DBType,album)">$INFO[ListItem.FolderPath]</value>
     </variable>
-    
+
     <variable name="ActorPath">
         <value condition="ListItem.IsFolder + String.IsEqual(Container(301).ListItem.DBType,actor)">$INFO[Container(301).ListItem.FolderPath]</value>
         <value condition="ListItem.IsFolder + String.IsEqual(ListItem.DBType,actor)">$INFO[ListItem.FolderPath]</value>
@@ -4617,7 +4616,7 @@
         <value condition="Skin.HasSetting(home.netflix.autoplay.trailer)">special://skin/extras/playlists/Spotlight.xsp</value>
         <value>special://skin/extras/playlists/RandomMovies.xsp</value>
     </variable>
-    
+
     <include name="BusySpinner">
         <param name="color" default="Dark1"/>
         <definition>
@@ -4652,9 +4651,9 @@
         </control>
         </definition>
     </include>
-    
+
     <include name="MousePointer">
-    
+
         <!-- Pointer -->
         <control type="image" id="1">
             <width>40</width>
@@ -4687,9 +4686,9 @@
             <visible>Skin.HasSetting(hide.mouse.warning)</visible>
         </control>
     </include>
-    
+
     <include name="MouseWarning">
-    
+
         <!-- Pointer -->
         <control type="image" id="1">
             <width>200</width>
@@ -4722,7 +4721,7 @@
             <visible>!Skin.HasSetting(hide.mouse.warning)</visible>
         </control>
     </include>
-    
+
     <include name="arrowdimensions">
         <width>16</width>
         <height>16</height>
