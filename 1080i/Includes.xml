@@ -1504,7 +1504,6 @@
             <onup condition="String.IsEqual(Window.Property(moviecontent),10)">9560</onup>
             <onup condition="String.IsEqual(Window.Property(moviecontent),5) + Integer.IsGreater(Container(9505).NumItems,0)">95051</onup>
             <onup condition="String.IsEqual(Window.Property(moviecontent),6)">7011</onup>
-            <!--<onup condition="String.IsEqual(Window.Property(moviecontent),1) + String.IsEqual(ListItem.DBType,movie) + !String.IsEmpty(ListItem.Art(discart))">9607</onup>-->
             <onup condition="String.IsEqual(Window.Property(moviecontent),1) + !String.IsEqual(Window.Property(ShowDisc),1) + String.IsEqual(ListItem.DBType,movie) + !String.IsEmpty(ListItem.Art(discart))">SetProperty(ShowDisc,1)</onup>
             <onup condition="String.IsEqual(Window.Property(moviecontent),1) + String.IsEqual(Window.Property(ShowDisc),1) + String.IsEqual(ListItem.DBType,movie) + !String.IsEmpty(ListItem.Art(discart))">ClearProperty(ShowDisc)</onup>
             <onup condition="String.IsEmpty(Window.Property(moviecontent))">50</onup>
@@ -1573,34 +1572,24 @@
                     <param name="icon" value="buttonsdialogs/info.png"/>
                 </include>
             </control>
-
-            <!-- IMDB Trailer -->
-            <control type="radiobutton" id="1235">
+            
+            <!-- Trailer - ListItem.Trailer | IMDB.Trailer | Bingie.Helper -->
+            <control type="radiobutton" id="1224">
                 <onfocus>ClearProperty(moviecontent)</onfocus>
                 <onfocus>ClearProperty(ShowDisc)</onfocus>
                 <include>buttondimensions</include>
                 <include content="buttontextures">
                     <param name="icon" value="buttonsdialogs/trailer.png"/>
                 </include>
-                <visible>!String.IsEmpty(ListItem.IMDBNumber) + Skin.HasSetting(Use.IMDB.Trailer) + System.AddonIsEnabled(plugin.video.imdb.trailers) + !Skin.HasSetting(PlayTrailerWindowed)</visible>
-                <onclick>Dialog.Close(2003)</onclick>
-                <onclick>PlayMedia(plugin://plugin.video.imdb.trailers/?action=play_id&amp;imdb=$INFO[ListItem.IMDBNumber])</onclick>
+                <visible>!Skin.HasSetting(PlayTrailerWindowed) + [[Skin.HasSetting(Use.IMDB.Trailer) + System.AddonIsEnabled(plugin.video.imdb.trailers) + !String.IsEmpty(ListItem.IMDBNumber)] | [!Skin.HasSetting(Use.IMDB.Trailer) + String.IsEmpty(ListItem.Trailer) + System.AddonIsEnabled(script.bingie.helper)] | [!Skin.HasSetting(Use.IMDB.Trailer) + !String.IsEmpty(ListItem.Trailer)]]</visible>                
+                <onclick condition="Skin.HasSetting(Use.IMDB.Trailer) | String.IsEmpty(ListItem.Trailer)">Dialog.Close(2003)</onclick>                
+                <onclick condition="!Skin.HasSetting(Use.IMDB.Trailer) + !String.IsEmpty(ListItem.Trailer)">SendClick(11)</onclick>
+                <onclick condition="!Skin.HasSetting(Use.IMDB.Trailer) + String.IsEmpty(ListItem.Trailer) + System.AddonIsEnabled(script.bingie.helper)">RunScript(script.bingie.helper,action=playtrailer,MODE=fullscreen,title=$INFO[ListItem.Title],local=true)</onclick>
+                <onclick condition="Skin.HasSetting(Use.IMDB.Trailer)">PlayMedia(plugin://plugin.video.imdb.trailers/?action=play_id&amp;imdb=$INFO[ListItem.IMDBNumber])</onclick>                
                 <visible>!Skin.HasSetting(hidebutton.video.trailer)</visible>
             </control>
 
-            <!-- Youtube Trailer, no TV Shows -->
-            <control type="radiobutton" id="11">
-                <onfocus>ClearProperty(moviecontent)</onfocus>
-                <onfocus>ClearProperty(ShowDisc)</onfocus>
-                <include>buttondimensions</include>
-                <include content="buttontextures">
-                    <param name="icon" value="buttonsdialogs/trailer.png"/>
-                </include>
-                <visible>[!String.IsEmpty(ListItem.Trailer) + !Skin.HasSetting(PlayTrailerWindowed)] + !Skin.HasSetting(Use.IMDB.Trailer)</visible>
-                <visible>!Skin.HasSetting(hidebutton.video.trailer)</visible>
-            </control>
-
-            <!-- Trailer Windowed, Mixed -->
+            <!-- Trailer Windowed - ListItem.Trailer | IMDB.Trailer | Bingie.Helper -->
             <control type="radiobutton" id="1223">
                 <onfocus condition="!String.IsEqual(Window.Property(moviecontent),6)">ClearProperty(moviecontent)</onfocus>
                 <onfocus>ClearProperty(ShowDisc)</onfocus>
@@ -1609,8 +1598,9 @@
                 <include content="buttontextures">
                     <param name="icon" value="buttonsdialogs/trailer.png"/>
                 </include>
-                <visible>Skin.HasSetting(PlayTrailerWindowed) + [[Skin.HasSetting(Use.IMDB.Trailer) + !String.IsEmpty(ListItem.IMDBNumber) + System.AddonIsEnabled(plugin.video.imdb.trailers)] | [!String.IsEmpty(ListItem.Trailer) + !Skin.HasSetting(Use.IMDB.Trailer)]]</visible>
-                <onclick condition="!Skin.HasSetting(Use.IMDB.Trailer)">PlayMedia($INFO[ListItem.Trailer],1)</onclick>
+                <visible>Skin.HasSetting(PlayTrailerWindowed) + [[Skin.HasSetting(Use.IMDB.Trailer) + System.AddonIsEnabled(plugin.video.imdb.trailers) + !String.IsEmpty(ListItem.IMDBNumber)] | [!Skin.HasSetting(Use.IMDB.Trailer) + String.IsEmpty(ListItem.Trailer) + System.AddonIsEnabled(script.bingie.helper)] | [!Skin.HasSetting(Use.IMDB.Trailer) + !String.IsEmpty(ListItem.Trailer)]]</visible>
+                <onclick condition="!Skin.HasSetting(Use.IMDB.Trailer) + !String.IsEmpty(ListItem.Trailer)">PlayMedia($INFO[ListItem.Trailer],1)</onclick>
+                <onclick condition="!Skin.HasSetting(Use.IMDB.Trailer) + String.IsEmpty(ListItem.Trailer) + System.AddonIsEnabled(script.bingie.helper)">RunScript(script.bingie.helper,action=playtrailer,MODE=windowed,title=$INFO[ListItem.Title],local=true)</onclick>
                 <onclick condition="Skin.HasSetting(Use.IMDB.Trailer)">PlayMedia(plugin://plugin.video.imdb.trailers/?action=play_id&amp;imdb=$INFO[ListItem.IMDBNumber],1)</onclick>
                 <visible>!Skin.HasSetting(hidebutton.video.trailer)</visible>
             </control>
@@ -2219,14 +2209,12 @@
                     <align>center</align>
                     <include>Animation.DelayFadeIn</include>
                     <control type="image">
-                        <width>16</width>
-                        <height>16</height>
+                        <include>arrowdimensions</include>
                         <left>0</left>
                         <texture colordiffuse="Black70" flipx="true">common/arrow-small-right.png</texture>
                     </control>
                     <control type="image">
-                        <width>16</width>
-                        <height>16</height>
+                        <include>arrowdimensions</include>
                         <right>0</right>
                         <texture colordiffuse="Black70">common/arrow-small-right.png</texture>
                     </control>
@@ -2429,16 +2417,14 @@
                         <description>arrow image</description>
                         <centerleft>50%</centerleft>
                         <posy>-16</posy>
-                        <width>16</width>
-                        <height>16</height>
+                        <include>arrowdimensions</include>
                         <texture colordiffuse="White70" flipy="true">common/arrow-small.png</texture>
                     </control>
                     <control type="image">
                         <description>arrow image</description>
                         <centerleft>50%</centerleft>
                         <posy>342</posy>
-                        <width>16</width>
-                        <height>16</height>
+                        <include>arrowdimensions</include>
                         <texture colordiffuse="White70" flipy="false">common/arrow-small.png</texture>
                         <animation effect="slide" end="0,70" time="0" condition="Integer.IsGreater(Container(9400).NumItems,3)">Conditional</animation>
                         <animation effect="slide" end="0,70" time="0" condition="Integer.IsGreater(Container(9400).NumItems,4)">Conditional</animation>
@@ -2751,6 +2737,17 @@
     </include>
 
     <include name="ProgressBar">
+        <control type="ranges">
+            <visible>Skin.HasSetting(cutlist.markers)</visible>
+            <bottom>10</bottom>
+            <width>100%</width>
+            <height>8</height>
+            <texturebg colordiffuse="OSDProgressBarColor">osd/progress-bg.png</texturebg>
+            <lefttexture colordiffuse="FFFF0000">osd/progress-end.png</lefttexture>
+            <midtexture colordiffuse="FFFF0000">osd/progress-end.png</midtexture>
+            <righttexture colordiffuse="FFFF0000">osd/progress-end.png</righttexture>
+            <info>Player.Cutlist</info>
+        </control>
         <control type="progress" description="cache">
             <description>Progress Bar</description>
             <width>100%</width>
@@ -2913,8 +2910,7 @@
     <include name="arrow_forced">
         <align>center</align>
         <top>20</top>
-        <width>16</width>
-        <height>16</height>
+        <include>arrowdimensions</include>
         <texture colordiffuse="Dark1" flipy="false">common/arrow-small-right.png</texture>
     </include>
 
@@ -3510,13 +3506,11 @@
                 <bottom>SidePad</bottom>
                 <visible>Integer.IsGreater(Container($PARAM[id]).NumItems,1)</visible>
                 <control type="image">
-                    <width>14</width>
-                    <height>14</height>
+                    <include>arrowdimensions</include>
                     <texture colordiffuse="Dark2" flipx="true">common/arrow-small-right.png</texture>
                 </control>
                 <control type="image">
-                    <width>14</width>
-                    <height>14</height>
+                    <include>arrowdimensions</include>
                     <texture colordiffuse="Dark2">common/arrow-small-right.png</texture>
                 </control>
             </control>
@@ -4767,5 +4761,80 @@
             <textcolor>$PARAM[color]</textcolor>
         </control>
         </definition>
+    </include>
+    
+    <include name="MousePointer">
+    
+        <!-- Pointer -->
+        <control type="image" id="1">
+            <width>40</width>
+            <height>40</height>
+            <texture>mouse2.png</texture>
+            <visible>Skin.HasSetting(hide.mouse.warning)</visible>
+        </control>
+
+        <!-- Pointer focus -->
+        <control type="image" id="2">
+            <width>40</width>
+            <height>40</height>
+            <texture>mouse2.png</texture>
+            <visible>Skin.HasSetting(hide.mouse.warning)</visible>
+        </control>
+
+        <!-- Pointer drag -->
+        <control type="image" id="3">
+            <width>40</width>
+            <height>40</height>
+            <texture>mouse2.png</texture>
+            <visible>Skin.HasSetting(hide.mouse.warning)</visible>
+        </control>
+
+        <!-- Pointer click -->
+        <control type="image" id="4">
+            <width>40</width>
+            <height>40</height>
+            <texture>mouse2.png</texture>
+            <visible>Skin.HasSetting(hide.mouse.warning)</visible>
+        </control>
+    </include>
+    
+    <include name="MouseWarning">
+    
+        <!-- Pointer -->
+        <control type="image" id="1">
+            <width>200</width>
+            <height>50</height>
+            <texture>mouse.png</texture>
+            <visible>!Skin.HasSetting(hide.mouse.warning)</visible>
+        </control>
+
+        <!-- Pointer focus -->
+        <control type="image" id="2">
+            <width>200</width>
+            <height>50</height>
+            <texture>mouse.png</texture>
+            <visible>!Skin.HasSetting(hide.mouse.warning)</visible>
+        </control>
+
+        <!-- Pointer drag -->
+        <control type="image" id="3">
+            <width>200</width>
+            <height>50</height>
+            <texture>mouse.png</texture>
+            <visible>!Skin.HasSetting(hide.mouse.warning)</visible>
+        </control>
+
+        <!-- Pointer click -->
+        <control type="image" id="4">
+            <width>200</width>
+            <height>50</height>
+            <texture>mouse.png</texture>
+            <visible>!Skin.HasSetting(hide.mouse.warning)</visible>
+        </control>
+    </include>
+    
+    <include name="arrowdimensions">
+        <width>16</width>
+        <height>16</height>
     </include>
 </includes>
