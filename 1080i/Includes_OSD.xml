@@ -48,7 +48,6 @@
     </include>
 
     <!-- SIDE OSD -->
-
     <include name="OSDInfoContentSide">
         <right>0</right>
         <control type="grouplist">
@@ -397,7 +396,7 @@
             <bottom>-10</bottom>
 
             <!-- PLAYER STATUS -->
-            <control type="fadelabel" description="Elapsed Time">
+            <control type="fadelabel">
                 <visible>VideoPlayer.Content(episodes)</visible>
                 <animation effect="fade" start="100" end="0" time="200" condition="Window.IsVisible(videoosd)">Conditional</animation>
                 <left>0</left>
@@ -412,7 +411,7 @@
                 <label>$INFO[VideoPlayer.Season,S,]$INFO[VideoPlayer.Episode,E,]$INFO[VideoPlayer.Premiered,  •  ,]</label>
                 <label>$INFO[Player.FinishTime,$LOCALIZE[31013] ]</label>
             </control>
-            <control type="fadelabel" description="Elapsed Time">
+            <control type="fadelabel">
                 <visible>!VideoPlayer.Content(LiveTV) + !VideoPlayer.Content(episodes)</visible>
                 <animation effect="fade" start="100" end="0" time="200" condition="Window.IsVisible(videoosd)">Conditional</animation>
                 <left>0</left>
@@ -426,7 +425,7 @@
                 <label>$VAR[PlayerStatus]</label>
                 <label>$INFO[Player.FinishTime,$LOCALIZE[31013] ]</label>
             </control>
-            <control type="fadelabel" description="Elapsed Time">
+            <control type="fadelabel">
                 <visible>VideoPlayer.Content(LiveTV) + !VideoPlayer.Content(episodes)</visible>
                 <animation effect="fade" start="100" end="0" time="200" condition="Window.IsVisible(videoosd)">Conditional</animation>
                 <left>0</left>
@@ -438,6 +437,7 @@
                 <scroll>false</scroll>
                 <textcolor>$VAR[OSDPanelWhite70]</textcolor>
                 <label>$VAR[PlayerStatus]</label>
+                <label>$INFO[VideoPlayer.ChannelNumberLabel,,. ]$INFO[VideoPlayer.ChannelName]</label>
                 <label>$INFO[VideoPlayer.Season,S,]$INFO[VideoPlayer.Episode,E,]$INFO[VideoPlayer.Premiered,  •  ,]</label>
                 <label>$INFO[PVR.EpgEventFinishTime,$LOCALIZE[31013] ]</label>
             </control>
@@ -490,74 +490,9 @@
 
             <!-- PROGRESS BARS -->
             <control type="group">
-                <visible>!VideoPlayer.Content(LiveTV)</visible>
-                <animation effect="fade" start="100" end="0" time="200" condition="Window.IsVisible(videoosd)">Conditional</animation>
-                <animation effect="fade" start="100" end="0" time="0">WindowClose</animation>
-                <animation effect="fade" start="100" end="0" time="0">Hidden</animation>
-                <left>0</left>
-                <control type="progress" description="cache">
-                    <description>Progress Bar</description>
-                    <width>100%</width>
-                    <bottom>10</bottom>
-                    <height>8</height>
-                    <info>Player.ProgressCache</info>
-                    <visible>true</visible>
-                    <texturebg colordiffuse="OSDProgressBarColor">osd/progress-bg.png</texturebg>
-                    <lefttexture colordiffuse="Highlight2">osd/progress-end.png</lefttexture>
-                    <midtexture colordiffuse="Highlight2">osd/progress-end.png</midtexture>
-                    <righttexture colordiffuse="Highlight2">osd/progress-end.png</righttexture>
-                </control>
-                <control type="progress">
-                    <description>Progress Bar</description>
-                    <width>100%</width>
-                    <bottom>10</bottom>
-                    <height>8</height>
-                    <info>Player.Progress</info>
-                </control>
-                <control type="ranges">
-                    <visible>Skin.HasSetting(chapter.markers)</visible>
-                    <left>0</left>
-                    <bottom>10</bottom>
-                    <width>100%</width>
-                    <height>8</height>
-                    <texturebg border="3" colordiffuse="00FFFFFF">osd/ch.png</texturebg>
-                    <righttexture>osd/ch.png</righttexture>
-                    <info>Player.Chapters</info>
-                </control>
-            </control>
-            <control type="group">
-                <visible>VideoPlayer.Content(LiveTV)</visible>
                 <animation effect="fade" start="100" end="0" time="200" condition="Window.IsVisible(videoosd)">Conditional</animation>
                 <left>0</left>
-                <control type="progress" description="cache">
-                    <description>Progress Bar</description>
-                    <width>100%</width>
-                    <bottom>10</bottom>
-                    <height>8</height>
-                    <info>PVR.TimeshiftProgressBufferStart</info>
-                    <visible>true</visible>
-                    <texturebg colordiffuse="OSDProgressBarColor">osd/progress-bg.png</texturebg>
-                    <lefttexture colordiffuse="Highlight2">osd/progress-end.png</lefttexture>
-                    <midtexture colordiffuse="Highlight2">osd/progress-end.png</midtexture>
-                    <righttexture colordiffuse="Highlight2">osd/progress-end.png</righttexture>
-                </control>
-                <control type="progress">
-                    <description>Progress Bar</description>
-                    <width>100%</width>
-                    <bottom>10</bottom>
-                    <height>8</height>
-                    <info>PVR.EpgEventProgress</info>
-                </control>
-                <control type="ranges">
-                    <visible>Skin.HasSetting(chapter.markers)</visible>
-                    <left>0</left>
-                    <bottom>10</bottom>
-                    <width>100%</width>
-                    <height>8</height>
-                    <texturebg border="3" colordiffuse="00FFFFFF">osd/ch.png</texturebg>
-                    <righttexture>osd/ch.png</righttexture>
-                    <info>Player.Chapters</info>
-                </control>
+                <include>ProgressBarInfo</include>
             </control>
         </control>
     </include>
@@ -666,7 +601,6 @@
                 <aspectratio align="center">keep</aspectratio>
                 <visible>Skin.HasSetting(furniture.flagiconsosd) + Skin.HasSetting(furniture.flagiconsosdnoicons) + $EXP[IsVideoDolbyVision]</visible>
             </control>
-
             <include content="Def_Flag">
                 <param name="Star" value="Flagstar199" />
                 <param name="visible" value="[!Skin.HasSetting(videoosd.numericrating) + !VideoPlayer.Content(livetv)]" />
@@ -763,7 +697,6 @@
                 <aspectratio align="center">keep</aspectratio>
                 <visible>Skin.HasSetting(furniture.flagiconsosd) + !String.IsEmpty(VideoPlayer.AudioChannels) + Skin.HasSetting(furniture.flagiconsosdnoicons)</visible>
             </control>
-
             <control type="image" description="HDR10+">
                 <width min="20" max="100">auto</width>
                 <height>60</height>
@@ -804,7 +737,6 @@
                 <aspectratio align="center">keep</aspectratio>
                 <visible>Skin.HasSetting(furniture.flagiconsosd) + Skin.HasSetting(furniture.flagiconsosdnoicons) + $EXP[IsVideoDolbyVision]</visible>
             </control>
-
             <include content="Def_Flag">
                 <param name="Star" value="Flagstar199" />
                 <param name="visible" value="[!Skin.HasSetting(videoosd.numericrating) + !VideoPlayer.Content(livetv)]" />
@@ -948,7 +880,7 @@
 
             <!-- WENN PVR NIIIICHT läuft-->
             <visible>!VideoPlayer.Content(LiveTV)</visible>
-            <control type="fadelabel" description="Elapsed Time">
+            <control type="fadelabel">
                 <visible>!VideoPlayer.Content(episodes)</visible>
                 <left>0</left>
                 <include content="def_width" condition="Skin.HasSetting(ClockOSD) + !Skin.HasSetting(osd.usethemeNewOSD)">
@@ -975,7 +907,7 @@
                 <label>$INFO[VideoPlayer.Year]$INFO[VideoPlayer.Genre,  •  ,]$INFO[VideoPlayer.Writer,  •  ,]</label>
                 <label>$INFO[Player.FinishTime,$LOCALIZE[31013] ]</label>
             </control>
-            <control type="fadelabel" description="Elapsed Time">
+            <control type="fadelabel">
                 <visible>VideoPlayer.Content(episodes)</visible>
                 <left>0</left>
                 <include content="def_width" condition="Skin.HasSetting(ClockOSD) + !Skin.HasSetting(osd.usethemeNewOSD)">
@@ -1006,7 +938,7 @@
 
             <!-- WENN PVR läuft-->
             <visible>VideoPlayer.Content(LiveTV)</visible>
-            <control type="fadelabel" description="Elapsed Time">
+            <control type="fadelabel">
                 <visible>!String.IsEmpty(VideoPlayer.NextTitle)</visible>
                 <left>0</left>
                 <width>1050</width>
@@ -1017,10 +949,11 @@
                 <scroll>false</scroll>
                 <textcolor>$VAR[OSDPanelWhite70]</textcolor>
                 <label>$VAR[PlayerStatus]</label>
+                <label>$INFO[VideoPlayer.ChannelNumberLabel,,. ]$INFO[VideoPlayer.ChannelName]</label>
                 <label>$INFO[VideoPlayer.Season,$LOCALIZE[20373] ,]$INFO[VideoPlayer.Episode,  •  $LOCALIZE[20359] ,]$INFO[VideoPlayer.Premiered,  •  ,]</label>
                 <label>$INFO[VideoPlayer.NextTitle,$LOCALIZE[19031]: ]$INFO[VideoPlayer.NextStartTime, (,]$INFO[VideoPlayer.NextEndTime, - ,)]</label>
             </control>
-            <control type="label" description="Elapsed Time">
+            <control type="label">
                 <visible>String.IsEmpty(VideoPlayer.NextTitle)</visible>
                 <left>0</left>
                 <width>1050</width>
@@ -1044,18 +977,6 @@
             <include>Animation.ViHi.Settings</include>
             <autoscroll delay="10000" time="4000" repeat="10000">[Window.IsActive(videoosd) | Window.IsActive(DialogFullScreenInfo.xml)] + System.IdleTime(1) + Skin.HasSetting(widgets.autoscrollingplot)</autoscroll>
         </control>
-        <!--
-        Kapitel ODS rausgenommen
-        <control type="label" description="Chapter-OSD">
-            <left>380</left>
-            <align>center</align>
-            <width>600</width>
-            <bottom>30</bottom>
-            <height>40</height>
-            <font>Tiny</font>
-            <textcolor>$VAR[OSDPanelWhite70]</textcolor>
-            <label>$VAR[OSDChapterLabel]</label>
-        </control>-->
         <control type="grouplist">
             <right>0</right>
             <centertop>122</centertop>
@@ -1153,70 +1074,8 @@
             </control>
         </control>
         <control type="group">
-            <visible>!VideoPlayer.Content(LiveTV)</visible>
             <left>0</left>
-            <control type="progress" description="cache">
-                <description>Progress Bar</description>
-                <width>100%</width>
-                <bottom>10</bottom>
-                <height>8</height>
-                <info>Player.ProgressCache</info>
-                <visible>true</visible>
-                <texturebg colordiffuse="OSDProgressBarColor">osd/progress-bg.png</texturebg>
-                <lefttexture colordiffuse="Highlight2">osd/progress-end.png</lefttexture>
-                <midtexture colordiffuse="Highlight2">osd/progress-end.png</midtexture>
-                <righttexture colordiffuse="Highlight2">osd/progress-end.png</righttexture>
-            </control>
-            <control type="progress">
-                <description>Progress Bar</description>
-                <width>100%</width>
-                <bottom>10</bottom>
-                <height>8</height>
-                <info>Player.Progress</info>
-            </control>
-            <control type="ranges">
-                <visible>Skin.HasSetting(chapter.markers)</visible>
-                <left>0</left>
-                <bottom>10</bottom>
-                <width>100%</width>
-                <height>8</height>
-                <texturebg border="3" colordiffuse="00FFFFFF">osd/ch.png</texturebg>
-                <righttexture>osd/ch.png</righttexture>
-                <info>Player.Chapters</info>
-            </control>
-        </control>
-        <control type="group">
-            <visible>VideoPlayer.Content(LiveTV)</visible>
-            <left>0</left>
-            <control type="progress" description="cache">
-                <description>Progress Bar</description>
-                <width>100%</width>
-                <bottom>10</bottom>
-                <height>8</height>
-                <info>PVR.TimeshiftProgressBufferStart</info>
-                <visible>true</visible>
-                <texturebg colordiffuse="OSDProgressBarColor">osd/progress-bg.png</texturebg>
-                <lefttexture colordiffuse="Highlight2">osd/progress-end.png</lefttexture>
-                <midtexture colordiffuse="Highlight2">osd/progress-end.png</midtexture>
-                <righttexture colordiffuse="Highlight2">osd/progress-end.png</righttexture>
-            </control>
-            <control type="progress">
-                <description>Progress Bar</description>
-                <width>100%</width>
-                <bottom>10</bottom>
-                <height>8</height>
-                <info>PVR.EpgEventProgress</info>
-            </control>
-            <control type="ranges">
-                <visible>Skin.HasSetting(chapter.markers)</visible>
-                <left>0</left>
-                <bottom>10</bottom>
-                <width>100%</width>
-                <height>8</height>
-                <texturebg border="3" colordiffuse="00FFFFFF">osd/ch.png</texturebg>
-                <righttexture>osd/ch.png</righttexture>
-                <info>Player.Chapters</info>
-            </control>
+            <include>ProgressBarInfo</include>
         </control>
     </include>
 
@@ -1946,6 +1805,19 @@
             <onclick>ActivateWindow(Teletext)</onclick>
             <visible>VideoPlayer.HasTeletext</visible>
         </control>
+        <control type="button" id="33">
+            <description>Playlist</description>
+            <width>48</width>
+            <height>48</height>
+            <label/>
+            <font />
+            <include>DefOSDUpDown</include>
+            <texturefocus colordiffuse="$VAR[ColorHighlight]">osd/playlist2.png</texturefocus>
+            <texturenofocus colordiffuse="Dark1">osd/playlist2.png</texturenofocus>
+            <onclick>Dialog.Close(all,true)</onclick>
+            <onclick>ActivateWindow(videoplaylist)</onclick>
+            <visible>Integer.IsGreater(Playlist.Length(video),1) + !Pvr.IsPlayingTv</visible>
+        </control>
         <control type="button" id="19">
             <description>Settings</description>
             <width>48</width>
@@ -2098,6 +1970,19 @@
             <onclick>Dialog.Close(VideoOSD)</onclick>
             <onclick>ActivateWindow(Teletext)</onclick>
             <visible>VideoPlayer.HasTeletext</visible>
+        </control>
+        <control type="button" id="33">
+            <description>Playlist</description>
+            <width>48</width>
+            <height>48</height>
+            <label/>
+            <font />
+            <include>DefOSDUpDown</include>
+            <texturefocus colordiffuse="$VAR[ColorHighlight]">osd/playlist2.png</texturefocus>
+            <texturenofocus colordiffuse="Dark1">osd/playlist2.png</texturenofocus>
+            <onclick>Dialog.Close(all,true)</onclick>
+            <onclick>ActivateWindow(videoplaylist)</onclick>
+            <visible>Integer.IsGreater(Playlist.Length(video),1) + !Pvr.IsPlayingTv</visible>
         </control>
         <control type="button" id="19">
             <description>Settings</description>
