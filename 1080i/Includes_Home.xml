@@ -4448,14 +4448,65 @@
                     <param name="id" value="$PARAM[id]" />
                 </include>
             </control>
-
             <control type="grouplist">
                 <itemgap>0</itemgap>
-                <visible>String.IsEqual(Container($PARAM[id]).ListItem.DBType,movie) | String.IsEqual(Container($PARAM[id]).ListItem.DBType,episode)</visible>
+                <visible>String.IsEqual(Container($PARAM[id]).ListItem.DBType,movie)</visible>
                 <orientation>horizontal</orientation>
                 <control type="label">
                     <include>MultiWidgetsSubLabelDefinition</include>
                     <label>$INFO[Container($PARAM[id]).ListItem.Year,,  •  ]</label>
+                </control>
+                <control type="label" description="Duration">
+                    <include>MultiWidgetsSubLabelDefinition</include>
+                    <visible>!String.IsEmpty(Container($PARAM[id]).ListItem.Duration(mins)) + !Skin.HasSetting(NewTime)</visible>
+                    <label>$INFO[Container($PARAM[id]).ListItem.Duration(mins),, $LOCALIZE[31102]]</label>
+                </control>
+                <control type="label" description="Duration">
+                    <include>MultiWidgetsSubLabelDefinition</include>
+                    <visible>!String.IsEmpty(Container($PARAM[id]).ListItem.Duration(mins)) + Skin.HasSetting(NewTime) + Integer.IsGreater(Container($PARAM[id]).ListItem.Duration(h),0) + Integer.IsGreater(Container($PARAM[id]).ListItem.Duration(m),0)</visible>
+                    <label>$INFO[Container($PARAM[id]).ListItem.Duration(h),,$LOCALIZE[31088]] $INFO[Container($PARAM[id]).ListItem.Duration(m),,$LOCALIZE[31089]]</label>
+                </control>
+                <control type="label" description="Duration">
+                    <include>MultiWidgetsSubLabelDefinition</include>
+                    <visible>!String.IsEmpty(Container($PARAM[id]).ListItem.Duration(mins)) + Skin.HasSetting(NewTime) + Integer.IsGreater(Container($PARAM[id]).ListItem.Duration(h),0) + !Integer.IsGreater(Container($PARAM[id]).ListItem.Duration(m),0)</visible>
+                    <label>$INFO[Container($PARAM[id]).ListItem.Duration(h),,$LOCALIZE[31088]]</label>
+                </control>
+                <control type="label" description="Duration">
+                    <include>MultiWidgetsSubLabelDefinition</include>
+                    <visible>!String.IsEmpty(Container($PARAM[id]).ListItem.Duration(mins)) + Skin.HasSetting(NewTime) + !Integer.IsGreater(Container($PARAM[id]).ListItem.Duration(h),0)</visible>
+                    <label>$INFO[Container($PARAM[id]).ListItem.Duration(m),,$LOCALIZE[31089]]</label>
+                </control>
+                <control type="label">
+                    <include>MultiWidgetsSubLabelDefinition</include>
+                    <label>$INFO[Container($PARAM[id]).ListItem.Rating,  •  ]$VAR[RtMclabel]</label>
+                </control>
+                <include content="IndicatorMoviesCleanHome" condition="!Skin.HasSetting(hide.markers) + Skin.HasSetting(homemenu.clean.flix)">
+                    <param name="id" value="$PARAM[id]" />
+                </include>
+            </control>            
+            <control type="grouplist">
+                <itemgap>0</itemgap>
+                <visible>String.IsEqual(Container($PARAM[id]).ListItem.DBType,episode)</visible>
+                <orientation>horizontal</orientation>
+                <control type="label">
+                    <include>MultiWidgetsSubLabelDefinition</include>
+                    <label>$INFO[Container($PARAM[id]).ListItem.Season,$LOCALIZE[20373] ,  •  ]</label>
+                    <visible>!String.IsEmpty(Container($PARAM[id]).ListItem.Season)</visible>
+                </control>
+                <control type="label">
+                    <include>MultiWidgetsSubLabelDefinition</include>
+                    <label>$INFO[Container($PARAM[id]).ListItem.Episode,$LOCALIZE[20359] ,  •  ]</label>
+                    <visible>!String.IsEmpty(Container($PARAM[id]).ListItem.Episode)</visible>
+                </control>
+                <control type="label">
+                    <include>MultiWidgetsSubLabelDefinition</include>
+                    <label>$INFO[Container($PARAM[id]).ListItem.Premiered,,  •  ]</label>
+                    <visible>!String.IsEmpty(Container($PARAM[id]).ListItem.Premiered)</visible>
+                </control>
+                <control type="label">
+                    <include>MultiWidgetsSubLabelDefinition</include>
+                    <label>$INFO[Container($PARAM[id]).ListItem.Year,,  •  ]</label>
+                    <visible>String.IsEmpty(Container($PARAM[id]).ListItem.Premiered) + !String.IsEmpty(Container($PARAM[id]).ListItem.Year)</visible>
                 </control>
                 <control type="label" description="Duration">
                     <include>MultiWidgetsSubLabelDefinition</include>
