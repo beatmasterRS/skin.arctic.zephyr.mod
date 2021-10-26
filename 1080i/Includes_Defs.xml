@@ -3551,6 +3551,70 @@
         </control>
         </definition>
     </include>
+    
+    <include name="IndicatorPoster301">
+        <param name="right" value="$PARAM[right]" default="1"/>
+        <param name="top" value="$PARAM[top]" default="1"/>
+        <definition>
+        <control type="group">
+            <visible>!Skin.HasSetting(furniture.markers.alternative)</visible>
+            <right>$PARAM[right]</right>
+            <top>$PARAM[top]</top>
+            <control type="label">
+                <align>center</align>
+                <aligny>center</aligny>
+                <width>50</width>
+                <right>7</right>
+                <top>6</top>
+                <height>50</height>
+                <textcolor>WatchedIcons</textcolor>
+                <selectedcolor>WatchedIcons</selectedcolor>
+                <font>SymbolPoster</font>
+                <label>$VAR[WatchedLabelPoster301]</label>
+            </control>
+        </control>
+        <control type="group">
+            <visible>Skin.HasSetting(furniture.markers.alternative) + !Skin.HasSetting(hide.markers)</visible>
+            <right>$PARAM[right]</right>
+            <top>$PARAM[top]</top>
+            <control type="image">
+                 <right>8</right>
+                 <top>8</top>
+                 <width>100</width>
+                 <height>100</height>
+                 <texture colordiffuse="$VAR[ColorIndicatorBackgroundInprogress]">misc/overlaywatched.png</texture>
+                 <visible>!Skin.HasSetting(hide.markers) + Container(301).ListItem.IsResumable + !Skin.HasSetting(hide.markers.inprogress)</visible>
+            </control>
+            <control type="image">
+                 <right>8</right>
+                 <top>8</top>
+                 <width>100</width>
+                 <height>100</height>
+                 <texture colordiffuse="$VAR[ColorIndicatorBackgroundWatched]">misc/overlaywatched.png</texture>
+                 <visible>!Skin.HasSetting(hide.markers) + !Container(301).ListItem.IsResumable + String.IsEqual(Container(301).ListItem.Overlay,OverlayWatched.png) + !Skin.HasSetting(hide.markers.watched)</visible>
+            </control>
+            <control type="image">
+                 <right>8</right>
+                 <top>8</top>
+                 <width>100</width>
+                 <height>100</height>
+                 <texture colordiffuse="$VAR[ColorIndicatorBackgroundNew]">misc/overlaywatched.png</texture>
+                 <visible>!Skin.HasSetting(hide.markers) + !Container(301).ListItem.IsResumable + [[String.IsEqual(Container(301).ListItem.Overlay,OverlayUnwatched.png) + [$EXP[IsNewMovie301] | $EXP[IsNewTVShow301] | $EXP[IsNewEpisode301]]]] + !Skin.HasSetting(hide.markers.newcontent)</visible>
+            </control>
+            <control type="label">
+                 <right>-9</right>
+                 <top>8</top>
+                 <align>center</align>
+                 <label>$VAR[IndicatorFlagLabel301]</label>
+                 <width>100</width>
+                 <font>WatchedStates</font>
+                 <textcolor>$VAR[ColorIndicatorBackgroundLabel]</textcolor>
+                 <selectedcolor>$VAR[ColorIndicatorBackgroundLabel]</selectedcolor>
+                 <animation effect="rotate" center="auto" time="0" end="-45" condition="true" loop="false">Conditional</animation>
+            </control>
+        </control>
+        </definition>
+    </include>
 
     <include name="TvShowProviderIcon">
         <control type="image">
