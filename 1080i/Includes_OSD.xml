@@ -1079,17 +1079,6 @@
         </control>
     </include>
 
-    <include name="DefOSDButtonsOSDTimeout">
-        <onfocus condition="Skin.String(OSD_Timeout) + !Integer.IsGreater(Skin.String(OSD_Timeout),9)">AlarmClock(osd_timeout,SetFocus(2288),00:0$INFO[Skin.String(OSD_Timeout)],silent)</onfocus>
-        <onfocus condition="Skin.String(OSD_Timeout) + Integer.IsGreater(Skin.String(OSD_Timeout),9)">AlarmClock(osd_timeout,SetFocus(2288),00:$INFO[Skin.String(OSD_Timeout)],silent)</onfocus>
-        <onunfocus>CancelAlarm(osd_timeout,true)</onunfocus>
-        <onup>CancelAlarm(osd_timeout,true)</onup>
-    </include>
-
-    <include name="DefOSDButtonsOSDCancelTimeout">
-        <onload condition="Skin.String(OSD_Timeout)">CancelAlarm(osd_timeout,true)</onload>
-    </include>
-
     <include name="DefOSDButtons">
         <aligny>center</aligny>
         <align>center</align>
@@ -1100,7 +1089,6 @@
         <focusedcolor>$VAR[ColorHighlight]</focusedcolor>
         <texturefocus />
         <width>216</width>
-        <include>DefOSDButtonsOSDTimeout</include>
     </include>
 
     <include name="DefOSDButtonsNewOSD">
@@ -1113,7 +1101,6 @@
         <focusedcolor>$VAR[ColorHighlight]</focusedcolor>
         <texturefocus />
         <width>140</width>
-        <include>DefOSDButtonsOSDTimeout</include>
     </include>
 
     <include name="DefOSDUpDown">
@@ -1123,7 +1110,6 @@
         <ondown condition="!String.IsEmpty(Window(home).Property(osdshowinfo)) + !Window.IsVisible(MusicOSD.xml)">ClearProperty(osdshowinfo,home)</ondown>
         <onup condition="Window.IsVisible(MusicOSD.xml)">9100</onup>
         <ondown condition="Window.IsVisible(MusicOSD.xml)">9100</ondown>
-        <include>DefOSDButtonsOSDTimeout</include>
     </include>
 
     <include name="OSDVideosRight">
@@ -1791,6 +1777,7 @@
             <texturefocus colordiffuse="$VAR[ColorHighlight]">osd/plot.png</texturefocus>
             <texturenofocus colordiffuse="Dark1">osd/plot.png</texturenofocus>
             <onclick>SetFocus(9601)</onclick>
+            <onclick>SetProperty(dontautoclose,1,home)</onclick>
         </control>
         <control type="button" id="32">
             <description>Settings</description>
@@ -1957,6 +1944,7 @@
             <texturefocus colordiffuse="$VAR[ColorHighlight]">osd/plot.png</texturefocus>
             <texturenofocus colordiffuse="$VAR[OSDPanelWhite30]">osd/plot.png</texturenofocus>
             <onclick>SetFocus(9601)</onclick>
+            <onclick>SetProperty(dontautoclose,1,home)</onclick>
         </control>
         <control type="button" id="31">
             <description>Settings</description>
