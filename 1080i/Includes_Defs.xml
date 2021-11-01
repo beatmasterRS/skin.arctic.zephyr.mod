@@ -557,6 +557,8 @@
     </include>
 
     <include name="Def9000GroupList">
+        <param name="height" default="350"/>
+        <definition>
         <visible allowhiddenfocus="true">ControlGroup(9000).HasFocus()</visible>
         <onleft>50</onleft>
         <onright>50</onright>
@@ -564,8 +566,9 @@
         <posx>8</posx>
         <posy>16</posy>
         <width>510</width>
-        <height>350</height>
+        <height>$PARAM[height]</height>
         <itemgap>0</itemgap>
+        </definition>
     </include>
 
     <include name="Def9000GroupListHub">
@@ -580,61 +583,25 @@
         <itemgap>0</itemgap>
     </include>
 
-    <include name="Def9000ArrowsWeather">
-        <control type="group">
-            <control type="image">
-                <description>arrow image</description>
-                <centerleft>50%</centerleft>
-                <posy>-16</posy>
-                <include>arrowdimensions</include>
-                <texture colordiffuse="White70" flipy="true">common/arrow-small.png</texture>
-            </control>
-            <control type="image">
-                <description>arrow image</description>
-                <centerleft>50%</centerleft>
-                <posy>620</posy>
-                <include>arrowdimensions</include>
-                <texture colordiffuse="White70" flipy="false">common/arrow-small.png</texture>
-            </control>
-        </control>
-    </include>
-
     <include name="Def9000Arrows">
+        <param name="arrow_top" default="-16"/>
+        <param name="arrow_bottom" default="690"/>
+        <definition>
         <control type="group">
             <control type="image">
-                <description>arrow image</description>
                 <centerleft>50%</centerleft>
-                <posy>-16</posy>
+                <posy>$PARAM[arrow_top]</posy>
                 <include>arrowdimensions</include>
                 <texture colordiffuse="White70" flipy="true">common/arrow-small.png</texture>
             </control>
             <control type="image">
-                <description>arrow image</description>
                 <centerleft>50%</centerleft>
-                <posy>382</posy>
+                <posy>$PARAM[arrow_bottom]</posy>
                 <include>arrowdimensions</include>
                 <texture colordiffuse="White70" flipy="false">common/arrow-small.png</texture>
             </control>
         </control>
-    </include>
-
-    <include name="Def9000ArrowsMusic">
-        <control type="group">
-            <control type="image">
-                <description>arrow image</description>
-                <centerleft>50%</centerleft>
-                <posy>-16</posy>
-                <include>arrowdimensions</include>
-                <texture colordiffuse="White70" flipy="true">common/arrow-small.png</texture>
-            </control>
-            <control type="image">
-                <description>arrow image</description>
-                <centerleft>50%</centerleft>
-                <posy>482</posy>
-                <include>arrowdimensions</include>
-                <texture colordiffuse="White70" flipy="false">common/arrow-small.png</texture>
-            </control>
-        </control>
+        </definition>
     </include>
 
     <include name="Def9000Background">
@@ -1761,7 +1728,16 @@
                     <bottom>10</bottom>
                     <aspectratio scalediffuse="false">scale</aspectratio>
                     <texture diffuse="diffuse/wall.png" background="true" fallback="$PARAM[fallbackpicture]">$INFO[Container($PARAM[controlid]).ListItemNoWrap($PARAM[id]).Art(poster)]</texture>
-                    <visible>$PARAM[poster]</visible>
+                    <visible>$PARAM[poster] + !String.IsEmpty(Container($PARAM[controlid]).ListItemNoWrap($PARAM[id]).Art(poster))</visible>
+                </control>
+                <control type="image">
+                    <left>10</left>
+                    <top>10</top>
+                    <right>30</right>
+                    <bottom>10</bottom>
+                    <aspectratio scalediffuse="false">scale</aspectratio>
+                    <texture diffuse="diffuse/wall.png" background="true" fallback="$PARAM[fallbackpicture]">$INFO[Container($PARAM[controlid]).ListItemNoWrap($PARAM[id]).Icon]</texture>
+                    <visible>$PARAM[poster] + String.IsEmpty(Container($PARAM[controlid]).ListItemNoWrap($PARAM[id]).Art(poster))</visible>
                 </control>
                 <control type="image">
                     <left>10</left>
@@ -2474,6 +2450,8 @@
                 <include>DefContextButtonGradient</include>
                 <label>33003</label>
                 <onclick>ActivateWindow(SubtitleSearch)</onclick>
+                <onfocus>SetProperty(dontautoclose,1,home)</onfocus>
+                <onunfocus>ClearProperty(dontautoclose,home)</onunfocus>
             </control>
             <control type="button" id="9302">
                 <width>100%</width>
@@ -2481,6 +2459,8 @@
                 <include>DefContextButtonGradient</include>
                 <label>$LOCALIZE[10004]</label>
                 <onclick>ActivateWindow(osdsubtitlesettings)</onclick>
+                <onfocus>SetProperty(dontautoclose,1,home)</onfocus>
+                <onunfocus>ClearProperty(dontautoclose,home)</onunfocus>
             </control>
             <control type="button" id="9304">
                 <width>100%</width>
@@ -2489,6 +2469,8 @@
                 <label>$LOCALIZE[22006]</label>
                 <onclick>SubtitleDelay</onclick>
                 <enable>VideoPlayer.HasSubtitles + VideoPlayer.SubtitlesEnabled</enable>
+                <onfocus>SetProperty(dontautoclose,1,home)</onfocus>
+                <onunfocus>ClearProperty(dontautoclose,home)</onunfocus>
             </control>
             <control type="togglebutton" id="9303" description="Enable Subs">
                 <width>100%</width>
@@ -2498,6 +2480,8 @@
                 <altlabel>13106</altlabel>
                 <onclick>NextSubtitle</onclick>
                 <usealttexture>!VideoPlayer.SubtitlesEnabled</usealttexture>
+                <onfocus>SetProperty(dontautoclose,1,home)</onfocus>
+                <onunfocus>ClearProperty(dontautoclose,home)</onunfocus>
             </control>
         </control>
     </include>
@@ -3389,6 +3373,11 @@
             <ondown>$PARAM[ondirection]</ondown>
             <onleft>$PARAM[ondirection]</onleft>
             <onright>$PARAM[ondirection]</onright>
+            <onback>ClearProperty(dontautoclose,home)</onback>
+            <onup>ClearProperty(dontautoclose,home)</onup>
+            <ondown>ClearProperty(dontautoclose,home)</ondown>
+            <onleft>ClearProperty(dontautoclose,home)</onleft>
+            <onright>ClearProperty(dontautoclose,home)</onright>
         </control>
         <control type="group">
             <visible>$PARAM[visible]</visible>
