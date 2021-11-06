@@ -116,20 +116,13 @@
                 <font>SmallBold</font>
                 <label fallback="19055">$INFO[ListItem.Title]</label>
                 <include condition="Skin.HasSetting(labels.autoscroll)">LabelScroll</include>
-                <visible>!Skin.HasSetting(view.netflix.clearlogo) | [Skin.HasSetting(view.netflix.clearlogo) + String.IsEmpty(ListItem.Art(clearlogo))]</visible>
+                <visible>!Skin.HasSetting(view.netflix.clearlogo) | [Skin.HasSetting(view.netflix.clearlogo) + !$EXP[HasClearLogo]]</visible>
             </control>
-
             <control type="grouplist">
-                <visible>!Skin.HasSetting(view.netflix.clearlogo) | [Skin.HasSetting(view.netflix.clearlogo) + String.IsEmpty(ListItem.Art(clearlogo))]</visible>
+                <visible>!Skin.HasSetting(view.netflix.clearlogo) | [Skin.HasSetting(view.netflix.clearlogo) + !$EXP[HasClearLogo]]</visible>
                 <orientation>vertical</orientation>
                 <itemgap>0</itemgap>
                 <top>40</top>
-                <control type="image" description="clearlogo">
-                    <height>102</height>
-                    <aspectratio scalediffuse="true" align="left">keep</aspectratio>
-                    <texture background="true">$INFO[ListItem.Art(clearlogo)]</texture>
-                    <visible>Skin.HasSetting(view.netflix.clearlogo) + !String.IsEmpty(ListItem.Art(clearlogo))</visible>
-                </control>
                 <control type="label">
                     <aligny>center</aligny>
                     <font>Tiny</font>
@@ -153,14 +146,14 @@
                 </control>
             </control>
             <control type="grouplist">
-                <visible>[Skin.HasSetting(view.netflix.clearlogo) + !String.IsEmpty(ListItem.Art(clearlogo))]</visible>
+                <visible>Skin.HasSetting(view.netflix.clearlogo) + $EXP[HasClearLogo]</visible>
                 <top>25</top>
                 <orientation>vertical</orientation>
                 <itemgap>0</itemgap>
                 <control type="image" description="clearlogo">
                     <height>100</height>
                     <aspectratio scalediffuse="true" align="left">keep</aspectratio>
-                    <texture background="true">$INFO[ListItem.Art(clearlogo)]</texture>
+                    <texture background="true">$VAR[ClearLogoTopVar]</texture>
                 </control>
                 <control type="textbox">
                     <font>Tiny</font>
