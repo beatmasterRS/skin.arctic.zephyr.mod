@@ -86,47 +86,21 @@
             <include>ViewSlideForJumpBar</include>
             <visible>Control.IsVisible(511)</visible>
             <control type="group">
-                <visible>!Skin.HasSetting(FullscreenFanart511)</visible>
                 <width>1920</width>
                 <left>0</left>
                 <top>-50</top>
                 <animation effect="slide" start="0,0" end="0,-20" time="200" condition="Skin.HasSetting(ShowClearart511)">Conditional</animation>
                 <control type="image" description="clearlogo">
-                    <visible>Skin.HasSetting(ShowClearart511) + !String.IsEmpty(ListItem.Art(clearlogo))</visible>
+                    <visible>Skin.HasSetting(ShowClearart511) + $EXP[HasClearLogo]</visible>
                     <top>255</top>
                     <height>102</height>
                     <centerleft>50%</centerleft>
                     <aspectratio scalediffuse="true" align="center">keep</aspectratio>
-                    <texture background="true">$INFO[ListItem.Art(clearlogo)]</texture>
+                    <texture background="true">$VAR[ClearLogoTopVar]</texture>
                     <fadetime>ClearArtFadetime</fadetime>
                 </control>
                 <control type="label">
-                    <visible>!Skin.HasSetting(ShowClearart511) | [Skin.HasSetting(ShowClearart511) + String.IsEmpty(ListItem.Art(clearlogo))]</visible>
-                    <top>260</top>
-                    <align>center</align>
-                    <description>Header Label</description>
-                    <textcolor>Dark1</textcolor>
-                    <font>SmallBold</font>
-                    <label fallback="19055">$INFO[ListItem.Title]</label>
-                </control>
-            </control>
-            <control type="group">
-                <visible>Skin.HasSetting(FullscreenFanart511) + !Skin.HasSetting(511fanartposter)</visible>
-                <width>1920</width>
-                <left>0</left>
-                <top>-50</top>
-                <animation effect="slide" start="0,0" end="0,-20" time="200" condition="Skin.HasSetting(ShowClearartFanart511)">Conditional</animation>
-                <control type="image" description="clearlogo">
-                    <visible>Skin.HasSetting(ShowClearartFanart511) + !String.IsEmpty(ListItem.Art(clearlogo))</visible>
-                    <top>255</top>
-                    <height>102</height>
-                    <centerleft>50%</centerleft>
-                    <aspectratio scalediffuse="true" align="center">keep</aspectratio>
-                    <texture background="true">$INFO[ListItem.Art(clearlogo)]</texture>
-                    <fadetime>ClearArtFadetime</fadetime>
-                </control>
-                <control type="label">
-                    <visible>!Skin.HasSetting(ShowClearartFanart511) | [Skin.HasSetting(ShowClearartFanart511) + String.IsEmpty(ListItem.Art(clearlogo))]</visible>
+                    <visible>!Skin.HasSetting(ShowClearart511) | [Skin.HasSetting(ShowClearart511) + !$EXP[HasClearLogo]]</visible>
                     <top>260</top>
                     <align>center</align>
                     <description>Header Label</description>
@@ -366,8 +340,7 @@
                     <visible>!Skin.HasSetting(ShowClearartFanart511)</visible>
                     <right>100</right>
                     <bottom>250</bottom>
-                    <width>400</width>
-                    <height>90</height>
+                    <height>102</height>
                     <fadetime>ClearArtFadetime</fadetime>
                     <aspectratio aligny="bottom" align="right">keep</aspectratio>
                     <texture background="true">$VAR[ClearLogoTopVar]</texture>
