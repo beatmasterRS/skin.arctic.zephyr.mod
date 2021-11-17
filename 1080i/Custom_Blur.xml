@@ -2,6 +2,7 @@
 <window type="dialog" id="1297">
     <defaultcontrol>9000</defaultcontrol>
     <onload>SetProperty(Fanart,$INFO[Window(Home).Property(LatestMovie.1.Fanart)],home)</onload>
+    <onload condition="Skin.HasSetting(BlurEnabled)">RunScript(script.embuary.helper,action=blurimg,file='"$VAR[CustomBlurImage]"',prop=BlurImage)</onload>
     <onload>Skin.Reset(NoBlurFoto)</onload>
     <onunload>ClearProperty(FanartBlur,Home)</onunload>
     <controls>
@@ -74,32 +75,19 @@
                 <randomize>true</randomize>
                 <fadetime>600</fadetime>
                 <imagepath background="true" fallback="special://skin/extras/views/cars.jpg">$INFO[Window(Home).Property(Fanart)]</imagepath>
-                <visible>System.AddonIsEnabled(script.litebox) + Skin.HasSetting(EnableEffects)</visible>
+                <visible>!Skin.HasSetting(BlurEnabled)</visible>
             </control>
             <control type="group">
-                <visible>Skin.HasSetting(EnableEffects)</visible>
                 <right>95</right>
                 <width>1280</width>
                 <top>230</top>
                 <height>614</height>
-                <control type="image">
-                    <visible>!String.IsEqual(Window(home).Property(Daemon_FIVE_ImageUpdating),0) + Skin.HasSetting(EnableEffects)</visible>
-                    <texture background="true">$INFO[Window(home).Property(ImageFilterFIVE)]</texture>
-                    <include>BackgroundFanartFadetime</include>
-                    <animation effect="fade" end="5" start="100" time="0" condition="Integer.IsEqual(Skin.String(BackgroundBrightnessBlur),5)">Conditional</animation>
-                    <animation effect="fade" end="0" start="100" time="0" condition="!String.IsEmpty(Skin.String(BackgroundBrightnessBlur)) + Integer.IsEqual(Skin.String(BackgroundBrightnessBlur),0)">Conditional</animation>
-                    <animation effect="fade" end="10" start="100" time="0" condition="Integer.IsEqual(Skin.String(BackgroundBrightnessBlur),10)">Conditional</animation>
-                    <animation effect="fade" end="15" start="100" time="0" condition="Integer.IsEqual(Skin.String(BackgroundBrightnessBlur),15)">Conditional</animation>
-                    <animation effect="fade" end="20" start="100" time="0" condition="Integer.IsEqual(Skin.String(BackgroundBrightnessBlur),20)">Conditional</animation>
-                    <animation effect="fade" end="25" start="100" time="0" condition="String.IsEmpty(Skin.String(BackgroundBrightnessBlur)) | Integer.IsEqual(Skin.String(BackgroundBrightnessBlur),25)">Conditional</animation>
-                    <animation effect="fade" end="30" start="100" time="0" condition="Integer.IsEqual(Skin.String(BackgroundBrightnessBlur),30)">Conditional</animation>
-                    <animation effect="fade" end="35" start="100" time="0" condition="Integer.IsEqual(Skin.String(BackgroundBrightnessBlur),35)">Conditional</animation>
-                    <animation effect="fade" end="40" start="100" time="0" condition="Integer.IsEqual(Skin.String(BackgroundBrightnessBlur),40)">Conditional</animation>
-                    <animation effect="fade" end="45" start="100" time="0" condition="Integer.IsEqual(Skin.String(BackgroundBrightnessBlur),45)">Conditional</animation>
-                    <animation effect="fade" end="50" start="100" time="0" condition="Integer.IsEqual(Skin.String(BackgroundBrightnessBlur),50)">Conditional</animation>
-                    <animation effect="fade" end="55" start="100" time="0" condition="Integer.IsEqual(Skin.String(BackgroundBrightnessBlur),55)">Conditional</animation>
-                    <animation effect="fade" end="60" start="100" time="0" condition="Integer.IsEqual(Skin.String(BackgroundBrightnessBlur),60)">Conditional</animation>
-                </control>
+                <include content="EffectsPreviewImage" condition="!Skin.HasSetting(BlurEnabled)">
+                    <param name="texture" value="$INFO[Window(home).Property(ImageFilterFIVE)]" />
+                </include>                
+                <include content="EffectsPreviewImage" condition="Skin.HasSetting(BlurEnabled)">
+                    <param name="texture" value="$INFO[Window(home).Property(BlurImage_blurred)]" />
+                </include>           
                 <animation effect="fade" start="0" end="100" time="200" delay="0" tween="quadratic">WindowOpen</animation>
                 <animation effect="fade" start="0" end="100" time="200" delay="300" tween="quadratic">Visible</animation>
             </control>
@@ -159,7 +147,7 @@
                 <control type="button" id="9006">
                     <onback>Skin.Reset(NoBlurFoto)</onback>
                     <label>31582</label>
-                    <label2>$INFO[Skin.String(colorbox_effect)]</label2>
+                    <label2>$VAR[Label_BlurEffect]</label2>
                     <onclick condition="String.IsEmpty(Skin.String(colorbox_effect))">Skin.SetString(colorbox_effect,blur)</onclick>
                     <onclick condition="String.IsEqual(Skin.String(colorbox_effect),blur)">Skin.SetString(colorbox_quality,1)</onclick>
                     <onclick condition="String.IsEqual(Skin.String(colorbox_effect),blur)">Skin.SetString(colorbox_effect,pixelate)</onclick>
@@ -171,6 +159,7 @@
                     <onclick>SetProperty(FIVE_daemon_set,$INFO[Skin.String(colorbox_effect)],home)</onclick>
                     <include>UpdateLitebox</include>
                     <include>DefDialogButtonsBlur</include>
+                    <enable>!Skin.HasSetting(BlurEnabled)</enable>
                 </control>
                 <control type="button" id="9001">
                     <onback>Skin.Reset(NoBlurFoto)</onback>
@@ -179,7 +168,16 @@
                     <onclick>SetProperty(includesetting,BlurRadiusLitebox,home)</onclick>
                     <onclick>ActivateWindow(1248)</onclick>
                     <include>DefDialogButtonsBlur</include>
-                    <visible>String.IsEqual(Skin.String(colorbox_effect),blur)</visible>
+                    <visible>String.IsEqual(Skin.String(colorbox_effect),blur) + !Skin.HasSetting(BlurEnabled)</visible>
+                </control>
+                <control type="button" id="9009">
+                    <onback>Skin.Reset(NoBlurFoto)</onback>
+                    <label>31538</label>
+                    <label2>$INFO[Skin.String(BlurRadius)]</label2>
+                    <onclick>SetProperty(includesetting,BlurRadiusEmbuaryHelper,home)</onclick>
+                    <onclick>ActivateWindow(1248)</onclick>
+                    <include>DefDialogButtonsBlur</include>
+                    <visible>Skin.HasSetting(BlurEnabled)</visible>
                 </control>
                 <control type="button" id="9002">
                     <onback>Skin.Reset(NoBlurFoto)</onback>
@@ -189,6 +187,7 @@
                     <onclick condition="!String.IsEqual(Skin.String(colorbox_effect),blur)">SetProperty(includesetting,ImageQualityOtherLitebox,home)</onclick>
                     <onclick>ActivateWindow(1248)</onclick>
                     <include>DefDialogButtonsBlur</include>
+                    <enable>!Skin.HasSetting(BlurEnabled)</enable>
                 </control>
                 <control type="button" id="9007">
                     <onback>Skin.Reset(NoBlurFoto)</onback>
@@ -198,6 +197,7 @@
                     <onclick>ActivateWindow(1248)</onclick>
                     <include>DefDialogButtonsBlur</include>
                     <visible>String.IsEqual(Skin.String(colorbox_effect),pixelate)</visible>
+                    <enable>!Skin.HasSetting(BlurEnabled)</enable>
                 </control>
                 <control type="button" id="9004">
                     <onback>Skin.Reset(NoBlurFoto)</onback>
@@ -250,6 +250,19 @@
                         <param name="icon" value="buttonsdialogs/update.png"/>
                         <param name="color" value="Black30" />
                     </include>
+                    <visible>!Skin.HasSetting(BlurEnabled)</visible>
+                </control>
+                <control type="radiobutton" id="9203">
+                    <onback>Skin.Reset(NoBlurFoto)</onback>
+                    <label/>
+                    <onclick>Skin.SetString(BlurRadius,5)</onclick>
+                    <onclick>RunScript(script.embuary.helper,action=blurimg,file='"$VAR[CustomBlurImage]"',prop=BlurImage)</onclick>
+                    <include>buttondimensionssquareblur</include>
+                    <include content="buttontextures">
+                        <param name="icon" value="buttonsdialogs/update.png"/>
+                        <param name="color" value="Black30" />
+                    </include>
+                    <visible>Skin.HasSetting(BlurEnabled)</visible>
                 </control>
                 <control type="radiobutton" id="9201">
                     <onback>Skin.Reset(NoBlurFoto)</onback>
@@ -267,6 +280,7 @@
                     <onclick condition="String.IsEqual(Window(home).Property(Fanart),Window(Home).Property(LatestMovie.2.Fanart))">SetProperty(Fanart,$INFO[Window(Home).Property(LatestMovie.3.Fanart)],home)</onclick>
                     <onclick condition="String.IsEqual(Window(home).Property(Fanart),Window(Home).Property(LatestMovie.3.Fanart))">SetProperty(Fanart,$INFO[Window(Home).Property(LatestMovie.4.Fanart)],home)</onclick>
                     <onclick condition="String.IsEqual(Window(home).Property(Fanart),Window(Home).Property(LatestMovie.4.Fanart))">SetProperty(Fanart,$INFO[Window(Home).Property(LatestMovie.1.Fanart)],home)</onclick>
+                    <onclick condition="Skin.HasSetting(BlurEnabled)">RunScript(script.embuary.helper,action=blurimg,file='"$VAR[CustomBlurImage]"',prop=BlurImage)</onclick>
                 </control>
                 <control type="radiobutton" id="9202">
                     <onback>Skin.Reset(NoBlurFoto)</onback>
