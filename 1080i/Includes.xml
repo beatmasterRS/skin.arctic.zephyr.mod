@@ -3369,7 +3369,7 @@
             <control type="label">
                 <include>MultiWidgetsSubLabelDefinition</include>
                 <label>  •  </label>
-                <visible>Container($PARAM[id]).ListItem.IsResumable |
+                <visible>Container($PARAM[id]).ListItem.IsPlaying | Container($PARAM[id]).ListItem.IsResumable |
                 [String.IsEqual(Container($PARAM[id]).ListItem.Overlay,OverlayWatched.png) + !Container($PARAM[id]).ListItem.IsResumable + !Skin.HasSetting(hide.markers.watched)] |
                 [String.IsEqual(Container($PARAM[id]).ListItem.Overlay,OverlayUnwatched.png) + !Container($PARAM[id]).ListItem.IsResumable + !Skin.HasSetting(hide.markers.newcontent) + [
                         [
@@ -3405,21 +3405,28 @@
             <control type="label">
                 <include>Def_Watched_Indicators_Clean</include>
                 <label>[COLOR=Dark2]&#62596;[/COLOR]</label>
-                <visible>Container($PARAM[id]).ListItem.IsResumable</visible>
+                <visible>!Container($PARAM[id]).ListItem.IsPlaying + Container($PARAM[id]).ListItem.IsResumable</visible>
             </control>
 
             <!-- Watched -->
             <control type="label">
                 <include>Def_Watched_Indicators_Clean</include>
                 <label>[COLOR=FF00DD44]&#10003;[/COLOR]</label>
-                <visible>String.IsEqual(Container($PARAM[id]).ListItem.Overlay,OverlayWatched.png) + !Container($PARAM[id]).ListItem.IsResumable + !Skin.HasSetting(hide.markers.watched)</visible>
+                <visible>!Container($PARAM[id]).ListItem.IsPlaying + String.IsEqual(Container($PARAM[id]).ListItem.Overlay,OverlayWatched.png) + !Container($PARAM[id]).ListItem.IsResumable + !Skin.HasSetting(hide.markers.watched)</visible>
+            </control>
+            
+            <!-- Is Playing -->
+            <control type="label">
+                <include>Def_Watched_Indicators_Clean</include>
+                <label>[COLOR=Dark2]&#62811;[/COLOR]</label>
+                <visible>Container($PARAM[id]).ListItem.IsPlaying + !Skin.HasSetting(hide.markers.isplaying)</visible>
             </control>
 
             <!-- New -->
             <control type="label">
                 <include>Def_Watched_Indicators_Clean</include>
                 <label>[COLOR=ColoredIcons]&#62079;[/COLOR]</label>
-                <visible>String.IsEqual(Container($PARAM[id]).ListItem.Overlay,OverlayUnwatched.png) + !Container($PARAM[id]).ListItem.IsResumable + !Skin.HasSetting(hide.markers.newcontent) + [
+                <visible>!Container($PARAM[id]).ListItem.IsPlaying + String.IsEqual(Container($PARAM[id]).ListItem.Overlay,OverlayUnwatched.png) + !Container($PARAM[id]).ListItem.IsResumable + !Skin.HasSetting(hide.markers.newcontent) + [
                     [
                         String.IsEqual(Window(Home).Property(LatestMovie.1.Title),Container($PARAM[id]).ListItem.Label)
                         | String.IsEqual(Window(Home).Property(LatestMovie.2.Title),Container($PARAM[id]).ListItem.Label)
