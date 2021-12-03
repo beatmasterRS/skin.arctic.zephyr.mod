@@ -20,8 +20,9 @@
                 <animation effect="slide" start="0" end="0,-60" time="150" condition="[Window.IsVisible(fullscreeninfo) | Player.ShowInfo | !String.IsEmpty(Window(home).Property(osdshowinfo)) | [Player.Paused + Skin.HasSetting(osd.showinfoonpause)]]">Conditional</animation>                
                 <animation effect="slide" start="0,110" end="0" time="150">Visible</animation>
                 <animation effect="slide" start="0,110" end="0" time="150">WindowOpen</animation>
-                <animation effect="slide" start="0,0" end="0,110" time="150">WindowClose</animation>
-
+                <include condition="!Skin.HasSetting(osd.usethemeNewOSD) + !Skin.HasSetting(osd.usethemeNewOSDSide)">Animation.SlideOutOSD</include>
+                <include condition="Skin.HasSetting(osd.usethemeNewOSD)">Animation.SlideOutOSDNew</include>
+                    
                 <!-- Background bottom -->
                 <control type="image">
                     <top>111r</top>
@@ -127,23 +128,26 @@
                     <top>20</top>
                     <bottom>20</bottom>
                     <visible>!Skin.HasSetting(osd.usethemeNewOSD) + !Skin.HasSetting(osd.usethemeNewOSDSide)</visible>
-                    <control type="image">
-                        <visible>Skin.HasSetting(discartOSD) + !String.IsEmpty(Player.Art(discart)) + !String.IsEmpty(Player.Art(poster))</visible>
-                        <left>-45</left>
-                        <top>-240</top>
-                        <width>260</width>
-                        <height>260</height>
-                        <texture>$INFO[Player.Art(discart)]</texture>
-                        <animation type="WindowClose" reversible="false">
-                            <effect type="slide" start="0,-130" end="0,0" tween="sine" easing="out" time="400" delay="0"/>
-                            <effect type="fade" start="100" end="0" time="100"/>
-                        </animation>
-                        <animation type="WindowOpen" reversible="false">
-                            <effect type="slide" start="0,100" end="0,-130" tween="sine" easing="out" time="600" delay="500"/>
-                        </animation>
-                        <animation effect="rotate" center="auto" time="6000" end="-360" condition="true" loop="true">Conditional</animation>
-                        <aspectratio align="center" aligny="center">stretch</aspectratio>
-                        <animation effect="slide" delay="10" tween="sine" easing="out" start="-70" end="0" time="200">WindowOpen</animation>
+                    <control type="group">
+                        <animation effect="slide" tween="sine" easing="out" start="0" end="-70" time="200">WindowClose</animation>
+                        <control type="image">
+                            <visible>Skin.HasSetting(discartOSD) + !String.IsEmpty(Player.Art(discart)) + !String.IsEmpty(Player.Art(poster))</visible>
+                            <left>-45</left>
+                            <top>-240</top>
+                            <width>260</width>
+                            <height>260</height>
+                            <texture>$INFO[Player.Art(discart)]</texture>
+                            <animation type="WindowClose" reversible="false">
+                                <effect type="slide" start="0,-130" end="0,0" tween="sine" easing="out" time="400" delay="0"/>
+                                <effect type="fade" start="100" end="0" time="100"/>
+                            </animation>
+                            <animation type="WindowOpen" reversible="false">
+                                <effect type="slide" start="0,100" end="0,-130" tween="sine" easing="out" time="600" delay="500"/>
+                            </animation>
+                            <animation effect="rotate" center="auto" time="6000" end="-360" condition="true" loop="true">Conditional</animation>
+                            <aspectratio align="center" aligny="center">stretch</aspectratio>
+                            <animation effect="slide" delay="10" tween="sine" easing="out" start="-70" end="0" time="200">WindowOpen</animation>
+                        </control>
                     </control>
                     <control type="image">
                         <visible>!VideoPlayer.Content(LiveTV) + [!String.IsEmpty(Player.Art(tvshow.poster)) | !String.IsEmpty(Player.Art(poster))]</visible>
@@ -154,6 +158,7 @@
                         <texture diffuse="diffuse/listposter.png">$VAR[PlayerPoster]</texture>
                         <aspectratio align="center" aligny="center" scalediffuse="false">scale</aspectratio>
                         <animation effect="slide" delay="10" tween="sine" easing="out" start="-70" end="0" time="200">WindowOpen</animation>
+                        <animation effect="slide" tween="sine" easing="out" start="0" end="-70" time="200" >WindowClose</animation>
                     </control>
                     <control type="image">
                         <visible>!VideoPlayer.Content(LiveTV) + [!String.IsEmpty(Player.Art(tvshow.poster)) | !String.IsEmpty(Player.Art(poster))]</visible>
@@ -164,6 +169,7 @@
                         <texture colordiffuse="Box2" border="4" background="true">common/box21.png</texture>
                         <visible>!Skin.HasSetting(thumbnails.white)</visible>
                         <animation effect="slide" delay="10" tween="sine" easing="out" start="-70" end="0" time="200">WindowOpen</animation>
+                        <animation effect="slide" tween="sine" easing="out" start="0" end="-70" time="200" >WindowClose</animation>
                     </control>
                     <control type="image">
                         <width>270</width>
@@ -191,20 +197,26 @@
                         <visible>VideoPlayer.Content(LiveTV) + !String.IsEmpty(Player.Art(thumb))</visible>
                     </control>
                     <control type="group">
-                        <left>300</left>
-                        <visible>VideoPlayer.Content(LiveTV) + !String.IsEmpty(Player.Art(thumb))</visible>
-                        <include>OSDInfoContent</include>
-                        <include>OSDPVRInfoContent</include>
-                    </control>
-                    <control type="group">
-                        <left>253</left>
-                        <visible>!VideoPlayer.Content(LiveTV) + [!String.IsEmpty(Player.Art(tvshow.poster)) | !String.IsEmpty(Player.Art(poster))]</visible>
-                        <include>OSDInfoContent</include>
-                    </control>
-                    <control type="group">
-                        <left>0</left>
-                        <visible>String.IsEmpty(Player.Art(tvshow.poster)) + String.IsEmpty(Player.Art(poster)) + [!VideoPlayer.Content(LiveTV) | String.IsEmpty(Player.Art(thumb))]</visible>
-                        <include>OSDInfoContent</include>
+                        <animation effect="slide" start="0,110" end="0" time="150" condition="!Skin.HasSetting(osd.usethemeNewOSD) + !Skin.HasSetting(osd.usethemeNewOSDSide)">WindowOpen</animation>
+                        <animation effect="slide" start="0,0" end="0,110" time="200" condition="!Skin.HasSetting(osd.usethemeNewOSD) + !Skin.HasSetting(osd.usethemeNewOSDSide)">WindowClose</animation>
+                        <visible>Window.IsVisible(fullscreeninfo) | Player.ShowInfo | !String.IsEmpty(Window(home).Property(osdshowinfo)) | [Player.Paused + Skin.HasSetting(osd.showinfoonpause)]</visible>
+                        <animation effect="fade" end="0" start="100" time="100" reversible="false">Hidden</animation>
+                        <control type="group">
+                            <left>300</left>
+                            <visible>VideoPlayer.Content(LiveTV) + !String.IsEmpty(Player.Art(thumb))</visible>
+                            <include>OSDInfoContent</include>
+                            <include>OSDPVRInfoContent</include>
+                        </control>
+                        <control type="group">
+                            <left>253</left>
+                            <visible>!VideoPlayer.Content(LiveTV) + [!String.IsEmpty(Player.Art(tvshow.poster)) | !String.IsEmpty(Player.Art(poster))]</visible>
+                            <include>OSDInfoContent</include>
+                        </control>
+                        <control type="group">
+                            <left>0</left>
+                            <visible>String.IsEmpty(Player.Art(tvshow.poster)) + String.IsEmpty(Player.Art(poster)) + [!VideoPlayer.Content(LiveTV) | String.IsEmpty(Player.Art(thumb))]</visible>
+                            <include>OSDInfoContent</include>
+                        </control>
                     </control>
                 </control>
                 <control type="group">
@@ -232,7 +244,6 @@
                                 <effect type="slide" start="0,100" end="0,-130" tween="sine" easing="out" time="600" delay="500"/>
                             </animation>
                             <aspectratio align="center" aligny="center">stretch</aspectratio>
-                            <animation effect="slide" delay="10" tween="sine" easing="out" start="-70" end="0" time="200">WindowOpen</animation>
                             <animation effect="slide" start="0,0" end="0,30" time="150" condition="Window.IsVisible(videoosd)">Conditional</animation>
                             <animation effect="rotate" center="auto" time="6000" end="-360" condition="true" loop="true">Conditional</animation>
                         </control>
@@ -245,7 +256,6 @@
                         <height>390</height>
                         <texture diffuse="diffuse/listposter.png">$VAR[PlayerPoster]</texture>
                         <aspectratio align="center" aligny="center" scalediffuse="false">scale</aspectratio>
-                        <animation effect="slide" delay="10" tween="sine" easing="out" start="-70" end="0" time="200">WindowOpen</animation>
                         <animation effect="slide" start="0,0" end="0,50" time="150" condition="true">Conditional</animation>
                         <animation effect="slide" start="0,0" end="0,30" time="150" condition="Window.IsVisible(videoosd)">Conditional</animation>
                     </control>
@@ -257,7 +267,6 @@
                         <height>392</height>
                         <texture diffuse="diffuse/listposter.png" colordiffuse="PanelWhite70" border="4">common/box21.png</texture>
                         <visible>!Skin.HasSetting(thumbnails.white)</visible>
-                        <animation effect="slide" delay="10" tween="sine" easing="out" start="-70" end="0" time="200">WindowOpen</animation>
                         <animation effect="slide" start="0,0" end="0,50" time="150" condition="true">Conditional</animation>
                         <animation effect="slide" start="0,0" end="0,30" time="150" condition="Window.IsVisible(videoosd)">Conditional</animation>
                     </control>
@@ -432,7 +441,6 @@
                 <top>110r</top>
                 <bottom>0</bottom>
                 <width>100%</width>
-                <animation effect="slide" start="0,0" end="0,-10" time="150" condition="Skin.HasSetting(osd.usethemeNewOSD)">Conditional</animation>
                 <control type="group">
                     <left>SidePad</left>
                     <right>SidePad</right>
@@ -535,6 +543,8 @@
                 <visible>Player.Seeking | Player.DisplayAfterSeek | Player.Paused | Player.Forwarding | Player.Rewinding | !String.IsEmpty(Player.SeekNumeric) | !String.IsEmpty(PVR.ChannelNumberInput) | Window.IsVisible(videoosd)</visible>
                 <animation effect="fade" start="0" end="100" delay="150" time="150">Visible</animation>
                 <animation effect="fade" start="0" end="100" delay="150" time="150">WindowOpen</animation>
+                <animation effect="fade" start="100" end="0" delay="0" time="150">Hidden</animation>
+                <animation effect="fade" start="100" end="0" delay="0" time="150">WindowClose</animation>
                 <top>110r</top>
                 <bottom>0</bottom>
                 <width>100%</width>
