@@ -84,7 +84,8 @@
         <texturesliderbackground border="4" colordiffuse="Dark4">scrollbar/scrollv.png</texturesliderbackground>
         <texturesliderbar border="4" colordiffuse="Dark3">scrollbar/scrollv.png</texturesliderbar>
         <texturesliderbarfocus border="4" colordiffuse="Dark2">scrollbar/scrollv.png</texturesliderbarfocus>
-        <animation effect="fade" start="100" end="0" time="400" condition="!Control.HasFocus($PARAM[scrollid]) + !Container.Scrolling">Conditional</animation>
+        <animation effect="fade" start="0" end="100" time="400" condition="Container.Scrolling | Control.HasFocus($PARAM[scrollid])">Conditional</animation>
+        <animation effect="fade" start="100" end="0" time="400" condition="!Container.Scrolling + !Control.HasFocus($PARAM[scrollid])">Conditional</animation>
         </definition>
     </include>
 
@@ -2951,7 +2952,6 @@
         <value condition="Player.HasVideo + VideoPlayer.Content(movies) + [Window.IsVisible(fullscreenvideo) | Window.IsVisible(visualisation) | Window.IsVisible(home)]">special://skin/extras/icons/film.png</value>
         <value condition="Player.HasVideo + VideoPlayer.Content(episodes) + [Window.IsVisible(fullscreenvideo) | Window.IsVisible(visualisation) | Window.IsVisible(home)]">special://skin/extras/icons/tv.png</value>
         <value condition="Player.HasVideo + [Window.IsVisible(fullscreenvideo) | Window.IsVisible(visualisation) | Window.IsVisible(home)]">special://skin/extras/icons/eye.png</value>
-        <value condition="Window.IsVisible(DialogVideoInfo.xml)">special://skin/extras/icons/info.png</value>
         <value condition="String.Contains(Container.FolderPath,sources://,Left)">special://skin/extras/icons/files.png</value>
         <value condition="String.Contains(Container.FolderPath,special://videoplaylists/,Left)">special://skin/extras/icons/playlist.png</value>
         <value condition="String.IsEqual(Container.FolderPath,special://profile/playlists/)">special://skin/extras/icons/playlist.png</value>
@@ -3055,7 +3055,6 @@
     </variable>
 
     <variable name="SubHeaderLabel">
-        <value condition="Window.IsVisible(DialogVideoInfo.xml)">$LOCALIZE[31242]</value>
         <value condition="[Window.IsVisible(script-globalsearch-main.xml) | Window.IsVisible(script-globalsearch-info.xml)] + String.IsEmpty(Control.GetLabel(190)) + String.IsEmpty(Control.GetLabel(191)) + String.IsEmpty(Control.GetLabel(199))">$VAR[GlobalSearchHeaderLabel]</value>
         <value condition="Window.IsVisible(LoginScreen.xml)">$LOCALIZE[10029]</value>
         <value condition="Window.IsVisible(script-skin_helper_service-ColorPicker.xml)">$LOCALIZE[31239] [COLOR=$INFO[Window(home).Property(currentcolor)]]$INFO[Window(home).Property(currentcolor)][/COLOR]</value>

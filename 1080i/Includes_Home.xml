@@ -1439,13 +1439,16 @@
         <control type="group">
             <animation effect="slide" start="0" end="0,163" time="150" condition="!Control.HasFocus(300) + !Control.HasFocus(302) + Skin.HasSetting(homemenu.clean.flix) + !Skin.HasSetting(homemenu.clean.flix.no.slide)">Conditional</animation>
             <animation effect="slide" start="0" end="0,53" time="150" condition="!Control.HasFocus(300) + !Control.HasFocus(302) + Skin.HasSetting(homemenu.clean.flix) + !Skin.HasSetting(homemenu.clean.flix.no.slide) + [Skin.HasSetting(home.oldmenuheight) | Skin.HasSetting(submenu.compatibility)]">Conditional</animation>
-            <animation effect="slide" start="0" end="0,-24" time="150" condition="Skin.HasSetting(home.modernwidgets) + Skin.HasSetting(home.vertical.widgets) + Skin.HasSetting(home.oldmenuheight)">Conditional</animation>
-            <animation effect="slide" start="0" end="0,30" time="150" condition="Skin.HasSetting(home.modernwidgets)">Conditional</animation>
-            <animation effect="slide" start="0" end="0,-27" time="150" condition="$EXP[HomeIsModernMultiWidgets] + Skin.HasSetting(submenu.compatibility) + !Skin.HasSetting(home.oldmenuheight)">Conditional</animation>
+            <animation effect="slide" start="0" end="0,-24" time="0" condition="Skin.HasSetting(home.modernwidgets) + Skin.HasSetting(home.vertical.widgets) + Skin.HasSetting(home.oldmenuheight)">Conditional</animation>
+            <animation effect="slide" start="0" end="0,30" time="0" condition="Skin.HasSetting(home.modernwidgets)">Conditional</animation>
+            <animation effect="slide" start="0" end="0,-27" time="0" condition="$EXP[HomeIsModernMultiWidgets] + Skin.HasSetting(submenu.compatibility) + !Skin.HasSetting(home.oldmenuheight)">Conditional</animation>
             <animation effect="slide" start="0" end="0,250" time="150" condition="!Skin.HasSetting(home.modernwidgets) + !Skin.HasSetting(home.classicwidgets) + [Control.HasFocus(301) | Control.HasFocus(4752)]">Conditional</animation>
             <animation effect="slide" start="0" end="0,160" time="400" tween="back" reversible="false" easing="out" condition="Skin.HasSetting(home.modernwidgets) + !Skin.HasSetting(home.classicwidgets) + [Control.HasFocus(301) | Control.HasFocus(4752)]">Conditional</animation>
             <animation effect="slide" end="0" start="0,160" time="150" reversible="false" condition="Skin.HasSetting(home.modernwidgets) +  ![Skin.HasSetting(home.modernwidgets) + Skin.HasSetting(home.vertical.widgets)] + !Skin.HasSetting(home.classicwidgets) + [!Control.HasFocus(301) + !Control.HasFocus(4752)]">Conditional</animation>
-            <animation effect="slide" start="0" end="0,250" time="150">WindowClose</animation>
+            <animation type="WindowClose">
+                <effect type="fade" start="100" end="0" time="100" />
+                <effect type="slide" start="0" end="0,250" time="150" />
+            </animation>
             <animation effect="slide" end="0" start="0,250" time="150">WindowOpen</animation>
             <control type="group">
                 <visible>[!Skin.HasSetting(home.oldmenuheight) | Skin.HasSetting(home.modernwidgets)] + ![Skin.HasSetting(home.modernwidgets) + Skin.HasSetting(home.vertical.widgets) + Skin.HasSetting(home.oldmenuheight)]</visible>
@@ -1726,14 +1729,13 @@
     <include name="HomeSubMenu2">
         <control type="group">
             <animation type="Conditional" condition="Control.HasFocus(302)" reversible="false">
-                <effect type="slide" start="0,24" end="0" time="100" delay="200"/>
-                <effect type="fade" start="0" end="100" time="200" delay="200"/>
+                <effect type="fade" start="0" end="100" time="150" tween="sine" easing="in" delay="150" />
+                <effect type="slide" start="0,30" end="0,0" time="200" tween="sine" easing="out" delay="150" />
             </animation>
             <animation type="Conditional" condition="!Control.HasFocus(302)" reversible="false">
-                <effect type="fade" start="100" end="0" time="200" delay="0"/>
-            </animation>
-            <animation effect="slide" start="0" end="0,250" time="150">WindowClose</animation>
-            <include>Animation.FadeOut</include>
+                <effect type="fade" start="100" end="0" time="100" tween="sine" easing="out" />
+                <effect type="slide" start="0,0" end="0,30" time="150" tween="sine" easing="out" />
+            </animation>            
             <control type="list" id="302">
                 <description>Home Wraplist</description>
                 <left>SidePad</left>
@@ -2394,10 +2396,13 @@
 
     <include name="HomeContentNoIcon">
         <top>942</top>
-        <animation effect="fade" start="100" end="0" time="150" reversible="false" condition="Control.HasFocus(302) + Skin.HasSetting(home.submenu2)">Conditional</animation>
         <animation type="Conditional" condition="!Control.HasFocus(302) + Skin.HasSetting(home.submenu2)" reversible="false">
-            <effect type="slide" start="0,-24" end="0" time="100" delay="200"/>
-            <effect type="fade" start="0" end="100" time="200" delay="200"/>
+            <effect type="fade" start="0" end="100" time="150" tween="sine" easing="in" delay="150" />
+            <effect type="slide" start="0,30" end="0,0" time="200" tween="sine" easing="out" delay="150" />
+        </animation>
+        <animation type="Conditional" condition="Control.HasFocus(302) + Skin.HasSetting(home.submenu2)" reversible="false">
+            <effect type="fade" start="100" end="0" time="100" tween="sine" easing="out" />
+            <effect type="slide" start="0,0" end="0,30" time="150" tween="sine" easing="out" />
         </animation>
         <itemlayout width="220" height="64">
             <control type="label">
@@ -2646,7 +2651,7 @@
                 <!-- Home List -->
                 <control type="panel" id="300">
                     <animation effect="fade" start="100" end="33" time="400" condition="Control.HasFocus(301) | Control.HasFocus(4752)">Conditional</animation>
-                    <animation effect="slide" start="-500" end="0" time="200" delay="100" tween="quadratic" easing="out">Visible</animation>
+                    <include>Animation.Slide.Vertical.Menu</include>
                     <visible allowhiddenfocus="true">!Control.HasFocus(302)</visible>
                     <include>Animation.FadeIn</include>
                     <include>Animation.FadeOut</include>
@@ -2732,7 +2737,7 @@
                 <control type="list" id="302">
                     <visible allowhiddenfocus="true">Control.HasFocus(302)</visible>
                     <animation effect="fade" start="100" end="33" time="400" condition="Control.HasFocus(301)">Conditional</animation>
-                    <animation effect="slide" start="-500" end="0" time="200" delay="100" tween="quadratic" easing="out">Visible</animation>
+                    <include>Animation.Slide.Vertical.Menu</include>
                     <include>Animation.FadeIn</include>
                     <include>Animation.FadeOut</include>
                     <description>Home Wraplist</description>
@@ -2827,7 +2832,7 @@
                             <right>71</right>
                             <top>-9</top>
                             <height>250</height>
-                            <texture diffuse="diffuse/pvrinfo2.png" border="10">common/$VAR[nofocus-shadow10]</texture>
+                            <texture diffuse="diffuse/pvrinfo2.png" border="10" background="true">common/$VAR[nofocus-shadow10]</texture>
                         </control>
                         <control type="image">
                             <right>SidePad</right>
@@ -3029,7 +3034,7 @@
                                     <top>0</top>
                                     <right>0</right>
                                     <bottom>0</bottom>
-                                    <texture border="11">common/$VAR[nofocus-shadow10]</texture>
+                                    <texture border="11" background="true">common/$VAR[nofocus-shadow10]</texture>
                                 </control>
                                 <control type="image">
                                     <left>10</left>
@@ -3133,7 +3138,7 @@
                                     <top>0</top>
                                     <right>0</right>
                                     <bottom>0</bottom>
-                                    <texture border="11">common/$VAR[nofocus-shadow10]</texture>
+                                    <texture border="11" background="true">common/$VAR[nofocus-shadow10]</texture>
                                 </control>
                                 <control type="image">
                                     <left>10</left>
@@ -3245,7 +3250,7 @@
                                     <top>0</top>
                                     <right>0</right>
                                     <bottom>0</bottom>
-                                    <texture border="11">common/$VAR[nofocus-shadow10]</texture>
+                                    <texture border="11" background="true">common/$VAR[nofocus-shadow10]</texture>
                                 </control>
                                 <control type="image">
                                     <left>10</left>
@@ -3349,7 +3354,7 @@
                                     <top>0</top>
                                     <right>0</right>
                                     <bottom>0</bottom>
-                                    <texture border="11">common/$VAR[nofocus-shadow10]</texture>
+                                    <texture border="11" background="true">common/$VAR[nofocus-shadow10]</texture>
                                 </control>
                                 <control type="image">
                                     <left>10</left>
@@ -3482,8 +3487,8 @@
                     <effect type="slide" end="-1920" start="0" time="200" center="auto" tween="quadratic" easing="in"/>
                 </animation>
                 <animation type="Visible" reversible="false">
-                    <effect type="fade" start="0" end="100" time="300" delay="300" tween="sine" easing="in"/>
-                    <effect type="slide" start="-1920" end="0" time="300" delay="300" center="auto" tween="sine" easing="out"/>
+                    <effect type="fade" start="0" end="100" time="300" delay="0" tween="sine" easing="in"/>
+                    <effect type="slide" start="-1920" end="0" time="300" delay="0" center="auto" tween="sine" easing="out"/>
                 </animation>
                 <animation type="Hidden" reversible="false">
                     <effect type="slide" end="-1920" start="0" center="auto" tween="sine" delay="0" easing="out" time="300"/>
@@ -3500,7 +3505,10 @@
                     <animation effect="slide" start="0,0" end="0,30" time="0" condition="Skin.HasSetting(home.showheader)">Conditional</animation>
                     <animation effect="fade" start="100" end="33" time="400" condition="[!Control.HasFocus(300) + !Control.HasFocus(302)] + ![Skin.HasSetting(homemenu.only.icons) + Skin.HasSetting(home.showicons)] + !Skin.HasSetting(homemenu.vertical.noslide)">Conditional</animation>
                     <animation effect="fade" start="100" end="0" time="400" condition="[!Control.HasFocus(300) + !Control.HasFocus(302)] + ![Skin.HasSetting(homemenu.only.icons) + Skin.HasSetting(home.showicons)] + !Skin.HasSetting(homemenu.vertical.noslide) + Skin.HasSetting(homemenu.hide.lines)">Conditional</animation>
-                    <animation effect="slide" start="-500" end="0" time="200" delay="100" tween="quadratic" easing="out">Visible</animation>
+                    <include condition="![Skin.HasSetting(home.showicons) + Skin.HasSetting(homemenu.only.icons)]">Animation.Slide.Vertical.Menu</include>
+                    <include condition="[Skin.HasSetting(home.showicons) + Skin.HasSetting(homemenu.only.icons)]" content="Animation.Slide.Vertical.Menu">
+                        <param name="left" value="-50" />
+                    </include>                    
                     <visible allowhiddenfocus="true">!Control.HasFocus(302)</visible>
                     <include>Animation.FadeIn</include>
                     <include>Animation.FadeOut</include>
@@ -3670,7 +3678,10 @@
                     <animation effect="slide" start="0,0" end="0,-38" time="0" condition="true">Conditional</animation>
                     <animation effect="slide" start="0,0" end="0,30" time="0" condition="Skin.HasSetting(home.showheader)">Conditional</animation>
                     <animation effect="fade" start="100" end="33" time="400" condition="Control.HasFocus(301)">Conditional</animation>
-                    <animation effect="slide" start="-500" end="0" time="200" delay="100" tween="quadratic" easing="out">Visible</animation>
+                    <include condition="![Skin.HasSetting(home.showicons) + Skin.HasSetting(homemenu.only.icons)]">Animation.Slide.Vertical.Menu</include>
+                    <include condition="[Skin.HasSetting(home.showicons) + Skin.HasSetting(homemenu.only.icons)]" content="Animation.Slide.Vertical.Menu">
+                        <param name="left" value="-50" />
+                    </include>
                     <animation effect="slide" start="0" end="-296" time="0" condition="[Skin.HasSetting(homemenu.only.icons) + Skin.HasSetting(home.showicons)]">Conditional</animation>
                     <include>Animation.FadeIn</include>
                     <include>Animation.FadeOut</include>
@@ -3787,8 +3798,8 @@
                     <effect type="slide" end="1920" start="0" time="200" center="auto" tween="quadratic" easing="in"/>
                 </animation>
                 <animation type="Visible" reversible="false">
-                    <effect type="fade" start="0" end="100" time="300" delay="300" tween="sine" easing="in"/>
-                    <effect type="slide" start="1920" end="0" time="300" delay="300" center="auto" tween="sine" easing="out"/>
+                    <effect type="fade" start="0" end="100" time="300" delay="0" tween="sine" easing="in"/>
+                    <effect type="slide" start="1920" end="0" time="300" delay="0" center="auto" tween="sine" easing="out"/>
                 </animation>
                 <animation type="Hidden" reversible="false">
                     <effect type="slide" end="1920" start="0" center="auto" tween="sine" delay="0" easing="out" time="300"/>

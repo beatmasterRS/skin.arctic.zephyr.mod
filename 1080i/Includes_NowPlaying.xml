@@ -31,7 +31,7 @@
                 <param name="visible" value="!Skin.HasSetting(extended.nowplaying.videowindow)" />
             </include>
             <include content="NowPlaying_VideoDiscArt">
-                <param name="left" value="520" />
+                <param name="left" value="626" />
                 <param name="visible" value="Skin.HasSetting(extended.nowplaying.videowindow)" />
             </include>
 
@@ -328,19 +328,19 @@
         <!-- Audio DiscArt -->
         <control type="group">
             <include content="def_top" condition="Skin.HasSetting(homemenu.netflix)">
-                <param name="top" value="457" />
+                <param name="top" value="460" />
             </include>
             <include content="def_top" condition="!Skin.HasSetting(homemenu.netflix)">
-                <param name="top" value="74" />
+                <param name="top" value="75" />
             </include>
-            <left>155</left>
+            <left>158</left>
             <animation type="WindowClose" reversible="false">
                 <effect type="slide" start="0,0" end="-115,0" tween="sine" easing="out" time="300" delay="0"/>
                 <effect type="fade" start="100" end="0" time="150" delay="0"/>
             </animation>
-            <animation type="WindowOpen" reversible="false">
-                <effect type="slide" start="-115,0" end="0,0" tween="sine" easing="out" time="600" delay="500"/>
-            </animation>            
+            <animation type="WindowOpen" reversible="false" condition="$EXP[ExtendedNowPlayingIsVisible]">
+                <effect type="slide" start="-145,0" end="0,0" tween="sine" easing="out" time="600" delay="500"/>
+            </animation>
             <animation type="Conditional" condition="!Control.HasFocus(300) + !Control.HasFocus(302) + !Control.HasFocus(2011)" reversible="false">
                 <effect type="slide" start="0,0" end="-115,0" tween="sine" easing="out" time="300" delay="0"/>
                 <effect type="fade" start="100" end="0" time="150" delay="0"/>
@@ -348,7 +348,7 @@
             <animation type="Conditional" condition="Control.HasFocus(300) | Control.HasFocus(302) | Control.HasFocus(2011)" reversible="false">
                 <effect type="slide" start="-145,0" end="0,0" tween="sine" easing="out" time="600" delay="500"/>
                 <effect type="fade" start="0" end="100" time="1" delay="500"/>
-            </animation>            
+            </animation>
             <visible>Player.HasMedia + Player.HasAudio</visible>
             <visible>!Skin.HasSetting(extended.nowplaying.hidecd)</visible>
             <include content="DefDiscArtNowPlaying">
@@ -367,36 +367,44 @@
 
         <!-- Video DiscArt -->
         <param name="visible" value="$PARAM[visible]" default="true"/>
-        <param name="left" value="$PARAM[left]" default="0"/>
+        <param name="left" value="$PARAM[left]" default="106"/>
         <definition>
         <control type="group">
             <visible>$PARAM[visible]</visible>
-            <animation type="WindowClose" reversible="false">
-                <effect type="slide" start="110,0" end="0,0" tween="sine" easing="out" time="400" delay="0"/>
-                <effect type="fade" start="100" end="0" time="100"/>
-            </animation>
-            <animation type="WindowOpen" reversible="false">
-                <effect type="slide" start="0,0" end="110,0" tween="sine" easing="out" time="600" delay="500"/>
-            </animation>
             <include content="def_top" condition="Skin.HasSetting(homemenu.netflix)">
-                <param name="top" value="463" />
+                <param name="top" value="460" />
             </include>
             <include content="def_top" condition="!Skin.HasSetting(homemenu.netflix)">
-                <param name="top" value="74" />
+                <param name="top" value="75" />
             </include>
             <left>$PARAM[left]</left>
+            <animation type="WindowClose" reversible="false">
+                <effect type="slide" start="0,0" end="-106,0" tween="sine" easing="out" time="300" delay="0"/>
+                <effect type="fade" start="100" end="0" time="150" delay="0"/>
+            </animation>
+            <animation type="WindowOpen" reversible="false" condition="$EXP[ExtendedNowPlayingIsVisible]">
+                <effect type="slide" start="-106,0" end="0,0" tween="sine" easing="out" time="600" delay="500"/>
+            </animation>
+            <animation type="Conditional" condition="!Control.HasFocus(300) + !Control.HasFocus(302) + !Control.HasFocus(2011)" reversible="false">
+                <effect type="slide" start="0,0" end="-106,0" tween="sine" easing="out" time="300" delay="0"/>
+                <effect type="fade" start="100" end="0" time="150" delay="0"/>
+            </animation>
+            <animation type="Conditional" condition="Control.HasFocus(300) | Control.HasFocus(302) | Control.HasFocus(2011)" reversible="false">
+                <effect type="slide" start="-106,0" end="0,0" tween="sine" easing="out" time="600" delay="500"/>
+                <effect type="fade" start="0" end="100" time="1" delay="500"/>
+            </animation>
             <visible>Player.HasMedia + Player.HasVideo + VideoPlayer.Content(movies)</visible>
             <visible>!Skin.HasSetting(extended.nowplaying.hidecd)</visible>
             <include content="DefDiscArtNowPlaying">
                 <param name="visible" value="Skin.HasSetting(home.video.disc.fake.bluray)" />
                 <param name="diffuse" value="diffuse/diffuse_cd.png" />
                 <param name="discart" value="$VAR[VideoDiscart]" />
-                <param name="width" value="196" />
+                <param name="width" value="194" />
             </include>
             <include content="DefDiscArtNowPlaying">
                 <param name="visible" value="!Skin.HasSetting(home.video.disc.fake.bluray)" />
                 <param name="discart" value="$VAR[VideoDiscart]" />
-                <param name="width" value="196" />
+                <param name="width" value="194" />
             </include>
         </control>
         </definition>
