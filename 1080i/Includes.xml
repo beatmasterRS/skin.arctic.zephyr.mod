@@ -536,17 +536,16 @@
         <control type="image" description="Background">
             <include>Dimensions_Fullscreen</include>
             <texture colordiffuse="ff000000">common/white.png</texture>
-            <visible>Player.HasVideo + Skin.HasSetting(global.showvideo)</visible>
+            <visible>Player.HasVideo</visible>
         </control>
         <control type="videowindow">
-            <visible>Skin.HasSetting(global.showvideo)</visible>
             <include>Dimensions_Fullscreen</include>
         </control>
     </include>
 
     <include name="GlobalVisualisation">
         <control type="group">
-            <visible>Player.HasAudio + Skin.HasSetting(global.showvisualisation)</visible>
+            <visible>Player.HasAudio</visible>
             <control type="visualisation">
                 <visible>Skin.HasSetting(ArtistSlideShow.Disabled) | !System.AddonIsEnabled(script.artistslideshow) | Skin.HasSetting(OSDVisualisation.ShowFanart)</visible>
                 <description>visualisation</description>
@@ -751,8 +750,8 @@
         <include condition="Skin.HasSetting(EnableEffects) + !Skin.HasSetting(BlurEnabled)">BlurImageLitebox</include>
         <include condition="Skin.HasSetting(EnableEffects) + Skin.HasSetting(BlurEnabled)">BlurImageEmbuary</include>        
         <include condition="!Skin.HasSetting(global.showvideo) + Skin.HasSetting(background.video.fix.audio.errors)">HiddenVideoWindow</include>
-        <include>GlobalVideoWindow</include>
-        <include>GlobalVisualisation</include>
+        <include condition="Skin.HasSetting(global.showvideo)">GlobalVideoWindow</include>
+        <include condition="Skin.HasSetting(global.showvisualisation)">GlobalVisualisation</include>
         <control type="fadelabel" id="4399">
             <top>-900</top>
             <width>2560</width>
@@ -1002,14 +1001,6 @@
         <value condition="Control.IsVisible(516)">SetFocus(516)</value>
         <value condition="Control.IsVisible(517)">SetFocus(517)</value>
     </variable>
-
-    <include name="Furniture_FlagsFromHome">
-        <control type="group">
-            <visible>Window.IsVisible(Home.xml) + !Control.HasFocus(9603)</visible>
-            <animation effect="fade" start="100" end="6" time="200" condition="Control.HasFocus(9601)">Conditional</animation>
-            <include condition="Window.IsVisible(Home.xml)">Furniture_Flags</include>
-        </control>
-    </include>
 
     <include name="buttontextures">
         <param name="color" value="$PARAM[color]" default="Dark4"/>
@@ -4920,4 +4911,13 @@
         <bordertexture border="4" colordiffuse="$PARAM[colordiffuse]">common/box21.png</bordertexture>
         </definition>
     </include>
+    
+    <variable name="UpNextEpisodePath">
+        <value condition="String.IsEqual(ListItem.DBType,tvshow) + Integer.IsGreater(ListItem.Property(UnwatchedEpisodes),0) + !String.IsEmpty(ListItem.DBID)">videodb://inprogresstvshows/$INFO[ListItem.DBID]/-2/?tvshowid=$INFO[ListItem.DBID]</value>
+    </variable>
+    
+    <variable name="TMDbHelper_InfoList_Content">
+        <value condition="String.IsEqual(Window(home).Property(extendedtype),tv)">plugin://plugin.video.themoviedb.helper/?info=details&amp;type=tv&amp;query=$INFO[Container(10051).ListItem.Label]</value>
+        <value>plugin://plugin.video.themoviedb.helper/?info=details&amp;type=movie&amp;query=$INFO[Container(10051).ListItem.Label]</value>
+    </variable>
 </includes>
