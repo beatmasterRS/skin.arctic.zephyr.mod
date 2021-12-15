@@ -3666,9 +3666,14 @@
         </control>
         </definition>
     </include>
-    
-    <include name="IndicatorPosterNormal">
+
+    <include name="IndicatorPoster">
+        <param name="right" value="$PARAM[right]" default="1"/>
+        <param name="top" value="$PARAM[top]" default="1"/>
+        <param name="indicatorbackground" value="$PARAM[indicatorbackground]" default="false"/>
+        <definition>
         <control type="group">
+            <visible>!Skin.HasSetting(furniture.markers.alternative)</visible>
             <right>$PARAM[right]</right>
             <top>$PARAM[top]</top>
             <control type="label">
@@ -3696,10 +3701,8 @@
                 <label>$VAR[WatchedLabelPoster]</label>
             </control>
         </control>
-    </include>
-    
-    <include name="IndicatorPosterAlt">
         <control type="group">
+            <visible>Skin.HasSetting(furniture.markers.alternative) + !Skin.HasSetting(hide.markers)</visible>
             <right>$PARAM[right]</right>
             <top>$PARAM[top]</top>
             <control type="image">
@@ -3708,7 +3711,7 @@
                  <width>100</width>
                  <height>100</height>
                  <texture colordiffuse="$VAR[ColorIndicatorBackgroundIsPlaying]" background="true">misc/overlaywatched.png</texture>
-                 <visible>ListItem.IsPlaying + !Skin.HasSetting(hide.markers.isplaying)</visible>
+                 <visible>!Skin.HasSetting(hide.markers) + ListItem.IsPlaying + !Skin.HasSetting(hide.markers.isplaying)</visible>
             </control>
             <control type="image">
                  <right>8</right>
@@ -3716,7 +3719,7 @@
                  <width>100</width>
                  <height>100</height>
                  <texture colordiffuse="$VAR[ColorIndicatorBackgroundInprogress]" background="true">misc/overlaywatched.png</texture>
-                 <visible>ListItem.IsResumable + !ListItem.IsPlaying + !Skin.HasSetting(hide.markers.inprogress)</visible>
+                 <visible>!Skin.HasSetting(hide.markers) + ListItem.IsResumable + !ListItem.IsPlaying + !Skin.HasSetting(hide.markers.inprogress)</visible>
             </control>
             <control type="image">
                  <right>8</right>
@@ -3724,7 +3727,7 @@
                  <width>100</width>
                  <height>100</height>
                  <texture colordiffuse="$VAR[ColorIndicatorBackgroundWatched]" background="true">misc/overlaywatched.png</texture>
-                 <visible>!ListItem.IsResumable + !ListItem.IsPlaying + String.IsEqual(ListItem.Overlay,OverlayWatched.png) + !Skin.HasSetting(hide.markers.watched)</visible>
+                 <visible>!Skin.HasSetting(hide.markers) + !ListItem.IsResumable + !ListItem.IsPlaying + String.IsEqual(ListItem.Overlay,OverlayWatched.png) + !Skin.HasSetting(hide.markers.watched)</visible>
             </control>
             <control type="image">
                  <right>8</right>
@@ -3732,7 +3735,7 @@
                  <width>100</width>
                  <height>100</height>
                  <texture colordiffuse="$VAR[ColorIndicatorBackgroundNew]" background="true">misc/overlaywatched.png</texture>
-                 <visible>!ListItem.IsResumable + !ListItem.IsPlaying + [[String.IsEqual(ListItem.Overlay,OverlayUnwatched.png) + [$EXP[IsNewMovie] | $EXP[IsNewTVShow] | $EXP[IsNewEpisode]]]] + !Skin.HasSetting(hide.markers.newcontent)</visible>
+                 <visible>!Skin.HasSetting(hide.markers) + !ListItem.IsResumable + !ListItem.IsPlaying + [[String.IsEqual(ListItem.Overlay,OverlayUnwatched.png) + [$EXP[IsNewMovie] | $EXP[IsNewTVShow] | $EXP[IsNewEpisode]]]] + !Skin.HasSetting(hide.markers.newcontent)</visible>
             </control>
             <control type="label">
                  <right>-9</right>
@@ -3755,18 +3758,9 @@
                  <font>SymbolPoster</font>
                  <textcolor>$VAR[ColorIndicatorBackgroundIsPlayingIcon]</textcolor>
                  <selectedcolor>$VAR[ColorIndicatorBackgroundIsPlayingIcon]</selectedcolor>
-                 <visible>ListItem.IsPlaying + !Skin.HasSetting(hide.markers.isplaying)</visible>
+                 <visible>!Skin.HasSetting(hide.markers) + ListItem.IsPlaying + !Skin.HasSetting(hide.markers.isplaying)</visible>
             </control>
         </control>
-    </include>
-    
-    <include name="IndicatorPoster">
-        <param name="right" value="$PARAM[right]" default="1"/>
-        <param name="top" value="$PARAM[top]" default="1"/>
-        <param name="indicatorbackground" value="$PARAM[indicatorbackground]" default="false"/>
-        <definition>
-        <include condition="!Skin.HasSetting(furniture.markers.alternative) + !Skin.HasSetting(hide.markers)" content="IndicatorPosterNormal"><param name="right" value="$PARAM[right]" /><param name="top" value="$PARAM[top]" /></include>
-        <include condition="Skin.HasSetting(furniture.markers.alternative) + !Skin.HasSetting(hide.markers)" content="IndicatorPosterAlt"><param name="right" value="$PARAM[right]" /><param name="top" value="$PARAM[top]" /></include>        
         </definition>
     </include>
     
