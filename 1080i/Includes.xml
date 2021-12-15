@@ -804,11 +804,13 @@
             <label>$INFO[ListItem.Art(tvshow.fanart20)]</label>
             <pauseatend>HomeTimePerImage</pauseatend>
         </control>
+        
+        <!-- Visualisation Overlay -->
         <control type="image" description="Background">
             <include>Dimensions_Fullscreen</include>
             <texture colordiffuse="Background">common/bg.jpg</texture>
-            <visible>!$EXP[HomeIsSpotlight] + !$EXP[HomeIsClassic] + !$EXP[HomeIsModern]</visible>
-            <animation effect="fade" start="100" end="75" time="200" condition="Player.HasVideo + Skin.HasSetting(global.showvideo) | Player.HasAudio + Skin.HasSetting(global.showvisualisation)">Conditional</animation>
+            <visible>!$EXP[HomeIsSpotlight] + !$EXP[HomeIsClassic] + !$EXP[HomeIsModern] + [[Player.HasVideo + Skin.HasSetting(global.showvideo)] | [Player.HasAudio + Skin.HasSetting(global.showvisualisation)]]</visible>
+            <animation effect="fade" start="100" end="75" time="0" condition="true">Conditional</animation>
         </control>
 
         <!-- Trailer Window Home -->
@@ -915,7 +917,7 @@
             <include>Animation.AutoTrailer.FadeOut.Background</include>
         </control>
         <control type="image" description="FanartOverlay">
-            <visible>!Skin.HasSetting(homemenu.clean.flix) + [!$EXP[HomeIsSpotlight] + !$EXP[HomeIsClassic] + !$EXP[HomeIsModern]] | !Window.IsVisible(Home.xml)</visible>
+            <visible>[!Skin.HasSetting(homemenu.clean.flix) + !$EXP[HomeIsSpotlight] + !$EXP[HomeIsClassic] + !$EXP[HomeIsModern]] | !Window.IsVisible(Home.xml)</visible>
             <include>Dimensions_Fullscreen</include>
             <include condition="!Skin.HasSetting(home.vertical) + !Skin.HasSetting(EnableEffects)">Animation.FadeFromHome</include>
             <texture colordiffuse="FloorFade">common/floor.png</texture>
@@ -924,7 +926,6 @@
         <control type="image" description="FanartOverlay">
             <visible>Skin.HasSetting(homemenu.clean.flix) + Window.IsVisible(Home.xml)</visible>
             <include>Dimensions_Fullscreen</include>
-            <animation effect="fade" start="0" end="100" time="350" condition="![Skin.HasSetting(EnableEffects) + Skin.HasSetting(BlurOnHome)] + Window.Previous(visualisation) + Player.HasAudio">WindowOpen</animation>
             <texture colordiffuse="FloorFade">common/floor2.png</texture>
         </control>
     </include>
