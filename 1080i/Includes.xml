@@ -804,11 +804,13 @@
             <label>$INFO[ListItem.Art(tvshow.fanart20)]</label>
             <pauseatend>HomeTimePerImage</pauseatend>
         </control>
+        
+        <!-- Visualisation Overlay -->
         <control type="image" description="Background">
             <include>Dimensions_Fullscreen</include>
             <texture colordiffuse="Background">common/bg.jpg</texture>
-            <visible>!$EXP[HomeIsSpotlight] + !$EXP[HomeIsClassic] + !$EXP[HomeIsModern]</visible>
-            <animation effect="fade" start="100" end="75" time="200" condition="Player.HasVideo + Skin.HasSetting(global.showvideo) | Player.HasAudio + Skin.HasSetting(global.showvisualisation)">Conditional</animation>
+            <visible>!$EXP[HomeIsSpotlight] + !$EXP[HomeIsClassic] + !$EXP[HomeIsModern] + [[Player.HasVideo + Skin.HasSetting(global.showvideo)] | [Player.HasAudio + Skin.HasSetting(global.showvisualisation)]]</visible>
+            <animation effect="fade" start="100" end="75" time="0" condition="true">Conditional</animation>
         </control>
 
         <!-- Trailer Window Home -->
@@ -828,8 +830,7 @@
             <randomize>true</randomize>
             <aspectratio>scale</aspectratio>
             <imagepath background="true">$VAR[GlobalFanart]</imagepath>
-            <animation effect="zoom" start="110" end="120" center="auto" time="10000" tween="sine" easing="inout" pulse="true" condition="Skin.HasSetting(Fanart.Animate)">Conditional</animation>
-            <animation effect="slide" start="-20,-20" end="20,20" time="6000" tween="sine" easing="inout" pulse="true" condition="Skin.HasSetting(Fanart.Animate)">Conditional</animation>
+            <include>Animation.Animate.Fanart</include>
             <include>Animation.AutoTrailer.FadeOut.Background</include>
         </control>
 
@@ -847,8 +848,7 @@
             <aspectratio>scale</aspectratio>
             <include condition="!Skin.HasSetting(BlurEnabled)">ImagePathBlurLitebox</include>
             <include condition="Skin.HasSetting(BlurEnabled)">ImagePathBlurEmbuary</include>
-            <animation effect="zoom" start="110" end="120" center="auto" time="10000" tween="sine" easing="inout" pulse="true" condition="Skin.HasSetting(Fanart.Animate)">Conditional</animation>
-            <animation effect="slide" start="-20,-20" end="20,20" time="6000" tween="sine" easing="inout" pulse="true" condition="Skin.HasSetting(Fanart.Animate)">Conditional</animation>
+            <include>Animation.Animate.Fanart</include>
             <include>Animation.AutoTrailer.FadeOut.Background</include>
         </control>
 
@@ -869,8 +869,7 @@
             <include condition="!Skin.HasSetting(BlurOnHome)">ImagePathNormal</include>
             <include condition="Skin.HasSetting(BlurOnHome) + !Skin.HasSetting(BlurEnabled)">ImagePathBlurLitebox</include>
             <include condition="Skin.HasSetting(BlurOnHome) + Skin.HasSetting(BlurEnabled)">ImagePathBlurEmbuary</include>
-            <animation effect="zoom" start="110" end="120" center="auto" time="10000" tween="sine" easing="inout" pulse="true" condition="Skin.HasSetting(Fanart.Animate)">Conditional</animation>
-            <animation effect="slide" start="-20,-20" end="20,20" time="6000" tween="sine" easing="inout" pulse="true" condition="Skin.HasSetting(Fanart.Animate)">Conditional</animation>
+            <include>Animation.Animate.Fanart</include>
             <include>Animation.AutoTrailer.FadeOut.Background</include>
         </control>
 
@@ -883,8 +882,7 @@
             <include>Animation.FadeFromHome</include>
             <aspectratio>scale</aspectratio>
             <texture background="true">$INFO[Skin.String(fanart.fallback)]</texture>
-            <animation effect="zoom" start="110" end="120" center="auto" time="10000" tween="sine" easing="inout" pulse="true" condition="Skin.HasSetting(Fanart.Animate)">Conditional</animation>
-            <animation effect="slide" start="-20,-20" end="20,20" time="6000" tween="sine" easing="inout" pulse="true" condition="Skin.HasSetting(Fanart.Animate)">Conditional</animation>
+            <include>Animation.Animate.Fanart</include>
             <include>Animation.AutoTrailer.FadeOut.Background</include>
         </control>
 
@@ -910,12 +908,13 @@
             <aspectratio>scale</aspectratio>
             <include condition="Skin.HasSetting(homemenu.netflix.preview.fullscreen)">NetflixPreviewWindowFullscreen</include>
             <include condition="!Skin.HasSetting(homemenu.netflix.preview.fullscreen)">NetflixPreviewWindow</include>
-            <animation effect="zoom" start="110" end="120" center="auto" time="10000" tween="sine" easing="inout" pulse="true" condition="Skin.HasSetting(Fanart.Animate)">Conditional</animation>
-            <animation effect="slide" start="-20,-20" end="20,20" time="6000" tween="sine" easing="inout" pulse="true" condition="Skin.HasSetting(Fanart.Animate)">Conditional</animation>
+            <include>Animation.Animate.Fanart</include>
             <include>Animation.AutoTrailer.FadeOut.Background</include>
         </control>
+        
+        <!-- Final Overlays -->
         <control type="image" description="FanartOverlay">
-            <visible>!Skin.HasSetting(homemenu.clean.flix) + [!$EXP[HomeIsSpotlight] + !$EXP[HomeIsClassic] + !$EXP[HomeIsModern]] | !Window.IsVisible(Home.xml)</visible>
+            <visible>[!Skin.HasSetting(homemenu.clean.flix) + !$EXP[HomeIsSpotlight] + !$EXP[HomeIsClassic] + !$EXP[HomeIsModern]] | !Window.IsVisible(Home.xml)</visible>
             <include>Dimensions_Fullscreen</include>
             <include condition="!Skin.HasSetting(home.vertical) + !Skin.HasSetting(EnableEffects)">Animation.FadeFromHome</include>
             <texture colordiffuse="FloorFade">common/floor.png</texture>
@@ -924,7 +923,6 @@
         <control type="image" description="FanartOverlay">
             <visible>Skin.HasSetting(homemenu.clean.flix) + Window.IsVisible(Home.xml)</visible>
             <include>Dimensions_Fullscreen</include>
-            <animation effect="fade" start="0" end="100" time="350" condition="![Skin.HasSetting(EnableEffects) + Skin.HasSetting(BlurOnHome)] + Window.Previous(visualisation) + Player.HasAudio">WindowOpen</animation>
             <texture colordiffuse="FloorFade">common/floor2.png</texture>
         </control>
     </include>
@@ -947,8 +945,7 @@
             <randomize>true</randomize>
             <aspectratio>scale</aspectratio>
             <imagepath background="true">$VAR[GlobalFanart]</imagepath>
-            <animation effect="zoom" start="110" end="120" center="auto" time="10000" tween="sine" easing="inout" pulse="true" condition="Skin.HasSetting(Fanart.Animate)">Conditional</animation>
-            <animation effect="slide" start="-20,-20" end="20,20" time="6000" tween="sine" easing="inout" pulse="true" condition="Skin.HasSetting(Fanart.Animate)">Conditional</animation>
+            <include>Animation.Animate.Fanart</include>
         </control>
         <control type="multiimage" description="Fanart">
             <visible>Skin.HasSetting(EnableEffects) + Skin.HasSetting(BlurOnHome)</visible>
@@ -961,8 +958,7 @@
             <randomize>true</randomize>
             <aspectratio>scale</aspectratio>
             <imagepath background="true">$VAR[GlobalBackgroundImage]</imagepath>
-            <animation effect="zoom" start="110" end="120" center="auto" time="10000" tween="sine" easing="inout" pulse="true" condition="Skin.HasSetting(Fanart.Animate)">Conditional</animation>
-            <animation effect="slide" start="-20,-20" end="20,20" time="6000" tween="sine" easing="inout" pulse="true" condition="Skin.HasSetting(Fanart.Animate)">Conditional</animation>
+            <include>Animation.Animate.Fanart</include>
         </control>
         <control type="image" description="FanartOverlay">
             <include>Dimensions_Fullscreen</include>
