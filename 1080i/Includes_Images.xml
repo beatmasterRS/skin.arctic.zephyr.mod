@@ -441,4 +441,10 @@
     <variable name="Image_Content_Additional_Fanart">
         <value>plugin://plugin.video.themoviedb.helper/?info=fanart&amp;type=$VAR[Tmdb_Type]&amp;$VAR[Info_Query]&amp;nextpage=false</value>
     </variable>
+    
+    <variable name="Visualisation_Image">
+        <value condition="System.AddonIsEnabled(script.artistslideshow) + !Skin.HasSetting(ArtistSlideShow.Disabled) + !String.IsEmpty(Window(Visualisation).Property(ArtistSlideshow.Image))">$INFO[Window(Visualisation).Property(ArtistSlideshow.Image)]</value>
+        <value condition="Skin.HasSetting(musicvis.fanartfallback) + !String.IsEmpty(Player.Art(fanart)) + [String.IsEmpty(Window(Visualisation).Property(ArtistSlideshow.Image)) | !System.AddonIsEnabled(script.artistslideshow) | Skin.HasSetting(ArtistSlideShow.Disabled)]">$INFO[Player.Art(fanart)]</value>
+        <value condition="!String.IsEmpty(Skin.String(fanart.fallback.music)) + [String.IsEmpty(Player.Art(fanart)) | !Skin.HasSetting(musicvis.fanartfallback)] + [String.IsEmpty(Window(Visualisation).Property(ArtistSlideshow.Image)) | Skin.HasSetting(ArtistSlideShow.Disabled)]">$INFO[Skin.String(fanart.fallback.music)]</value>
+    </variable>
 </includes>

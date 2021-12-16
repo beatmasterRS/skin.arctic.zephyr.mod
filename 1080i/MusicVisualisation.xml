@@ -25,31 +25,12 @@
         <!-- Fanart -->
         <control type="group">
             <animation effect="fade" end="0" start="100" time="300" tween="sine" easing="out">WindowClose</animation>
-            <animation effect="fade" start="0" end="100" time="450" delay="0" tween="sine" easing="in">WindowOpen</animation>
-            <control type="image">
-                <aspectratio>scale</aspectratio>
-                <include>Dimensions_Fullscreen</include>
-                <texture background="true">$INFO[Skin.String(fanart.fallback.music)]</texture>
-                <visible>!String.IsEmpty(Skin.String(fanart.fallback.music)) + [String.IsEmpty(Player.Art(fanart)) | !Skin.HasSetting(musicvis.fanartfallback)] + [String.IsEmpty(Window(Visualisation).Property(ArtistSlideshow.Image)) | Skin.HasSetting(ArtistSlideShow.Disabled)]</visible>
-                <animation effect="fade" start="100" end="65" time="0" condition="Skin.HasSetting(OSDVisualisation.ShowFanart)">Conditional</animation>
-                <include>Animation.Animate.Slideshow</include>
-            </control>
-            <control type="image">
-                <aspectratio>scale</aspectratio>
-                <include>Dimensions_Fullscreen</include>
-                <texture background="true">$INFO[Player.Art(fanart)]</texture>
-                <visible>Skin.HasSetting(musicvis.fanartfallback) + !String.IsEmpty(Player.Art(fanart)) + [String.IsEmpty(Window(Visualisation).Property(ArtistSlideshow.Image)) | !System.AddonIsEnabled(script.artistslideshow) | Skin.HasSetting(ArtistSlideShow.Disabled)]</visible>
-                <animation effect="fade" start="100" end="65" time="0" condition="Skin.HasSetting(OSDVisualisation.ShowFanart)">Conditional</animation>
-                <include>Animation.Animate.Slideshow</include>
-            </control>
+            <animation effect="fade" start="0" end="100" time="450" delay="0" tween="sine" easing="in">WindowOpen</animation>            
             <control type="multiimage">
-    
-                <!-- AS 3 -->
                 <aspectratio>scale</aspectratio>
                 <include>Dimensions_Fullscreen</include>
                 <include>BackgroundFanartFadetime</include>
-                <imagepath background="true">$INFO[Window(Visualisation).Property(ArtistSlideshow.Image)]</imagepath>
-                <visible>System.AddonIsEnabled(script.artistslideshow) + !Skin.HasSetting(ArtistSlideShow.Disabled) + !String.IsEmpty(Window(Visualisation).Property(ArtistSlideshow.Image))</visible>
+                <imagepath background="true">$VAR[Visualisation_Image]</imagepath>
                 <animation effect="fade" start="100" end="75" time="0" condition="Skin.HasSetting(OSDVisualisation.ShowFanart)">Conditional</animation>
                 <animation effect="fade" start="100" end="0" time="500" condition="String.Contains(Window(Visualisation).Property(ArtistSlideshow.Image),black-hd.png)">Conditional</animation>
                 <include>Animation.Animate.Slideshow</include>
@@ -129,15 +110,21 @@
             <visible>Player.ShowInfo</visible>
             <visible>!Window.IsVisible(script-cu-lrclyrics-main.xml) | [Window.IsVisible(script-cu-lrclyrics-main.xml) + !Skin.HasSetting(hideseekbaronlyrics)]</visible>
             <visible>Window.IsVisible(script-cu-lrclyrics-main.xml) | Player.Seeking | Player.DisplayAfterSeek | Player.Paused | Player.Forwarding | Player.Rewinding | Player.ShowInfo</visible>
-            <animation effect="slide" start="0,190" end="0" time="150">Visible</animation>
-            <animation effect="slide" start="0,190" end="0" time="150">WindowOpen</animation>
+            <animation type="Visible">
+                <effect type="fade" start="0" end="100" time="150"/>
+                <effect type="slide" start="0,120" end="0" time="150"/>
+            </animation>
+            <animation type="WindowOpen">
+                <effect type="fade" start="0" end="100" time="150"/>
+                <effect type="slide" start="0,120" end="0" time="150"/>
+            </animation>
             <animation type="Hidden">
                 <effect type="fade" start="100" end="0" time="150"/>
-                <effect type="slide" end="0,190" start="0" time="150"/>
+                <effect type="slide" end="0,120" start="0" time="150"/>
             </animation>
             <animation type="WindowClose">
                 <effect type="fade" start="100" end="0" time="150"/>
-                <effect type="slide" end="0,190" start="0" time="150"/>
+                <effect type="slide" end="0,120" start="0" time="150"/>
             </animation>  
             <control type="image">
                 <top>111r</top>
