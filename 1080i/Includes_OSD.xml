@@ -49,57 +49,57 @@
 
     <!-- SIDE OSD -->
     <include name="OSDInfoContentSide">
-        <right>0</right>
         <control type="grouplist">
-            <top>-620</top>
             <left>300</left>
+            <width>340</width>
             <align>center</align>
             <orientation>vertical</orientation>
             <itemgap>12</itemgap>
+            <height>392</height>
             <animation effect="slide" start="0,0" end="0,-60" time="150" condition="VideoPlayer.Content(LiveTV)">Conditional</animation>
 
             <!-- TITLE CLEARLOGO -->
             <control type="image" description="clearlogo">
                 <visible>!Skin.HasSetting(osd.showclearlogotitle) + !String.IsEmpty(Player.Art(clearlogo)) + !VideoPlayer.Content(episodes)</visible>
-                <width>320</width>
+                <width>340</width>
                 <height>124</height>
-                <animation effect="slide" start="0,0" end="10,0" time="0" condition="true">Conditional</animation>
                 <aspectratio align="center">keep</aspectratio>
                 <texture background="true">$INFO[Player.Art(clearlogo)]</texture>
-                <include>Animation.ViHi</include>
             </control>
 
             <!-- TITLE -->
             <control type="textbox" description="Show">
                 <visible>!VideoPlayer.Content(episodes) + [Skin.HasSetting(osd.showclearlogotitle) | [!Skin.HasSetting(osd.showclearlogotitle) + String.IsEmpty(Player.Art(clearlogo))]]</visible>
-                <width>340</width>
-                <left>285</left>
-                <top>80</top>
                 <height max="225">auto</height>
                 <font>MediumBold3</font>
                 <align>center</align>
                 <textcolor>$VAR[OSDPanelWhite70]</textcolor>
                 <label>$VAR[PlayerBigTitle]</label>
                 <autoscroll>false</autoscroll>
-                <include>Animation.ViHi</include>
             </control>
             <control type="textbox" description="Show">
                 <visible>VideoPlayer.Content(episodes)</visible>
-                <width>340</width>
-                <left>285</left>
-                <top>80</top>
                 <height max="225">auto</height>
                 <font>MediumBold3</font>
                 <align>center</align>
                 <textcolor>$VAR[OSDPanelWhite30]</textcolor>
                 <label>$INFO[VideoPlayer.TVShowTitle] - $INFO[VideoPlayer.Title]</label>
                 <autoscroll>false</autoscroll>
-                <include>Animation.ViHi</include>
             </control>
-
+            
+            <!-- TAGLINE -->
+            <control type="textbox" description="Show">
+                <visible>!String.IsEmpty(Videoplayer.Tagline)</visible>
+                <height max="160">auto</height>
+                <font>SmallNavi</font>
+                <align>center</align>
+                <textcolor>$VAR[OSDPanelWhite30]</textcolor>
+                <label>$INFO[Videoplayer.Tagline]</label>
+                <autoscroll>false</autoscroll>
+            </control>
+            
             <!-- RATING STARS -->
             <control type="grouplist">
-                <width>340</width>
                 <height>48</height>
                 <orientation>horizontal</orientation>
                 <align>center</align>
@@ -141,20 +141,6 @@
                     <visible>Skin.HasSetting(videoosd.numericrating) +  Integer.IsGreater(VideoPlayer.Rating,0)</visible>
                 </control>
             </control>
-
-            <!-- TAGLINE -->
-            <control type="textbox" description="Show">
-                <visible>!String.IsEmpty(Videoplayer.Tagline)</visible>
-                <width>340</width>
-                <left>285</left>
-                <top>80</top>
-                <height max="160">auto</height>
-                <font>SmallNavi</font>
-                <align>center</align>
-                <textcolor>$VAR[OSDPanelWhite30]</textcolor>
-                <label>$INFO[Videoplayer.Tagline]</label>
-                <autoscroll>false</autoscroll>
-            </control>
         </control>
 
         <!-- MEDIA-ICONS -->
@@ -178,13 +164,9 @@
                 <label fallback="19055">$INFO[VideoPlayer.Genre]</label>
             </control>
             <control type="grouplist">
-                <visible>!Skin.HasSetting(osd.coloredicons)</visible>
-                <visible>Skin.HasSetting(furniture.flagiconsosd)</visible>
-                <left>0</left>
-                <width>600</width>
+                <visible>!Skin.HasSetting(osd.coloredicons) + Skin.HasSetting(furniture.flagiconsosd)</visible>
                 <height>64</height>
                 <orientation>horizontal</orientation>
-                <align>left</align>
                 <itemgap>12</itemgap>
                 <usecontrolcoords>true</usecontrolcoords>
                 <control type="label" description="Video Info">
@@ -278,13 +260,9 @@
                 </control>
             </control>
             <control type="grouplist">
-                <visible>Skin.HasSetting(osd.coloredicons)</visible>
-                <visible>Skin.HasSetting(furniture.flagiconsosd)</visible>
-                <left>0</left>
-                <width>640</width>
+                <visible>Skin.HasSetting(osd.coloredicons) + Skin.HasSetting(furniture.flagiconsosd)</visible>
                 <height>64</height>
                 <orientation>horizontal</orientation>
-                <align>left</align>
                 <itemgap>12</itemgap>
                 <usecontrolcoords>true</usecontrolcoords>
                 <control type="label" description="Video Info">
@@ -383,7 +361,6 @@
                 <width>100%</width>
                 <height max="540">auto</height>
                 <font>Tiny</font>
-                <align>left</align>
                 <textcolor>$VAR[OSDPanelWhite30]</textcolor>
                 <label fallback="19055">$VAR[PlayerPlotBox]</label>
                 <autoscroll delay="10000" time="4000" repeat="10000">[Window.IsActive(videoosd) | Window.IsActive(DialogFullScreenInfo.xml)] + System.IdleTime(1) + Skin.HasSetting(widgets.autoscrollingplot)</autoscroll>
@@ -391,8 +368,8 @@
         </control>
         <control type="group">
             <visible>!Window.IsVisible(videoosd)</visible>
-            <animation effect="fade" start="0" end="100" delay="0" time="150">Visible</animation>
-            <animation effect="fade" start="100" end="0" delay="0" time="150">Hidden</animation>
+            <animation effect="fade" start="0" end="100" delay="0" time="350">Visible</animation>
+            <animation effect="fade" start="100" end="0" delay="0" time="250">Hidden</animation>
             <bottom>-10</bottom>
 
             <!-- PLAYER STATUS -->
@@ -490,7 +467,6 @@
 
             <!-- PROGRESS BARS -->
             <control type="group">
-                <animation effect="fade" start="100" end="0" time="200" condition="Window.IsVisible(videoosd)">Conditional</animation>
                 <left>0</left>
                 <include>ProgressBarInfo</include>
             </control>
