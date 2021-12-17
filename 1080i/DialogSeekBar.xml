@@ -277,20 +277,22 @@
         
         <!-- New Background -->
         <control type="group"> 
-            <visible>Skin.HasSetting(osd.usethemeNewOSD)</visible>
-            <animation effect="fade" start="0" end="100" time="250">WindowOpen</animation>
-            <animation effect="fade" end="0" start="100" time="250">WindowClose</animation>                                 
+            <visible>Skin.HasSetting(osd.usethemeNewOSD)</visible>                                  
             <control type="image">
                 <top>830r</top>
                 <width>100%</width>
                 <height>870</height>
                 <texture>common/fsinfoscreen.png</texture>
+                <include>Animation.FadeOut</include>
+                <include>Animation.FadeIn</include>
             </control>
             <control type="image">
                 <top>830r</top>
                 <width>100%</width>
                 <height>870</height>
                 <texture>common/fsinfoscreen.png</texture>
+                <include>Animation.FadeOut</include>
+                <include>Animation.FadeIn</include>
                 <animation effect="fade" start="80" end="80" time="0" condition="true">Conditional</animation>
             </control>
         </control>
@@ -308,10 +310,8 @@
                 <width>100%</width>
                 <height>200</height>
                 <visible>Window.IsVisible(fullscreeninfo) | Player.ShowInfo | !String.IsEmpty(Window(home).Property(osdshowinfo)) | [Player.Paused + Skin.HasSetting(osd.showinfoonpause)]</visible>
-                <animation effect="fade" start="0" end="100" time="250">Visible</animation>
-                <animation effect="fade" start="0" end="100" time="250">WindowOpen</animation>
-                <animation effect="fade" end="0" start="100" time="150">Hidden</animation>
-                <animation effect="fade" end="0" start="100" time="150">WindowClose</animation>
+                <include>Animation.FadeOut</include>
+                <include>Animation.FadeIn</include>
                 <control type="image">
                     <right>SidePadNewOSD</right>
                     <bottom>200</bottom>
@@ -437,7 +437,7 @@
                 <visible>!Player.Paused | !Skin.HasSetting(osd.showinfoonpause)</visible>
                 <visible>!Window.IsVisible(fullscreeninfo) + !Player.ShowInfo + String.IsEmpty(Window(home).Property(osdshowinfo))</visible>
                 <visible>Player.Seeking | Player.DisplayAfterSeek | Player.Paused | Player.Forwarding | Player.Rewinding | !String.IsEmpty(Player.SeekNumeric) | !String.IsEmpty(PVR.ChannelNumberInput) | Window.IsVisible(videoosd)</visible>
-                <animation effect="fade" start="0" end="100" delay="150" time="250">Visible</animation>
+                <animation effect="fade" start="0" end="100" delay="150" time="150">Visible</animation>
                 <animation effect="fade" start="0" end="100" delay="150" time="150">WindowOpen</animation>
                 <include>Animation.FadeOut</include>
                 <top>110r</top>
@@ -553,12 +553,11 @@
         <!-- Side -->
         <control type="group">
             <visible>Skin.HasSetting(osd.usethemeNewOSDSide)</visible>
-
             <!-- Background left -->
             <control type="group">
                 <visible>Window.IsVisible(videoosd) | Window.IsVisible(fullscreeninfo) | Player.ShowInfo | !String.IsEmpty(Window(home).Property(osdshowinfo)) | [Player.Paused + Skin.HasSetting(osd.showinfoonpause)]</visible>
                 <include>Animation.Slide.Menu</include>
-                <animation effect="slide" start="0" end="-670,0" time="150" condition="Window.IsVisible(DialogPlayerProcessInfo.xml) + [Window.IsVisible(fullscreeninfo) | Window.IsVisible(videoosd)]">Conditional</animation>
+                <animation effect="slide" start="0" end="-701,0" time="150" condition="Window.IsVisible(DialogPlayerProcessInfo.xml) + [Window.IsVisible(fullscreeninfo) | Window.IsVisible(videoosd)]">Conditional</animation>
                 <control type="image">
                     <left>700</left>
                     <width>1</width>
@@ -580,15 +579,23 @@
             
             <!-- Info -->
             <control type="group">
-                <top>30</top>
-                <left>30</left>
+                <top>180r</top>
                 <bottom>0</bottom>
-                <width>640</width>
-                <height>1020</height>
+                <width>100%</width>
+                <height>200</height>
+                <animation effect="slide" start="0" end="-701,0" time="150" condition="Window.IsVisible(DialogPlayerProcessInfo.xml) + [Window.IsVisible(fullscreeninfo) | Window.IsVisible(videoosd)]">Conditional</animation>
                 <visible>Window.IsVisible(videoosd) | Window.IsVisible(fullscreeninfo) | Player.ShowInfo | !String.IsEmpty(Window(home).Property(osdshowinfo)) | [Player.Paused + Skin.HasSetting(osd.showinfoonpause)]</visible>
-                <include>Animation.Slide.Menu</include>
-                <animation effect="slide" start="0" end="-670,0" time="150" condition="Window.IsVisible(DialogPlayerProcessInfo.xml) + [Window.IsVisible(fullscreeninfo) | Window.IsVisible(videoosd)]">Conditional</animation>
+                <animation effect="fade" start="0" end="100" delay="200" time="150">Visible</animation>
+                <animation effect="fade" start="0" end="100" delay="200" time="150">WindowOpen</animation>
+                <animation type="Hidden">
+                    <effect type="fade" start="100" end="0" delay="0" time="50"/>
+                    <effect type="slide" start="0,0" end="-300,0" delay="0" time="150"/>
+                </animation>
                 <control type="group">
+                    <left>30</left>
+                    <right>SidePadNewOSD</right>
+                    <top>-870</top>
+                    <bottom>50</bottom>
                     <control type="image">
                         <visible>!VideoPlayer.Content(LiveTV) + [!String.IsEmpty(Player.Art(tvshow.poster)) | !String.IsEmpty(Player.Art(poster))]</visible>
                         <left>0</left>
