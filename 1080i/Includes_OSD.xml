@@ -2183,4 +2183,365 @@
             </control>
         </control>
     </include>
+    
+    <include name="OSD1">
+        <control type="group">
+            <height>74</height>
+            <bottom>15</bottom>
+            <animation type="WindowOpen">
+                <effect type="fade" start="0" end="100" time="150" delay="200"/>
+            </animation>
+            <animation type="WindowClose">
+                <effect type="fade" end="0" start="100" time="150"/>
+            </animation>
+            <animation effect="fade" start="100" end="0" time="150" condition="Window.IsVisible(DialogPlayerProcessInfo.xml)">Conditional</animation>
+
+            <!-- Sub Menu -->
+            <control type="group">
+                <visible allowhiddenfocus="true">ControlGroup(9950).HasFocus() | Control.HasFocus(20)</visible>
+                <include>Animation.SlideUp</include>
+                <include>Animation.FadeOut</include>
+                <bottom>72</bottom>
+                <centerleft>1088</centerleft>
+                <width>316</width>
+                <height>512</height>
+                <control type="image">
+                    <description>background image</description>
+                    <width>100%</width>
+                    <height>100%</height>
+                    <colordiffuse>White100</colordiffuse>
+                    <texture border="16">common/rounded-shadow8.png</texture>
+                </control>
+                <include content="Def_Context_Tempo_Gradient">
+                    <param name="controlid" value="9950"/>
+                </include>
+            </control>
+            <control type="group">
+                <visible allowhiddenfocus="true">ControlGroup(9300).HasFocus() | Control.HasFocus(3)</visible>
+                <include>Animation.SlideUp</include>
+                <include>Animation.FadeOut</include>
+                <bottom>72</bottom>
+                <centerleft>572</centerleft>
+                <width>316</width>
+                <height>272</height>
+                <control type="image">
+                    <description>background image</description>
+                    <width>100%</width>
+                    <height>100%</height>
+                    <colordiffuse>White100</colordiffuse>
+                    <texture border="16">common/rounded-shadow8.png</texture>
+                </control>
+                <include content="Def_Context_Subtitles_Gradient">
+                    <param name="controlid" value="9300"/>
+                </include>
+            </control>
+            <control type="grouplist" id="100">
+                <top>13</top>
+                <left>50</left>
+                <height>48</height>
+                <itemgap>0</itemgap>
+                <orientation>horizontal</orientation>
+                <align>left</align>
+                <onleft>6</onleft>
+                <onright condition="!PVR.CanRecordPlayingChannel | !VideoPlayer.Content(LiveTV)">12</onright>
+                <onright condition="PVR.CanRecordPlayingChannel + VideoPlayer.Content(LiveTV)">9003</onright>
+                <include>DefOSDUpDown</include>
+                <usecontrolcoords>true</usecontrolcoords>
+                <control type="button" id="1">
+                    <description>Audio</description>
+                    <label>292</label>
+                    <align>left</align>
+                    <onclick>ActivateWindow(124)</onclick>
+                    <include>DefOSDButtons</include>
+                </control>
+                <control type="button" id="2">
+                    <description>Video Settings</description>
+                    <label>291</label>
+                    <align>left</align>
+                    <onclick>ActivateWindow(123)</onclick>
+                    <include>DefOSDButtons</include>
+                </control>
+                <control type="button" id="3">
+                    <onup>9303</onup>
+                    <ondown>9301</ondown>
+                    <description>Subs</description>
+                    <align>left</align>
+                    <label>$LOCALIZE[287]</label>
+                    <onclick>Action(ShowSubtitles)</onclick>
+                    <include>DefOSDButtons</include>
+                </control>
+            </control>
+            <control type="grouplist" id="101">
+                <top>13</top>
+                <width>100%</width>
+                <height>48</height>
+                <itemgap>16</itemgap>
+                <orientation>horizontal</orientation>
+                <align>center</align>
+                <onleft>3</onleft>
+                <onright>4</onright>
+                <ondown>noop</ondown>
+                <include>OSDVideoControlsFlip</include>
+                <animation effect="fade" start="0" end="100" time="500" delay="500">Visible</animation>
+            </control>
+            <control type="grouplist" id="102">
+                <top>13</top>
+                <right>50</right>
+                <height>48</height>
+                <itemgap>0</itemgap>
+                <orientation>horizontal</orientation>
+                <align>right</align>
+                <onleft>101</onleft>
+                <onright>1</onright>
+                <include>DefOSDUpDown</include>
+                <usecontrolcoords>true</usecontrolcoords>
+                <include condition="!VideoPlayer.Content(livetv) + [VideoPlayer.HasMenu | [!VideoPlayer.Content(movies) + !VideoPlayer.Content(episodes)]]">OSDDVDMenu</include>
+                <include condition="!VideoPlayer.HasMenu + VideoPlayer.Content(episodes)">OSDExtraInfoTV</include>
+                <include condition="!VideoPlayer.HasMenu + VideoPlayer.Content(movies) + !VideoPlayer.Content(livetv)">OSDExtraInfoMOVIES</include>
+                <include condition="!VideoPlayer.Content(livetv)">OSDVideosRight</include>
+                <include condition="VideoPlayer.Content(livetv)">OSDPVRRight</include>
+            </control>
+        </control>
+    </include>
+    
+    <include name="OSD2">
+        <control type="group">
+            <height>74</height>
+            <bottom>110</bottom>
+            <animation type="WindowOpen">
+                <effect type="fade" start="0" end="100" time="150" delay="150"/>
+            </animation>
+            <animation type="WindowClose">
+                <effect type="fade" end="0" start="100" time="150"/>
+            </animation>
+            <animation effect="fade" start="100" end="0" time="150" condition="Window.IsVisible(DialogPlayerProcessInfo.xml)">Conditional</animation>
+
+            <!-- Sub Menu -->
+            <control type="group">
+                <visible allowhiddenfocus="true">ControlGroup(9800).HasFocus() | Control.HasFocus(20)</visible>
+                <animation effect="slide" end="150,0" time="0" condition="Player.ShowInfo">Conditional</animation>
+                <include>Animation.SlideUp</include>
+                <include>Animation.FadeOut</include>
+                <bottom>88</bottom>
+                <centerleft>1086</centerleft>
+                <width>316</width>
+                <height>512</height>
+                <control type="image">
+                    <description>background image</description>
+                    <width>100%</width>
+                    <height>100%</height>
+                    <colordiffuse>White100</colordiffuse>
+                    <texture border="16">common/rounded-shadow8.png</texture>
+                </control>
+                <include content="Def_Context_Tempo_Gradient">
+                    <param name="controlid" value="9800"/>
+                </include>
+            </control>
+            <control type="group">
+                <visible allowhiddenfocus="true">ControlGroup(9500).HasFocus() | Control.HasFocus(3)</visible>
+                <animation effect="slide" end="290,0" time="0" condition="Player.ShowInfo">Conditional</animation>
+                <include>Animation.SlideUp</include>
+                <include>Animation.FadeOut</include>
+                <bottom>88</bottom>
+                <centerleft>465</centerleft>
+                <width>316</width>
+                <height>272</height>
+                <control type="image">
+                    <description>background image</description>
+                    <width>100%</width>
+                    <height>100%</height>
+                    <colordiffuse>White100</colordiffuse>
+                    <texture border="16">common/rounded-shadow8.png</texture>
+                </control>
+                <include content="Def_Context_Subtitles_Gradient">
+                    <param name="controlid" value="9500"/>
+                </include>
+            </control>
+            <control type="grouplist" id="100">
+                <top>13</top>
+                <left>100</left>
+                <height>48</height>
+                <itemgap>0</itemgap>
+                <orientation>horizontal</orientation>
+                <align>left</align>
+                <onleft>6</onleft>
+                <onright condition="!PVR.CanRecordPlayingChannel | !VideoPlayer.Content(LiveTV)">12</onright>
+                <onright condition="PVR.CanRecordPlayingChannel + VideoPlayer.Content(LiveTV)">9003</onright>
+                <include>DefOSDUpDown</include>
+
+                <animation effect="slide" start="0,0" end="320,0" time="150" condition="!Skin.HasSetting(osd.disableposter) + [Window.IsVisible(fullscreeninfo) | Player.ShowInfo | !String.IsEmpty(Window(home).Property(osdshowinfo)) | [Player.Paused + Skin.HasSetting(osd.showinfoonpause)]] + [!String.IsEmpty(Player.Art(tvshow.poster)) | !String.IsEmpty(Player.Art(poster))] + !VideoPlayer.Content(LiveTV)">Conditional</animation>
+                <animation effect="slide" start="0,0" end="320,0" time="150" condition="!Skin.HasSetting(osd.disableposter) + [Window.IsVisible(fullscreeninfo) | Player.ShowInfo | !String.IsEmpty(Window(home).Property(osdshowinfo)) | [Player.Paused + Skin.HasSetting(osd.showinfoonpause)]] + !String.IsEmpty(Player.Art(thumb)) + VideoPlayer.Content(LiveTV)">Conditional</animation>
+
+                <animation effect="slide" start="0,0" end="0,0" time="150" condition="Skin.HasSetting(osd.disableposter) + [Window.IsVisible(fullscreeninfo) | Player.ShowInfo | !String.IsEmpty(Window(home).Property(osdshowinfo)) | [Player.Paused + Skin.HasSetting(osd.showinfoonpause)]] + [!String.IsEmpty(Player.Art(tvshow.poster)) | !String.IsEmpty(Player.Art(poster))] + !VideoPlayer.Content(LiveTV)">Conditional</animation>
+                <animation effect="slide" start="0,0" end="0,0" time="150" condition="Skin.HasSetting(osd.disableposter) + [Window.IsVisible(fullscreeninfo) | Player.ShowInfo | !String.IsEmpty(Window(home).Property(osdshowinfo)) | [Player.Paused + Skin.HasSetting(osd.showinfoonpause)]] + !String.IsEmpty(Player.Art(thumb)) + VideoPlayer.Content(LiveTV)">Conditional</animation>
+
+                <usecontrolcoords>true</usecontrolcoords>
+                <control type="button" id="1">
+                    <description>Audio</description>
+                    <label>292</label>
+                    <align>left</align>
+                    <onclick>ActivateWindow(124)</onclick>
+                    <include>DefOSDButtonsNewOSD</include>
+                </control>
+                <control type="button" id="2">
+                    <description>Video Settings</description>
+                    <label>291</label>
+                    <align>left</align>
+                    <onclick>ActivateWindow(123)</onclick>
+                    <include>DefOSDButtonsNewOSD</include>
+                </control>
+                <control type="button" id="3">
+                    <onup>9303</onup>
+                    <ondown>9301</ondown>
+                    <description>Subs</description>
+                    <align>left</align>
+                    <label>$LOCALIZE[287]</label>
+                    <onclick>Action(ShowSubtitles)</onclick>
+                    <include>DefOSDButtonsNewOSD</include>
+                </control>
+            </control>
+            <control type="grouplist" id="101">
+                <animation effect="slide" start="0,0" end="155,0" time="150" condition="!Skin.HasSetting(osd.disableposter) + [Window.IsVisible(fullscreeninfo) | Player.ShowInfo | !String.IsEmpty(Window(home).Property(osdshowinfo)) | [Player.Paused + Skin.HasSetting(osd.showinfoonpause)]] + [!String.IsEmpty(Player.Art(tvshow.poster)) | !String.IsEmpty(Player.Art(poster))] + !VideoPlayer.Content(LiveTV)">Conditional</animation>
+                <animation effect="slide" start="0,0" end="155,0" time="150" condition="!Skin.HasSetting(osd.disableposter) + [Window.IsVisible(fullscreeninfo) | Player.ShowInfo | !String.IsEmpty(Window(home).Property(osdshowinfo)) | [Player.Paused + Skin.HasSetting(osd.showinfoonpause)]] + !String.IsEmpty(Player.Art(thumb)) + VideoPlayer.Content(LiveTV)">Conditional</animation>
+
+                <animation effect="slide" start="0,0" end="0,0" time="150" condition="Skin.HasSetting(osd.disableposter) + [Window.IsVisible(fullscreeninfo) | Player.ShowInfo | !String.IsEmpty(Window(home).Property(osdshowinfo)) | [Player.Paused + Skin.HasSetting(osd.showinfoonpause)]] + [!String.IsEmpty(Player.Art(tvshow.poster)) | !String.IsEmpty(Player.Art(poster))] + !VideoPlayer.Content(LiveTV)">Conditional</animation>
+                <animation effect="slide" start="0,0" end="0,0" time="150" condition="Skin.HasSetting(osd.disableposter) + [Window.IsVisible(fullscreeninfo) | Player.ShowInfo | !String.IsEmpty(Window(home).Property(osdshowinfo)) | [Player.Paused + Skin.HasSetting(osd.showinfoonpause)]] + !String.IsEmpty(Player.Art(thumb)) + VideoPlayer.Content(LiveTV)">Conditional</animation>
+
+                <left>0</left>
+                <top>13</top>
+                <width>100%</width>
+                <height>48</height>
+                <itemgap>16</itemgap>
+                <orientation>horizontal</orientation>
+                <align>center</align>
+                <onleft>3</onleft>
+                <onright>4</onright>
+                <ondown>noop</ondown>
+                <include>OSDVideoControlsFlipNewOSD</include>
+            </control>
+            <control type="grouplist" id="102">
+                <top>13</top>
+                <right>100</right>
+                <height>48</height>
+                <itemgap>0</itemgap>
+                <orientation>horizontal</orientation>
+                <align>right</align>
+                <onleft>101</onleft>
+                <onright>1</onright>
+                <include>DefOSDUpDown</include>
+                <usecontrolcoords>true</usecontrolcoords>
+                <include condition="!VideoPlayer.Content(livetv) + [VideoPlayer.HasMenu | [!VideoPlayer.Content(movies) + !VideoPlayer.Content(episodes)]]">OSDDVDMenuNewOSD</include>
+                <include condition="!VideoPlayer.HasMenu + VideoPlayer.Content(episodes)">OSDExtraInfoTVNewOSD</include>
+                <include condition="!VideoPlayer.HasMenu + VideoPlayer.Content(movies) + !VideoPlayer.Content(livetv)">OSDExtraInfoMOVIESNewOSD</include>
+                <include condition="!VideoPlayer.Content(livetv)">OSDVideosRightNewOSD</include>
+                <include condition="VideoPlayer.Content(livetv)">OSDPVRRightNewOSD</include>
+            </control>
+        </control>
+    </include>
+    
+    <include name="OSD3">
+        <control type="group">
+            <height>74</height>
+            <bottom>-10</bottom>
+            <animation type="WindowOpen">
+                <effect type="fade" start="0" end="100" time="250" delay="200"/>
+            </animation>
+            <animation type="WindowClose">
+                <effect type="fade" end="0" start="100" time="250"/>
+            </animation>
+            <animation effect="fade" start="100" end="0" time="150" condition="Window.IsVisible(DialogPlayerProcessInfo.xml)">Conditional</animation>
+
+            <!-- Sub Menu -->
+            <control type="group">
+                <visible allowhiddenfocus="true">ControlGroup(9960).HasFocus() | Control.HasFocus(20)</visible>
+                <include>Animation.SlideUp</include>
+                <include>Animation.FadeOut</include>
+                <bottom>102</bottom>
+                <centerleft>518</centerleft>
+                <width>316</width>
+                <height>512</height>
+                <control type="image">
+                    <description>background image</description>
+                    <width>100%</width>
+                    <height>100%</height>
+                    <colordiffuse>White100</colordiffuse>
+                    <texture border="16">common/rounded-shadow8.png</texture>
+                </control>
+                <include content="Def_Context_Tempo_Gradient">
+                    <param name="controlid" value="9960"/>
+                </include>
+            </control>
+            <control type="group">
+                <visible allowhiddenfocus="true">ControlGroup(9400).HasFocus() | Control.HasFocus(3)</visible>
+                <include>Animation.SlideUp</include>
+                <include>Animation.FadeOut</include>
+                <bottom>102</bottom>
+                <centerleft>180</centerleft>
+                <width>316</width>
+                <height>272</height>
+                <control type="image">
+                    <description>background image</description>
+                    <width>100%</width>
+                    <height>100%</height>
+                    <colordiffuse>White100</colordiffuse>
+                    <texture border="16">common/rounded-shadow8.png</texture>
+                </control>
+                <include content="Def_Context_Subtitles_Gradient">
+                    <param name="controlid" value="9400"/>
+                </include>
+            </control>
+            <control type="grouplist" id="101">
+                <top>-15</top>
+                <left>32</left>
+                <width>640</width>
+                <height>48</height>
+                <itemgap>11</itemgap>
+                <orientation>horizontal</orientation>
+                <align>center</align>
+                <onleft>101</onleft>
+                <onright>101</onright>
+                <ondown>noop</ondown>
+                <control type="button" id="1">
+                    <description>Audio</description>
+                    <width>48</width>
+                    <height>48</height>
+                    <label/>
+                    <font />
+                    <onclick>ActivateWindow(124)</onclick>
+                    <include>DefOSDUpDown</include>
+                    <texturefocus colordiffuse="$VAR[ColorHighlight]">osd/audio.png</texturefocus>
+                    <texturenofocus colordiffuse="Dark1">osd/audio.png</texturenofocus>
+                </control>
+                <control type="button" id="2">
+                    <description>Video Settings</description>
+                    <width>48</width>
+                    <height>48</height>
+                    <label/>
+                    <font />
+                    <onclick>ActivateWindow(123)</onclick>
+                    <include>DefOSDUpDown</include>
+                    <texturefocus colordiffuse="$VAR[ColorHighlight]">osd/videosett.png</texturefocus>
+                    <texturenofocus colordiffuse="Dark1">osd/videosett.png</texturenofocus>
+                </control>
+                <control type="button" id="3">
+                    <onup>9303</onup>
+                    <ondown>9301</ondown>
+                    <width>48</width>
+                    <height>48</height>
+                    <label/>
+                    <font />
+                    <onclick>Action(ShowSubtitles)</onclick>
+                    <include>DefOSDUpDown</include>
+                    <texturefocus colordiffuse="$VAR[ColorHighlight]">osd/lyrics.png</texturefocus>
+                    <texturenofocus colordiffuse="Dark1">osd/lyrics.png</texturenofocus>
+                </control>
+                <include>OSDVideoControlsFlip</include>
+                <include condition="!VideoPlayer.Content(livetv) + [VideoPlayer.HasMenu | [!VideoPlayer.Content(movies) + !VideoPlayer.Content(episodes)]]">OSDDVDMenuNewOSDSide</include>
+                <include condition="!VideoPlayer.HasMenu + VideoPlayer.Content(episodes)">OSDExtraInfoTVNewOSDSide</include>
+                <include condition="!VideoPlayer.HasMenu + VideoPlayer.Content(movies) + !VideoPlayer.Content(livetv)">OSDExtraInfoMOVIESNewOSDSide</include>
+                <include condition="!VideoPlayer.Content(livetv)">OSDVideosRightNewOSDSide</include>
+                <include condition="VideoPlayer.Content(livetv)">OSDPVRRightNewOSDSide</include>
+            </control>
+        </control>
+    </include>
 </includes>
