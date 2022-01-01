@@ -10,13 +10,12 @@
             <include>Animation.Common</include>
             <control type="group">
                 <left>SidePad</left>
-                <visible>Control.IsVisible(501)</visible>
                 <control type="image">
                     <width>220</width>
                     <height>518</height>
                     <top>217</top>
                     <left>1</left>
-                    <texture background="true" diffuse="diffuse/wall.png" colordiffuse="InfoBackground" border="0">misc/Bild2Inlay.png</texture>
+                    <texture background="true" diffuse="diffuse/wall.png" colordiffuse="InfoBackground" border="0">common/white.png</texture>
                 </control>
                 <control type="image">
                     <visible>!Skin.HasSetting(thumbnails.white)</visible>
@@ -25,7 +24,6 @@
                     <top>216</top>
                     <texture background="true" colordiffuse="Box2" border="4">common/box21.png</texture>
                 </control>
-                <visible>Control.IsVisible(501)</visible>
                 <control type="group">
                     <control type="wraplist" id="501">
                         <top>227</top>
@@ -51,11 +49,11 @@
                         </itemlayout>
                         <focusedlayout width="400" height="54">
                             <control type="group">
-                                <visible>!Control.HasFocus(60)</visible>
+                                <visible>Control.HasFocus(501)</visible>
                                 <include>50focuslayout_new</include>
                             </control>
                             <control type="group">
-                                <visible>Control.HasFocus(60)</visible>
+                                <visible>!Control.HasFocus(501)</visible>
                                 <include>50itemlayout_new</include>
                             </control>
                             <control type="button">
@@ -79,7 +77,6 @@
                 </control>
             </control>
             <control type="group">
-                <visible>Control.IsVisible(501)</visible>
                 <control type="group">
                     <top>188</top>
                     <left>270</left>
@@ -118,7 +115,7 @@
                         <height>646</height>
                         <top>29</top>
                         <left>43</left>
-                        <texture colordiffuse="InfoBackground" background="true" diffuse="diffuse/bigwiderolodex_new.png" border="12">misc/Bild2Inlay.png</texture>
+                        <texture colordiffuse="InfoBackground" background="true" diffuse="diffuse/bigwiderolodex_new.png" border="12">common/white.png</texture>
                     </control>
                     <control type="image">
                         <left>448</left>
@@ -252,58 +249,7 @@
                     <param name="top" value="207" />
                     <param name="indicatorbackground" value="true" />
                 </include>
-                <control type="group">
-                    <left>309</left>
-                    <top>207</top>
-                    <control type="image">
-                        <visible>!ListItem.IsFolder + !String.IsEmpty(ListItem.Art(discart)) + Skin.HasSetting(discartfanart)</visible>
-                        <posx>1157</posx>
-                        <posy>438</posy>
-                        <width>235</width>
-                        <height>235</height>
-                        <fadetime>1000</fadetime>
-                        <texture>$INFO[ListItem.Art(discart)]</texture>
-                        <animation type="Conditional" condition="!Container(501).OnNext + !Container(501).OnPrevious">
-                            <effect type="fade" start="0" end="100" time="50" delay="1000"/>
-                        </animation>
-                        <animation type="Conditional" condition="!Container(501).OnNext + !Container(501).OnPrevious">
-                            <effect type="slide" start="110" end="-15" time="1000" delay="2000" tween="cubic"/>
-                        </animation>
-                        <animation type="Visible" reversible="false">
-                            <effect type="fade" start="0" end="100" time="1500" tween="cubic"/>
-                        </animation>
-                        <animation type="Hidden" reversible="false">
-                            <effect type="fade" start="100" end="0" time="500" tween="cubic"/>
-                        </animation>
-                    </control>
-                    <control type="image">
-                        <visible>!String.IsEqual(ListItem.Label,..)</visible>
-                        <posx>1263</posx>
-                        <posy>340</posy>
-                        <width>242</width>
-                        <height>342</height>
-                        <fadetime>PosterFanartFadetime</fadetime>
-                        <texture background="true">$VAR[PosterImage]</texture>
-                    </control>
-                    <control type="image">
-                        <posx>1244</posx>
-                        <posy>330</posy>
-                        <width>278</width>
-                        <height>370</height>
-                        <fadetime>PosterFanartFadetime</fadetime>
-                        <texture>misc/poster_glass2.png</texture>
-                        <visible>!String.IsEqual(ListItem.Label,..) + Skin.HasSetting(ModernCase)</visible>
-                    </control>
-                    <control type="image">
-                        <posx>1261</posx>
-                        <posy>338</posy>
-                        <width>244</width>
-                        <height>345</height>
-                        <fadetime>PosterFanartFadetime</fadetime>
-                        <texture>misc/br-case.png</texture>
-                        <visible>!String.IsEqual(ListItem.Label,..) + !Skin.HasSetting(ModernCase)</visible>
-                    </control>
-                </control>
+                <include>PosterDiscCase</include>
             </control>
         </control>
     </include>
