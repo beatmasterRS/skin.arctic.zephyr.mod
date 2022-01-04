@@ -417,12 +417,17 @@
 
     <variable name="StartupFanart">
         <value condition="!String.IsEmpty(Skin.String(startupfanart.fallback))">$INFO[Skin.String(startupfanart.fallback)]</value>
-        <value>common/bg.jpg</value>
+        <value>$VAR[BackgroundTexture]</value>
     </variable>
 
     <variable name="StartupDiffuse">
         <value condition="String.IsEmpty(Skin.String(startupfanart.fallback))">Background</value>
         <value/>
+    </variable>
+    
+    <variable name="BackgroundTexture">
+        <value condition="!Skin.HasSetting(use.simple.background)">common/bg.jpg</value>
+        <value>common/white.png</value>
     </variable>
 
     <variable name="GlobalFanart">
@@ -531,7 +536,7 @@
     <include name="GlobalVideoWindow">
         <control type="image" description="Background">
             <include>Dimensions_Fullscreen</include>
-            <texture colordiffuse="Background">common/bg.jpg</texture>
+            <texture colordiffuse="Background">$VAR[BackgroundTexture]</texture>
         </control>
         <control type="image" description="Background">
             <include>Dimensions_Fullscreen</include>
@@ -809,7 +814,7 @@
         <!-- Visualisation Overlay -->
         <control type="image" description="Background">
             <include>Dimensions_Fullscreen</include>
-            <texture colordiffuse="Background">common/bg.jpg</texture>
+            <texture colordiffuse="Background">$VAR[BackgroundTexture]</texture>
             <visible>!$EXP[HomeIsSpotlight] + !$EXP[HomeIsClassic] + !$EXP[HomeIsModern] + [[Player.HasVideo + Skin.HasSetting(global.showvideo)] | [Player.HasAudio + Skin.HasSetting(global.showvisualisation) + !String.IsEmpty(Visualisation.Name)]]</visible>
             <animation effect="fade" start="100" end="75" time="0" condition="true">Conditional</animation>
         </control>
@@ -928,7 +933,7 @@
         <control type="image" description="Background">
             <include>Dimensions_Fullscreen</include>
             <include condition="!Skin.HasSetting(home.vertical)">Animation.FadeFromHome</include>
-            <texture colordiffuse="Background">common/bg.jpg</texture>
+            <texture colordiffuse="Background">$VAR[BackgroundTexture]</texture>
         </control>
         <control type="multiimage" description="Fanart">
             <visible>!Skin.HasSetting(EnableEffects) | [Skin.HasSetting(EnableEffects) + !Skin.HasSetting(BlurOnHome)]</visible>
