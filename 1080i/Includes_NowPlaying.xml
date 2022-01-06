@@ -175,22 +175,7 @@
                     <top>55</top>
                     <width>1100</width>
                     <include>MultiWidgetsSubLabelDefinition</include>
-                    <label fallback="19055">$INFO[VideoPlayer.ChannelName]</label>
-                    <visible>VideoPlayer.Content(livetv)</visible>
-                </control>
-                <control type="label">
-                    <top>55</top>
-                    <width>1100</width>
-                    <include>MultiWidgetsSubLabelDefinition</include>
-                    <label fallback="19055">$INFO[VideoPlayer.Tagline]</label>
-                    <visible>VideoPlayer.Content(movies)</visible>
-                </control>
-                <control type="label">
-                    <top>55</top>
-                    <width>1100</width>
-                    <include>MultiWidgetsSubLabelDefinition</include>
-                    <label fallback="19055">$INFO[VideoPlayer.TVShowTitle]$INFO[VideoPlayer.Season,  •  $LOCALIZE[36904] ,] $INFO[VideoPlayer.Episode,  •  $LOCALIZE[36906] ,]</label>
-                    <visible>VideoPlayer.Content(episodes)</visible>
+                    <label fallback="19055">$VAR[Label_NowPlaying_VideoSubInfo]</label>
                 </control>
             </control>
             <control type="group">
@@ -199,26 +184,12 @@
                 <visible>Player.HasAudio</visible>
                 <include>NowPlaying_PlayPause</include>
                 <include>NowPlaying_Time</include>
-                <control type="grouplist">
+                <control type="label">
                     <top>55</top>
                     <width>1100</width>
-                    <orientation>horizontal</orientation>
-                    <control type="label">
-                        <include>MultiWidgetsSubLabelDefinition</include>
-                        <label>$INFO[MusicPlayer.Artist]</label>
-                        <visible>!String.IsEmpty(MusicPlayer.Artist)</visible>
-                    </control>
-                    <control type="label">
-                        <include>MultiWidgetsSubLabelDefinition</include>
-                        <label>  •  </label>
-                        <visible>!String.IsEmpty(MusicPlayer.Artist) + !String.IsEmpty(MusicPlayer.Album)</visible>
-                    </control>
-                    <control type="label">
-                        <include>MultiWidgetsSubLabelDefinition</include>
-                        <label>$INFO[MusicPlayer.Album]</label>
-                        <visible>!String.IsEmpty(MusicPlayer.Album)</visible>
-                    </control>
-                </control>                
+                    <include>MultiWidgetsSubLabelDefinition</include>
+                    <label fallback="19055">$VAR[Label_NowPlaying_MusicSubInfo]</label>
+                </control>               
             </control>
         </control>
         </definition>
@@ -254,11 +225,8 @@
                 </control>
             </control>
             <control type="grouplist">
-                <include content="def_width" condition="Skin.HasSetting(homemenu.netflix) + !Skin.HasSetting(home.netflix.autoplay.trailer)">
-                    <param name="width" value="800" />
-                </include>
-                <include content="def_width" condition="Skin.HasSetting(homemenu.netflix) + Skin.HasSetting(home.netflix.autoplay.trailer)">
-                    <param name="width" value="700" />
+                <include content="def_width" condition="Skin.HasSetting(homemenu.netflix)">
+                    <param name="width" value="NetflixPlotWidth" />
                 </include>
                 <include content="def_width" condition="!Skin.HasSetting(homemenu.netflix)">
                     <param name="width" value="100%" />

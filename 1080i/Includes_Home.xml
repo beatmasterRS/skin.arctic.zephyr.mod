@@ -186,19 +186,9 @@
                     <width>100%</width>
                     <top>0</top>
                     <height>200</height>
-                    <aspectratio aligny="top">scale</aspectratio>
-                    <texture colordiffuse="Background">common/bg.jpg</texture>
-                    <animation effect="fade" start="100" end="75" time="0" condition="true">Conditional</animation>
-                    <animation effect="fade" start="100" end="5" time="0" condition="!Skin.HasSetting(no.homemenu.clear) + $EXP[HomeIsModernMultiWidgets]">Conditional</animation>
-                </control>
-                <control type="image" description="FanartOverlay">
-                    <width>100%</width>
-                    <height>200</height>
-                    <top>0</top>
-                    <aspectratio aligny="bottom">scale</aspectratio>
-                    <texture colordiffuse="FloorFade2">common/floor.png</texture>
-                    <animation effect="fade" start="100" end="75" time="0" condition="true">Conditional</animation>
-                    <animation effect="fade" start="100" end="5" time="0" condition="!Skin.HasSetting(no.homemenu.clear) + $EXP[HomeIsModernMultiWidgets]">Conditional</animation>
+                    <texture colordiffuse="Background">common/white.png</texture>
+                    <animation effect="fade" start="100" end="90" time="0" condition="true">Conditional</animation>
+                    <animation effect="fade" start="100" end="10" time="0" condition="!Skin.HasSetting(no.homemenu.clear) + $EXP[HomeIsModernMultiWidgets]">Conditional</animation>
                 </control>
                 <control type="image" description="Shadow">
                     <width>100%</width>
@@ -1490,7 +1480,7 @@
                     <height>160</height>
                     <bottom>30</bottom>
                     <aspectratio aligny="bottom">scale</aspectratio>
-                    <texture colordiffuse="Background">common/floor3.png</texture>
+                    <texture colordiffuse="Background">common/white.png</texture>
                     <animation effect="fade" start="100" end="95" time="0" condition="true">Conditional</animation>
                     <animation effect="fade" start="100" end="10" time="0" condition="!Skin.HasSetting(no.homemenu.clear) + $EXP[HomeIsModernMultiWidgets]">Conditional</animation>
                 </control>
@@ -1527,7 +1517,7 @@
                     <height>220</height>
                     <bottom>0</bottom>
                     <aspectratio aligny="bottom">scale</aspectratio>
-                    <texture colordiffuse="Background">common/floor3.png</texture>
+                    <texture colordiffuse="Background">common/white.png</texture>
                     <animation effect="fade" start="100" end="95" time="0" condition="true">Conditional</animation>
                     <animation effect="fade" start="100" end="10" time="0" condition="!Skin.HasSetting(no.homemenu.clear) + $EXP[HomeIsModernMultiWidgets]">Conditional</animation>
                 </control>
@@ -3974,11 +3964,8 @@
                 <include condition="!Skin.HasSetting(widgets.fade)">Animation.Vertical.Widgets.Label</include>
                 <control type="grouplist">
                     <left>SidePad</left>
-                    <include content="def_width" condition="Skin.HasSetting(homemenu.netflix) + !Skin.HasSetting(home.netflix.autoplay.trailer)">
-                        <param name="width" value="800" />
-                    </include>
-                    <include content="def_width" condition="Skin.HasSetting(homemenu.netflix) + Skin.HasSetting(home.netflix.autoplay.trailer)">
-                        <param name="width" value="700" />
+                    <include content="def_width" condition="Skin.HasSetting(homemenu.netflix)">
+                        <param name="width" value="NetflixPlotWidth" />
                     </include>
                     <include content="def_width" condition="!Skin.HasSetting(homemenu.netflix)">
                         <param name="width" value="1322" />
@@ -4195,11 +4182,8 @@
         <control type="grouplist">
             <height min="$PARAM[plotminheight]" max="$PARAM[plotmaxheight]">auto</height>
             <visible>!String.IsEmpty(Container($PARAM[id]).ListItem.Property(Album_Description)) | !String.IsEmpty(Container($PARAM[id]).ListItem.Plot) | !String.IsEmpty(Container($PARAM[id]).ListItem.Property(Artist_Description)) | !String.IsEmpty(Container($PARAM[id]).ListItem.AddonDescription) | [!String.IsEmpty(Window(Home).Property(SkinHelper.ListItem.Plot)) + String.IsEqual(Container($PARAM[id]).ListItem.DBType,song) + ControlGroup(301).HasFocus()] | String.IsEqual(Container($PARAM[id]).ListItem.DBType,actor) | String.IsEqual(Container($PARAM[id]).ListItem.DBType,file)</visible>
-            <include content="def_width" condition="Skin.HasSetting(homemenu.netflix) + !Skin.HasSetting(home.netflix.autoplay.trailer)">
-                <param name="width" value="800" />
-            </include>
-            <include content="def_width" condition="Skin.HasSetting(homemenu.netflix) + Skin.HasSetting(home.netflix.autoplay.trailer)">
-                <param name="width" value="700" />
+            <include content="def_width" condition="Skin.HasSetting(homemenu.netflix)">
+                <param name="width" value="100%" />
             </include>
             <include content="def_width" condition="$EXP[HomeIsVerticalMultiWidgets] + Skin.HasSetting(homemenu.only.icons) + Skin.HasSetting(home.showicons)">
                 <param name="width" value="1242" />
@@ -4347,13 +4331,8 @@
                 </control>
                 <control type="label" description="Duration">
                     <include>MultiWidgetsSubLabelDefinition</include>
-                    <visible>!String.IsEmpty(Container($PARAM[id]).ListItem.Duration(mins)) + Skin.HasSetting(NewTime) + Integer.IsGreater(Container($PARAM[id]).ListItem.Duration(h),0) + Integer.IsGreater(Container($PARAM[id]).ListItem.Duration(m),0)</visible>
-                    <label>$INFO[Container($PARAM[id]).ListItem.Duration(h),,$LOCALIZE[31088]] $INFO[Container($PARAM[id]).ListItem.Duration(m),,$LOCALIZE[31089]]</label>
-                </control>
-                <control type="label" description="Duration">
-                    <include>MultiWidgetsSubLabelDefinition</include>
-                    <visible>!String.IsEmpty(Container($PARAM[id]).ListItem.Duration(mins)) + Skin.HasSetting(NewTime) + Integer.IsGreater(Container($PARAM[id]).ListItem.Duration(h),0) + !Integer.IsGreater(Container($PARAM[id]).ListItem.Duration(m),0)</visible>
-                    <label>$INFO[Container($PARAM[id]).ListItem.Duration(h),,$LOCALIZE[31088]]</label>
+                    <visible>!String.IsEmpty(Container($PARAM[id]).ListItem.Duration(mins)) + Skin.HasSetting(NewTime) + Integer.IsGreater(Container($PARAM[id]).ListItem.Duration(h),0)</visible>
+                    <label>$INFO[Container($PARAM[id]).ListItem.Duration(h),,$LOCALIZE[31088]] $INFO[Container($PARAM[id]).ListItem.Duration(mm),,$LOCALIZE[31089]]</label>
                 </control>
                 <control type="label" description="Duration">
                     <include>MultiWidgetsSubLabelDefinition</include>
@@ -4401,13 +4380,8 @@
                 </control>
                 <control type="label" description="Duration">
                     <include>MultiWidgetsSubLabelDefinition</include>
-                    <visible>!String.IsEmpty(Container($PARAM[id]).ListItem.Duration(mins)) + Skin.HasSetting(NewTime) + Integer.IsGreater(Container($PARAM[id]).ListItem.Duration(h),0) + Integer.IsGreater(Container($PARAM[id]).ListItem.Duration(m),0)</visible>
-                    <label>$INFO[Container($PARAM[id]).ListItem.Duration(h),,$LOCALIZE[31088]] $INFO[Container($PARAM[id]).ListItem.Duration(m),,$LOCALIZE[31089]]</label>
-                </control>
-                <control type="label" description="Duration">
-                    <include>MultiWidgetsSubLabelDefinition</include>
-                    <visible>!String.IsEmpty(Container($PARAM[id]).ListItem.Duration(mins)) + Skin.HasSetting(NewTime) + Integer.IsGreater(Container($PARAM[id]).ListItem.Duration(h),0) + !Integer.IsGreater(Container($PARAM[id]).ListItem.Duration(m),0)</visible>
-                    <label>$INFO[Container($PARAM[id]).ListItem.Duration(h),,$LOCALIZE[31088]]</label>
+                    <visible>!String.IsEmpty(Container($PARAM[id]).ListItem.Duration(mins)) + Skin.HasSetting(NewTime) + Integer.IsGreater(Container($PARAM[id]).ListItem.Duration(h),0)</visible>
+                    <label>$INFO[Container($PARAM[id]).ListItem.Duration(h),,$LOCALIZE[31088]] $INFO[Container($PARAM[id]).ListItem.Duration(mm),,$LOCALIZE[31089]]</label>
                 </control>
                 <control type="label" description="Duration">
                     <include>MultiWidgetsSubLabelDefinition</include>
