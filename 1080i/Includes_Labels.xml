@@ -1832,9 +1832,18 @@
         <value>$INFO[Skin.String(colorbox_effect)]</value>
     </variable>
     
-    <variable name="Label_NowPlaying_VideoFallback">
-        <value condition="!String.IsEmpty(VideoPlayer.Studio)">$INFO[VideoPlayer.Studio]</value>
-        <value condition="!String.IsEmpty(VideoPlayer.Artist)">$INFO[VideoPlayer.Artist]</value>
-        <value>$INFO[VideoPlayer.VideoCodec]$INFO[VideoPlayer.VideoResolution,  •  ,]$INFO[VideoPlayer.VideoAspect,  •  ,]$INFO[VideoPlayer.AudioCodec,  •  ,]$VAR[LabelOSDAudioChannels,  •  ,]</value>
+    <variable name="Label_NowPlaying_VideoSubInfo">
+        <value condition="VideoPlayer.Content(livetv)">$INFO[VideoPlayer.ChannelName]</value>
+        <value condition="VideoPlayer.Content(movies)">$INFO[VideoPlayer.Tagline]</value>
+        <value condition="VideoPlayer.Content(episodes)">$INFO[VideoPlayer.TVShowTitle]$INFO[VideoPlayer.Season,  •  $LOCALIZE[36904] ,] $INFO[VideoPlayer.Episode,  •  $LOCALIZE[36906] ,]</value>
+        <value condition="VideoPlayer.Content(files) + !String.IsEmpty(VideoPlayer.Studio)">$INFO[VideoPlayer.Studio]</value>
+        <value condition="VideoPlayer.Content(files) + !String.IsEmpty(VideoPlayer.Artist)">$INFO[VideoPlayer.Artist]</value>
+        <value condition="VideoPlayer.Content(files)">$INFO[VideoPlayer.VideoCodec]$INFO[VideoPlayer.VideoResolution,  •  ,]$INFO[VideoPlayer.VideoAspect,  •  ,]$INFO[VideoPlayer.AudioCodec,  •  ,]$VAR[LabelOSDAudioChannels,  •  ,]</value>
+    </variable>
+    
+    <variable name="Label_NowPlaying_MusicSubInfo">
+        <value condition="!String.IsEmpty(MusicPlayer.Artist) + !String.IsEmpty(MusicPlayer.Album)">$INFO[MusicPlayer.Artist]  •  $INFO[MusicPlayer.Album]</value>
+        <value condition="String.IsEmpty(MusicPlayer.Artist) + !String.IsEmpty(MusicPlayer.Album)">$INFO[MusicPlayer.Album]</value>
+        <value condition="!String.IsEmpty(MusicPlayer.Artist) + String.IsEmpty(MusicPlayer.Album)">$INFO[MusicPlayer.Artist]</value>
     </variable>
 </includes>
