@@ -75,10 +75,31 @@
             <include content="NowPlaying_InfoRight">
                 <param name="left" value="140" />
                 <param name="visible" value="Player.HasAudio + !Skin.HasSetting(extended.nowplaying.hidecd)" />
+            </include>            
+            <include content="NowPlaying_Controls" condition="Skin.HasSetting(extended.nowplaying.hidecd)">
+                <param name="left" value="150" />
             </include>
-        </control>
+            <include content="NowPlaying_Controls" condition="!Skin.HasSetting(extended.nowplaying.hidecd)">
+                <param name="left" value="480" />
+            </include>                      
+        </control>        
     </include>
 
+    <include name="NowPlaying_Controls">
+        <control type="grouplist" id="777">
+            <visible allowhiddenfocus="true">ControlGroup(777).HasFocus()</visible>
+            <width>100%</width>
+            <itemgap>11</itemgap>
+            <height>64</height>
+            <bottom>5</bottom>
+            <left>$PARAM[left]</left>
+            <orientation>horizontal</orientation>
+            <include>OSDControlsHome</include>
+            <animation effect="fade" start="100" end="0" tween="sine" reversible="false" easing="out" time="350">Hidden</animation>
+            <animation effect="fade" start="0" end="100" tween="sine" reversible="false" easing="in" delay="350" time="450">Visible</animation>
+        </control>
+    </include>
+    
     <include name="NowPlaying_ClearArt">
 
         <!-- ClearArt -->
@@ -156,6 +177,8 @@
         <param name="left" value="$PARAM[left]" default="-42"/>
         <definition>
         <control type="group">
+            <animation effect="slide" start="0" end="0,-70" time="150" condition="ControlGroup(777).HasFocus()" reversible="false">Conditional</animation>
+            <animation effect="slide" start="0,-70" end="0,0" delay="150" time="150" condition="!ControlGroup(777).HasFocus()" reversible="false">Conditional</animation>
             <width>100%</width>
             <include content="def_top" condition="Skin.HasSetting(homemenu.netflix)">
                 <param name="top" value="610" />
@@ -375,11 +398,11 @@
             <animation type="WindowOpen" reversible="false" condition="$EXP[ExtendedNowPlayingIsVisible]">
                 <effect type="slide" start="-145,0" end="0,0" tween="sine" easing="out" time="600" delay="500"/>
             </animation>
-            <animation type="Conditional" condition="!Control.HasFocus(300) + !Control.HasFocus(302) + !Control.HasFocus(2011)" reversible="false">
+            <animation type="Conditional" condition="!Control.HasFocus(300) + !Control.HasFocus(302) + !Control.HasFocus(2011) + !ControlGroup(777).HasFocus()" reversible="false">
                 <effect type="slide" start="0,0" end="-115,0" tween="sine" easing="out" time="300" delay="0"/>
                 <effect type="fade" start="100" end="0" time="150" delay="0"/>
             </animation>
-            <animation type="Conditional" condition="Control.HasFocus(300) | Control.HasFocus(302) | Control.HasFocus(2011)" reversible="false">
+            <animation type="Conditional" condition="Control.HasFocus(300) | Control.HasFocus(302) | Control.HasFocus(2011) | ControlGroup(777).HasFocus()" reversible="false">
                 <effect type="slide" start="-145,0" end="0,0" tween="sine" easing="out" time="600" delay="500"/>
                 <effect type="fade" start="0" end="100" time="1" delay="500"/>
             </animation>

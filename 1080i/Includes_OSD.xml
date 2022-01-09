@@ -1084,6 +1084,8 @@
     </include>
 
     <include name="DefOSDUpDown">
+        <onup condition="Window.IsVisible(home)">301</onup>
+        <ondown condition="Window.IsVisible(home)">300</ondown>
         <onup condition="String.IsEmpty(Window(home).Property(osdshowinfo)) + !Window.IsVisible(MusicOSD.xml)">SetProperty(osdshowinfo,1,home)</onup>
         <onup condition="!String.IsEmpty(Window(home).Property(osdshowinfo)) + !Window.IsVisible(MusicOSD.xml)">ClearProperty(osdshowinfo,home)</onup>
         <ondown condition="String.IsEmpty(Window(home).Property(osdshowinfo)) + !Window.IsVisible(MusicOSD.xml)">SetProperty(osdshowinfo,1,home)</ondown>
@@ -1427,6 +1429,98 @@
         <value>Dark1</value>
     </variable>
 
+    <include name="OSDControlsHome">
+        <control type="button" id="12">
+            <description>Skip Back</description>
+            <width>48</width>
+            <height>48</height>
+            <label/>
+            <font />
+            <include>DefOSDUpDown</include>
+            <texturefocus colordiffuse="$VAR[ColorHighlight]" flipx="true">osd/next.png</texturefocus>
+            <texturenofocus colordiffuse="Dark1" flipx="true">osd/next.png</texturenofocus>
+            <onclick>PlayerControl(Previous)</onclick>
+        </control>
+        <control type="button" id="13">
+            <description>Rewind</description>
+            <width>48</width>
+            <height>48</height>
+            <label/>
+            <font />
+            <include>DefOSDUpDown</include>
+            <texturefocus colordiffuse="$VAR[ColorHighlight]" flipx="true">osd/ff.png</texturefocus>
+            <texturenofocus colordiffuse="Dark1" flipx="true">osd/ff.png</texturenofocus>
+            <onclick>PlayerControl(Rewind)</onclick>
+            <enable>Player.SeekEnabled</enable>
+            <animation effect="fade" start="100" end="33" time="100" condition="!Player.SeekEnabled">Conditional</animation>
+        </control>
+        <control type="togglebutton" id="14">
+            <description>Play/Pause</description>
+            <width>48</width>
+            <height>48</height>
+            <label/>
+            <altlabel/>
+            <font />
+            <include>DefOSDUpDown</include>
+            <texturefocus colordiffuse="$VAR[ColorHighlight]">osd/pause.png</texturefocus>
+            <texturenofocus colordiffuse="Dark1">osd/pause.png</texturenofocus>
+            <usealttexture>Player.Paused | Player.Forwarding | Player.Rewinding</usealttexture>
+            <alttexturefocus colordiffuse="$VAR[ColorHighlight]">osd/play.png</alttexturefocus>
+            <alttexturenofocus colordiffuse="Dark1">osd/play.png</alttexturenofocus>
+            <onclick>PlayerControl(Play)</onclick>
+            <enable>Player.PauseEnabled</enable>
+            <animation effect="fade" start="100" end="33" time="100" condition="!Player.PauseEnabled">Conditional</animation>
+        </control>
+        <control type="button" id="15">
+            <description>Stop</description>
+            <width>48</width>
+            <height>48</height>
+            <label/>
+            <font />
+            <include>DefOSDUpDown</include>
+            <texturefocus colordiffuse="$VAR[ColorHighlight]">osd/stop.png</texturefocus>
+            <texturenofocus colordiffuse="Dark1">osd/stop.png</texturenofocus>
+            <onclick>PlayerControl(Stop)</onclick>
+        </control>
+        <control type="button" id="16">
+            <description>Fast Forward</description>
+            <width>48</width>
+            <height>48</height>
+            <label/>
+            <font />
+            <include>DefOSDUpDown</include>
+            <texturefocus colordiffuse="$VAR[ColorHighlight]">osd/ff.png</texturefocus>
+            <texturenofocus colordiffuse="Dark1">osd/ff.png</texturenofocus>
+            <onclick>PlayerControl(Forward)</onclick>
+            <enable>Player.SeekEnabled</enable>
+            <animation effect="fade" start="100" end="33" time="100" condition="!Player.SeekEnabled">Conditional</animation>
+        </control>
+        <control type="button" id="17">
+            <description>Next</description>
+            <width>48</width>
+            <height>48</height>
+            <label/>
+            <font />
+            <include>DefOSDUpDown</include>
+            <texturefocus colordiffuse="$VAR[ColorHighlight]">osd/next.png</texturefocus>
+            <texturenofocus colordiffuse="Dark1">osd/next.png</texturenofocus>
+            <onclick>PlayerControl(Next)</onclick>
+        </control>
+        <control type="button" id="22">
+            <description>Rating</description>
+            <include>OnFocusOnClick</include>
+            <include>ClearOnFocusOnClick</include>
+            <width>48</width>
+            <height>48</height>
+            <label/>
+            <font />
+            <include>DefOSDUpDown</include>
+            <texturefocus colordiffuse="$VAR[ColorHighlight]" flipx="true">osd/rating.png</texturefocus>
+            <texturenofocus colordiffuse="Dark1" flipx="true">osd/rating.png</texturenofocus>
+            <onclick>SetRating</onclick>
+        </control>
+    </include>
+    
     <include name="OSDAudioControlsFlip">
         <control type="button" id="1">
             <description>Repeat</description>
