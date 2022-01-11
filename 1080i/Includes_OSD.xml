@@ -1091,6 +1091,16 @@
         <onup condition="Window.IsVisible(MusicOSD.xml)">9100</onup>
         <ondown condition="Window.IsVisible(MusicOSD.xml)">9100</ondown>
     </include>
+    
+    <include name="DefControlsHomeUpDown">
+        <onup>301</onup>
+        <ondown>300</ondown>
+        <onback>300</onback>
+        <onfocus>SetProperty(controlsvisible,1,home)</onfocus>
+        <onunfocus>ClearProperty(controlsvisible,home)</onunfocus>
+        <onfocus condition="$EXP[HasHomemenuAutoSlideOutAnimation]">CancelAlarm(slide_out,true)</onfocus>
+        <onunfocus condition="$EXP[HasHomemenuAutoSlideOutAnimation]">AlarmClock(slide_out,SetFocus(2011),00:05,silent)</onunfocus>
+    </include>
 
     <include name="OSDVideosRight">
         <control type="button" id="5">
@@ -1427,6 +1437,114 @@
         <value>Dark1</value>
     </variable>
 
+    <include name="OSDControlsHome">
+        <control type="button" id="12">
+            <description>Skip Back</description>
+            <width>48</width>
+            <height>48</height>
+            <label/>
+            <font />
+            <include>DefControlsHomeUpDown</include>
+            <texturefocus colordiffuse="$VAR[ColorHighlight]" flipx="true">osd/next.png</texturefocus>
+            <texturenofocus colordiffuse="Dark2" flipx="true">osd/next.png</texturenofocus>
+            <onclick>PlayerControl(Previous)</onclick>
+        </control>
+        <control type="button" id="13">
+            <description>Rewind</description>
+            <width>48</width>
+            <height>48</height>
+            <label/>
+            <font />
+            <include>DefControlsHomeUpDown</include>
+            <texturefocus colordiffuse="$VAR[ColorHighlight]" flipx="true">osd/ff.png</texturefocus>
+            <texturenofocus colordiffuse="Dark2" flipx="true">osd/ff.png</texturenofocus>
+            <onclick>PlayerControl(Rewind)</onclick>
+            <enable>Player.SeekEnabled</enable>
+            <animation effect="fade" start="100" end="33" time="100" condition="!Player.SeekEnabled">Conditional</animation>
+        </control>
+        <control type="togglebutton" id="14">
+            <description>Play/Pause</description>
+            <width>48</width>
+            <height>48</height>
+            <label/>
+            <altlabel/>
+            <font />
+            <include>DefControlsHomeUpDown</include>
+            <texturefocus colordiffuse="$VAR[ColorHighlight]">osd/pause.png</texturefocus>
+            <texturenofocus colordiffuse="Dark2">osd/pause.png</texturenofocus>
+            <usealttexture>Player.Paused | Player.Forwarding | Player.Rewinding</usealttexture>
+            <alttexturefocus colordiffuse="$VAR[ColorHighlight]">osd/play.png</alttexturefocus>
+            <alttexturenofocus colordiffuse="Dark2">osd/play.png</alttexturenofocus>
+            <onclick>PlayerControl(Play)</onclick>
+            <enable>Player.PauseEnabled</enable>
+            <animation effect="fade" start="100" end="33" time="100" condition="!Player.PauseEnabled">Conditional</animation>
+        </control>
+        <control type="button" id="15">
+            <description>Stop</description>
+            <width>48</width>
+            <height>48</height>
+            <label/>
+            <font />
+            <include>DefControlsHomeUpDown</include>
+            <texturefocus colordiffuse="$VAR[ColorHighlight]">osd/stop.png</texturefocus>
+            <texturenofocus colordiffuse="Dark2">osd/stop.png</texturenofocus>
+            <onclick>PlayerControl(Stop)</onclick>
+        </control>
+        <control type="button" id="16">
+            <description>Fast Forward</description>
+            <width>48</width>
+            <height>48</height>
+            <label/>
+            <font />
+            <include>DefControlsHomeUpDown</include>
+            <texturefocus colordiffuse="$VAR[ColorHighlight]">osd/ff.png</texturefocus>
+            <texturenofocus colordiffuse="Dark2">osd/ff.png</texturenofocus>
+            <onclick>PlayerControl(Forward)</onclick>
+            <enable>Player.SeekEnabled</enable>
+            <animation effect="fade" start="100" end="33" time="100" condition="!Player.SeekEnabled">Conditional</animation>
+        </control>
+        <control type="button" id="17">
+            <description>Next</description>
+            <width>48</width>
+            <height>48</height>
+            <label/>
+            <font />
+            <include>DefControlsHomeUpDown</include>
+            <texturefocus colordiffuse="$VAR[ColorHighlight]">osd/next.png</texturefocus>
+            <texturenofocus colordiffuse="Dark2">osd/next.png</texturenofocus>
+            <onclick>PlayerControl(Next)</onclick>
+        </control>
+        <control type="button" id="18">
+            <description>Playlists</description>
+            <width>48</width>
+            <height>48</height>
+            <label/>
+            <font />
+            <include>DefControlsHomeUpDown</include>
+            <texturefocus colordiffuse="$VAR[ColorHighlight]">osd/playlist2.png</texturefocus>
+            <texturenofocus colordiffuse="Dark2">osd/playlist2.png</texturenofocus>
+            <onclick condition="Player.HasAudio">ActivateWindow(musicplaylist)</onclick>
+            <onclick condition="Player.HasVideo">ActivateWindow(videoplaylist)</onclick>
+            <enable>!VideoPlayer.Content(livetv)</enable>
+            <animation effect="fade" start="100" end="33" time="100" condition="VideoPlayer.Content(livetv)">Conditional</animation>
+        </control>
+        <control type="button" id="22">
+            <description>Rating</description>
+            <include>OnFocusOnClick</include>
+            <include>ClearOnFocusOnClick</include>
+            <width>48</width>
+            <height>48</height>
+            <label/>
+            <font />
+            <include>DefControlsHomeUpDown</include>
+            <texturefocus colordiffuse="$VAR[ColorHighlight]" flipx="true">osd/rating.png</texturefocus>
+            <texturenofocus colordiffuse="Dark2" flipx="true">osd/rating.png</texturenofocus>
+            <onclick>SetRating</onclick>
+            <enable>!VideoPlayer.Content(livetv)</enable>
+            <animation effect="fade" start="100" end="33" time="100" condition="VideoPlayer.Content(livetv)">Conditional</animation>
+        </control>
+    </include>
+    
     <include name="OSDAudioControlsFlip">
         <control type="button" id="1">
             <description>Repeat</description>

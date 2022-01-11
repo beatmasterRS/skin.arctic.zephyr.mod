@@ -1445,7 +1445,7 @@
 
         <!-- Home Row -->
         <control type="group">
-            <animation effect="slide" start="0" end="0,163" time="150" condition="!Control.HasFocus(300) + !Control.HasFocus(302) + Skin.HasSetting(homemenu.clean.flix) + !Skin.HasSetting(homemenu.clean.flix.no.slide)">Conditional</animation>
+            <animation effect="slide" start="0" end="0,163" time="150" condition="!Control.HasFocus(300) + !Control.HasFocus(302) + !ControlGroup(777).HasFocus() + Skin.HasSetting(homemenu.clean.flix) + !Skin.HasSetting(homemenu.clean.flix.no.slide)">Conditional</animation>
             <animation effect="slide" start="0" end="0,53" time="150" condition="!Control.HasFocus(300) + !Control.HasFocus(302) + Skin.HasSetting(homemenu.clean.flix) + !Skin.HasSetting(homemenu.clean.flix.no.slide) + [Skin.HasSetting(home.oldmenuheight) | Skin.HasSetting(submenu.compatibility)]">Conditional</animation>
             <animation effect="slide" start="0" end="0,-24" time="0" condition="Skin.HasSetting(home.modernwidgets) + Skin.HasSetting(home.vertical.widgets) + Skin.HasSetting(home.oldmenuheight)">Conditional</animation>
             <animation effect="slide" start="0" end="0,30" time="0" condition="Skin.HasSetting(home.modernwidgets)">Conditional</animation>
@@ -1573,8 +1573,12 @@
                     <left>SidePad</left>
                     <onfocus>ClearProperty(ContainerPosition,home)</onfocus>
                     <onfocus>ClearProperty(listitem.trailer,home)</onfocus>
+                    <onfocus>ClearProperty(controlsvisible,home)</onfocus>
+                    <onfocus>ClearProperty(SetUserRating,home)</onfocus>
+                    <onfocus>ClearProperty(SetUserRating2,home)</onfocus>
                     <include condition="!Skin.HasSetting(furniture.clock)">DefHomeRight520</include>
                     <include condition="Skin.HasSetting(furniture.clock)">DefHomeRightSidePad</include>
+                    <onup condition="$EXP[ExtendedNowPlayingIsVisible] + Skin.HasSetting(home.nowplaying.controls)">777</onup>
                     <onup condition="!Player.HasVideo | !Skin.HasSetting(global.showvideo)">301</onup>
                     <onup>301</onup>
                     <ondown condition="Integer.IsGreater(Container(302).NumItems,0)">SetFocus(302,0)</ondown>
@@ -1588,6 +1592,7 @@
                 </control>
             </control>
         </control>
+        
     </include>
 
     <include name="HomeSubMenu">
@@ -3440,6 +3445,7 @@
                     <width>PosterW</width>
                     <height>720</height>
                     <orientation>vertical</orientation>
+                    <onright condition="$EXP[ExtendedNowPlayingIsVisible] + Skin.HasSetting(home.nowplaying.controls)">777</onright>
                     <onright>301</onright>
                     <onleft>302</onleft>
                     <onback condition="Skin.HasSetting(home.onback.go.to.first.widget) + Integer.IsGreater(Container(301).NumItems,0)">SetFocus(301)</onback>

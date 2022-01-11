@@ -76,9 +76,21 @@
                 <param name="left" value="140" />
                 <param name="visible" value="Player.HasAudio + !Skin.HasSetting(extended.nowplaying.hidecd)" />
             </include>
-        </control>
+        </control>        
     </include>
 
+    <include name="NowPlaying_Controls">
+        <control type="grouplist" id="777">
+            <defaultcontrol always="true">14</defaultcontrol>
+            <width>100%</width>
+            <itemgap>11</itemgap>
+            <height>64</height>
+            <top>35</top>
+            <orientation>horizontal</orientation>
+            <include>OSDControlsHome</include>
+        </control>
+    </include>
+    
     <include name="NowPlaying_ClearArt">
 
         <!-- ClearArt -->
@@ -157,6 +169,12 @@
         <definition>
         <control type="group">
             <width>100%</width>
+            <include content="def_top" condition="Skin.HasSetting(homemenu.netflix) + Skin.HasSetting(home.nowplaying.controls)">
+                <param name="top" value="546" />
+            </include>
+            <include content="def_top" condition="!Skin.HasSetting(homemenu.netflix) + Skin.HasSetting(home.nowplaying.controls)">
+                <param name="top" value="166" />
+            </include>
             <include content="def_top" condition="Skin.HasSetting(homemenu.netflix)">
                 <param name="top" value="610" />
             </include>
@@ -167,29 +185,53 @@
             <visible>$PARAM[visible]</visible>
             <control type="group">
                 <left>240</left>
+                <include content="def_top" condition="Skin.HasSetting(home.nowplaying.controls)">
+                    <param name="top" value="125" />
+                </include>
                 <top>60</top>
                 <visible>Player.HasVideo</visible>
-                <include>NowPlaying_PlayPause</include>
-                <include>NowPlaying_Time</include>
-                <control type="label">
-                    <top>55</top>
-                    <width>1100</width>
-                    <include>MultiWidgetsSubLabelDefinition</include>
-                    <label fallback="19055">$VAR[Label_NowPlaying_VideoSubInfo]</label>
+                <control type="group">
+                    <include>NowPlaying_PlayPause</include>
+                    <include>NowPlaying_Time</include>
+                    <control type="label">
+                        <top>55</top>
+                        <width>1100</width>
+                        <include>MultiWidgetsSubLabelDefinition</include>
+                        <label fallback="19055">$VAR[Label_NowPlaying_VideoSubInfo]</label>
+                    </control>
+                    <animation effect="slide" start="0" end="0,-70" time="150" condition="ControlGroup(777).HasFocus() + Skin.HasSetting(home.nowplaying.controls)" reversible="false">Conditional</animation>
+                    <animation effect="slide" start="0,-70" end="0,0" delay="350" time="250" tween="sine" easing="out" condition="!ControlGroup(777).HasFocus() + Skin.HasSetting(home.nowplaying.controls)" reversible="false">Conditional</animation>
+                </control>
+                <control type="group">
+                    <include condition="Skin.HasSetting(home.nowplaying.controls)">NowPlaying_Controls</include>
+                    <animation effect="fade" start="0" end="100" time="150" delay="150" condition="ControlGroup(777).HasFocus()" reversible="false">Conditional</animation>
+                    <animation effect="fade" start="100" end="0" time="250" condition="!ControlGroup(777).HasFocus()" reversible="false">Conditional</animation>
                 </control>
             </control>
             <control type="group">
                 <left>340</left>
+                <include content="def_top" condition="Skin.HasSetting(home.nowplaying.controls)">
+                    <param name="top" value="125" />
+                </include>
                 <top>60</top>
                 <visible>Player.HasAudio</visible>
-                <include>NowPlaying_PlayPause</include>
-                <include>NowPlaying_Time</include>
-                <control type="label">
-                    <top>55</top>
-                    <width>1100</width>
-                    <include>MultiWidgetsSubLabelDefinition</include>
-                    <label fallback="19055">$VAR[Label_NowPlaying_MusicSubInfo]</label>
-                </control>               
+                <control type="group">
+                    <include>NowPlaying_PlayPause</include>
+                    <include>NowPlaying_Time</include>
+                    <control type="label">
+                        <top>55</top>
+                        <width>1100</width>
+                        <include>MultiWidgetsSubLabelDefinition</include>
+                        <label fallback="19055">$VAR[Label_NowPlaying_MusicSubInfo]</label>
+                    </control>
+                    <animation effect="slide" start="0" end="0,-70" time="150" condition="ControlGroup(777).HasFocus() + Skin.HasSetting(home.nowplaying.controls)" reversible="false">Conditional</animation>
+                    <animation effect="slide" start="0,-70" end="0,0" delay="350" time="250" tween="sine" easing="out" condition="!ControlGroup(777).HasFocus() + Skin.HasSetting(home.nowplaying.controls)" reversible="false">Conditional</animation>
+                </control>
+                <control type="group">
+                    <include condition="Skin.HasSetting(home.nowplaying.controls)">NowPlaying_Controls</include>
+                    <animation effect="fade" start="0" end="100" time="150" delay="150" condition="ControlGroup(777).HasFocus()" reversible="false">Conditional</animation>
+                    <animation effect="fade" start="100" end="0" time="250" condition="!ControlGroup(777).HasFocus()" reversible="false">Conditional</animation>
+                </control>
             </control>
         </control>
         </definition>
@@ -375,11 +417,11 @@
             <animation type="WindowOpen" reversible="false" condition="$EXP[ExtendedNowPlayingIsVisible]">
                 <effect type="slide" start="-145,0" end="0,0" tween="sine" easing="out" time="600" delay="500"/>
             </animation>
-            <animation type="Conditional" condition="!Control.HasFocus(300) + !Control.HasFocus(302) + !Control.HasFocus(2011)" reversible="false">
+            <animation type="Conditional" condition="!Control.HasFocus(300) + !Control.HasFocus(302) + !Control.HasFocus(2011) + !ControlGroup(777).HasFocus()" reversible="false">
                 <effect type="slide" start="0,0" end="-115,0" tween="sine" easing="out" time="300" delay="0"/>
                 <effect type="fade" start="100" end="0" time="150" delay="0"/>
             </animation>
-            <animation type="Conditional" condition="Control.HasFocus(300) | Control.HasFocus(302) | Control.HasFocus(2011)" reversible="false">
+            <animation type="Conditional" condition="Control.HasFocus(300) | Control.HasFocus(302) | Control.HasFocus(2011) | ControlGroup(777).HasFocus()" reversible="false">
                 <effect type="slide" start="-145,0" end="0,0" tween="sine" easing="out" time="600" delay="500"/>
                 <effect type="fade" start="0" end="100" time="1" delay="500"/>
             </animation>
