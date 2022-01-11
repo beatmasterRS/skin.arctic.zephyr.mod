@@ -90,18 +90,22 @@
     <expression name="IsAudioCodecATMOS">
         String.Contains(ListItem.FileNameAndPath,.atmos.) | String.Contains(ListItem.FileNameAndPath,.atmos-) | String.Contains(ListItem.FileNameAndPath,dolby atmos) | String.Contains(ListItem.FileNameAndPath,dolby-atmos)
         | [VideoPlayer.IsFullscreen + [String.Contains(Player.FileNameAndPath,.atmos.) | String.Contains(Player.FileNameAndPath,.atmos-) | String.Contains(Player.FileNameAndPath,dolby atmos) | String.Contains(Player.FileNameAndPath,dolby-atmos)]]
+        | String.Contains(ListItem.Property(audio),ATMOS)
     </expression>
     <expression name="IsAudioCodecDTSX">
         String.Contains(ListItem.FileNameAndPath,.dts-x.) | String.Contains(ListItem.FileNameAndPath,.dts.x.) | String.Contains(ListItem.FileNameAndPath,.dtsx.) | String.Contains(ListItem.FileNameAndPath,.dts-x-) | String.Contains(ListItem.FileNameAndPath,.dts.x-) | String.Contains(ListItem.FileNameAndPath,.dtsx-)
         | [VideoPlayer.IsFullscreen + [String.Contains(Player.FileNameAndPath,.dts-x.) | String.Contains(Player.FileNameAndPath,.dts.x.) | String.Contains(Player.FileNameAndPath,.dtsx.) | String.Contains(Player.FileNameAndPath,.dts-x-) | String.Contains(Player.FileNameAndPath,.dts.x-) | String.Contains(Player.FileNameAndPath,.dtsx-)]]
+        | String.Contains(ListItem.Property(audio),DTSX)
     </expression>
     <expression name="IsVideoHDR10Plus">
         String.Contains(ListItem.FileNameAndPath,.hdr10plus.)
         | [VideoPlayer.IsFullscreen + String.Contains(Player.FileNameAndPath,.hdr10plus.)]
+        | String.Contains(ListItem.Property(video),HDR10P)
     </expression>
     <expression name="IsVideoHDR10">
         String.Contains(ListItem.FileNameAndPath,.hdr10.)
         | [VideoPlayer.IsFullscreen + String.Contains(Player.FileNameAndPath,.hdr10.)]
+        | [String.Contains(ListItem.Property(video),HDR10) + !String.Contains(ListItem.Property(video),HDR10P)]
     </expression>
     <expression name="IsVideoHDR">
         String.Contains(ListItem.FileNameAndPath,.hdr.)
@@ -110,10 +114,12 @@
     <expression name="IsVideoHLG">
         String.Contains(ListItem.FileNameAndPath,.hlg.)
         | [VideoPlayer.IsFullscreen + String.Contains(Player.FileNameAndPath,.hlg.)]
+        | String.Contains(ListItem.Property(video),HLG)
     </expression>
     <expression name="IsVideoDolbyVision">
         String.Contains(ListItem.FileNameAndPath,.dv.) | String.Contains(ListItem.FileNameAndPath,dolbyvision) | String.Contains(ListItem.FileNameAndPath,dolby-vision) | String.Contains(ListItem.FileNameAndPath,dolby vision)
         | [VideoPlayer.IsFullscreen + [String.Contains(Player.FileNameAndPath,.dv.) | String.Contains(Player.FileNameAndPath,dolbyvision) | String.Contains(Player.FileNameAndPath,dolby-vision) | String.Contains(Player.FileNameAndPath,dolby vision)]]
+        | String.Contains(ListItem.Property(video),DVIS)
     </expression>
     <expression name="HasNextAired">
         [Container.Content(tvshows) | Container.Content(seasons) | String.IsEqual(ListItem.DBTYPE,tvshow) | String.IsEqual(ListItem.DBTYPE,season)]
