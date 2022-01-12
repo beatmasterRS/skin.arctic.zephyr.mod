@@ -110,9 +110,8 @@
 
     <include name="JumpBarHorizontal2">
         <control type="group">
-            <visible allowhiddenfocus="true">Control.HasFocus(290001)</visible>
-            <animation effect="slide" start="0,0" end="-84,0" time="400" tween="quadratic" easing="out">Visible</animation>
-            <animation effect="slide" start="-84,0" end="0,0" time="400" tween="quadratic" easing="in">Hidden</animation>
+            <animation effect="slide" start="0,0" end="-84,0" time="400" tween="quadratic" easing="out" condition="Control.HasFocus(290001)" reversible="false">Conditional</animation>
+            <animation effect="slide" start="-84,0" end="0,0" time="400" tween="quadratic" easing="in" condition="!Control.HasFocus(290001)" reversible="false">Conditional</animation>
             <animation effect="slide" start="0,0" end="84,0" time="400" tween="quadratic" easing="in">WindowClose</animation>
             <animation effect="slide" start="0,0" end="0,14" time="0" condition="Control.Isvisible(521) | Control.Isvisible(522) | Control.Isvisible(523)">Conditional</animation>
             <animation effect="slide" start="0,0" end="0,10" time="0" condition="Control.Isvisible(510)">Conditional</animation>
@@ -130,6 +129,38 @@
             <control type="image">
                 <texture colordiffuse="Box2" border="4" background="true">common/box21.png</texture>
             </control>
+            <control type="group">
+                <visible>Container(290001).IsUpdating</visible>
+                <include>Animation.FadeIn</include>
+                <include>Animation.FadeOut</include>
+                <centerleft>51</centerleft>
+                <top>295</top>
+                <control type="image">
+                    <width>50</width>
+                    <height>50</height>
+                    <texture>dialog/loading-back.png</texture>
+                    <aspectratio>keep</aspectratio>
+                </control>
+                <control type="image">
+                    <width>50</width>
+                    <height>50</height>
+                    <animation effect="rotate" condition="true" start="360" end="0" loop="true" time="1000" center="auto">Conditional</animation>
+                    <texture colordiffuse="$VAR[ColorHighlight]">dialog/loading-spinner.png</texture>
+                    <aspectratio>keep</aspectratio>
+                </control>
+            </control>
+            <control type="group">
+                <control type="image">
+                    <visible>!Container(290001).IsUpdating + !Integer.IsGreater(Container(290001).NumItems,0)</visible>
+                    <include>Animation.FadeIn</include>
+                    <include>Animation.FadeOut</include>
+                    <centerleft>51</centerleft>
+                    <top>295</top>
+                    <width>50</width>
+                    <height>50</height>
+                    <texture>buttons/delete.png</texture>
+                </control>
+            </control>            
             <control type="grouplist">
                 <left>28</left>
                 <top>-28</top>
@@ -150,6 +181,8 @@
                     <scrolltime>100</scrolltime>
                     <focusposition>0</focusposition>
                     <onleft>50</onleft>
+                    <animation effect="fade" start="0" end="100" time="400" delay="300" condition="!Container(290001).IsUpdating" reversible="false">Conditional</animation>
+                    <animation effect="fade" start="100" end="0" time="0" condition="Container(290001).IsUpdating" reversible="false">Conditional</animation>
                     <itemlayout height="55" width="26">
                         <control type="label">
                             <width>100%</width>
