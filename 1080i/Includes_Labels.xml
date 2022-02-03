@@ -483,6 +483,12 @@
         <value condition="!String.IsEmpty(ListItem.Duration(mins)) + Skin.HasSetting(NewTime) + Integer.IsGreater(ListItem.Duration(h),0)">$INFO[ListItem.Duration(h),,$LOCALIZE[31088]] $INFO[ListItem.Duration(mm),,$LOCALIZE[31089]]</value>
         <value condition="!String.IsEmpty(ListItem.Duration(mins)) + Skin.HasSetting(NewTime) + !Integer.IsGreater(ListItem.Duration(h),0)">$INFO[ListItem.Duration(m),,$LOCALIZE[31089]]</value>
     </variable>
+    
+    <variable name="LabelDurationPlayer">
+        <value condition="!String.IsEmpty(VideoPlayer.Duration(mins)) + !Skin.HasSetting(NewTime)">$INFO[VideoPlayer.Duration(mins),, $LOCALIZE[31102]]</value>
+        <value condition="!String.IsEmpty(VideoPlayer.Duration(mins)) + Skin.HasSetting(NewTime) + Integer.IsGreater(VideoPlayer.Duration(h),0)">$INFO[VideoPlayer.Duration(h),,$LOCALIZE[31088]] $INFO[VideoPlayer.Duration(mm),,$LOCALIZE[31089]]</value>
+        <value condition="!String.IsEmpty(VideoPlayer.Duration(mins)) + Skin.HasSetting(NewTime) + !Integer.IsGreater(VideoPlayer.Duration(h),0)">$INFO[VideoPlayer.Duration(m),,$LOCALIZE[31089]]</value>
+    </variable>
 
     <variable name="LabelGenreInfo">
         <value condition="!String.IsEmpty(ListItem.Genre)">$INFO[ListItem.Genre]</value>
@@ -1836,18 +1842,28 @@
     </variable>
     
     <variable name="Label_NowPlaying_VideoSubInfo">
-        <value condition="VideoPlayer.Content(livetv)">$INFO[VideoPlayer.ChannelName]</value>
-        <value condition="VideoPlayer.Content(movies)">$INFO[VideoPlayer.Tagline]</value>
-        <value condition="VideoPlayer.Content(episodes)">$INFO[VideoPlayer.TVShowTitle]$INFO[VideoPlayer.Season,  •  $LOCALIZE[36904] ,] $INFO[VideoPlayer.Episode,  •  $LOCALIZE[36906] ,]</value>
+        <value condition="VideoPlayer.Content(livetv)">$INFO[VideoPlayer.ChannelName]$INFO[VideoPlayer.StartTime,  •  ,]$INFO[VideoPlayer.EndTime, - ]$INFO[PVR.EpgEventDuration(mins),  •  , $LOCALIZE[31102]]</value>
+        <value condition="VideoPlayer.Content(movies)">$INFO[VideoPlayer.Year,,  •  ]$VAR[LabelDurationPlayer]$VAR[RatingLabelVideoPlayer,  •  ,]</value>
+        <value condition="VideoPlayer.Content(episodes)">$INFO[VideoPlayer.Season,$LOCALIZE[36904] ,  •  ]$INFO[VideoPlayer.Episode,$LOCALIZE[36906] ,  •  ]$INFO[VideoPlayer.Premiered,,  •  ]$VAR[LabelDurationPlayer]</value>
         <value condition="VideoPlayer.Content(files) + !String.IsEmpty(VideoPlayer.Studio)">$INFO[VideoPlayer.Studio]</value>
         <value condition="VideoPlayer.Content(files) + !String.IsEmpty(VideoPlayer.Artist)">$INFO[VideoPlayer.Artist]</value>
-        <value condition="VideoPlayer.Content(files)">$INFO[VideoPlayer.VideoCodec]$INFO[VideoPlayer.VideoResolution,  •  ,]$INFO[VideoPlayer.VideoAspect,  •  ,]$INFO[VideoPlayer.AudioCodec,  •  ,]$VAR[LabelOSDAudioChannels,  •  ,]</value>
     </variable>
     
     <variable name="Label_NowPlaying_MusicSubInfo">
-        <value condition="!String.IsEmpty(MusicPlayer.Artist) + !String.IsEmpty(MusicPlayer.Album)">$INFO[MusicPlayer.Artist]  •  $INFO[MusicPlayer.Album]</value>
-        <value condition="String.IsEmpty(MusicPlayer.Artist) + !String.IsEmpty(MusicPlayer.Album)">$INFO[MusicPlayer.Album]</value>
-        <value condition="!String.IsEmpty(MusicPlayer.Artist) + String.IsEmpty(MusicPlayer.Album)">$INFO[MusicPlayer.Artist]</value>
+        <value condition="!String.IsEmpty(MusicPlayer.Artist) + !String.IsEmpty(MusicPlayer.Year)">$INFO[MusicPlayer.Artist]  •  $INFO[MusicPlayer.Year]</value>
+        <value condition="!String.IsEmpty(MusicPlayer.Artist)">$INFO[MusicPlayer.Artist]</value>
+        <value condition="!String.IsEmpty(MusicPlayer.Year)">$INFO[MusicPlayer.Year]</value>
+    </variable>
+    
+    <variable name="Label_NowPlaying_Time_VideoSubInfo">
+        <value condition="VideoPlayer.Content(movies)">$INFO[VideoPlayer.Tagline]</value>
+        <value condition="VideoPlayer.Content(episodes)">$INFO[VideoPlayer.TvShowTitle]</value>
+        <value condition="VideoPlayer.Content(files)">$INFO[VideoPlayer.VideoCodec]$INFO[VideoPlayer.VideoResolution,  •  ,]$INFO[VideoPlayer.VideoAspect,  •  ,]$INFO[VideoPlayer.AudioCodec,  •  ,]$VAR[LabelOSDAudioChannels,  •  ,]</value>
+    </variable>
+    
+    <variable name="Label_NowPlaying_Time_MusicSubInfo">
+        <value condition="!String.IsEmpty(MusicPlayer.Album)">$INFO[MusicPlayer.Album]</value>
+        <value>$VAR[Label_MusicPlayerCodec]$INFO[MusicPlayer.BitRate,  •  ,kbps]$INFO[MusicPlayer.Samplerate, •  ,kHz]$INFO[MusicPlayer.BPM,  •  ,bpm]$INFO[MusicPlayer.BitsPerSample,  •  ,bit]</value>
     </variable>
     
     <variable name="Label_NowPlayingControls">
