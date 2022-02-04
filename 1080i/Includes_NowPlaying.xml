@@ -24,7 +24,7 @@
             <include>NowPlaying_TopBottomInfo</include>
             <include>NowPlaying_AudioDiscArt</include>
             <include condition="Skin.HasSetting(extended.nowplaying.videowindow)">NowPlaying_VideoWindow</include>
-            <include condition="Skin.HasSetting(extended.nowplaying.clearart) + [ $EXP[HomeIsModernMultiWidgets] | [ $EXP[HomeIsVerticalMultiWidgets] + Skin.HasSetting(homemenu.only.icons) + Skin.HasSetting(home.showicons)]]">NowPlaying_ClearArt</include>
+            <include condition="[$EXP[HomeIsModernMultiWidgets] | [ $EXP[HomeIsVerticalMultiWidgets] + Skin.HasSetting(homemenu.only.icons) + Skin.HasSetting(home.showicons)]]">NowPlaying_ClearArt</include>
 
             <!-- DiscArt -->
             <include content="NowPlaying_VideoDiscArt">
@@ -94,12 +94,8 @@
     <include name="NowPlaying_ClearArt">
 
         <!-- ClearArt -->
-        <control type="image">
+        <control type="group">
             <left>1360</left>
-            <top>475</top>
-            <width>400</width>
-            <texture>$VAR[PlayerArtNowPlaying]</texture>
-            <aspectratio scalediffuse="true" align="left" aligny="bottom">keep</aspectratio>
             <animation effect="slide" start="0" end="0,30" time="0" condition="true">Conditional</animation>
             <animation effect="slide" start="0" end="0,40" time="0" condition="!Skin.HasSetting(homemenu.netflix) + Skin.HasSetting(home.widgets.show.reflections)">Conditional</animation>
             <animation effect="slide" start="0" end="0,10" time="0" condition="Skin.HasSetting(homemenu.netflix) + Skin.HasSetting(home.widgets.show.reflections)">Conditional</animation>
@@ -110,6 +106,20 @@
                 <effect type="fade" start="100" end="20" time="150"/>
             </animation>
             <animation effect="slide" start="0,150" end="0" time="130" reversible="false">WindowOpen</animation>
+            <control type="image">
+                <top>475</top>
+                <width>400</width>
+                <texture>$VAR[PlayerArtNowPlaying]</texture>
+                <aspectratio scalediffuse="true" align="left" aligny="bottom">keep</aspectratio>
+                <visible>Skin.HasSetting(extended.nowplaying.clearart) + Player.HasVideo</visible>
+            </control>
+            <control type="image">
+                <top>475</top>
+                <width>400</width>
+                <texture>$VAR[PlayerArtMusicNowPlaying]</texture>
+                <aspectratio scalediffuse="true" align="left" aligny="bottom">keep</aspectratio>
+                <visible>[Skin.HasSetting(ShowClearArtMusicNowPlaying) | Skin.HasSetting(ShowClearLogoMusicNowPlaying)] + Player.HasAudio</visible>
+            </control>
         </control>
     </include>
 
