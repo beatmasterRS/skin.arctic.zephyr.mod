@@ -45,7 +45,6 @@
                 <include>ScrolltimeWidgetsList</include>
                 <itemlayout width="178" height="257" condition="!String.IsEqual(Container(300).ListItem.Property(widgetaspect),Square) + ![String.IsEqual(Container(300).ListItem.Property(widgetaspect),Fanart) | String.IsEqual(Container(300).ListItem.Property(widgetaspect),Thumbnail)] + !String.IsEqual(Container(300).ListItem.Property(widget),system)">
                     <include content="include.widget.poster">
-                        <param name="id" value="301"/>
                         <param name="height" value="257"/>
                         <param name="height_reflection" value="257"/>
                         <param name="top" value="238"/>
@@ -67,7 +66,6 @@
                 </focusedlayout>
                 <itemlayout width="254" height="257" condition="String.IsEqual(Container(300).ListItem.Property(widgetaspect),Square) | String.IsEqual(Container(300).ListItem.Property(widget),system)">
                     <include content="include.widget.square">
-                        <param name="id" value="301"/>
                         <param name="height" value="257"/>
                         <param name="aspectratio" value="$SKINSHORTCUTS[aspectratio]"/>
                         <param name="distance" value="$SKINSHORTCUTS[distance]"/>
@@ -90,7 +88,6 @@
                 </focusedlayout>
                 <itemlayout width="445" height="257" condition="String.IsEqual(Container(300).ListItem.Property(widgetaspect),Fanart) + !String.IsEqual(Container(300).ListItem.Property(widget),system)">
                     <include content="include.widget.fanart">
-                        <param name="id" value="301"/>
                         <param name="height" value="257"/>
                         <param name="height_reflection" value="257"/>
                         <param name="top" value="238"/>
@@ -112,7 +109,6 @@
                 </focusedlayout>
                 <itemlayout width="445" height="257" condition="String.IsEqual(Container(300).ListItem.Property(widgetaspect),Thumbnail) + !String.IsEqual(Container(300).ListItem.Property(widget),system)">
                     <include content="include.widget.thumb">
-                        <param name="id" value="301"/>
                         <param name="height" value="257"/>
                         <param name="height_reflection" value="257"/>
                         <param name="top" value="238"/>
@@ -307,7 +303,6 @@
                 </include>
                 <!-- ItemLayouts -->
                 <include content="TemplateNormalItemLayout" condition="$SKINSHORTCUTS[isnormallayout]">
-                    <param name="shortcutsid" value="301$SKINSHORTCUTS[id]1"/>
                     <param name="shortcutsclearlogo" value="$SKINSHORTCUTS[widgetclearlogothumb]"/>
                     <param name="aspectratio" value="$SKINSHORTCUTS[aspectratio]"/>
                     <param name="distance" value="$SKINSHORTCUTS[distance]"/>
@@ -324,9 +319,7 @@
                     <param name="Fanart" value="$PYTHON['true' if widgetaspectcheck in 'Fanart' else 'false']"/>
                     <param name="Square" value="$PYTHON['true' if widgetaspectcheck in 'Square' else 'false']"/>
                 </include>
-                <include content="TemplateSystemItemLayout" condition="$SKINSHORTCUTS[issystemlayout]">
-                    <param name="shortcutsid" value="301$SKINSHORTCUTS[id]1"/>
-                </include>
+                <include condition="$SKINSHORTCUTS[issystemlayout]">TemplateSystemItemLayout</include>
                 <include content="TemplateSubmenuItemLayout" condition="$SKINSHORTCUTS[issubmenulayout]">
                     <param name="shortcutsid" value="301$SKINSHORTCUTS[id]1"/>
                     <param name="shortcutsclearlogo" value="$SKINSHORTCUTS[widgetclearlogothumb]"/>
@@ -409,7 +402,8 @@
 
     <!-- Widget 2 -->
     <other include="widget-vertical.2">
-        <condition tag="property" attribute="name|widgetEnable.2" />
+        <condition tag="property" attribute="name|widgetEnable.2">yes</condition>
+        <match>all</match>
         <property name="id" tag="mainmenuid"/>
         <property name="ispvrlayout" tag="property" attribute="name|widget.2" value="epg">true</property>
         <property name="ispvrlayout">false</property>
@@ -465,7 +459,6 @@
         <property name="distance">10</property>
         <property name="orientation" tag="property" attribute="name|widget.2" value="epg">vertical</property>
         <property name="orientation">horizontal</property>
-
         <property name="widgetaspectcheck" tag="property" attribute="name|widget.2" value="settings">Square</property>
         <property name="widgetaspectcheck" tag="property" attribute="name|widgetTarget.2" value="system">Square</property>
         <property name="widgetaspectcheck" tag="property" attribute="name|widgetaspect.2" value="ThumbnailPosterSmall">ThumbPoSmall</property>
@@ -475,7 +468,6 @@
         <property name="widgetaspectcheck">Poster</property>
         <controls>
             <control type="group" id="301$SKINSHORTCUTS[id]2000">
-                <visible>String.IsEqual(Container(300).ListItem.Property(widgetEnable.2),yes)</visible>
                 <visible>Integer.IsGreater(Container(301$SKINSHORTCUTS[id]2).NumItems,0) | Container(301$SKINSHORTCUTS[id]2).IsUpdating</visible>
                 <skinshortcuts>visibility</skinshortcuts>
                 <control type="grouplist">
@@ -488,7 +480,6 @@
             </control>
             <control type="$SKINSHORTCUTS[widgetlisttype]" id="301$SKINSHORTCUTS[id]2">
                 <skinshortcuts>visibility</skinshortcuts>
-                <visible>String.IsEqual(Container(300).ListItem.Property(widgetEnable.2),yes)</visible>
                 <visible>Integer.IsGreater(Container(301$SKINSHORTCUTS[id]2).NumItems,0) | Container(301$SKINSHORTCUTS[id]2).IsUpdating | String.IsEqual(Container(300).ListItem.Property(widget.2),custom)</visible>
                 <onclick condition="$SKINSHORTCUTS[IsGTO]">RunPlugin(plugin://script.service.gto?action=info&amp;item=$INFO[ListItem.Property(Item)])</onclick>
                 <include content="DefMultiWidgetContainer">
@@ -505,7 +496,6 @@
                 </include>
                 <!-- ItemLayouts -->
                 <include content="TemplateNormalItemLayout" condition="$SKINSHORTCUTS[isnormallayout]">
-                    <param name="shortcutsid" value="301$SKINSHORTCUTS[id]2"/>
                     <param name="shortcutsclearlogo" value="$SKINSHORTCUTS[widgetclearlogothumb]"/>
                     <param name="aspectratio" value="$SKINSHORTCUTS[aspectratio]"/>
                     <param name="distance" value="$SKINSHORTCUTS[distance]"/>
@@ -522,9 +512,7 @@
                     <param name="Fanart" value="$PYTHON['true' if widgetaspectcheck in 'Fanart' else 'false']"/>
                     <param name="Square" value="$PYTHON['true' if widgetaspectcheck in 'Square' else 'false']"/>
                 </include>
-                <include content="TemplateSystemItemLayout" condition="$SKINSHORTCUTS[issystemlayout]">
-                    <param name="shortcutsid" value="301$SKINSHORTCUTS[id]2"/>
-                </include>
+                <include condition="$SKINSHORTCUTS[issystemlayout]">TemplateSystemItemLayout</include>
                 <!-- FocusLayouts -->
                 <include content="TemplateNormalFocusLayout" condition="$SKINSHORTCUTS[isnormallayout]">
                     <param name="shortcutsid" value="301$SKINSHORTCUTS[id]2"/>
@@ -561,7 +549,7 @@
             <control type="group" id="301$SKINSHORTCUTS[id]2100">
                 <include condition="Skin.HasSetting(homemenu.clean.flix) + !Skin.HasSetting(homemenu.clean.flix.no.slide)">Animation.Home.Clean</include>
                 <visible>$SKINSHORTCUTS[isfullscreenwidget] | Skin.HasSetting(homemenu.netflix)</visible>
-                <visible>[Integer.IsGreater(Container(301$SKINSHORTCUTS[id]2).NumItems,0) | Container(301$SKINSHORTCUTS[id]2).IsUpdating] + $EXP[Widget2Enabled]</visible>
+                <visible>[Integer.IsGreater(Container(301$SKINSHORTCUTS[id]2).NumItems,0) | Container(301$SKINSHORTCUTS[id]2).IsUpdating]</visible>
                 <include content="Animation.FadeOutHomeFullscreenWidget">
                     <param name="condition" value="!Control.HasFocus(301$SKINSHORTCUTS[id]2)"/>
                 </include>
@@ -592,7 +580,8 @@
 
     <!-- Widget 3 -->
     <other include="widget-vertical.3">
-        <condition tag="property" attribute="name|widgetEnable.3" />
+        <condition tag="property" attribute="name|widgetEnable.3">yes</condition>
+        <match>all</match>
         <property name="id" tag="mainmenuid"/>
         <property name="ispvrlayout" tag="property" attribute="name|widget.3" value="epg">true</property>
         <property name="ispvrlayout">false</property>
@@ -657,7 +646,6 @@
         <property name="widgetaspectcheck">Poster</property>
         <controls>
             <control type="group" id="301$SKINSHORTCUTS[id]3000">
-                <visible>String.IsEqual(Container(300).ListItem.Property(widgetEnable.3),yes)</visible>
                 <visible>Integer.IsGreater(Container(301$SKINSHORTCUTS[id]3).NumItems,0) | Container(301$SKINSHORTCUTS[id]3).IsUpdating</visible>
                 <skinshortcuts>visibility</skinshortcuts>
                 <control type="grouplist">
@@ -670,7 +658,6 @@
             </control>
             <control type="$SKINSHORTCUTS[widgetlisttype]" id="301$SKINSHORTCUTS[id]3">
                 <skinshortcuts>visibility</skinshortcuts>
-                <visible>String.IsEqual(Container(300).ListItem.Property(widgetEnable.3),yes)</visible>
                 <visible>Integer.IsGreater(Container(301$SKINSHORTCUTS[id]3).NumItems,0) | Container(301$SKINSHORTCUTS[id]3).IsUpdating | String.IsEqual(Container(300).ListItem.Property(widget.3),custom)</visible>
                 <onclick condition="$SKINSHORTCUTS[IsGTO]">RunPlugin(plugin://script.service.gto?action=info&amp;item=$INFO[ListItem.Property(Item)])</onclick>
                 <include content="DefMultiWidgetContainer">
@@ -687,7 +674,6 @@
                 </include>
                 <!-- ItemLayouts -->
                 <include content="TemplateNormalItemLayout" condition="$SKINSHORTCUTS[isnormallayout]">
-                    <param name="shortcutsid" value="301$SKINSHORTCUTS[id]3"/>
                     <param name="shortcutsclearlogo" value="$SKINSHORTCUTS[widgetclearlogothumb]"/>
                     <param name="aspectratio" value="$SKINSHORTCUTS[aspectratio]"/>
                     <param name="distance" value="$SKINSHORTCUTS[distance]"/>
@@ -704,9 +690,7 @@
                     <param name="Fanart" value="$PYTHON['true' if widgetaspectcheck in 'Fanart' else 'false']"/>
                     <param name="Square" value="$PYTHON['true' if widgetaspectcheck in 'Square' else 'false']"/>
                 </include>
-                <include content="TemplateSystemItemLayout" condition="$SKINSHORTCUTS[issystemlayout]">
-                    <param name="shortcutsid" value="301$SKINSHORTCUTS[id]3"/>
-                </include>
+                <include condition="$SKINSHORTCUTS[issystemlayout]">TemplateSystemItemLayout</include>
                 <!-- FocusLayouts -->
                 <include content="TemplateNormalFocusLayout" condition="$SKINSHORTCUTS[isnormallayout]">
                     <param name="shortcutsid" value="301$SKINSHORTCUTS[id]3"/>
@@ -743,7 +727,7 @@
             <control type="group" id="301$SKINSHORTCUTS[id]3100">
                 <include condition="Skin.HasSetting(homemenu.clean.flix) + !Skin.HasSetting(homemenu.clean.flix.no.slide)">Animation.Home.Clean</include>
                 <visible>$SKINSHORTCUTS[isfullscreenwidget] | Skin.HasSetting(homemenu.netflix)</visible>
-                <visible>[Integer.IsGreater(Container(301$SKINSHORTCUTS[id]3).NumItems,0) | Container(301$SKINSHORTCUTS[id]3).IsUpdating] + $EXP[Widget3Enabled]</visible>
+                <visible>[Integer.IsGreater(Container(301$SKINSHORTCUTS[id]3).NumItems,0) | Container(301$SKINSHORTCUTS[id]3).IsUpdating]</visible>
                 <include content="Animation.FadeOutHomeFullscreenWidget">
                     <param name="condition" value="!Control.HasFocus(301$SKINSHORTCUTS[id]3)"/>
                 </include>
@@ -774,7 +758,8 @@
 
     <!-- Widget 4 -->
     <other include="widget-vertical.4">
-        <condition tag="property" attribute="name|widgetEnable.4" />
+        <condition tag="property" attribute="name|widgetEnable.4">yes</condition>
+        <match>all</match>
         <property name="id" tag="mainmenuid"/>
         <property name="ispvrlayout" tag="property" attribute="name|widget.4" value="epg">true</property>
         <property name="ispvrlayout">false</property>
@@ -839,7 +824,6 @@
         <property name="widgetaspectcheck">Poster</property>
         <controls>
             <control type="group" id="301$SKINSHORTCUTS[id]4000">
-                <visible>String.IsEqual(Container(300).ListItem.Property(widgetEnable.4),yes)</visible>
                 <visible>Integer.IsGreater(Container(301$SKINSHORTCUTS[id]4).NumItems,0) | Container(301$SKINSHORTCUTS[id]4).IsUpdating</visible>
                 <skinshortcuts>visibility</skinshortcuts>
                 <control type="grouplist">
@@ -852,7 +836,6 @@
             </control>
             <control type="$SKINSHORTCUTS[widgetlisttype]" id="301$SKINSHORTCUTS[id]4">
                 <skinshortcuts>visibility</skinshortcuts>
-                <visible>String.IsEqual(Container(300).ListItem.Property(widgetEnable.4),yes)</visible>
                 <visible>Integer.IsGreater(Container(301$SKINSHORTCUTS[id]4).NumItems,0) | Container(301$SKINSHORTCUTS[id]4).IsUpdating | String.IsEqual(Container(300).ListItem.Property(widget.4),custom)</visible>
                 <onclick condition="$SKINSHORTCUTS[IsGTO]">RunPlugin(plugin://script.service.gto?action=info&amp;item=$INFO[ListItem.Property(Item)])</onclick>
                 <include content="DefMultiWidgetContainer">
@@ -869,7 +852,6 @@
                 </include>
                 <!-- ItemLayouts -->
                 <include content="TemplateNormalItemLayout" condition="$SKINSHORTCUTS[isnormallayout]">
-                    <param name="shortcutsid" value="301$SKINSHORTCUTS[id]4"/>
                     <param name="shortcutsclearlogo" value="$SKINSHORTCUTS[widgetclearlogothumb]"/>
                     <param name="aspectratio" value="$SKINSHORTCUTS[aspectratio]"/>
                     <param name="distance" value="$SKINSHORTCUTS[distance]"/>
@@ -886,9 +868,7 @@
                     <param name="Fanart" value="$PYTHON['true' if widgetaspectcheck in 'Fanart' else 'false']"/>
                     <param name="Square" value="$PYTHON['true' if widgetaspectcheck in 'Square' else 'false']"/>
                 </include>
-                <include content="TemplateSystemItemLayout" condition="$SKINSHORTCUTS[issystemlayout]">
-                    <param name="shortcutsid" value="301$SKINSHORTCUTS[id]4"/>
-                </include>
+                <include condition="$SKINSHORTCUTS[issystemlayout]">TemplateSystemItemLayout</include>
                 <!-- FocusLayouts -->
                 <include content="TemplateNormalFocusLayout" condition="$SKINSHORTCUTS[isnormallayout]">
                     <param name="shortcutsid" value="301$SKINSHORTCUTS[id]4"/>
@@ -925,7 +905,7 @@
             <control type="group" id="301$SKINSHORTCUTS[id]4100">
                 <include condition="Skin.HasSetting(homemenu.clean.flix) + !Skin.HasSetting(homemenu.clean.flix.no.slide)">Animation.Home.Clean</include>
                 <visible>$SKINSHORTCUTS[isfullscreenwidget] | Skin.HasSetting(homemenu.netflix)</visible>
-                <visible>[Integer.IsGreater(Container(301$SKINSHORTCUTS[id]4).NumItems,0) | Container(301$SKINSHORTCUTS[id]4).IsUpdating] + $EXP[Widget4Enabled]</visible>
+                <visible>[Integer.IsGreater(Container(301$SKINSHORTCUTS[id]4).NumItems,0) | Container(301$SKINSHORTCUTS[id]4).IsUpdating]</visible>
                 <include content="Animation.FadeOutHomeFullscreenWidget">
                     <param name="condition" value="!Control.HasFocus(301$SKINSHORTCUTS[id]4)"/>
                 </include>
@@ -956,7 +936,8 @@
 
     <!-- Widget 5 -->
     <other include="widget-vertical.5">
-        <condition tag="property" attribute="name|widgetEnable.5" />
+        <condition tag="property" attribute="name|widgetEnable.5">yes</condition>
+        <match>all</match>
         <property name="id" tag="mainmenuid"/>
         <property name="ispvrlayout" tag="property" attribute="name|widget.5" value="epg">true</property>
         <property name="ispvrlayout">false</property>
@@ -1021,7 +1002,6 @@
         <property name="widgetaspectcheck">Poster</property>
         <controls>
             <control type="group" id="301$SKINSHORTCUTS[id]5000">
-                <visible>String.IsEqual(Container(300).ListItem.Property(widgetEnable.5),yes)</visible>
                 <visible>Integer.IsGreater(Container(301$SKINSHORTCUTS[id]5).NumItems,0) | Container(301$SKINSHORTCUTS[id]5).IsUpdating</visible>
                 <skinshortcuts>visibility</skinshortcuts>
                 <control type="grouplist">
@@ -1034,7 +1014,6 @@
             </control>
             <control type="$SKINSHORTCUTS[widgetlisttype]" id="301$SKINSHORTCUTS[id]5">
                 <skinshortcuts>visibility</skinshortcuts>
-                <visible>String.IsEqual(Container(300).ListItem.Property(widgetEnable.5),yes)</visible>
                 <visible>Integer.IsGreater(Container(301$SKINSHORTCUTS[id]5).NumItems,0) | Container(301$SKINSHORTCUTS[id]5).IsUpdating | String.IsEqual(Container(300).ListItem.Property(widget.5),custom)</visible>
                 <onclick condition="$SKINSHORTCUTS[IsGTO]">RunPlugin(plugin://script.service.gto?action=info&amp;item=$INFO[ListItem.Property(Item)])</onclick>
                 <include content="DefMultiWidgetContainer">
@@ -1051,7 +1030,6 @@
                 </include>
                 <!-- ItemLayouts -->
                 <include content="TemplateNormalItemLayout" condition="$SKINSHORTCUTS[isnormallayout]">
-                    <param name="shortcutsid" value="301$SKINSHORTCUTS[id]5"/>
                     <param name="shortcutsclearlogo" value="$SKINSHORTCUTS[widgetclearlogothumb]"/>
                     <param name="aspectratio" value="$SKINSHORTCUTS[aspectratio]"/>
                     <param name="distance" value="$SKINSHORTCUTS[distance]"/>
@@ -1068,9 +1046,7 @@
                     <param name="Fanart" value="$PYTHON['true' if widgetaspectcheck in 'Fanart' else 'false']"/>
                     <param name="Square" value="$PYTHON['true' if widgetaspectcheck in 'Square' else 'false']"/>
                 </include>
-                <include content="TemplateSystemItemLayout" condition="$SKINSHORTCUTS[issystemlayout]">
-                    <param name="shortcutsid" value="301$SKINSHORTCUTS[id]5"/>
-                </include>
+                <include condition="$SKINSHORTCUTS[issystemlayout]">TemplateSystemItemLayout</include>
                 <!-- FocusLayouts -->
                 <include content="TemplateNormalFocusLayout" condition="$SKINSHORTCUTS[isnormallayout]">
                     <param name="shortcutsid" value="301$SKINSHORTCUTS[id]5"/>
@@ -1107,7 +1083,7 @@
             <control type="group" id="301$SKINSHORTCUTS[id]5100">
                 <include condition="Skin.HasSetting(homemenu.clean.flix) + !Skin.HasSetting(homemenu.clean.flix.no.slide)">Animation.Home.Clean</include>
                 <visible>$SKINSHORTCUTS[isfullscreenwidget] | Skin.HasSetting(homemenu.netflix)</visible>
-                <visible>[Integer.IsGreater(Container(301$SKINSHORTCUTS[id]5).NumItems,0) | Container(301$SKINSHORTCUTS[id]5).IsUpdating] + $EXP[Widget5Enabled]</visible>
+                <visible>[Integer.IsGreater(Container(301$SKINSHORTCUTS[id]5).NumItems,0) | Container(301$SKINSHORTCUTS[id]5).IsUpdating]</visible>
                 <include content="Animation.FadeOutHomeFullscreenWidget">
                     <param name="condition" value="!Control.HasFocus(301$SKINSHORTCUTS[id]5)"/>
                 </include>
@@ -1138,7 +1114,8 @@
 
     <!-- Widget 6 -->
     <other include="widget-vertical.6">
-        <condition tag="property" attribute="name|widgetEnable.6" />
+        <condition tag="property" attribute="name|widgetEnable.6">yes</condition>
+        <match>all</match>
         <property name="id" tag="mainmenuid"/>
         <property name="ispvrlayout" tag="property" attribute="name|widget.6" value="epg">true</property>
         <property name="ispvrlayout">false</property>
@@ -1203,7 +1180,6 @@
         <property name="widgetaspectcheck">Poster</property>
         <controls>
             <control type="group" id="301$SKINSHORTCUTS[id]6000">
-                <visible>String.IsEqual(Container(300).ListItem.Property(widgetEnable.6),yes)</visible>
                 <visible>Integer.IsGreater(Container(301$SKINSHORTCUTS[id]6).NumItems,0) | Container(301$SKINSHORTCUTS[id]6).IsUpdating</visible>
                 <skinshortcuts>visibility</skinshortcuts>
                 <control type="grouplist">
@@ -1216,7 +1192,6 @@
             </control>
             <control type="$SKINSHORTCUTS[widgetlisttype]" id="301$SKINSHORTCUTS[id]6">
                 <skinshortcuts>visibility</skinshortcuts>
-                <visible>String.IsEqual(Container(300).ListItem.Property(widgetEnable.6),yes)</visible>
                 <visible>Integer.IsGreater(Container(301$SKINSHORTCUTS[id]6).NumItems,0) | Container(301$SKINSHORTCUTS[id]6).IsUpdating | String.IsEqual(Container(300).ListItem.Property(widget.6),custom)</visible>
                 <onclick condition="$SKINSHORTCUTS[IsGTO]">RunPlugin(plugin://script.service.gto?action=info&amp;item=$INFO[ListItem.Property(Item)])</onclick>
                 <include content="DefMultiWidgetContainer">
@@ -1233,7 +1208,6 @@
                 </include>
                 <!-- ItemLayouts -->
                 <include content="TemplateNormalItemLayout" condition="$SKINSHORTCUTS[isnormallayout]">
-                    <param name="shortcutsid" value="301$SKINSHORTCUTS[id]6"/>
                     <param name="shortcutsclearlogo" value="$SKINSHORTCUTS[widgetclearlogothumb]"/>
                     <param name="aspectratio" value="$SKINSHORTCUTS[aspectratio]"/>
                     <param name="distance" value="$SKINSHORTCUTS[distance]"/>
@@ -1250,9 +1224,7 @@
                     <param name="Fanart" value="$PYTHON['true' if widgetaspectcheck in 'Fanart' else 'false']"/>
                     <param name="Square" value="$PYTHON['true' if widgetaspectcheck in 'Square' else 'false']"/>
                 </include>
-                <include content="TemplateSystemItemLayout" condition="$SKINSHORTCUTS[issystemlayout]">
-                    <param name="shortcutsid" value="301$SKINSHORTCUTS[id]6"/>
-                </include>
+                <include condition="$SKINSHORTCUTS[issystemlayout]">TemplateSystemItemLayout</include>
                 <!-- FocusLayouts -->
                 <include content="TemplateNormalFocusLayout" condition="$SKINSHORTCUTS[isnormallayout]">
                     <param name="shortcutsid" value="301$SKINSHORTCUTS[id]6"/>
@@ -1289,7 +1261,7 @@
             <control type="group" id="301$SKINSHORTCUTS[id]6100">
                 <include condition="Skin.HasSetting(homemenu.clean.flix) + !Skin.HasSetting(homemenu.clean.flix.no.slide)">Animation.Home.Clean</include>
                 <visible>$SKINSHORTCUTS[isfullscreenwidget] | Skin.HasSetting(homemenu.netflix)</visible>
-                <visible>[Integer.IsGreater(Container(301$SKINSHORTCUTS[id]6).NumItems,0) | Container(301$SKINSHORTCUTS[id]6).IsUpdating] + $EXP[Widget6Enabled]</visible>
+                <visible>[Integer.IsGreater(Container(301$SKINSHORTCUTS[id]6).NumItems,0) | Container(301$SKINSHORTCUTS[id]6).IsUpdating]</visible>
                 <include content="Animation.FadeOutHomeFullscreenWidget">
                     <param name="condition" value="!Control.HasFocus(301$SKINSHORTCUTS[id]6)"/>
                 </include>
@@ -1369,14 +1341,12 @@
                 <include>ScrolltimeWidgetsList</include>
                 <itemlayout height="325" width="222" condition="!String.IsEqual(Container(300).ListItem.Property(widgetaspect),Square) + ![String.IsEqual(Container(300).ListItem.Property(widgetaspect),Fanart) | String.IsEqual(Container(300).ListItem.Property(widgetaspect),Thumbnail)] + !String.IsEqual(Container(300).ListItem.Property(widget),system)">
                     <include content="include.widget.poster">
-                        <param name="id" value="301"/>
                         <param name="reflections" value="Skin.HasSetting(home.widgets.show.reflections)"/>
                         <param name="height" value="325"/>
                     </include>
                 </itemlayout>
                 <itemlayout height="325" width="325" condition="String.IsEqual(Container(300).ListItem.Property(widgetaspect),Square) | String.IsEqual(Container(300).ListItem.Property(widget),system)">
                     <include content="include.widget.square">
-                        <param name="id" value="301"/>
                         <param name="aspectratio" value="$SKINSHORTCUTS[aspectratio]"/>
                         <param name="distance" value="$SKINSHORTCUTS[distance]"/>
                         <param name="reflections" value="Skin.HasSetting(home.widgets.show.reflections)"/>
@@ -1385,14 +1355,12 @@
                 </itemlayout>
                 <itemlayout height="325" width="562" condition="String.IsEqual(Container(300).ListItem.Property(widgetaspect),Fanart) + !String.IsEqual(Container(300).ListItem.Property(widget),system)">
                     <include content="include.widget.fanart">
-                        <param name="id" value="301"/>
                         <param name="reflections" value="Skin.HasSetting(home.widgets.show.reflections)"/>
                         <param name="height" value="325"/>
                     </include>
                 </itemlayout>
                 <itemlayout height="325" width="562" condition="String.IsEqual(Container(300).ListItem.Property(widgetaspect),Thumbnail) + !String.IsEqual(Container(300).ListItem.Property(widget),system)">
                     <include content="include.widget.thumb">
-                        <param name="id" value="301"/>
                         <param name="reflections" value="Skin.HasSetting(home.widgets.show.reflections)"/>
                         <param name="clearlogo" value="$SKINSHORTCUTS[widgetclearlogothumb]"/>
                         <param name="height" value="325"/>
