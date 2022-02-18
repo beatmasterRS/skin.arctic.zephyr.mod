@@ -26,7 +26,7 @@
         <!-- Other Menus And Widgets -->
         <include condition="$EXP[HomeIsVerticalMultiWidgets]">HomeVerticalMenuWidgets</include>
         <include condition="$EXP[HomeIsVertical]">HomeVerticalMenu</include>
-        <include condition="!Skin.HasSetting(home.vertical) + !Skin.HasSetting(home.showclearlogotopright) + !Skin.HasSetting(home.modernwidgets)">HomeWeatherWidget</include>
+        <include condition="!Skin.HasSetting(home.vertical) + !Skin.HasSetting(home.modernwidgets)">HomeWeatherWidget</include>
         <include condition="!Skin.HasSetting(home.vertical) + !Skin.HasSetting(home.classicwidgets) + ![Skin.HasSetting(home.modernwidgets) + Skin.HasSetting(home.vertical.widgets)]">HomeWidgetInfo</include>
         <include condition="!Skin.HasSetting(home.vertical) + Skin.HasSetting(home.classicwidgets)">HomeClassicWidgets</include>
 
@@ -42,6 +42,13 @@
         <control type="group">
             <include condition="$EXP[HomeIsModernMultiWidgets]">Animation.FadeHomeRow</include>
             <include condition="!Skin.HasSetting(home.vertical) + !Skin.HasSetting(home.classicwidgets)">HomeRow</include>
+        </control>
+        
+        <!-- ClearLogo For Multi widgets -->
+        <control type="group">
+            <visible>[!Window.IsVisible(DialogVideoInfo.xml) + ![String.IsEqual(Container(300).ListItem.Property(widget),weatherdaily) | String.IsEqual(Container(300).ListItem.Property(widget),weatherhourly)]] | [!Window.IsVisible(DialogVideoInfo.xml) + [String.IsEqual(Container(300).ListItem.Property(widget),weatherdaily) | String.IsEqual(Container(300).ListItem.Property(widget),weatherhourly)] + String.IsEmpty(Skin.String(weather.fanart.path))]</visible>
+            <visible>!Window.IsVisible(DialogMusicInfo.xml)</visible>
+            <include condition="![Skin.HasSetting(home.vertical) + Skin.HasSetting(home.vertical.widgets)]">HomeClearLogo</include>
         </control>
 
         <!-- Submenus -->
@@ -59,12 +66,6 @@
         <!-- Flags For Vertical Multi widgets -->
         <include condition="$EXP[HomeIsVerticalMultiWidgets] + [![$EXP[HomeIsVerticalMultiWidgets] + Skin.HasSetting(homemenu.vertical.noslide)] | [$EXP[HomeIsVerticalMultiWidgets] + Skin.HasSetting(homemenu.vertical.noslide) + Skin.HasSetting(home.showicons) + Skin.HasSetting(homemenu.only.icons)]]">HomeWidgetVerticalFlags</include>
 
-        <!-- ClearLogo For Multi widgets -->
-        <control type="group">
-            <visible>[!Window.IsVisible(DialogVideoInfo.xml) + ![String.IsEqual(Container(300).ListItem.Property(widget),weatherdaily) | String.IsEqual(Container(300).ListItem.Property(widget),weatherhourly)]] | [!Window.IsVisible(DialogVideoInfo.xml) + [String.IsEqual(Container(300).ListItem.Property(widget),weatherdaily) | String.IsEqual(Container(300).ListItem.Property(widget),weatherhourly)] + String.IsEmpty(Skin.String(weather.fanart.path))]</visible>
-            <visible>!Window.IsVisible(DialogMusicInfo.xml)</visible>
-            <include condition="![Skin.HasSetting(home.vertical) + Skin.HasSetting(home.vertical.widgets)]">HomeClearLogo</include>
-        </control>
         <!--<control type="label">
             <left>60</left>
             <right>60</right>
