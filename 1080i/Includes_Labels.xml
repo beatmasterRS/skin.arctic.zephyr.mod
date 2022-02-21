@@ -603,7 +603,7 @@
         <value condition="String.IsEqual(Container(300).ListItem.Property(widget),system)">$INFO[Container(301).ListItem.Label]</value>
         <value condition="String.IsEqual(Container(300).ListItem.Property(widget),NextAired) | String.IsEqual(Container(300).ListItem.Property(widget),Favourites)">$INFO[Container(301).ListItem.Label]</value>
         <value condition="String.IsEqual(Container(301).ListItem.DBType,episode) + $EXP[HomeIsSpotlight]">$INFO[Container(301).ListItem.Season,,x]$INFO[Container(301).ListItem.Episode,,. ]$INFO[Container(301).ListItem.Title]</value>
-        <value condition="String.IsEqual(Container(301).ListItem.DBType,episode)">$INFO[Container(301).ListItem.TvShowTitle,, - ]$INFO[Container(301).ListItem.Season,,x]$INFO[Container(301).ListItem.Episode,,. ]$INFO[Container(301).ListItem.Title]</value>
+        <value condition="String.IsEqual(Container(301).ListItem.DBType,episode)">$INFO[Container(301).ListItem.Season,,x]$INFO[Container(301).ListItem.Episode,,. ]$INFO[Container(301).ListItem.Title]</value>
         <value condition="!String.IsEmpty(Container(301).ListItem.Title)">$INFO[Container(301).ListItem.Title]</value>
         <value>$INFO[Container(301).ListItem.Label]</value>
     </variable>
@@ -624,11 +624,6 @@
         <value condition="Skin.HasSetting(furniture.showtomatoesandmetacritics) + ![ $EXP[HomeIsVerticalMultiWidgets] + !Skin.HasSetting(hide.furniture.flags.vertical.widgets)]">$INFO[Window(Home).Property(TMDbHelper.ListItem.Metacritic_Rating),  •  MC ,%]$INFO[Window(Home).Property(TMDbHelper.ListItem.RottenTomatoes_Rating),  •  RT ,%]</value>
     </variable>
 
-    <variable name="WidgetSubLabelSeasonEpisode">
-        <value condition="$EXP[HomeIsSpotlight]">$INFO[Container(301).ListItem.TvShowTitle,,  •  ]</value>
-        <value>$INFO[Container(301).ListItem.Season,$LOCALIZE[20373] ,  •  ]$INFO[Container(301).ListItem.Episode,$LOCALIZE[20359] ,  •  ]</value>
-    </variable>
-
     <variable name="WidgetSubLabel">
         <value condition="String.IsEqual(Container(300).ListItem.Property(widget),NextAired)"/>
         <value condition="String.Contains(Container(300).ListItem.Property(widgetType),artists) + !String.IsEmpty(Container(301).ListItem.Property(Artist_Style))">$INFO[Container(301).ListItem.Property(Artist_Style)]</value>
@@ -636,9 +631,9 @@
         <value condition="String.Contains(Container(300).ListItem.Property(widgetType),music) | String.Contains(Container(300).ListItem.Property(widgetType),albums) | String.Contains(Container(300).ListItem.Property(widgetType),songs)">$INFO[Container(301).ListItem.Artist]$INFO[Container(44322).NumItems,  •  , $LOCALIZE[134]]$INFO[Container(301).ListItem.Year,  •  ,]</value>
 
         <!-- Episodes -->
-        <value condition="String.IsEqual(Container(301).ListItem.DBType,episode) + !Skin.HasSetting(NewTime)">$VAR[WidgetSubLabelSeasonEpisode]$INFO[Container(301).ListItem.Premiered,,  •  ]$INFO[Container(301).ListItem.Duration(mins),, $LOCALIZE[31102]  •  ]$VAR[RatingLabel301]$VAR[RtMclabel]</value>
-        <value condition="String.IsEqual(Container(301).ListItem.DBType,episode) + Skin.HasSetting(NewTime) + Integer.IsGreater(Container(301).ListItem.Duration(h),0)">$VAR[WidgetSubLabelSeasonEpisode]$INFO[Container(301).ListItem.Episode,$LOCALIZE[20359] ,  •  ]$INFO[Container(301).ListItem.Premiered,,  •  ]$INFO[Container(301).ListItem.Duration(h),,$LOCALIZE[31088]] $INFO[Container(301).ListItem.Duration(mm),,$LOCALIZE[31089]  •  ]$VAR[RatingLabel301]$VAR[RtMclabel]</value>
-        <value condition="String.IsEqual(Container(301).ListItem.DBType,episode) + Skin.HasSetting(NewTime) + !Integer.IsGreater(Container(301).ListItem.Duration(h),0)">$VAR[WidgetSubLabelSeasonEpisode]$INFO[Container(301).ListItem.Episode,$LOCALIZE[20359] ,  •  ]$INFO[Container(301).ListItem.Premiered,,  •  ]$INFO[Container(301).ListItem.Duration(mins),,$LOCALIZE[31089]  •  ]$VAR[RatingLabel301]$VAR[RtMclabel]</value>
+        <value condition="String.IsEqual(Container(301).ListItem.DBType,episode) + !Skin.HasSetting(NewTime)">$INFO[Container(301).ListItem.TvShowTitle,,  •  ]$INFO[Container(301).ListItem.Season,$LOCALIZE[20373] ,  •  ]$INFO[Container(301).ListItem.Episode,$LOCALIZE[20359] ,  •  ]$INFO[Container(301).ListItem.Premiered,,  •  ]$INFO[Container(301).ListItem.Duration(mins),, $LOCALIZE[31102]  •  ]$VAR[RatingLabel301]$VAR[RtMclabel]</value>
+        <value condition="String.IsEqual(Container(301).ListItem.DBType,episode) + Skin.HasSetting(NewTime) + Integer.IsGreater(Container(301).ListItem.Duration(h),0)">$INFO[Container(301).ListItem.TvShowTitle,,  •  ]$INFO[Container(301).ListItem.Season,$LOCALIZE[20373] ,  •  ]$INFO[Container(301).ListItem.Episode,$LOCALIZE[20359] ,  •  ]$INFO[Container(301).ListItem.Premiered,,  •  ]$INFO[Container(301).ListItem.Duration(h),,$LOCALIZE[31088]] $INFO[Container(301).ListItem.Duration(mm),,$LOCALIZE[31089]  •  ]$VAR[RatingLabel301]$VAR[RtMclabel]</value>
+        <value condition="String.IsEqual(Container(301).ListItem.DBType,episode) + Skin.HasSetting(NewTime) + !Integer.IsGreater(Container(301).ListItem.Duration(h),0)">$INFO[Container(301).ListItem.TvShowTitle,,  •  ]$INFO[Container(301).ListItem.Season,$LOCALIZE[20373] ,  •  ]$INFO[Container(301).ListItem.Episode,$LOCALIZE[20359] ,  •  ]$INFO[Container(301).ListItem.Premiered,,  •  ]$INFO[Container(301).ListItem.Duration(mins),,$LOCALIZE[31089]  •  ]$VAR[RatingLabel301]$VAR[RtMclabel]</value>
 
         <!-- Movies -->
         <value condition="String.IsEqual(Container(301).ListItem.DBType,movie) + !Skin.HasSetting(NewTime) + !String.IsEqual(Container(301).ListItem.DBType,set)">$INFO[Container(301).ListItem.Year,,  •  ]$INFO[Container(301).ListItem.Duration(mins),, $LOCALIZE[31102]]$VAR[RatingLabel301,  •  ]$VAR[RtMclabel]</value>
