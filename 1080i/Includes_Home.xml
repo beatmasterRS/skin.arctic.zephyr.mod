@@ -4110,8 +4110,14 @@
 
         <!-- Episodes -->
         <include content="MultiWidgetsHeaderLabel">
+            <param name="label" value="$INFO[Container($PARAM[id]).ListItem.Label]" />
+            <param name="visible" value="!String.StartsWith(Container($PARAM[id]).ListItem.FolderPath,pvr://) + String.IsEqual(Container($PARAM[id]).ListItem.DBType,episode) + [$EXP[HomeIsModernMultiWidgets] | $EXP[HomeIsVerticalMultiWidgets]] + !Skin.HasSetting(homemenu.netflix) + !Skin.HasSetting(homemenu.clean.flix)" />
+            <param name="id" value="$PARAM[id]" />
+        </include>
+        
+        <include content="MultiWidgetsHeaderLabel">
             <param name="label" value="$INFO[Container($PARAM[id]).ListItem.TvShowTitle,, - ]$INFO[Container($PARAM[id]).ListItem.Label]" />
-            <param name="visible" value="!String.StartsWith(Container($PARAM[id]).ListItem.FolderPath,pvr://) + String.IsEqual(Container($PARAM[id]).ListItem.DBType,episode)" />
+            <param name="visible" value="!String.StartsWith(Container($PARAM[id]).ListItem.FolderPath,pvr://) + String.IsEqual(Container($PARAM[id]).ListItem.DBType,episode) + [[$EXP[HomeIsModernMultiWidgets] | $EXP[HomeIsVerticalMultiWidgets]] + [Skin.HasSetting(homemenu.netflix) | Skin.HasSetting(homemenu.clean.flix)]]" />
             <param name="id" value="$PARAM[id]" />
         </include>
 
@@ -4331,6 +4337,11 @@
                 <itemgap>0</itemgap>
                 <visible>String.IsEqual(Container($PARAM[id]).ListItem.DBType,episode)</visible>
                 <orientation>horizontal</orientation>
+                <control type="label">
+                    <include>MultiWidgetsSubLabelDefinition</include>
+                    <label>$INFO[Container($PARAM[id]).ListItem.TvShowTitle,,  •  ]</label>
+                    <visible>!String.IsEmpty(Container($PARAM[id]).ListItem.TvShowTitle) + [$EXP[HomeIsModernMultiWidgets] | $EXP[HomeIsVerticalMultiWidgets]] + !Skin.HasSetting(homemenu.netflix) + !Skin.HasSetting(homemenu.clean.flix)</visible>
+                </control>
                 <control type="label">
                     <include>MultiWidgetsSubLabelDefinition</include>
                     <label>$INFO[Container($PARAM[id]).ListItem.Season,$LOCALIZE[20373] ,  •  ]</label>
