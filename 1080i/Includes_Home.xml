@@ -3750,6 +3750,7 @@
         <height>40</height>
         <left>SidePad</left>
         <visible>!Skin.HasSetting(homemenu.clean.flix) | [Skin.HasSetting(homemenu.clean.flix) + !Skin.HasSetting(hidewidgettitle)]</visible>
+        <visible>![Skin.HasSetting(homemenu.clean.flix) + Skin.HasSetting(homemenu.hide.info)]</visible>
         <include condition="Skin.HasSetting(homemenu.clean.flix) + !Skin.HasSetting(homemenu.clean.flix.no.slide)">Animation.Home.Clean</include>
         <include content="def_top" condition="Skin.HasSetting(homemenu.clean.flix) + !Skin.HasSetting(hidewidgettitle) + [Skin.HasSetting(home.oldmenuheight) | Skin.HasSetting(submenu.compatibility)]">
             <param name="top" value="705" />
@@ -3929,6 +3930,7 @@
                 <animation effect="fade" start="100" end="0" time="150" condition="!ControlGroup(301).HasFocus() + Skin.HasSetting(home.hide.netflix.plot) + Skin.HasSetting(homemenu.netflix) + !Skin.HasSetting(homemenu.clean.flix)">Conditional</animation>
                 <include condition="!Skin.HasSetting(widgets.fade)">Animation.Vertical.Widgets.Label</include>
                 <control type="grouplist">
+                    <visible>![Skin.HasSetting(homemenu.clean.flix) + Skin.HasSetting(homemenu.hide.info)]</visible>
                     <left>SidePad</left>
                     <include content="def_width" condition="Skin.HasSetting(homemenu.netflix)">
                         <param name="width" value="NetflixPlotWidth" />
@@ -3987,6 +3989,11 @@
                         <param name="setcontent" value="videodb://movies/sets/$INFO[Container($PARAM[id]).ListItem.DBID]/?setid=$INFO[Container($PARAM[id]).ListItem.DBID]"/>
                     </include>
                 </control>
+                <control type="grouplist">
+                    <left>920</left>
+                    <bottom>5</bottom>
+                    <include content="InfoLineCircles"><param name="id" value="$PARAM[id]" /></include>
+                </control>
             </control>
         </definition>
     </include>
@@ -4017,7 +4024,9 @@
             <param name="top" value="-427" />
         </include>
         <left>SidePad</left>
-        <include>InfoSubWidgetWeatherNormal</include>
+        <include content="InfoSubWidgetWeatherNormal">
+            <param name="id" value="$PARAM[id]"/>
+        </include>
     </include>
 
     <include name="InfoSubWidgetSystem">
@@ -4049,7 +4058,9 @@
             <param name="top" value="-427" />
         </include>
         <left>SidePad</left>
-        <include condition="!$PARAM[issettingslayout]">InfoSubWidgetSystemInclude</include>
+        <include condition="!$PARAM[issettingslayout]" content="InfoSubWidgetSystemInclude">
+            <param name="id" value="$PARAM[id]"/>
+        </include>
         <include condition="$PARAM[issettingslayout]" content="InfoSubWidgetSettingsInclude">
             <param name="id" value="$PARAM[id]"/>
         </include>
@@ -4498,6 +4509,7 @@
             <animation effect="slide" start="0" end="0,-24" time="0" condition="Skin.HasSetting(home.modernwidgets) + Skin.HasSetting(home.vertical.widgets) + Skin.HasSetting(home.oldmenuheight)">Conditional</animation>
             <visible>Integer.IsGreater(Container(301).NumItems,1) + ControlGroup(301).HasFocus()</visible>
             <visible>![Window.IsVisible(DialogVideoInfo.xml) | Window.IsVisible(DialogMusicInfo.xml) | Window.IsVisible(DialogPVRInfo.xml) | Window.IsVisible(DialogAddonInfo.xml) | Window.IsVisible(skin.arctic.zephyr.mod.script-gto-info.xml)]</visible>
+            <visible>![Skin.HasSetting(homemenu.clean.flix) + Skin.HasSetting(homemenu.hide.info)]</visible>
             <control type="group">
                 <top>538</top>
                 <visible>Container(301).HasNext</visible>
@@ -4563,6 +4575,7 @@
             <animation effect="slide" start="0" end="30,0" time="0" condition="Integer.IsEqual(Container(301).NumItems,1)">Conditional</animation>
             <visible>Skin.HasSetting(homemenu.clean.flix)</visible>
             <visible>![Window.IsVisible(DialogVideoInfo.xml) | Window.IsVisible(DialogMusicInfo.xml) | Window.IsVisible(DialogPVRInfo.xml) | Window.IsVisible(DialogAddonInfo.xml) | Window.IsVisible(skin.arctic.zephyr.mod.script-gto-info.xml)] + !Control.HasFocus(300) + !Control.HasFocus(302)</visible>
+            <visible>![Skin.HasSetting(homemenu.clean.flix) + Skin.HasSetting(homemenu.hide.info)]</visible>
             <control type="label">
                 <include>Animation.DelayFadeIn300</include>
                 <align>right</align>
