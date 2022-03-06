@@ -4964,42 +4964,55 @@
         <orientation>horizontal</orientation>
         <height>20</height>
         <itemgap>10</itemgap>
+        <include condition="!Skin.HasSetting(widgets.fade)">Animation.Vertical.Widgets.Container</include>
         <visible>Skin.HasSetting(homemenu.clean.flix) + Skin.HasSetting(homemenu.hide.info)</visible>
+        
+        <!-- Circle 1 -->
         <control type="image">
             <width>20</width>
             <height>20</height>
             <texture colordiffuse="Dark1">common/circle2.png</texture>
-            <visible>!Container($PARAM[id]).HasPrevious</visible>
+            <visible>!Container($PARAM[id]).HasPrevious + !Integer.IsEqual(Container($PARAM[id]).NumItems,1)</visible>
+            <visible>Integer.IsGreater(Container($PARAM[id]).NumItems,0)</visible>
         </control>
         <control type="image">
             <width>20</width>
             <height>20</height>
             <texture colordiffuse="Dark1">common/circle.png</texture>
-            <visible>Container($PARAM[id]).HasPrevious</visible>
+            <visible>Container($PARAM[id]).HasPrevious | Integer.IsEqual(Container($PARAM[id]).NumItems,1)</visible>
+            <visible>Integer.IsGreater(Container($PARAM[id]).NumItems,0)</visible>
         </control>
+        
+        <!-- Circle 2 -->
         <control type="image">
             <width>20</width>
             <height>20</height>
             <texture colordiffuse="Dark1">common/circle2.png</texture>
-            <visible>Container($PARAM[id]).HasPrevious + Container($PARAM[id]).HasNext</visible>
+            <visible>[Container($PARAM[id]).HasPrevious + Container($PARAM[id]).HasNext] |  Integer.IsEqual(Container($PARAM[id]).NumItems,1)</visible>
+            <visible>Integer.IsGreater(Container($PARAM[id]).NumItems,0)</visible>
         </control>
         <control type="image">
             <width>20</width>
             <height>20</height>
             <texture colordiffuse="Dark1">common/circle.png</texture>
             <visible>![Container($PARAM[id]).HasPrevious + Container($PARAM[id]).HasNext]</visible>
+            <visible>Integer.IsGreater(Container($PARAM[id]).NumItems,0)</visible>
         </control>
+        
+        <!-- Circle 3 -->
         <control type="image">
             <width>20</width>
             <height>20</height>
             <texture colordiffuse="Dark1">common/circle.png</texture>
             <visible>Container($PARAM[id]).HasNext</visible>
+            <visible>Integer.IsGreater(Container($PARAM[id]).NumItems,0)</visible>
         </control>
         <control type="image">
             <width>20</width>
             <height>20</height>
             <texture colordiffuse="Dark1">common/circle2.png</texture>
-            <visible>!Container($PARAM[id]).HasNext</visible>
+            <visible>!Container($PARAM[id]).HasNext + !Integer.IsEqual(Container($PARAM[id]).NumItems,1)</visible>
+            <visible>Integer.IsGreater(Container($PARAM[id]).NumItems,0)</visible>
         </control>
     </include>
 </includes>
