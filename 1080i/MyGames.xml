@@ -3,7 +3,7 @@
 <window>
     <defaultcontrol always="true">50</defaultcontrol>
     <menucontrol>9000</menucontrol>
-    <views>50,51,52,53,54,55,56,57,58,59,500,501,504,507,509,510,511,513,514,515,517,519,521,527,550,555</views>
+    <views>50,51,52,53,54,55,56,57,58,59,500,501,504,507,509,510,511,512,513,514,515,517,519,521,527,550,555</views>
     <controls>
         <include>GlobalBackground</include>
         <include condition="!Skin.HasSetting(50list.low)">View_50_List</include>
@@ -15,6 +15,10 @@
         <include condition="!Skin.HasSetting(52biglist.singlepane)">View_52_BigList_DoublePane</include>
         <include>View_53_Poster</include>
         <include>View_54_Banner</include>
+        <include>View_515_SideCards</include>
+        <include>View_555_Wall_Episodes</include>
+        <include>View_517_WallSmall</include>
+        <include>View_519_Shift_Modern</include>
         <include condition="Skin.HasSetting(55wall.showinfo)">View_55_Wall_Info</include>
         <include condition="Skin.HasSetting(55wall.showposter)">View_55_Wall_Poster</include>
         <include condition="!Skin.HasSetting(55wall.showinfo) + !Skin.HasSetting(55wall.showposter)">View_55_Wall</include>
@@ -37,10 +41,6 @@
         <include>View_513_Shifted</include>
         <include>View_514_Albums</include>
         <include>View_527_List_V2</include>
-        <include>View_515_SideCards</include>
-        <include>View_555_Wall_Episodes</include>
-        <include>View_517_WallSmall</include>
-        <include>View_519_Shift_Modern</include>
 
         <include>Furniture_Header</include>
         <include>Furniture_NowPlaying</include>
@@ -54,10 +54,10 @@
             <include>GlobalOverlay</include>
         </control>
         <control type="group">
-            <top>300</top>
-            <height>410</height>
+            <animation effect="slide" start="0" end="-655" time="200" condition="Window.IsVisible(1109)">Conditional</animation>
+            <height>690</height>
             <include>Def9000Background</include>
-            <include content="Def9000Arrows"><param name="arrow_bottom" value="410" /></include>
+            <include>Def9000Arrows</include>
             <control type="group">
                 <left>22</left>
                 <top>22</top>
@@ -71,11 +71,12 @@
                     <label>14018</label>
                 </control>
                 <include>Kodi_Logo</include>
+
                 <!-- Lines -->
                 <control type="image">
                     <top>70</top>
                     <left>17</left>
-                    <width>385</width>
+                    <width>388</width>
                     <height>1</height>
                     <bottom>10</bottom>
                     <colordiffuse>Black12</colordiffuse>
@@ -85,20 +86,43 @@
             <include content="Def_Gradient_Settings_Image">
                 <param name="controlid" value="9000"/>
                 <param name="left" value="8"/>
-                <param name="top" value="110"/>
+                <param name="top" value="112"/>
                 <param name="width" value="450"/>
+                <param name="overlayfix" value="true"/>
+                <param name="delay" value="20"/>
+                <param name="visible" value="!ControlGroup(6150).HasFocus()"/>
             </include>
             <control type="grouplist" id="9000">
-                <top>110</top>
-                <scrolltime>0</scrolltime>
-                <height>490</height>
+                <top>112</top>
                 <usecontrolcoords>true</usecontrolcoords>
-                <include>Def9000GroupList</include>
+                <include content="Def9000GroupList"><param name="height" value="560" /></include>
+                <scrolltime>0</scrolltime>
+
+                <!-- Sort Options -->
+                <control type="button" id="9305">
+                    <include>DefContextButtonGradient</include>
+                    <label>$LOCALIZE[582]: $INFO[Container.Viewmode]</label>
+                    <align>left</align>
+                    <onclick>ActivateWindow(1109)</onclick>
+                    <visible>!Skin.HasSetting(views.oldselector)</visible>
+                </control>
                 <control type="button" id="2">
                     <description>View</description>
+                    <include condition="Skin.HasSetting(enable.forcedviews)">unlock_views</include>
                     <include>DefContextButtonGradient</include>
                     <align>left</align>
+                    <visible>Skin.HasSetting(views.oldselector)</visible>
                 </control>
+                <control type="radiobutton" id="1111">
+                    <selected>[Container.Content() + !String.IsEmpty(Skin.String(Skin.ForcedView.))] | [Container.Content(tags) + !String.IsEmpty(Skin.String(Skin.ForcedView.tags))] | [Container.Content(years) + !String.IsEmpty(Skin.String(Skin.ForcedView.years))] | [Container.Content(genres) + !String.IsEmpty(Skin.String(Skin.ForcedView.genres))] | [Container.Content(countries) + !String.IsEmpty(Skin.String(Skin.ForcedView.countries))] | [Container.Content(studios) + !String.IsEmpty(Skin.String(Skin.ForcedView.studios))] | [Container.Content(playlists) + !String.IsEmpty(Skin.String(Skin.ForcedView.playlists))] | [Container.Content(movies) + !String.IsEmpty(Skin.String(Skin.ForcedView.movies))] | [Container.Content(sets) + !String.IsEmpty(Skin.String(Skin.ForcedView.sets))] | [Container.Content(tvshows) + !String.IsEmpty(Skin.String(Skin.ForcedView.tvshows))] | [Container.Content(seasons) + !String.IsEmpty(Skin.String(Skin.ForcedView.seasons))] | [Container.Content(episodes) + !String.IsEmpty(Skin.String(Skin.ForcedView.episodes))] | [Container.Content(artists) + !String.IsEmpty(Skin.String(Skin.ForcedView.artists))] | [Container.Content(albums) + !String.IsEmpty(Skin.String(Skin.ForcedView.albums))] | [Container.Content(songs) + !String.IsEmpty(Skin.String(Skin.ForcedView.songs))] | [Container.Content(musicvideos) + !String.IsEmpty(Skin.String(Skin.ForcedView.musicvideos))] | [Container.Content(addons) + !String.IsEmpty(Skin.String(Skin.ForcedView.addons))] | [Container.Content(actors) + !String.IsEmpty(Skin.String(Skin.ForcedView.actors))] | [Container.Content(directors) + !String.IsEmpty(Skin.String(Skin.ForcedView.directors))] | [Container.Content(files) + !String.IsEmpty(Skin.String(Skin.ForcedView.files))] | [Container.Content(mixed) + !String.IsEmpty(Skin.String(Skin.ForcedView.mixed))] | [Container.Content(images) + !String.IsEmpty(Skin.String(Skin.ForcedView.images))] | [Container.Content(games) + !String.IsEmpty(Skin.String(Skin.ForcedView.games))] | [Container.Content(unknown) + !String.IsEmpty(Skin.String(Skin.ForcedView.unknown))] | [Container.Content(videos) + !String.IsEmpty(Skin.String(Skin.ForcedView.videos))]</selected>
+                    <include>DefContextButtonGradient</include>
+                    <align>left</align>
+                    <label>$LOCALIZE[31420] $VAR[label_container]</label>
+                    <include>unlock_views</include>
+                    <include>lock_views</include>
+                    <visible>!String.IsEmpty(Container.Content) + Skin.HasSetting(enable.forcedviews)</visible>
+                </control>
+
                 <control type="button" id="3">
                     <description>Sort</description>
                     <include>DefContextButtonGradient</include>
@@ -110,6 +134,20 @@
                     <align>left</align>
                     <label>584</label>
                     <altlabel>585</altlabel>
+                </control>
+                <control type="button" id="55551">
+                    <include>DefContextMenuLabel</include>
+                    <label>31076</label>
+                    <visible>!Control.IsVisible(519) + !Control.IsVisible(500) + !Control.IsVisible(550) + !Control.IsVisible(555) + !Control.IsVisible(59) + !Control.IsVisible(58) + !Control.IsVisible(52) + !Control.IsVisible(515) + !Control.IsVisible(513)</visible>
+                </control>
+                <control type="radiobutton" id="90444">
+                    <include>DefContextButtonGradient</include>
+                    <align>left</align>
+                    <label>31098</label>
+                    <selected>Skin.HasSetting(view.526.switch.plot.poster)</selected>
+                    <onclick>Skin.ToggleSetting(view.526.switch.plot.poster)</onclick>
+                    <visible>Control.IsVisible(526)</visible>
+                    <onclick>ReloadSkin()</onclick>
                 </control>
                 <control type="edit" id="19">
                     <label>587</label>
@@ -127,10 +165,15 @@
                     <onclick>Filter</onclick>
                     <selected>Container.Filtered</selected>
                 </control>
-                <include content="MenuPlayerControls">
-                    <param name="PlayerControlsOnUp" value="4"/>
-                    <param name="PlayerControlsOnDown" value="1802"/>
-                </include>
+
+                <control type="button" id="5555">
+                    <include>DefContextButtonGradient</include>
+                    <align>left</align>
+                    <label>31195</label>
+                    <onclick>ReloadSkin()</onclick>
+                    <visible>Skin.HasSetting(DebugInfo)</visible>
+                </control>
+                <include>ControlButtons</include>
             </control>
         </control>
     </controls>
