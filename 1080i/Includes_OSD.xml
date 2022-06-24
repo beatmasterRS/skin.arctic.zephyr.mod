@@ -2833,7 +2833,7 @@
                         <aspectratio align="center" aligny="center" scalediffuse="false">scale</aspectratio>
                     </control>
                     <control type="image">
-                        <visible>!VideoPlayer.Content(LiveTV) + [!String.IsEmpty(Player.Art(tvshow.poster)) | !String.IsEmpty(Player.Art(poster))]</visible>
+                        <visible>[!VideoPlayer.Content(LiveTV) + [!String.IsEmpty(Player.Art(tvshow.poster)) | !String.IsEmpty(Player.Art(poster))]] | [VideoPlayer.Content(LiveTV) + !String.IsEmpty(Window(Home).Property(PVR.Artwork.poster)) + Skin.HasSetting(Skin_enablePvrArtwork)]</visible>
                         <left>-51</left>
                         <top>-241</top>
                         <width>272</width>
@@ -2858,13 +2858,22 @@
                         <visible>VideoPlayer.Content(LiveTV) + !String.IsEmpty(Player.Art(thumb)) + !Skin.HasSetting(osd.disable.icon.background.pvr)</visible>
                     </control>
                     <control type="image">
+                        <left>-50</left>
+                        <top>-240</top>
+                        <width>270</width>
+                        <height>390</height>
+                        <aspectratio align="center" aligny="center" scalediffuse="false">scale</aspectratio>
+                        <texture>$INFO[Window(Home).Property(PVR.Artwork.poster)]</texture>
+                        <visible>VideoPlayer.Content(LiveTV) + !String.IsEmpty(Window(Home).Property(PVR.Artwork.poster)) + Skin.HasSetting(Skin_enablePvrArtwork)</visible>
+                    </control>
+                    <control type="image">
                         <width>230</width>
                         <height>230</height>
                         <bottom>70</bottom>
                         <left>20</left>
                         <aspectratio>keep</aspectratio>
                         <texture>$INFO[Player.Art(thumb)]</texture>
-                        <visible>VideoPlayer.Content(LiveTV) + !String.IsEmpty(Player.Art(thumb))</visible>
+                        <visible>VideoPlayer.Content(LiveTV) + !String.IsEmpty(Player.Art(thumb)) + [[String.IsEmpty(Window(Home).Property(PVR.Artwork.poster)) + Skin.HasSetting(Skin_enablePvrArtwork)] | !Skin.HasSetting(Skin_enablePvrArtwork)]</visible>
                     </control>
                 </control>
             </control>

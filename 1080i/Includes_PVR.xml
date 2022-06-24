@@ -178,17 +178,7 @@
                     <aspectratio align="center" aligny="center" scalediffuse="false">scale</aspectratio>
                 </control>
                 <control type="image">
-                    <left>10</left>
-                    <top>10</top>
-                    <right>10</right>
-                    <bottom>10</bottom>
-                    <aspectratio align="center" aligny="center" scalediffuse="false">scale</aspectratio>
-                    <texture diffuse="diffuse/pvrinfo.png" background="true">pvr/background.jpg</texture>
-                    <visible>!Player.HasVideo + String.IsEmpty(Listitem.EpgEventIcon) + String.IsEmpty(Listitem.Icon)</visible>
-                    <fadetime>PosterFanartFadetime</fadetime>
-                </control>
-                <control type="image">
-                    <visible>!Player.HasVideo + String.IsEmpty(Listitem.EpgEventIcon)</visible>
+                    <visible>!Player.HasVideo + String.IsEmpty(Listitem.EpgEventIcon) + [[String.IsEmpty(Window(Home).Property(PVR.Artwork.fanart)) + String.IsEmpty(Window(Home).Property(PVR.Artwork.poster)) + Skin.HasSetting(Skin_enablePvrArtwork)] | !Skin.HasSetting(Skin_enablePvrArtwork)]</visible>
                     <left>70</left>
                     <top>30</top>
                     <right>70</right>
@@ -198,13 +188,13 @@
                     <fadetime>PosterFanartFadetime</fadetime>
                 </control>
                 <control type="image">
-                    <visible>!Player.HasVideo + !String.IsEmpty(Listitem.EpgEventIcon)</visible>
+                    <visible>!Player.HasVideo + [!String.IsEmpty(Listitem.EpgEventIcon) | !String.IsEmpty(ListItem.Icon) | [Skin.HasSetting(Skin_enablePvrArtwork) + [!String.IsEmpty(Window(Home).Property(PVR.Artwork.fanart)) | !String.IsEmpty(Window(Home).Property(PVR.Artwork.poster))]]]</visible>
                     <left>10</left>
                     <top>10</top>
                     <right>10</right>
                     <bottom>10</bottom>
                     <aspectratio align="center" aligny="center" scalediffuse="false">keep</aspectratio>
-                    <texture diffuse="diffuse/pvrinfo.png" background="true">$INFO[ListItem.EpgEventIcon]</texture>
+                    <texture diffuse="diffuse/pvrinfo.png" background="true">$VAR[ChannelListEPGIconVar]</texture>
                     <fadetime>PosterFanartFadetime</fadetime>
                 </control>
                 <control type="image">
