@@ -1676,7 +1676,9 @@
                 <include content="buttontextures">
                     <param name="icon" value="buttonsdialogs/playcinema.png"/>
                 </include>
-                <onclick>RunScript(script.embuary.helper,action=playcinema,dbid=$INFO[ListItem.DBID],type=$INFO[ListItem.DBType],title='$ESCINFO[ListItem.Title]')</onclick>
+                <onclick condition="![System.AddonIsEnabled(script.cinemavision) + Skin.HasSetting(use.video.cinemavision)]">RunScript(script.embuary.helper,action=playcinema,dbid=$INFO[ListItem.DBID],type=$INFO[ListItem.DBType],title='$ESCINFO[ListItem.Title]')</onclick>
+                <onclick condition="System.AddonIsEnabled(script.cinemavision) + Skin.HasSetting(use.video.cinemavision)">Dialog.Close(all)</onclick>
+                <onclick condition="System.AddonIsEnabled(script.cinemavision) + Skin.HasSetting(use.video.cinemavision)">RunScript(script.cinemavision,experience)</onclick>
                 <visible>String.IsEqual(ListItem.DBTYPE,movie) | String.IsEqual(ListItem.DBTYPE,episode)</visible>
                 <visible>Skin.HasSetting(hidebutton.video.cinema)</visible>
             </control>
