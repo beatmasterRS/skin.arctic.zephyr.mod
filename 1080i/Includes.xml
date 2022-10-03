@@ -12,6 +12,7 @@
     <include file="Includes_SubItems_Home.xml"/>
     <include file="Includes_NowPlaying.xml"/>
     <include file="Includes_Custom_Items.xml"/>
+    <include file="Includes_Games.xml"/>
 
     <!-- Views -->
     <include file="View_50_List.xml"/>
@@ -85,7 +86,7 @@
     <expression name="IsAudio">Player.HasAudio + !VideoPlayer.Content(livetv)</expression>
     <expression name="IsVideo">Player.HasVideo + !VideoPlayer.Content(livetv)</expression>
     <expression name="TrailerWindowIsActive">Skin.HasSetting(home.netflix.autoplay.trailer) + [[Window.IsVisible(Home.xml) + [$EXP[HomeIsModernMultiWidgetsNetflix] | $EXP[HomeIsCleanMinimal] | $EXP[HomeIsVerticalMultiWidgetsNetflix]]] | Control.IsVisible(521) | Control.IsVisible(522) | Control.IsVisible(510)] + !Window.IsVisible(DialogVideoInfo.xml) + String.IsEqual(Window(home).Property(TrailerPath2),Player.FileNameAndPath) + !String.IsEmpty(Player.FileNameAndPath)</expression>
-    <expression name="TrailerIsReady">Skin.HasSetting(home.netflix.autoplay.trailer) + [Window.IsVisible(Home.xml) | Window.IsVisible(MyVideoNav.xml)] + !Control.HasFocus(300) + !Player.HasMedia + !String.IsEmpty(Window(home).Property(listitem.trailer)) + !System.HasVisibleModalDialog + !Window.IsVisible(script-globalsearch.xml) + !String.IsEqual(Window(home).Property(TrailerPath),Window(home).Property(listitem.trailer)) + !System.IdleTime(30)</expression>
+    <expression name="TrailerIsReady">Skin.HasSetting(home.netflix.autoplay.trailer) + [Window.IsVisible(Home.xml) | Window.IsVisible(MyVideoNav.xml) | $EXP[InGameMode]] + !Control.HasFocus(300) + !Player.HasMedia + !String.IsEmpty(Window(home).Property(listitem.trailer)) + !System.HasVisibleModalDialog + !Window.IsVisible(script-globalsearch.xml) + !String.IsEqual(Window(home).Property(TrailerPath),Window(home).Property(listitem.trailer)) + !System.IdleTime(30)</expression>
     <expression name="TrailerWaitingForPlayer">!String.IsEmpty(Window(home).Property(TrailerPath2)) + !String.IsEmpty(Window(home).Property(TrailerPath)) + String.IsEmpty(Player.FileNameAndPath)</expression>
     <expression name="TrailerIsPlaying">String.IsEqual(Window(home).Property(TrailerPath2),Player.FileNameAndPath) + !String.IsEmpty(Player.FileNameAndPath)</expression>
     <expression name="AutoTrailerDebugging">Skin.HasSetting(home.netflix.autoplay.trailer) + Skin.HasSetting(DebugInfo.extended) + Skin.HasSetting(DebugInfo.extended)</expression>
@@ -215,13 +216,25 @@
           ]
     </expression>
 
+    <expression name="InGameMode">
+        [ String.Contains(Container.FolderPath,plugin://plugin.program.ael) 
+        | String.Contains(Container.FolderPath,plugin://plugin.program.advanced.launcher) 
+        | String.Contains(Container.FolderPath,plugin://plugin.program.advanced.emulator.launcher) 
+        | String.Contains(Container.FolderPath,plugin://plugin.program.akl) 
+        | String.Contains(Container.FolderPath,plugin://plugin.program.advanced.MAME.launcher) 
+        | String.Contains(Container.FolderPath,plugin://plugin.program.iagl) 
+        | Window.IsActive(games) 
+        | Container.Content(games) ]
+    </expression>
+
+
     <include name="ScrolltimeDetailsList">
         <scrolltime tween="quadratic">300</scrolltime>
     </include>
 
     <include name="ScrolltimeWidgetsList">
         <scrolltime tween="quadratic">300</scrolltime>
-    </include>
+    </include>  
 
     <include name="ScrolltimeWidgetsContainer">
         <scrolltime tween="sine" easing="inout">350</scrolltime>
