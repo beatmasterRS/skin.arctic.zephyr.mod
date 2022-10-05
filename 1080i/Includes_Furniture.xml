@@ -3018,6 +3018,7 @@
         <value condition="Container.Content(songs)">special://skin/extras/icons/songs.png</value>
         <value condition="Container.Content(livetv)">special://skin/extras/icons/livetv.png</value>
         <value condition="Container.Content(files)">special://skin/extras/icons/files.png</value>
+        <value condition="$EXP[InGameMode]">special://skin/extras/icons/games.png</value>
         <value condition="Container.Content(plugins)">special://skin/extras/icons/video-addons.png</value>
         <value condition="Container.Content(addons)">special://skin/extras/icons/addons.png</value>
         <value condition="String.Contains(Container.FolderPath,videodb://musicvideos/,Left)">special://skin/extras/icons/musicvideo.png</value>
@@ -3065,7 +3066,9 @@
         <value condition="Window.IsVisible(EventLog.xml)">$LOCALIZE[14111]</value>
         <value condition="[Window.IsVisible(script-globalsearch-main.xml) | Window.IsVisible(script-globalsearch-info.xml)] + [!String.IsEmpty(Control.GetLabel(190)) | !String.IsEmpty(Control.GetLabel(191)) | !String.IsEmpty(Control.GetLabel(199))]">$INFO[Control.GetLabel(190)]$INFO[Control.GetLabel(191)]$INFO[Control.GetLabel(199)]</value>
         <value condition="[Window.IsVisible(script-globalsearch-main.xml) | Window.IsVisible(script-globalsearch-info.xml)] + String.IsEmpty(Control.GetLabel(190)) + String.IsEmpty(Control.GetLabel(191)) + String.IsEmpty(Control.GetLabel(199))">$LOCALIZE[283]</value>
+        <value condition="$EXP[InGameMode] + !String.IsEmpty(Container.FolderName)">$LOCALIZE[10821] - $INFO[Container.FolderName]</value>
         <value condition="Window.IsVisible(MyGames.xml) + !String.IsEmpty(Container.FolderName)">$INFO[Container.FolderName]</value>
+        <value condition="$EXP[InGameMode]">$LOCALIZE[10821]</value>
         <value condition="Window.IsVisible(MyGames.xml)">$LOCALIZE[10821]</value>
         <value condition="Window.IsVisible(MyVideoNav.xml) + String.IsEqual(Container.FolderPath,videodb://movies/titles/)">$LOCALIZE[20342]</value>
         <value condition="Window.IsVisible(MyVideoNav.xml) + String.IsEqual(Container.FolderPath,videodb://tvshows/titles/)">$LOCALIZE[20343]</value>
@@ -4421,6 +4424,205 @@
                 <label>$INFO[ListItem.TrackNumber,•  Track #,]</label>
                 <font>Flag</font>
                 <textcolor>Dark1</textcolor>
+            </control>
+        </control>
+    </include>
+
+    <include name="Furniture_Flags_Games">
+        <control type="grouplist">
+            <include>Animation.FurnitureVisible</include>
+            <visible>!Skin.HasSetting(furniture.coloredicons)</visible>
+            <visible>!Skin.HasSetting(furniture.flags)</visible>
+            <visible>$EXP[InGameMode]</visible>
+            <visible>!String.IsEqual(ListItem.Label,..)</visible>
+            <left>SidePad</left>
+            <centerbottom>NavBarPad</centerbottom>
+            <include content="def_right" condition="Skin.HasSetting(furniture.clock)">
+                <param name="right" value="SidePad" />
+            </include>
+            <include content="def_right" condition="!Skin.HasSetting(furniture.clock)">
+                <param name="right" value="440" />
+            </include>
+            <height>120</height>
+            <orientation>horizontal</orientation>
+            <align>left</align>
+            <itemgap>0</itemgap>
+            <usecontrolcoords>true</usecontrolcoords>
+            <control type="image" description="Game Video Resolution">
+                <width min="20" max="70">auto</width>
+                <height>48</height>
+                <centertop>50%</centertop>
+                <texture colordiffuse="Dark1" fallback="flags/resolution/fallback.png">$VAR[GameResolutionFlag,flags/white/resolution/,.png]</texture>
+                <aspectratio align="left">keep</aspectratio>
+                <visible>!String.IsEmpty(Control.GetLabel(6601))</visible>
+                <visible>Skin.HasSetting(furniture.flagicons) + !Skin.HasSetting(furniture.flags.resolution)</visible>
+            </control>
+            <include content="Def_Flags_Furniture_Small" condition="!Skin.HasSetting(furniture.flags.rating)">
+                <param name="Star" value="Flagstar" />
+                <param name="visible" value="!Skin.HasSetting(furniture.numericrating)" />
+                <param name="color" value="Dark1" />
+            </include>
+            <control type="label" description="Rating">
+                <left>-6</left>
+                <width min="48">auto</width>
+                <centertop>50%</centertop>
+                <height>64</height>
+                <align>left</align>
+                <aligny>center</aligny>
+                <label>$VAR[RatingLabel]</label>
+                <font>Flag</font>
+                <textcolor>Dark1</textcolor>
+                <visible>!String.IsEmpty(ListItem.Rating)</visible>
+                <visible>Skin.HasSetting(furniture.numericrating) + !Skin.HasSetting(furniture.flags.rating)</visible>
+            </control>
+            <control type="image" description="Game Audio Codec">
+                <width min="20" max="108">auto</width>
+                <height>64</height>
+                <centertop>50%</centertop>
+                <texture colordiffuse="Dark1" fallback="flags/fallback.png">$VAR[GameAudioFlag,flags3/audio/,.png]</texture>
+                <aspectratio align="center">keep</aspectratio>
+                <visible>!String.IsEmpty(Control.GetLabel(6602))</visible>
+                <visible>Skin.HasSetting(furniture.flagicons) + !Skin.HasSetting(furniture.flags.audiocodec) + !Skin.HasSetting(furniture.coloredicons)</visible>
+            </control>
+            <control type="image" description="Video Resolution">
+                <width>48</width>
+                <height>64</height>
+                <centertop>50%</centertop>
+                <texture colordiffuse="Dark1">flags/video.png</texture>
+                <aspectratio align="left">scale</aspectratio>
+                <visible>!String.IsEmpty(Control.GetLabel(6601))</visible>
+                <visible>!Skin.HasSetting(furniture.flagicons)</visible>
+            </control>
+            <control type="label" description="Game Video">
+                <width min="128">auto</width>
+                <centertop>50%</centertop>
+                <height>64</height>
+                <align>left</align>
+                <aligny>center</aligny>
+                <label>$VAR[GameResolutionFlag]</label>
+                <font>Flag</font>
+                <textcolor>Dark1</textcolor>
+                <visible>!String.IsEmpty(Control.GetLabel(6601))</visible>
+                <visible>!Skin.HasSetting(furniture.flagicons)</visible>
+            </control>
+            <control type="image" description="Audio">
+                <width>48</width>
+                <centertop>50%</centertop>
+                <height>64</height>
+                <texture colordiffuse="Dark1">flags/audio.png</texture>
+                <aspectratio align="left">scale</aspectratio>
+                <visible>!String.IsEmpty(Control.GetLabel(6602))</visible>
+                <visible>!Skin.HasSetting(furniture.flagicons)</visible>
+            </control>
+            <control type="label" description="Game Audio">
+                <width>auto</width>
+                <centertop>50%</centertop>
+                <height>64</height>
+                <align>left</align>
+                <aligny>center</aligny>
+                <label>$VAR[GameAudioFlag]</label>
+                <font>Flag</font>
+                <textcolor>Dark1</textcolor>
+                <visible>!String.IsEmpty(Control.GetLabel(6602))</visible>
+                <visible>!Skin.HasSetting(furniture.flagicons)</visible>
+            </control>
+        </control>
+        <control type="grouplist">
+            <include>Animation.FurnitureVisible</include>
+            <visible>Skin.HasSetting(furniture.coloredicons)</visible>
+            <visible>!Skin.HasSetting(furniture.flags)</visible>
+            <visible>$EXP[InGameMode]</visible>
+            <visible>!String.IsEqual(ListItem.Label,..)</visible>
+            <left>SidePad</left>
+            <centerbottom>NavBarPad</centerbottom>
+            <include content="def_right" condition="Skin.HasSetting(furniture.clock)">
+                <param name="right" value="SidePad" />
+            </include>
+            <include content="def_right" condition="!Skin.HasSetting(furniture.clock)">
+                <param name="right" value="440" />
+            </include>
+            <height>120</height>
+            <orientation>horizontal</orientation>
+            <align>left</align>
+            <itemgap>0</itemgap>
+            <usecontrolcoords>true</usecontrolcoords>
+            <control type="image" description="Game Video Resolution">
+                <width min="20" max="90">auto</width>
+                <height>70</height>
+                <left>-10</left>
+                <centertop>50%</centertop>
+                <texture fallback="flags/fallback.png">$VAR[GameResolutionFlag,flags/color/resolution/,.png]</texture>
+                <aspectratio align="left">keep</aspectratio>
+                <visible>!String.IsEmpty(Control.GetLabel(6601))</visible>
+                <visible>Skin.HasSetting(furniture.flagicons) + !Skin.HasSetting(furniture.flags.resolution)</visible>
+            </control>
+            <include content="Def_Flags_Furniture_Small" condition="!Skin.HasSetting(furniture.flags.rating)">
+                <param name="Star" value="Flagstar" />
+                <param name="visible" value="!Skin.HasSetting(furniture.numericrating)" />
+            </include>
+            <control type="label" description="Rating">
+                <left>-6</left>
+                <width min="48">auto</width>
+                <centertop>50%</centertop>
+                <height>64</height>
+                <align>left</align>
+                <aligny>center</aligny>
+                <label>$VAR[RatingLabel]</label>
+                <font>Flag</font>
+                <textcolor>Dark1</textcolor>
+                <visible>!String.IsEmpty(ListItem.Rating)</visible>
+                <visible>Skin.HasSetting(furniture.numericrating) + !Skin.HasSetting(furniture.flags.rating)</visible>
+            </control>
+            <control type="image" description="Game Audio Codec">
+                <width min="20" max="108">auto</width>
+                <height>60</height>
+                <centertop>50%</centertop>
+                <texture fallback="flags/fallback.png">$VAR[GameAudioFlag,flags/color/audio/,.png]</texture>
+                <aspectratio align="center">keep</aspectratio>
+                <visible>!String.IsEmpty(Control.GetLabel(6602))</visible>
+                <visible>Skin.HasSetting(furniture.flagicons) + !Skin.HasSetting(furniture.flags.audiocodec)</visible>
+            </control>
+            <control type="image" description="Game Video Resolution">
+                <width>48</width>
+                <height>64</height>
+                <centertop>50%</centertop>
+                <texture colordiffuse="Dark1">flags/video.png</texture>
+                <aspectratio align="left">scale</aspectratio>
+                <visible>!String.IsEmpty(Control.GetLabel(6601))</visible>
+                <visible>!Skin.HasSetting(furniture.flagicons)</visible>
+            </control>
+            <control type="label" description="Video">
+                <width min="128">auto</width>
+                <centertop>50%</centertop>
+                <height>64</height>
+                <align>left</align>
+                <aligny>center</aligny>
+                <label>$VAR[GameResolutionFlag]</label>
+                <font>Flag</font>
+                <textcolor>Dark1</textcolor>
+                <visible>!String.IsEmpty(Control.GetLabel(6601))</visible>
+                <visible>!Skin.HasSetting(furniture.flagicons)</visible>
+            </control>
+            <control type="image" description="Audio">
+                <width>48</width>
+                <centertop>50%</centertop>
+                <height>64</height>
+                <texture colordiffuse="Dark1">flags/audio.png</texture>
+                <aspectratio align="left">scale</aspectratio>
+                <visible>!String.IsEmpty(Control.GetLabel(6602))</visible>
+                <visible>!Skin.HasSetting(furniture.flagicons)</visible>
+            </control>
+            <control type="label" description="Audio">
+                <width>auto</width>
+                <centertop>50%</centertop>
+                <height>64</height>
+                <align>left</align>
+                <aligny>center</aligny>
+                <label>$VAR[GameAudioFlag]</label>
+                <font>Flag</font>
+                <textcolor>Dark1</textcolor>
+                <visible>!String.IsEmpty(Control.GetLabel(6602))</visible>
+                <visible>!Skin.HasSetting(furniture.flagicons)</visible>
             </control>
         </control>
     </include>
