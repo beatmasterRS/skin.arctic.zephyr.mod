@@ -1,0 +1,92 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Foundation -->
+<includes>
+
+	<variable name="LogoImage">
+		<value condition="!String.IsEmpty(ListItem.Art(clearlogo))">$INFO[ListItem.Art(clearlogo)]</value>
+		<value condition="!String.IsEmpty(ListItem.Art(landscape))">$INFO[ListItem.Art(landscape)]</value>
+		<value condition="!String.IsEmpty(ListItem.Thumb)">$INFO[ListItem.Thumb]</value>
+		<value condition="!String.IsEmpty(ListItem.Icon)">$INFO[ListItem.Icon]</value>
+		<value condition="String.IsEqual(ListItem.Label,..)">DefaultFolderBack.png</value>
+		<value>DefaultMovies.png</value>
+	</variable>
+
+    <include name="View_528_Logos">
+        <description>Logos View (id=528)</description>
+        <control type="group">
+            <include>Animation.Common</include>
+            <visible>Control.IsVisible(528)</visible>
+            <control type="group">
+                <include>LogosContent</include>
+            </control>
+            <control type="scrollbar" id="1624">
+                <include content="scrollbar_hor">
+                    <param name="scrollid" value="1624"/>
+                </include>
+            </control>
+        </control>
+    </include>
+
+    <include name="LogosContent">
+        <include>ViewSlideForJumpBar</include>
+        <bottom>0</bottom>
+        <left>SidePad</left>
+        <right>SidePad</right>
+        <height>525</height>
+        <control type="fixedlist" id="528">
+            <visible>$EXP[InGameMode] | Container.Content(musicvideos) | Container.Content(artists) | Container.Content(movies) | Container.Content(tvshows) | Container.Content(episodes) | Container.Content(sets) | Container.Content(videos) | Container.Content(albums) | Container.Content(songs)</visible>
+            <include content="forced_view" condition="Skin.HasSetting(enable.forcedviews)">
+                <param name="string" value="$LOCALIZE[31701]" />
+            </include>
+            <bottom>50</bottom>
+            <onup condition="!Skin.HasSetting(global.kioskmode)">9000</onup>
+            <ondown>1623</ondown>
+            <onleft>528</onleft>
+            <onright>528</onright>
+            <preloaditems>2</preloaditems>
+            <pagecontrol>1624</pagecontrol>
+            <focusposition>1</focusposition>
+            <orientation>horizontal</orientation>
+            <viewtype label="31701">list</viewtype>
+            <include>ScrolltimeViewsList</include>
+            <itemlayout height="450" width="570">
+                <control type="group">
+                    <animation effect="fade" start="0" end="30" time="0" reversible="false" condition="true">Conditional</animation>
+					<control type="image" description="clearlogo">
+                        <left>52</left>
+                        <top>178</top>
+                        <width>390</width>
+                        <height>164</height>
+                        <aspectratio scalediffuse="true" aligny="center" align="center">keep</aspectratio>
+                        <texture background="true">$VAR[LogoImage]</texture>
+                        <fadetime>ClearArtFadetime</fadetime>
+                    </control>
+                </control>
+            </itemlayout>
+            <focusedlayout height="450" width="570">
+                <control type="group">
+                    <animation effect="zoom" center="auto" start="100" end="140" time="480" tween="back" reversible="false">Focus</animation>
+                    <animation effect="zoom" center="auto" start="140" end="100" time="160" tween="back" reversible="false">UnFocus</animation>
+                    <control type="image" description="clearlogo">
+                        <left>83</left>
+                        <top>158</top>
+                        <width>430</width>
+                        <height>205</height>
+                        <aspectratio scalediffuse="true" aligny="center" align="center">keep</aspectratio>
+                        <texture background="true">$VAR[LogoImage]</texture>
+                        <animation effect="fade" start="0" end="10" time="0" reversible="false" condition="true">Conditional</animation>
+                    </control>
+                    <control type="image" description="clearlogo">
+                        <left>102</left>
+                        <top>178</top>
+                        <width>390</width>
+                        <height>164</height>
+                        <aspectratio scalediffuse="true" aligny="center" align="center">keep</aspectratio>
+                        <texture background="true">$VAR[LogoImage]</texture>
+                    </control>
+                </control>
+            </focusedlayout>
+        </control>
+    </include>
+
+</includes>
