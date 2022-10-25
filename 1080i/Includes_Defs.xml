@@ -4255,6 +4255,33 @@
             <aspectratio scalediffuse="false">scale</aspectratio>
             <texture diffuse="diffuse/widgetposter_new.png" background="true" fallback="DefaultMovies.png">$VAR[PosterImage]</texture>
             <include condition="!Skin.HasSetting(thumbnails.white)">border_texture</include>
+            <visible>!String.IsEqual(ListItem.DBType,genre) + !String.EndsWith(Container.FolderPath,Genres) + !String.IsEqual(ListItem.DBTYPE,studio)</visible>
+        </control>
+        <control type="image">
+            <left>10</left>
+            <top>10</top>
+            <right>10</right>
+            <bottom>10</bottom>
+            <aspectratio scalediffuse="false">keep</aspectratio>
+            <texture diffuse="diffuse/widgetposter_new.png" background="true" fallback="DefaultStudios.png">$VAR[WidgetImageStudio]</texture>
+            <visible>String.IsEqual(ListItem.DBType,studio)</visible>
+        </control>
+        <control type="image">
+            <left>10</left>
+            <top>10</top>
+            <right>10</right>
+            <bottom>10</bottom>
+            <aspectratio scalediffuse="false">keep</aspectratio>
+            <texture diffuse="diffuse/widgetposter_new.png" background="true" fallback="DefaultGenre.png">$VAR[ThumbImageGenres]</texture>
+            <visible>String.IsEqual(ListItem.DBType,genre) | String.EndsWith(Container.FolderPath,Genres)</visible>
+        </control>
+        <control type="image">
+            <left>10</left>
+            <top>10</top>
+            <right>10</right>
+            <bottom>10</bottom>
+            <texture colordiffuse="BoxWidget" border="4" background="true">common/box21.png</texture>
+            <visible>!Skin.HasSetting(thumbnails.white) + [String.IsEqual(ListItem.DBType,studio) | String.IsEqual(ListItem.DBType,genre) | String.EndsWith(Container.FolderPath,Genres)]</visible>
         </control>
         <include condition="$PARAM[visible_title_overlay]">Alternative_Title_Overlay</include>
         <include content="IndicatorPoster" condition="!Skin.HasSetting(hide.markers)">
@@ -4327,7 +4354,7 @@
             <bottom>$PARAM[distance]</bottom>
             <aspectratio scalediffuse="false">$PARAM[aspectratio]</aspectratio>
             <texture diffuse="diffuse/widgetsquare_new.png" background="true" fallback="DefaultMovies.png">$VAR[PosterImage]</texture>
-            <visible>!String.IsEqual(ListItem.DBType,genre) + !String.EndsWith(Container.FolderPath,Genres)</visible>
+            <visible>!String.IsEqual(ListItem.DBType,genre) + !String.EndsWith(Container.FolderPath,Genres) + !String.IsEqual(ListItem.DBTYPE,studio)</visible>
         </control>
         <control type="image">
             <left>$PARAM[distance]</left>
@@ -4335,8 +4362,17 @@
             <right>$PARAM[distance]</right>
             <bottom>$PARAM[distance]</bottom>
             <aspectratio scalediffuse="false">$PARAM[aspectratio]</aspectratio>
-            <texture diffuse="diffuse/widgetsquare_new.png" background="true" fallback="DefaultMovies.png">$VAR[ThumbImageGenres]</texture>
+            <texture diffuse="diffuse/widgetsquare_new.png" background="true" fallback="DefaultGenre.png">$VAR[ThumbImageGenres]</texture>
             <visible>String.IsEqual(ListItem.DBType,genre) | String.EndsWith(Container.FolderPath,Genres)</visible>
+        </control>
+        <control type="image">
+            <left>$PARAM[distance]</left>
+            <top>$PARAM[distance]</top>
+            <right>$PARAM[distance]</right>
+            <bottom>$PARAM[distance]</bottom>
+            <aspectratio scalediffuse="false">$PARAM[aspectratio]</aspectratio>
+            <texture diffuse="diffuse/widgetsquare_new.png" background="true" fallback="DefaultStudios.png">$VAR[WidgetImageStudio]</texture>
+            <visible>String.IsEqual(ListItem.DBTYPE,studio)</visible>
         </control>
         <control type="image">
             <left>10</left>
@@ -4482,7 +4518,7 @@
             <bottom>10</bottom>
             <aspectratio scalediffuse="false">scale</aspectratio>
             <texture diffuse="diffuse/widgetfanart_new.png" background="true" fallback="DefaultMovies.png">$VAR[WidgetFanartImage]</texture>
-            <visible>!String.IsEqual(ListItem.DBType,genre) + !String.EndsWith(Container.FolderPath,Genres) + !$PARAM[small]</visible>
+            <visible>!String.IsEqual(ListItem.DBType,genre) + !String.IsEqual(ListItem.DBTYPE,studio) + !String.EndsWith(Container.FolderPath,Genres) + !$PARAM[small]</visible>
         </control>
         <control type="image">
             <left>10</left>
@@ -4491,7 +4527,7 @@
             <bottom>101</bottom>
             <aspectratio scalediffuse="false">scale</aspectratio>
             <texture diffuse="diffuse/widgetfanart_top.png" background="true" fallback="DefaultMovies.png">$VAR[WidgetFanartImage]</texture>
-            <visible>!String.IsEqual(ListItem.DBType,genre) + !String.EndsWith(Container.FolderPath,Genres) + $PARAM[small]</visible>
+            <visible>!String.IsEqual(ListItem.DBType,genre) + !String.IsEqual(ListItem.DBTYPE,studio) + !String.EndsWith(Container.FolderPath,Genres) + $PARAM[small]</visible>
         </control>
         <control type="image">
             <left>10</left>
@@ -4502,8 +4538,20 @@
             </include>
             <bottom>10</bottom>
             <aspectratio scalediffuse="false">scale</aspectratio>
-            <texture diffuse="diffuse/widgetfanart_new.png" background="true" fallback="DefaultMovies.png">$VAR[ThumbImageGenres]</texture>
+            <texture diffuse="diffuse/widgetfanart_new.png" background="true" fallback="DefaultGenre.png">$VAR[ThumbImageGenres]</texture>
             <visible>String.IsEqual(ListItem.DBType,genre) | String.EndsWith(Container.FolderPath,Genres)</visible>
+        </control>
+        <control type="image">
+            <left>10</left>
+            <top>10</top>
+            <right>10</right>
+            <include content="def_bottom" condition="$PARAM[small]">
+                <param name="bottom" value="101" />
+            </include>
+            <bottom>10</bottom>
+            <aspectratio scalediffuse="false">keep</aspectratio>
+            <texture diffuse="diffuse/widgetsquare_new.png" background="true" fallback="DefaultStudios.png">$VAR[WidgetImageStudio]</texture>
+            <visible>String.IsEqual(ListItem.DBTYPE,studio)</visible>
         </control>
         <control type="label">
             <bottom>40</bottom>
@@ -4563,7 +4611,7 @@
             <bottom>10</bottom>
             <aspectratio scalediffuse="false">scale</aspectratio>
             <texture diffuse="diffuse/widgetfanart_new.png" background="true" fallback="DefaultMovies.png">$VAR[FanartImage]</texture>
-            <visible>!String.IsEqual(ListItem.DBType,genre) + !String.EndsWith(Container.FolderPath,Genres)</visible>
+            <visible>!String.IsEqual(ListItem.DBType,genre) + !String.EndsWith(Container.FolderPath,Genres) + !String.IsEqual(ListItem.DBTYPE,studio)</visible>
         </control>
         <control type="image">
             <left>10</left>
@@ -4571,8 +4619,17 @@
             <right>10</right>
             <bottom>10</bottom>
             <aspectratio scalediffuse="false">scale</aspectratio>
-            <texture diffuse="diffuse/widgetsquare_new.png" background="true" fallback="DefaultMovies.png">$VAR[ThumbImageGenres]</texture>
+            <texture diffuse="diffuse/widgetsquare_new.png" background="true" fallback="DefaultGenre.png">$VAR[ThumbImageGenres]</texture>
             <visible>String.IsEqual(ListItem.DBType,genre) | String.EndsWith(Container.FolderPath,Genres)</visible>
+        </control>
+        <control type="image">
+            <left>10</left>
+            <top>10</top>
+            <right>10</right>
+            <bottom>10</bottom>
+            <aspectratio scalediffuse="false">keep</aspectratio>
+            <texture diffuse="diffuse/widgetsquare_new.png" background="true" fallback="DefaultStudios.png">$VAR[WidgetImageStudio]</texture>
+            <visible>String.IsEqual(ListItem.DBTYPE,studio)</visible>
         </control>
         <include content="ClearLogoImage" condition="$PARAM[clearlogo]">
             <param name="width" value="250"/>
@@ -4683,7 +4740,7 @@
             <bottom>10</bottom>
             <aspectratio scalediffuse="false">scale</aspectratio>
             <texture diffuse="diffuse/widgetfanart_new.png" background="true" fallback="DefaultMovies.png">$VAR[WidgetThumbnailImage]</texture>
-            <visible>!String.IsEqual(ListItem.DBType,genre) + !String.EndsWith(Container.FolderPath,Genres) + !$PARAM[small]</visible>
+            <visible>!String.IsEqual(ListItem.DBType,genre) + !String.IsEqual(ListItem.DBTYPE,studio) + !String.EndsWith(Container.FolderPath,Genres) + !$PARAM[small]</visible>
         </control>
         <control type="image">
             <left>10</left>
@@ -4692,7 +4749,7 @@
             <bottom>101</bottom>
             <aspectratio scalediffuse="false">scale</aspectratio>
             <texture diffuse="diffuse/widgetfanart_top.png" background="true" fallback="DefaultMovies.png">$VAR[WidgetThumbnailImage]</texture>
-            <visible>!String.IsEqual(ListItem.DBType,genre) + !String.EndsWith(Container.FolderPath,Genres) + $PARAM[small] + !$PARAM[poster]</visible>
+            <visible>!String.IsEqual(ListItem.DBType,genre) + !String.IsEqual(ListItem.DBTYPE,studio) + !String.EndsWith(Container.FolderPath,Genres) + $PARAM[small] + !$PARAM[poster]</visible>
         </control>
         <control type="image">
             <left>154</left>
@@ -4701,7 +4758,19 @@
             <bottom>101</bottom>
             <aspectratio scalediffuse="false">scale</aspectratio>
             <texture diffuse="diffuse/widgetfanart_topright.png" border="1" background="true" fallback="DefaultMovies.png">$VAR[WidgetThumbnailImage]</texture>
-            <visible>!String.IsEqual(ListItem.DBType,genre) + !String.EndsWith(Container.FolderPath,Genres) + $PARAM[small] + $PARAM[poster]</visible>
+            <visible>!String.IsEqual(ListItem.DBType,genre) + !String.IsEqual(ListItem.DBTYPE,studio) + !String.EndsWith(Container.FolderPath,Genres) + $PARAM[small] + $PARAM[poster]</visible>
+        </control>
+        <control type="image">
+            <left>10</left>
+            <top>10</top>
+            <right>10</right>
+            <include content="def_bottom" condition="$PARAM[small]">
+                <param name="bottom" value="101" />
+            </include>
+            <bottom>10</bottom>
+            <aspectratio scalediffuse="false">keep</aspectratio>
+            <texture diffuse="diffuse/widgetsquare_new.png" background="true" fallback="DefaultStudios.png">$VAR[WidgetImageStudio]</texture>
+            <visible>String.IsEqual(ListItem.DBTYPE,studio)</visible>
         </control>
         <control type="image">
             <left>10</left>
@@ -4712,7 +4781,7 @@
             </include>
             <bottom>10</bottom>
             <aspectratio scalediffuse="false">scale</aspectratio>
-            <texture diffuse="diffuse/widgetfanart_new.png" border="1" background="true" fallback="DefaultMovies.png">$VAR[ThumbImageGenres]</texture>
+            <texture diffuse="diffuse/widgetfanart_new.png" border="1" background="true" fallback="DefaultGenre.png">$VAR[ThumbImageGenres]</texture>
             <visible>String.IsEqual(ListItem.DBType,genre) | String.EndsWith(Container.FolderPath,Genres)</visible>
         </control>
         <control type="image">
