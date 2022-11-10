@@ -38,10 +38,9 @@
                     <visible>$PARAM[progresstvshowvisible]</visible>
                     <width>159</width>
                     <height>159</height>
-                    <texture diffuse="diffuse/diffuse_progress_big.png" colordiffuse="$VAR[ColorHighlight]">progress/tvshows/p$INFO[Window(home).Property(MyResult)].png</texture>
+                    <texture diffuse="diffuse/diffuse_progress_big.png" colordiffuse="$VAR[ColorHighlight]">progress/tvshows/p$INFO[ListItem.Property(WatchedEpisodePercent)].png</texture>
                     <visible>String.IsEqual(ListItem.DBType,tvshow) | String.IsEqual(ListItem.DBType,season)</visible>
                     <include>Animation.SwitchCalculation</include>
-                    <visible>!String.IsEmpty(Window(home).Property(MyResult))</visible>
                 </control>
                 <control type="label">
                     <include>Animation.SwitchText</include>
@@ -259,12 +258,6 @@
                             </itemlayout>
                             <focusedlayout height="646" width="1900">
                                 <include>View_507_Layout</include>
-                                <control type="button">
-                                    <visible>false</visible>
-                                    <onfocus>ClearProperty(MyResult,home)</onfocus>
-                                    <onfocus condition="[String.IsEqual(ListItem.DBType,tvshow) | String.IsEqual(ListItem.DBType,season)] + Skin.HasSetting(furniture.overlayinfobalken)">AlarmClock(Calculation,RunScript(script.embuary.helper,action=calc,do='"round($INFO[ListItem.Property(WatchedEpisodes)] * 100 / $INFO[ListItem.Property(TotalEpisodes)])"',prop=MyResult),00:01,silent)</onfocus>
-                                    <onunfocus condition="System.HasAlarm(Calculation)">CancelAlarm(Calculation,true)</onunfocus>
-                                </control>
                             </focusedlayout>
                         </control>
                     </control>
