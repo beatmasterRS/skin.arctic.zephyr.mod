@@ -12,6 +12,7 @@
     <include file="Includes_SubItems_Home.xml"/>
     <include file="Includes_NowPlaying.xml"/>
     <include file="Includes_Custom_Items.xml"/>
+    <include file="Includes_Games.xml"/>
 
     <!-- Views -->
     <include file="View_50_List.xml"/>
@@ -84,8 +85,10 @@
     <expression name="IsPVRAudio">Player.HasAudio + VideoPlayer.Content(livetv)</expression>
     <expression name="IsAudio">Player.HasAudio + !VideoPlayer.Content(livetv)</expression>
     <expression name="IsVideo">Player.HasVideo + !VideoPlayer.Content(livetv)</expression>
+    <expression name="VideoOSDShort">!String.IsEmpty(Window(home).Property(osdshowinfo)) | [Player.ShowInfo | !String.IsEmpty(Window(home).Property(osdinfo))] | [Window.IsVisible(videoosd) + Window.IsVisible(DialogFullScreenInfo.xml)]</expression>
+    <expression name="VideoOSDWide">String.IsEmpty(Window(home).Property(osdshowinfo)) + String.IsEmpty(Window(home).Property(osdinfo)) + !Player.ShowInfo + ![Window.IsVisible(videoosd) + Window.IsVisible(DialogFullScreenInfo.xml)]</expression>
     <expression name="TrailerWindowIsActive">Skin.HasSetting(home.netflix.autoplay.trailer) + [[Window.IsVisible(Home.xml) + [$EXP[HomeIsModernMultiWidgetsNetflix] | $EXP[HomeIsCleanMinimal] | $EXP[HomeIsVerticalMultiWidgetsNetflix]]] | Control.IsVisible(521) | Control.IsVisible(522) | Control.IsVisible(510)] + !Window.IsVisible(DialogVideoInfo.xml) + String.IsEqual(Window(home).Property(TrailerPath2),Player.FileNameAndPath) + !String.IsEmpty(Player.FileNameAndPath)</expression>
-    <expression name="TrailerIsReady">Skin.HasSetting(home.netflix.autoplay.trailer) + [Window.IsVisible(Home.xml) | Window.IsVisible(MyVideoNav.xml)] + !Control.HasFocus(300) + !Player.HasMedia + !String.IsEmpty(Window(home).Property(listitem.trailer)) + !System.HasVisibleModalDialog + !Window.IsVisible(script-globalsearch.xml) + !String.IsEqual(Window(home).Property(TrailerPath),Window(home).Property(listitem.trailer)) + !System.IdleTime(30)</expression>
+    <expression name="TrailerIsReady">Skin.HasSetting(home.netflix.autoplay.trailer) + [Window.IsVisible(Home.xml) | Window.IsVisible(MyVideoNav.xml) | $EXP[InGameMode]] + !Control.HasFocus(300) + !Player.HasMedia + !String.IsEmpty(Window(home).Property(listitem.trailer)) + !System.HasVisibleModalDialog + !Window.IsVisible(script-globalsearch.xml) + !String.IsEqual(Window(home).Property(TrailerPath),Window(home).Property(listitem.trailer)) + !System.IdleTime(30)</expression>
     <expression name="TrailerWaitingForPlayer">!String.IsEmpty(Window(home).Property(TrailerPath2)) + !String.IsEmpty(Window(home).Property(TrailerPath)) + String.IsEmpty(Player.FileNameAndPath)</expression>
     <expression name="TrailerIsPlaying">String.IsEqual(Window(home).Property(TrailerPath2),Player.FileNameAndPath) + !String.IsEmpty(Player.FileNameAndPath)</expression>
     <expression name="AutoTrailerDebugging">Skin.HasSetting(home.netflix.autoplay.trailer) + Skin.HasSetting(DebugInfo.extended) + Skin.HasSetting(DebugInfo.extended)</expression>
@@ -215,13 +218,25 @@
           ]
     </expression>
 
+    <expression name="InGameMode">
+        [ String.Contains(Container.FolderPath,plugin://plugin.program.ael) 
+        | String.Contains(Container.FolderPath,plugin://plugin.program.advanced.launcher) 
+        | String.Contains(Container.FolderPath,plugin://plugin.program.advanced.emulator.launcher) 
+        | String.Contains(Container.FolderPath,plugin://plugin.program.akl) 
+        | String.Contains(Container.FolderPath,plugin://plugin.program.advanced.MAME.launcher) 
+        | String.Contains(Container.FolderPath,plugin://plugin.program.iagl) 
+        | Window.IsActive(games) 
+        | Container.Content(games) ]
+    </expression>
+
+
     <include name="ScrolltimeDetailsList">
         <scrolltime tween="quadratic">300</scrolltime>
     </include>
 
     <include name="ScrolltimeWidgetsList">
         <scrolltime tween="quadratic">300</scrolltime>
-    </include>
+    </include>  
 
     <include name="ScrolltimeWidgetsContainer">
         <scrolltime tween="sine" easing="inout">350</scrolltime>
@@ -310,7 +325,6 @@
         <value condition="String.Contains(ListItem.mpaa,Brazil:14) | String.Contains(ListItem.mpaa,14 anos)">flags2/rating/info/mpaa_brazil_14.png</value>
         <value condition="String.Contains(ListItem.mpaa,Brazil:16) | String.Contains(ListItem.mpaa,16 anos)">flags2/rating/info/mpaa_brazil_16.png</value>
         <value condition="String.Contains(ListItem.mpaa,Brazil:18) | String.Contains(ListItem.mpaa,18 anos)">flags2/rating/info/mpaa_brazil_18.png</value>
-        <value condition="String.Contains(ListItem.mpaa,Australia:)">$INFO[ListItem.MPAA,flags2/rating/info/australia_,.png]</value>
         <value condition="String.Contains(ListItem.mpaa,전체) | String.Contains(ListItem.mpaa,0) | String.Contains(ListItem.mpaa,ALL)">flags2/rating/info/kr_certificate_all.png</value>
         <value condition="String.Contains(ListItem.mpaa,12) | String.Contains(ListItem.mpaa,12세)">flags2/rating/info/kr_certificate_12.png</value>
         <value condition="String.Contains(ListItem.mpaa,15) | String.Contains(ListItem.mpaa,15세)">flags2/rating/info/kr_certificate_15.png</value>
@@ -360,7 +374,11 @@
         <value condition="String.Contains(ListItem.mpaa,Brazil:14) | String.Contains(ListItem.mpaa,14 anos)">flags/mpaa/mpaa_brazil_14.png</value>
         <value condition="String.Contains(ListItem.mpaa,Brazil:16) | String.Contains(ListItem.mpaa,16 anos)">flags/mpaa/mpaa_brazil_16.png</value>
         <value condition="String.Contains(ListItem.mpaa,Brazil:18) | String.Contains(ListItem.mpaa,18 anos)">flags/mpaa/mpaa_brazil_18.png</value>
-        <value condition="String.Contains(ListItem.mpaa,Australia:)">$INFO[ListItem.MPAA,flags/mpaa/australia_,.png]</value>
+        <value condition="String.Contains(ListItem.MPAA,Australia:R) | String.Contains(ListItem.MPAA,Australia R)">flags/mpaa/australia_R.png</value>
+        <value condition="String.Contains(ListItem.MPAA,Australia:MA) | String.Contains(ListItem.MPAA,Australia MA)">flags/mpaa/australia_MA.png</value>
+        <value condition="String.Contains(ListItem.MPAA,Australia:M) | String.Contains(ListItem.MPAA,Australia M)">flags/mpaa/australia_M.png</value>
+        <value condition="String.Contains(ListItem.MPAA,Australia:PG) | String.Contains(ListItem.MPAA,Australia PG)">flags/mpaa/australia_PG.png</value>
+        <value condition="String.Contains(ListItem.MPAA,Australia:G) | String.Contains(ListItem.MPAA,Australia G)">flags/mpaa/australia_G.png</value>
         <value condition="String.Contains(ListItem.mpaa,전체) | String.Contains(ListItem.mpaa,0) | String.Contains(ListItem.mpaa,ALL)">flags/mpaa/kr_certificate_all.png</value>
         <value condition="String.Contains(ListItem.mpaa,12) | String.Contains(ListItem.mpaa,12세)">flags/mpaa/kr_certificate_12.png</value>
         <value condition="String.Contains(ListItem.mpaa,15) | String.Contains(ListItem.mpaa,15세)">flags/mpaa/kr_certificate_15.png</value>
@@ -410,7 +428,11 @@
         <value condition="String.Contains(Container(9500).ListItem.mpaa,Brazil:14) | String.Contains(Container(9500).ListItem.mpaa,14 anos)">flags/mpaa/mpaa_brazil_14.png</value>
         <value condition="String.Contains(Container(9500).ListItem.mpaa,Brazil:16) | String.Contains(Container(9500).ListItem.mpaa,16 anos)">flags/mpaa/mpaa_brazil_16.png</value>
         <value condition="String.Contains(Container(9500).ListItem.mpaa,Brazil:18) | String.Contains(Container(9500).ListItem.mpaa,18 anos)">flags/mpaa/mpaa_brazil_18.png</value>
-        <value condition="String.Contains(Container(9500).ListItem.mpaa,Australia:)">$INFO[ListItem.MPAA,flags/mpaa/australia_,.png]</value>
+        <value condition="String.Contains(Container(9500).ListItem.MPAA,Australia:R) | String.Contains(Container(9500).ListItem.MPAA,Australia R)">flags/mpaa/australia_R.png</value>
+        <value condition="String.Contains(Container(9500).ListItem.MPAA,Australia:MA) | String.Contains(Container(9500).ListItem.MPAA,Australia MA)">flags/mpaa/australia_MA.png</value>
+        <value condition="String.Contains(Container(9500).ListItem.MPAA,Australia:M) | String.Contains(Container(9500).ListItem.MPAA,Australia M)">flags/mpaa/australia_M.png</value>
+        <value condition="String.Contains(Container(9500).ListItem.MPAA,Australia:PG) | String.Contains(Container(9500).ListItem.MPAA,Australia PG)">flags/mpaa/australia_PG.png</value>
+        <value condition="String.Contains(Container(9500).ListItem.MPAA,Australia:G) | String.Contains(Container(9500).ListItem.MPAA,Australia G)">flags/mpaa/australia_G.png</value>
         <value condition="String.Contains(Container(9500).ListItem.mpaa,전체) | String.Contains(Container(9500).ListItem.mpaa,0) | String.Contains(Container(9500).ListItem.mpaa,ALL)">flags/mpaa/kr_certificate_all.png</value>
         <value condition="String.Contains(Container(9500).ListItem.mpaa,12) |String.Contains(Container(9500).ListItem.mpaa,12세)">flags/mpaa/kr_certificate_12.png</value>
         <value condition="String.Contains(Container(9500).ListItem.mpaa,15) | String.Contains(Container(9500).ListItem.mpaa,15세)">flags/mpaa/kr_certificate_15.png</value>
@@ -4955,7 +4977,7 @@
         </control>
         </definition>
     </include>
-    
+
     <include name="InfoLine">
         <param name="left" default="5"/>
         <param name="height" default="5"/>
@@ -4975,4 +4997,8 @@
         </control>
         </definition>
     </include>
+
+    <variable name="AutoCompletionPath">
+        <value condition="System.AddonIsEnabled(plugin.program.autocompletion)">plugin://plugin.program.autocompletion?info=autocomplete&amp;&amp;id=$INFO[Control.GetLabel(312).index(1)]&amp;&amp;limit=9</value>
+    </variable>
 </includes>
