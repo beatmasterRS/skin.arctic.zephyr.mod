@@ -1,0 +1,316 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<window>
+    <defaultcontrol always="true">9090</defaultcontrol>
+    <onload>SetFocus(9090)</onload>
+    <onunload>ClearProperty(gradient,home)</onunload>
+    <onunload>ClearProperty(colorpickerheader,home)</onunload>
+    <controls>
+        <control type="button" id="9090">
+            <include>HiddenButton</include>
+            <onfocus>SetProperty(currentcolor,$INFO[Window.Property(colorstring)],Home)</onfocus>
+            <onfocus>SetFocus(9000)</onfocus>
+        </control>
+        <control type="group">
+            <animation effect="fade" start="100" end="0" time="500" delay="0" tween="quadratic">WindowClose</animation>
+
+            <!-- background panel -->
+            <control type="image" description="Background">
+                <left>SidePad</left>
+                <top>220</top>
+                <width>1760</width>
+                <height>636</height>
+                <texture border="5" colordiffuse="Panel">common/box.png</texture>
+            </control>
+            <!--Header-->
+            <control type="group">
+                <left>SidePad</left>
+                <top>216</top>
+                <control type="image">
+                    <top>10</top>
+                    <left>450</left>
+                    <width>1</width>
+                    <bottom>234</bottom>
+                    <colordiffuse>Black12</colordiffuse>
+                    <texture>common/white.png</texture>
+                </control>
+
+                <!-- Header -->
+                <control type="label">
+                    <left>30</left>
+                    <width>390</width>
+                    <posy>18</posy>
+                    <font>MediumBold</font>
+                    <label>$ADDON[script.skin.helper.colorpicker 32011]</label>
+                    <textcolor>PanelWhite100</textcolor>
+                </control>
+                <control type="label">
+                    <left>30</left>
+                    <width>400</width>
+                    <posy>77</posy>
+                    <height>30</height>
+                    <font>Tiny</font>
+                    <textcolor>PanelWhite70</textcolor>
+                    <scroll>false</scroll>
+                    <align>left</align>
+                    <textoffsetx>0</textoffsetx>
+                    <label>$VAR[ColorPickerInfo]</label>
+                </control>
+            </control>
+            <control type="grouplist" id="9000">
+                <description>Control Area</description>
+                <left>SidePad</left>
+                <width>680</width>
+                <top>355</top>
+                <height>596</height>
+                <orientation>vertical</orientation>
+                <pagecontrol>60</pagecontrol>
+                <usecontrolcoords>true</usecontrolcoords>
+                <ondown>3020</ondown>
+                <onup>9099</onup>
+                <onright>3110</onright>
+                <onleft>3110</onleft>
+                <onback>3012</onback>
+                <itemgap>0</itemgap>
+                <control type="button" id="3030">
+                    <include>DefDialogButtonsDefault</include>
+                    <ondown>3110</ondown>
+                    <label>$ADDON[script.skin.helper.colorpicker 32141]</label>
+                    <label2>$INFO[Window.Property(palettename)]</label2>
+                    <visible>!String.IsEmpty(Window.Property(palettename))</visible>
+                </control>
+                <control type="button" id="3010">
+                    <include>DefDialogButtonsDefault</include>
+                    <label>$ADDON[script.skin.helper.colorpicker 32012]</label>
+                    <label2>$INFO[Window.Property(colorstring)]</label2>
+                </control>
+            </control>
+            <control type="group" id="3020">
+                <onright>3110</onright>
+                <width>450</width>
+                <height>60</height>
+                <left>110</left>
+                <top>497</top>
+                <onback>3012</onback>
+                <control type="image">
+                    <height>70</height>
+                    <left>-30</left>
+                    <width>450</width>
+                    <bottom>-8</bottom>
+                    <colordiffuse>$VAR[ColorHighlight]</colordiffuse>
+                    <texture>common/white.png</texture>
+                    <visible>Control.HasFocus(3015)</visible>
+                </control>
+
+                <!-- label opacity-->
+                <control type="label" id="3016">
+                    <width>150</width>
+                    <left>0</left>
+                    <align>left</align>
+                    <font>Small</font>
+                    <label>$ADDON[script.skin.helper.colorpicker 32049]</label>
+                    <textcolor>white</textcolor>
+                </control>
+
+                <!-- opacity slider -->
+                <control type="slider" id="3015">
+                    <top>25</top>
+                    <left>120</left>
+                    <onup>9000</onup>
+                    <ondown>9099</ondown>
+                    <width>180</width>
+                </control>
+
+                <!-- opacity percentage -->
+                <control type="label" id="3017">
+                    <width>80</width>
+                    <right>60</right>
+                    <align>right</align>
+                    <font>Small</font>
+                    <label>$INFO[Control.Getlabel(3015)]</label>
+                    <textcolor>white</textcolor>
+                </control>
+            </control>
+            <control type="group">
+                <width>498</width>
+                <height>66</height>
+                <top>570</top>
+                <visible>String.IsEqual(Window(home).Property(gradient),selectbox) | String.IsEqual(Window(home).Property(gradient),bar) | String.IsEqual(Window(home).Property(gradient),otherbar) | String.IsEqual(Window(home).Property(gradient),logo)</visible>
+                <control type="label">
+                    <left>110</left>
+                    <width>410</width>
+                    <top>15</top>
+                    <height>30</height>
+                    <font>Small</font>
+                    <textcolor>white</textcolor>
+                    <label>$LOCALIZE[31396]</label>
+                </control>
+                <include content="Def_Gradient">
+                    <param name="visible" value="String.IsEqual(Window(home).Property(gradient),selectbox)"/>
+                    <param name="color" value="$VAR[ColorSquares]"/>
+                </include>
+                <include content="Def_Gradient">
+                    <param name="visible" value="String.IsEqual(Window(home).Property(gradient),bar)"/>
+                    <param name="color" value="$VAR[ColorSelectBar]"/>
+                </include>
+                <include content="Def_Gradient">
+                    <param name="visible" value="String.IsEqual(Window(home).Property(gradient),otherbar)"/>
+                    <param name="color" value="$VAR[ColorSelectOtherBar]"/>
+                </include>
+                <include content="Def_Gradient">
+                    <param name="visible" value="String.IsEqual(Window(home).Property(gradient),logo)"/>
+                    <param name="color" value="$VAR[ColorKodiLogo]"/>
+                </include>
+            </control>
+            <control type="grouplist" id="9099">
+                <left>110</left>
+                <top>760</top>
+                <onright>3110</onright>
+                <onleft>3110</onleft>
+                <onup>3020</onup>
+                <ondown>3030</ondown>
+                <onback>3012</onback>
+                <orientation>horizontal</orientation>
+                <include>listdimensions</include>
+                <control type="radiobutton" id="3012">
+                    <label>Save</label>
+                    <onclick>Skin.Reset(colorpresent)</onclick>
+                    <onclick>SendClick(3012)</onclick>
+                    <onback>SendClick(3012)</onback>
+                    <include>buttondimensionssquareblur</include>
+                    <include content="buttontextures">
+                        <param name="icon" value="buttonsdialogs/enabled.png"/>
+                        <param name="color" value="Black30" />
+                    </include>
+                </control>
+                <control type="radiobutton" id="3011">
+                    <label>$ADDON[script.skin.helper.colorpicker 32013]</label>
+                    <onclick>Skin.Reset(colorpresent)</onclick>
+                    <onclick>SendClick(3011)</onclick>
+                    <include>buttondimensionssquareblur</include>
+                    <include content="buttontextures">
+                        <param name="icon" value="buttonsdialogs/uninstall.png"/>
+                        <param name="color" value="Black30" />
+                    </include>
+                </control>
+            </control>
+            <control type="grouplist">
+                <orientation>horizontal</orientation>
+                <itemgap>28</itemgap>
+                <left>318</left>
+                <top>760</top>
+                <width>500</width>
+
+                <!-- color preview-->
+                <control type="image">
+                    <width>76</width>
+                    <height>66</height>
+                    <texture border="5">common/box.png</texture>
+                    <colordiffuse>$INFO[Window.Property(colorstring)]</colordiffuse>
+                </control>
+                <control type="image">
+                    <width>76</width>
+                    <height>66</height>
+                    <texture border="5" diffuse="common/box.png">p$INFO[Container(3110).ListItem.Icon]</texture>
+                </control>
+            </control>
+            <control type="label">
+                <left>99</left>
+                <width>400</width>
+                <top>715</top>
+                <height>30</height>
+                <align>right</align>
+                <font>Tiny</font>
+                <textcolor>PanelWhite30</textcolor>
+                <align>left</align>
+                <label>$VAR[ColorSet]</label>
+            </control>
+
+            <!-- Color picker panel -->
+            <control type="panel" id="3110">
+                <animation effect="fade" start="0" end="100" time="200" delay="300" tween="quadratic">WindowOpen</animation>
+                <viewtype label="31438">icons</viewtype>
+                <right>90</right>
+                <top>235</top>
+                <width>1280</width>
+                <height>608</height>
+                <orientation>vertical</orientation>
+                <onleft>9000</onleft>
+                <onback>9000</onback>
+                <preloaditems>4</preloaditems>
+                <pagecontrol>60</pagecontrol>
+                <itemlayout height="38" width="41" condition="!String.IsEqual(Window.Property(palettename),basic) + !String.Contains(Window.Property(palettename),material-design)">
+                    <control type="image">
+                        <width>92%</width>
+                        <height>92%</height>
+                        <texture border="5">$INFO[ListItem.Icon]</texture>
+                    </control>
+                </itemlayout>
+                <focusedlayout height="38" width="41" condition="!String.IsEqual(Window.Property(palettename),basic) + !String.Contains(Window.Property(palettename),material-design)">
+                    <control type="group">
+                        <animation effect="zoom" time="200" tween="sine" easing="inout" start="100" end="150" center="18,19">Focus</animation>
+                        <control type="image">
+                            <right>2</right>
+                            <bottom>2</bottom>
+                            <width>41</width>
+                            <height>38</height>
+                            <texture border="5" colordiffuse="Panel">common/white.png</texture>
+                        </control>
+                        <control type="image">
+                            <width>37</width>
+                            <height>34</height>
+                            <texture border="5">$INFO[ListItem.Icon]</texture>
+                        </control>
+                    </control>
+                </focusedlayout>
+                <itemlayout height="38" width="91" condition="String.IsEqual(Window.Property(palettename),basic)">
+                    <control type="image">
+                        <width>97%</width>
+                        <height>92%</height>
+                        <texture border="5">$INFO[ListItem.Icon]</texture>
+                    </control>
+                </itemlayout>
+                <focusedlayout height="38" width="91" condition="String.IsEqual(Window.Property(palettename),basic)">
+                    <control type="group">
+                        <animation effect="zoom" time="200" tween="sine" easing="inout" start="100" end="150" center="42.5,19">Focus</animation>
+                        <control type="image">
+                            <right>2</right>
+                            <bottom>2</bottom>
+                            <width>91</width>
+                            <height>38</height>
+                            <texture border="5" colordiffuse="Panel">common/white.png</texture>
+                        </control>
+                        <control type="image">
+                            <width>87</width>
+                            <height>34</height>
+                            <texture border="5">$INFO[ListItem.Icon]</texture>
+                        </control>
+                    </control>
+                </focusedlayout>
+                <itemlayout height="38" width="91" condition="String.IsEqual(Window.Property(palettename),material-design)">
+                    <control type="image">
+                        <width>97%</width>
+                        <height>92%</height>
+                        <texture border="5">$INFO[ListItem.Icon]</texture>
+                    </control>
+                </itemlayout>
+                <focusedlayout height="38" width="91" condition="String.IsEqual(Window.Property(palettename),material-design)">
+                    <control type="group">
+                        <animation effect="zoom" time="200" tween="sine" easing="inout" start="100" end="150" center="42,19">Focus</animation>
+                        <control type="image">
+                            <right>2</right>
+                            <bottom>2</bottom>
+                            <width>91</width>
+                            <height>38</height>
+                            <texture border="5" colordiffuse="Panel">common/white.png</texture>
+                        </control>
+                        <control type="image">
+                            <width>87</width>
+                            <height>34</height>
+                            <texture border="5">$INFO[ListItem.Icon]</texture>
+                        </control>
+                    </control>
+                </focusedlayout>
+            </control>
+        </control>
+    </controls>
+</window>
