@@ -10,12 +10,15 @@
 		<value condition="String.IsEqual(ListItem.Label,..)">DefaultFolderBack.png</value>
 		<value>DefaultMovies.png</value>
 	</variable>
-
+    
     <include name="View_528_Logos">
         <description>Logos View (id=528)</description>
         <control type="group">
             <include>Animation.Common</include>
             <visible>Control.IsVisible(528)</visible>
+            <control type="group">
+                <include>LogosInfo</include>
+            </control>
             <control type="group">
                 <include>LogosContent</include>
             </control>
@@ -29,7 +32,7 @@
 
     <include name="LogosContent">
         <include>ViewSlideForJumpBar</include>
-        <bottom>0</bottom>
+        <bottom>110</bottom>
         <left>SidePad</left>
         <right>SidePad</right>
         <height>525</height>
@@ -39,8 +42,9 @@
                 <param name="string" value="$LOCALIZE[31701]" />
             </include>
             <bottom>50</bottom>
-            <onup condition="!Skin.HasSetting(global.kioskmode)">9000</onup>
-            <ondown>1623</ondown>
+            <onup condition="!Skin.HasSetting(autoShowInfo528) | Integer.IsGreaterOrEqual(Skin.String(infoDelaySeconds528),1)">888</onup>
+            <onup condition="!Skin.HasSetting(global.kioskmode) + [Skin.HasSetting(autoShowInfo528) + [String.IsEmpty(Skin.String(infoDelaySeconds528)) | String.IsEqual(Skin.String(infoDelaySeconds528),0)]]">9000</onup>
+            <ondown>1624</ondown>
             <onleft>528</onleft>
             <onright>528</onright>
             <preloaditems>2</preloaditems>
@@ -89,4 +93,162 @@
         </control>
     </include>
 
+    <include name="LogosInfo">
+        <control id="888" type="button">
+            <!-- Info Animation Button -->
+            <visible>Integer.IsGreater(Container.NumItems,0)</visible>
+            <onup condition="!Skin.HasSetting(global.kioskmode)">9000</onup>
+            <ondown>528</ondown>
+            <onleft>528</onleft>
+            <onright>528</onright>
+            <include>HiddenButton</include>
+        </control>
+        <control id="889" type="button">
+            <!-- Info Animation Trigger -->
+            <visible>Control.HasFocus(888) | [Skin.HasSetting(autoShowInfo528) + [String.IsEmpty(Skin.String(infoDelaySeconds528)) | String.IsEqual(Skin.String(infoDelaySeconds528),0)]]</visible>
+            <include>HiddenButton</include>
+        </control>
+        <control type="group" id="890">
+            <top>180</top>
+            <visible>Integer.IsGreater(Container.NumItems,0)</visible>
+            <animation effect="slide" start="0,-640" time="800" condition="Control.IsVisible(889)">Conditional</animation>
+            <animation effect="slide" end="0,-640" time="800" condition="!Control.IsVisible(889)">Conditional</animation>           
+            <control type="image">
+                <height>465</height>
+                <top>-10</top>             
+                <left>72</left>
+                <right>72</right>
+                <texture border="10">common/$VAR[nofocus-shadow10]</texture>
+            </control>
+            <control type="image">
+                <height>450</height>                
+                <left>SidePad</left>
+                <right>SidePad</right>
+                <texture colordiffuse="InfoBackground" diffuse="diffuse/pvrinfo.png" background="true" border="12">common/white.png</texture>
+            </control>
+            <control type="group">
+                <include>LogosInfoImage</include>
+            </control>
+            <control type="group">
+                <include>LogosTexts</include>
+            </control>
+        </control>    
+    </include>
+
+    <include name="LogosInfoImage">
+        <control type="group">
+            <left>1300</left>
+            <right>SidePad</right>
+            <top>40</top>
+            <include condition="$EXP[InGameMode]">LogoInfoIcon</include>
+            <include condition="!$EXP[InGameMode]">LogoInfoPoster</include>
+        </control>
+    </include>
+
+    <include name="LogoInfoIcon">
+        <control type="group">
+            <left>120</left>
+            <control type="image">
+                <width>351</width>
+                <height>351</height>
+                <texture colordiffuse="Fallback" border="4" background="true">common/box.png</texture>
+            </control>
+            <control type="image">
+                <width>350</width>
+                <height>350</height>
+                <fadetime>PosterFanartFadetime</fadetime>
+                <aspectratio aligny="center" align="center" scalediffuse="false">scale</aspectratio>
+                <texture diffuse="diffuse/listposter.png" border="1" background="true">$VAR[ThumbImage]</texture>
+            </control> 
+        </control>
+    </include>
+
+    <include name="LogoInfoPoster">
+        <control type="group">
+            <left>150</left>
+            <control type="image">
+                <visible>!String.IsEqual(ListItem.Label,..)  + !String.IsEmpty(ListItem.Art(discart)) + Skin.HasSetting(discartfanart)</visible>
+                <top>8</top>
+                <width>245</width>
+                <height>245</height>
+                <fadetime>1000</fadetime>
+                <texture>$INFO[ListItem.Art(discart)]</texture>
+                <animation type="Conditional" condition="!Container(504).OnNext + !Container(504).OnPrevious" reversible="false">
+                    <effect type="fade" start="0" end="100" time="50" delay="500"/>
+                </animation>
+                <animation type="Conditional" condition="!Container(504).OnNext + !Container(504).OnPrevious" reversible="false">
+                    <effect type="slide" start="0,0" end="-124,0" time="500" delay="1000" tween="cubic"/>
+                </animation>
+                <animation type="Visible" reversible="false">
+                    <effect type="fade" start="0" end="100" time="1500" tween="cubic"/>
+                </animation>
+                <animation type="Hidden" reversible="false">
+                    <effect type="fade" start="100" end="0" time="500" tween="cubic"/>
+                </animation>
+            </control>
+            <control type="image">
+                <left>-9</left>
+                <top>-9</top>
+                <right>135</right>
+                <bottom>490</bottom>
+                <texture border="10">common/$VAR[nofocus-shadow10]</texture>
+            </control>
+            <control type="image">
+                <width>243</width>
+                <height>360</height>
+                <texture colordiffuse="Fallback" border="4" background="true">common/box.png</texture>
+            </control>
+            <control type="image">
+                <width>243</width>
+                <height>360</height>
+                <fadetime>PosterFanartFadetime</fadetime>
+                <aspectratio aligny="center" align="center" scalediffuse="false">scale</aspectratio>
+                <texture diffuse="diffuse/listposter.png" background="true">$VAR[PosterImage]</texture>
+            </control>
+            <control type="image">
+                <width>243</width>
+                <height>360</height>
+                <texture border="4" colordiffuse="Box2" background="true">common/box21.png</texture>
+                <visible>!Skin.HasSetting(thumbnails.white)</visible>
+            </control>
+        </control>
+    </include>
+
+    <include name="LogosTexts">
+        <visible>!Skin.HasSetting(507.noscrolling)</visible>
+        <left>109</left>
+        <height>400</height>
+        <width>1200</width>
+        <control type="label">
+            <top>14</top>
+            <aligny>center</aligny>
+            <height>64</height>
+            <font>SmallBold</font>
+            <textcolor>Dark1</textcolor>
+            <selectedcolor>Dark1</selectedcolor>
+            <label>$INFO[ListItem.Label]</label>
+            <include condition="Skin.HasSetting(labels.autoscroll)">LabelScroll</include>
+        </control>
+        <control type="label">
+            <top>56</top>
+            <height>64</height>
+            <aligny>center</aligny>
+            <font>Small333</font>
+            <textcolor>Dark1</textcolor>
+            <selectedcolor>Dark1</selectedcolor>
+            <label>$VAR[LabelGenre]</label>
+        </control>
+        <control type="textbox">
+            <top>136</top>
+            <bottom>17</bottom>
+            <font>TinyPlot</font>
+            <height>280</height>
+            <textcolor>Dark2</textcolor>
+            <selectedcolor>Dark2</selectedcolor>
+            <label>$INFO[ListItem.Plot]</label>
+            <align>justify</align>
+            <autoscroll>true</autoscroll>
+            <include condition="Skin.HasSetting(labels.autoscroll)">LabelScroll</include>
+        </control>
+    </include>
 </includes>
