@@ -103,24 +103,24 @@
         | [VideoPlayer.IsFullscreen + [String.Contains(Player.FileNameAndPath,.dts-x.) | String.Contains(Player.FileNameAndPath,.dts.x.) | String.Contains(Player.FileNameAndPath,.dtsx.) | String.Contains(Player.FileNameAndPath,.dts-x-) | String.Contains(Player.FileNameAndPath,.dts.x-) | String.Contains(Player.FileNameAndPath,.dtsx-)]]
     </expression>
     <expression name="IsVideoHDR10Plus">
-        String.Contains(ListItem.FileNameAndPath,.hdr10plus.)
-        | [VideoPlayer.IsFullscreen + String.Contains(Player.FileNameAndPath,.hdr10plus.)]
+        String.IsEmpty(ListItem.HdrType) + String.IsEmpty(VideoPlayer.HdrType) + [String.Contains(ListItem.FileNameAndPath,.hdr10plus.)
+        | [VideoPlayer.IsFullscreen + String.Contains(Player.FileNameAndPath,.hdr10plus.)]]
     </expression>
     <expression name="IsVideoHDR10">
-        String.Contains(ListItem.FileNameAndPath,.hdr10.)
-        | [VideoPlayer.IsFullscreen + String.Contains(Player.FileNameAndPath,.hdr10.)]
+        String.IsEqual(ListItem.HdrType, hdr10) | String.Contains(ListItem.FileNameAndPath,.hdr10.)
+        | [VideoPlayer.IsFullscreen + [String.IsEqual(VideoPlayer.HdrType, hdr10) | String.Contains(Player.FileNameAndPath,.hdr10.)]]
     </expression>
     <expression name="IsVideoHDR">
-        String.Contains(ListItem.FileNameAndPath,.hdr.)
-        | [VideoPlayer.IsFullscreen + String.Contains(Player.FileNameAndPath,.hdr.)]
+        String.IsEmpty(ListItem.HdrType) + String.IsEmpty(VideoPlayer.HdrType) + [String.Contains(ListItem.FileNameAndPath,.hdr.)
+        | [VideoPlayer.IsFullscreen + String.Contains(Player.FileNameAndPath,.hdr.)]]
     </expression>
     <expression name="IsVideoHLG">
-        String.Contains(ListItem.FileNameAndPath,.hlg.)
-        | [VideoPlayer.IsFullscreen + String.Contains(Player.FileNameAndPath,.hlg.)]
+        String.IsEqual(ListItem.HdrType, hlg) | String.Contains(ListItem.FileNameAndPath,.hlg.)
+        | [VideoPlayer.IsFullscreen + [String.IsEqual(VideoPlayer.HdrType, hlg) | String.Contains(Player.FileNameAndPath,.hlg.)]]
     </expression>
     <expression name="IsVideoDolbyVision">
-        String.Contains(ListItem.FileNameAndPath,.dv.) | String.Contains(ListItem.FileNameAndPath,dolbyvision) | String.Contains(ListItem.FileNameAndPath,dolby-vision) | String.Contains(ListItem.FileNameAndPath,dolby vision)
-        | [VideoPlayer.IsFullscreen + [String.Contains(Player.FileNameAndPath,.dv.) | String.Contains(Player.FileNameAndPath,dolbyvision) | String.Contains(Player.FileNameAndPath,dolby-vision) | String.Contains(Player.FileNameAndPath,dolby vision)]]
+        String.IsEqual(ListItem.HdrType, dolbyvision) | String.Contains(ListItem.FileNameAndPath,.dv.) | String.Contains(ListItem.FileNameAndPath,dolbyvision) | String.Contains(ListItem.FileNameAndPath,dolby-vision) | String.Contains(ListItem.FileNameAndPath,dolby vision)
+        | [VideoPlayer.IsFullscreen + [String.IsEqual(VideoPlayer.HdrType, dolbyvision) | String.Contains(Player.FileNameAndPath,.dv.) | String.Contains(Player.FileNameAndPath,dolbyvision) | String.Contains(Player.FileNameAndPath,dolby-vision) | String.Contains(Player.FileNameAndPath,dolby vision)]]
     </expression>
     <expression name="HasNextAired">
         [Container.Content(tvshows) | Container.Content(seasons) | String.IsEqual(ListItem.DBTYPE,tvshow) | String.IsEqual(ListItem.DBTYPE,season)]
@@ -1209,7 +1209,7 @@
             <top>0</top>
             <right>0</right>
             <bottom>0</bottom>
-            <texture colordiffuse="BoxNotification" border="4" background="true">common/box21.png</texture>
+            <texture colordiffuse="BoxNotification" border="4" background="true" infill="false">common/box21.png</texture>
             <visible>!Skin.HasSetting(thumbnails.white)</visible>
         </control>
     </include>
@@ -1223,7 +1223,7 @@
         <control type="image">
             <width>1760</width>
             <height>640</height>
-            <texture colordiffuse="Box2" border="4" background="true">common/box21.png</texture>
+            <texture colordiffuse="Box2" border="4" background="true" infill="false">common/box21.png</texture>
             <visible>!Skin.HasSetting(thumbnails.white)</visible>
         </control>
         <control type="image">
@@ -1369,7 +1369,7 @@
                 <top>0</top>
                 <right>0</right>
                 <bottom>0</bottom>
-                <texture colordiffuse="BoxNotification" border="4" background="true">common/box21.png</texture>
+                <texture colordiffuse="BoxNotification" border="4" background="true" infill="false">common/box21.png</texture>
                 <visible>!Skin.HasSetting(thumbnails.white)</visible>
             </control>
         </control>
@@ -2827,7 +2827,7 @@
             <lefttexture colordiffuse="FFFF0000">osd/progress-end.png</lefttexture>
             <midtexture colordiffuse="FFFF0000">osd/progress-end.png</midtexture>
             <righttexture colordiffuse="FFFF0000">osd/progress-end.png</righttexture>
-            <info>Player.Cutlist</info>
+            <info>Player.EditList</info>
         </control>
         <control type="progress" description="cache">
             <description>Progress Bar</description>
@@ -2887,7 +2887,7 @@
             <lefttexture colordiffuse="FFFF0000">osd/progress-end.png</lefttexture>
             <midtexture colordiffuse="FFFF0000">osd/progress-end.png</midtexture>
             <righttexture colordiffuse="FFFF0000">osd/progress-end.png</righttexture>
-            <info>Player.Cutlist</info>
+            <info>Player.EditList</info>
         </control>
         <control type="progress">
             <description>Progress Bar</description>
@@ -4908,7 +4908,7 @@
         <param name="colordiffuse" default="BoxWidget"/>
         <definition>
         <bordersize>1</bordersize>
-        <bordertexture border="4" colordiffuse="$PARAM[colordiffuse]">common/box21.png</bordertexture>
+        <bordertexture border="4" colordiffuse="$PARAM[colordiffuse]" infill="false">common/box21.png</bordertexture>
         </definition>
     </include>
     
