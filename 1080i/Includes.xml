@@ -125,6 +125,15 @@
         [Container.Content(tvshows) | Container.Content(seasons) | String.IsEqual(ListItem.DBTYPE,tvshow) | String.IsEqual(ListItem.DBTYPE,season)]
         + [!String.IsEmpty(Window(Home).Property(TMDbHelper.ListItem.Next_Aired)) | !String.IsEmpty(Window(Home).Property(TMDbHelper.ListItem.Last_Aired))]
     </expression>
+    
+    <expression name="IsTVShowInProgress">
+        [Container.Content(tvshows) | String.IsEqual(ListItem.DBTYPE,tvshow)] + !String.IsEqual(ListItem.Overlay,OverlayWatched.png) + Integer.IsGreater(ListItem.Property(WatchedEpisodes),0)
+    </expression>
+    
+    <expression name="IsTVShowInProgress301">
+        [Container.Content(tvshows) | String.IsEqual(Container(301).ListItem.DBTYPE,tvshow)] + !String.IsEqual(Container(301).ListItem.Overlay,OverlayWatched.png) + Integer.IsGreater(Container(301).ListItem.Property(WatchedEpisodes),0)
+    </expression>
+    
     <expression name="IsNewMovie">
         [Container.Content(movies) | Window.isVisible(Home.xml)]
         + [
