@@ -402,6 +402,11 @@
         <value condition="String.IsEmpty(ListItem.Episode)">$NUMBER[0]$NUMBER[0]</value>
     </variable>
 
+    <variable name="LabelSeason">
+        <value condition="!String.IsEmpty(ListItem.Season)">$INFO[ListItem.Season]</value>
+        <value condition="String.IsEmpty(ListItem.Season)">$NUMBER[0]</value>
+    </variable>
+
     <variable name="LabelDirector">
         <value condition="!String.IsEmpty(ListItem.Label) + Container.Content(songs)">$INFO[ListItem.Label]</value>
         <value condition="!String.IsEmpty(ListItem.Artist) + Container.Content(albums)">$INFO[ListItem.Artist]</value>
@@ -693,7 +698,7 @@
         <value condition="Player.Rewinding4x">RW 4x</value>
         <value condition="Player.Rewinding2x">RW 2x</value>
         <value condition="Player.Rewinding">RW</value>
-        <value condition="[Player.Seeking | Player.DisplayAfterSeek] + !String.IsEmpty(Player.SeekOffset)">$LOCALIZE[773]$INFO[Player.SeekOffset, ,]</value>
+        <value condition="[Player.Seeking | Player.HasPerformedSeek(3)] + !String.IsEmpty(Player.SeekOffset)">$LOCALIZE[773]$INFO[Player.SeekOffset, ,]</value>
         <value condition="Player.Seeking + String.IsEmpty(Player.SeekOffset)">$LOCALIZE[773]$INFO[Player.SeekStepSize, ,]</value>
         <value condition="Player.Paused">$LOCALIZE[112]</value>
         <value condition="Player.IsTempo">$LOCALIZE[31281]: $INFO[Player.PlaySpeed]</value>
@@ -722,7 +727,7 @@
         <value condition="Player.Rewinding4x">RW 4x</value>
         <value condition="Player.Rewinding2x">RW 2x</value>
         <value condition="Player.Rewinding">RW</value>
-        <value condition="[Player.Seeking | Player.DisplayAfterSeek] + !String.IsEmpty(Player.SeekOffset)">$LOCALIZE[773]$INFO[Player.SeekOffset, ,]</value>
+        <value condition="[Player.Seeking | Player.HasPerformedSeek(3)] + !String.IsEmpty(Player.SeekOffset)">$LOCALIZE[773]$INFO[Player.SeekOffset, ,]</value>
         <value condition="Player.Seeking + String.IsEmpty(Player.SeekOffset)">$LOCALIZE[773]$INFO[Player.SeekStepSize, ,]</value>
         <value condition="Player.Paused">$LOCALIZE[112]</value>
         <value condition="Player.IsTempo">$LOCALIZE[31281]: $INFO[Player.PlaySpeed]</value>
@@ -1992,6 +1997,11 @@
         <value condition="Control.HasFocus(6) + !String.IsEmpty(Container(6).ListItem.Label)">$INFO[Container(6).ListItem.Label]</value>
         <value condition="String.IsEmpty(Container(6).ListItem.Label)">$LOCALIZE[10005]</value>
         <value>-</value>
+    </variable>
+    
+    <variable name="Label_Music_Duration_50">
+        <value condition="String.IsEqual(Container.SortMethod,$LOCALIZE[567]">$INFO[ListItem.PlayCount]</value>
+        <value>$INFO[ListItem.Duration]</value>
     </variable>
 
     <variable name="Label_InfoDelayInSeconds528">
