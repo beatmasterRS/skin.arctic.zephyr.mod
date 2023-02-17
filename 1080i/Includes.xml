@@ -95,32 +95,31 @@
     <expression name="ExtendedNowPlayingIsVisible">[Skin.HasSetting(extended.nowplaying) + Window.IsVisible(Home) + Player.HasMedia] + [[!ControlGroup(301).HasFocus() + !Control.HasFocus(8888) + !Control.HasFocus(4567)] | ControlGroup(777).HasFocus()]</expression>
     <expression name="TitleClearlogoAvailable">[!String.IsEmpty(ListItem.Art(clearlogo)) | !String.IsEmpty(ListItem.Art(artist.clearlogo)) | !String.IsEmpty(ListItem.Art(tvshow.clearlogo))] + !Container.Content(episodes) + !Container.Content(seasons)</expression>
     <expression name="IsAudioCodecATMOS">
-        String.Contains(ListItem.FileNameAndPath,.atmos.) | String.Contains(ListItem.FileNameAndPath,.atmos-) | String.Contains(ListItem.FileNameAndPath,dolby atmos) | String.Contains(ListItem.FileNameAndPath,dolby-atmos)
-        | [VideoPlayer.IsFullscreen + [String.Contains(Player.FileNameAndPath,.atmos.) | String.Contains(Player.FileNameAndPath,.atmos-) | String.Contains(Player.FileNameAndPath,dolby atmos) | String.Contains(Player.FileNameAndPath,dolby-atmos)]]
+        String.Contains(ListItem.FileNameAndPath,atmos) | [VideoPlayer.IsFullscreen + String.Contains(Player.FileNameAndPath,atmos)]
     </expression>
     <expression name="IsAudioCodecDTSX">
-        String.Contains(ListItem.FileNameAndPath,.dts-x.) | String.Contains(ListItem.FileNameAndPath,.dts.x.) | String.Contains(ListItem.FileNameAndPath,.dtsx.) | String.Contains(ListItem.FileNameAndPath,.dts-x-) | String.Contains(ListItem.FileNameAndPath,.dts.x-) | String.Contains(ListItem.FileNameAndPath,.dtsx-)
-        | [VideoPlayer.IsFullscreen + [String.Contains(Player.FileNameAndPath,.dts-x.) | String.Contains(Player.FileNameAndPath,.dts.x.) | String.Contains(Player.FileNameAndPath,.dtsx.) | String.Contains(Player.FileNameAndPath,.dts-x-) | String.Contains(Player.FileNameAndPath,.dts.x-) | String.Contains(Player.FileNameAndPath,.dtsx-)]]
+        String.Contains(ListItem.FileNameAndPath,dts-x) | String.Contains(ListItem.FileNameAndPath,dtsx) | String.Contains(ListItem.FileNameAndPath,dts.x)
+        | [VideoPlayer.IsFullscreen + [String.Contains(Player.FileNameAndPath,dts-x) | String.Contains(Player.FileNameAndPath,dtsx) | String.Contains(Player.FileNameAndPath,dts.x)]]
     </expression>
     <expression name="IsVideoHDR10Plus">
-        String.Contains(ListItem.FileNameAndPath,.hdr10plus.)
-        | [VideoPlayer.IsFullscreen + String.Contains(Player.FileNameAndPath,.hdr10plus.)]
+        String.IsEmpty(ListItem.HdrType) + String.IsEmpty(VideoPlayer.HdrType) + [String.Contains(ListItem.FileNameAndPath,hdr10plus)
+        | [VideoPlayer.IsFullscreen + String.Contains(Player.FileNameAndPath,hdr10plus)]]
     </expression>
     <expression name="IsVideoHDR10">
-        String.Contains(ListItem.FileNameAndPath,.hdr10.)
-        | [VideoPlayer.IsFullscreen + String.Contains(Player.FileNameAndPath,.hdr10.)]
+        String.IsEqual(ListItem.HdrType,hdr10) | String.Contains(ListItem.FileNameAndPath,hdr10)
+        | [VideoPlayer.IsFullscreen + [String.IsEqual(VideoPlayer.HdrType, hdr10) | String.Contains(Player.FileNameAndPath,hdr10)]]
     </expression>
     <expression name="IsVideoHDR">
-        String.Contains(ListItem.FileNameAndPath,.hdr.)
-        | [VideoPlayer.IsFullscreen + String.Contains(Player.FileNameAndPath,.hdr.)]
+        String.IsEmpty(ListItem.HdrType) + String.IsEmpty(VideoPlayer.HdrType) + [String.Contains(ListItem.FileNameAndPath,hdr)
+        | [VideoPlayer.IsFullscreen + String.Contains(Player.FileNameAndPath,hdr)]]
     </expression>
     <expression name="IsVideoHLG">
-        String.Contains(ListItem.FileNameAndPath,.hlg.)
-        | [VideoPlayer.IsFullscreen + String.Contains(Player.FileNameAndPath,.hlg.)]
+        String.IsEqual(ListItem.HdrType,hlg) | String.Contains(ListItem.FileNameAndPath,hlg)
+        | [VideoPlayer.IsFullscreen + [String.IsEqual(VideoPlayer.HdrType,hlg) | String.Contains(Player.FileNameAndPath,hlg)]]
     </expression>
     <expression name="IsVideoDolbyVision">
-        String.Contains(ListItem.FileNameAndPath,.dv.) | String.Contains(ListItem.FileNameAndPath,dolbyvision) | String.Contains(ListItem.FileNameAndPath,dolby-vision) | String.Contains(ListItem.FileNameAndPath,dolby vision)
-        | [VideoPlayer.IsFullscreen + [String.Contains(Player.FileNameAndPath,.dv.) | String.Contains(Player.FileNameAndPath,dolbyvision) | String.Contains(Player.FileNameAndPath,dolby-vision) | String.Contains(Player.FileNameAndPath,dolby vision)]]
+        String.IsEqual(ListItem.HdrType,dolbyvision) | String.Contains(ListItem.FileNameAndPath,.dv.) | String.Contains(ListItem.FileNameAndPath,dolbyvision) | String.Contains(ListItem.FileNameAndPath,dolby-vision) | String.Contains(ListItem.FileNameAndPath,dolby vision)
+        | [VideoPlayer.IsFullscreen + [String.IsEqual(VideoPlayer.HdrType, dolbyvision) | String.Contains(Player.FileNameAndPath,.dv.) | String.Contains(Player.FileNameAndPath,dolbyvision) | String.Contains(Player.FileNameAndPath,dolby-vision) | String.Contains(Player.FileNameAndPath,dolby vision)]]
     </expression>
     <expression name="HasNextAired">
         [Container.Content(tvshows) | Container.Content(seasons) | String.IsEqual(ListItem.DBTYPE,tvshow) | String.IsEqual(ListItem.DBTYPE,season)]
@@ -537,6 +536,7 @@
 
         <!-- Fallback, Other -->
         <value condition="Window.IsVisible(home) + !String.IsEmpty(Window(Home).Property(PVR.Artwork.fanart)) + String.IsEmpty(ListItem.Property(fanart)) + Skin.HasSetting(Skin_enablePvrArtwork)">$INFO[Window(Home).Property(PVR.Artwork.fanart)]</value>
+        <value condition="Window.IsVisible(home) + String.IsEmpty(Window(Home).Property(PVR.Artwork.fanart)) + !String.IsEmpty(Container(30111).ListItem.EpgEventIcon)">$INFO[Container(30111).ListItem.EpgEventIcon]</value>
         <value condition="Window.IsVisible(home) + String.IsEqual(Container(300).ListItem.Property(background),playlistBackground)">$INFO[Container(9988).ListItem.Art(fanart)]</value>
         <value condition="Window.IsVisible(home) + !String.IsEmpty(Container(300).ListItem.Property(Background)) + [String.IsEmpty(Skin.String(fanart.fallback)) | Control.HasFocus(300) | Control.HasFocus(302) | Control.HasFocus(2011)]">$INFO[Container(300).ListItem.Property(Background)]</value>
         <value condition="Window.IsVisible(home) + !String.IsEmpty(Skin.String(home.slideshowpath)) + [[String.IsEqual(Container(300).ListItem.Property(widget),weatherdaily) | String.IsEqual(Container(300).ListItem.Property(widget),weatherhourly)] | String.IsEmpty(Container(300).ListItem.Property(widget)) | Container(301).IsUpdating |  Skin.HasSetting(home.dontshowfanart)]">$INFO[Skin.String(home.slideshowpath)]</value>
@@ -546,8 +546,10 @@
         <value condition="Window.IsVisible(home) + !Container(301).IsUpdating + !String.IsEmpty(Container(301).ListItem.Property(Background))">$INFO[Container(301).ListItem.Property(Background)]</value>
         <value condition="Window.IsVisible(home) + !Container(301).IsUpdating + Skin.HasSetting(homemenu.netflix)">common/null.png</value>
         <value condition="Window.IsVisible(home) + !Container(301).IsUpdating">pvr/background.jpg</value>
-        <value condition="Window.IsVisible(tvchannels) + !String.IsEmpty(Window(Home).Property(PVR.Artwork.fanart)) +  Skin.HasSetting(Skin_enablePvrArtwork)">$INFO[Window(Home).Property(PVR.Artwork.Fanart)]</value>
+        <value condition="Window.IsVisible(tvchannels) + !String.IsEmpty(Window(Home).Property(PVR.Artwork.fanart)) + Skin.HasSetting(Skin_enablePvrArtwork)">$INFO[Window(Home).Property(PVR.Artwork.Fanart)]</value>
+        <value condition="Window.IsVisible(tvchannels) + !String.IsEmpty(ListItem.EpgEventIcon)">$INFO[ListItem.EpgEventIcon]</value>
         <value condition="Window.IsVisible(tvguide) + !String.IsEmpty(Window(Home).Property(PVR.Artwork.fanart)) +  Skin.HasSetting(Skin_enablePvrArtwork)">$INFO[Window(Home).Property(PVR.Artwork.Fanart)]</value>
+        <value condition="Window.IsVisible(tvguide) + !String.IsEmpty(ListItem.EpgEventIcon)">$INFO[ListItem.EpgEventIcon]</value>
         <value condition="!String.IsEmpty(Window(Home).Property(SkinHelper.ExtraFanArtPath)) + Skin.HasSetting(SkinHelper.EnableExtraFanart) + System.AddonIsEnabled(script.skin.helper.service) + Window.IsVisible(MyVideoNav.xml)">$INFO[Window(Home).Property(SkinHelper.ExtraFanArtPath)]</value>
         <value condition="!String.IsEmpty(ListItem.Art(fanart))">$INFO[ListItem.Art(fanart)]</value>
         <value condition="!String.IsEmpty(Container(9500).ListItem.Art(fanart))">$INFO[Container(9500).ListItem.Art(fanart)]</value>
@@ -1209,7 +1211,7 @@
             <top>0</top>
             <right>0</right>
             <bottom>0</bottom>
-            <texture colordiffuse="BoxNotification" border="4" background="true">common/box21.png</texture>
+            <texture colordiffuse="BoxNotification" border="4" background="true" infill="false">common/box21.png</texture>
             <visible>!Skin.HasSetting(thumbnails.white)</visible>
         </control>
     </include>
@@ -1223,7 +1225,7 @@
         <control type="image">
             <width>1760</width>
             <height>640</height>
-            <texture colordiffuse="Box2" border="4" background="true">common/box21.png</texture>
+            <texture colordiffuse="Box2" border="4" background="true" infill="false">common/box21.png</texture>
             <visible>!Skin.HasSetting(thumbnails.white)</visible>
         </control>
         <control type="image">
@@ -1369,7 +1371,7 @@
                 <top>0</top>
                 <right>0</right>
                 <bottom>0</bottom>
-                <texture colordiffuse="BoxNotification" border="4" background="true">common/box21.png</texture>
+                <texture colordiffuse="BoxNotification" border="4" background="true" infill="false">common/box21.png</texture>
                 <visible>!Skin.HasSetting(thumbnails.white)</visible>
             </control>
         </control>
@@ -2827,7 +2829,7 @@
             <lefttexture colordiffuse="FFFF0000">osd/progress-end.png</lefttexture>
             <midtexture colordiffuse="FFFF0000">osd/progress-end.png</midtexture>
             <righttexture colordiffuse="FFFF0000">osd/progress-end.png</righttexture>
-            <info>Player.Cutlist</info>
+            <info>Player.EditList</info>
         </control>
         <control type="progress" description="cache">
             <description>Progress Bar</description>
@@ -2887,7 +2889,7 @@
             <lefttexture colordiffuse="FFFF0000">osd/progress-end.png</lefttexture>
             <midtexture colordiffuse="FFFF0000">osd/progress-end.png</midtexture>
             <righttexture colordiffuse="FFFF0000">osd/progress-end.png</righttexture>
-            <info>Player.Cutlist</info>
+            <info>Player.EditList</info>
         </control>
         <control type="progress">
             <description>Progress Bar</description>
@@ -4908,7 +4910,7 @@
         <param name="colordiffuse" default="BoxWidget"/>
         <definition>
         <bordersize>1</bordersize>
-        <bordertexture border="4" colordiffuse="$PARAM[colordiffuse]">common/box21.png</bordertexture>
+        <bordertexture border="4" colordiffuse="$PARAM[colordiffuse]" infill="false">common/box21.png</bordertexture>
         </definition>
     </include>
     

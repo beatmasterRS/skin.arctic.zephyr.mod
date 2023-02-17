@@ -10,11 +10,6 @@
         <value>$LOCALIZE[31125]</value>
     </variable>
 
-    <variable name="ColorSet">
-        <value condition="Control.HasFocus(3011)">$LOCALIZE[31127]</value>
-        <value condition="Control.HasFocus(3012)">$LOCALIZE[190]</value>
-    </variable>
-
     <variable name="ColorKodiLogo">
         <value condition="String.IsEqual(Skin.String(kodilogocolor.name),none)">Dark2</value>
         <value condition="!String.IsEmpty(Skin.String(kodilogocolor.name))">$INFO[Skin.String(kodilogocolor.name)]</value>
@@ -407,6 +402,11 @@
         <value condition="String.IsEmpty(ListItem.Episode)">$NUMBER[0]$NUMBER[0]</value>
     </variable>
 
+    <variable name="LabelSeason">
+        <value condition="!String.IsEmpty(ListItem.Season)">$INFO[ListItem.Season]</value>
+        <value condition="String.IsEmpty(ListItem.Season)">$NUMBER[0]</value>
+    </variable>
+
     <variable name="LabelDirector">
         <value condition="!String.IsEmpty(ListItem.Label) + Container.Content(songs)">$INFO[ListItem.Label]</value>
         <value condition="!String.IsEmpty(ListItem.Artist) + Container.Content(albums)">$INFO[ListItem.Artist]</value>
@@ -698,7 +698,7 @@
         <value condition="Player.Rewinding4x">RW 4x</value>
         <value condition="Player.Rewinding2x">RW 2x</value>
         <value condition="Player.Rewinding">RW</value>
-        <value condition="[Player.Seeking | Player.DisplayAfterSeek] + !String.IsEmpty(Player.SeekOffset)">$LOCALIZE[773]$INFO[Player.SeekOffset, ,]</value>
+        <value condition="[Player.Seeking | Player.HasPerformedSeek(3)] + !String.IsEmpty(Player.SeekOffset)">$LOCALIZE[773]$INFO[Player.SeekOffset, ,]</value>
         <value condition="Player.Seeking + String.IsEmpty(Player.SeekOffset)">$LOCALIZE[773]$INFO[Player.SeekStepSize, ,]</value>
         <value condition="Player.Paused">$LOCALIZE[112]</value>
         <value condition="Player.IsTempo">$LOCALIZE[31281]: $INFO[Player.PlaySpeed]</value>
@@ -727,7 +727,7 @@
         <value condition="Player.Rewinding4x">RW 4x</value>
         <value condition="Player.Rewinding2x">RW 2x</value>
         <value condition="Player.Rewinding">RW</value>
-        <value condition="[Player.Seeking | Player.DisplayAfterSeek] + !String.IsEmpty(Player.SeekOffset)">$LOCALIZE[773]$INFO[Player.SeekOffset, ,]</value>
+        <value condition="[Player.Seeking | Player.HasPerformedSeek(3)] + !String.IsEmpty(Player.SeekOffset)">$LOCALIZE[773]$INFO[Player.SeekOffset, ,]</value>
         <value condition="Player.Seeking + String.IsEmpty(Player.SeekOffset)">$LOCALIZE[773]$INFO[Player.SeekStepSize, ,]</value>
         <value condition="Player.Paused">$LOCALIZE[112]</value>
         <value condition="Player.IsTempo">$LOCALIZE[31281]: $INFO[Player.PlaySpeed]</value>
@@ -1983,5 +1983,24 @@
     <variable name="Label_ColorSave">
         <value condition="String.IsEmpty(Skin.String(color.preset.name.own))">$LOCALIZE[31687]?</value>
         <value>$LOCALIZE[31688]</value>
+    </variable>
+    
+    <variable name="Label_ColorPickerColor">
+        <value condition="Control.HasFocus(6)">$INFO[Container(6).ListItem.Label2]</value>
+        <value condition="!String.IsEmpty(Skin.String(color_prev))">$INFO[Skin.String(color_prev)]</value>
+        <value condition="!String.IsEmpty(Window(home).Property(color_prev))">$INFO[Container(6).ListItem.Label2]</value>
+        <value condition="!String.IsEmpty(Window(home).Property(colorstring))">$INFO[Window(home).Property(colorstring)]</value>
+        <value>-</value>
+    </variable>
+    
+    <variable name="Label_ColorPickerColor_Desc">
+        <value condition="Control.HasFocus(6) + !String.IsEmpty(Container(6).ListItem.Label)">$INFO[Container(6).ListItem.Label]</value>
+        <value condition="String.IsEmpty(Container(6).ListItem.Label)">$LOCALIZE[10005]</value>
+        <value>-</value>
+    </variable>
+    
+    <variable name="Label_Music_Duration_50">
+        <value condition="String.IsEqual(Container.SortMethod,$LOCALIZE[567]">$INFO[ListItem.PlayCount]</value>
+        <value>$INFO[ListItem.Duration]</value>
     </variable>
 </includes>
