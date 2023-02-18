@@ -155,7 +155,7 @@
         <value condition="Skin.HasSetting(hide.markers)"></value>
         <value condition="ListItem.IsPlaying + !Skin.HasSetting(hide.markers.isplaying)">[COLOR=WatchedIcons]&#62811;[/COLOR]</value>
         <value condition="ListItem.IsResumable + Skin.HasSetting(hide.markers.inprogress)"></value>
-        <value condition="ListItem.IsResumable">&#62596;</value>
+        <value condition="ListItem.IsResumable | $EXP[IsTVShowInProgress]">&#62596;</value>
         <value condition="String.IsEqual(ListItem.Overlay,OverlayWatched.png) + Skin.HasSetting(hide.markers.watched)"></value>
         <value condition="String.IsEqual(ListItem.Overlay,OverlayWatched.png)">[COLOR=FF00DD44]&#10003;[/COLOR]</value>
         <value condition="String.IsEqual(ListItem.Overlay,OverlayUnwatched.png) + [$EXP[IsNewMovie] | $EXP[IsNewTVShow] | $EXP[IsNewEpisode]] + !Skin.HasSetting(hide.markers.newcontent)">[COLOR=ColoredIcons]&#62079;[/COLOR]</value>
@@ -165,6 +165,7 @@
         <value condition="Skin.HasSetting(hide.markers) | [ListItem.IsPlaying + !Skin.HasSetting(hide.markers.isplaying)]"></value>
         <value condition="ListItem.IsResumable + Skin.HasSetting(hide.markers.inprogress)"></value>
         <value condition="ListItem.IsResumable">$VAR[IndicatorFlagLabelIsResumable]</value>
+        <value condition="$EXP[IsTVShowInProgress]">$VAR[IndicatorFlagLabelIsTVShowInProgress]</value>
         <value condition="String.IsEqual(ListItem.Overlay,OverlayWatched.png) + Skin.HasSetting(hide.markers.watched)"></value>
         <value condition="String.IsEqual(ListItem.Overlay,OverlayWatched.png)">$LOCALIZE[31493]</value>
         <value condition="String.IsEqual(ListItem.Overlay,OverlayUnwatched.png) + [$EXP[IsNewMovie] | $EXP[IsNewTVShow] | $EXP[IsNewEpisode]] + !Skin.HasSetting(hide.markers.newcontent)">$LOCALIZE[31494]</value>
@@ -175,11 +176,16 @@
         <value>$LOCALIZE[31492]</value>
     </variable>
     
+    <variable name="IndicatorFlagLabelIsTVShowInProgress">
+        <value condition="Skin.HasSetting(markers.inprogress.percentage) + !String.IsEmpty(ListItem.Property(WatchedEpisodePercent)">$INFO[ListItem.Property(WatchedEpisodePercent),,%]</value>
+        <value>$INFO[ListItem.Property(WatchedEpisodes)]/$INFO[ListItem.Property(TotalEpisodes)]</value>
+    </variable>
+    
     <variable name="WatchedLabelPoster301">
         <value condition="Skin.HasSetting(hide.markers)"></value>
         <value condition="Container(301).ListItem.IsPlaying + !Skin.HasSetting(hide.markers.isplaying)">[COLOR=WatchedIcons]&#62811;[/COLOR]</value>
         <value condition="Container(301).ListItem.IsResumable + Skin.HasSetting(hide.markers.inprogress)"></value>
-        <value condition="Container(301).ListItem.IsResumable">&#62596;</value>
+        <value condition="Container(301).ListItem.IsResumable | $EXP[IsTVShowInProgress301]">&#62596;</value>
         <value condition="String.IsEqual(Container(301).ListItem.Overlay,OverlayWatched.png) + Skin.HasSetting(hide.markers.watched)"></value>
         <value condition="String.IsEqual(Container(301).ListItem.Overlay,OverlayWatched.png)">[COLOR=FF00DD44]&#10003;[/COLOR]</value>
         <value condition="String.IsEqual(Container(301).ListItem.Overlay,OverlayUnwatched.png) + [$EXP[IsNewMovie301] | $EXP[IsNewTVShow301] | $EXP[IsNewEpisode301]] + !Skin.HasSetting(hide.markers.newcontent)">[COLOR=ColoredIcons]&#62079;[/COLOR]</value>
@@ -189,6 +195,7 @@
         <value condition="Skin.HasSetting(hide.markers) | [Container(301).ListItem.IsPlaying + !Skin.HasSetting(hide.markers.isplaying)]"></value>
         <value condition="Container(301).ListItem.IsResumable + Skin.HasSetting(hide.markers.inprogress)"></value>
         <value condition="Container(301).ListItem.IsResumable">$VAR[IndicatorFlagLabelIsResumable301]</value>
+        <value condition="$EXP[IsTVShowInProgress301]">$VAR[IndicatorFlagLabelIsTVShowInProgress301]</value>
         <value condition="String.IsEqual(Container(301).ListItem.Overlay,OverlayWatched.png) + Skin.HasSetting(hide.markers.watched)"></value>
         <value condition="String.IsEqual(Container(301).ListItem.Overlay,OverlayWatched.png)">$LOCALIZE[31493]</value>
         <value condition="String.IsEqual(Container(301).ListItem.Overlay,OverlayUnwatched.png) + [$EXP[IsNewMovie301] | $EXP[IsNewTVShow301] | $EXP[IsNewEpisode301]] + !Skin.HasSetting(hide.markers.newcontent)">$LOCALIZE[31494]</value>
@@ -197,6 +204,11 @@
     <variable name="IndicatorFlagLabelIsResumable301">
         <value condition="Skin.HasSetting(markers.inprogress.percentage) + !String.IsEmpty(Container(301).ListItem.PercentPlayed)">$INFO[Container(301).ListItem.PercentPlayed,,%]</value>
         <value>$LOCALIZE[31492]</value>
+    </variable>
+    
+    <variable name="IndicatorFlagLabelIsTVShowInProgress301">
+        <value condition="Skin.HasSetting(markers.inprogress.percentage) + !String.IsEmpty(Container(301).ListItem.Property(WatchedEpisodePercent)">$INFO[Container(301).ListItem.Property(WatchedEpisodePercent),,%]</value>
+        <value>$INFO[Container(301).ListItem.Property(WatchedEpisodes)]/$INFO[Container(301).ListItem.Property(TotalEpisodes)]</value>
     </variable>
 
     <variable name="WatchedLabelPosterColor">
@@ -207,7 +219,7 @@
         <value condition="Skin.HasSetting(hide.markers)"></value>
         <value condition="ListItem.IsPlaying + !Skin.HasSetting(hide.markers.isplaying)">&#62811;</value>
         <value condition="ListItem.IsResumable + Skin.HasSetting(hide.markers.inprogress)"></value>
-        <value condition="ListItem.IsResumable">&#62596;</value>
+        <value condition="ListItem.IsResumable | $EXP[IsTVShowInProgress]">&#62596;</value>
         <value condition="String.IsEqual(ListItem.Overlay,OverlayWatched.png) + Skin.HasSetting(hide.markers.watched)"></value>
         <value condition="String.IsEqual(ListItem.Overlay,OverlayWatched.png)">[COLOR=FF00DD44]&#10003;[/COLOR]</value>
         <value condition="String.IsEqual(ListItem.Overlay,OverlayUnwatched.png) + [$EXP[IsNewMovie] | $EXP[IsNewTVShow] | $EXP[IsNewEpisode]] + !Skin.HasSetting(hide.markers.newcontent)">[COLOR=ColoredIcons]&#62079;[/COLOR]</value>
