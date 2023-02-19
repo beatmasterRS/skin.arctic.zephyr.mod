@@ -1,0 +1,63 @@
+<window type="dialog" id="1134">
+	<onload>RunScript(script.module.pvr.artwork,get_artwork,prefix=PVR.Nextup&amp;title=$INFO[VideoPlayer.NextTitle]&amp;genre=$INFO[VideoPlayer.NextGenre]&amp;channel=$INFO[VideoPlayer.ChannelName])</onload>
+	<onunload>RunScript(script.module.pvr.artwork,clear_artwork,prefix=PVR.Nextup)</onunload>
+	<visible>Window.IsActive(fullscreenvideo) + VideoPlayer.Content(livetv) + !Skin.HasSetting(disable_PVRNextUp)</visible>
+	<visible>!Window.IsVisible(VideoOSD.xml) + !Window.IsVisible(DialogPVRChannelsOSD.xml) + !Window.IsVisible(DialogPVRChannelGuide.xml) + !Window.IsVisible(DialogFullScreenInfo.xml) + !Window.IsVisible(Custom_1135_PVROverlay.xml)</visible>
+    <defaultcontrol always="true">3012</defaultcontrol>
+    <zorder>10</zorder>
+    <controls>
+        <control type="label" id="3000">
+            <visible>false</visible>
+        </control>
+        <control type="label" id="3002">
+            <visible>false</visible>
+        </control>
+        <control type="group">
+            <visible>!Window.IsVisible(videoosd) + Window.IsVisible(fullscreenvideo) + [Integer.IsEqual(PVR.EpgEventRemainingTime(hh),0) + Integer.IsEqual(PVR.EpgEventRemainingTime(mm),0) +  Integer.IsLess(PVR.EpgEventRemainingTime(ss),36) + Integer.IsGreater(PVR.EpgEventRemainingTime(ss),4)]</visible>
+            <include>Animation.FadeIn.Slide</include>
+            <include>Animation.FadeOut</include>
+            <right>64</right>
+            <bottom>64</bottom>
+            <width>480</width>
+            <height>270</height>
+            <control type="label" description="text">
+                <top>-64</top>
+                <left>0</left>
+                <right>20</right>
+                <height>64</height>
+                <aligny>center</aligny>
+                <font>Small</font>
+                <label>$ADDON[service.upnext 30008]... </label>
+                <textcolor>ffededed</textcolor>
+                <shadowcolor>bf000000</shadowcolor>
+            </control>
+            <control type="image" description="fanart">
+                <width>100%</width>
+                <height>100%</height>
+                <fadetime>350</fadetime>
+                <aspectratio scalediffuse="false">scale</aspectratio>
+                <texture diffuse="diffuse/widgetfanart_new.png">$VAR[PVRUpNextImage]</texture>
+            </control>
+            <control type="image" description="blackline">
+                <width>100%</width>
+                <height>64</height>
+                <bottom>0</bottom>
+                <texture colordiffuse="df000000" border="4">diffuse/blackline_nextup.png</texture>
+            </control>
+            <control type="label" description="text">
+                <left>20</left>
+                <right>120</right>
+                <height>64</height>
+                <bottom>2</bottom>
+                <aligny>center</aligny>
+                <font>Small</font>
+                <label>$INFO[VideoPlayer.NextTitle]</label>
+                <textcolor>PanelWhite100</textcolor>
+            </control>
+            <control type="image">
+                <texture colordiffuse="Box2" background="true" border="4">common/box21.png</texture>
+                <visible>!Skin.HasSetting(thumbnails.white)</visible>
+            </control>
+        </control>
+    </controls>
+</window>
