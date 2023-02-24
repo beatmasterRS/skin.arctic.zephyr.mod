@@ -38,9 +38,10 @@
                     <visible>$PARAM[progresstvshowvisible]</visible>
                     <width>159</width>
                     <height>159</height>
-                    <texture diffuse="diffuse/diffuse_progress_big.png" colordiffuse="$VAR[ColorHighlight]">progress/tvshows/p$INFO[ListItem.Property(WatchedEpisodePercent)].png</texture>
+                    <texture diffuse="diffuse/diffuse_progress_big.png" colordiffuse="$VAR[ColorHighlight]">progress/tvshows/p$INFO[Window(home).Property(MyResult)].png</texture>
                     <visible>String.IsEqual(ListItem.DBType,tvshow) | String.IsEqual(ListItem.DBType,season)</visible>
-                    <include>Animation.SwitchText</include>
+                    <include>Animation.SwitchCalculation</include>
+                    <visible>!String.IsEmpty(Window(home).Property(MyResult))</visible>
                 </control>
                 <control type="label">
                     <include>Animation.SwitchText</include>
@@ -236,7 +237,7 @@
                     <visible>Control.IsVisible(507)</visible>
                     <control type="group">
                         <control type="wraplist" id="507">
-                            <visible>Container.Content(movies) | Container.Content(musicvideos) | Container.Content(tvshows) | Container.Content(episodes) | Container.Content(seasons) | Container.Content(sets) | Container.Content(videos) | $EXP[InGameMode]</visible>
+                            <visible>Container.Content(movies) | Container.Content(musicvideos) | Container.Content(tvshows) | Container.Content(episodes) | Container.Content(seasons) | Container.Content(sets) | Container.Content(videos)</visible>
                             <top>217</top>
                             <left>-20</left>
                             <width>1980</width>
@@ -258,6 +259,12 @@
                             </itemlayout>
                             <focusedlayout height="646" width="1900">
                                 <include>View_507_Layout</include>
+                                <control type="button">
+                                    <visible>false</visible>
+                                    <onfocus>ClearProperty(MyResult,home)</onfocus>
+                                    <onfocus condition="[String.IsEqual(ListItem.DBType,tvshow) | String.IsEqual(ListItem.DBType,season)] + Skin.HasSetting(furniture.overlayinfobalken)">AlarmClock(Calculation,RunScript(script.embuary.helper,action=calc,do='"round($INFO[ListItem.Property(WatchedEpisodes)] * 100 / $INFO[ListItem.Property(TotalEpisodes)])"',prop=MyResult),00:01,silent)</onfocus>
+                                    <onunfocus condition="System.HasAlarm(Calculation)">CancelAlarm(Calculation,true)</onunfocus>
+                                </control>
                             </focusedlayout>
                         </control>
                     </control>
@@ -266,7 +273,7 @@
                         <top>216</top>
                         <right>SidePad</right>
                         <bottom>216</bottom>
-                        <texture colordiffuse="Box2" border="4" background="true" infill="false">common/box21.png</texture>
+                        <texture colordiffuse="Box2" border="4" background="true">common/box21.png</texture>
                         <visible>!Skin.HasSetting(thumbnails.white)</visible>
                     </control>
                     <control type="scrollbar" id="1600">
