@@ -11,7 +11,7 @@
             <control type="group">
                 <control type="panel" id="50">
                     <oninfo condition="Container.Content(actors)">RunScript(script.embuary.info,call=person,query='"$INFO[ListItem.Label]"')</oninfo>
-                    <visible>String.Contains(Container.FolderPath,plugin://plugin.program.advanced.launcher/,left) | Container.Content(musicvideos) | Container.Content(movies) | Container.Content(tvshows) | Container.Content(actors) | Container.Content(sets) | Container.Content(seasons) | [Container.Content(files) + !String.Contains(Container.FolderPath,plugin://,left) + !String.IsEqual(Container.FolderPath,library://video/movies/) + !String.IsEqual(Container.FolderPath,library://video/tvshows/) + !String.IsEqual(Container.FolderPath,special://videoplaylists/)] | [Container.Content(episodes) + !String.Contains(Container.FolderPath,plugin://,left)]</visible>
+                    <visible>$EXP[InGameMode] | Container.Content(musicvideos) | Container.Content(movies) | Container.Content(tvshows) | Container.Content(actors) | Container.Content(sets) | Container.Content(seasons) | [Container.Content(files) + !String.Contains(Container.FolderPath,plugin://,left) + !String.IsEqual(Container.FolderPath,library://video/movies/) + !String.IsEqual(Container.FolderPath,library://video/tvshows/) + !String.IsEqual(Container.FolderPath,special://videoplaylists/)] | [Container.Content(episodes) + !String.Contains(Container.FolderPath,plugin://,left)]</visible>
                     <include content="forced_view" condition="Skin.HasSetting(enable.forcedviews)">
                         <param name="string" value="$LOCALIZE[535]" />
                     </include>
@@ -101,7 +101,7 @@
             <control type="group">
                 <posy>320</posy>
                 <control type="fixedlist" id="50">
-                    <visible>String.Contains(Container.FolderPath,plugin://plugin.program.advanced.launcher/,left) | Container.Content(musicvideos) | Container.Content(movies) | Container.Content(tvshows) | Container.Content(actors) | Container.Content(sets) | Container.Content(seasons) | [Container.Content(files) + !String.Contains(Container.FolderPath,plugin://,left) + !String.IsEqual(Container.FolderPath,library://video/movies/) + !String.IsEqual(Container.FolderPath,library://video/tvshows/) + !String.IsEqual(Container.FolderPath,special://videoplaylists/)] | [Container.Content(episodes) + !String.Contains(Container.FolderPath,plugin://,left)]</visible>
+                    <visible>$EXP[InGameMode] | Container.Content(musicvideos) | Container.Content(movies) | Container.Content(tvshows) | Container.Content(actors) | Container.Content(sets) | Container.Content(seasons) | [Container.Content(files) + !String.Contains(Container.FolderPath,plugin://,left) + !String.IsEqual(Container.FolderPath,library://video/movies/) + !String.IsEqual(Container.FolderPath,library://video/tvshows/) + !String.IsEqual(Container.FolderPath,special://videoplaylists/)] | [Container.Content(episodes) + !String.Contains(Container.FolderPath,plugin://,left)]</visible>
                     <top>PosterPad</top>
                     <height>320</height>
                     <left>ListX</left>
@@ -179,7 +179,7 @@
                 <top>-24</top>
                 <width>PosterShadowW</width>
                 <height>PosterShadowH</height>
-                <texture border="32">common/$VAR[shadow-24]</texture>
+                <texture border="32" infill="false">common/$VAR[shadow-24]</texture>
             </control>
             <control type="image">
                 <width>PosterW</width>
@@ -196,7 +196,7 @@
             <control type="image">
                 <width>PosterW</width>
                 <height>PosterH</height>
-                <texture colordiffuse="Box2" border="4" background="true">common/box21.png</texture>
+                <texture colordiffuse="Box2" border="4" background="true" infill="false">common/box21.png</texture>
                 <visible>!Skin.HasSetting(thumbnails.white)</visible>
             </control>
         </control>
@@ -215,7 +215,16 @@
                 <fadetime>PosterFanartFadetime</fadetime>
                 <aspectratio align="center" aligny="center" scalediffuse="false">keep</aspectratio>
                 <texture flipy="true" diffuse="diffuse/listposter-ref-widgets.png" background="true">$VAR[PosterImageSquare]</texture>
-                <visible>Skin.HasSetting(show.reflections)</visible>
+                <visible>Skin.HasSetting(show.reflections) + !String.IsEqual(ListItem.DBType,genre)</visible>
+            </control>
+            <control type="image">
+                <top>PosterH</top>
+                <width>PosterH</width>
+                <height>PosterH</height>
+                <fadetime>PosterFanartFadetime</fadetime>
+                <aspectratio align="center" aligny="center" scalediffuse="false">keep</aspectratio>
+                <texture flipy="true" diffuse="diffuse/listposter-ref-widgets.png" background="true" fallback="DefaultGenre.png">$VAR[ThumbImageGenres]</texture>
+                <visible>Skin.HasSetting(show.reflections) + String.IsEqual(ListItem.DBType,genre)</visible>
             </control>
             <control type="image">
                 <centertop>PosterH</centertop>
@@ -229,7 +238,7 @@
                 <top>-24</top>
                 <width>PosterShadowH</width>
                 <height>PosterShadowH</height>
-                <texture border="32">common/$VAR[shadow-24]</texture>
+                <texture border="32" infill="false">common/$VAR[shadow-24]</texture>
             </control>
             <control type="image">
                 <width>PosterH</width>
@@ -242,6 +251,15 @@
                 <fadetime>PosterFanartFadetime</fadetime>
                 <aspectratio align="center" aligny="center" scalediffuse="false">keep</aspectratio>
                 <texture diffuse="diffuse/listposter.png" background="true">$VAR[PosterImageSquare]</texture>
+                <visible>!String.IsEqual(ListItem.DBType,genre)</visible>
+            </control>
+            <control type="image">
+                <width>PosterH</width>
+                <height>PosterH</height>
+                <fadetime>PosterFanartFadetime</fadetime>
+                <aspectratio align="center" aligny="center" scalediffuse="false">keep</aspectratio>
+                <texture diffuse="diffuse/listposter.png" background="true" fallback="DefaultGenre.png">$VAR[ThumbImageGenres]</texture>
+                <visible>String.IsEqual(ListItem.DBType,genre)</visible>
             </control>
             <control type="image">
                 <width>PosterH</width>
@@ -261,7 +279,7 @@
             <control type="image">
                 <width>PosterH</width>
                 <height>PosterH</height>
-                <texture colordiffuse="Box2" border="4" background="true">common/box21.png</texture>
+                <texture colordiffuse="Box2" border="4" background="true" infill="false">common/box21.png</texture>
                 <visible>!Skin.HasSetting(thumbnails.white)</visible>
             </control>
         </control>
@@ -434,7 +452,7 @@
             <include>ViewSlideForJumpBar</include>
             <control type="group">
                 <control type="panel" id="550">
-                    <visible>String.Contains(Container.FolderPath,plugin://plugin.program.advanced.launcher/,left) | ![Container.Content(musicvideos) | Container.Content(movies) | Container.Content(tvshows) | Container.Content(actors) | Container.Content(sets) | Container.Content(seasons) | Container.Content(episodes) | [Container.Content(files) + !String.Contains(Container.FolderPath,plugin://,left) + !String.IsEqual(Container.FolderPath,library://video/movies/) + !String.IsEqual(Container.FolderPath,library://video/tvshows/) + !String.IsEqual(Container.FolderPath,special://videoplaylists/)]]</visible>
+                    <visible>$EXP[InGameMode] | ![Container.Content(musicvideos) | Container.Content(movies) | Container.Content(tvshows) | Container.Content(actors) | Container.Content(sets) | Container.Content(seasons) | Container.Content(episodes) | [Container.Content(files) + !String.Contains(Container.FolderPath,plugin://,left) + !String.IsEqual(Container.FolderPath,library://video/movies/) + !String.IsEqual(Container.FolderPath,library://video/tvshows/) + !String.IsEqual(Container.FolderPath,special://videoplaylists/)]]</visible>
                     <top>PosterPad</top>
                     <height>PosterH</height>
                     <left>ListSquareX</left>
@@ -465,7 +483,7 @@
             <top>0</top>
             <right>15</right>
             <bottom>22</bottom>
-            <texture border="10" background="true">common/$VAR[nofocus-shadow10]</texture>
+            <texture border="10" background="true" infill="false">common/$VAR[nofocus-shadow10]</texture>
         </control>
         <control type="image">
             <left>14</left>
@@ -504,7 +522,7 @@
             <top>10</top>
             <right>25</right>
             <bottom>32</bottom>
-            <texture colordiffuse="Box2" border="4" background="true">common/box21.png</texture>
+            <texture colordiffuse="Box2" border="4" background="true" infill="false">common/box21.png</texture>
             <visible>!Skin.HasSetting(thumbnails.white)</visible>
         </control>
     </include>
@@ -517,7 +535,7 @@
                 <top>0</top>
                 <right>15</right>
                 <bottom>22</bottom>
-                <texture border="10" background="true">common/$VAR[nofocus-shadow10]</texture>
+                <texture border="10" background="true" infill="false">common/$VAR[nofocus-shadow10]</texture>
             </control>
             <control type="image">
                 <left>14</left>
@@ -556,7 +574,7 @@
                 <top>9</top>
                 <right>24</right>
                 <bottom>31</bottom>
-                <texture colordiffuse="Box2" border="4" background="true">common/box21.png</texture>
+                <texture colordiffuse="Box2" border="4" background="true" infill="false">common/box21.png</texture>
                 <visible>!Skin.HasSetting(thumbnails.white)</visible>
             </control>
             <include content="def_widget_glow" condition="!Skin.HasSetting(pics.layout.fanart)">
@@ -856,7 +874,7 @@
             <font>SmallNavi</font>
             <textcolor>Dark1</textcolor>
             <selectedcolor>Dark1</selectedcolor>
-            <label>$INFO[ListItem.Duration]</label>
+            <label>$VAR[Label_Music_Duration_50]</label>
             <visible>Container.Content(songs)</visible>
             <animation effect="slide" start="0" end="-130" time="0" condition="String.IsEqual(Container.SortMethod,$LOCALIZE[38018])">Conditional</animation>
         </control>
@@ -980,7 +998,7 @@
             <font>SmallNavi</font>
             <textcolor>Light1</textcolor>
             <selectedcolor>Light1</selectedcolor>
-            <label>$INFO[ListItem.Duration]</label>
+            <label>$VAR[Label_Music_Duration_50]</label>
             <visible>Container.Content(songs)</visible>
             <animation effect="slide" start="0" end="-130" time="0" condition="String.IsEqual(Container.SortMethod,$LOCALIZE[38018])">Conditional</animation>
         </control>
@@ -1087,7 +1105,7 @@
             <font>SmallNavi</font>
             <textcolor>Dark1</textcolor>
             <selectedcolor>Dark1</selectedcolor>
-            <label>$INFO[ListItem.Duration]</label>
+            <label>$VAR[Label_Music_Duration_50]</label>
             <visible>Container.Content(songs)</visible>
             <animation effect="slide" start="0" end="-130" time="0" condition="String.IsEqual(Container.SortMethod,$LOCALIZE[38018])">Conditional</animation>
         </control>
@@ -1234,7 +1252,7 @@
             <font>SmallNavi</font>
             <textcolor>Light1</textcolor>
             <selectedcolor>Light1</selectedcolor>
-            <label>$INFO[ListItem.Duration]</label>
+            <label>$VAR[Label_Music_Duration_50]</label>
             <visible>Container.Content(songs)</visible>
             <animation effect="slide" start="0" end="-130" time="0" condition="String.IsEqual(Container.SortMethod,$LOCALIZE[38018])">Conditional</animation>
         </control>
