@@ -3,6 +3,7 @@
     <defaultcontrol always="true">9101</defaultcontrol>
     <onunload>ClearProperty(DialogBusy,Home)</onunload>
     <onunload>ClearProperty(BusyloaderSettings,Home)</onunload>
+    <onload condition="String.IsEmpty(Skin.String(colorpalette))">Skin.SetString(colorpalette,rainbow)</onload>
     <controls>
         <include>GlobalBackground</include>
         <include>Furniture_Header</include>
@@ -167,6 +168,14 @@
                         <label>$LOCALIZE[31658]</label>
                         <onright>13200</onright>
                     </control>
+                    <control type="togglebutton" id="9110" description="Colors">
+                        <textoffsetx>30</textoffsetx>
+                        <usealttexture>ControlGroup(9100).HasFocus(9110)</usealttexture>
+                        <alttexturenofocus colordiffuse="$VAR[ColorHighlightOtherBar]" border="5">common/gradient-box-wide-cut.png</alttexturenofocus>
+                        <include>DefSettingsButtonGradientSkinSettings</include>
+                        <label>$LOCALIZE[31300]</label>
+                        <onright>9600</onright>
+                    </control>
                     <control type="togglebutton" id="9103" description="OSD">
                         <textoffsetx>30</textoffsetx>
                         <usealttexture>ControlGroup(9100).HasFocus(9103)</usealttexture>
@@ -182,14 +191,6 @@
                         <include>DefSettingsButtonGradientSkinSettings</include>
                         <label>$LOCALIZE[31298]</label>
                         <onright>13100</onright>
-                    </control>
-                    <control type="togglebutton" id="9110" description="Colors">
-                        <textoffsetx>30</textoffsetx>
-                        <usealttexture>ControlGroup(9100).HasFocus(9110)</usealttexture>
-                        <alttexturenofocus colordiffuse="$VAR[ColorHighlightOtherBar]" border="5">common/gradient-box-wide-cut.png</alttexturenofocus>
-                        <include>DefSettingsButtonGradientSkinSettings</include>
-                        <label>$LOCALIZE[31300]</label>
-                        <onright>9600</onright>
                     </control>
                     <control type="togglebutton" id="9107" description="Extras">
                         <textoffsetx>30</textoffsetx>
@@ -497,6 +498,14 @@
                             <selected>Skin.HasSetting(homemenu.hide.lines)</selected>
                             <onclick>Skin.ToggleSetting(homemenu.hide.lines)</onclick>
                             <enable>$EXP[HomeIsModernMultiWidgets] | [$EXP[HomeIsVerticalMultiWidgets] + !Skin.HasSetting(homemenu.vertical.noslide)]</enable>
+                        </control>
+                        <control type="radiobutton" id="9822">
+                            <width>1360</width>
+                            <visible>ControlGroup(9100).HasFocus(9101)</visible>
+                            <include>DefSettingsButtonGradientSkinSettings</include>
+                            <label>$LOCALIZE[31689]</label>
+                            <selected>Skin.HasSetting(hide.recording.info)</selected>
+                            <onclick>Skin.ToggleSetting(hide.recording.info)</onclick>
                         </control>
                         <control type="grouplist" id="9818">
                             <visible>ControlGroup(9100).HasFocus(9101)</visible>
@@ -1548,7 +1557,6 @@
                             <include>DefSettingsButtonGradientSkinSettings</include>
                             <label>$LOCALIZE[31680]</label>
                             <label2>$VAR[Label_ColorSetting]</label2>
-                            <onclick condition="!System.HasAddon(script.skin.helper.colorpicker)">InstallAddon(script.skin.helper.colorpicker)</onclick>
                             <onclick>SetProperty(includesetting,ColorSettings,home)</onclick>
                             <onclick>ActivateWindow(1248)</onclick>
                         </control>
@@ -1568,6 +1576,14 @@
                                 <label>31126</label>
                             </control>
                         </control>
+                        <control type="button" id="9052">
+                            <width>1360</width>
+                            <visible>ControlGroup(9100).HasFocus(9110)</visible>
+                            <include>DefSettingsButtonGradientSkinSettings</include>
+                            <label>$LOCALIZE[31687]</label>
+                            <label2>$INFO[Skin.String(color.preset.name.own)]</label2>
+                            <onclick>ActivateWindow(1261)</onclick>
+                        </control>
                         <control type="radiobutton" id="9651" description="Set Custom Colour">
                             <width>1360</width>
                             <visible>ControlGroup(9100).HasFocus(9110)</visible>
@@ -1575,9 +1591,10 @@
                                 <param name="colorcode" value="$VAR[ColorHighlight]"/>
                             </include>
                             <label>$LOCALIZE[31131]</label>
-                            <onclick condition="!System.HasAddon(script.skin.helper.colorpicker)">InstallAddon(script.skin.helper.colorpicker)</onclick>
-                            <onclick>RunScript(script.skin.helper.colorpicker,skinstring=focuscolor.name)</onclick>
-                            <onclick>SetProperty(colorpickerheader,focuscolor.name,home)</onclick>
+                            <colorbox>$INFO[Skin.String(focuscolor.name)]</colorbox>
+                            <onclick>SetProperty(colorstring,$INFO[Skin.String(focuscolor.name)],home)</onclick>
+                            <onclick>SetProperty(colordesc,focuscolor.name,home)</onclick>
+	                        <onclick>Skin.SetColor(focuscolor.name, $LOCALIZE[31695],,special://skin/extras/colors/$INFO[Skin.String(colorpalette)].xml)</onclick>
                         </control>
                         <control type="radiobutton" id="9652" description="Set Custom Stars Colour">
                             <width>1360</width>
@@ -1586,9 +1603,10 @@
                                 <param name="colorcode" value="$VAR[ColorSquares]"/>
                             </include>
                             <label>$LOCALIZE[31130]</label>
-                            <onclick condition="!System.HasAddon(script.skin.helper.colorpicker)">InstallAddon(script.skin.helper.colorpicker)</onclick>
-                            <onclick>RunScript(script.skin.helper.colorpicker,skinstring=squarecolor.name)</onclick>
-                            <onclick>SetProperty(colorpickerheader,squarecolor.name,home)</onclick>
+                            <colorbox>$INFO[Skin.String(squarecolor.name)]</colorbox>
+                            <onclick>SetProperty(colorstring,$INFO[Skin.String(squarecolor.name)],home)</onclick>
+                            <onclick>SetProperty(colordesc,squarecolor.name,home)</onclick>
+	                        <onclick>Skin.SetColor(squarecolor.name, $LOCALIZE[31695],,special://skin/extras/colors/$INFO[Skin.String(colorpalette)].xml)</onclick>
                         </control>
                         <control type="radiobutton" id="9653" description="Set Custom Colour">
                             <width>1360</width>
@@ -1597,10 +1615,11 @@
                                 <param name="colorcode" value="$VAR[ColorHighlightSelectbox2]"/>
                             </include>
                             <label>$LOCALIZE[31297]$LOCALIZE[31396]</label>
-                            <onclick condition="!System.HasAddon(script.skin.helper.colorpicker)">InstallAddon(script.skin.helper.colorpicker)</onclick>
-                            <onclick>RunScript(script.skin.helper.colorpicker,skinstring=squarecolor2.name)</onclick>
                             <onclick>SetProperty(gradient,selectbox,home)</onclick>
-                            <onclick>SetProperty(colorpickerheader,squarecolor2.name,home)</onclick>
+                            <colorbox>$INFO[Skin.String(squarecolor2.name)]</colorbox>
+                            <onclick>SetProperty(colorstring,$INFO[Skin.String(squarecolor2.name)],home)</onclick>
+                            <onclick>SetProperty(colordesc,squarecolor2.name,home)</onclick>
+	                        <onclick>Skin.SetColor(squarecolor2.name, $LOCALIZE[31695],,special://skin/extras/colors/$INFO[Skin.String(colorpalette)].xml)</onclick>
                         </control>
                         <control type="radiobutton" id="9656" description="Set Custom Colour">
                             <width>1360</width>
@@ -1609,9 +1628,10 @@
                                 <param name="colorcode" value="$VAR[ColorSelectOtherBar]"/>
                             </include>
                             <label>$LOCALIZE[31397]</label>
-                            <onclick condition="!System.HasAddon(script.skin.helper.colorpicker)">InstallAddon(script.skin.helper.colorpicker)</onclick>
-                            <onclick>RunScript(script.skin.helper.colorpicker,skinstring=selectotherbarcolor.name)</onclick>
-                            <onclick>SetProperty(colorpickerheader,selectotherbarcolor.name,home)</onclick>
+                            <colorbox>$INFO[Skin.String(selectotherbarcolor.name)]</colorbox>
+                            <onclick>SetProperty(colorstring,$INFO[Skin.String(selectotherbarcolor.name)],home)</onclick>
+                            <onclick>SetProperty(colordesc,selectotherbarcolor.name,home)</onclick>
+	                        <onclick>Skin.SetColor(selectotherbarcolor.name, $LOCALIZE[31695],,special://skin/extras/colors/$INFO[Skin.String(colorpalette)].xml)</onclick>
                         </control>
                         <control type="radiobutton" id="9657" description="Set Custom Colour">
                             <width>1360</width>
@@ -1620,10 +1640,11 @@
                                 <param name="colorcode" value="$VAR[ColorHighlightOtherBar]"/>
                             </include>
                             <label>$LOCALIZE[31297]$LOCALIZE[31396]</label>
-                            <onclick condition="!System.HasAddon(script.skin.helper.colorpicker)">InstallAddon(script.skin.helper.colorpicker)</onclick>
-                            <onclick>RunScript(script.skin.helper.colorpicker,skinstring=focuscolorotherbar.name)</onclick>
-                            <onclick>SetProperty(colorpickerheader,focuscolorotherbar.name,home)</onclick>
                             <onclick>SetProperty(gradient,otherbar,home)</onclick>
+                            <colorbox>$INFO[Skin.String(focuscolorotherbar.name)]</colorbox>
+                            <onclick>SetProperty(colorstring,$INFO[Skin.String(focuscolorotherbar.name)],home)</onclick>
+                            <onclick>SetProperty(colordesc,focuscolorotherbar.name,home)</onclick>
+	                        <onclick>Skin.SetColor(focuscolorotherbar.name, $LOCALIZE[31695],,special://skin/extras/colors/$INFO[Skin.String(colorpalette)].xml)</onclick>
                         </control>
                         <control type="radiobutton" id="9668" description="Set Custom Stars Colour">
                             <width>1360</width>
@@ -1632,9 +1653,10 @@
                                 <param name="colorcode" value="$VAR[ColorKodiLogo]"/>
                             </include>
                             <label>$LOCALIZE[31140]</label>
-                            <onclick condition="!System.HasAddon(script.skin.helper.colorpicker)">InstallAddon(script.skin.helper.colorpicker)</onclick>
-                            <onclick>RunScript(script.skin.helper.colorpicker,skinstring=kodilogocolor.name)</onclick>
-                            <onclick>SetProperty(colorpickerheader,kodilogocolor.name,home)</onclick>
+                            <colorbox>$INFO[Skin.String(kodilogocolor.name)]</colorbox>
+                            <onclick>SetProperty(colorstring,$INFO[Skin.String(kodilogocolor.name)],home)</onclick>
+                            <onclick>SetProperty(colordesc,kodilogocolor.name,home)</onclick>
+	                        <onclick>Skin.SetColor(kodilogocolor.name, $LOCALIZE[31695],,special://skin/extras/colors/$INFO[Skin.String(colorpalette)].xml)</onclick>
                         </control>
                         <control type="radiobutton" id="9669" description="Set Custom Stars Colour">
                             <width>1360</width>
@@ -1643,10 +1665,11 @@
                                 <param name="colorcode" value="$VAR[ColorKodiLogoGradient]"/>
                             </include>
                             <label>$LOCALIZE[31297]$LOCALIZE[31396]</label>
-                            <onclick condition="!System.HasAddon(script.skin.helper.colorpicker)">InstallAddon(script.skin.helper.colorpicker)</onclick>
-                            <onclick>RunScript(script.skin.helper.colorpicker,skinstring=kodilogocolorgradient.name)</onclick>
-                            <onclick>SetProperty(colorpickerheader,kodilogocolorgradient.name,home)</onclick>
                             <onclick>SetProperty(gradient,logo,home)</onclick>
+                            <colorbox>$INFO[Skin.String(kodilogocolorgradient.name)]</colorbox>
+                            <onclick>SetProperty(colorstring,$INFO[Skin.String(kodilogocolorgradient.name)],home)</onclick>
+                            <onclick>SetProperty(colordesc,kodilogocolorgradient.name,home)</onclick>
+	                        <onclick>Skin.SetColor(kodilogocolorgradient.name, $LOCALIZE[31695],,special://skin/extras/colors/$INFO[Skin.String(colorpalette)].xml)</onclick>
                         </control>
                         <control type="radiobutton" id="9654" description="Set Custom Colour">
                             <width>1360</width>
@@ -1655,9 +1678,10 @@
                                 <param name="colorcode" value="$VAR[ColorSelectBar]"/>
                             </include>
                             <label>$LOCALIZE[31367]</label>
-                            <onclick condition="!System.HasAddon(script.skin.helper.colorpicker)">InstallAddon(script.skin.helper.colorpicker)</onclick>
-                            <onclick>RunScript(script.skin.helper.colorpicker,skinstring=selectbarcolor.name)</onclick>
-                            <onclick>SetProperty(colorpickerheader,selectbarcolor.name,home)</onclick>
+                            <colorbox>$INFO[Skin.String(selectbarcolor.name)]</colorbox>
+                            <onclick>SetProperty(colorstring,$INFO[Skin.String(selectbarcolor.name)],home)</onclick>
+                            <onclick>SetProperty(colordesc,selectbarcolor.name,home)</onclick>
+	                        <onclick>Skin.SetColor(selectbarcolor.name, $LOCALIZE[31695],,special://skin/extras/colors/$INFO[Skin.String(colorpalette)].xml)</onclick>
                         </control>
                         <control type="radiobutton" id="9655" description="Set Custom Colour">
                             <width>1360</width>
@@ -1666,10 +1690,11 @@
                                 <param name="colorcode" value="$VAR[ColorHighlight2]"/>
                             </include>
                             <label>$LOCALIZE[31297]$LOCALIZE[31396]</label>
-                            <onclick condition="!System.HasAddon(script.skin.helper.colorpicker)">InstallAddon(script.skin.helper.colorpicker)</onclick>
-                            <onclick>RunScript(script.skin.helper.colorpicker,skinstring=focuscolor2.name)</onclick>
-                            <onclick>SetProperty(colorpickerheader,focuscolor2.name,home)</onclick>
                             <onclick>SetProperty(gradient,bar,home)</onclick>
+                            <colorbox>$INFO[Skin.String(focuscolor2.name)]</colorbox>
+                            <onclick>SetProperty(colorstring,$INFO[Skin.String(focuscolor2.name)],home)</onclick>
+                            <onclick>SetProperty(colordesc,focuscolor2.name,home)</onclick>
+	                        <onclick>Skin.SetColor(focuscolor2.name, $LOCALIZE[31695],,special://skin/extras/colors/$INFO[Skin.String(colorpalette)].xml)</onclick>
                         </control>
                         <control type="radiobutton" id="9665" description="Set Custom Stars Colour">
                             <width>1360</width>
@@ -1678,9 +1703,10 @@
                                 <param name="colorcode" value="$VAR[ColorStars]"/>
                             </include>
                             <label>$LOCALIZE[31128]</label>
-                            <onclick condition="!System.HasAddon(script.skin.helper.colorpicker)">InstallAddon(script.skin.helper.colorpicker)</onclick>
-                            <onclick>RunScript(script.skin.helper.colorpicker,skinstring=starscolor.name)</onclick>
-                            <onclick>SetProperty(colorpickerheader,starscolor.name,home)</onclick>
+                            <colorbox>$INFO[Skin.String(starscolor.name)]</colorbox>
+                            <onclick>SetProperty(colorstring,$INFO[Skin.String(starscolor.name)],home)</onclick>
+                            <onclick>SetProperty(colordesc,starscolor.name,home)</onclick>
+	                        <onclick>Skin.SetColor(starscolor.name, $LOCALIZE[31695],,special://skin/extras/colors/$INFO[Skin.String(colorpalette)].xml)</onclick>
                         </control>
                         <control type="radiobutton" id="9666" description="Set Custom Stars Colour">
                             <width>1360</width>
@@ -1689,10 +1715,11 @@
                                 <param name="colorcode" value="$VAR[ColorRating]"/>
                             </include>
                             <label>$LOCALIZE[31129]</label>
-                            <onclick condition="!System.HasAddon(script.skin.helper.colorpicker)">InstallAddon(script.skin.helper.colorpicker)</onclick>
-                            <onclick>RunScript(script.skin.helper.colorpicker,skinstring=ratingcolor.name)</onclick>
-                            <onclick>SetProperty(colorpickerheader,ratingcolor.name,home)</onclick>
                             <enable>Skin.HasSetting(furniture.disable.default.icons.mpaa)</enable>
+                            <colorbox>$INFO[Skin.String(ratingcolor.name)]</colorbox>
+                            <onclick>SetProperty(colorstring,$INFO[Skin.String(ratingcolor.name)],home)</onclick>
+                            <onclick>SetProperty(colordesc,ratingcolor.name,home)</onclick>
+	                        <onclick>Skin.SetColor(ratingcolor.name, $LOCALIZE[31695],,special://skin/extras/colors/$INFO[Skin.String(colorpalette)].xml)</onclick>
                         </control>
                         <control type="radiobutton" id="9667" description="Set Custom Stars Colour">
                             <width>1360</width>
@@ -1701,9 +1728,10 @@
                                 <param name="colorcode" value="$VAR[ColorUserrating]"/>
                             </include>
                             <label>$LOCALIZE[31132]</label>
-                            <onclick condition="!System.HasAddon(script.skin.helper.colorpicker)">InstallAddon(script.skin.helper.colorpicker)</onclick>
-                            <onclick>RunScript(script.skin.helper.colorpicker,skinstring=userratingcolor.name)</onclick>
-                            <onclick>SetProperty(colorpickerheader,userratingcolor.name,home)</onclick>
+                            <colorbox>$INFO[Skin.String(userratingcolor.name)]</colorbox>
+                            <onclick>SetProperty(colorstring,$INFO[Skin.String(userratingcolor.name)],home)</onclick>
+                            <onclick>SetProperty(colordesc,userratingcolor.name,home)</onclick>
+	                        <onclick>Skin.SetColor(userratingcolor.name, $LOCALIZE[31695],,special://skin/extras/colors/$INFO[Skin.String(colorpalette)].xml)</onclick>
                         </control>
                         <control type="grouplist" id="9675">
                             <visible>ControlGroup(9100).HasFocus(9110)</visible>
@@ -1728,8 +1756,10 @@
                                 <param name="colorcode" value="$VAR[ColorIndicatorBackgroundIsPlaying]"/>
                             </include>
                             <label>$LOCALIZE[31110] - $LOCALIZE[31650]</label>
-                            <onclick condition="!System.HasAddon(script.skin.helper.colorpicker)">InstallAddon(script.skin.helper.colorpicker)</onclick>
-                            <onclick>RunScript(script.skin.helper.colorpicker,skinstring=indicatorcolorbackgroundisplaying.name)</onclick>
+                            <colorbox>$INFO[Skin.String(indicatorcolorbackgroundisplaying.name)]</colorbox>
+                            <onclick>SetProperty(colorstring,$INFO[Skin.String(indicatorcolorbackgroundisplaying.name)],home)</onclick>
+                            <onclick>SetProperty(colordesc,indicatorcolorbackgroundisplaying.name,home)</onclick>
+	                        <onclick>Skin.SetColor(indicatorcolorbackgroundisplaying.name, $LOCALIZE[31695],,special://skin/extras/colors/$INFO[Skin.String(colorpalette)].xml)</onclick>
                             <enable>Skin.HasSetting(furniture.markers.alternative)</enable>
                         </control>
                         <control type="radiobutton" id="9698">
@@ -1739,8 +1769,10 @@
                                 <param name="colorcode" value="$VAR[ColorIndicatorBackgroundIsPlayingIcon]"/>
                             </include>
                             <label>$LOCALIZE[31297]$LOCALIZE[31651] - $LOCALIZE[31650]</label>
-                            <onclick condition="!System.HasAddon(script.skin.helper.colorpicker)">InstallAddon(script.skin.helper.colorpicker)</onclick>
-                            <onclick>RunScript(script.skin.helper.colorpicker,skinstring=indicatorcolorbackgroundisplayingicon.name)</onclick>
+                            <colorbox>$INFO[Skin.String(indicatorcolorbackgroundisplayingicon.name)]</colorbox>
+                            <onclick>SetProperty(colorstring,$INFO[Skin.String(indicatorcolorbackgroundisplayingicon.name)],home)</onclick>
+                            <onclick>SetProperty(colordesc,indicatorcolorbackgroundisplayingicon.name,home)</onclick>
+	                        <onclick>Skin.SetColor(indicatorcolorbackgroundisplayingicon.name, $LOCALIZE[31695],,special://skin/extras/colors/$INFO[Skin.String(colorpalette)].xml)</onclick>
                             <enable>Skin.HasSetting(furniture.markers.alternative)</enable>
                         </control>                       
                         <control type="radiobutton" id="9673">
@@ -1750,8 +1782,10 @@
                                 <param name="colorcode" value="$VAR[ColorIndicatorBackgroundInprogress]"/>
                             </include>
                             <label>$LOCALIZE[31110] - $LOCALIZE[575]</label>
-                            <onclick condition="!System.HasAddon(script.skin.helper.colorpicker)">InstallAddon(script.skin.helper.colorpicker)</onclick>
-                            <onclick>RunScript(script.skin.helper.colorpicker,skinstring=indicatorcolorbackgroundinprogress.name)</onclick>
+                            <colorbox>$INFO[Skin.String(indicatorcolorbackgroundinprogress.name)]</colorbox>
+                            <onclick>SetProperty(colorstring,$INFO[Skin.String(indicatorcolorbackgroundinprogress.name)],home)</onclick>
+                            <onclick>SetProperty(colordesc,indicatorcolorbackgroundinprogress.name,home)</onclick>
+	                        <onclick>Skin.SetColor(indicatorcolorbackgroundinprogress.name, $LOCALIZE[31695],,special://skin/extras/colors/$INFO[Skin.String(colorpalette)].xml)</onclick>
                             <enable>Skin.HasSetting(furniture.markers.alternative)</enable>
                         </control>
                         <control type="radiobutton" id="9672">
@@ -1761,8 +1795,10 @@
                                 <param name="colorcode" value="$VAR[ColorIndicatorBackgroundWatched]"/>
                             </include>
                             <label>$LOCALIZE[31110] - $LOCALIZE[16102]</label>
-                            <onclick condition="!System.HasAddon(script.skin.helper.colorpicker)">InstallAddon(script.skin.helper.colorpicker)</onclick>
-                            <onclick>RunScript(script.skin.helper.colorpicker,skinstring=indicatorcolorbackgroundwatched.name)</onclick>
+                            <colorbox>$INFO[Skin.String(indicatorcolorbackgroundwatched.name)]</colorbox>
+                            <onclick>SetProperty(colorstring,$INFO[Skin.String(indicatorcolorbackgroundwatched.name)],home)</onclick>
+                            <onclick>SetProperty(colordesc,indicatorcolorbackgroundwatched.name,home)</onclick>
+	                        <onclick>Skin.SetColor(indicatorcolorbackgroundwatched.name, $LOCALIZE[31695],,special://skin/extras/colors/$INFO[Skin.String(colorpalette)].xml)</onclick>
                             <enable>Skin.HasSetting(furniture.markers.alternative)</enable>
                         </control>
                         <control type="radiobutton" id="9674">
@@ -1772,8 +1808,10 @@
                                 <param name="colorcode" value="$VAR[ColorIndicatorBackgroundNew]"/>
                             </include>
                             <label>$LOCALIZE[31110] - $LOCALIZE[842]</label>
-                            <onclick condition="!System.HasAddon(script.skin.helper.colorpicker)">InstallAddon(script.skin.helper.colorpicker)</onclick>
-                            <onclick>RunScript(script.skin.helper.colorpicker,skinstring=indicatorcolorbackgroundnew.name)</onclick>
+                            <colorbox>$INFO[Skin.String(indicatorcolorbackgroundnew.name)]</colorbox>
+                            <onclick>SetProperty(colorstring,$INFO[Skin.String(indicatorcolorbackgroundnew.name)],home)</onclick>
+                            <onclick>SetProperty(colordesc,indicatorcolorbackgroundnew.name,home)</onclick>
+	                        <onclick>Skin.SetColor(indicatorcolorbackgroundnew.name, $LOCALIZE[31695],,special://skin/extras/colors/$INFO[Skin.String(colorpalette)].xml)</onclick>
                             <enable>Skin.HasSetting(furniture.markers.alternative)</enable>
                         </control>
                         <control type="radiobutton" id="9677">
@@ -1783,8 +1821,10 @@
                                 <param name="colorcode" value="$VAR[ColorIndicatorBackgroundLabel]"/>
                             </include>
                             <label>$LOCALIZE[31496]</label>
-                            <onclick condition="!System.HasAddon(script.skin.helper.colorpicker)">InstallAddon(script.skin.helper.colorpicker)</onclick>
-                            <onclick>RunScript(script.skin.helper.colorpicker,skinstring=indicatorcolorbackgroundlabel.name)</onclick>
+                            <colorbox>$INFO[Skin.String(indicatorcolorbackgroundlabel.name)]</colorbox>
+                            <onclick>SetProperty(colorstring,$INFO[Skin.String(indicatorcolorbackgroundlabel.name)],home)</onclick>
+                            <onclick>SetProperty(colordesc,indicatorcolorbackgroundlabel.name,home)</onclick>
+	                        <onclick>Skin.SetColor(indicatorcolorbackgroundlabel.name, $LOCALIZE[31695],,special://skin/extras/colors/$INFO[Skin.String(colorpalette)].xml)</onclick>
                             <enable>Skin.HasSetting(furniture.markers.alternative)</enable>
                         </control>
                         <control type="grouplist" id="9676">
@@ -1802,6 +1842,16 @@
                                 <height>70</height>
                                 <label>$LOCALIZE[33063]</label>
                             </control>
+                        </control>
+                        <control type="button" id="9644">
+                            <width>1360</width>
+                            <visible>ControlGroup(9100).HasFocus(9110)</visible>
+                            <label>$LOCALIZE[31701]</label>
+                            <label2>$INFO[Skin.String(colorpalette)]</label2>
+                            <include>DefSettingsButtonGradientSkinSettings</include>
+                            <onclick condition="String.IsEqual(Skin.String(colorpalette),rainbow) | String.IsEmpty(Skin.String(colorpalette))">Skin.SetString(colorpalette,basic)</onclick>
+                            <onclick condition="String.IsEqual(Skin.String(colorpalette),basic)">Skin.SetString(colorpalette,material)</onclick>
+                            <onclick condition="String.IsEqual(Skin.String(colorpalette),material)">Skin.SetString(colorpalette,rainbow)</onclick>
                         </control>
                         <control type="button" id="9670" description="Reset colors?">
                             <width>1360</width>
@@ -1905,13 +1955,21 @@
                             <label2>$VAR[Label_StudioIcons]</label2>
                             <onclick>RunScript(script.image.resource.select,property=studio.logos&amp;type=resource.images.studios)</onclick>
                         </control>
-                        <control type="button" id="9585" description="Studios">
+                        <control type="button" id="9585" description="Record Labels">
                             <width>1360</width>
                             <visible>ControlGroup(9100).HasFocus(9111)</visible>
                             <include>DefSettingsButtonGradientSkinSettings</include>
                             <label>31350</label>
                             <label2>$VAR[Label_RecordLabelIcons]</label2>
                             <onclick>RunScript(script.image.resource.select,property=recordlabel.logos&amp;type=resource.images.recordlabels)</onclick>
+                        </control>
+                        <control type="button" id="95851" description="GameIcons">
+                            <width>1360</width>
+                            <visible>ControlGroup(9100).HasFocus(9111)</visible>
+                            <include>DefSettingsButtonGradientSkinSettings</include>
+                            <label>31694</label>
+                            <label2>$VAR[Label_GameIcons]</label2>
+                            <onclick>RunScript(script.image.resource.select,property=game.logos&amp;type=resource.images.gamestudios)</onclick>
                         </control>
                     </control>
 
@@ -2033,11 +2091,6 @@
                             <param name="id" value="11005"/>
                             <param name="visible" value="ControlGroup(9100).HasFocus(9113)"/>
                             <param name="addonname" value="script.embuary.info"/>
-                        </include>
-                        <include content="DefSkinAddons">
-                            <param name="id" value="11006"/>
-                            <param name="visible" value="ControlGroup(9100).HasFocus(9113)"/>
-                            <param name="addonname" value="script.skin.helper.colorpicker"/>
                         </include>
                         <include content="DefSkinAddons">
                             <param name="id" value="11007"/>
