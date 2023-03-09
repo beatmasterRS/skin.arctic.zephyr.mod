@@ -82,6 +82,7 @@
 
     <variable name="ProgressCircleLabel">
         <value condition="String.IsEqual(ListItem.DBType,movie) | String.IsEqual(ListItem.DBType,episode)">$VAR[Percentagelabel]</value>
+        <value condition="String.IsEqual(ListItem.DBType,tvshow) | String.IsEqual(ListItem.DBType,season) + String.IsEmpty(ListItem.Property(WatchedEpisodes))">0/$INFO[ListItem.Property(TotalEpisodes)]</value>
         <value condition="String.IsEqual(ListItem.DBType,tvshow) | String.IsEqual(ListItem.DBType,season)">$INFO[ListItem.Property(WatchedEpisodes)]/$INFO[ListItem.Property(TotalEpisodes)]</value>
     </variable>
 
@@ -1251,6 +1252,7 @@
         <value condition="Control.HasFocus(5161) + !String.IsEmpty(Container(5161).ListItem.Duration(mins))">$LOCALIZE[31013] $INFO[ListItem.EndTime]</value>
         <value condition="ListItem.IsCollection">$LOCALIZE[19055]</value>
         <value condition="Container.Content(artists)">$INFO[ListItem.Property(Artist_Born),$LOCALIZE[21893]: ]</value>
+        <value condition="[Container.Content(tvshows) | Container.Content(seasons)] + !String.IsEqual(ListItem.Label,..) + Integer.IsGreater(ListItem.Property(TotalEpisodes),0) + String.IsEmpty(ListItem.Property(WatchedEpisodes))">0/$INFO[ListItem.Property(TotalEpisodes)] $LOCALIZE[31087]</value>
         <value condition="[Container.Content(tvshows) | Container.Content(seasons)] + !String.IsEqual(ListItem.Label,..) + Integer.IsGreater(ListItem.Property(TotalEpisodes),0)">$INFO[ListItem.Property(WatchedEpisodes)]/$INFO[ListItem.Property(TotalEpisodes)] $LOCALIZE[31087]</value>
         <value condition="[Container.Content(episodes) | Container.Content(movies)] + !String.IsEmpty(ListItem.Duration(mins))">$LOCALIZE[31013] $INFO[ListItem.EndTime]</value>
         <value condition="Container.Content(seasons) + String.IsEqual(ListItem.DBType,movie)">$LOCALIZE[31013] $INFO[ListItem.EndTime]</value>
@@ -2014,5 +2016,10 @@
     <variable name="Label_Music_Duration_50">
         <value condition="String.IsEqual(Container.SortMethod,$LOCALIZE[567]">$INFO[ListItem.PlayCount]</value>
         <value>$INFO[ListItem.Duration]</value>
+    </variable>
+    
+    <variable name="Label_Title_51">
+        <value condition="Container.Content(movies) | Container.Content(episodes)">$VAR[LabelYear,,  •  ]$INFO[ListItem.Label]</value>
+        <value>$INFO[ListItem.Label]</value>
     </variable>
 </includes>
