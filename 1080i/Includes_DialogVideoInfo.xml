@@ -129,6 +129,7 @@
                     <centertop>140</centertop>
                     <right>SidePad</right>
                     <height>102</height>
+                    <width>500</width>
                     <aspectratio align="right" aligny="top">keep</aspectratio>
                     <texture background="true">$VAR[ClearLogoTopVar]</texture>
                 </control>
@@ -153,7 +154,7 @@
                         <top>-119</top>
                         <right>0</right>
                         <bottom>71</bottom>
-                        <texture colordiffuse="Box2" border="4" background="true">common/box21.png</texture>
+                        <texture colordiffuse="Box2" border="4" background="true" infill="false">common/box21.png</texture>
                     </control>
                     <control type="group">
                         <left>-7</left>
@@ -333,7 +334,7 @@
                     <control type="image">
                         <top>-1</top>
                         <bottom>71</bottom>
-                        <texture colordiffuse="Box2" border="4" background="true">common/box21.png</texture>
+                        <texture colordiffuse="Box2" border="4" background="true" infill="false">common/box21.png</texture>
                     </control>
                     <control type="group">
                         <left>-7</left>
@@ -488,7 +489,7 @@
                         <orientation>vertical</orientation>
                         <itemgap>-30</itemgap>
                         <height>400</height>
-                        <width>650</width>
+                        <width>600</width>
                         <left>210</left>
                         <control type="label">
                             <font>Tiny</font>
@@ -643,6 +644,18 @@
                             </control>
                         </control>
                     </control>
+                    <control type="textbox">
+                        <visible>!String.IsEmpty(Window(Home).Property(TMDbHelper.ListItem.RottenTomatoes_Consensus)) + Skin.HasSetting(show.consensus)</visible>
+                        <width>400</width>
+                        <height>225</height>
+                        <top>28</top>
+                        <right>40</right>
+                        <align>center</align>
+                        <aligny>center</aligny>
+                        <font>Consensus</font>
+                        <textcolor>Dark2</textcolor>
+                        <label>[LIGHT][I]"$INFO[Window(Home).Property(TMDbHelper.ListItem.RottenTomatoes_Consensus)]"[/I][/LIGHT]</label>
+                    </control>
                     <control type="image" description="clearlogo">
                         <fadetime>ClearArtFadetime</fadetime>
                         <bottom>260</bottom>
@@ -676,7 +689,7 @@
                         <right>5</right>
                         <aspectratio align="right" aligny="bottom">keep</aspectratio>
                         <texture colordiffuse="Dark1">$VAR[RatingFlagVarInfo]</texture>
-                        <visible>!Skin.HasSetting(show.studiologos) + !Skin.HasSetting(show.clearart)</visible>
+                        <visible>!Skin.HasSetting(show.studiologos) + !Skin.HasSetting(show.clearart) + !Skin.HasSetting(show.consensus)</visible>
                     </control>
                 </control>
 
@@ -731,7 +744,7 @@
                                     <height>36</height>
                                     <font>Tiny</font>
                                     <textcolor>Dark2</textcolor>
-                                    <label fallback="19055">$VAR[LabelDurationTimeCheckInfo]</label>
+                                    <label fallback="19055">$VAR[LabelDurationTimeCheck]</label>
                                     <aligny>center</aligny>
                                 </control>
                             </control>
@@ -813,7 +826,7 @@
                                     <height>36</height>
                                     <font>Tiny</font>
                                     <textcolor>Dark2</textcolor>
-                                    <label fallback="19055">$VAR[LabelDurationTimeCheckInfo]</label>
+                                    <label fallback="19055">$VAR[LabelDurationTimeCheck]</label>
                                     <aligny>center</aligny>
                                 </control>
                             </control>
@@ -858,7 +871,6 @@
                         </control>
                         <control type="textbox">
                             <visible>[String.IsEqual(Container(50).NumItems,0) | Skin.HasSetting(HideActorImages)] + String.IsEmpty(Window.Property(moviecontent))</visible>
-                            <autoscroll delay="10000" time="4000" repeat="10000">Window.IsVisible(DialogVideoInfo.xml) + System.IdleTime(1) + Skin.HasSetting(widgets.autoscrollingplot)</autoscroll>
                             <right>0</right>
                             <top>180</top>
                             <left>0</left>
@@ -866,11 +878,10 @@
                             <font>Tiny</font>
                             <textcolor>Dark2</textcolor>
                             <align>left</align>
-                            <label fallback="19055">$INFO[ListItem.Plot]</label>
+                            <label fallback="19055">$INFO[ListItem.Plot]$INFO[Window(home).Property(ResetScroll)]</label>
                         </control>
                         <control type="textbox">
                             <visible>[[String.IsEqual(Container(50).NumItems,0) | Skin.HasSetting(HideActorImages)] + !String.IsEmpty(Window.Property(moviecontent))] | [!String.IsEqual(Container(50).NumItems,0) + !Skin.HasSetting(HideActorImages)]</visible>
-                            <autoscroll delay="10000" time="4000" repeat="10000">Window.IsVisible(DialogVideoInfo.xml) + System.IdleTime(1) + Skin.HasSetting(widgets.autoscrollingplot)</autoscroll>
                             <right>0</right>
                             <top>180</top>
                             <left>0</left>
@@ -878,7 +889,7 @@
                             <font>Tiny</font>
                             <textcolor>Dark2</textcolor>
                             <align>left</align>
-                            <label fallback="19055">$INFO[ListItem.Plot]</label>
+                            <label fallback="19055">$INFO[ListItem.Plot]$INFO[Window(home).Property(ResetScroll)]</label>
                         </control>
                     </control>
                 </control>

@@ -21,7 +21,7 @@
                     <texture border="15" colordiffuse="Panel">common/rounded-shadow8.png</texture>
                 </control>
                 <control type="wraplist" id="51">
-                    <visible>String.Contains(Container.FolderPath,plugin://plugin.program.advanced.launcher/,left) | Container.Content(musicvideos) | Container.Content(artists) | Container.Content(movies) | Container.Content(tvshows) | Container.Content(episodes) | Container.Content(sets) | Container.Content(videos) | Container.Content(albums) | Container.Content(songs)</visible>
+                    <visible>$EXP[InGameMode] | Container.Content(musicvideos) | Container.Content(artists) | Container.Content(movies) | Container.Content(tvshows) | Container.Content(episodes) | Container.Content(sets) | Container.Content(videos) | Container.Content(albums) | Container.Content(songs)</visible>
                     <include content="forced_view" condition="Skin.HasSetting(enable.forcedviews)">
                         <param name="string" value="$LOCALIZE[31422]" />
                     </include>
@@ -89,8 +89,8 @@
                         <height>428</height>
                         <align>justify</align>
                         <font>Tiny</font>
-                        <textcolor>PanelWhite100</textcolor>
-                        <selectedcolor>PanelWhite100</selectedcolor>
+                        <textcolor>PanelWhite70</textcolor>
+                        <selectedcolor>PanelWhite70</selectedcolor>
                         <label>$VAR[LabelPlotBox]</label>
                     </control>
                     <control type="label">
@@ -101,7 +101,7 @@
                         <font>Tiny</font>
                         <textcolor>PanelWhite70</textcolor>
                         <selectedcolor>PanelWhite70</selectedcolor>
-                        <label>$VAR[LabelDuration]$INFO[ListItem.Rating,  •  ]</label>
+                        <label>$VAR[LabelDuration]$VAR[RatingLabel,  •  ]</label>
                         <visible>!Container.Content(movies) + !Container.Content(episodes)</visible>
                     </control>
                     <control type="label">
@@ -112,7 +112,7 @@
                         <font>Tiny</font>
                         <textcolor>PanelWhite70</textcolor>
                         <selectedcolor>PanelWhite70</selectedcolor>
-                        <label>$VAR[LabelYear]$VAR[LabelDuration,  •  ]$INFO[ListItem.Rating,  •  ]</label>
+                        <label>$VAR[LabelYear]$VAR[LabelDuration,  •  ]$VAR[RatingLabel,  •  ]</label>
                         <visible>Container.Content(movies) | Container.Content(episodes)</visible>
                     </control>
                 </control>
@@ -121,13 +121,12 @@
                     <top>0</top>
                     <width>1760</width>
                     <height>640</height>
-                    <texture colordiffuse="Box2" border="4" background="true">common/box21.png</texture>
+                    <texture colordiffuse="Box2" border="4" background="true" infill="false">common/box21.png</texture>
                     <visible>!Skin.HasSetting(thumbnails.white)</visible>
                 </control>
                 <include content="IndicatorPoster" condition="!Skin.HasSetting(hide.markers)">
                     <param name="right" value="-8" />
                     <param name="top" value="-8" />
-                    <param name="indicatorbackground" value="true" />
                 </include>
             </control>
             <control type="scrollbar" id="1639">
@@ -152,7 +151,7 @@
                     <height>70</height>
                     <animation effect="fade" start="0" end="100" time="500">Visible</animation>
                     <animation effect="fade" start="100" end="0" time="300">Hidden</animation>
-                    <visible>Skin.HasSetting(51.showplot) + [Container.Content(movies) | Container.Content(episodes)]</visible>
+                    <visible>Skin.HasSetting(51.showplot) + [Container.Content(movies) | Container.Content(episodes) | $EXP[InGameMode]]</visible>
                     <control type="image">
                         <left>0</left>
                         <right>0</right>
@@ -178,8 +177,8 @@
                         <font>Small</font>
                         <aligny>center</aligny>
                         <height>64</height>
-                        <textcolor>PanelWhite70</textcolor>
-                        <selectedcolor>PanelWhite70</selectedcolor>
+                        <textcolor>PanelWhite100</textcolor>
+                        <selectedcolor>PanelWhite100</selectedcolor>
                         <label>$VAR[LabelYear]</label>
                         <visible>Container.Content(movies) | Container.Content(episodes)</visible>
                     </control>
@@ -190,8 +189,8 @@
                         <aligny>center</aligny>
                         <height>64</height>
                         <font>Small</font>
-                        <textcolor>PanelWhite70</textcolor>
-                        <selectedcolor>PanelWhite70</selectedcolor>
+                        <textcolor>PanelWhite100</textcolor>
+                        <selectedcolor>PanelWhite100</selectedcolor>
                         <label>$INFO[ListItem.Label]</label>
                         <animation effect="slide" start="0" end="-90" time="0" condition="![Container.Content(movies) | Container.Content(episodes)]">Conditional</animation>
                         <animation effect="slide" start="0" end="70" time="0" condition="Container.Content(episodes)">Conditional</animation>
@@ -204,8 +203,8 @@
                         <height>64</height>
                         <align>right</align>
                         <font>Small</font>
-                        <textcolor>PanelWhite70</textcolor>
-                        <selectedcolor>PanelWhite70</selectedcolor>
+                        <textcolor>PanelWhite100</textcolor>
+                        <selectedcolor>PanelWhite100</selectedcolor>
                         <label>$VAR[LabelDuration]</label>
                     </control>
                     <control type="label">
@@ -229,9 +228,9 @@
                         <top>-80</top>
                         <align>right</align>
                         <font>Small</font>
-                        <textcolor>PanelWhite70</textcolor>
-                        <selectedcolor>PanelWhite70</selectedcolor>
-                        <label>$INFO[ListItem.Rating]</label>
+                        <textcolor>PanelWhite100</textcolor>
+                        <selectedcolor>PanelWhite100</selectedcolor>
+                        <label>$VAR[RatingLabel]</label>
                         <visible>!Container.Content(seasons)</visible>
                     </control>
                 </control>
@@ -247,8 +246,8 @@
                         <left>0</left>
                         <right>0</right>
                         <bottom>0</bottom>
-                        <height>90</height>
                         <texture border="15" colordiffuse="df000000">common/shadowbottomsmall.png</texture>
+                        <height>90</height>
                     </control>
                     <control type="label">
                         <posx>30</posx>
@@ -306,7 +305,7 @@
                         <font>Small</font>
                         <textcolor>PanelWhite70</textcolor>
                         <selectedcolor>PanelWhite70</selectedcolor>
-                        <label>$INFO[ListItem.Rating]</label>
+                        <label>$VAR[RatingLabel]</label>
                         <visible>!Container.Content(seasons)</visible>
                     </control>
                 </control>
@@ -315,7 +314,7 @@
                     <top>0</top>
                     <width>1760</width>
                     <height>640</height>
-                    <texture colordiffuse="Box2" border="4" background="true">common/box21.png</texture>
+                    <texture colordiffuse="Box2" border="4" background="true" infill="false">common/box21.png</texture>
                     <visible>!Skin.HasSetting(thumbnails.white)</visible>
                 </control>
             </control>
@@ -361,7 +360,7 @@
                     <control type="image">
                         <width>100%</width>
                         <height>100%</height>
-                        <texture colordiffuse="Box2" border="4" background="true">common/box21.png</texture>
+                        <texture colordiffuse="Box2" border="4" background="true" infill="false">common/box21.png</texture>
                         <visible>!Skin.HasSetting(thumbnails.white)</visible>
                     </control>
                     <control type="label">
@@ -413,7 +412,7 @@
                     <control type="image">
                         <width>100%</width>
                         <height>100%</height>
-                        <texture colordiffuse="Box2" border="4" background="true">common/box21.png</texture>
+                        <texture colordiffuse="Box2" border="4" background="true" infill="false">common/box21.png</texture>
                         <visible>!Skin.HasSetting(thumbnails.white)</visible>
                     </control>
                     <control type="label">
@@ -465,7 +464,7 @@
                     <control type="image">
                         <width>100%</width>
                         <height>100%</height>
-                        <texture colordiffuse="Box2" border="4" background="true">common/box21.png</texture>
+                        <texture colordiffuse="Box2" border="4" background="true" infill="false">common/box21.png</texture>
                         <visible>!Skin.HasSetting(thumbnails.white)</visible>
                     </control>
                     <control type="label">
@@ -517,7 +516,7 @@
                     <control type="image">
                         <width>100%</width>
                         <height>100%</height>
-                        <texture colordiffuse="Box2" border="4" background="true">common/box21.png</texture>
+                        <texture colordiffuse="Box2" border="4" background="true" infill="false">common/box21.png</texture>
                         <visible>!Skin.HasSetting(thumbnails.white)</visible>
                     </control>
                     <control type="label">
@@ -569,7 +568,7 @@
                     <control type="image">
                         <width>100%</width>
                         <height>100%</height>
-                        <texture colordiffuse="Box2" border="4" background="true">common/box21.png</texture>
+                        <texture colordiffuse="Box2" border="4" background="true" infill="false">common/box21.png</texture>
                         <visible>!Skin.HasSetting(thumbnails.white)</visible>
                     </control>
                     <control type="label">
@@ -621,7 +620,7 @@
                     <control type="image">
                         <width>100%</width>
                         <height>100%</height>
-                        <texture colordiffuse="Box2" border="4" background="true">common/box21.png</texture>
+                        <texture colordiffuse="Box2" border="4" background="true" infill="false">common/box21.png</texture>
                         <visible>!Skin.HasSetting(thumbnails.white)</visible>
                     </control>
                     <control type="label">
@@ -670,8 +669,7 @@
                     <texture colordiffuse="Fallback" border="4" background="true">common/box.png</texture>
                 </control>
                 <control type="wraplist" id="51">
-                    <!--<oninfo condition="ListItem.IsCollection">ActivateWindow(1132)</oninfo>-->
-                    <visible>String.Contains(Container.FolderPath,plugin://plugin.program.advanced.launcher/,left) | Container.Content(musicvideos) | Container.Content(artists) | Container.Content(movies) | Container.Content(tvshows) | Container.Content(episodes) | Container.Content(sets) | Container.Content(videos) | Container.Content(albums) | Container.Content(songs)</visible>
+                    <visible>$EXP[InGameMode] | Container.Content(musicvideos) | Container.Content(artists) | Container.Content(movies) | Container.Content(tvshows) | Container.Content(episodes) | Container.Content(sets) | Container.Content(videos) | Container.Content(albums) | Container.Content(songs)</visible>
                     <include content="forced_view" condition="Skin.HasSetting(enable.forcedviews)">
                         <param name="string" value="$LOCALIZE[31422]" />
                     </include>
@@ -735,40 +733,15 @@
                         <visible>Container.Content(songs)</visible>
                     </control>
                     <control type="label">
-                        <posx>30</posx>
-                        <width>200</width>
+                        <left>30</left>
+                        <right>270</right>
                         <font>Small</font>
                         <aligny>center</aligny>
                         <height>64</height>
                         <textcolor>PanelWhite70</textcolor>
                         <selectedcolor>PanelWhite70</selectedcolor>
-                        <label>$VAR[LabelYear]</label>
-                        <visible>Container.Content(movies) | Container.Content(episodes)</visible>
-                    </control>
-                    <control type="label">
-                        <posx>120</posx>
-                        <right>370</right>
-                        <aligny>center</aligny>
-                        <height>64</height>
-                        <font>Small</font>
-                        <textcolor>PanelWhite70</textcolor>
-                        <selectedcolor>PanelWhite70</selectedcolor>
-                        <label>$INFO[ListItem.Label]</label>
+                        <label>$VAR[Label_Title_51]</label>
                         <animation effect="slide" start="0" end="30" time="0" condition="Container.Content(songs) + ListItem.IsPlaying">Conditional</animation>
-                        <animation effect="slide" start="0" end="-90" time="0" condition="![Container.Content(movies) | Container.Content(episodes)]">Conditional</animation>
-                        <animation effect="slide" start="0" end="70" time="0" condition="Container.Content(episodes)">Conditional</animation>
-                    </control>
-                    <control type="label">
-                        <right>154</right>
-                        <width>500</width>
-                        <aligny>center</aligny>
-                        <height>64</height>
-                        <align>right</align>
-                        <font>Small</font>
-                        <textcolor>PanelWhite70</textcolor>
-                        <selectedcolor>PanelWhite70</selectedcolor>
-                        <label>$VAR[LabelDuration]</label>
-                        <animation effect="slide" start="0" end="120" time="0" condition="Container.Content(songs)">Conditional</animation>
                     </control>
                     <control type="label">
                         <align>center</align>
@@ -793,14 +766,26 @@
                         <font>Small</font>
                         <textcolor>PanelWhite70</textcolor>
                         <selectedcolor>PanelWhite70</selectedcolor>
-                        <label>$INFO[ListItem.Rating]</label>
+                        <label>$VAR[LabelDuration]</label>
+                        <visible>Container.Content(songs)</visible>
+                    </control>
+                    <control type="label">
+                        <right>30</right>
+                        <width>500</width>
+                        <aligny>center</aligny>
+                        <height>64</height>
+                        <align>right</align>
+                        <font>Small</font>
+                        <textcolor>PanelWhite70</textcolor>
+                        <selectedcolor>PanelWhite70</selectedcolor>
+                        <label>$VAR[RatingLabel]</label>
                         <visible>!Container.Content(seasons)</visible>
                     </control>
                 </control>
                 <control type="image">
                     <width>100%</width>
                     <height>100%</height>
-                    <texture colordiffuse="Box2" border="4" background="true">common/box21.png</texture>
+                    <texture colordiffuse="Box2" border="4" background="true" infill="false">common/box21.png</texture>
                     <visible>!Skin.HasSetting(thumbnails.white)</visible>
                 </control>
             </control>
@@ -830,7 +815,7 @@
             <texture border="15" colordiffuse="Panel">common/rounded-shadow8.png</texture>
         </control>
         <control type="wraplist" id="51">
-            <visible>String.Contains(Container.FolderPath,plugin://plugin.program.advanced.launcher/,left) | Container.Content(musicvideos) | Container.Content(artists) | Container.Content(movies) | Container.Content(tvshows) | Container.Content(episodes) | Container.Content(sets) | Container.Content(videos) | Container.Content(albums) | Container.Content(songs)</visible>
+            <visible>$EXP[InGameMode] | Container.Content(musicvideos) | Container.Content(artists) | Container.Content(movies) | Container.Content(tvshows) | Container.Content(episodes) | Container.Content(sets) | Container.Content(videos) | Container.Content(albums) | Container.Content(songs)</visible>
             <include content="forced_view" condition="Skin.HasSetting(enable.forcedviews)">
                 <param name="string" value="$LOCALIZE[31422]" />
             </include>

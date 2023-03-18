@@ -19,7 +19,6 @@
         <property name="widgetauto" tag="property" attribute="name|widgetAuto" value="$NUMBER[25000]">25000</property>
         <property name="aspectratio" tag="property" attribute="name|widgetAspectRatio"/>
         <property name="aspectratio">keep</property>
-        <property name="widgetclearlogothumb" tag="property" attribute="name|widgetClearLogoThumb" value="yes">true</property>
         <property name="widgetclearlogothumb" tag="property" attribute="name|widgetClearLogoThumb" value="no">false</property>
         <property name="widgetclearlogothumb">true</property>
         <property name="distance" tag="property" attribute="name|widgetEdgeDistance" value="yes">30</property>
@@ -33,8 +32,7 @@
                 <left>70</left>
                 <right>70</right>
                 <height>297</height>
-                <onup condition="IsEmpty(Container(300).ListItem.Property(widget))">303</onup>
-                <onup condition="!String.IsEmpty(Container(300).ListItem.Property(widget))">300</onup>
+                <onup>300</onup>
                 <onclick condition="$SKINSHORTCUTS[IsGTO]">RunPlugin(plugin://script.service.gto?action=info&amp;item=$INFO[ListItem.Property(Item)])</onclick>
                 <ondown>300</ondown>
                 <onback>300</onback>
@@ -46,7 +44,6 @@
                 <include>ScrolltimeWidgetsList</include>
                 <itemlayout width="178" height="257" condition="!String.IsEqual(Container(300).ListItem.Property(widgetaspect),Square) + ![String.IsEqual(Container(300).ListItem.Property(widgetaspect),Fanart) | String.IsEqual(Container(300).ListItem.Property(widgetaspect),Thumbnail)] + !String.IsEqual(Container(300).ListItem.Property(widget),system)">
                     <include content="include.widget.poster">
-                        <param name="id" value="301"/>
                         <param name="height" value="257"/>
                         <param name="height_reflection" value="257"/>
                         <param name="top" value="238"/>
@@ -68,7 +65,6 @@
                 </focusedlayout>
                 <itemlayout width="254" height="257" condition="String.IsEqual(Container(300).ListItem.Property(widgetaspect),Square) | String.IsEqual(Container(300).ListItem.Property(widget),system)">
                     <include content="include.widget.square">
-                        <param name="id" value="301"/>
                         <param name="height" value="257"/>
                         <param name="aspectratio" value="$SKINSHORTCUTS[aspectratio]"/>
                         <param name="distance" value="$SKINSHORTCUTS[distance]"/>
@@ -91,7 +87,6 @@
                 </focusedlayout>
                 <itemlayout width="445" height="257" condition="String.IsEqual(Container(300).ListItem.Property(widgetaspect),Fanart) + !String.IsEqual(Container(300).ListItem.Property(widget),system)">
                     <include content="include.widget.fanart">
-                        <param name="id" value="301"/>
                         <param name="height" value="257"/>
                         <param name="height_reflection" value="257"/>
                         <param name="top" value="238"/>
@@ -113,7 +108,6 @@
                 </focusedlayout>
                 <itemlayout width="445" height="257" condition="String.IsEqual(Container(300).ListItem.Property(widgetaspect),Thumbnail) + !String.IsEqual(Container(300).ListItem.Property(widget),system)">
                     <include content="include.widget.thumb">
-                        <param name="id" value="301"/>
                         <param name="height" value="257"/>
                         <param name="height_reflection" value="257"/>
                         <param name="top" value="238"/>
@@ -155,8 +149,7 @@
                 <description>Widget</description>
                 <width>1</width>
                 <height>1</height>
-                <onup condition="IsEmpty(Container(300).ListItem.Property(widget))">303</onup>
-                <onup condition="!String.IsEmpty(Container(300).ListItem.Property(widget))">300</onup>
+                <onup>300</onup>
                 <onclick condition="$SKINSHORTCUTS[IsGTO]">RunPlugin(plugin://script.service.gto?action=info&amp;item=$INFO[ListItem.Property(Item)])</onclick>
                 <ondown>300</ondown>
                 <onback>300</onback>
@@ -177,502 +170,31 @@
         </controls>
     </other>
 
+    <!-- Widget items for daily weather -->
     <other include="WeatherDailyInfoContent">
         <controls>
-            <item>
-                <label>$INFO[Weather.Conditions]</label>
-                <property name="HighTemp">$INFO[Window(Weather).Property(Current.Temperature),[B],[/B]°]</property>
-                <property name="Title">[B]$LOCALIZE[19030][/B]</property>
-                <property name="FanartTexture">$INFO[Skin.String(weather.icons.path),,/]$INFO[Weather.FanartCode,,.png]</property>
-                <property name="AnimatedFanartImagepath">$INFO[Skin.String(weather.icons.path),,/]$INFO[Weather.FanartCode]/</property>
-                <property name="OutlookTexture">resource://resource.images.weathericons.default/$INFO[Weather.FanartCode,,.png]</property>
-                <property name="FanartCode">$INFO[Weather.FanartCode]</property>
-                <property name="Today">true</property>
-                <visible>!String.IsEmpty(Weather.FanartCode)</visible>
-                <onclick>ActivateWindow(Weather)</onclick>
-                <onclick>SetFocus(9100,0,absolute)</onclick>
-            </item>
-            <item>
-                <label>$INFO[Window(Weather).Property(Day0.Outlook)]</label>
-                <property name="LowTemp">$INFO[Window(Weather).Property(Day0.LowTemp)]</property>
-                <property name="HighTemp">$INFO[Window(Weather).Property(Day0.HighTemp),[B],[/B]]</property>
-                <property name="Title">$LOCALIZE[33006]</property>
-                <property name="FanartTexture">$INFO[Skin.String(weather.icons.path),,/]$INFO[Window(Weather).Property(Day0.FanartCode),,.png]</property>
-                <property name="AnimatedFanartImagepath">$INFO[Skin.String(weather.icons.path),,/]$INFO[Window(Weather).Property(Day0.FanartCode)]/</property>
-                <property name="OutlookTexture">$INFO[Window(Weather).Property(Day0.OutlookIcon)]</property>
-                <property name="FanartCode">$INFO[Window(Weather).Property(Day0.FanartCode)]</property>
-                <visible>!String.IsEmpty(Window(Weather).Property(Day0.Outlook))</visible>
-                <onclick>ActivateWindow(Weather)</onclick>
-                <onclick>SetFocus(9100,0,absolute)</onclick>
-            </item>
-            <item>
-                <label>$INFO[Window(Weather).Property(Day1.Outlook)]</label>
-                <property name="LowTemp">$INFO[Window(Weather).Property(Day1.LowTemp)]</property>
-                <property name="HighTemp">$INFO[Window(Weather).Property(Day1.HighTemp),[B],[/B]]</property>
-                <property name="Title">$INFO[Window(Weather).Property(Day1.Title)]</property>
-                <property name="FanartTexture">$INFO[Skin.String(weather.icons.path),,/]$INFO[Window(Weather).Property(Day1.FanartCode),,.png]</property>
-                <property name="AnimatedFanartImagepath">$INFO[Skin.String(weather.icons.path),,/]$INFO[Window(Weather).Property(Day1.FanartCode)]/</property>
-                <property name="OutlookTexture">$INFO[Window(Weather).Property(Day1.OutlookIcon)]</property>
-                <property name="FanartCode">$INFO[Window(Weather).Property(Day1.FanartCode)]</property>
-                <visible>!String.IsEmpty(Window(Weather).Property(Day1.Outlook))</visible>
-                <onclick>ActivateWindow(Weather)</onclick>
-                <onclick>SetFocus(9100,0,absolute)</onclick>
-            </item>
-            <item>
-                <label>$INFO[Window(Weather).Property(Day2.Outlook)]</label>
-                <property name="LowTemp">$INFO[Window(Weather).Property(Day2.LowTemp)]</property>
-                <property name="HighTemp">$INFO[Window(Weather).Property(Day2.HighTemp),[B],[/B]]</property>
-                <property name="Title">$INFO[Window(Weather).Property(Day2.Title)]</property>
-                <property name="FanartTexture">$INFO[Skin.String(weather.icons.path),,/]$INFO[Window(Weather).Property(Day2.FanartCode),,.png]</property>
-                <property name="AnimatedFanartImagepath">$INFO[Skin.String(weather.icons.path),,/]$INFO[Window(Weather).Property(Day2.FanartCode)]/</property>
-                <property name="OutlookTexture">$INFO[Window(Weather).Property(Day2.OutlookIcon)]</property>
-                <property name="FanartCode">$INFO[Window(Weather).Property(Day2.FanartCode)]</property>
-                <visible>!String.IsEmpty(Window(Weather).Property(Day2.Outlook))</visible>
-                <onclick>ActivateWindow(Weather)</onclick>
-                <onclick>SetFocus(9100,0,absolute)</onclick>
-            </item>
-            <item>
-                <label>$INFO[Window(Weather).Property(Day3.Outlook)]</label>
-                <property name="LowTemp">$INFO[Window(Weather).Property(Day3.LowTemp)]</property>
-                <property name="HighTemp">$INFO[Window(Weather).Property(Day3.HighTemp),[B],[/B]]</property>
-                <property name="Title">$INFO[Window(Weather).Property(Day3.Title)]</property>
-                <property name="FanartTexture">$INFO[Skin.String(weather.icons.path),,/]$INFO[Window(Weather).Property(Day3.FanartCode),,.png]</property>
-                <property name="AnimatedFanartImagepath">$INFO[Skin.String(weather.icons.path),,/]$INFO[Window(Weather).Property(Day3.FanartCode)]/</property>
-                <property name="OutlookTexture">$INFO[Window(Weather).Property(Day3.OutlookIcon)]</property>
-                <property name="FanartCode">$INFO[Window(Weather).Property(Day3.FanartCode)]</property>
-                <visible>!String.IsEmpty(Window(Weather).Property(Day3.Outlook))</visible>
-                <onclick>ActivateWindow(Weather)</onclick>
-                <onclick>SetFocus(9100,0,absolute)</onclick>
-            </item>
-            <item>
-                <label>$INFO[Window(Weather).Property(Day4.Outlook)]</label>
-                <property name="LowTemp">$INFO[Window(Weather).Property(Day4.LowTemp)]</property>
-                <property name="HighTemp">$INFO[Window(Weather).Property(Day4.HighTemp),[B],[/B]]</property>
-                <property name="Title">$INFO[Window(Weather).Property(Day4.Title)]</property>
-                <property name="FanartTexture">$INFO[Skin.String(weather.icons.path),,/]$INFO[Window(Weather).Property(Day4.FanartCode),,.png]</property>
-                <property name="AnimatedFanartImagepath">$INFO[Skin.String(weather.icons.path),,/]$INFO[Window(Weather).Property(Day4.FanartCode)]/</property>
-                <property name="OutlookTexture">$INFO[Window(Weather).Property(Day4.OutlookIcon)]</property>
-                <property name="FanartCode">$INFO[Window(Weather).Property(Day4.FanartCode)]</property>
-                <visible>!String.IsEmpty(Window(Weather).Property(Day4.Outlook))</visible>
-                <onclick>ActivateWindow(Weather)</onclick>
-                <onclick>SetFocus(9100,0,absolute)</onclick>
-            </item>
-            <item>
-                <label>$INFO[Window(Weather).Property(Day5.Outlook)]</label>
-                <property name="LowTemp">$INFO[Window(Weather).Property(Day5.LowTemp)]</property>
-                <property name="HighTemp">$INFO[Window(Weather).Property(Day5.HighTemp),[B],[/B]]</property>
-                <property name="Title">$INFO[Window(Weather).Property(Day5.Title)]</property>
-                <property name="FanartTexture">$INFO[Skin.String(weather.icons.path),,/]$INFO[Window(Weather).Property(Day5.FanartCode),,.png]</property>
-                <property name="AnimatedFanartImagepath">$INFO[Skin.String(weather.icons.path),,/]$INFO[Window(Weather).Property(Day5.FanartCode)]/</property>
-                <property name="OutlookTexture">$INFO[Window(Weather).Property(Day5.OutlookIcon)]</property>
-                <property name="FanartCode">$INFO[Window(Weather).Property(Day5.FanartCode)]</property>
-                <visible>!String.IsEmpty(Window(Weather).Property(Day5.Outlook))</visible>
-                <onclick>ActivateWindow(Weather)</onclick>
-                <onclick>SetFocus(9100,0,absolute)</onclick>
-            </item>
-            <item>
-                <label>$INFO[Window(Weather).Property(Day6.Outlook)]</label>
-                <property name="LowTemp">$INFO[Window(Weather).Property(Day6.LowTemp)]</property>
-                <property name="HighTemp">$INFO[Window(Weather).Property(Day6.HighTemp),[B],[/B]]</property>
-                <property name="Title">$INFO[Window(Weather).Property(Day6.Title)]</property>
-                <property name="FanartTexture">$INFO[Skin.String(weather.icons.path),,/]$INFO[Window(Weather).Property(Day6.FanartCode),,.png]</property>
-                <property name="AnimatedFanartImagepath">$INFO[Skin.String(weather.icons.path),,/]$INFO[Window(Weather).Property(Day6.FanartCode)]/</property>
-                <property name="OutlookTexture">$INFO[Window(Weather).Property(Day6.OutlookIcon)]</property>
-                <property name="FanartCode">$INFO[Window(Weather).Property(Day6.FanartCode)]</property>
-                <visible>!String.IsEmpty(Window(Weather).Property(Day6.Outlook))</visible>
-                <onclick>ActivateWindow(Weather)</onclick>
-                <onclick>SetFocus(9100,0,absolute)</onclick>
-            </item>
-            <item>
-                <label>$INFO[Window(Weather).Property(Daily.8.Outlook)]</label>
-                <property name="LowTemp">$INFO[Window(Weather).Property(Daily.8.LowTemperature)]</property>
-                <property name="HighTemp">$INFO[Window(Weather).Property(Daily.8.HighTemperature),[B],[/B]]</property>
-                <property name="Title">$INFO[Window(Weather).Property(Daily.8.LongDay)]</property>
-                <property name="FanartTexture">$INFO[Skin.String(weather.icons.path),,/]$INFO[Window(Weather).Property(Daily.8.FanartCode),,.png]</property>
-                <property name="AnimatedFanartImagepath">$INFO[Skin.String(weather.icons.path),,/]$INFO[Window(Weather).Property(Daily.8.FanartCode)]/</property>
-                <property name="OutlookTexture">resource://resource.images.weathericons.default/$INFO[Window(Weather).Property(Daily.8.FanartCode),,.png]</property>
-                <property name="FanartCode">$INFO[Window(Weather).Property(Daily8.FanartCode)]</property>
-                <visible>[String.IsEqual(Container(300).ListItem.Property(widgetaspect),Poster) | String.IsEmpty(Container(300).ListItem.Property(widgetaspect)) | String.IsEqual(Container(300).ListItem.Property(widgetaspect),Fanart) | String.IsEqual(Container(300).ListItem.Property(widgetaspect),Thumbnail)] + !String.IsEmpty(Window(Weather).Property(Daily.8.LongDay))</visible>
-                <onclick>ActivateWindow(Weather)</onclick>
-                <onclick>SetFocus(9100,0,absolute)</onclick>
-            </item>
-            <item>
-                <label>$INFO[Window(Weather).Property(Daily.9.Outlook)]</label>
-                <property name="LowTemp">$INFO[Window(Weather).Property(Daily.9.LowTemperature)]</property>
-                <property name="HighTemp">$INFO[Window(Weather).Property(Daily.9.HighTemperature),[B],[/B]]</property>
-                <property name="Title">$INFO[Window(Weather).Property(Daily.9.LongDay)]</property>
-                <property name="FanartTexture">$INFO[Skin.String(weather.icons.path),,/]$INFO[Window(Weather).Property(Daily.9.FanartCode),,.png]</property>
-                <property name="OutlookTexture">resource://resource.images.weathericons.default/$INFO[Window(Weather).Property(Daily.9.FanartCode),,.png]</property>
-                <property name="AnimatedFanartImagepath">$INFO[Skin.String(weather.icons.path),,/]$INFO[Window(Weather).Property(Daily.9.FanartCode)]/</property>
-                <property name="FanartCode">$INFO[Window(Weather).Property(Daily9.FanartCode)]</property>
-                <visible>[String.IsEqual(Container(300).ListItem.Property(widgetaspect),Poster) | String.IsEmpty(Container(300).ListItem.Property(widgetaspect)) | String.IsEqual(Container(300).ListItem.Property(widgetaspect),Fanart) | String.IsEqual(Container(300).ListItem.Property(widgetaspect),Thumbnail)] + !String.IsEmpty(Window(Weather).Property(Daily.9.LongDay))</visible>
-                <onclick>ActivateWindow(Weather)</onclick>
-                <onclick>SetFocus(9100,0,absolute)</onclick>
-            </item>
-            <item>
-                <label>$INFO[Window(Weather).Property(Daily.10.Outlook)]</label>
-                <property name="LowTemp">$INFO[Window(Weather).Property(Daily.10.LowTemperature)]</property>
-                <property name="HighTemp">$INFO[Window(Weather).Property(Daily.10.HighTemperature),[B],[/B]]</property>
-                <property name="Title">$INFO[Window(Weather).Property(Daily.10.LongDay)]</property>
-                <property name="FanartTexture">$INFO[Skin.String(weather.icons.path),,/]$INFO[Window(Weather).Property(Daily.10.FanartCode),,.png]</property>
-                <property name="OutlookTexture">resource://resource.images.weathericons.default/$INFO[Window(Weather).Property(Daily.10.FanartCode),,.png]</property>
-                <property name="AnimatedFanartImagepath">$INFO[Skin.String(weather.icons.path),,/]$INFO[Window(Weather).Property(Daily.10.FanartCode)]/</property>
-                <property name="FanartCode">$INFO[Window(Weather).Property(Daily10.FanartCode)]</property>
-                <visible>[String.IsEqual(Container(300).ListItem.Property(widgetaspect),Poster) | String.IsEmpty(Container(300).ListItem.Property(widgetaspect)) | String.IsEqual(Container(300).ListItem.Property(widgetaspect),Fanart) | String.IsEqual(Container(300).ListItem.Property(widgetaspect),Thumbnail)] + !String.IsEmpty(Window(Weather).Property(Daily.10.LongDay))</visible>
-                <onclick>ActivateWindow(Weather)</onclick>
-                <onclick>SetFocus(9100,0,absolute)</onclick>
-            </item>
-        </controls>
-    </other>
-
-    <other include="WeatherHourlyInfoContent">
-        <controls>
-            <item>
-                <label>$INFO[Window(Weather).Property(Hourly.1.Outlook)]</label>
-                <property name="HighTemp">$INFO[Window(Weather).Property(Hourly.1.Temperature),[B],[/B]]</property>
-                <property name="Title">[B]$LOCALIZE[19030][/B]</property>
-                <property name="FanartTexture">$INFO[Skin.String(weather.icons.path),,/]$INFO[Window(Weather).Property(Hourly.1.FanartCode),,.png]</property>
-                <property name="OutlookTexture">resource://resource.images.weathericons.default/$INFO[Window(Weather).Property(Hourly.1.FanartCode),,.png]</property>
-                <property name="Today">true</property>
-                <property name="FanartCode">$INFO[Window(Weather).Property(Hourly.1.FanartCode)]</property>
-                <visible>!String.IsEmpty(Window(Weather).Property(Hourly.1.Outlook))</visible>
-                <onclick>ActivateWindow(Weather)</onclick>
-                <onclick>SetFocus(9100,2,absolute)</onclick>
-            </item>
-            <item>
-                <label>$INFO[Window(Weather).Property(Hourly.2.Outlook)]</label>
-                <property name="HighTemp">$INFO[Window(Weather).Property(Hourly.2.Temperature)]</property>
-                <property name="Title">$INFO[Window(Weather).Property(Hourly.2.Time)]</property>
-                <property name="FanartTexture">$INFO[Skin.String(weather.icons.path),,/]$INFO[Window(Weather).Property(Hourly.2.FanartCode),,.png]</property>
-                <property name="OutlookTexture">resource://resource.images.weathericons.default/$INFO[Window(Weather).Property(Hourly.2.FanartCode),,.png]</property>
-                <property name="FanartCode">$INFO[Window(Weather).Property(Hourly.2.FanartCode)]</property>
-                <visible>!String.IsEmpty(Window(Weather).Property(Hourly.2.Outlook))</visible>
-                <onclick>ActivateWindow(Weather)</onclick>
-                <onclick>SetFocus(9100,2,absolute)</onclick>
-            </item>
-            <item>
-                <label>$INFO[Window(Weather).Property(Hourly.3.Outlook)]</label>
-                <property name="HighTemp">$INFO[Window(Weather).Property(Hourly.3.Temperature)]</property>
-                <property name="Title">$INFO[Window(Weather).Property(Hourly.3.Time)]</property>
-                <property name="FanartTexture">$INFO[Skin.String(weather.icons.path),,/]$INFO[Window(Weather).Property(Hourly.3.FanartCode),,.png]</property>
-                <property name="OutlookTexture">resource://resource.images.weathericons.default/$INFO[Window(Weather).Property(Hourly.3.FanartCode),,.png]</property>
-                <property name="FanartCode">$INFO[Window(Weather).Property(Hourly.3.FanartCode)]</property>
-                <visible>!String.IsEmpty(Window(Weather).Property(Hourly.3.Outlook))</visible>
-                <onclick>ActivateWindow(Weather)</onclick>
-                <onclick>SetFocus(9100,2,absolute)</onclick>
-            </item>
-            <item>
-                <label>$INFO[Window(Weather).Property(Hourly.4.Outlook)]</label>
-                <property name="HighTemp">$INFO[Window(Weather).Property(Hourly.4.Temperature)]</property>
-                <property name="Title">$INFO[Window(Weather).Property(Hourly.4.Time)]</property>
-                <property name="FanartTexture">$INFO[Skin.String(weather.icons.path),,/]$INFO[Window(Weather).Property(Hourly.4.FanartCode),,.png]</property>
-                <property name="OutlookTexture">resource://resource.images.weathericons.default/$INFO[Window(Weather).Property(Hourly.4.FanartCode),,.png]</property>
-                <property name="FanartCode">$INFO[Window(Weather).Property(Hourly.4.FanartCode)]</property>
-                <visible>!String.IsEmpty(Window(Weather).Property(Hourly.4.Outlook))</visible>
-                <onclick>ActivateWindow(Weather)</onclick>
-                <onclick>SetFocus(9100,2,absolute)</onclick>
-            </item>
-            <item>
-                <label>$INFO[Window(Weather).Property(Hourly.5.Outlook)]</label>
-                <property name="HighTemp">$INFO[Window(Weather).Property(Hourly.5.Temperature)]</property>
-                <property name="Title">$INFO[Window(Weather).Property(Hourly.5.Time)]</property>
-                <property name="FanartTexture">$INFO[Skin.String(weather.icons.path),,/]$INFO[Window(Weather).Property(Hourly.5.FanartCode),,.png]</property>
-                <property name="OutlookTexture">resource://resource.images.weathericons.default/$INFO[Window(Weather).Property(Hourly.5.FanartCode),,.png]</property>
-                <property name="FanartCode">$INFO[Window(Weather).Property(Hourly.5.FanartCode)]</property>
-                <visible>!String.IsEmpty(Window(Weather).Property(Hourly.5.Outlook))</visible>
-                <onclick>ActivateWindow(Weather)</onclick>
-                <onclick>SetFocus(9100,2,absolute)</onclick>
-            </item>
-            <item>
-                <label>$INFO[Window(Weather).Property(Hourly.6.Outlook)]</label>
-                <property name="HighTemp">$INFO[Window(Weather).Property(Hourly.6.Temperature)]</property>
-                <property name="Title">$INFO[Window(Weather).Property(Hourly.6.Time)]</property>
-                <property name="FanartTexture">$INFO[Skin.String(weather.icons.path),,/]$INFO[Window(Weather).Property(Hourly.6.FanartCode),,.png]</property>
-                <property name="OutlookTexture">resource://resource.images.weathericons.default/$INFO[Window(Weather).Property(Hourly.6.FanartCode),,.png]</property>
-                <property name="FanartCode">$INFO[Window(Weather).Property(Hourly.6.FanartCode)]</property>
-                <visible>!String.IsEmpty(Window(Weather).Property(Hourly.6.Outlook))</visible>
-                <onclick>ActivateWindow(Weather)</onclick>
-                <onclick>SetFocus(9100,2,absolute)</onclick>
-            </item>
-            <item>
-                <label>$INFO[Window(Weather).Property(Hourly.7.Outlook)]</label>
-                <property name="HighTemp">$INFO[Window(Weather).Property(Hourly.7.Temperature)]</property>
-                <property name="Title">$INFO[Window(Weather).Property(Hourly.7.Time)]</property>
-                <property name="FanartTexture">$INFO[Skin.String(weather.icons.path),,/]$INFO[Window(Weather).Property(Hourly.7.FanartCode),,.png]</property>
-                <property name="OutlookTexture">resource://resource.images.weathericons.default/$INFO[Window(Weather).Property(Hourly.7.FanartCode),,.png]</property>
-                <property name="FanartCode">$INFO[Window(Weather).Property(Hourly.7.FanartCode)]</property>
-                <visible>!String.IsEmpty(Window(Weather).Property(Hourly.7.Outlook))</visible>
-                <onclick>ActivateWindow(Weather)</onclick>
-                <onclick>SetFocus(9100,2,absolute)</onclick>
-            </item>
-            <item>
-                <label>$INFO[Window(Weather).Property(Hourly.8.Outlook)]</label>
-                <property name="HighTemp">$INFO[Window(Weather).Property(Hourly.8.Temperature)]</property>
-                <property name="Title">$INFO[Window(Weather).Property(Hourly.8.Time)]</property>
-                <property name="FanartTexture">$INFO[Skin.String(weather.icons.path),,/]$INFO[Window(Weather).Property(Hourly.8.FanartCode),,.png]</property>
-                <property name="OutlookTexture">resource://resource.images.weathericons.default/$INFO[Window(Weather).Property(Hourly.8.FanartCode),,.png]</property>
-                <property name="FanartCode">$INFO[Window(Weather).Property(Hourly.8.FanartCode)]</property>
-                <visible>!String.IsEmpty(Window(Weather).Property(Hourly.8.Outlook))</visible>
-                <onclick>ActivateWindow(Weather)</onclick>
-                <onclick>SetFocus(9100,2,absolute)</onclick>
-            </item>
-            <item>
-                <label>$INFO[Window(Weather).Property(Hourly.9.Outlook)]</label>
-                <property name="HighTemp">$INFO[Window(Weather).Property(Hourly.9.Temperature)]</property>
-                <property name="Title">$INFO[Window(Weather).Property(Hourly.9.Time)]</property>
-                <property name="FanartTexture">$INFO[Skin.String(weather.icons.path),,/]$INFO[Window(Weather).Property(Hourly.9.FanartCode),,.png]</property>
-                <property name="OutlookTexture">resource://resource.images.weathericons.default/$INFO[Window(Weather).Property(Hourly.9.FanartCode),,.png]</property>
-                <property name="FanartCode">$INFO[Window(Weather).Property(Hourly.9.FanartCode)]</property>
-                <visible>!String.IsEmpty(Window(Weather).Property(Hourly.9.Outlook))</visible>
-                <onclick>ActivateWindow(Weather)</onclick>
-                <onclick>SetFocus(9100,2,absolute)</onclick>
-            </item>
-            <item>
-                <label>$INFO[Window(Weather).Property(Hourly.10.Outlook)]</label>
-                <property name="HighTemp">$INFO[Window(Weather).Property(Hourly.10.Temperature)]</property>
-                <property name="Title">$INFO[Window(Weather).Property(Hourly.10.Time)]</property>
-                <property name="FanartTexture">$INFO[Skin.String(weather.icons.path),,/]$INFO[Window(Weather).Property(Hourly.10.FanartCode),,.png]</property>
-                <property name="OutlookTexture">resource://resource.images.weathericons.default/$INFO[Window(Weather).Property(Hourly.10.FanartCode),,.png]</property>
-                <property name="FanartCode">$INFO[Window(Weather).Property(Hourly.10.FanartCode)]</property>
-                <visible>!String.IsEmpty(Window(Weather).Property(Hourly.10.Outlook))</visible>
-                <onclick>ActivateWindow(Weather)</onclick>
-                <onclick>SetFocus(9100,2,absolute)</onclick>
-            </item>
-            <item>
-                <label>$INFO[Window(Weather).Property(Hourly.11.Outlook)]</label>
-                <property name="HighTemp">$INFO[Window(Weather).Property(Hourly.11.Temperature)]</property>
-                <property name="Title">$INFO[Window(Weather).Property(Hourly.11.Time)]</property>
-                <property name="FanartTexture">$INFO[Skin.String(weather.icons.path),,/]$INFO[Window(Weather).Property(Hourly.11.FanartCode),,.png]</property>
-                <property name="OutlookTexture">resource://resource.images.weathericons.default/$INFO[Window(Weather).Property(Hourly.11.FanartCode),,.png]</property>
-                <property name="FanartCode">$INFO[Window(Weather).Property(Hourly.11.FanartCode)]</property>
-                <visible>!String.IsEmpty(Window(Weather).Property(Hourly.11.Outlook))</visible>
-                <onclick>ActivateWindow(Weather)</onclick>
-                <onclick>SetFocus(9100,2,absolute)</onclick>
-            </item>
-            <item>
-                <label>$INFO[Window(Weather).Property(Hourly.12.Outlook)]</label>
-                <property name="HighTemp">$INFO[Window(Weather).Property(Hourly.12.Temperature)]</property>
-                <property name="Title">$INFO[Window(Weather).Property(Hourly.12.Time)]</property>
-                <property name="FanartTexture">$INFO[Skin.String(weather.icons.path),,/]$INFO[Window(Weather).Property(Hourly.12.FanartCode),,.png]</property>
-                <property name="OutlookTexture">resource://resource.images.weathericons.default/$INFO[Window(Weather).Property(Hourly.12.FanartCode),,.png]</property>
-                <property name="FanartCode">$INFO[Window(Weather).Property(Hourly.12.FanartCode)]</property>
-                <visible>!String.IsEmpty(Window(Weather).Property(Hourly.12.Outlook))</visible>
-                <onclick>ActivateWindow(Weather)</onclick>
-                <onclick>SetFocus(9100,2,absolute)</onclick>
-            </item>
-            <item>
-                <label>$INFO[Window(Weather).Property(Hourly.13.Outlook)]</label>
-                <property name="HighTemp">$INFO[Window(Weather).Property(Hourly.13.Temperature)]</property>
-                <property name="Title">$INFO[Window(Weather).Property(Hourly.13.Time)]</property>
-                <property name="FanartTexture">$INFO[Skin.String(weather.icons.path),,/]$INFO[Window(Weather).Property(Hourly.13.FanartCode),,.png]</property>
-                <property name="OutlookTexture">resource://resource.images.weathericons.default/$INFO[Window(Weather).Property(Hourly.13.FanartCode),,.png]</property>
-                <property name="FanartCode">$INFO[Window(Weather).Property(Hourly.13.FanartCode)]</property>
-                <visible>!String.IsEmpty(Window(Weather).Property(Hourly.13.Outlook))</visible>
-                <onclick>ActivateWindow(Weather)</onclick>
-                <onclick>SetFocus(9100,2,absolute)</onclick>
-            </item>
-            <item>
-                <label>$INFO[Window(Weather).Property(Hourly.14.Outlook)]</label>
-                <property name="HighTemp">$INFO[Window(Weather).Property(Hourly.14.Temperature)]</property>
-                <property name="Title">$INFO[Window(Weather).Property(Hourly.14.Time)]</property>
-                <property name="FanartTexture">$INFO[Skin.String(weather.icons.path),,/]$INFO[Window(Weather).Property(Hourly.14.FanartCode),,.png]</property>
-                <property name="OutlookTexture">resource://resource.images.weathericons.default/$INFO[Window(Weather).Property(Hourly.14.FanartCode),,.png]</property>
-                <property name="FanartCode">$INFO[Window(Weather).Property(Hourly.14.FanartCode)]</property>
-                <visible>!String.IsEmpty(Window(Weather).Property(Hourly.14.Outlook))</visible>
-                <onclick>ActivateWindow(Weather)</onclick>
-                <onclick>SetFocus(9100,2,absolute)</onclick>
-            </item>
-            <item>
-                <label>$INFO[Window(Weather).Property(Hourly.15.Outlook)]</label>
-                <property name="HighTemp">$INFO[Window(Weather).Property(Hourly.15.Temperature)]</property>
-                <property name="Title">$INFO[Window(Weather).Property(Hourly.15.Time)]</property>
-                <property name="FanartTexture">$INFO[Skin.String(weather.icons.path),,/]$INFO[Window(Weather).Property(Hourly.15.FanartCode),,.png]</property>
-                <property name="OutlookTexture">resource://resource.images.weathericons.default/$INFO[Window(Weather).Property(Hourly.15.FanartCode),,.png]</property>
-                <property name="FanartCode">$INFO[Window(Weather).Property(Hourly.15.FanartCode)]</property>
-                <visible>!String.IsEmpty(Window(Weather).Property(Hourly.15.Outlook))</visible>
-                <onclick>ActivateWindow(Weather)</onclick>
-                <onclick>SetFocus(9100,2,absolute)</onclick>
-            </item>
-            <item>
-                <label>$INFO[Window(Weather).Property(Hourly.16.Outlook)]</label>
-                <property name="HighTemp">$INFO[Window(Weather).Property(Hourly.16.Temperature)]</property>
-                <property name="Title">$INFO[Window(Weather).Property(Hourly.16.Time)]</property>
-                <property name="FanartTexture">$INFO[Skin.String(weather.icons.path),,/]$INFO[Window(Weather).Property(Hourly.16.FanartCode),,.png]</property>
-                <property name="OutlookTexture">resource://resource.images.weathericons.default/$INFO[Window(Weather).Property(Hourly.16.FanartCode),,.png]</property>
-                <property name="FanartCode">$INFO[Window(Weather).Property(Hourly.16.FanartCode)]</property>
-                <visible>!String.IsEmpty(Window(Weather).Property(Hourly.16.Outlook))</visible>
-                <onclick>ActivateWindow(Weather)</onclick>
-                <onclick>SetFocus(9100,2,absolute)</onclick>
-            </item>
-        </controls>
-    </other>
-
-    <!-- Widget for Systeminfo -->
-    <other include="SystemInfoContent">
-        <controls>
-            <item>
-                <label>$LOCALIZE[705]</label>
-                <label2>$INFO[Network.LinkState]</label2>
-                <icon>special://skin/extras/icons/networkinfo.png</icon>
-                <property name="Label3">$INFO[Network.IPAddress,IP: ]</property>
-                <visible>!String.IsEmpty(Network.IPAddress)</visible>
-                <onclick>ActivateWindowAndFocus(systeminfo,96,0)</onclick>
-            </item>
-            <item>
-                <label>$LOCALIZE[705]</label>
-                <label2>$INFO[Network.LinkState]</label2>
-                <icon>special://skin/extras/icons/network.png</icon>
-                <property name="Label3">$INFO[Network.IPAddress,IP: ]</property>
-                <visible>String.IsEmpty(Network.IPAddress)</visible>
-                <onclick>ActivateWindowAndFocus(systeminfo,96,0)</onclick>
-            </item>
-            <item>
-                <label>$LOCALIZE[13280]</label>
-                <label2>$INFO[System.ScreenWidth]x$INFO[System.ScreenHeight]</label2>
-                <icon>special://skin/extras/icons/graphicinfo.png</icon>
-                <property name="Label3">$INFO[System.fps,, FPS]</property>
-                <onclick>ActivateWindowAndFocus(systeminfo,97,0)</onclick>
-            </item>
-            <item>
-                <label>$LOCALIZE[31487]</label>
-                <label2>$INFO[System.CPUUsage(used.percent)]</label2>
-                <icon>special://skin/extras/icons/sysinfo.png</icon>
-                <property name="Label3">$INFO[System.CpuFrequency]</property>
-                <property name="Label4">cpu</property>
-                <onclick>ActivateWindowAndFocus(systeminfo,98,0)</onclick>
-            </item>
-            <item>
-                <label>$LOCALIZE[31398]</label>
-                <label2>$INFO[System.Memory(used.percent)] $LOCALIZE[20162]</label2>
-                <icon>special://skin/extras/icons/raminfo.png</icon>
-                <property name="Label3">$INFO[System.Memory(total)] $LOCALIZE[20161]</property>
-                <property name="Label4">ram</property>
-                <onclick>ActivateWindowAndFocus(systeminfo,98,0)</onclick>
-            </item>
-            <item>
-                <label>$LOCALIZE[154]</label>
-                <label2>$INFO[System.UsedSpacePercent]</label2>
-                <icon>special://skin/extras/icons/storageinfo.png</icon>
-                <property name="Label3">$INFO[System.TotalSpace]</property>
-                <property name="Label4">storage</property>
-                <onclick>ActivateWindowAndFocus(systeminfo,94,0)</onclick>
-            </item>
-            <item>
-                <label>$LOCALIZE[14204]</label>
-                <label2>$INFO[Pvr.BackendName]</label2>
-                <icon>special://skin/extras/icons/pvrinfo.png</icon>
-                <property name="Label3">$INFO[Pvr.BackendChannels] $LOCALIZE[19019]</property>
-                <visible>PVR.HasTVChannels</visible>
-                <onclick>ActivateWindowAndFocus(systeminfo,99,0)</onclick>
-            </item>
-            <item>
-                <label>$LOCALIZE[20342] &amp; $LOCALIZE[20343]</label>
-                <label2>$INFO[Window(home).Property(Movies.Count)] $LOCALIZE[20342]</label2>
-                <icon>special://skin/extras/icons/tv.png</icon>
-                <property name="Label3">$INFO[Window(home).Property(TVShows.Count)] $LOCALIZE[20343]</property>
-                <visible>Library.HasContent(Movies) | Library.HasContent(TVShows)</visible>
-                <onclick>ActivateWindow(systeminfo)</onclick>
-            </item>
-            <item>
-                <label>$LOCALIZE[132] &amp; $LOCALIZE[134]</label>
-                <label2>$INFO[Window(home).Property(Music.AlbumsCount)] $LOCALIZE[132]</label2>
-                <icon>special://skin/extras/icons/songs.png</icon>
-                <property name="Label3">$INFO[Window(home).Property(Music.SongsCount)] $LOCALIZE[134]</property>
-                <visible>Library.HasContent(Music)</visible>
-                <onclick>ActivateWindow(systeminfo)</onclick>
-            </item>
-            <item>
-                <label>$LOCALIZE[19114]</label>
-                <label2>$INFO[System.BuildVersion]</label2>
-                <icon>special://skin/extras/icons/kodi.png</icon>
-                <property name="Label3">$INFO[System.BuildDate]</property>
-                <onclick>ActivateWindow(systeminfo)</onclick>
-            </item>
+            <include>WeatherDailyItems</include>
         </controls>
     </other>
     
-    <!-- Widget for Settings -->
+    <!-- Widget items for hourly weather -->
+    <other include="WeatherHourlyInfoContent">
+        <controls>
+            <include>WeatherHourlyItems</include>
+        </controls>
+    </other>
+
+    <!-- Widget items for systeminfo -->
+    <other include="SystemInfoContent">
+        <controls>
+            <include>SystemInfoItems</include>
+        </controls>
+    </other>
+    
+    <!-- Widget items for settings -->
     <other include="SettingsInfoContent">
         <controls>
-            <item id="1">
-                <label>14206</label>
-                <label2>31275</label2>
-                <icon>special://skin/extras/icons/paintbrush.png</icon>
-                <onclick>ActivateWindow(InterfaceSettings)</onclick>
-            </item>
-            <item id="2">
-                <label>14202</label>
-                <label2>31276</label2>
-                <icon>special://skin/extras/icons/tags.png</icon>
-                <onclick>ActivateWindow(MediaSettings)</onclick>
-            </item>
-            <item id="3">
-                <label>14200</label>
-                <label2>31277</label2>
-                <icon>special://skin/extras/icons/equalizer.png</icon>
-                <onclick>ActivateWindow(PlayerSettings)</onclick>
-            </item>
-            <item id="12">
-                <label>20077</label>
-                <label2>31166</label2>
-                <icon>special://skin/extras/icons/year.png</icon>
-                <onclick>ActivateWindow(SkinSettings)</onclick>
-            </item>
-            <item id="8">
-                <label>13000</label>
-                <label2>31161</label2>
-                <icon>special://skin/extras/icons/configure.png</icon>
-                <onclick>ActivateWindow(SystemSettings)</onclick>
-            </item>
-            <item id="7">
-                <label>14036</label>
-                <label2>31164</label2>
-                <icon>special://skin/extras/icons/network.png</icon>
-                <onclick>ActivateWindow(servicesettings)</onclick>
-            </item>
-            <item id="9">
-                <label>13200</label>
-                <label2>31165</label2>
-                <icon>special://skin/extras/icons/actor.png</icon>
-                <onclick>ActivateWindow(Profiles)</onclick>
-            </item>
-            <item id="4">
-                <label>24001</label>
-                <label2>31162</label2>
-                <icon>special://skin/extras/icons/addons.png</icon>
-                <onclick>ActivateWindow(AddonBrowser)</onclick>
-            </item>
-            <item id="10">
-                <label>130</label>
-                <label2>31167</label2>
-                <icon>special://skin/extras/icons/sysinfo.png</icon>
-                <onclick>ActivateWindow(7)</onclick>
-            </item>
-            <item id="11">
-                <label>19191</label>
-                <label2>31163</label2>
-                <icon>special://skin/extras/icons/livetv.png</icon>
-                <onclick>ActivateWindow(pvrsettings)</onclick>
-            </item>
-            <item id="5">
-                <label>LibreELEC $LOCALIZE[5]</label>
-                <label2>31373</label2>
-                <icon>special://skin/extras/icons/libreelec.png</icon>
-                <onclick>RunScript(service.libreelec.settings)</onclick>
-                <visible>System.HasAddon(service.libreelec.settings)</visible>
-            </item>
-            <item id="6">
-                <label>CoreELEC $LOCALIZE[5]</label>
-                <label2>31374</label2>
-                <icon>special://skin/extras/icons/coreelec.png</icon>
-                <onclick>RunScript(service.coreelec.settings)</onclick>
-                <visible>System.HasAddon(service.coreelec.settings)</visible>
-            </item>
-            <item id="14">
-                <label>$LOCALIZE[7]</label>
-                <icon>special://skin/extras/icons/filemanager.png</icon>
-                <onclick>ActivateWindow(filemanager)</onclick>
-            </item>
+            <include>SettingsInfoItems</include>
         </controls>
     </other>
 
@@ -714,12 +236,6 @@
         <property name="labelisvisible">true</property>
         <property name="content" tag="property" attribute="name|widgetPath"/>
         <property name="content">$VAR[DefWidgetContent]</property>
-        <property name="targetcontent" tag="property" attribute="name|widgetType" value="favourite">favourites</property>
-        <property name="targetcontent" tag="property" attribute="name|widgetTarget" value="music">music</property>
-        <property name="targetcontent" tag="property" attribute="name|widgetTarget" value="pvr">pvr</property>
-        <property name="targetcontent" tag="property" attribute="name|widgetTarget" value="videos">videos</property>
-        <property name="targetcontent" tag="property" attribute="name|widgetTarget" value="addons">addons</property>
-        <property name="targetcontent">$VAR[DefWidgetTarget]</property>
         <property name="morevisible" tag="property" attribute="name|widgetTarget" value="system">false</property>
         <property name="morevisible" tag="property" attribute="name|widgetTarget" value="weather">false</property>
         <property name="morevisible" tag="property" attribute="name|widget" value="mysubmenu">false</property>
@@ -739,7 +255,6 @@
         <property name="widgetauto" tag="property" attribute="name|widgetAuto" value="$NUMBER[25000]">25000</property>
         <property name="widgetlisttype" tag="property" attribute="name|widgetListType"/>
         <property name="widgetlisttype">fixedlist</property>
-        <property name="widgetclearlogothumb" tag="property" attribute="name|widgetClearLogoThumb" value="yes">true</property>
         <property name="widgetclearlogothumb" tag="property" attribute="name|widgetClearLogoThumb" value="no">false</property>
         <property name="widgetclearlogothumb">true</property>
         <property name="aspectratio" tag="property" attribute="name|widgetAspectRatio"/>
@@ -759,21 +274,21 @@
         <property name="widgetaspectsubcheck" tag="property" attribute="name|widgetaspect" value="SquareMedium">SqMedium</property>
         <property name="widgetaspectsubcheck">Square</property> 
         <controls>
-            <control type="group" id="301$SKINSHORTCUTS[id]2199">
+            <control type="group" id="301$SKINSHORTCUTS[id]1000">
+                <skinshortcuts>visibility</skinshortcuts>
+                <visible>Integer.IsGreater(Container(301$SKINSHORTCUTS[id]1).NumItems,0) | Container(301$SKINSHORTCUTS[id]1).IsUpdating</visible>
                 <control type="grouplist">
-                    <visible>Integer.IsGreater(Container(301$SKINSHORTCUTS[id]1).NumItems,0) | Container(301$SKINSHORTCUTS[id]1).IsUpdating | String.IsEqual(Container(300).ListItem.Property(widget),mysubmenu)</visible>
-                    <skinshortcuts>visibility</skinshortcuts>
                     <include content="widget.title.label" condition="!Skin.HasSetting(hidewidgettitle)">
                         <param name="focusid" value="301$SKINSHORTCUTS[id]1"/>
                         <param name="idshort" value="1"/>
-                        <param name="animation_condition" value="Control.HasFocus(301$SKINSHORTCUTS[id]2) | Control.HasFocus(301$SKINSHORTCUTS[id]3)" />
+                        <param name="animation_condition" value="!Control.HasFocus(301$SKINSHORTCUTS[id]1)" />
                     </include>
                 </control>
             </control>
             <control type="$SKINSHORTCUTS[widgetlisttype]" id="301$SKINSHORTCUTS[id]1">
-                <visible>String.Contains(Container(300).ListItem.Property(widget),weather) | Integer.IsGreater(Container(301$SKINSHORTCUTS[id]1).NumItems,0) | Container(301$SKINSHORTCUTS[id]1).IsUpdating | String.IsEqual(Container(300).ListItem.Property(widget),mysubmenu) | String.IsEqual(Container(300).ListItem.Property(widget),custom)</visible>
-                <onclick condition="$SKINSHORTCUTS[IsGTO]">RunPlugin(plugin://script.service.gto?action=info&amp;item=$INFO[ListItem.Property(Item)])</onclick>
                 <skinshortcuts>visibility</skinshortcuts>
+                <visible>Integer.IsGreater(Container(301$SKINSHORTCUTS[id]1).NumItems,0) | Container(301$SKINSHORTCUTS[id]1).IsUpdating | String.IsEqual(Container(300).ListItem.Property(widget),mysubmenu) | String.IsEqual(Container(300).ListItem.Property(widget),custom) | String.Contains(Container(300).ListItem.Property(widget),weather)</visible>
+                <onclick condition="$SKINSHORTCUTS[IsGTO]">RunPlugin(plugin://script.service.gto?action=info&amp;item=$INFO[ListItem.Property(Item)])</onclick>
                 <include content="DefMultiWidgetContainer">
                     <param name="id" value="301$SKINSHORTCUTS[id]1"/>
                     <param name="height" value="$SKINSHORTCUTS[layoutheight]"/>
@@ -783,12 +298,10 @@
                     <param name="AutoTime" value="$SKINSHORTCUTS[widgetauto]"/>
                     <param name="orientation" value="$SKINSHORTCUTS[orientation]"/>
                     <param name="AutoScrollCondition" value="!Control.HasFocus(301$SKINSHORTCUTS[id]1) + !String.IsEmpty(Container(300).ListItem.Property(widgetAuto)) + !String.IsEqual(Container(300).ListItem.Property(widgetListType),list) + System.IdleTime(1)"/>
-                    <param name="animation_condition" value="Control.HasFocus(301$SKINSHORTCUTS[id]2) | Control.HasFocus(301$SKINSHORTCUTS[id]3)" />
-                    <param name="movement" value="$SKINSHORTCUTS[movement]"/>
+                    <param name="animation_condition" value="!Control.HasFocus(301$SKINSHORTCUTS[id]1)" />
                 </include>
                 <!-- ItemLayouts -->
                 <include content="TemplateNormalItemLayout" condition="$SKINSHORTCUTS[isnormallayout]">
-                    <param name="shortcutsid" value="301$SKINSHORTCUTS[id]1"/>
                     <param name="shortcutsclearlogo" value="$SKINSHORTCUTS[widgetclearlogothumb]"/>
                     <param name="aspectratio" value="$SKINSHORTCUTS[aspectratio]"/>
                     <param name="distance" value="$SKINSHORTCUTS[distance]"/>
@@ -805,9 +318,7 @@
                     <param name="Fanart" value="$PYTHON['true' if widgetaspectcheck in 'Fanart' else 'false']"/>
                     <param name="Square" value="$PYTHON['true' if widgetaspectcheck in 'Square' else 'false']"/>
                 </include>
-                <include content="TemplateSystemItemLayout" condition="$SKINSHORTCUTS[issystemlayout]">
-                    <param name="shortcutsid" value="301$SKINSHORTCUTS[id]1"/>
-                </include>
+                <include condition="$SKINSHORTCUTS[issystemlayout]">TemplateSystemItemLayout</include>
                 <include content="TemplateSubmenuItemLayout" condition="$SKINSHORTCUTS[issubmenulayout]">
                     <param name="shortcutsid" value="301$SKINSHORTCUTS[id]1"/>
                     <param name="shortcutsclearlogo" value="$SKINSHORTCUTS[widgetclearlogothumb]"/>
@@ -822,7 +333,6 @@
                     <param name="shortcutsclearlogo" value="$SKINSHORTCUTS[widgetclearlogothumb]"/>
                     <param name="aspectratio" value="$SKINSHORTCUTS[aspectratio]"/>
                     <param name="distance" value="$SKINSHORTCUTS[distance]"/>
-                    <param name="enablehelperbutton" value="true"/>
                     <param name="Banner" value="$PYTHON['true' if widgetaspectcheck in 'Banner' else 'false']"/>
                     <param name="Thumbnail" value="$PYTHON['true' if widgetaspectcheck in 'Thumbnail' else 'false']"/>
                     <param name="Fanart" value="$PYTHON['true' if widgetaspectcheck in 'Fanart' else 'false']"/>
@@ -851,21 +361,20 @@
                     <param name="SquareSmall" value="$PYTHON['true' if widgetaspectsubcheck in 'SqSmall' else 'false']"/>
                 </include>
                 <content limit="$SKINSHORTCUTS[widgetlimit]" target="$SKINSHORTCUTS[target]" sortby="$SKINSHORTCUTS[sortby]" sortorder="$SKINSHORTCUTS[sort]">$SKINSHORTCUTS[content]</content>
-                <include content="morecontent" condition="Skin.HasSetting(enable.morewidget)">
+                <include content="morecontent" condition="Skin.HasSetting(enable.morewidget) + $SKINSHORTCUTS[morevisible]">
                     <param name="id" value="301$SKINSHORTCUTS[id]1" />
                     <param name="content" value="$SKINSHORTCUTS[content]" />
-                    <param name="targetcontent" value="$SKINSHORTCUTS[targetcontent]" />
-                    <param name="morevisible" value="$SKINSHORTCUTS[morevisible]" />
+                    <param name="targetcontent" value="$SKINSHORTCUTS[target]" />
                 </include>
             </control>
             <!-- InfoSub -->
-            <control type="group" id="301$SKINSHORTCUTS[id]219">
-                <include condition="Skin.HasSetting(homemenu.clean.flix) + !Skin.HasSetting(homemenu.clean.flix.no.slide)">Animation.Home.Clean</include>
-                <visible>[Integer.IsGreater(Container(301$SKINSHORTCUTS[id]1).NumItems,0) | Container(301$SKINSHORTCUTS[id]1).IsUpdating] + [[ $SKINSHORTCUTS[isfullscreenwidget] | [Skin.HasSetting(homemenu.netflix) + Integer.IsGreater(Container(301$SKINSHORTCUTS[id]1).NumItems,0)]] | [ !$EXP[Widget2Enabled] + !$EXP[Widget3Enabled] + !$EXP[Widget4Enabled] + !$EXP[Widget5Enabled] + !$EXP[Widget6Enabled] ]]</visible>
-                <include content="Animation.FadeOutHomeFullscreenWidget">
-                    <param name="condition" value="Control.HasFocus(301$SKINSHORTCUTS[id]2) | Control.HasFocus(301$SKINSHORTCUTS[id]3)"/>
-                </include>
+            <control type="group" id="301$SKINSHORTCUTS[id]1100">
                 <skinshortcuts>visibility</skinshortcuts>
+                <visible>[Integer.IsGreater(Container(301$SKINSHORTCUTS[id]1).NumItems,0) | Container(301$SKINSHORTCUTS[id]1).IsUpdating] + [[ $SKINSHORTCUTS[isfullscreenwidget] | [Skin.HasSetting(homemenu.netflix) + Integer.IsGreater(Container(301$SKINSHORTCUTS[id]1).NumItems,0)]] | [ !$EXP[Widget2Enabled] + !$EXP[Widget3Enabled] + !$EXP[Widget4Enabled] + !$EXP[Widget5Enabled] + !$EXP[Widget6Enabled] ]]</visible>
+                <include condition="Skin.HasSetting(homemenu.clean.flix) + !Skin.HasSetting(homemenu.clean.flix.no.slide)">Animation.Home.Clean</include>
+                <include content="Animation.FadeOutHomeFullscreenWidget">
+                    <param name="condition" value="!Control.HasFocus(301$SKINSHORTCUTS[id]1)"/>
+                </include>
                 <control type="grouplist">
                     <include content="FullScreenInfoSub" condition="$SKINSHORTCUTS[isnormallayout] | $SKINSHORTCUTS[ispvrlayout]">
                         <param name="id" value="301$SKINSHORTCUTS[id]1"/>
@@ -892,6 +401,8 @@
 
     <!-- Widget 2 -->
     <other include="widget-vertical.2">
+        <condition tag="property" attribute="name|widgetEnable.2">yes</condition>
+        <match>all</match>
         <property name="id" tag="mainmenuid"/>
         <property name="ispvrlayout" tag="property" attribute="name|widget.2" value="epg">true</property>
         <property name="ispvrlayout">false</property>
@@ -919,18 +430,10 @@
         <property name="labelisvisible" tag="property" attribute="name|widgetTarget.2" value="weather">false</property>
         <property name="labelisvisible" tag="property" attribute="name|widgetTarget.2" value="system">false</property>
         <property name="labelisvisible">true</property>
-        <property name="contentswitch" tag="property" attribute="name|widgetPath.2"/>
-        <property name="contentswitch">$VAR[DefWidgetContent]</property>
-        <property name="content" tag="property" attribute="name|widgetEnable.2" value="yes">$SKINSHORTCUTS[contentswitch]</property>
-        <property name="contentitemmore" tag="property" attribute="name|widgetPath.2"/>
-        <property name="contentitemmore">$VAR[DefWidgetContent]</property>
+        <property name="content" tag="property" attribute="name|widgetPath.2"/>
+        <property name="content">$VAR[DefWidgetContent]</property>
         <property name="IsGTO" tag="property" attribute="name|widget.2" value="GTO">true</property>
         <property name="IsGTO">false</property>
-        <property name="targetcontent" tag="property" attribute="name|widgetType.2" value="favourite">favourites</property>
-        <property name="targetcontent" tag="property" attribute="name|widgetTarget.2" value="music">music</property>
-        <property name="targetcontent" tag="property" attribute="name|widgetTarget.2" value="videos">videos</property>
-        <property name="targetcontent" tag="property" attribute="name|widgetTarget.2" value="addons">addons</property>
-        <property name="targetcontent">$VAR[DefWidgetTarget]</property>
         <property name="morevisible" tag="property" attribute="name|widgetTarget.2" value="system">false</property>
         <property name="morevisible" tag="property" attribute="name|widgetTarget.2" value="weather">false</property>
         <property name="morevisible" tag="property" attribute="name|widget.2" value="mysubmenu">false</property>
@@ -939,7 +442,6 @@
         <property name="target">$VAR[DefWidgetTarget]</property>
         <property name="sortby" tag="property" attribute="name|widgetSortby.2"/>
         <property name="sort" tag="property" attribute="name|widgetSort.2"/>
-        <property name="enable" tag="property" attribute="name|widgetEnable.2"/>
         <property name="widgetauto" tag="property" attribute="name|widgetAuto.2" value="$NUMBER[5000]">5000</property>
         <property name="widgetauto" tag="property" attribute="name|widgetAuto.2" value="$NUMBER[7000]">7000</property>
         <property name="widgetauto" tag="property" attribute="name|widgetAuto.2" value="$NUMBER[10000]">10000</property>
@@ -948,7 +450,6 @@
         <property name="widgetauto" tag="property" attribute="name|widgetAuto.2" value="$NUMBER[25000]">25000</property>
         <property name="widgetlisttype" tag="property" attribute="name|widgetListType.2"/>
         <property name="widgetlisttype">fixedlist</property>
-        <property name="widgetclearlogothumb" tag="property" attribute="name|widgetClearLogoThumb.2" value="yes">true</property>
         <property name="widgetclearlogothumb" tag="property" attribute="name|widgetClearLogoThumb.2" value="no">false</property>
         <property name="widgetclearlogothumb">true</property>
         <property name="aspectratio" tag="property" attribute="name|widgetAspectRatio.2"/>
@@ -957,8 +458,6 @@
         <property name="distance">10</property>
         <property name="orientation" tag="property" attribute="name|widget.2" value="epg">vertical</property>
         <property name="orientation">horizontal</property>
-        <property name="isenabled" tag="property" attribute="name|widgetEnable.2" value="yes">true</property>
-        <property name="isenabled">false</property>
         <property name="widgetaspectcheck" tag="property" attribute="name|widget.2" value="settings">Square</property>
         <property name="widgetaspectcheck" tag="property" attribute="name|widgetTarget.2" value="system">Square</property>
         <property name="widgetaspectcheck" tag="property" attribute="name|widgetaspect.2" value="ThumbnailPosterSmall">ThumbPoSmall</property>
@@ -967,22 +466,20 @@
         <property name="widgetaspectcheck" tag="property" attribute="name|widgetaspect.2" />
         <property name="widgetaspectcheck">Poster</property>
         <controls>
-            <control type="group" id="301$SKINSHORTCUTS[id]2299">
+            <control type="group" id="301$SKINSHORTCUTS[id]2000">
+                <skinshortcuts>visibility</skinshortcuts>
+                <visible>Integer.IsGreater(Container(301$SKINSHORTCUTS[id]2).NumItems,0) | Container(301$SKINSHORTCUTS[id]2).IsUpdating</visible>
                 <control type="grouplist">
-                    <visible>String.IsEqual(Container(300).ListItem.Property(widgetEnable.2),yes)</visible>
-                    <visible>Integer.IsGreater(Container(301$SKINSHORTCUTS[id]2).NumItems,0) | Container(301$SKINSHORTCUTS[id]2).IsUpdating</visible>
-                    <skinshortcuts>visibility</skinshortcuts>
                     <include content="widget.title.label" condition="!Skin.HasSetting(hidewidgettitle)">
                         <param name="focusid" value="301$SKINSHORTCUTS[id]2"/>
                         <param name="idshort" value="2"/>
-                        <param name="animation_condition" value="Control.HasFocus(301$SKINSHORTCUTS[id]1) | Control.HasFocus(301$SKINSHORTCUTS[id]3) | Control.HasFocus(301$SKINSHORTCUTS[id]4)" />
+                        <param name="animation_condition" value="!Control.HasFocus(301$SKINSHORTCUTS[id]2)" />
                     </include>
                 </control>
             </control>
             <control type="$SKINSHORTCUTS[widgetlisttype]" id="301$SKINSHORTCUTS[id]2">
                 <skinshortcuts>visibility</skinshortcuts>
-                <visible>String.IsEqual(Container(300).ListItem.Property(widgetEnable.2),yes)</visible>
-                <visible>String.Contains(Container(300).ListItem.Property(widget),weather) | Integer.IsGreater(Container(301$SKINSHORTCUTS[id]2).NumItems,0) | Container(301$SKINSHORTCUTS[id]2).IsUpdating | String.IsEqual(Container(300).ListItem.Property(widget.2),custom)</visible>
+                <visible>Integer.IsGreater(Container(301$SKINSHORTCUTS[id]2).NumItems,0) | Container(301$SKINSHORTCUTS[id]2).IsUpdating | String.IsEqual(Container(300).ListItem.Property(widget.2),custom)</visible>
                 <onclick condition="$SKINSHORTCUTS[IsGTO]">RunPlugin(plugin://script.service.gto?action=info&amp;item=$INFO[ListItem.Property(Item)])</onclick>
                 <include content="DefMultiWidgetContainer">
                     <param name="id" value="301$SKINSHORTCUTS[id]2"/>
@@ -993,12 +490,10 @@
                     <param name="AutoTime" value="$SKINSHORTCUTS[widgetauto]"/>
                     <param name="orientation" value="$SKINSHORTCUTS[orientation]"/>
                     <param name="AutoScrollCondition" value="!Control.HasFocus(301$SKINSHORTCUTS[id]2) + !String.IsEmpty(Container(300).ListItem.Property(widgetAuto.2)) + !String.IsEqual(Container(300).ListItem.Property(widgetListType),list) + System.IdleTime(1)"/>
-                    <param name="animation_condition" value="Control.HasFocus(301$SKINSHORTCUTS[id]1) | Control.HasFocus(301$SKINSHORTCUTS[id]3) | Control.HasFocus(301$SKINSHORTCUTS[id]4)" />
-                    <param name="movement" value="$SKINSHORTCUTS[movement]"/>
+                    <param name="animation_condition" value="!Control.HasFocus(301$SKINSHORTCUTS[id]2)" />
                 </include>
                 <!-- ItemLayouts -->
                 <include content="TemplateNormalItemLayout" condition="$SKINSHORTCUTS[isnormallayout]">
-                    <param name="shortcutsid" value="301$SKINSHORTCUTS[id]2"/>
                     <param name="shortcutsclearlogo" value="$SKINSHORTCUTS[widgetclearlogothumb]"/>
                     <param name="aspectratio" value="$SKINSHORTCUTS[aspectratio]"/>
                     <param name="distance" value="$SKINSHORTCUTS[distance]"/>
@@ -1015,16 +510,13 @@
                     <param name="Fanart" value="$PYTHON['true' if widgetaspectcheck in 'Fanart' else 'false']"/>
                     <param name="Square" value="$PYTHON['true' if widgetaspectcheck in 'Square' else 'false']"/>
                 </include>
-                <include content="TemplateSystemItemLayout" condition="$SKINSHORTCUTS[issystemlayout]">
-                    <param name="shortcutsid" value="301$SKINSHORTCUTS[id]2"/>
-                </include>
+                <include condition="$SKINSHORTCUTS[issystemlayout]">TemplateSystemItemLayout</include>
                 <!-- FocusLayouts -->
                 <include content="TemplateNormalFocusLayout" condition="$SKINSHORTCUTS[isnormallayout]">
                     <param name="shortcutsid" value="301$SKINSHORTCUTS[id]2"/>
                     <param name="shortcutsclearlogo" value="$SKINSHORTCUTS[widgetclearlogothumb]"/>
                     <param name="aspectratio" value="$SKINSHORTCUTS[aspectratio]"/>
                     <param name="distance" value="$SKINSHORTCUTS[distance]"/>
-                    <param name="enablehelperbutton" value="$SKINSHORTCUTS[isenabled]"/>
                     <param name="Banner" value="$PYTHON['true' if widgetaspectcheck in 'Banner' else 'false']"/>
                     <param name="Thumbnail" value="$PYTHON['true' if widgetaspectcheck in 'Thumbnail' else 'false']"/>
                     <param name="Fanart" value="$PYTHON['true' if widgetaspectcheck in 'Fanart' else 'false']"/>
@@ -1045,22 +537,21 @@
                     <param name="shortcutsid" value="301$SKINSHORTCUTS[id]2"/>
                 </include>
                 <content limit="$SKINSHORTCUTS[widgetlimit]" target="$SKINSHORTCUTS[target]" sortby="$SKINSHORTCUTS[sortby]" sortorder="$SKINSHORTCUTS[sort]">$SKINSHORTCUTS[content]</content>
-                <include content="morecontent" condition="Skin.HasSetting(enable.morewidget)">
+                <include content="morecontent" condition="Skin.HasSetting(enable.morewidget) + $SKINSHORTCUTS[morevisible]">
                     <param name="id" value="301$SKINSHORTCUTS[id]2" />
-                    <param name="content" value="$SKINSHORTCUTS[contentitemmore]" />
-                    <param name="targetcontent" value="$SKINSHORTCUTS[targetcontent]" />
-                    <param name="morevisible" value="$SKINSHORTCUTS[morevisible]" />
+                    <param name="content" value="$SKINSHORTCUTS[content]" />
+                    <param name="targetcontent" value="$SKINSHORTCUTS[target]" />
                 </include>
             </control>
             <!-- InfoSub -->
-            <control type="group" id="301$SKINSHORTCUTS[id]229">
-                <include condition="Skin.HasSetting(homemenu.clean.flix) + !Skin.HasSetting(homemenu.clean.flix.no.slide)">Animation.Home.Clean</include>
-                <visible>$SKINSHORTCUTS[isfullscreenwidget] | Skin.HasSetting(homemenu.netflix)</visible>
-                <visible>[Integer.IsGreater(Container(301$SKINSHORTCUTS[id]2).NumItems,0) | Container(301$SKINSHORTCUTS[id]2).IsUpdating] + $EXP[Widget2Enabled]</visible>
-                <include content="Animation.FadeOutHomeFullscreenWidget">
-                    <param name="condition" value="Control.HasFocus(301$SKINSHORTCUTS[id]1) | Control.HasFocus(301$SKINSHORTCUTS[id]3) | Control.HasFocus(301$SKINSHORTCUTS[id]4)"/>
-                </include>
+            <control type="group" id="301$SKINSHORTCUTS[id]2100">
                 <skinshortcuts>visibility</skinshortcuts>
+                <visible>$SKINSHORTCUTS[isfullscreenwidget] | Skin.HasSetting(homemenu.netflix)</visible>
+                <visible>[Integer.IsGreater(Container(301$SKINSHORTCUTS[id]2).NumItems,0) | Container(301$SKINSHORTCUTS[id]2).IsUpdating]</visible>
+                <include condition="Skin.HasSetting(homemenu.clean.flix) + !Skin.HasSetting(homemenu.clean.flix.no.slide)">Animation.Home.Clean</include>
+                <include content="Animation.FadeOutHomeFullscreenWidget">
+                    <param name="condition" value="!Control.HasFocus(301$SKINSHORTCUTS[id]2)"/>
+                </include>
                 <control type="grouplist">
                     <include content="FullScreenInfoSub" condition="$SKINSHORTCUTS[isnormallayout] | $SKINSHORTCUTS[ispvrlayout]">
                         <param name="id" value="301$SKINSHORTCUTS[id]2"/>
@@ -1087,6 +578,8 @@
 
     <!-- Widget 3 -->
     <other include="widget-vertical.3">
+        <condition tag="property" attribute="name|widgetEnable.3">yes</condition>
+        <match>all</match>
         <property name="id" tag="mainmenuid"/>
         <property name="ispvrlayout" tag="property" attribute="name|widget.3" value="epg">true</property>
         <property name="ispvrlayout">false</property>
@@ -1114,18 +607,10 @@
         <property name="labelisvisible" tag="property" attribute="name|widgetTarget.3" value="weather">false</property>
         <property name="labelisvisible" tag="property" attribute="name|widgetTarget.3" value="system">false</property>
         <property name="labelisvisible">true</property>
-        <property name="contentswitch" tag="property" attribute="name|widgetPath.3"/>
-        <property name="contentswitch">$VAR[DefWidgetContent]</property>
-        <property name="content" tag="property" attribute="name|widgetEnable.3" value="yes">$SKINSHORTCUTS[contentswitch]</property>
-        <property name="contentitemmore" tag="property" attribute="name|widgetPath.3"/>
-        <property name="contentitemmore">$VAR[DefWidgetContent]</property>
+        <property name="content" tag="property" attribute="name|widgetPath.3"/>
+        <property name="content">$VAR[DefWidgetContent]</property>
         <property name="IsGTO" tag="property" attribute="name|widget.3" value="GTO">true</property>
         <property name="IsGTO">false</property>
-        <property name="targetcontent" tag="property" attribute="name|widgetType.3" value="favourite">favourites</property>
-        <property name="targetcontent" tag="property" attribute="name|widgetTarget.3" value="music">music</property>
-        <property name="targetcontent" tag="property" attribute="name|widgetTarget.3" value="videos">videos</property>
-        <property name="targetcontent" tag="property" attribute="name|widgetTarget.3" value="addons">addons</property>
-        <property name="targetcontent">$VAR[DefWidgetTarget]</property>
         <property name="morevisible" tag="property" attribute="name|widgetTarget.3" value="system">false</property>
         <property name="morevisible" tag="property" attribute="name|widgetTarget.3" value="weather">false</property>
         <property name="morevisible" tag="property" attribute="name|widget.3" value="mysubmenu">false</property>
@@ -1142,7 +627,6 @@
         <property name="widgetauto" tag="property" attribute="name|widgetAuto.3" value="$NUMBER[25000]">25000</property>
         <property name="widgetlisttype" tag="property" attribute="name|widgetListType.3"/>
         <property name="widgetlisttype">fixedlist</property>
-        <property name="widgetclearlogothumb" tag="property" attribute="name|widgetClearLogoThumb.3" value="yes">true</property>
         <property name="widgetclearlogothumb" tag="property" attribute="name|widgetClearLogoThumb.3" value="no">false</property>
         <property name="widgetclearlogothumb">true</property>
         <property name="aspectratio" tag="property" attribute="name|widgetAspectRatio.3"/>
@@ -1151,8 +635,6 @@
         <property name="distance">10</property>
         <property name="orientation" tag="property" attribute="name|widget.3" value="epg">vertical</property>
         <property name="orientation">horizontal</property>
-        <property name="isenabled" tag="property" attribute="name|widgetEnable.3" value="yes">true</property>
-        <property name="isenabled">false</property>
         <property name="widgetaspectcheck" tag="property" attribute="name|widget.3" value="settings">Square</property>
         <property name="widgetaspectcheck" tag="property" attribute="name|widgetTarget.3" value="system">Square</property>
         <property name="widgetaspectcheck" tag="property" attribute="name|widgetaspect.3" value="ThumbnailPosterSmall">ThumbPoSmall</property>
@@ -1161,22 +643,20 @@
         <property name="widgetaspectcheck" tag="property" attribute="name|widgetaspect.3" />
         <property name="widgetaspectcheck">Poster</property>
         <controls>
-            <control type="group" id="301$SKINSHORTCUTS[id]2399">
+            <control type="group" id="301$SKINSHORTCUTS[id]3000">
+                <skinshortcuts>visibility</skinshortcuts>
+                <visible>Integer.IsGreater(Container(301$SKINSHORTCUTS[id]3).NumItems,0) | Container(301$SKINSHORTCUTS[id]3).IsUpdating</visible>
                 <control type="grouplist">
-                    <visible>String.IsEqual(Container(300).ListItem.Property(widgetEnable.3),yes)</visible>
-                    <visible>Integer.IsGreater(Container(301$SKINSHORTCUTS[id]3).NumItems,0) | Container(301$SKINSHORTCUTS[id]3).IsUpdating</visible>
-                    <skinshortcuts>visibility</skinshortcuts>
                     <include content="widget.title.label" condition="!Skin.HasSetting(hidewidgettitle)">
                         <param name="focusid" value="301$SKINSHORTCUTS[id]3"/>
                         <param name="idshort" value="3"/>
-                        <param name="animation_condition" value="Control.HasFocus(301$SKINSHORTCUTS[id]2) | Control.HasFocus(301$SKINSHORTCUTS[id]4) | Control.HasFocus(301$SKINSHORTCUTS[id]5)" />
+                        <param name="animation_condition" value="!Control.HasFocus(301$SKINSHORTCUTS[id]3)" />
                     </include>
                 </control>
             </control>
             <control type="$SKINSHORTCUTS[widgetlisttype]" id="301$SKINSHORTCUTS[id]3">
                 <skinshortcuts>visibility</skinshortcuts>
-                <visible>String.IsEqual(Container(300).ListItem.Property(widgetEnable.3),yes)</visible>
-                <visible>String.Contains(Container(300).ListItem.Property(widget),weather) | Integer.IsGreater(Container(301$SKINSHORTCUTS[id]3).NumItems,0) | Container(301$SKINSHORTCUTS[id]3).IsUpdating | String.IsEqual(Container(300).ListItem.Property(widget.3),custom)</visible>
+                <visible>Integer.IsGreater(Container(301$SKINSHORTCUTS[id]3).NumItems,0) | Container(301$SKINSHORTCUTS[id]3).IsUpdating | String.IsEqual(Container(300).ListItem.Property(widget.3),custom)</visible>
                 <onclick condition="$SKINSHORTCUTS[IsGTO]">RunPlugin(plugin://script.service.gto?action=info&amp;item=$INFO[ListItem.Property(Item)])</onclick>
                 <include content="DefMultiWidgetContainer">
                     <param name="id" value="301$SKINSHORTCUTS[id]3"/>
@@ -1187,12 +667,10 @@
                     <param name="AutoTime" value="$SKINSHORTCUTS[widgetauto]"/>
                     <param name="orientation" value="$SKINSHORTCUTS[orientation]"/>
                     <param name="AutoScrollCondition" value="!Control.HasFocus(301$SKINSHORTCUTS[id]3) + !String.IsEmpty(Container(300).ListItem.Property(widgetAuto.3)) + !String.IsEqual(Container(300).ListItem.Property(widgetListType),list) + System.IdleTime(1)"/>
-                    <param name="animation_condition" value="Control.HasFocus(301$SKINSHORTCUTS[id]2) | Control.HasFocus(301$SKINSHORTCUTS[id]4) | Control.HasFocus(301$SKINSHORTCUTS[id]5)" />
-                    <param name="movement" value="$SKINSHORTCUTS[movement]"/>
+                    <param name="animation_condition" value="!Control.HasFocus(301$SKINSHORTCUTS[id]3)" />
                 </include>
                 <!-- ItemLayouts -->
                 <include content="TemplateNormalItemLayout" condition="$SKINSHORTCUTS[isnormallayout]">
-                    <param name="shortcutsid" value="301$SKINSHORTCUTS[id]3"/>
                     <param name="shortcutsclearlogo" value="$SKINSHORTCUTS[widgetclearlogothumb]"/>
                     <param name="aspectratio" value="$SKINSHORTCUTS[aspectratio]"/>
                     <param name="distance" value="$SKINSHORTCUTS[distance]"/>
@@ -1209,16 +687,13 @@
                     <param name="Fanart" value="$PYTHON['true' if widgetaspectcheck in 'Fanart' else 'false']"/>
                     <param name="Square" value="$PYTHON['true' if widgetaspectcheck in 'Square' else 'false']"/>
                 </include>
-                <include content="TemplateSystemItemLayout" condition="$SKINSHORTCUTS[issystemlayout]">
-                    <param name="shortcutsid" value="301$SKINSHORTCUTS[id]3"/>
-                </include>
+                <include condition="$SKINSHORTCUTS[issystemlayout]">TemplateSystemItemLayout</include>
                 <!-- FocusLayouts -->
                 <include content="TemplateNormalFocusLayout" condition="$SKINSHORTCUTS[isnormallayout]">
                     <param name="shortcutsid" value="301$SKINSHORTCUTS[id]3"/>
                     <param name="shortcutsclearlogo" value="$SKINSHORTCUTS[widgetclearlogothumb]"/>
                     <param name="aspectratio" value="$SKINSHORTCUTS[aspectratio]"/>
                     <param name="distance" value="$SKINSHORTCUTS[distance]"/>
-                    <param name="enablehelperbutton" value="$SKINSHORTCUTS[isenabled]"/>
                     <param name="Banner" value="$PYTHON['true' if widgetaspectcheck in 'Banner' else 'false']"/>
                     <param name="Thumbnail" value="$PYTHON['true' if widgetaspectcheck in 'Thumbnail' else 'false']"/>
                     <param name="Fanart" value="$PYTHON['true' if widgetaspectcheck in 'Fanart' else 'false']"/>
@@ -1239,22 +714,21 @@
                     <param name="shortcutsid" value="301$SKINSHORTCUTS[id]3"/>
                 </include>
                 <content limit="$SKINSHORTCUTS[widgetlimit]" target="$SKINSHORTCUTS[target]" sortby="$SKINSHORTCUTS[sortby]" sortorder="$SKINSHORTCUTS[sort]">$SKINSHORTCUTS[content]</content>
-                <include content="morecontent" condition="Skin.HasSetting(enable.morewidget)">
+                <include content="morecontent" condition="Skin.HasSetting(enable.morewidget) + $SKINSHORTCUTS[morevisible]">
                     <param name="id" value="301$SKINSHORTCUTS[id]3" />
-                    <param name="content" value="$SKINSHORTCUTS[contentitemmore]" />
-                    <param name="targetcontent" value="$SKINSHORTCUTS[targetcontent]" />
-                    <param name="morevisible" value="$SKINSHORTCUTS[morevisible]" />
+                    <param name="content" value="$SKINSHORTCUTS[content]" />
+                    <param name="targetcontent" value="$SKINSHORTCUTS[target]" />
                 </include>
             </control>
             <!-- InfoSub -->
-            <control type="group" id="301$SKINSHORTCUTS[id]239">
-                <include condition="Skin.HasSetting(homemenu.clean.flix) + !Skin.HasSetting(homemenu.clean.flix.no.slide)">Animation.Home.Clean</include>
-                <visible>$SKINSHORTCUTS[isfullscreenwidget] | Skin.HasSetting(homemenu.netflix)</visible>
-                <visible>[Integer.IsGreater(Container(301$SKINSHORTCUTS[id]3).NumItems,0) | Container(301$SKINSHORTCUTS[id]3).IsUpdating] + $EXP[Widget3Enabled]</visible>
-                <include content="Animation.FadeOutHomeFullscreenWidget">
-                    <param name="condition" value="Control.HasFocus(301$SKINSHORTCUTS[id]2) | Control.HasFocus(301$SKINSHORTCUTS[id]4) | Control.HasFocus(301$SKINSHORTCUTS[id]5)"/>
-                </include>
+            <control type="group" id="301$SKINSHORTCUTS[id]3100">
                 <skinshortcuts>visibility</skinshortcuts>
+                <visible>$SKINSHORTCUTS[isfullscreenwidget] | Skin.HasSetting(homemenu.netflix)</visible>
+                <visible>[Integer.IsGreater(Container(301$SKINSHORTCUTS[id]3).NumItems,0) | Container(301$SKINSHORTCUTS[id]3).IsUpdating]</visible>
+                <include condition="Skin.HasSetting(homemenu.clean.flix) + !Skin.HasSetting(homemenu.clean.flix.no.slide)">Animation.Home.Clean</include>
+                <include content="Animation.FadeOutHomeFullscreenWidget">
+                    <param name="condition" value="!Control.HasFocus(301$SKINSHORTCUTS[id]3)"/>
+                </include>
                 <control type="grouplist">
                     <include content="FullScreenInfoSub" condition="$SKINSHORTCUTS[isnormallayout] | $SKINSHORTCUTS[ispvrlayout]">
                         <param name="id" value="301$SKINSHORTCUTS[id]3"/>
@@ -1281,6 +755,8 @@
 
     <!-- Widget 4 -->
     <other include="widget-vertical.4">
+        <condition tag="property" attribute="name|widgetEnable.4">yes</condition>
+        <match>all</match>
         <property name="id" tag="mainmenuid"/>
         <property name="ispvrlayout" tag="property" attribute="name|widget.4" value="epg">true</property>
         <property name="ispvrlayout">false</property>
@@ -1308,18 +784,10 @@
         <property name="labelisvisible" tag="property" attribute="name|widgetTarget.4" value="weather">false</property>
         <property name="labelisvisible" tag="property" attribute="name|widgetTarget.4" value="system">false</property>
         <property name="labelisvisible">true</property>
-        <property name="contentswitch" tag="property" attribute="name|widgetPath.4"/>
-        <property name="contentswitch">$VAR[DefWidgetContent]</property>
-        <property name="content" tag="property" attribute="name|widgetEnable.4" value="yes">$SKINSHORTCUTS[contentswitch]</property>
-        <property name="contentitemmore" tag="property" attribute="name|widgetPath.4"/>
-        <property name="contentitemmore">$VAR[DefWidgetContent]</property>
+        <property name="content" tag="property" attribute="name|widgetPath.4"/>
+        <property name="content">$VAR[DefWidgetContent]</property>
         <property name="IsGTO" tag="property" attribute="name|widget.4" value="GTO">true</property>
         <property name="IsGTO">false</property>
-        <property name="targetcontent" tag="property" attribute="name|widgetType.4" value="favourite">favourites</property>
-        <property name="targetcontent" tag="property" attribute="name|widgetTarget.4" value="music">music</property>
-        <property name="targetcontent" tag="property" attribute="name|widgetTarget.4" value="videos">videos</property>
-        <property name="targetcontent" tag="property" attribute="name|widgetTarget.4" value="addons">addons</property>
-        <property name="targetcontent">$VAR[DefWidgetTarget]</property>
         <property name="morevisible" tag="property" attribute="name|widgetTarget.4" value="system">false</property>
         <property name="morevisible" tag="property" attribute="name|widgetTarget.4" value="weather">false</property>
         <property name="morevisible" tag="property" attribute="name|widget.4" value="mysubmenu">false</property>
@@ -1336,7 +804,6 @@
         <property name="widgetauto" tag="property" attribute="name|widgetAuto.4" value="$NUMBER[25000]">25000</property>
         <property name="widgetlisttype" tag="property" attribute="name|widgetListType.4"/>
         <property name="widgetlisttype">fixedlist</property>
-        <property name="widgetclearlogothumb" tag="property" attribute="name|widgetClearLogoThumb.4" value="yes">true</property>
         <property name="widgetclearlogothumb" tag="property" attribute="name|widgetClearLogoThumb.4" value="no">false</property>
         <property name="widgetclearlogothumb">true</property>
         <property name="aspectratio" tag="property" attribute="name|widgetAspectRatio.4"/>
@@ -1345,8 +812,6 @@
         <property name="distance">10</property>
         <property name="orientation" tag="property" attribute="name|widget.4" value="epg">vertical</property>
         <property name="orientation">horizontal</property>
-        <property name="isenabled" tag="property" attribute="name|widgetEnable.4" value="yes">true</property>
-        <property name="isenabled">false</property>
         <property name="widgetaspectcheck" tag="property" attribute="name|widget.4" value="settings">Square</property>
         <property name="widgetaspectcheck" tag="property" attribute="name|widgetTarget.4" value="system">Square</property>
         <property name="widgetaspectcheck" tag="property" attribute="name|widgetaspect.4" value="ThumbnailPosterSmall">ThumbPoSmall</property>
@@ -1355,22 +820,20 @@
         <property name="widgetaspectcheck" tag="property" attribute="name|widgetaspect.4" />
         <property name="widgetaspectcheck">Poster</property>
         <controls>
-            <control type="group" id="301$SKINSHORTCUTS[id]2499">
+            <control type="group" id="301$SKINSHORTCUTS[id]4000">
+                <skinshortcuts>visibility</skinshortcuts>
+                <visible>Integer.IsGreater(Container(301$SKINSHORTCUTS[id]4).NumItems,0) | Container(301$SKINSHORTCUTS[id]4).IsUpdating</visible>
                 <control type="grouplist">
-                    <visible>String.IsEqual(Container(300).ListItem.Property(widgetEnable.4),yes)</visible>
-                    <visible>Integer.IsGreater(Container(301$SKINSHORTCUTS[id]4).NumItems,0) | Container(301$SKINSHORTCUTS[id]4).IsUpdating</visible>
-                    <skinshortcuts>visibility</skinshortcuts>
                     <include content="widget.title.label" condition="!Skin.HasSetting(hidewidgettitle)">
                         <param name="focusid" value="301$SKINSHORTCUTS[id]4"/>
                         <param name="idshort" value="4"/>
-                        <param name="animation_condition" value="Control.HasFocus(301$SKINSHORTCUTS[id]2) | Control.HasFocus(301$SKINSHORTCUTS[id]3) | Control.HasFocus(301$SKINSHORTCUTS[id]5)" />
+                        <param name="animation_condition" value="!Control.HasFocus(301$SKINSHORTCUTS[id]4)" />
                     </include>
                 </control>
             </control>
             <control type="$SKINSHORTCUTS[widgetlisttype]" id="301$SKINSHORTCUTS[id]4">
                 <skinshortcuts>visibility</skinshortcuts>
-                <visible>String.IsEqual(Container(300).ListItem.Property(widgetEnable.4),yes)</visible>
-                <visible>String.Contains(Container(300).ListItem.Property(widget),weather) | Integer.IsGreater(Container(301$SKINSHORTCUTS[id]4).NumItems,0) | Container(301$SKINSHORTCUTS[id]4).IsUpdating | String.IsEqual(Container(300).ListItem.Property(widget.4),custom)</visible>
+                <visible>Integer.IsGreater(Container(301$SKINSHORTCUTS[id]4).NumItems,0) | Container(301$SKINSHORTCUTS[id]4).IsUpdating | String.IsEqual(Container(300).ListItem.Property(widget.4),custom)</visible>
                 <onclick condition="$SKINSHORTCUTS[IsGTO]">RunPlugin(plugin://script.service.gto?action=info&amp;item=$INFO[ListItem.Property(Item)])</onclick>
                 <include content="DefMultiWidgetContainer">
                     <param name="id" value="301$SKINSHORTCUTS[id]4"/>
@@ -1381,12 +844,10 @@
                     <param name="AutoTime" value="$SKINSHORTCUTS[widgetauto]"/>
                     <param name="orientation" value="$SKINSHORTCUTS[orientation]"/>
                     <param name="AutoScrollCondition" value="!Control.HasFocus(301$SKINSHORTCUTS[id]4) + !String.IsEmpty(Container(300).ListItem.Property(widgetAuto.4)) + !String.IsEqual(Container(300).ListItem.Property(widgetListType),list) + System.IdleTime(1)"/>
-                    <param name="animation_condition" value="Control.HasFocus(301$SKINSHORTCUTS[id]2) | Control.HasFocus(301$SKINSHORTCUTS[id]3) | Control.HasFocus(301$SKINSHORTCUTS[id]5)" />
-                    <param name="movement" value="$SKINSHORTCUTS[movement]"/>
+                    <param name="animation_condition" value="!Control.HasFocus(301$SKINSHORTCUTS[id]4)" />
                 </include>
                 <!-- ItemLayouts -->
                 <include content="TemplateNormalItemLayout" condition="$SKINSHORTCUTS[isnormallayout]">
-                    <param name="shortcutsid" value="301$SKINSHORTCUTS[id]4"/>
                     <param name="shortcutsclearlogo" value="$SKINSHORTCUTS[widgetclearlogothumb]"/>
                     <param name="aspectratio" value="$SKINSHORTCUTS[aspectratio]"/>
                     <param name="distance" value="$SKINSHORTCUTS[distance]"/>
@@ -1403,16 +864,13 @@
                     <param name="Fanart" value="$PYTHON['true' if widgetaspectcheck in 'Fanart' else 'false']"/>
                     <param name="Square" value="$PYTHON['true' if widgetaspectcheck in 'Square' else 'false']"/>
                 </include>
-                <include content="TemplateSystemItemLayout" condition="$SKINSHORTCUTS[issystemlayout]">
-                    <param name="shortcutsid" value="301$SKINSHORTCUTS[id]4"/>
-                </include>
+                <include condition="$SKINSHORTCUTS[issystemlayout]">TemplateSystemItemLayout</include>
                 <!-- FocusLayouts -->
                 <include content="TemplateNormalFocusLayout" condition="$SKINSHORTCUTS[isnormallayout]">
                     <param name="shortcutsid" value="301$SKINSHORTCUTS[id]4"/>
                     <param name="shortcutsclearlogo" value="$SKINSHORTCUTS[widgetclearlogothumb]"/>
                     <param name="aspectratio" value="$SKINSHORTCUTS[aspectratio]"/>
                     <param name="distance" value="$SKINSHORTCUTS[distance]"/>
-                    <param name="enablehelperbutton" value="$SKINSHORTCUTS[isenabled]"/>
                     <param name="Banner" value="$PYTHON['true' if widgetaspectcheck in 'Banner' else 'false']"/>
                     <param name="Thumbnail" value="$PYTHON['true' if widgetaspectcheck in 'Thumbnail' else 'false']"/>
                     <param name="Fanart" value="$PYTHON['true' if widgetaspectcheck in 'Fanart' else 'false']"/>
@@ -1433,22 +891,21 @@
                     <param name="shortcutsid" value="301$SKINSHORTCUTS[id]4"/>
                 </include>
                 <content limit="$SKINSHORTCUTS[widgetlimit]" target="$SKINSHORTCUTS[target]" sortby="$SKINSHORTCUTS[sortby]" sortorder="$SKINSHORTCUTS[sort]">$SKINSHORTCUTS[content]</content>
-                <include content="morecontent" condition="Skin.HasSetting(enable.morewidget)">
+                <include content="morecontent" condition="Skin.HasSetting(enable.morewidget) + $SKINSHORTCUTS[morevisible]">
                     <param name="id" value="301$SKINSHORTCUTS[id]4" />
-                    <param name="content" value="$SKINSHORTCUTS[contentitemmore]" />
-                    <param name="targetcontent" value="$SKINSHORTCUTS[targetcontent]" />
-                    <param name="morevisible" value="$SKINSHORTCUTS[morevisible]" />
+                    <param name="content" value="$SKINSHORTCUTS[content]" />
+                    <param name="targetcontent" value="$SKINSHORTCUTS[target]" />
                 </include>
             </control>
             <!-- InfoSub -->
-            <control type="group" id="301$SKINSHORTCUTS[id]249">
-                <include condition="Skin.HasSetting(homemenu.clean.flix) + !Skin.HasSetting(homemenu.clean.flix.no.slide)">Animation.Home.Clean</include>
-                <visible>$SKINSHORTCUTS[isfullscreenwidget] | Skin.HasSetting(homemenu.netflix)</visible>
-                <visible>[Integer.IsGreater(Container(301$SKINSHORTCUTS[id]4).NumItems,0) | Container(301$SKINSHORTCUTS[id]4).IsUpdating] + $EXP[Widget4Enabled]</visible>
-                <include content="Animation.FadeOutHomeFullscreenWidget">
-                    <param name="condition" value="Control.HasFocus(301$SKINSHORTCUTS[id]2) | Control.HasFocus(301$SKINSHORTCUTS[id]3) | Control.HasFocus(301$SKINSHORTCUTS[id]5)"/>
-                </include>
+            <control type="group" id="301$SKINSHORTCUTS[id]4100">
                 <skinshortcuts>visibility</skinshortcuts>
+                <visible>$SKINSHORTCUTS[isfullscreenwidget] | Skin.HasSetting(homemenu.netflix)</visible>
+                <visible>[Integer.IsGreater(Container(301$SKINSHORTCUTS[id]4).NumItems,0) | Container(301$SKINSHORTCUTS[id]4).IsUpdating]</visible>
+                <include condition="Skin.HasSetting(homemenu.clean.flix) + !Skin.HasSetting(homemenu.clean.flix.no.slide)">Animation.Home.Clean</include>
+                <include content="Animation.FadeOutHomeFullscreenWidget">
+                    <param name="condition" value="!Control.HasFocus(301$SKINSHORTCUTS[id]4)"/>
+                </include>
                 <control type="grouplist">
                     <include content="FullScreenInfoSub" condition="$SKINSHORTCUTS[isnormallayout] | $SKINSHORTCUTS[ispvrlayout]">
                         <param name="id" value="301$SKINSHORTCUTS[id]4"/>
@@ -1475,6 +932,8 @@
 
     <!-- Widget 5 -->
     <other include="widget-vertical.5">
+        <condition tag="property" attribute="name|widgetEnable.5">yes</condition>
+        <match>all</match>
         <property name="id" tag="mainmenuid"/>
         <property name="ispvrlayout" tag="property" attribute="name|widget.5" value="epg">true</property>
         <property name="ispvrlayout">false</property>
@@ -1502,18 +961,10 @@
         <property name="labelisvisible" tag="property" attribute="name|widgetTarget.5" value="weather">false</property>
         <property name="labelisvisible" tag="property" attribute="name|widgetTarget.5" value="system">false</property>
         <property name="labelisvisible">true</property>
-        <property name="contentswitch" tag="property" attribute="name|widgetPath.5"/>
-        <property name="contentswitch">$VAR[DefWidgetContent]</property>
-        <property name="content" tag="property" attribute="name|widgetEnable.5" value="yes">$SKINSHORTCUTS[contentswitch]</property>
-        <property name="contentitemmore" tag="property" attribute="name|widgetPath.5"/>
-        <property name="contentitemmore">$VAR[DefWidgetContent]</property>
+        <property name="content" tag="property" attribute="name|widgetPath.5"/>
+        <property name="content">$VAR[DefWidgetContent]</property>
         <property name="IsGTO" tag="property" attribute="name|widget.5" value="GTO">true</property>
         <property name="IsGTO">false</property>
-        <property name="targetcontent" tag="property" attribute="name|widgetType.5" value="favourite">favourites</property>
-        <property name="targetcontent" tag="property" attribute="name|widgetTarget.5" value="music">music</property>
-        <property name="targetcontent" tag="property" attribute="name|widgetTarget.5" value="videos">videos</property>
-        <property name="targetcontent" tag="property" attribute="name|widgetTarget.5" value="addons">addons</property>
-        <property name="targetcontent">$VAR[DefWidgetTarget]</property>
         <property name="morevisible" tag="property" attribute="name|widgetTarget.5" value="system">false</property>
         <property name="morevisible" tag="property" attribute="name|widgetTarget.5" value="weather">false</property>
         <property name="morevisible" tag="property" attribute="name|widget.5" value="mysubmenu">false</property>
@@ -1530,7 +981,6 @@
         <property name="widgetauto" tag="property" attribute="name|widgetAuto.5" value="$NUMBER[25000]">25000</property>
         <property name="widgetlisttype" tag="property" attribute="name|widgetListType.5"/>
         <property name="widgetlisttype">fixedlist</property>
-        <property name="widgetclearlogothumb" tag="property" attribute="name|widgetClearLogoThumb.5" value="yes">true</property>
         <property name="widgetclearlogothumb" tag="property" attribute="name|widgetClearLogoThumb.5" value="no">false</property>
         <property name="widgetclearlogothumb">true</property>
         <property name="aspectratio" tag="property" attribute="name|widgetAspectRatio.5"/>
@@ -1539,8 +989,6 @@
         <property name="distance">10</property>
         <property name="orientation" tag="property" attribute="name|widget.5" value="epg">vertical</property>
         <property name="orientation">horizontal</property>
-        <property name="isenabled" tag="property" attribute="name|widgetEnable.5" value="yes">true</property>
-        <property name="isenabled">false</property>
         <property name="widgetaspectcheck" tag="property" attribute="name|widget.5" value="settings">Square</property>
         <property name="widgetaspectcheck" tag="property" attribute="name|widgetTarget.5" value="system">Square</property>
         <property name="widgetaspectcheck" tag="property" attribute="name|widgetaspect.5" value="ThumbnailPosterSmall">ThumbPoSmall</property>
@@ -1549,22 +997,20 @@
         <property name="widgetaspectcheck" tag="property" attribute="name|widgetaspect.5" />
         <property name="widgetaspectcheck">Poster</property>
         <controls>
-            <control type="group" id="301$SKINSHORTCUTS[id]2599">
+            <control type="group" id="301$SKINSHORTCUTS[id]5000">
+                <skinshortcuts>visibility</skinshortcuts>
+                <visible>Integer.IsGreater(Container(301$SKINSHORTCUTS[id]5).NumItems,0) | Container(301$SKINSHORTCUTS[id]5).IsUpdating</visible>
                 <control type="grouplist">
-                    <visible>String.IsEqual(Container(300).ListItem.Property(widgetEnable.5),yes)</visible>
-                    <visible>Integer.IsGreater(Container(301$SKINSHORTCUTS[id]5).NumItems,0) | Container(301$SKINSHORTCUTS[id]5).IsUpdating</visible>
-                    <skinshortcuts>visibility</skinshortcuts>
                     <include content="widget.title.label" condition="!Skin.HasSetting(hidewidgettitle)">
                         <param name="focusid" value="301$SKINSHORTCUTS[id]5"/>
                         <param name="idshort" value="5"/>
-                        <param name="animation_condition" value="Control.HasFocus(301$SKINSHORTCUTS[id]3) | Control.HasFocus(301$SKINSHORTCUTS[id]4) | Control.HasFocus(301$SKINSHORTCUTS[id]6)" />
+                        <param name="animation_condition" value="!Control.HasFocus(301$SKINSHORTCUTS[id]5)" />
                     </include>
                 </control>
             </control>
             <control type="$SKINSHORTCUTS[widgetlisttype]" id="301$SKINSHORTCUTS[id]5">
                 <skinshortcuts>visibility</skinshortcuts>
-                <visible>String.IsEqual(Container(300).ListItem.Property(widgetEnable.5),yes)</visible>
-                <visible>String.Contains(Container(300).ListItem.Property(widget),weather) | Integer.IsGreater(Container(301$SKINSHORTCUTS[id]5).NumItems,0) | Container(301$SKINSHORTCUTS[id]5).IsUpdating | String.IsEqual(Container(300).ListItem.Property(widget.5),custom)</visible>
+                <visible>Integer.IsGreater(Container(301$SKINSHORTCUTS[id]5).NumItems,0) | Container(301$SKINSHORTCUTS[id]5).IsUpdating | String.IsEqual(Container(300).ListItem.Property(widget.5),custom)</visible>
                 <onclick condition="$SKINSHORTCUTS[IsGTO]">RunPlugin(plugin://script.service.gto?action=info&amp;item=$INFO[ListItem.Property(Item)])</onclick>
                 <include content="DefMultiWidgetContainer">
                     <param name="id" value="301$SKINSHORTCUTS[id]5"/>
@@ -1575,12 +1021,10 @@
                     <param name="AutoTime" value="$SKINSHORTCUTS[widgetauto]"/>
                     <param name="orientation" value="$SKINSHORTCUTS[orientation]"/>
                     <param name="AutoScrollCondition" value="!Control.HasFocus(301$SKINSHORTCUTS[id]5) + !String.IsEmpty(Container(300).ListItem.Property(widgetAuto.5)) + !String.IsEqual(Container(300).ListItem.Property(widgetListType),list) + System.IdleTime(1)"/>
-                    <param name="animation_condition" value="Control.HasFocus(301$SKINSHORTCUTS[id]3) | Control.HasFocus(301$SKINSHORTCUTS[id]4) | Control.HasFocus(301$SKINSHORTCUTS[id]6)" />
-                    <param name="movement" value="$SKINSHORTCUTS[movement]"/>
+                    <param name="animation_condition" value="!Control.HasFocus(301$SKINSHORTCUTS[id]5)" />
                 </include>
                 <!-- ItemLayouts -->
                 <include content="TemplateNormalItemLayout" condition="$SKINSHORTCUTS[isnormallayout]">
-                    <param name="shortcutsid" value="301$SKINSHORTCUTS[id]5"/>
                     <param name="shortcutsclearlogo" value="$SKINSHORTCUTS[widgetclearlogothumb]"/>
                     <param name="aspectratio" value="$SKINSHORTCUTS[aspectratio]"/>
                     <param name="distance" value="$SKINSHORTCUTS[distance]"/>
@@ -1597,16 +1041,13 @@
                     <param name="Fanart" value="$PYTHON['true' if widgetaspectcheck in 'Fanart' else 'false']"/>
                     <param name="Square" value="$PYTHON['true' if widgetaspectcheck in 'Square' else 'false']"/>
                 </include>
-                <include content="TemplateSystemItemLayout" condition="$SKINSHORTCUTS[issystemlayout]">
-                    <param name="shortcutsid" value="301$SKINSHORTCUTS[id]5"/>
-                </include>
+                <include condition="$SKINSHORTCUTS[issystemlayout]">TemplateSystemItemLayout</include>
                 <!-- FocusLayouts -->
                 <include content="TemplateNormalFocusLayout" condition="$SKINSHORTCUTS[isnormallayout]">
                     <param name="shortcutsid" value="301$SKINSHORTCUTS[id]5"/>
                     <param name="shortcutsclearlogo" value="$SKINSHORTCUTS[widgetclearlogothumb]"/>
                     <param name="aspectratio" value="$SKINSHORTCUTS[aspectratio]"/>
                     <param name="distance" value="$SKINSHORTCUTS[distance]"/>
-                    <param name="enablehelperbutton" value="$SKINSHORTCUTS[isenabled]"/>
                     <param name="Banner" value="$PYTHON['true' if widgetaspectcheck in 'Banner' else 'false']"/>
                     <param name="Thumbnail" value="$PYTHON['true' if widgetaspectcheck in 'Thumbnail' else 'false']"/>
                     <param name="Fanart" value="$PYTHON['true' if widgetaspectcheck in 'Fanart' else 'false']"/>
@@ -1627,22 +1068,21 @@
                     <param name="shortcutsid" value="301$SKINSHORTCUTS[id]5"/>
                 </include>
                 <content limit="$SKINSHORTCUTS[widgetlimit]" target="$SKINSHORTCUTS[target]" sortby="$SKINSHORTCUTS[sortby]" sortorder="$SKINSHORTCUTS[sort]">$SKINSHORTCUTS[content]</content>
-                <include content="morecontent" condition="Skin.HasSetting(enable.morewidget)">
+                <include content="morecontent" condition="Skin.HasSetting(enable.morewidget) + $SKINSHORTCUTS[morevisible]">
                     <param name="id" value="301$SKINSHORTCUTS[id]5" />
-                    <param name="content" value="$SKINSHORTCUTS[contentitemmore]" />
-                    <param name="targetcontent" value="$SKINSHORTCUTS[targetcontent]" />
-                    <param name="morevisible" value="$SKINSHORTCUTS[morevisible]" />
+                    <param name="content" value="$SKINSHORTCUTS[content]" />
+                    <param name="targetcontent" value="$SKINSHORTCUTS[target]" />
                 </include>
             </control>
             <!-- InfoSub -->
-            <control type="group" id="301$SKINSHORTCUTS[id]259">
-                <include condition="Skin.HasSetting(homemenu.clean.flix) + !Skin.HasSetting(homemenu.clean.flix.no.slide)">Animation.Home.Clean</include>
-                <visible>$SKINSHORTCUTS[isfullscreenwidget] | Skin.HasSetting(homemenu.netflix)</visible>
-                <visible>[Integer.IsGreater(Container(301$SKINSHORTCUTS[id]5).NumItems,0) | Container(301$SKINSHORTCUTS[id]5).IsUpdating] + $EXP[Widget5Enabled]</visible>
-                <include content="Animation.FadeOutHomeFullscreenWidget">
-                    <param name="condition" value="Control.HasFocus(301$SKINSHORTCUTS[id]3) | Control.HasFocus(301$SKINSHORTCUTS[id]4) | Control.HasFocus(301$SKINSHORTCUTS[id]6)"/>
-                </include>
+            <control type="group" id="301$SKINSHORTCUTS[id]5100">
                 <skinshortcuts>visibility</skinshortcuts>
+                <visible>$SKINSHORTCUTS[isfullscreenwidget] | Skin.HasSetting(homemenu.netflix)</visible>
+                <visible>[Integer.IsGreater(Container(301$SKINSHORTCUTS[id]5).NumItems,0) | Container(301$SKINSHORTCUTS[id]5).IsUpdating]</visible>
+                <include condition="Skin.HasSetting(homemenu.clean.flix) + !Skin.HasSetting(homemenu.clean.flix.no.slide)">Animation.Home.Clean</include>
+                <include content="Animation.FadeOutHomeFullscreenWidget">
+                    <param name="condition" value="!Control.HasFocus(301$SKINSHORTCUTS[id]5)"/>
+                </include>
                 <control type="grouplist">
                     <include content="FullScreenInfoSub" condition="$SKINSHORTCUTS[isnormallayout] | $SKINSHORTCUTS[ispvrlayout]">
                         <param name="id" value="301$SKINSHORTCUTS[id]5"/>
@@ -1669,6 +1109,8 @@
 
     <!-- Widget 6 -->
     <other include="widget-vertical.6">
+        <condition tag="property" attribute="name|widgetEnable.6">yes</condition>
+        <match>all</match>
         <property name="id" tag="mainmenuid"/>
         <property name="ispvrlayout" tag="property" attribute="name|widget.6" value="epg">true</property>
         <property name="ispvrlayout">false</property>
@@ -1696,18 +1138,10 @@
         <property name="labelisvisible" tag="property" attribute="name|widgetTarget.6" value="weather">false</property>
         <property name="labelisvisible" tag="property" attribute="name|widgetTarget.6" value="system">false</property>
         <property name="labelisvisible">true</property>
-        <property name="contentswitch" tag="property" attribute="name|widgetPath.6"/>
-        <property name="contentswitch">$VAR[DefWidgetContent]</property>
-        <property name="content" tag="property" attribute="name|widgetEnable.6" value="yes">$SKINSHORTCUTS[contentswitch]</property>
-        <property name="contentitemmore" tag="property" attribute="name|widgetPath.6"/>
-        <property name="contentitemmore">$VAR[DefWidgetContent]</property>
+        <property name="content" tag="property" attribute="name|widgetPath.6"/>
+        <property name="content">$VAR[DefWidgetContent]</property>
         <property name="IsGTO" tag="property" attribute="name|widget.6" value="GTO">true</property>
         <property name="IsGTO">false</property>
-        <property name="targetcontent" tag="property" attribute="name|widgetType.6" value="favourite">favourites</property>
-        <property name="targetcontent" tag="property" attribute="name|widgetTarget.6" value="music">music</property>
-        <property name="targetcontent" tag="property" attribute="name|widgetTarget.6" value="videos">videos</property>
-        <property name="targetcontent" tag="property" attribute="name|widgetTarget.6" value="addons">addons</property>
-        <property name="targetcontent">$VAR[DefWidgetTarget]</property>
         <property name="morevisible" tag="property" attribute="name|widgetTarget.6" value="system">false</property>
         <property name="morevisible" tag="property" attribute="name|widgetTarget.6" value="weather">false</property>
         <property name="morevisible" tag="property" attribute="name|widget.6" value="mysubmenu">false</property>
@@ -1724,7 +1158,6 @@
         <property name="widgetauto" tag="property" attribute="name|widgetAuto.6" value="$NUMBER[25000]">25000</property>
         <property name="widgetlisttype" tag="property" attribute="name|widgetListType.6"/>
         <property name="widgetlisttype">fixedlist</property>
-        <property name="widgetclearlogothumb" tag="property" attribute="name|widgetClearLogoThumb.6" value="yes">true</property>
         <property name="widgetclearlogothumb" tag="property" attribute="name|widgetClearLogoThumb.6" value="no">false</property>
         <property name="widgetclearlogothumb">true</property>
         <property name="aspectratio" tag="property" attribute="name|widgetAspectRatio.6"/>
@@ -1733,8 +1166,6 @@
         <property name="distance">10</property>
         <property name="orientation" tag="property" attribute="name|widget.6" value="epg">vertical</property>
         <property name="orientation">horizontal</property>
-        <property name="isenabled" tag="property" attribute="name|widgetEnable.6" value="yes">true</property>
-        <property name="isenabled">false</property>
         <property name="widgetaspectcheck" tag="property" attribute="name|widget.6" value="settings">Square</property>
         <property name="widgetaspectcheck" tag="property" attribute="name|widgetTarget.6" value="system">Square</property>
         <property name="widgetaspectcheck" tag="property" attribute="name|widgetaspect.6" value="ThumbnailPosterSmall">ThumbPoSmall</property>
@@ -1743,22 +1174,20 @@
         <property name="widgetaspectcheck" tag="property" attribute="name|widgetaspect.6" />
         <property name="widgetaspectcheck">Poster</property>
         <controls>
-            <control type="group" id="301$SKINSHORTCUTS[id]2699">
+            <control type="group" id="301$SKINSHORTCUTS[id]6000">
+                <skinshortcuts>visibility</skinshortcuts>
+                <visible>Integer.IsGreater(Container(301$SKINSHORTCUTS[id]6).NumItems,0) | Container(301$SKINSHORTCUTS[id]6).IsUpdating</visible>
                 <control type="grouplist">
-                    <visible>String.IsEqual(Container(300).ListItem.Property(widgetEnable.6),yes)</visible>
-                    <visible>Integer.IsGreater(Container(301$SKINSHORTCUTS[id]6).NumItems,0) | Container(301$SKINSHORTCUTS[id]6).IsUpdating</visible>
-                    <skinshortcuts>visibility</skinshortcuts>
                     <include content="widget.title.label" condition="!Skin.HasSetting(hidewidgettitle)">
                         <param name="focusid" value="301$SKINSHORTCUTS[id]6"/>
                         <param name="idshort" value="6"/>
-                        <param name="animation_condition" value="Control.HasFocus(301$SKINSHORTCUTS[id]4) | Control.HasFocus(301$SKINSHORTCUTS[id]5)" />
+                        <param name="animation_condition" value="!Control.HasFocus(301$SKINSHORTCUTS[id]6)" />
                     </include>
                 </control>
             </control>
             <control type="$SKINSHORTCUTS[widgetlisttype]" id="301$SKINSHORTCUTS[id]6">
                 <skinshortcuts>visibility</skinshortcuts>
-                <visible>String.IsEqual(Container(300).ListItem.Property(widgetEnable.6),yes)</visible>
-                <visible>String.Contains(Container(300).ListItem.Property(widget),weather) | Integer.IsGreater(Container(301$SKINSHORTCUTS[id]6).NumItems,0) | Container(301$SKINSHORTCUTS[id]6).IsUpdating | String.IsEqual(Container(300).ListItem.Property(widget.6),custom)</visible>
+                <visible>Integer.IsGreater(Container(301$SKINSHORTCUTS[id]6).NumItems,0) | Container(301$SKINSHORTCUTS[id]6).IsUpdating | String.IsEqual(Container(300).ListItem.Property(widget.6),custom)</visible>
                 <onclick condition="$SKINSHORTCUTS[IsGTO]">RunPlugin(plugin://script.service.gto?action=info&amp;item=$INFO[ListItem.Property(Item)])</onclick>
                 <include content="DefMultiWidgetContainer">
                     <param name="id" value="301$SKINSHORTCUTS[id]6"/>
@@ -1769,12 +1198,10 @@
                     <param name="AutoTime" value="$SKINSHORTCUTS[widgetauto]"/>
                     <param name="orientation" value="$SKINSHORTCUTS[orientation]"/>
                     <param name="AutoScrollCondition" value="!Control.HasFocus(301$SKINSHORTCUTS[id]6) + !String.IsEmpty(Container(300).ListItem.Property(widgetAuto.6)) + !String.IsEqual(Container(300).ListItem.Property(widgetListType),list) + System.IdleTime(1)"/>
-                    <param name="animation_condition" value="Control.HasFocus(301$SKINSHORTCUTS[id]4) | Control.HasFocus(301$SKINSHORTCUTS[id]5)" />
-                    <param name="movement" value="$SKINSHORTCUTS[movement]"/>
+                    <param name="animation_condition" value="!Control.HasFocus(301$SKINSHORTCUTS[id]6)" />
                 </include>
                 <!-- ItemLayouts -->
                 <include content="TemplateNormalItemLayout" condition="$SKINSHORTCUTS[isnormallayout]">
-                    <param name="shortcutsid" value="301$SKINSHORTCUTS[id]6"/>
                     <param name="shortcutsclearlogo" value="$SKINSHORTCUTS[widgetclearlogothumb]"/>
                     <param name="aspectratio" value="$SKINSHORTCUTS[aspectratio]"/>
                     <param name="distance" value="$SKINSHORTCUTS[distance]"/>
@@ -1791,16 +1218,13 @@
                     <param name="Fanart" value="$PYTHON['true' if widgetaspectcheck in 'Fanart' else 'false']"/>
                     <param name="Square" value="$PYTHON['true' if widgetaspectcheck in 'Square' else 'false']"/>
                 </include>
-                <include content="TemplateSystemItemLayout" condition="$SKINSHORTCUTS[issystemlayout]">
-                    <param name="shortcutsid" value="301$SKINSHORTCUTS[id]6"/>
-                </include>
+                <include condition="$SKINSHORTCUTS[issystemlayout]">TemplateSystemItemLayout</include>
                 <!-- FocusLayouts -->
                 <include content="TemplateNormalFocusLayout" condition="$SKINSHORTCUTS[isnormallayout]">
                     <param name="shortcutsid" value="301$SKINSHORTCUTS[id]6"/>
                     <param name="shortcutsclearlogo" value="$SKINSHORTCUTS[widgetclearlogothumb]"/>
                     <param name="aspectratio" value="$SKINSHORTCUTS[aspectratio]"/>
                     <param name="distance" value="$SKINSHORTCUTS[distance]"/>
-                    <param name="enablehelperbutton" value="$SKINSHORTCUTS[isenabled]"/>
                     <param name="Banner" value="$PYTHON['true' if widgetaspectcheck in 'Banner' else 'false']"/>
                     <param name="Thumbnail" value="$PYTHON['true' if widgetaspectcheck in 'Thumbnail' else 'false']"/>
                     <param name="Fanart" value="$PYTHON['true' if widgetaspectcheck in 'Fanart' else 'false']"/>
@@ -1821,22 +1245,21 @@
                     <param name="shortcutsid" value="301$SKINSHORTCUTS[id]6"/>
                 </include>
                 <content limit="$SKINSHORTCUTS[widgetlimit]" target="$SKINSHORTCUTS[target]" sortby="$SKINSHORTCUTS[sortby]" sortorder="$SKINSHORTCUTS[sort]">$SKINSHORTCUTS[content]</content>
-                <include content="morecontent" condition="Skin.HasSetting(enable.morewidget)">
+                <include content="morecontent" condition="Skin.HasSetting(enable.morewidget) + $SKINSHORTCUTS[morevisible]">
                     <param name="id" value="301$SKINSHORTCUTS[id]6" />
-                    <param name="content" value="$SKINSHORTCUTS[contentitemmore]" />
-                    <param name="targetcontent" value="$SKINSHORTCUTS[targetcontent]" />
-                    <param name="morevisible" value="$SKINSHORTCUTS[morevisible]" />
+                    <param name="content" value="$SKINSHORTCUTS[content]" />
+                    <param name="targetcontent" value="$SKINSHORTCUTS[target]" />
                 </include>
             </control>
             <!-- InfoSub -->
-            <control type="group" id="301$SKINSHORTCUTS[id]269">
-                <include condition="Skin.HasSetting(homemenu.clean.flix) + !Skin.HasSetting(homemenu.clean.flix.no.slide)">Animation.Home.Clean</include>
-                <visible>$SKINSHORTCUTS[isfullscreenwidget] | Skin.HasSetting(homemenu.netflix)</visible>
-                <visible>[Integer.IsGreater(Container(301$SKINSHORTCUTS[id]6).NumItems,0) | Container(301$SKINSHORTCUTS[id]6).IsUpdating] + $EXP[Widget6Enabled]</visible>
-                <include content="Animation.FadeOutHomeFullscreenWidget">
-                    <param name="condition" value="Control.HasFocus(301$SKINSHORTCUTS[id]4) | Control.HasFocus(301$SKINSHORTCUTS[id]5)"/>
-                </include>
+            <control type="group" id="301$SKINSHORTCUTS[id]6100">
                 <skinshortcuts>visibility</skinshortcuts>
+                <visible>$SKINSHORTCUTS[isfullscreenwidget] | Skin.HasSetting(homemenu.netflix)</visible>
+                <visible>[Integer.IsGreater(Container(301$SKINSHORTCUTS[id]6).NumItems,0) | Container(301$SKINSHORTCUTS[id]6).IsUpdating]</visible>
+                <include condition="Skin.HasSetting(homemenu.clean.flix) + !Skin.HasSetting(homemenu.clean.flix.no.slide)">Animation.Home.Clean</include>
+                <include content="Animation.FadeOutHomeFullscreenWidget">
+                    <param name="condition" value="!Control.HasFocus(301$SKINSHORTCUTS[id]6)"/>
+                </include>
                 <control type="grouplist">
                     <include content="FullScreenInfoSub" condition="$SKINSHORTCUTS[isnormallayout] | $SKINSHORTCUTS[ispvrlayout]">
                         <param name="id" value="301$SKINSHORTCUTS[id]6"/>
@@ -1875,7 +1298,6 @@
         <property name="IsGTO">false</property>
         <property name="aspectratio" tag="property" attribute="name|widgetAspectRatio"/>
         <property name="aspectratio">keep</property>
-        <property name="widgetclearlogothumb" tag="property" attribute="name|widgetClearLogoThumb" value="yes">true</property>
         <property name="widgetclearlogothumb" tag="property" attribute="name|widgetClearLogoThumb" value="no">false</property>
         <property name="widgetclearlogothumb">true</property>
         <property name="distance" tag="property" attribute="name|widgetEdgeDistance" value="yes">30</property>
@@ -1913,14 +1335,12 @@
                 <include>ScrolltimeWidgetsList</include>
                 <itemlayout height="325" width="222" condition="!String.IsEqual(Container(300).ListItem.Property(widgetaspect),Square) + ![String.IsEqual(Container(300).ListItem.Property(widgetaspect),Fanart) | String.IsEqual(Container(300).ListItem.Property(widgetaspect),Thumbnail)] + !String.IsEqual(Container(300).ListItem.Property(widget),system)">
                     <include content="include.widget.poster">
-                        <param name="id" value="301"/>
                         <param name="reflections" value="Skin.HasSetting(home.widgets.show.reflections)"/>
                         <param name="height" value="325"/>
                     </include>
                 </itemlayout>
                 <itemlayout height="325" width="325" condition="String.IsEqual(Container(300).ListItem.Property(widgetaspect),Square) | String.IsEqual(Container(300).ListItem.Property(widget),system)">
                     <include content="include.widget.square">
-                        <param name="id" value="301"/>
                         <param name="aspectratio" value="$SKINSHORTCUTS[aspectratio]"/>
                         <param name="distance" value="$SKINSHORTCUTS[distance]"/>
                         <param name="reflections" value="Skin.HasSetting(home.widgets.show.reflections)"/>
@@ -1929,14 +1349,12 @@
                 </itemlayout>
                 <itemlayout height="325" width="562" condition="String.IsEqual(Container(300).ListItem.Property(widgetaspect),Fanart) + !String.IsEqual(Container(300).ListItem.Property(widget),system)">
                     <include content="include.widget.fanart">
-                        <param name="id" value="301"/>
                         <param name="reflections" value="Skin.HasSetting(home.widgets.show.reflections)"/>
                         <param name="height" value="325"/>
                     </include>
                 </itemlayout>
                 <itemlayout height="325" width="562" condition="String.IsEqual(Container(300).ListItem.Property(widgetaspect),Thumbnail) + !String.IsEqual(Container(300).ListItem.Property(widget),system)">
                     <include content="include.widget.thumb">
-                        <param name="id" value="301"/>
                         <param name="reflections" value="Skin.HasSetting(home.widgets.show.reflections)"/>
                         <param name="clearlogo" value="$SKINSHORTCUTS[widgetclearlogothumb]"/>
                         <param name="height" value="325"/>

@@ -42,10 +42,14 @@
                 <param name="left" value="8"/>
                 <param name="top" value="110"/>
                 <param name="width" value="450"/>
+                <param name="overlayfix" value="true"/>
+                <param name="delay" value="20"/>
+                <param name="visible" value="!ControlGroup(6150).HasFocus()"/>
             </include>
             <control type="grouplist" id="9000">
                 <top>110</top>
                 <scrolltime>0</scrolltime>
+                <usecontrolcoords>true</usecontrolcoords>
                 <include content="Def9000GroupList"><param name="height" value="560" /></include>
                 <control type="button" id="9001">
                     <description>Channels</description>
@@ -89,18 +93,6 @@
                     <include>DefContextButtonGradient</include>
                     <align>left</align>
                 </control>
-
-                <!-- PVR options -->
-
-                <!-- <control type="label" id="9010">
-                    <description>Channels</description>
-                    <label>31194</label>
-                    <font>TinyBold</font>
-                    <textcolor>Black30</textcolor>
-                    <textoffsetx>30</textoffsetx>
-                    <include>DefContextButtonGradient</include>
-                    <align>left</align>
-                </control> -->
                 <control type="button" id="28">
                     <description>Group</description>
                     <include>DefContextButtonGradient</include>
@@ -154,6 +146,7 @@
                     <align>left</align>
                     <visible>Window.IsVisible(MyPVRChannels.xml)</visible>
                 </control>
+                <include>ControlButtons</include>
             </control>
         </control>
     </include>
@@ -169,7 +162,7 @@
                 <control type="image">
                     <width>642</width>
                     <height>100%</height>
-                    <texture border="10">common/$VAR[nofocus-shadow10]</texture>
+                    <texture border="10" infill="false">common/$VAR[nofocus-shadow10]</texture>
                 </control>
                 <control type="image">
                     <left>10</left>
@@ -190,17 +183,7 @@
                     <aspectratio align="center" aligny="center" scalediffuse="false">scale</aspectratio>
                 </control>
                 <control type="image">
-                    <left>10</left>
-                    <top>10</top>
-                    <right>10</right>
-                    <bottom>10</bottom>
-                    <aspectratio align="center" aligny="center" scalediffuse="false">scale</aspectratio>
-                    <texture diffuse="diffuse/pvrinfo.png" background="true">pvr/background.jpg</texture>
-                    <visible>!Player.HasVideo + String.IsEmpty(Listitem.EpgEventIcon) + String.IsEmpty(Listitem.Icon)</visible>
-                    <fadetime>PosterFanartFadetime</fadetime>
-                </control>
-                <control type="image">
-                    <visible>!Player.HasVideo + String.IsEmpty(Listitem.EpgEventIcon)</visible>
+                    <visible>!Player.HasVideo + String.IsEmpty(Listitem.EpgEventIcon) + [[String.IsEmpty(Window(Home).Property(PVR.Artwork.fanart)) + String.IsEmpty(Window(Home).Property(PVR.Artwork.poster)) + Skin.HasSetting(Skin_enablePvrArtwork)] | !Skin.HasSetting(Skin_enablePvrArtwork)]</visible>
                     <left>70</left>
                     <top>30</top>
                     <right>70</right>
@@ -210,13 +193,13 @@
                     <fadetime>PosterFanartFadetime</fadetime>
                 </control>
                 <control type="image">
-                    <visible>!Player.HasVideo + !String.IsEmpty(Listitem.EpgEventIcon)</visible>
+                    <visible>!Player.HasVideo + [!String.IsEmpty(Listitem.EpgEventIcon) | [Skin.HasSetting(Skin_enablePvrArtwork) + [!String.IsEmpty(Window(Home).Property(PVR.Artwork.fanart)) | !String.IsEmpty(Window(Home).Property(PVR.Artwork.poster))]]]</visible>
                     <left>10</left>
                     <top>10</top>
                     <right>10</right>
                     <bottom>10</bottom>
                     <aspectratio align="center" aligny="center" scalediffuse="false">keep</aspectratio>
-                    <texture diffuse="diffuse/pvrinfo.png" background="true">$INFO[ListItem.EpgEventIcon]</texture>
+                    <texture diffuse="diffuse/pvrinfo.png" background="true">$VAR[ChannelListEPGIconVar]</texture>
                     <fadetime>PosterFanartFadetime</fadetime>
                 </control>
                 <control type="image">
@@ -224,12 +207,12 @@
                     <top>10</top>
                     <right>10</right>
                     <bottom>10</bottom>
-                    <texture border="4" colordiffuse="Box2">common/box21.png</texture>
+                    <texture border="4" colordiffuse="Box2" infill="false">common/box21.png</texture>
                 </control>
             </control>
             <control type="group">
-                <left>20</left>
-                <right>20</right>
+                <left>10</left>
+                <right>10</right>
                 <posy>370</posy>
                 <height>290</height>
                 <control type="label">
@@ -248,16 +231,16 @@
                     <font>Tiny</font>
                     <textcolor>Dark1</textcolor>
                     <selectedcolor>Dark1</selectedcolor>
-                    <label fallback="19055">$INFO[ListItem.Genre]</label>
+                    <label>$INFO[ListItem.Genre]</label>
                 </control>
                 <control type="textbox">
-                    <top>116</top>
-                    <bottom>25</bottom>
+                    <top>124</top>
+                    <bottom>17</bottom>
                     <align>justify</align>
                     <font>Tiny</font>
-                    <textcolor>Dark1</textcolor>
-                    <selectedcolor>Dark1</selectedcolor>
-                    <label fallback="19055">$INFO[ListItem.Plot]</label>
+                    <textcolor>Dark2</textcolor>
+                    <selectedcolor>Dark2</selectedcolor>
+                    <label>$INFO[ListItem.Plot]</label>
                 </control>
             </control>
         </control>
@@ -427,7 +410,7 @@
                         <control type="group">
                             <visible>Window.IsVisible(MyPVRChannels.xml)</visible>
                             <control type="progress">
-                                <posx>150</posx>
+                                <left>150</left>
                                 <bottom>14</bottom>
                                 <width>920</width>
                                 <height>6</height>
@@ -435,7 +418,7 @@
                                 <info>ListItem.Progress</info>
                             </control>
                             <control type="label">
-                                <posx>150</posx>
+                                <left>150</left>
                                 <right>100</right>
                                 <top>4</top>
                                 <aligny>center</aligny>
@@ -448,7 +431,7 @@
                             <control type="label">
                                 <animation effect="slide" end="30" time="0" condition="ListItem.IsPlaying">Conditional</animation>
                                 <animation effect="slide" end="30" time="0" condition="ListItem.IsRecording">Conditional</animation>
-                                <posx>150</posx>
+                                <left>150</left>
                                 <bottom>20</bottom>
                                 <right>100</right>
                                 <aligny>center</aligny>
@@ -499,7 +482,7 @@
                         <control type="group">
                             <visible>Window.IsVisible(MyPVRRecordings.xml) | Window.IsVisible(MyPVRTimers.xml) | Window.IsVisible(MyPVRSearch.xml)</visible>
                             <control type="label">
-                                <posx>140</posx>
+                                <left>140</left>
                                 <right>100</right>
                                 <top>12</top>
                                 <aligny>center</aligny>
@@ -511,7 +494,7 @@
                             </control>
                             <control type="label">
                                 <animation effect="slide" end="30" time="0" condition="ListItem.IsRecording">Conditional</animation>
-                                <posx>140</posx>
+                                <left>140</left>
                                 <bottom>8</bottom>
                                 <right>100</right>
                                 <aligny>center</aligny>
@@ -593,7 +576,7 @@
                             <control type="group">
                                 <visible>Window.IsVisible(MyPVRChannels.xml)</visible>
                                 <control type="progress">
-                                    <posx>150</posx>
+                                    <left>150</left>
                                     <bottom>14</bottom>
                                     <width>920</width>
                                     <height>6</height>
@@ -601,7 +584,7 @@
                                     <info>ListItem.Progress</info>
                                 </control>
                                 <control type="label">
-                                    <posx>150</posx>
+                                    <left>150</left>
                                     <right>100</right>
                                     <top>4</top>
                                     <aligny>center</aligny>
@@ -612,7 +595,7 @@
                                     <label>$INFO[ListItem.ChannelNumberLabel,,  ]$INFO[ListItem.ChannelName]</label>
                                 </control>
                                 <control type="label">
-                                    <posx>150</posx>
+                                    <left>150</left>
                                     <bottom>20</bottom>
                                     <right>100</right>
                                     <aligny>center</aligny>
@@ -665,7 +648,7 @@
                             <control type="group">
                                 <visible>Window.IsVisible(MyPVRRecordings.xml) | Window.IsVisible(MyPVRTimers.xml) | Window.IsVisible(MyPVRSearch.xml)</visible>
                                 <control type="label">
-                                    <posx>140</posx>
+                                    <left>140</left>
                                     <right>100</right>
                                     <top>12</top>
                                     <aligny>center</aligny>
@@ -677,7 +660,7 @@
                                 </control>
                                 <control type="label">
                                     <animation effect="slide" end="30" time="0" condition="ListItem.IsRecording">Conditional</animation>
-                                    <posx>140</posx>
+                                    <left>140</left>
                                     <bottom>8</bottom>
                                     <right>100</right>
                                     <aligny>center</aligny>
@@ -781,7 +764,7 @@
                         <control type="group">
                             <visible>Window.IsVisible(MyPVRChannels.xml)</visible>
                             <control type="progress">
-                                <posx>150</posx>
+                                <left>150</left>
                                 <bottom>14</bottom>
                                 <width>1580</width>
                                 <height>6</height>
@@ -789,7 +772,7 @@
                                 <info>ListItem.Progress</info>
                             </control>
                             <control type="label">
-                                <posx>150</posx>
+                                <left>150</left>
                                 <right>100</right>
                                 <top>4</top>
                                 <aligny>center</aligny>
@@ -802,7 +785,7 @@
                             <control type="label">
                                 <animation effect="slide" end="30" time="0" condition="ListItem.IsPlaying">Conditional</animation>
                                 <animation effect="slide" end="30" time="0" condition="ListItem.IsRecording">Conditional</animation>
-                                <posx>150</posx>
+                                <left>150</left>
                                 <bottom>20</bottom>
                                 <right>100</right>
                                 <aligny>center</aligny>
@@ -853,7 +836,7 @@
                         <control type="group">
                             <visible>Window.IsVisible(MyPVRRecordings.xml) | Window.IsVisible(MyPVRTimers.xml) | Window.IsVisible(MyPVRSearch.xml)</visible>
                             <control type="label">
-                                <posx>140</posx>
+                                <left>140</left>
                                 <right>100</right>
                                 <top>12</top>
                                 <aligny>center</aligny>
@@ -865,7 +848,7 @@
                             </control>
                             <control type="label">
                                 <animation effect="slide" end="30" time="0" condition="ListItem.IsRecording">Conditional</animation>
-                                <posx>140</posx>
+                                <left>140</left>
                                 <bottom>8</bottom>
                                 <right>100</right>
                                 <aligny>center</aligny>
@@ -947,7 +930,7 @@
                             <control type="group">
                                 <visible>Window.IsVisible(MyPVRChannels.xml)</visible>
                                 <control type="progress">
-                                    <posx>150</posx>
+                                    <left>150</left>
                                     <bottom>14</bottom>
                                     <width>1580</width>
                                     <height>6</height>
@@ -955,7 +938,7 @@
                                     <info>ListItem.Progress</info>
                                 </control>
                                 <control type="label">
-                                    <posx>150</posx>
+                                    <left>150</left>
                                     <right>100</right>
                                     <top>4</top>
                                     <aligny>center</aligny>
@@ -966,7 +949,7 @@
                                     <label>$INFO[ListItem.ChannelNumberLabel,,  ]$INFO[ListItem.ChannelName]</label>
                                 </control>
                                 <control type="label">
-                                    <posx>150</posx>
+                                    <left>150</left>
                                     <bottom>20</bottom>
                                     <right>100</right>
                                     <aligny>center</aligny>
@@ -1019,7 +1002,7 @@
                             <control type="group">
                                 <visible>Window.IsVisible(MyPVRRecordings.xml) | Window.IsVisible(MyPVRTimers.xml) | Window.IsVisible(MyPVRSearch.xml)</visible>
                                 <control type="label">
-                                    <posx>140</posx>
+                                    <left>140</left>
                                     <right>100</right>
                                     <top>12</top>
                                     <aligny>center</aligny>
@@ -1031,7 +1014,7 @@
                                 </control>
                                 <control type="label">
                                     <animation effect="slide" end="30" time="0" condition="ListItem.IsRecording">Conditional</animation>
-                                    <posx>140</posx>
+                                    <left>140</left>
                                     <bottom>8</bottom>
                                     <right>100</right>
                                     <aligny>center</aligny>
@@ -1128,8 +1111,8 @@
                                 <height>68</height>
                                 <align>justify</align>
                                 <font>Tiny</font>
-                                <textcolor>Dark1</textcolor>
-                                <selectedcolor>Dark1</selectedcolor>
+                                <textcolor>Dark2</textcolor>
+                                <selectedcolor>Dark2</selectedcolor>
                                 <label fallback="19055">$INFO[ListItem.Plot]</label>
                                 <autoscroll>false</autoscroll>
                             </control>
@@ -1222,8 +1205,8 @@
                                 <height>108</height>
                                 <align>justify</align>
                                 <font>Tiny</font>
-                                <textcolor>Dark1</textcolor>
-                                <selectedcolor>Dark1</selectedcolor>
+                                <textcolor>Dark2</textcolor>
+                                <selectedcolor>Dark2</selectedcolor>
                                 <autoscroll>false</autoscroll>
                                 <label>$INFO[ListItem.Plot]</label>
                             </control>
@@ -1245,7 +1228,7 @@
                             <top>10</top>
                             <right>10</right>
                             <bottom>10</bottom>
-                            <texture colordiffuse="Box2" diffuse="diffuse/wall-fanart.png" border="4" background="true">common/box21.png</texture>
+                            <texture colordiffuse="Box2" diffuse="diffuse/wall-fanart.png" border="4" background="true" infill="false">common/box21.png</texture>
                             <visible>!Skin.HasSetting(thumbnails.white)</visible>
                             <visible>!String.IsEqual(ListItem.Label,..) </visible>
                         </control>
@@ -1286,8 +1269,8 @@
                                 <height>68</height>
                                 <align>justify</align>
                                 <font>Tiny</font>
-                                <textcolor>Light1</textcolor>
-                                <selectedcolor>Light1</selectedcolor>
+                                <textcolor>Light2</textcolor>
+                                <selectedcolor>Light2</selectedcolor>
                                 <label fallback="19055">$INFO[ListItem.Plot]</label>
                             </control>
                             <control type="label">
@@ -1379,8 +1362,8 @@
                                 <height>68</height>
                                 <align>justify</align>
                                 <font>Tiny</font>
-                                <textcolor>Light1</textcolor>
-                                <selectedcolor>Light1</selectedcolor>
+                                <textcolor>Light2</textcolor>
+                                <selectedcolor>Light2</selectedcolor>
                                 <label>$INFO[ListItem.Plot]</label>
                             </control>
                             <control type="label">
@@ -1401,7 +1384,7 @@
                             <top>10</top>
                             <right>10</right>
                             <bottom>10</bottom>
-                            <texture colordiffuse="Box2" diffuse="diffuse/wall-fanart.png" border="4" background="true">common/box21.png</texture>
+                            <texture colordiffuse="Box2" diffuse="diffuse/wall-fanart.png" border="4" background="true" infill="false">common/box21.png</texture>
                             <visible>!Skin.HasSetting(thumbnails.white)</visible>
                             <visible>!String.IsEqual(ListItem.Label,..) </visible>
                         </control>
@@ -1447,28 +1430,28 @@
                         <texture colordiffuse="Dark4" border="5">common/box.png</texture>
                     </control>
                     <control type="image">
-                        <right>25</right>
-                        <top>25</top>
+                        <right>30</right>
+                        <top>30</top>
                         <width>100</width>
                         <height>100</height>
                         <aspectratio align="right" aligny="top">keep</aspectratio>
                         <texture fallback="DefaultAddonNone.png">$INFO[Listitem.Icon]</texture>
                     </control>
                     <control type="label">
-                        <left>25</left>
-                        <right>130</right>
-                        <top>16</top>
+                        <left>30</left>
+                        <right>140</right>
+                        <top>20</top>
                         <align>left</align>
                         <aligny>top</aligny>
-                        <font>SmallBold</font>
+                        <font>NotificationBold</font>
                         <textcolor>Dark1</textcolor>
                         <selectedcolor>Dark1</selectedcolor>
                         <label>$INFO[ListItem.ChannelNumberLabel,,. ]$INFO[ListItem.ChannelName]</label>
                     </control>
                     <control type="label">
-                        <left>25</left>
-                        <right>130</right>
-                        <top>66</top>
+                        <left>30</left>
+                        <right>140</right>
+                        <top>64</top>
                         <height>22</height>
                         <align>left</align>
                         <aligny>center</aligny>
@@ -1478,22 +1461,22 @@
                         <label>$INFO[ListItem.Title]</label>
                     </control>
                     <control type="label">
-                        <left>20</left>
-                        <right>130</right>
-                        <top>96</top>
+                        <left>30</left>
+                        <right>140</right>
+                        <top>94</top>
                         <height>22</height>
                         <align>left</align>
                         <aligny>center</aligny>
                         <font>Tiny</font>
                         <textcolor>Dark2</textcolor>
                         <selectedcolor>Dark2</selectedcolor>
-                        <label>$INFO[ListItem.NextTitle, $LOCALIZE[19031]: ]</label>
+                        <label>$INFO[ListItem.NextTitle,$LOCALIZE[19031]: ]</label>
                     </control>
                     <control type="progress">
-                        <left>25</left>
-                        <right>25</right>
+                        <left>30</left>
+                        <right>30</right>
                         <height>8</height>
-                        <bottom>24</bottom>
+                        <bottom>30</bottom>
                         <info>ListItem.Progress</info>
                     </control>
                     <control type="image">
@@ -1501,9 +1484,8 @@
                         <top>10</top>
                         <right>10</right>
                         <bottom>10</bottom>
-                        <texture colordiffuse="Box2" diffuse="diffuse/wall-fanart.png" border="4" background="true">common/box21.png</texture>
+                        <texture colordiffuse="Box2" border="4" background="true" infill="false">common/box21.png</texture>
                         <visible>!Skin.HasSetting(thumbnails.white)</visible>
-                        <visible>!String.IsEqual(ListItem.Label,..) </visible>
                     </control>
                 </itemlayout>
                 <focusedlayout height="165" width="445">
@@ -1515,28 +1497,28 @@
                         <texture colordiffuse="Dark1" border="5">common/box.png</texture>
                     </control>
                     <control type="image">
-                        <right>25</right>
-                        <top>25</top>
+                        <right>30</right>
+                        <top>30</top>
                         <width>100</width>
                         <height>100</height>
                         <aspectratio align="right" aligny="top">keep</aspectratio>
                         <texture fallback="DefaultAddonNone.png">$INFO[Listitem.Icon]</texture>
                     </control>
                     <control type="label">
-                        <left>25</left>
-                        <right>130</right>
-                        <top>16</top>
+                        <left>30</left>
+                        <right>140</right>
+                        <top>20</top>
                         <align>left</align>
                         <aligny>top</aligny>
-                        <font>SmallBold</font>
+                        <font>NotificationBold</font>
                         <textcolor>Light1</textcolor>
                         <selectedcolor>Light1</selectedcolor>
                         <label>$INFO[ListItem.ChannelNumberLabel,,. ]$INFO[ListItem.ChannelName]</label>
                     </control>
                     <control type="label">
-                        <left>25</left>
-                        <right>130</right>
-                        <top>66</top>
+                        <left>30</left>
+                        <right>140</right>
+                        <top>64</top>
                         <height>22</height>
                         <align>left</align>
                         <aligny>center</aligny>
@@ -1547,22 +1529,22 @@
                         <label>$INFO[ListItem.Title]</label>
                     </control>
                     <control type="label">
-                        <left>20</left>
-                        <right>130</right>
-                        <top>96</top>
+                        <left>30</left>
+                        <right>140</right>
+                        <top>94</top>
                         <height>22</height>
                         <align>left</align>
                         <aligny>center</aligny>
                         <font>Tiny</font>
                         <textcolor>Light2</textcolor>
                         <selectedcolor>Light2</selectedcolor>
-                        <label>$INFO[ListItem.NextTitle, $LOCALIZE[19031]: ]</label>
+                        <label>$INFO[ListItem.NextTitle,$LOCALIZE[19031]: ]</label>
                     </control>
                     <control type="progress">
-                        <left>25</left>
-                        <right>25</right>
+                        <left>30</left>
+                        <right>30</right>
                         <height>8</height>
-                        <bottom>24</bottom>
+                        <bottom>30</bottom>
                         <info>ListItem.Progress</info>
                     </control>
                     <control type="image">
@@ -1570,9 +1552,8 @@
                         <top>10</top>
                         <right>10</right>
                         <bottom>10</bottom>
-                        <texture colordiffuse="Box2" diffuse="diffuse/wall-fanart.png" border="4" background="true">common/box21.png</texture>
+                        <texture colordiffuse="Box2" border="4" background="true" infill="false">common/box21.png</texture>
                         <visible>!Skin.HasSetting(thumbnails.white)</visible>
-                        <visible>!String.IsEqual(ListItem.Label,..) </visible>
                     </control>
                 </focusedlayout>
             </control>
@@ -1590,9 +1571,9 @@
                 </control>
                 <control type="image">
                     <fadetime>PosterFanartFadetime</fadetime>
-                    <right>25</right>
-                    <top>25</top>
-                    <bottom>25</bottom>
+                    <right>30</right>
+                    <top>30</top>
+                    <bottom>30</bottom>
                     <width>250</width>
                     <aspectratio align="right">keep</aspectratio>
                     <texture>$VAR[ChannelListEPGIconVar]</texture>
@@ -1633,8 +1614,8 @@
                     <align>left</align>
                     <aligny>top</aligny>
                     <font>Tiny</font>
-                    <textcolor>Dark1</textcolor>
-                    <selectedcolor>Dark1</selectedcolor>
+                    <textcolor>Dark2</textcolor>
+                    <selectedcolor>Dark2</selectedcolor>
                     <label>$INFO[ListItem.Plot]</label>
                 </control>
             </control>
@@ -1700,8 +1681,8 @@
                                 <height>128</height>
                                 <align>justify</align>
                                 <font>Tiny</font>
-                                <textcolor>Dark1</textcolor>
-                                <selectedcolor>Dark1</selectedcolor>
+                                <textcolor>Dark2</textcolor>
+                                <selectedcolor>Dark2</selectedcolor>
                                 <label fallback="19055">$INFO[ListItem.Plot]</label>
                                 <autoscroll>false</autoscroll>
                             </control>
@@ -1794,8 +1775,8 @@
                                 <height>128</height>
                                 <align>justify</align>
                                 <font>Tiny</font>
-                                <textcolor>Dark1</textcolor>
-                                <selectedcolor>Dark1</selectedcolor>
+                                <textcolor>Dark2</textcolor>
+                                <selectedcolor>Dark2</selectedcolor>
                                 <autoscroll>false</autoscroll>
                                 <label>$INFO[ListItem.Plot]</label>
                             </control>
@@ -1849,8 +1830,8 @@
                                 <height>128</height>
                                 <align>justify</align>
                                 <font>Tiny</font>
-                                <textcolor>Light1</textcolor>
-                                <selectedcolor>Light1</selectedcolor>
+                                <textcolor>Light2</textcolor>
+                                <selectedcolor>Light2</selectedcolor>
                                 <label fallback="19055">$INFO[ListItem.Plot]</label>
                             </control>
                             <control type="label">
@@ -1942,8 +1923,8 @@
                                 <height>128</height>
                                 <align>justify</align>
                                 <font>Tiny</font>
-                                <textcolor>Light1</textcolor>
-                                <selectedcolor>Light1</selectedcolor>
+                                <textcolor>Light2</textcolor>
+                                <selectedcolor>Light2</selectedcolor>
                                 <label>$INFO[ListItem.Plot]</label>
                             </control>
                             <control type="label">
@@ -2243,7 +2224,7 @@
                 <top>206</top>
                 <height>650</height>
                 <left>SidePad</left>
-                <texture colordiffuse="Box2" border="4" background="true">common/box21.png</texture>
+                <texture colordiffuse="Box2" border="4" background="true" infill="false">common/box21.png</texture>
                 <visible>!Skin.HasSetting(thumbnails.white)</visible>
                 <visible>!String.IsEqual(ListItem.Label,..) </visible>
             </control>

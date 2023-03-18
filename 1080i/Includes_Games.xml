@@ -1,0 +1,136 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<includes>
+
+	<!-- GAMES -->
+	<variable name="GameTitle">
+		<value condition="!String.IsEmpty(Game.Title)">$INFO[Game.Title]</value>
+		<value condition="!String.IsEmpty(ListItem.Title)">$INFO[ListItem.Title]</value>
+		<value>$INFO[ListItem.Label]</value>
+	</variable>
+	<variable name="GamePlot">
+		<value condition="!String.IsEmpty(Game.Overview)">$INFO[Game.Overview]</value>
+		<value condition="!String.IsEmpty(ListItem.Plot)">$INFO[ListItem.Plot]</value>
+		<value>$INFO[ListItem.AddonSummary]</value>
+	</variable>
+	<variable name="GameStudio">
+		<value condition="!String.IsEmpty(Game.Developer)">$INFO[Game.Developer]</value>
+		<value>$INFO[ListItem.Studio]</value>
+	</variable>
+	<variable name="GameGenre">
+		<value condition="!String.IsEmpty(Game.Genres)">$INFO[Game.Genres]</value>
+		<value>$INFO[ListItem.Genre]</value>
+	</variable>
+	<variable name="GameYear">
+		<value condition="!String.IsEmpty(Game.Year)">$INFO[Game.Year]</value>
+		<value>$INFO[ListItem.Year]</value>
+	</variable>
+	<variable name="GameRating">
+		<value>$INFO[ListItem.Rating]</value>
+	</variable>
+	<variable name="GameESRB">
+		<value>$INFO[ListItem.Property(esrb)]</value>
+	</variable>
+	<variable name="OneOrMoreLocalPlayersVar">
+		<value condition="String.IsEqual(Container.ListItem.Property(nplayers),1) | String.IsEqual(ListItem.Property(nplayers),1)">$LOCALIZE[31690]</value>
+		<value>$LOCALIZE[31691]</value>
+	</variable>
+	<variable name="OneOrMoreOnlinePlayersVar">
+		<value condition="String.IsEqual(Container.ListItem.Property(nplayers_online),1) | String.IsEqual(ListItem.Property(nplayers_online),1)">$LOCALIZE[31690]</value>
+		<value>$LOCALIZE[31691]</value>
+	</variable>
+	<variable name="GameAudioFlag">
+		<value condition="String.Contains(ListItem.Property(tags),atmos)">atmos</value>
+		<value condition="String.Contains(ListItem.Property(tags),dtsx) | String.Contains(ListItem.Property(tags),dts-x)">dtsx</value>
+		<value condition="String.Contains(ListItem.Property(tags),dts) | String.Contains(ListItem.Property(tags),dca)">dts</value>
+		<value condition="String.Contains(ListItem.Property(tags),dolby hd)">dtshd_hra</value>
+		<value condition="String.Contains(ListItem.Property(tags),dolby digital)">eac3</value>
+	</variable>
+	<variable name="GameResolutionFlag">
+		<value condition="String.Contains(ListItem.Property(tags),480)">480</value>
+		<value condition="String.Contains(ListItem.Property(tags),720)">720</value>
+		<value condition="String.Contains(ListItem.Property(tags),1080)">1080</value>
+		<value condition="String.Contains(ListItem.Property(tags),4K)">4K</value>
+	</variable>
+
+	<variable name="GameStudioFlag">
+		<value condition="!String.IsEmpty(Skin.String(game.logos.path))">$INFO[Skin.String(game.logos.path)]$INFO[ListItem.Studio,,.png]</value>
+	</variable>
+	<variable name="GameESRBFlag">
+		<value condition="!String.IsEmpty(Skin.String(game.logos.path))">$INFO[Skin.String(game.logos.path),,esrb/]$INFO[ListItem.Property(esrb),,.png]</value>
+	</variable>
+	<variable name="GameMultiplayerTypeFlag">
+		<value condition="!String.IsEmpty(Skin.String(game.logos.path)) + String.Contains(ListItem.Property(tags),vs)">$INFO[Skin.String(game.logos.path),,flags/vs.png]</value>
+		<value condition="!String.IsEmpty(Skin.String(game.logos.path)) + String.Contains(ListItem.Property(tags),co-op)">$INFO[Skin.String(game.logos.path),,flags/co-op.png]</value>
+		<value condition="!String.IsEmpty(Skin.String(game.logos.path)) + String.Contains(ListItem.Property(tags),coop)">$INFO[Skin.String(game.logos.path),,flags/co-op.png]</value>
+	</variable>
+
+	<variable name="GameThumb">
+		<value condition="!String.IsEmpty(ListItem.Icon)">$INFO[ListItem.Icon]</value>
+		<value condition="!String.IsEmpty(ListItem.Art(boxfront))">$INFO[ListItem.Art(boxfront)]</value>
+		<value condition="!String.IsEmpty(ListItem.Art(thumb))">$INFO[ListItem.Art(thumb)]</value>
+		<value>DefaultAddonGame.png</value>
+	</variable>
+
+	<include name="NumberOfPlayersFurniture">
+		<control type="group" description="NumberOfPlayers">
+			<width>100</width>
+			<height>100</height>
+			<top>8</top>
+			<visible>!String.IsEmpty(ListItem.Property($PARAM[nplayerfield]))</visible>
+			<control type="image">
+				<width>100%</width>
+				<height>100%</height>
+				<texture colordiffuse="Box2" border="4" background="true" infill="false">common/box21.png</texture>
+			</control>
+			<control type="grouplist">
+				<width>100</width>
+				<itemgap>0</itemgap>
+				<orientation>vertical</orientation>
+				<control type="label">
+					<width>100%</width>
+					<height>20</height>
+					<aligny>center</aligny>
+					<align>center</align>
+					<font>Flag</font>
+					<textcolor>Dark1</textcolor>
+					<label>$LOCALIZE[$PARAM[textid]]</label>
+				</control>
+				<control type="group">
+					<height>50</height>
+					<width>100</width>
+					<align>center</align>
+					<control type="image">
+						<left>5</left>
+						<width>50</width>
+						<height>50</height>
+						<texture colordiffuse="Dark1">DefaultActor.png</texture>					
+					</control>
+					<control type="label">
+						<left>60</left>
+						<height>50</height>
+						<label>$INFO[ListItem.Property($PARAM[nplayerfield])]</label>
+						<aligny>center</aligny>
+						<align>left</align>
+						<font>Flag</font>
+						<textcolor>Dark1</textcolor>
+					</control>
+				</control>
+				<control type="label">
+					<height>20</height>
+					<aligny>center</aligny>
+					<align>center</align>
+					<font>Flag</font>
+					<textcolor>Dark1</textcolor>
+					<label>$VAR[$PARAM[playersTextId]]</label>
+				</control>
+			</control>	 
+		</control>
+		<control type="textbox">
+			<left>1</left>
+			<width>10</width>
+			<label></label>
+			<height>50</height>
+		</control>
+	</include>
+
+</includes>

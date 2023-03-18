@@ -4,7 +4,7 @@
     <include name="scrollbar_dialog">
         <param name="visible" value="$PARAM[visible]" default="true"/>
         <param name="height" value="$PARAM[height]" default="687"/>
-        <param name="posy" value="$PARAM[posy]" default="120"/>
+        <param name="posy" value="$PARAM[posy]" default="116"/>
         <param name="centerright" value="$PARAM[centerright]" default="375"/>
         <definition>
         <control type="scrollbar" id="$PARAM[scrollid]">
@@ -110,9 +110,8 @@
 
     <include name="JumpBarHorizontal2">
         <control type="group">
-            <visible allowhiddenfocus="true">ControlGroup(290000).HasFocus()</visible>
-            <animation effect="slide" start="0,0" end="-84,0" time="400" tween="quadratic" easing="out">Visible</animation>
-            <animation effect="slide" start="-84,0" end="0,0" time="400" tween="quadratic" easing="in">Hidden</animation>
+            <animation effect="slide" start="0,0" end="-84,0" time="400" tween="quadratic" easing="out" condition="Control.HasFocus(290001)" reversible="false">Conditional</animation>
+            <animation effect="slide" start="-84,0" end="0,0" time="400" tween="quadratic" easing="in" condition="!Control.HasFocus(290001)" reversible="false">Conditional</animation>
             <animation effect="slide" start="0,0" end="84,0" time="400" tween="quadratic" easing="in">WindowClose</animation>
             <animation effect="slide" start="0,0" end="0,14" time="0" condition="Control.Isvisible(521) | Control.Isvisible(522) | Control.Isvisible(523)">Conditional</animation>
             <animation effect="slide" start="0,0" end="0,10" time="0" condition="Control.Isvisible(510)">Conditional</animation>
@@ -128,9 +127,41 @@
                 <texture border="16" colordiffuse="Background">common/rounded-shadow8.png</texture>
             </control>
             <control type="image">
-                <texture colordiffuse="Box2" border="4" background="true">common/box21.png</texture>
+                <texture colordiffuse="Box2" border="4" background="true" infill="false">common/box21.png</texture>
             </control>
-            <control type="grouplist" id="290000">
+            <control type="group">
+                <visible>Container(290001).IsUpdating</visible>
+                <include>Animation.FadeIn</include>
+                <include>Animation.FadeOut</include>
+                <centerleft>51</centerleft>
+                <top>295</top>
+                <control type="image">
+                    <width>50</width>
+                    <height>50</height>
+                    <texture>dialog/loading-back.png</texture>
+                    <aspectratio>keep</aspectratio>
+                </control>
+                <control type="image">
+                    <width>50</width>
+                    <height>50</height>
+                    <animation effect="rotate" condition="true" start="360" end="0" loop="true" time="1000" center="auto">Conditional</animation>
+                    <texture colordiffuse="$VAR[ColorHighlight]">dialog/loading-spinner.png</texture>
+                    <aspectratio>keep</aspectratio>
+                </control>
+            </control>
+            <control type="group">
+                <control type="image">
+                    <visible>!Container(290001).IsUpdating + !Integer.IsGreater(Container(290001).NumItems,0)</visible>
+                    <include>Animation.FadeIn</include>
+                    <include>Animation.FadeOut</include>
+                    <centerleft>44</centerleft>
+                    <top>295</top>
+                    <width>50</width>
+                    <height>50</height>
+                    <texture>buttons/delete.png</texture>
+                </control>
+            </control>            
+            <control type="grouplist">
                 <left>28</left>
                 <top>-28</top>
                 <width>26</width>
@@ -150,6 +181,8 @@
                     <scrolltime>100</scrolltime>
                     <focusposition>0</focusposition>
                     <onleft>50</onleft>
+                    <animation effect="fade" start="0" end="100" time="400" delay="300" condition="!Container(290001).IsUpdating" reversible="false">Conditional</animation>
+                    <animation effect="fade" start="100" end="0" time="0" condition="Container(290001).IsUpdating" reversible="false">Conditional</animation>
                     <itemlayout height="55" width="26">
                         <control type="label">
                             <width>100%</width>
@@ -198,122 +231,162 @@
     </include>
 
     <variable name="FlagstarMusic1">
-        <value condition="Integer.IsGreater(MusicPlayer.UserRating,1)">star10</value>
-        <value condition="Integer.IsGreater(MusicPlayer.UserRating,0)">star5</value>
+        <value condition="Integer.IsGreater(MusicPlayer.UserRating,1) + Skin.HasSetting(userrating.stars.override.rating.stars)">star10</value>
+        <value condition="Integer.IsGreater(MusicPlayer.UserRating,0) + Skin.HasSetting(userrating.stars.override.rating.stars)">star5</value>
+        <value condition="Integer.IsGreater(MusicPlayer.Rating,1) + [String.IsEmpty(MusicPlayer.UserRating) | !Skin.HasSetting(userrating.stars.override.rating.stars)]">star10</value>
+        <value condition="Integer.IsGreater(MusicPlayer.Rating,0) + [String.IsEmpty(MusicPlayer.UserRating) | !Skin.HasSetting(userrating.stars.override.rating.stars)]">star5</value>
         <value>star0</value>
     </variable>
 
     <variable name="FlagstarMusic2">
-        <value condition="Integer.IsGreater(MusicPlayer.UserRating,3)">star10</value>
-        <value condition="Integer.IsGreater(MusicPlayer.UserRating,2)">star5</value>
+        <value condition="Integer.IsGreater(MusicPlayer.UserRating,3) + Skin.HasSetting(userrating.stars.override.rating.stars)">star10</value>
+        <value condition="Integer.IsGreater(MusicPlayer.UserRating,2) + Skin.HasSetting(userrating.stars.override.rating.stars)">star5</value>
+        <value condition="Integer.IsGreater(MusicPlayer.Rating,3) + [String.IsEmpty(MusicPlayer.UserRating) | !Skin.HasSetting(userrating.stars.override.rating.stars)]">star10</value>
+        <value condition="Integer.IsGreater(MusicPlayer.Rating,2) + [String.IsEmpty(MusicPlayer.UserRating) | !Skin.HasSetting(userrating.stars.override.rating.stars)]">star5</value>
         <value>star0</value>
     </variable>
 
     <variable name="FlagstarMusic3">
-        <value condition="Integer.IsGreater(MusicPlayer.UserRating,5)">star10</value>
-        <value condition="Integer.IsGreater(MusicPlayer.UserRating,4)">star5</value>
+        <value condition="Integer.IsGreater(MusicPlayer.UserRating,5) + Skin.HasSetting(userrating.stars.override.rating.stars)">star10</value>
+        <value condition="Integer.IsGreater(MusicPlayer.UserRating,4) + Skin.HasSetting(userrating.stars.override.rating.stars)">star5</value>
+        <value condition="Integer.IsGreater(MusicPlayer.Rating,5) + [String.IsEmpty(MusicPlayer.UserRating) | !Skin.HasSetting(userrating.stars.override.rating.stars)]">star10</value>
+        <value condition="Integer.IsGreater(MusicPlayer.Rating,4) + [String.IsEmpty(MusicPlayer.UserRating) | !Skin.HasSetting(userrating.stars.override.rating.stars)]">star5</value>
         <value>star0</value>
     </variable>
 
     <variable name="FlagstarMusic4">
-        <value condition="Integer.IsGreater(MusicPlayer.UserRating,7)">star10</value>
-        <value condition="Integer.IsGreater(MusicPlayer.UserRating,6)">star5</value>
+        <value condition="Integer.IsGreater(MusicPlayer.UserRating,7) + Skin.HasSetting(userrating.stars.override.rating.stars)">star10</value>
+        <value condition="Integer.IsGreater(MusicPlayer.UserRating,6) + Skin.HasSetting(userrating.stars.override.rating.stars)">star5</value>
+        <value condition="Integer.IsGreater(MusicPlayer.Rating,7) + [String.IsEmpty(MusicPlayer.UserRating) | !Skin.HasSetting(userrating.stars.override.rating.stars)]">star10</value>
+        <value condition="Integer.IsGreater(MusicPlayer.Rating,6) + [String.IsEmpty(MusicPlayer.UserRating) | !Skin.HasSetting(userrating.stars.override.rating.stars)]">star5</value>
         <value>star0</value>
     </variable>
 
     <variable name="FlagstarMusic5">
-        <value condition="Integer.IsGreater(MusicPlayer.UserRating,9)">star10</value>
-        <value condition="Integer.IsGreater(MusicPlayer.UserRating,8)">star5</value>
+        <value condition="Integer.IsGreater(MusicPlayer.UserRating,9) + Skin.HasSetting(userrating.stars.override.rating.stars)">star10</value>
+        <value condition="Integer.IsGreater(MusicPlayer.UserRating,8) + Skin.HasSetting(userrating.stars.override.rating.stars)">star5</value>
+        <value condition="Integer.IsGreater(MusicPlayer.Rating,9) + [String.IsEmpty(MusicPlayer.UserRating) | !Skin.HasSetting(userrating.stars.override.rating.stars)]">star10</value>
+        <value condition="Integer.IsGreater(MusicPlayer.Rating,8) + [String.IsEmpty(MusicPlayer.UserRating) | !Skin.HasSetting(userrating.stars.override.rating.stars)]">star5</value>
         <value>star0</value>
     </variable>
 
     <variable name="Flagstar1">
-        <value condition="Integer.IsGreater(ListItem.Rating,1)">star10</value>
-        <value condition="Integer.IsGreater(ListItem.Rating,0)">star5</value>
+        <value condition="Integer.IsGreater(ListItem.UserRating,1) + Skin.HasSetting(userrating.stars.override.rating.stars)">star10</value>
+        <value condition="Integer.IsGreater(ListItem.UserRating,0) + Skin.HasSetting(userrating.stars.override.rating.stars)">star5</value>
+        <value condition="Integer.IsGreater(ListItem.Rating,1) + [String.IsEmpty(ListItem.UserRating) | !Skin.HasSetting(userrating.stars.override.rating.stars)]">star10</value>
+        <value condition="Integer.IsGreater(ListItem.Rating,0) + [String.IsEmpty(ListItem.UserRating) | !Skin.HasSetting(userrating.stars.override.rating.stars)]">star5</value>
         <value>star0</value>
     </variable>
 
     <variable name="Flagstar2">
-        <value condition="Integer.IsGreater(ListItem.Rating,3)">star10</value>
-        <value condition="Integer.IsGreater(ListItem.Rating,2)">star5</value>
+        <value condition="Integer.IsGreater(ListItem.UserRating,3) + Skin.HasSetting(userrating.stars.override.rating.stars)">star10</value>
+        <value condition="Integer.IsGreater(ListItem.UserRating,2) + Skin.HasSetting(userrating.stars.override.rating.stars)">star5</value>
+        <value condition="Integer.IsGreater(ListItem.Rating,3) + [String.IsEmpty(ListItem.UserRating) | !Skin.HasSetting(userrating.stars.override.rating.stars)]">star10</value>
+        <value condition="Integer.IsGreater(ListItem.Rating,2) + [String.IsEmpty(ListItem.UserRating) | !Skin.HasSetting(userrating.stars.override.rating.stars)]">star5</value>
         <value>star0</value>
     </variable>
 
     <variable name="Flagstar3">
-        <value condition="Integer.IsGreater(ListItem.Rating,5)">star10</value>
-        <value condition="Integer.IsGreater(ListItem.Rating,4)">star5</value>
+        <value condition="Integer.IsGreater(ListItem.UserRating,5) + Skin.HasSetting(userrating.stars.override.rating.stars)">star10</value>
+        <value condition="Integer.IsGreater(ListItem.UserRating,4) + Skin.HasSetting(userrating.stars.override.rating.stars)">star5</value>
+        <value condition="Integer.IsGreater(ListItem.Rating,5) + [String.IsEmpty(ListItem.UserRating) | !Skin.HasSetting(userrating.stars.override.rating.stars)]">star10</value>
+        <value condition="Integer.IsGreater(ListItem.Rating,4) + [String.IsEmpty(ListItem.UserRating) | !Skin.HasSetting(userrating.stars.override.rating.stars)]">star5</value>
         <value>star0</value>
     </variable>
 
     <variable name="Flagstar4">
-        <value condition="Integer.IsGreater(ListItem.Rating,7)">star10</value>
-        <value condition="Integer.IsGreater(ListItem.Rating,6)">star5</value>
+        <value condition="Integer.IsGreater(ListItem.UserRating,7) + Skin.HasSetting(userrating.stars.override.rating.stars)">star10</value>
+        <value condition="Integer.IsGreater(ListItem.UserRating,6) + Skin.HasSetting(userrating.stars.override.rating.stars)">star5</value>
+        <value condition="Integer.IsGreater(ListItem.Rating,7) + [String.IsEmpty(ListItem.UserRating) | !Skin.HasSetting(userrating.stars.override.rating.stars)]">star10</value>
+        <value condition="Integer.IsGreater(ListItem.Rating,6) + [String.IsEmpty(ListItem.UserRating) | !Skin.HasSetting(userrating.stars.override.rating.stars)]">star5</value>
         <value>star0</value>
     </variable>
 
     <variable name="Flagstar5">
-        <value condition="Integer.IsGreater(ListItem.Rating,9)">star10</value>
-        <value condition="Integer.IsGreater(ListItem.Rating,8)">star5</value>
+        <value condition="Integer.IsGreater(ListItem.UserRating,9) + Skin.HasSetting(userrating.stars.override.rating.stars)">star10</value>
+        <value condition="Integer.IsGreater(ListItem.UserRating,8) + Skin.HasSetting(userrating.stars.override.rating.stars)">star5</value>
+        <value condition="Integer.IsGreater(ListItem.Rating,9) + [String.IsEmpty(ListItem.UserRating) | !Skin.HasSetting(userrating.stars.override.rating.stars)]">star10</value>
+        <value condition="Integer.IsGreater(ListItem.Rating,8) + [String.IsEmpty(ListItem.UserRating) | !Skin.HasSetting(userrating.stars.override.rating.stars)]">star5</value>
         <value>star0</value>
     </variable>
 
     <variable name="FlagstarSong1">
-        <value condition="Integer.IsGreater(ListItem.UserRating,1)">star10</value>
-        <value condition="Integer.IsGreater(ListItem.UserRating,0)">star5</value>
+        <value condition="Integer.IsGreater(ListItem.UserRating,1) + Skin.HasSetting(userrating.stars.override.rating.stars)">star10</value>
+        <value condition="Integer.IsGreater(ListItem.UserRating,0) + Skin.HasSetting(userrating.stars.override.rating.stars)">star5</value>
+        <value condition="Integer.IsGreater(ListItem.Rating,1) + [String.IsEmpty(ListItem.UserRating) | !Skin.HasSetting(userrating.stars.override.rating.stars)]">star10</value>
+        <value condition="Integer.IsGreater(ListItem.Rating,0) + [String.IsEmpty(ListItem.UserRating) | !Skin.HasSetting(userrating.stars.override.rating.stars)]">star5</value>
         <value>star0</value>
     </variable>
 
     <variable name="FlagstarSong2">
-        <value condition="Integer.IsGreater(ListItem.UserRating,3)">star10</value>
-        <value condition="Integer.IsGreater(ListItem.UserRating,2)">star5</value>
+        <value condition="Integer.IsGreater(ListItem.UserRating,3) + Skin.HasSetting(userrating.stars.override.rating.stars)">star10</value>
+        <value condition="Integer.IsGreater(ListItem.UserRating,2) + Skin.HasSetting(userrating.stars.override.rating.stars)">star5</value>
+        <value condition="Integer.IsGreater(ListItem.Rating,3) + [String.IsEmpty(ListItem.UserRating) | !Skin.HasSetting(userrating.stars.override.rating.stars)]">star10</value>
+        <value condition="Integer.IsGreater(ListItem.Rating,2) + [String.IsEmpty(ListItem.UserRating) | !Skin.HasSetting(userrating.stars.override.rating.stars)]">star5</value>
         <value>star0</value>
     </variable>
 
     <variable name="FlagstarSong3">
-        <value condition="Integer.IsGreater(ListItem.UserRating,5)">star10</value>
-        <value condition="Integer.IsGreater(ListItem.UserRating,4)">star5</value>
+        <value condition="Integer.IsGreater(ListItem.UserRating,5) + Skin.HasSetting(userrating.stars.override.rating.stars)">star10</value>
+        <value condition="Integer.IsGreater(ListItem.UserRating,4) + Skin.HasSetting(userrating.stars.override.rating.stars)">star5</value>
+        <value condition="Integer.IsGreater(ListItem.Rating,5) + [String.IsEmpty(ListItem.UserRating) | !Skin.HasSetting(userrating.stars.override.rating.stars)]">star10</value>
+        <value condition="Integer.IsGreater(ListItem.Rating,4) + [String.IsEmpty(ListItem.UserRating) | !Skin.HasSetting(userrating.stars.override.rating.stars)]">star5</value>
         <value>star0</value>
     </variable>
 
     <variable name="FlagstarSong4">
-        <value condition="Integer.IsGreater(ListItem.UserRating,7)">star10</value>
-        <value condition="Integer.IsGreater(ListItem.UserRating,6)">star5</value>
+        <value condition="Integer.IsGreater(ListItem.UserRating,7) + Skin.HasSetting(userrating.stars.override.rating.stars)">star10</value>
+        <value condition="Integer.IsGreater(ListItem.UserRating,6) + Skin.HasSetting(userrating.stars.override.rating.stars)">star5</value>
+        <value condition="Integer.IsGreater(ListItem.Rating,7) + [String.IsEmpty(ListItem.UserRating) | !Skin.HasSetting(userrating.stars.override.rating.stars)]">star10</value>
+        <value condition="Integer.IsGreater(ListItem.Rating,6) + [String.IsEmpty(ListItem.UserRating) | !Skin.HasSetting(userrating.stars.override.rating.stars)]">star5</value>
         <value>star0</value>
     </variable>
 
     <variable name="FlagstarSong5">
-        <value condition="Integer.IsGreater(ListItem.UserRating,9)">star10</value>
-        <value condition="Integer.IsGreater(ListItem.UserRating,8)">star5</value>
+        <value condition="Integer.IsGreater(ListItem.UserRating,9) + Skin.HasSetting(userrating.stars.override.rating.stars)">star10</value>
+        <value condition="Integer.IsGreater(ListItem.UserRating,8) + Skin.HasSetting(userrating.stars.override.rating.stars)">star5</value>
+        <value condition="Integer.IsGreater(ListItem.Rating,9) + [String.IsEmpty(ListItem.UserRating) | !Skin.HasSetting(userrating.stars.override.rating.stars)]">star10</value>
+        <value condition="Integer.IsGreater(ListItem.Rating,8) + [String.IsEmpty(ListItem.UserRating) | !Skin.HasSetting(userrating.stars.override.rating.stars)]">star5</value>
         <value>star0</value>
     </variable>
 
-    <variable name="Flagstar199">
-        <value condition="Integer.IsGreater(VideoPlayer.Rating,1)">star10</value>
-        <value condition="Integer.IsGreater(VideoPlayer.Rating,0)">star5</value>
+    <variable name="FlagstarVideo1">
+        <value condition="Integer.IsGreater(VideoPlayer.UserRating,1) + Skin.HasSetting(userrating.stars.override.rating.stars)">star10</value>
+        <value condition="Integer.IsGreater(VideoPlayer.UserRating,0) + Skin.HasSetting(userrating.stars.override.rating.stars)">star5</value>
+        <value condition="Integer.IsGreater(VideoPlayer.Rating,1) + [String.IsEmpty(VideoPlayer.UserRating) | !Skin.HasSetting(userrating.stars.override.rating.stars)]">star10</value>
+        <value condition="Integer.IsGreater(VideoPlayer.Rating,0) + [String.IsEmpty(VideoPlayer.UserRating) | !Skin.HasSetting(userrating.stars.override.rating.stars)]">star5</value>
         <value>star0</value>
     </variable>
 
-    <variable name="Flagstar299">
-        <value condition="Integer.IsGreater(VideoPlayer.Rating,3)">star10</value>
-        <value condition="Integer.IsGreater(VideoPlayer.Rating,2)">star5</value>
+    <variable name="FlagstarVideo2">
+        <value condition="Integer.IsGreater(VideoPlayer.UserRating,3) + Skin.HasSetting(userrating.stars.override.rating.stars)">star10</value>
+        <value condition="Integer.IsGreater(VideoPlayer.UserRating,2) + Skin.HasSetting(userrating.stars.override.rating.stars)">star5</value>
+        <value condition="Integer.IsGreater(VideoPlayer.Rating,3) + [String.IsEmpty(VideoPlayer.UserRating) | !Skin.HasSetting(userrating.stars.override.rating.stars)]">star10</value>
+        <value condition="Integer.IsGreater(VideoPlayer.Rating,2) + [String.IsEmpty(VideoPlayer.UserRating) | !Skin.HasSetting(userrating.stars.override.rating.stars)]">star5</value>
         <value>star0</value>
     </variable>
 
-    <variable name="Flagstar399">
-        <value condition="Integer.IsGreater(VideoPlayer.Rating,5)">star10</value>
-        <value condition="Integer.IsGreater(VideoPlayer.Rating,4)">star5</value>
+    <variable name="FlagstarVideo3">
+        <value condition="Integer.IsGreater(VideoPlayer.UserRating,5) + Skin.HasSetting(userrating.stars.override.rating.stars)">star10</value>
+        <value condition="Integer.IsGreater(VideoPlayer.UserRating,4) + Skin.HasSetting(userrating.stars.override.rating.stars)">star5</value>
+        <value condition="Integer.IsGreater(VideoPlayer.Rating,5) + [String.IsEmpty(VideoPlayer.UserRating) | !Skin.HasSetting(userrating.stars.override.rating.stars)]">star10</value>
+        <value condition="Integer.IsGreater(VideoPlayer.Rating,4) + [String.IsEmpty(VideoPlayer.UserRating) | !Skin.HasSetting(userrating.stars.override.rating.stars)]">star5</value>
         <value>star0</value>
     </variable>
 
-    <variable name="Flagstar499">
-        <value condition="Integer.IsGreater(VideoPlayer.Rating,7)">star10</value>
-        <value condition="Integer.IsGreater(VideoPlayer.Rating,6)">star5</value>
+    <variable name="FlagstarVideo4">
+        <value condition="Integer.IsGreater(VideoPlayer.UserRating,7) + Skin.HasSetting(userrating.stars.override.rating.stars)">star10</value>
+        <value condition="Integer.IsGreater(VideoPlayer.UserRating,6) + Skin.HasSetting(userrating.stars.override.rating.stars)">star5</value>
+        <value condition="Integer.IsGreater(VideoPlayer.Rating,7) + [String.IsEmpty(VideoPlayer.UserRating) | !Skin.HasSetting(userrating.stars.override.rating.stars)]">star10</value>
+        <value condition="Integer.IsGreater(VideoPlayer.Rating,6) + [String.IsEmpty(VideoPlayer.UserRating) | !Skin.HasSetting(userrating.stars.override.rating.stars)]">star5</value>
         <value>star0</value>
     </variable>
 
-    <variable name="Flagstar599">
-        <value condition="Integer.IsGreater(VideoPlayer.Rating,9)">star10</value>
-        <value condition="Integer.IsGreater(VideoPlayer.Rating,8)">star5</value>
+    <variable name="FlagstarVideo5">
+        <value condition="Integer.IsGreater(VideoPlayer.UserRating,9) + Skin.HasSetting(userrating.stars.override.rating.stars)">star10</value>
+        <value condition="Integer.IsGreater(VideoPlayer.UserRating,8) + Skin.HasSetting(userrating.stars.override.rating.stars)">star5</value>
+        <value condition="Integer.IsGreater(VideoPlayer.Rating,9) + [String.IsEmpty(VideoPlayer.UserRating) | !Skin.HasSetting(userrating.stars.override.rating.stars)]">star10</value>
+        <value condition="Integer.IsGreater(VideoPlayer.Rating,8) + [String.IsEmpty(VideoPlayer.UserRating) | !Skin.HasSetting(userrating.stars.override.rating.stars)]">star5</value>
         <value>star0</value>
     </variable>
 
@@ -348,32 +421,42 @@
     </variable>
 
     <variable name="HubFlagstar1">
-        <value condition="Integer.IsGreater(Container(9500).ListItem.Rating,1)">star10</value>
-        <value condition="Integer.IsGreater(Container(9500).ListItem.Rating,0)">star5</value>
+        <value condition="Integer.IsGreater(Container(9500).ListItem.UserRating,1) + Skin.HasSetting(userrating.stars.override.rating.stars)">star10</value>
+        <value condition="Integer.IsGreater(Container(9500).ListItem.UserRating,0) + Skin.HasSetting(userrating.stars.override.rating.stars)">star5</value>
+        <value condition="Integer.IsGreater(Container(9500).ListItem.Rating,1) + [String.IsEmpty(Container(9500).ListItem.UserRating) | !Skin.HasSetting(userrating.stars.override.rating.stars)]">star10</value>
+        <value condition="Integer.IsGreater(Container(9500).ListItem.Rating,0) + [String.IsEmpty(Container(9500).ListItem.UserRating) | !Skin.HasSetting(userrating.stars.override.rating.stars)]">star5</value>
         <value>star0</value>
     </variable>
 
     <variable name="HubFlagstar2">
-        <value condition="Integer.IsGreater(Container(9500).ListItem.Rating,3)">star10</value>
-        <value condition="Integer.IsGreater(Container(9500).ListItem.Rating,2)">star5</value>
+        <value condition="Integer.IsGreater(Container(9500).ListItem.UserRating,3) + Skin.HasSetting(userrating.stars.override.rating.stars)">star10</value>
+        <value condition="Integer.IsGreater(Container(9500).ListItem.UserRating,2) + Skin.HasSetting(userrating.stars.override.rating.stars)">star5</value>
+        <value condition="Integer.IsGreater(Container(9500).ListItem.Rating,3) + [String.IsEmpty(Container(9500).ListItem.UserRating) | !Skin.HasSetting(userrating.stars.override.rating.stars)]">star10</value>
+        <value condition="Integer.IsGreater(Container(9500).ListItem.Rating,2) + [String.IsEmpty(Container(9500).ListItem.UserRating) | !Skin.HasSetting(userrating.stars.override.rating.stars)]">star5</value>
         <value>star0</value>
     </variable>
 
     <variable name="HubFlagstar3">
-        <value condition="Integer.IsGreater(Container(9500).ListItem.Rating,5)">star10</value>
-        <value condition="Integer.IsGreater(Container(9500).ListItem.Rating,4)">star5</value>
+        <value condition="Integer.IsGreater(Container(9500).ListItem.UserRating,5) + Skin.HasSetting(userrating.stars.override.rating.stars)">star10</value>
+        <value condition="Integer.IsGreater(Container(9500).ListItem.UserRating,4) + Skin.HasSetting(userrating.stars.override.rating.stars)">star5</value>
+        <value condition="Integer.IsGreater(Container(9500).ListItem.Rating,5) + [String.IsEmpty(Container(9500).ListItem.UserRating) | !Skin.HasSetting(userrating.stars.override.rating.stars)]">star10</value>
+        <value condition="Integer.IsGreater(Container(9500).ListItem.Rating,4) + [String.IsEmpty(Container(9500).ListItem.UserRating) | !Skin.HasSetting(userrating.stars.override.rating.stars)]">star5</value>
         <value>star0</value>
     </variable>
 
     <variable name="HubFlagstar4">
-        <value condition="Integer.IsGreater(Container(9500).ListItem.Rating,7)">star10</value>
-        <value condition="Integer.IsGreater(Container(9500).ListItem.Rating,6)">star5</value>
+        <value condition="Integer.IsGreater(Container(9500).ListItem.UserRating,7) + Skin.HasSetting(userrating.stars.override.rating.stars)">star10</value>
+        <value condition="Integer.IsGreater(Container(9500).ListItem.UserRating,6) + Skin.HasSetting(userrating.stars.override.rating.stars)">star5</value>
+        <value condition="Integer.IsGreater(Container(9500).ListItem.Rating,7) + [String.IsEmpty(Container(9500).ListItem.UserRating) | !Skin.HasSetting(userrating.stars.override.rating.stars)]">star10</value>
+        <value condition="Integer.IsGreater(Container(9500).ListItem.Rating,6) + [String.IsEmpty(Container(9500).ListItem.UserRating) | !Skin.HasSetting(userrating.stars.override.rating.stars)]">star5</value>
         <value>star0</value>
     </variable>
 
     <variable name="HubFlagstar5">
-        <value condition="Integer.IsGreater(Container(9500).ListItem.Rating,9)">star10</value>
-        <value condition="Integer.IsGreater(Container(9500).ListItem.Rating,8)">star5</value>
+        <value condition="Integer.IsGreater(Container(9500).ListItem.UserRating,9) + Skin.HasSetting(userrating.stars.override.rating.stars)">star10</value>
+        <value condition="Integer.IsGreater(Container(9500).ListItem.UserRating,8) + Skin.HasSetting(userrating.stars.override.rating.stars)">star5</value>
+        <value condition="Integer.IsGreater(Container(9500).ListItem.Rating,9) + [String.IsEmpty(Container(9500).ListItem.UserRating) | !Skin.HasSetting(userrating.stars.override.rating.stars)]">star10</value>
+        <value condition="Integer.IsGreater(Container(9500).ListItem.Rating,8) + [String.IsEmpty(Container(9500).ListItem.UserRating) | !Skin.HasSetting(userrating.stars.override.rating.stars)]">star5</value>
         <value>star0</value>
     </variable>
 
@@ -391,55 +474,6 @@
             <top>70</top>
             <left>-90</left>
             <control type="grouplist">
-                <left>SidePad</left>
-                <bottom>10</bottom>
-                <width>1400</width>
-                <height>64</height>
-                <orientation>horizontal</orientation>
-                <visible>false</visible>
-                <itemgap>5</itemgap>
-                <control type="image">
-                    <width min="20" max="70">auto</width>
-                    <height>40</height>
-                    <centertop>50%</centertop>
-                    <texture colordiffuse="Dark1" fallback="flags/fallback.png">$INFO[ListItem.VideoResolution,flags/resolution/,.png]</texture>
-                    <aspectratio align="left">keep</aspectratio>
-                    <visible>Skin.HasSetting(furniture.flagicons) + !String.IsEmpty(ListItem.VideoResolution) + !String.Contains(ListItem.Path,videodb://movies/sets,left)</visible>
-                </control>
-                <control type="image">
-                    <width min="20" max="150">auto</width>
-                    <height>40</height>
-                    <centertop>50%</centertop>
-                    <texture colordiffuse="Dark1" fallback="flags/fallback.png">$INFO[ListItem.VideoCodec,flags/source/,.png]</texture>
-                    <aspectratio align="center">keep</aspectratio>
-                    <visible>Skin.HasSetting(furniture.flagicons) + !String.IsEmpty(ListItem.VideoCodec)</visible>
-                </control>
-                <control type="image">
-                    <width min="20" max="100">auto</width>
-                    <height>40</height>
-                    <centertop>50%</centertop>
-                    <texture colordiffuse="Dark1" fallback="flags/fallback.png">$INFO[ListItem.VideoAspect,flags/aspectratio/,.png]</texture>
-                    <aspectratio align="center">keep</aspectratio>
-                    <visible>Skin.HasSetting(furniture.flagicons) + !String.IsEmpty(ListItem.VideoAspect)</visible>
-                </control>
-                <control type="image">
-                    <width min="20" max="128">auto</width>
-                    <height>40</height>
-                    <centertop>50%</centertop>
-                    <texture colordiffuse="Dark1" fallback="flags/fallback.png">$VAR[ListItemAudioCodec,flags/audio/,.png]</texture>
-                    <aspectratio align="center">keep</aspectratio>
-                    <visible>Skin.HasSetting(furniture.flagicons) + !String.IsEmpty(ListItem.AudioCodec)</visible>
-                </control>
-                <control type="image">
-                    <width min="20" max="100">auto</width>
-                    <height>40</height>
-                    <centertop>50%</centertop>
-                    <texture colordiffuse="Dark1" fallback="flags/fallback.png">$INFO[ListItem.AudioChannels,flags/channels/,.png]</texture>
-                    <aspectratio align="center">keep</aspectratio>
-                    <visible>Skin.HasSetting(furniture.flagicons) + !String.IsEmpty(ListItem.AudioChannels)</visible>
-                </control>
-            </control>
-            <control type="grouplist">
                 <visible>!Skin.HasSetting(furniture.coloredicons)</visible>
                 <visible>!String.IsEqual(ListItem.Label,..)</visible>
                 <left>SidePad</left>
@@ -447,7 +481,7 @@
                 <height>120</height>
                 <orientation>horizontal</orientation>
                 <align>left</align>
-                <itemgap>3</itemgap>
+                <itemgap>0</itemgap>
                 <usecontrolcoords>true</usecontrolcoords>
                 <control type="group">
                     <visible>[[Container.Content(tvshows) | Container.Content(seasons)] + [!String.IsEmpty(ListItem.Property(TotalEpisodes)) | !String.IsEmpty(ListItem.Property(UnWatchedEpisodes))]] | ListItem.IsCollection | [!Skin.HasSetting(furniture.flagicons) + !String.IsEmpty(ListItem.VideoResolution)]</visible>
@@ -496,15 +530,16 @@
                     <param name="color" value="Dark1" />
                 </include>
                 <control type="label">
-                    <left>-16</left>
+                    <left>-6</left>
                     <width min="48">auto</width>
                     <centertop>50%</centertop>
                     <height>64</height>
                     <align>left</align>
                     <aligny>center</aligny>
-                    <label>$INFO[ListItem.Rating]</label>
+                    <label>$VAR[RatingLabel]</label>
                     <font>Flag</font>
                     <textcolor>Dark1</textcolor>
+                    <visible>!String.IsEmpty(ListItem.Rating) | [!String.IsEmpty(ListItem.UserRating) + Skin.HasSetting(userrating.override.rating)]</visible>
                     <visible>Skin.HasSetting(furniture.numericrating)</visible>
                 </control>
                 <control type="image">
@@ -650,7 +685,7 @@
                     <centertop>50%</centertop>
                     <texture colordiffuse="Dark1">flags/time.png</texture>
                     <aspectratio align="left">scale</aspectratio>
-                    <visible>!String.IsEmpty(ListItem.Duration(mins)) + [Control.IsVisible(500) | Control.IsVisible(53) | Control.IsVisible(52) | Control.IsVisible(55)]</visible>
+                    <visible>!String.IsEqual(ListItem.DBType,tvshow) + !String.IsEmpty(ListItem.Duration(mins)) + [Control.IsVisible(500) | Control.IsVisible(53) | Control.IsVisible(52) | Control.IsVisible(55)]</visible>
                 </control>
                 <control type="label">
                     <width>auto</width>
@@ -661,7 +696,7 @@
                     <label>$VAR[LabelDurationTimeCheck]  </label>
                     <font>Flag</font>
                     <textcolor>Dark1</textcolor>
-                    <visible>!String.IsEmpty(ListItem.Duration(mins)) + [Control.IsVisible(500) | Control.IsVisible(53) | Control.IsVisible(52) | Control.IsVisible(55)]</visible>
+                    <visible>!String.IsEqual(ListItem.DBType,tvshow) + !String.IsEmpty(ListItem.Duration(mins)) + [Control.IsVisible(500) | Control.IsVisible(53) | Control.IsVisible(52) | Control.IsVisible(55)]</visible>
                 </control>
                 <control type="image">
                     <width>64</width>
@@ -686,7 +721,7 @@
                     <centertop>50%</centertop>
                     <texture colordiffuse="Dark1" fallback="flags/fallback.png">flags/other/web-dl.png</texture>
                     <aspectratio aligny="center" align="center">keep</aspectratio>
-                    <visible>Skin.HasSetting(furniture.flagicons) + [String.Contains(ListItem.Filenameandpath,.web.) | String.Contains(ListItem.Filenameandpath,.web-dl.) | String.Contains(ListItem.Filenameandpath,.webrip.)]</visible>
+                    <visible>Skin.HasSetting(furniture.flagicons) + [String.Contains(ListItem.Filenameandpath,.web.) | String.Contains(ListItem.Filenameandpath,web-dl) | String.Contains(ListItem.Filenameandpath,webdl) | String.Contains(ListItem.Filenameandpath,webrip)]</visible>
                 </control>
                 <control type="image">
                     <width>94</width>
@@ -732,8 +767,8 @@
                 <control type="image">
                     <visible>!String.IsEmpty(ListItem.UserRating) + Skin.HasSetting(furniture.showuserrating) + !Skin.HasSetting(furniture.flagicons)</visible>
                     <centertop>50%</centertop>
-                    <width>33</width>
-                    <height>33</height>
+                    <width>37</width>
+                    <height>37</height>
                     <left>15</left>
                     <texture colordiffuse="Dark1" background="true">misc/userrating_white.png</texture>
                 </control>
@@ -743,7 +778,7 @@
                     <width>auto</width>
                     <height>64</height>
                     <font>Tiny</font>
-                    <left>3</left>
+                    <left>5</left>
                     <textcolor>Dark2</textcolor>
                     <label>$INFO[ListItem.UserRating].0</label>
                 </control>
@@ -762,7 +797,7 @@
                     <width>auto</width>
                     <height>64</height>
                     <font>Tiny</font>
-                    <left>3</left>
+                    <left>5</left>
                     <textcolor>Dark2</textcolor>
                     <label>$INFO[Window(Home).Property(TMDbHelper.ListItem.Metacritic_Rating)]%</label>
                 </control>
@@ -781,16 +816,16 @@
                     <width>auto</width>
                     <height>64</height>
                     <font>Tiny</font>
-                    <left>3</left>
+                    <left>5</left>
                     <textcolor>Dark2</textcolor>
                     <label>$INFO[Window(Home).Property(TMDbHelper.ListItem.RottenTomatoes_Rating)]%</label>
                 </control>
                 <control type="image">
                     <visible>!String.IsEmpty(ListItem.UserRating) + Skin.HasSetting(furniture.showuserrating) + Skin.HasSetting(furniture.flagicons)</visible>
                     <centertop>50%</centertop>
-                    <width>38</width>
-                    <height>38</height>
-                    <left>35</left>
+                    <width>37</width>
+                    <height>37</height>
+                    <left>15</left>
                     <texture colordiffuse="Dark1" background="true">misc/userrating_white.png</texture>
                 </control>
                 <control type="label">
@@ -799,7 +834,7 @@
                     <width>auto</width>
                     <height>64</height>
                     <font>Tiny</font>
-                    <left>3</left>
+                    <left>5</left>
                     <textcolor>Dark2</textcolor>
                     <label>$INFO[ListItem.UserRating].0</label>
                 </control>
@@ -817,7 +852,7 @@
                     <width>auto</width>
                     <height>64</height>
                     <font>Tiny</font>
-                    <left>3</left>
+                    <left>5</left>
                     <textcolor>Dark2</textcolor>
                     <label>$INFO[Window(Home).Property(TMDbHelper.ListItem.Metacritic_Rating)]%</label>
                 </control>
@@ -836,7 +871,7 @@
                     <width>auto</width>
                     <height>64</height>
                     <font>Tiny</font>
-                    <left>3</left>
+                    <left>5</left>
                     <textcolor>Dark2</textcolor>
                     <label>$INFO[Window(Home).Property(TMDbHelper.ListItem.RottenTomatoes_Rating)]%</label>
                 </control>
@@ -855,7 +890,7 @@
                     <width>auto</width>
                     <height>64</height>
                     <font>Tiny</font>
-                    <left>3</left>
+                    <left>5</left>
                     <textcolor>Dark2</textcolor>
                     <label>$INFO[Window(Home).Property(TMDbHelper.ListItem.RottenTomatoes_UserMeter)]%</label>
                 </control>
@@ -867,7 +902,7 @@
                 <height>120</height>
                 <orientation>horizontal</orientation>
                 <align>left</align>
-                <itemgap>3</itemgap>
+                <itemgap>0</itemgap>
                 <usecontrolcoords>true</usecontrolcoords>
                 <control type="group">
                     <visible>[[Container.Content(tvshows) | Container.Content(seasons)] + [!String.IsEmpty(ListItem.Property(TotalEpisodes)) | !String.IsEmpty(ListItem.Property(UnWatchedEpisodes))]] | ListItem.IsCollection | [!Skin.HasSetting(furniture.flagicons) + !String.IsEmpty(ListItem.VideoResolution)]</visible>
@@ -916,15 +951,16 @@
                     <param name="visible" value="!Skin.HasSetting(furniture.numericrating)" />
                 </include>
                 <control type="label">
-                    <left>-16</left>
+                    <left>-6</left>
                     <width min="48">auto</width>
                     <centertop>50%</centertop>
                     <height>64</height>
                     <align>left</align>
                     <aligny>center</aligny>
-                    <label>$INFO[ListItem.Rating]</label>
+                    <label>$VAR[RatingLabel]</label>
                     <font>Flag</font>
                     <textcolor>Dark1</textcolor>
+                    <visible>!String.IsEmpty(ListItem.Rating) | [!String.IsEmpty(ListItem.UserRating) + Skin.HasSetting(userrating.override.rating)]</visible>
                     <visible>Skin.HasSetting(furniture.numericrating)</visible>
                 </control>
                 <control type="image">
@@ -1083,7 +1119,7 @@
                     <centertop>50%</centertop>
                     <texture colordiffuse="Dark1">flags/time.png</texture>
                     <aspectratio align="left">scale</aspectratio>
-                    <visible>!String.IsEmpty(ListItem.Duration(mins)) + [Control.IsVisible(500) | Control.IsVisible(53) | Control.IsVisible(52) | Control.IsVisible(55)]</visible>
+                    <visible>!String.IsEqual(ListItem.DBType,tvshow) + !String.IsEmpty(ListItem.Duration(mins)) + [Control.IsVisible(500) | Control.IsVisible(53) | Control.IsVisible(52) | Control.IsVisible(55)]</visible>
                 </control>
                 <control type="label">
                     <width>auto</width>
@@ -1094,7 +1130,7 @@
                     <label>$VAR[LabelDurationTimeCheck]  </label>
                     <font>Flag</font>
                     <textcolor>Dark1</textcolor>
-                    <visible>!String.IsEmpty(ListItem.Duration(mins)) + [Control.IsVisible(500) | Control.IsVisible(53) | Control.IsVisible(52) | Control.IsVisible(55)]</visible>
+                    <visible>!String.IsEqual(ListItem.DBType,tvshow) + !String.IsEmpty(ListItem.Duration(mins)) + [Control.IsVisible(500) | Control.IsVisible(53) | Control.IsVisible(52) | Control.IsVisible(55)]</visible>
                 </control>
                 <control type="image">
                     <width>64</width>
@@ -1119,7 +1155,7 @@
                     <centertop>50%</centertop>
                     <texture fallback="flags/fallback.png">flags/color/other/web-dl.png</texture>
                     <aspectratio aligny="center" align="center">keep</aspectratio>
-                    <visible>Skin.HasSetting(furniture.flagicons) + [String.Contains(ListItem.Filenameandpath,.web.) | String.Contains(ListItem.Filenameandpath,.web-dl.) | String.Contains(ListItem.Filenameandpath,.webrip.)]</visible>
+                    <visible>Skin.HasSetting(furniture.flagicons) + [String.Contains(ListItem.Filenameandpath,.web.) | String.Contains(ListItem.Filenameandpath,web-dl) | String.Contains(ListItem.Filenameandpath,webdl) | String.Contains(ListItem.Filenameandpath,webrip)]</visible>
                 </control>
                 <control type="image">
                     <width>94</width>
@@ -1162,8 +1198,8 @@
                 <control type="image">
                     <visible>!String.IsEmpty(ListItem.UserRating) + Skin.HasSetting(furniture.showuserrating) + !Skin.HasSetting(furniture.flagicons)</visible>
                     <centertop>50%</centertop>
-                    <width>33</width>
-                    <height>33</height>
+                    <width>37</width>
+                    <height>37</height>
                     <left>15</left>
                     <texture background="true" colordiffuse="$VAR[ColorUserrating]">misc/userrating_white.png</texture>
                 </control>
@@ -1173,7 +1209,7 @@
                     <width>auto</width>
                     <height>64</height>
                     <font>Tiny</font>
-                    <left>3</left>
+                    <left>5</left>
                     <textcolor>Dark2</textcolor>
                     <label>$INFO[ListItem.UserRating].0</label>
                 </control>
@@ -1191,7 +1227,7 @@
                     <width>auto</width>
                     <height>64</height>
                     <font>Tiny</font>
-                    <left>3</left>
+                    <left>5</left>
                     <textcolor>Dark2</textcolor>
                     <label>$INFO[Window(Home).Property(TMDbHelper.ListItem.Metacritic_Rating)]%</label>
                 </control>
@@ -1210,16 +1246,16 @@
                     <width>auto</width>
                     <height>64</height>
                     <font>Tiny</font>
-                    <left>3</left>
+                    <left>5</left>
                     <textcolor>Dark2</textcolor>
                     <label>$INFO[Window(Home).Property(TMDbHelper.ListItem.RottenTomatoes_Rating)]%</label>
                 </control>
                 <control type="image">
                     <visible>!String.IsEmpty(ListItem.UserRating) + Skin.HasSetting(furniture.showuserrating) + Skin.HasSetting(furniture.flagicons)</visible>
                     <centertop>50%</centertop>
-                    <width>40</width>
-                    <height>40</height>
-                    <left>30</left>
+                    <width>37</width>
+                    <height>37</height>
+                    <left>15</left>
                     <texture background="true" colordiffuse="$VAR[ColorUserrating]">misc/userrating_white.png</texture>
                 </control>
                 <control type="label">
@@ -1228,7 +1264,7 @@
                     <width>auto</width>
                     <height>64</height>
                     <font>Tiny</font>
-                    <left>3</left>
+                    <left>5</left>
                     <textcolor>Dark2</textcolor>
                     <label>$INFO[ListItem.UserRating].0</label>
                 </control>
@@ -1246,7 +1282,7 @@
                     <width>auto</width>
                     <height>64</height>
                     <font>Tiny</font>
-                    <left>3</left>
+                    <left>5</left>
                     <textcolor>Dark2</textcolor>
                     <label>$INFO[Window(Home).Property(TMDbHelper.ListItem.Metacritic_Rating)]%</label>
                 </control>
@@ -1265,7 +1301,7 @@
                     <width>auto</width>
                     <height>64</height>
                     <font>Tiny</font>
-                    <left>3</left>
+                    <left>5</left>
                     <textcolor>Dark2</textcolor>
                     <label>$INFO[Window(Home).Property(TMDbHelper.ListItem.RottenTomatoes_Rating)]%</label>
                 </control>
@@ -1284,7 +1320,7 @@
                     <width>auto</width>
                     <height>64</height>
                     <font>Tiny</font>
-                    <left>3</left>
+                    <left>5</left>
                     <textcolor>Dark2</textcolor>
                     <label>$INFO[Window(Home).Property(TMDbHelper.ListItem.RottenTomatoes_UserMeter)]%</label>
                 </control>
@@ -1297,7 +1333,7 @@
             <include>Animation.FurnitureVisible</include>
             <visible>!Skin.HasSetting(furniture.coloredicons)</visible>
             <visible>!Skin.HasSetting(furniture.flags)</visible>
-            <visible>[Container.Content(movies) | Container.Content(musicvideos) | Container.Content(episodes) | Container.Content(tvshows) | Container.Content(sets) | Container.Content(seasons)] | [Window.IsVisible(home) + ControlGroup(301).HasFocus() + [String.IsEqual(ListItem.DBType,movie) | String.IsEqual(ListItem.DBType,episode) | String.IsEqual(ListItem.DBType,tvshow) | String.IsEqual(ListItem.DBType,season)] + [Skin.HasSetting(home.vertical) + Skin.HasSetting(home.vertical.widgets)] + !Skin.HasSetting(hide.furniture.flags.vertical.widgets)]</visible>
+            <visible>[Container.Content(movies) | Container.Content(files) | Container.Content(musicvideos) | Container.Content(episodes) | Container.Content(tvshows) | Container.Content(sets) | Container.Content(seasons)] | [Window.IsVisible(home) + ControlGroup(301).HasFocus() + [String.IsEqual(ListItem.DBType,movie) | String.IsEqual(ListItem.DBType,episode) | String.IsEqual(ListItem.DBType,tvshow) | String.IsEqual(ListItem.DBType,season)] + [Skin.HasSetting(home.vertical) + Skin.HasSetting(home.vertical.widgets)] + !Skin.HasSetting(hide.furniture.flags.vertical.widgets)]</visible>
             <visible>!String.IsEqual(ListItem.Label,..)</visible>
             <left>SidePad</left>
             <centerbottom>NavBarPad</centerbottom>
@@ -1310,7 +1346,7 @@
             <height>120</height>
             <orientation>horizontal</orientation>
             <align>left</align>
-            <itemgap>3</itemgap>
+            <itemgap>0</itemgap>
             <usecontrolcoords>true</usecontrolcoords>
             <control type="group">
                 <visible>[[Container.Content(tvshows) | Container.Content(seasons) | String.IsEqual(ListItem.DBType,tvshow) | String.IsEqual(ListItem.DBType,season)] + [!String.IsEmpty(ListItem.Property(TotalEpisodes)) | !String.IsEmpty(ListItem.Property(UnWatchedEpisodes))]] | ListItem.IsCollection | [!Skin.HasSetting(furniture.flagicons) + !String.IsEmpty(ListItem.VideoResolution)]</visible>
@@ -1359,15 +1395,16 @@
                 <param name="color" value="Dark1" />
             </include>
             <control type="label" description="Rating">
-                <left>-16</left>
+                <left>-6</left>
                 <width min="48">auto</width>
                 <centertop>50%</centertop>
                 <height>64</height>
                 <align>left</align>
                 <aligny>center</aligny>
-                <label>$INFO[ListItem.Rating]</label>
+                <label>$VAR[RatingLabel]</label>
                 <font>Flag</font>
                 <textcolor>Dark1</textcolor>
+                <visible>!String.IsEmpty(ListItem.Rating) | [!String.IsEmpty(ListItem.UserRating) + Skin.HasSetting(userrating.override.rating)]</visible>
                 <visible>Skin.HasSetting(furniture.numericrating) + !Skin.HasSetting(furniture.flags.rating)</visible>
             </control>
             <control type="image">
@@ -1513,7 +1550,7 @@
                 <centertop>50%</centertop>
                 <texture colordiffuse="Dark1">flags/time.png</texture>
                 <aspectratio align="left">scale</aspectratio>
-                <visible>!String.IsEmpty(ListItem.Duration(mins)) + [Control.IsVisible(500) | Control.IsVisible(53) | Control.IsVisible(52) | Control.IsVisible(55)]</visible>
+                <visible>!String.IsEqual(ListItem.DBType,tvshow) + !String.IsEmpty(ListItem.Duration(mins)) + [Control.IsVisible(500) | Control.IsVisible(53) | Control.IsVisible(52) | Control.IsVisible(55)]</visible>
             </control>
             <control type="label" description="Duration">
                 <width>auto</width>
@@ -1524,7 +1561,7 @@
                 <label>$VAR[LabelDurationTimeCheck]  </label>
                 <font>Flag</font>
                 <textcolor>Dark1</textcolor>
-                <visible>!String.IsEmpty(ListItem.Duration(mins)) + [Control.IsVisible(500) | Control.IsVisible(53) | Control.IsVisible(52) | Control.IsVisible(55)]</visible>
+                <visible>!String.IsEqual(ListItem.DBType,tvshow) + !String.IsEmpty(ListItem.Duration(mins)) + [Control.IsVisible(500) | Control.IsVisible(53) | Control.IsVisible(52) | Control.IsVisible(55)]</visible>
             </control>
             <control type="image" description="3D">
                 <width>64</width>
@@ -1549,7 +1586,7 @@
                 <centertop>50%</centertop>
                 <texture colordiffuse="Dark1" fallback="flags/fallback.png">flags/other/web-dl.png</texture>
                 <aspectratio aligny="center" align="center">keep</aspectratio>
-                <visible>Skin.HasSetting(furniture.flagicons) + !Skin.HasSetting(furniture.flags.bluray) + [String.Contains(ListItem.Filenameandpath,.web.) | String.Contains(ListItem.Filenameandpath,.web-dl.) | String.Contains(ListItem.Filenameandpath,.webrip.)]</visible>
+                <visible>Skin.HasSetting(furniture.flagicons) + !Skin.HasSetting(furniture.flags.bluray) + [String.Contains(ListItem.Filenameandpath,.web.) | String.Contains(ListItem.Filenameandpath,web-dl) | String.Contains(ListItem.Filenameandpath,webdl) | String.Contains(ListItem.Filenameandpath,webrip)]</visible>
             </control>
             <control type="image" description="HD DVD">
                 <width>94</width>
@@ -1593,8 +1630,8 @@
             <control type="image" description="User rating">
                 <visible>!String.IsEmpty(ListItem.UserRating) + Skin.HasSetting(furniture.showuserrating) + !Skin.HasSetting(furniture.flagicons)</visible>
                 <centertop>50%</centertop>
-                <width>33</width>
-                <height>33</height>
+                <width>37</width>
+                <height>37</height>
                 <left>15</left>
                 <texture colordiffuse="Dark1" background="true">misc/userrating_white.png</texture>
             </control>
@@ -1604,7 +1641,7 @@
                 <width>auto</width>
                 <height>64</height>
                 <font>Tiny</font>
-                <left>3</left>
+                <left>5</left>
                 <textcolor>Dark2</textcolor>
                 <label>$INFO[ListItem.UserRating].0</label>
             </control>
@@ -1623,7 +1660,7 @@
                 <width>auto</width>
                 <height>64</height>
                 <font>Tiny</font>
-                <left>3</left>
+                <left>5</left>
                 <textcolor>Dark2</textcolor>
                 <label>$INFO[Window(Home).Property(TMDbHelper.ListItem.Metacritic_Rating)]%</label>
             </control>
@@ -1642,16 +1679,16 @@
                 <width>auto</width>
                 <height>64</height>
                 <font>Tiny</font>
-                <left>3</left>
+                <left>5</left>
                 <textcolor>Dark2</textcolor>
                 <label>$INFO[Window(Home).Property(TMDbHelper.ListItem.RottenTomatoes_Rating)]%</label>
             </control>
             <control type="image" description="User rating">
                 <visible>!String.IsEmpty(ListItem.UserRating) + Skin.HasSetting(furniture.showuserrating) + Skin.HasSetting(furniture.flagicons)</visible>
                 <centertop>50%</centertop>
-                <width>38</width>
-                <height>38</height>
-                <left>20</left>
+                <width>37</width>
+                <height>37</height>
+                <left>15</left>
                 <texture colordiffuse="Dark1" background="true">misc/userrating_white.png</texture>
             </control>
             <control type="label" description="User rating">
@@ -1660,7 +1697,7 @@
                 <width>auto</width>
                 <height>64</height>
                 <font>Tiny</font>
-                <left>3</left>
+                <left>5</left>
                 <textcolor>Dark2</textcolor>
                 <label>$INFO[ListItem.UserRating].0</label>
             </control>
@@ -1678,7 +1715,7 @@
                 <width>auto</width>
                 <height>64</height>
                 <font>Tiny</font>
-                <left>3</left>
+                <left>5</left>
                 <textcolor>Dark2</textcolor>
                 <label>$INFO[Window(Home).Property(TMDbHelper.ListItem.Metacritic_Rating)]%</label>
             </control>
@@ -1697,7 +1734,7 @@
                 <width>auto</width>
                 <height>64</height>
                 <font>Tiny</font>
-                <left>3</left>
+                <left>5</left>
                 <textcolor>Dark2</textcolor>
                 <label>$INFO[Window(Home).Property(TMDbHelper.ListItem.RottenTomatoes_Rating)]%</label>
             </control>
@@ -1716,7 +1753,7 @@
                 <width>auto</width>
                 <height>64</height>
                 <font>Tiny</font>
-                <left>3</left>
+                <left>5</left>
                 <textcolor>Dark2</textcolor>
                 <label>$INFO[Window(Home).Property(TMDbHelper.ListItem.RottenTomatoes_UserMeter)]%</label>
             </control>
@@ -1725,7 +1762,7 @@
             <include>Animation.FurnitureVisible</include>
             <visible>Skin.HasSetting(furniture.coloredicons)</visible>
             <visible>!Skin.HasSetting(furniture.flags)</visible>
-            <visible>[Container.Content(movies) | Container.Content(musicvideos) | Container.Content(episodes) | Container.Content(sets) | Container.Content(tvshows) | Container.Content(seasons)] | [Window.IsVisible(home) + ControlGroup(301).HasFocus() + [String.IsEqual(ListItem.DBType,movie) | String.IsEqual(ListItem.DBType,episode) | String.IsEqual(ListItem.DBType,tvshow) | String.IsEqual(ListItem.DBType,season)] + [Skin.HasSetting(home.vertical) + Skin.HasSetting(home.vertical.widgets)] + !Skin.HasSetting(hide.furniture.flags.vertical.widgets)]</visible>
+            <visible>[Container.Content(movies) | Container.Content(files) | Container.Content(musicvideos) | Container.Content(episodes) | Container.Content(sets) | Container.Content(tvshows) | Container.Content(seasons)] | [Window.IsVisible(home) + ControlGroup(301).HasFocus() + [String.IsEqual(ListItem.DBType,movie) | String.IsEqual(ListItem.DBType,episode) | String.IsEqual(ListItem.DBType,tvshow) | String.IsEqual(ListItem.DBType,season)] + [Skin.HasSetting(home.vertical) + Skin.HasSetting(home.vertical.widgets)] + !Skin.HasSetting(hide.furniture.flags.vertical.widgets)]</visible>
             <visible>!String.IsEqual(ListItem.Label,..)</visible>
             <left>SidePad</left>
             <centerbottom>NavBarPad</centerbottom>
@@ -1738,7 +1775,7 @@
             <height>120</height>
             <orientation>horizontal</orientation>
             <align>left</align>
-            <itemgap>3</itemgap>
+            <itemgap>0</itemgap>
             <usecontrolcoords>true</usecontrolcoords>
             <control type="group">
                 <visible>[[Container.Content(tvshows) | Container.Content(seasons) | String.IsEqual(ListItem.DBType,tvshow) | String.IsEqual(ListItem.DBType,season)] + [!String.IsEmpty(ListItem.Property(TotalEpisodes)) | !String.IsEmpty(ListItem.Property(UnWatchedEpisodes))]] | ListItem.IsCollection | [!Skin.HasSetting(furniture.flagicons) + !String.IsEmpty(ListItem.VideoResolution)]</visible>
@@ -1787,15 +1824,16 @@
                 <param name="visible" value="!Skin.HasSetting(furniture.numericrating)" />
             </include>
             <control type="label" description="Rating">
-                <left>-16</left>
+                <left>-6</left>
                 <width min="48">auto</width>
                 <centertop>50%</centertop>
                 <height>64</height>
                 <align>left</align>
                 <aligny>center</aligny>
-                <label>$INFO[ListItem.Rating]</label>
+                <label>$VAR[RatingLabel]</label>
                 <font>Flag</font>
                 <textcolor>Dark1</textcolor>
+                <visible>!String.IsEmpty(ListItem.Rating) | [!String.IsEmpty(ListItem.UserRating) + Skin.HasSetting(userrating.override.rating)]</visible>
                 <visible>Skin.HasSetting(furniture.numericrating) + !Skin.HasSetting(furniture.flags.rating)</visible>
             </control>
             <control type="image">
@@ -1954,7 +1992,7 @@
                 <centertop>50%</centertop>
                 <texture colordiffuse="Dark1">flags/time.png</texture>
                 <aspectratio align="left">scale</aspectratio>
-                <visible>!String.IsEmpty(ListItem.Duration(mins)) + [Control.IsVisible(500) | Control.IsVisible(53) | Control.IsVisible(52) | Control.IsVisible(55)]</visible>
+                <visible>!String.IsEqual(ListItem.DBType,tvshow) + !String.IsEmpty(ListItem.Duration(mins)) + [Control.IsVisible(500) | Control.IsVisible(53) | Control.IsVisible(52) | Control.IsVisible(55)]</visible>
             </control>
             <control type="label" description="Duration">
                 <width>auto</width>
@@ -1965,7 +2003,7 @@
                 <label>$VAR[LabelDurationTimeCheck]  </label>
                 <font>Flag</font>
                 <textcolor>Dark1</textcolor>
-                <visible>!String.IsEmpty(ListItem.Duration(mins)) + [Control.IsVisible(500) | Control.IsVisible(53) | Control.IsVisible(52) | Control.IsVisible(55)]</visible>
+                <visible>!String.IsEqual(ListItem.DBType,tvshow) + !String.IsEmpty(ListItem.Duration(mins)) + [Control.IsVisible(500) | Control.IsVisible(53) | Control.IsVisible(52) | Control.IsVisible(55)]</visible>
             </control>
             <control type="image" description="3D">
                 <width>64</width>
@@ -1990,7 +2028,7 @@
                 <centertop>50%</centertop>
                 <texture fallback="flags/fallback.png">flags/color/other/web-dl.png</texture>
                 <aspectratio aligny="center" align="center">keep</aspectratio>
-                <visible>Skin.HasSetting(furniture.flagicons) + !Skin.HasSetting(furniture.flags.bluray) + [String.Contains(ListItem.Filenameandpath,.web.) | String.Contains(ListItem.Filenameandpath,.web-dl.) | String.Contains(ListItem.Filenameandpath,.webrip.)]</visible>
+                <visible>Skin.HasSetting(furniture.flagicons) + !Skin.HasSetting(furniture.flags.bluray) + [String.Contains(ListItem.Filenameandpath,.web.) | String.Contains(ListItem.Filenameandpath,web-dl) | String.Contains(ListItem.Filenameandpath,webdl) | String.Contains(ListItem.Filenameandpath,webrip)]</visible>
             </control>
             <control type="image" description="HD DVD">
                 <width>94</width>
@@ -2033,8 +2071,8 @@
             <control type="image" description="User rating">
                 <visible>!String.IsEmpty(ListItem.UserRating) + Skin.HasSetting(furniture.showuserrating) + !Skin.HasSetting(furniture.flagicons)</visible>
                 <centertop>50%</centertop>
-                <width>33</width>
-                <height>33</height>
+                <width>37</width>
+                <height>37</height>
                 <left>15</left>
                 <texture background="true" colordiffuse="$VAR[ColorUserrating]">misc/userrating_white.png</texture>
             </control>
@@ -2044,7 +2082,7 @@
                 <width>auto</width>
                 <height>64</height>
                 <font>Tiny</font>
-                <left>3</left>
+                <left>5</left>
                 <textcolor>Dark2</textcolor>
                 <label>$INFO[ListItem.UserRating].0</label>
             </control>
@@ -2062,7 +2100,7 @@
                 <width>auto</width>
                 <height>64</height>
                 <font>Tiny</font>
-                <left>3</left>
+                <left>5</left>
                 <textcolor>Dark2</textcolor>
                 <label>$INFO[Window(Home).Property(TMDbHelper.ListItem.Metacritic_Rating)]%</label>
             </control>
@@ -2081,16 +2119,16 @@
                 <width>auto</width>
                 <height>64</height>
                 <font>Tiny</font>
-                <left>3</left>
+                <left>5</left>
                 <textcolor>Dark2</textcolor>
                 <label>$INFO[Window(Home).Property(TMDbHelper.ListItem.RottenTomatoes_Rating)]%</label>
             </control>
             <control type="image">
                 <visible>!String.IsEmpty(ListItem.UserRating) + Skin.HasSetting(furniture.showuserrating) + Skin.HasSetting(furniture.flagicons)</visible>
                 <centertop>50%</centertop>
-                <width>40</width>
-                <height>40</height>
-                <left>20</left>
+                <width>37</width>
+                <height>37</height>
+                <left>15</left>
                 <texture background="true" colordiffuse="$VAR[ColorUserrating]">misc/userrating_white.png</texture>
             </control>
             <control type="label" description="User rating">
@@ -2099,7 +2137,7 @@
                 <width>auto</width>
                 <height>64</height>
                 <font>Tiny</font>
-                <left>3</left>
+                <left>5</left>
                 <textcolor>Dark2</textcolor>
                 <label>$INFO[ListItem.UserRating].0</label>
             </control>
@@ -2117,7 +2155,7 @@
                 <width>auto</width>
                 <height>64</height>
                 <font>Tiny</font>
-                <left>3</left>
+                <left>5</left>
                 <textcolor>Dark2</textcolor>
                 <label>$INFO[Window(Home).Property(TMDbHelper.ListItem.Metacritic_Rating)]%</label>
             </control>
@@ -2136,7 +2174,7 @@
                 <width>auto</width>
                 <height>64</height>
                 <font>Tiny</font>
-                <left>3</left>
+                <left>5</left>
                 <textcolor>Dark2</textcolor>
                 <label>$INFO[Window(Home).Property(TMDbHelper.ListItem.RottenTomatoes_Rating)]%</label>
             </control>
@@ -2155,7 +2193,7 @@
                 <width>auto</width>
                 <height>64</height>
                 <font>Tiny</font>
-                <left>3</left>
+                <left>5</left>
                 <textcolor>Dark2</textcolor>
                 <label>$INFO[Window(Home).Property(TMDbHelper.ListItem.RottenTomatoes_UserMeter)]%</label>
             </control>
@@ -2163,7 +2201,7 @@
         <control type="grouplist">
             <include>Animation.FurnitureVisible</include>
             <visible>Skin.HasSetting(furniture.flags)</visible>
-            <visible>[Container.Content(movies) | Container.Content(episodes)] | [Window.IsVisible(home) + ControlGroup(301).HasFocus() + [String.IsEqual(ListItem.DBType,movie) | String.IsEqual(ListItem.DBType,episode)] + [Skin.HasSetting(home.vertical) + Skin.HasSetting(home.vertical.widgets)] + !Skin.HasSetting(hide.furniture.flags.vertical.widgets)]</visible>
+            <visible>[Container.Content(movies) | Container.Content(files) | Container.Content(episodes)] | [Window.IsVisible(home) + ControlGroup(301).HasFocus() + [String.IsEqual(ListItem.DBType,movie) | String.IsEqual(ListItem.DBType,episode)] + [Skin.HasSetting(home.vertical) + Skin.HasSetting(home.vertical.widgets)] + !Skin.HasSetting(hide.furniture.flags.vertical.widgets)]</visible>
             <visible>!String.IsEqual(ListItem.Label,..)</visible>
             <left>SidePad</left>
             <centerbottom>NavBarPad</centerbottom>
@@ -2176,7 +2214,7 @@
             <height>120</height>
             <orientation>horizontal</orientation>
             <align>left</align>
-            <itemgap>3</itemgap>
+            <itemgap>0</itemgap>
             <usecontrolcoords>true</usecontrolcoords>
             <control type="image" description="Duration">
                 <width>48</width>
@@ -2184,7 +2222,7 @@
                 <centertop>50%</centertop>
                 <texture colordiffuse="Dark1">flags/time.png</texture>
                 <aspectratio align="left">scale</aspectratio>
-                <visible>!String.IsEmpty(ListItem.Duration(mins)) + [Control.IsVisible(500) | Control.IsVisible(53) | Control.IsVisible(52) | Control.IsVisible(55)]</visible>
+                <visible>!String.IsEqual(ListItem.DBType,tvshow) + !String.IsEmpty(ListItem.Duration(mins)) + [Control.IsVisible(500) | Control.IsVisible(53) | Control.IsVisible(52) | Control.IsVisible(55)]</visible>
             </control>
             <control type="label" description="Duration">
                 <width>auto</width>
@@ -2195,7 +2233,7 @@
                 <label>$VAR[LabelDurationTimeCheck]  </label>
                 <font>Flag</font>
                 <textcolor>Dark1</textcolor>
-                <visible>!String.IsEmpty(ListItem.Duration(mins)) + [Control.IsVisible(500) | Control.IsVisible(53) | Control.IsVisible(52) | Control.IsVisible(55)]</visible>
+                <visible>!String.IsEqual(ListItem.DBType,tvshow) + !String.IsEmpty(ListItem.Duration(mins)) + [Control.IsVisible(500) | Control.IsVisible(53) | Control.IsVisible(52) | Control.IsVisible(55)]</visible>
             </control>
         </control>
     </include>
@@ -2216,7 +2254,7 @@
             <height>64</height>
             <orientation>horizontal</orientation>
             <align>left</align>
-            <itemgap>3</itemgap>
+            <itemgap>0</itemgap>
             <usecontrolcoords>true</usecontrolcoords>
             <control type="group">
                 <visible>!Skin.HasSetting(furniture.flagicons) | String.IsEmpty(Container(9500).ListItem.VideoResolution)</visible>
@@ -2262,15 +2300,16 @@
                 <param name="color" value="Dark1" />
             </include>
             <control type="label">
-                <left>-16</left>
+                <left>-6</left>
                 <width min="48">auto</width>
                 <centertop>50%</centertop>
                 <height>64</height>
                 <align>left</align>
                 <aligny>center</aligny>
-                <label>$INFO[Container(9500).ListItem.Rating]</label>
+                <label>$VAR[RatingLabel9500]</label>
                 <font>Flag</font>
                 <textcolor>Dark1</textcolor>
+                <visible>!String.IsEmpty(Container(9500).ListItem.Rating) | [!String.IsEmpty(Container(9500).ListItem.UserRating) + Skin.HasSetting(userrating.override.rating)]</visible>
                 <visible>Skin.HasSetting(furniture.numericrating)</visible>
             </control>
             <control type="image">
@@ -2377,7 +2416,7 @@
                 <centertop>50%</centertop>
                 <texture colordiffuse="Dark1" fallback="flags/fallback.png">flags/other/web-dl.png</texture>
                 <aspectratio aligny="center" align="center">keep</aspectratio>
-                <visible>Skin.HasSetting(furniture.flagicons) + !Skin.HasSetting(furniture.flags.bluray) + [String.Contains(Container(9500).ListItem.Filenameandpath,.web.) | String.Contains(Container(9500).ListItem.Filenameandpath,.web-dl.) | String.Contains(Container(9500).ListItem.Filenameandpath,.webrip.)]</visible>
+                <visible>Skin.HasSetting(furniture.flagicons) + !Skin.HasSetting(furniture.flags.bluray) + [String.Contains(Container(9500).ListItem.Filenameandpath,.web.) | String.Contains(Container(9500).ListItem.Filenameandpath,web-dl) | String.Contains(Container(9500).ListItem.Filenameandpath,webdl) | String.Contains(Container(9500).ListItem.Filenameandpath,webrip)]</visible>
             </control>
             <control type="image">
                 <width>94</width>
@@ -2418,8 +2457,8 @@
             <control type="image">
                 <visible>!String.IsEmpty(Container(9500).ListItem.UserRating) + Skin.HasSetting(furniture.showuserrating)+ !Skin.HasSetting(furniture.flagicons)</visible>
                 <centertop>50%</centertop>
-                <width>33</width>
-                <height>33</height>
+                <width>37</width>
+                <height>37</height>
                 <left>15</left>
                 <texture colordiffuse="Dark1" background="true">misc/userrating_white.png</texture>
             </control>
@@ -2429,7 +2468,7 @@
                 <width>auto</width>
                 <height>64</height>
                 <font>Tiny</font>
-                <left>3</left>
+                <left>5</left>
                 <textcolor>Dark2</textcolor>
                 <label>$INFO[Container(9500).ListItem.UserRating].0</label>
             </control>
@@ -2447,7 +2486,7 @@
                 <width>auto</width>
                 <height>64</height>
                 <font>Tiny</font>
-                <left>3</left>
+                <left>5</left>
                 <textcolor>Dark2</textcolor>
                 <label>$INFO[Window(Home).Property(TMDbHelper.ListItem.Metacritic_Rating)]%</label>
             </control>
@@ -2466,16 +2505,16 @@
                 <width>auto</width>
                 <height>64</height>
                 <font>Tiny</font>
-                <left>3</left>
+                <left>5</left>
                 <textcolor>Dark2</textcolor>
                 <label>$INFO[Window(Home).Property(TMDbHelper.ListItem.RottenTomatoes_Rating)]%</label>
             </control>
             <control type="image">
                 <visible>!String.IsEmpty(Container(9500).ListItem.UserRating) + Skin.HasSetting(furniture.showuserrating)+ Skin.HasSetting(furniture.flagicons)</visible>
                 <centertop>50%</centertop>
-                <width>38</width>
-                <height>38</height>
-                <left>30</left>
+                <width>37</width>
+                <height>37</height>
+                <left>15</left>
                 <texture colordiffuse="Dark1" background="true">misc/userrating_white.png</texture>
             </control>
             <control type="label">
@@ -2484,7 +2523,7 @@
                 <width>auto</width>
                 <height>64</height>
                 <font>Tiny</font>
-                <left>3</left>
+                <left>5</left>
                 <textcolor>Dark2</textcolor>
                 <label>$INFO[Container(9500).ListItem.UserRating].0</label>
             </control>
@@ -2502,7 +2541,7 @@
                 <width>auto</width>
                 <height>64</height>
                 <font>Tiny</font>
-                <left>3</left>
+                <left>5</left>
                 <textcolor>Dark2</textcolor>
                 <label>$INFO[Window(Home).Property(TMDbHelper.ListItem.Metacritic_Rating)]%</label>
             </control>
@@ -2521,7 +2560,7 @@
                 <width>auto</width>
                 <height>64</height>
                 <font>Tiny</font>
-                <left>3</left>
+                <left>5</left>
                 <textcolor>Dark2</textcolor>
                 <label>$INFO[Window(Home).Property(TMDbHelper.ListItem.RottenTomatoes_Rating)]%</label>
             </control>
@@ -2540,7 +2579,7 @@
                 <width>auto</width>
                 <height>64</height>
                 <font>Tiny</font>
-                <left>3</left>
+                <left>5</left>
                 <textcolor>Dark2</textcolor>
                 <label>$INFO[Window(Home).Property(TMDbHelper.ListItem.RottenTomatoes_UserMeter)]%</label>
             </control>
@@ -2560,7 +2599,7 @@
             <height>64</height>
             <orientation>horizontal</orientation>
             <align>left</align>
-            <itemgap>3</itemgap>
+            <itemgap>0</itemgap>
             <usecontrolcoords>true</usecontrolcoords>
             <control type="group">
                 <visible>!Skin.HasSetting(furniture.flagicons) | String.IsEmpty(Container(9500).ListItem.VideoResolution)</visible>
@@ -2606,15 +2645,16 @@
                 <param name="visible" value="!Skin.HasSetting(furniture.numericrating)" />
             </include>
             <control type="label">
-                <left>-16</left>
+                <left>-6</left>
                 <width min="48">auto</width>
                 <centertop>50%</centertop>
                 <height>64</height>
                 <align>left</align>
                 <aligny>center</aligny>
-                <label>$INFO[Container(9500).ListItem.Rating]</label>
+                <label>$VAR[RatingLabel9500]</label>
                 <font>Flag</font>
                 <textcolor>Dark1</textcolor>
+                <visible>!String.IsEmpty(Container(9500).ListItem.Rating) | [!String.IsEmpty(Container(9500).ListItem.UserRating) + Skin.HasSetting(userrating.override.rating)]</visible>
                 <visible>Skin.HasSetting(furniture.numericrating)</visible>
             </control>
             <control type="image">
@@ -2730,7 +2770,7 @@
                 <centertop>50%</centertop>
                 <texture fallback="flags/fallback.png">flags/color/other/web-dl.png</texture>
                 <aspectratio aligny="center" align="center">keep</aspectratio>
-                <visible>Skin.HasSetting(furniture.flagicons) + !Skin.HasSetting(furniture.flags.bluray) + [String.Contains(Container(9500).ListItem.Filenameandpath,.web.) | String.Contains(Container(9500).ListItem.Filenameandpath,.web-dl.) | String.Contains(Container(9500).ListItem.Filenameandpath,.webrip.)]</visible>
+                <visible>Skin.HasSetting(furniture.flagicons) + !Skin.HasSetting(furniture.flags.bluray) + [String.Contains(Container(9500).ListItem.Filenameandpath,.web.) | String.Contains(Container(9500).ListItem.Filenameandpath,web-dl) | String.Contains(Container(9500).ListItem.Filenameandpath,webdl) | String.Contains(Container(9500).ListItem.Filenameandpath,webrip)]</visible>
             </control>
             <control type="image">
                 <width>94</width>
@@ -2769,8 +2809,8 @@
             <control type="image">
                 <visible>!String.IsEmpty(Container(9500).ListItem.UserRating) + Skin.HasSetting(furniture.showuserrating) + !Skin.HasSetting(furniture.flagicons)</visible>
                 <centertop>50%</centertop>
-                <width>33</width>
-                <height>33</height>
+                <width>37</width>
+                <height>37</height>
                 <left>15</left>
                 <texture background="true" colordiffuse="$VAR[ColorUserrating]">misc/userrating_white.png</texture>
             </control>
@@ -2780,7 +2820,7 @@
                 <width>auto</width>
                 <height>64</height>
                 <font>Tiny</font>
-                <left>3</left>
+                <left>5</left>
                 <textcolor>Dark2</textcolor>
                 <label>$INFO[Container(9500).ListItem.UserRating].0</label>
             </control>
@@ -2798,7 +2838,7 @@
                 <width>auto</width>
                 <height>64</height>
                 <font>Tiny</font>
-                <left>3</left>
+                <left>5</left>
                 <textcolor>Dark2</textcolor>
                 <label>$INFO[Window(Home).Property(TMDbHelper.ListItem.Metacritic_Rating)]%</label>
             </control>
@@ -2817,16 +2857,16 @@
                 <width>auto</width>
                 <height>64</height>
                 <font>Tiny</font>
-                <left>3</left>
+                <left>5</left>
                 <textcolor>Dark2</textcolor>
                 <label>$INFO[Window(Home).Property(TMDbHelper.ListItem.RottenTomatoes_Rating)]%</label>
             </control>
             <control type="image">
                 <visible>!String.IsEmpty(Container(9500).ListItem.UserRating) + Skin.HasSetting(furniture.showuserrating) + Skin.HasSetting(furniture.flagicons)</visible>
                 <centertop>50%</centertop>
-                <width>40</width>
-                <height>40</height>
-                <left>30</left>
+                <width>37</width>
+                <height>37</height>
+                <left>15</left>
                 <texture background="true" colordiffuse="$VAR[ColorUserrating]">misc/userrating_white.png</texture>
             </control>
             <control type="label">
@@ -2835,7 +2875,7 @@
                 <width>auto</width>
                 <height>64</height>
                 <font>Tiny</font>
-                <left>3</left>
+                <left>5</left>
                 <textcolor>Dark2</textcolor>
                 <label>$INFO[Container(9500).ListItem.UserRating].0</label>
             </control>
@@ -2853,7 +2893,7 @@
                 <width>auto</width>
                 <height>64</height>
                 <font>Tiny</font>
-                <left>3</left>
+                <left>5</left>
                 <textcolor>Dark2</textcolor>
                 <label>$INFO[Window(Home).Property(TMDbHelper.ListItem.Metacritic_Rating)]%</label>
             </control>
@@ -2872,7 +2912,7 @@
                 <width>auto</width>
                 <height>64</height>
                 <font>Tiny</font>
-                <left>3</left>
+                <left>5</left>
                 <textcolor>Dark2</textcolor>
                 <label>$INFO[Window(Home).Property(TMDbHelper.ListItem.RottenTomatoes_Rating)]%</label>
             </control>
@@ -2891,7 +2931,7 @@
                 <width>auto</width>
                 <height>64</height>
                 <font>Tiny</font>
-                <left>3</left>
+                <left>5</left>
                 <textcolor>Dark2</textcolor>
                 <label>$INFO[Window(Home).Property(TMDbHelper.ListItem.RottenTomatoes_UserMeter)]%</label>
             </control>
@@ -2929,10 +2969,11 @@
         <value condition="Container.Content(songs)">special://skin/extras/icons/songs.png</value>
         <value condition="Container.Content(livetv)">special://skin/extras/icons/livetv.png</value>
         <value condition="Container.Content(files)">special://skin/extras/icons/files.png</value>
+        <value condition="$EXP[InGameMode]">special://skin/extras/icons/games.png</value>
         <value condition="Container.Content(plugins)">special://skin/extras/icons/video-addons.png</value>
         <value condition="Container.Content(addons)">special://skin/extras/icons/addons.png</value>
         <value condition="String.Contains(Container.FolderPath,videodb://musicvideos/,Left)">special://skin/extras/icons/musicvideo.png</value>
-        <value condition="Window.IsVisible(script-skin_helper_service-ColorPicker.xml)">special://skin/extras/icons/wand.png</value>
+        <value condition="Window.IsVisible(DialogColorPicker.xml)">special://skin/extras/icons/wand.png</value>
         <value condition="Window.IsVisible(Custom_Blur.xml)">special://skin/extras/icons/wand.png</value>
         <value condition="Window.IsVisible(MyPVRChannels.xml) | Window.IsVisible(MyPVRSearch.xml) | Window.IsVisible(MyPVRTimers.xml) | Window.IsVisible(MyPVRGuide.xml) | Window.IsVisible(MyPVRRecordings.xml)">special://skin/extras/icons/livetv.png</value>
         <value condition="Window.IsVisible(MyMusicPlaylistEditor.xml) | Window.IsVisible(MyMusicNav.xml) | Window.IsVisible(MyMusicSongs.xml)">special://skin/extras/icons/songs.png</value>
@@ -2965,8 +3006,9 @@
 
     <variable name="MainHeaderLabel">
         <value condition="Skin.HasSetting(hide.busydialog) + Window.IsVisible(DialogBusy.xml)">$LOCALIZE[20186]...</value>
+        <value condition="Window.IsVisible(MyFavourites.xml)">$LOCALIZE[1036]</value>
         <value condition="Window.IsVisible(Custom_Blur.xml)">$LOCALIZE[31580]</value>
-        <value condition="Window.IsVisible(script-skin_helper_service-ColorPicker.xml)">$LOCALIZE[31238] $VAR[ColorPickerHeaderLabel,$LOCALIZE[31520] ,]</value>
+        <value condition="Window.IsVisible(DialogColorPicker.xml)">$LOCALIZE[31238] $VAR[ColorPickerHeaderLabel,$LOCALIZE[31520] ,]</value>
         <value condition="Window.IsVisible(script-globalsearch.xml)">$LOCALIZE[31324] $INFO[Window.Property(GlobalSearch.SearchString),","]</value>
         <value condition="Window.IsVisible(service-CoreELEC-Settings-mainWindow.xml)">$LOCALIZE[31472]</value>
         <value condition="Window.IsVisible(service-LibreELEC-Settings-mainWindow.xml)">$LOCALIZE[31643]</value>        
@@ -2976,7 +3018,9 @@
         <value condition="Window.IsVisible(EventLog.xml)">$LOCALIZE[14111]</value>
         <value condition="[Window.IsVisible(script-globalsearch-main.xml) | Window.IsVisible(script-globalsearch-info.xml)] + [!String.IsEmpty(Control.GetLabel(190)) | !String.IsEmpty(Control.GetLabel(191)) | !String.IsEmpty(Control.GetLabel(199))]">$INFO[Control.GetLabel(190)]$INFO[Control.GetLabel(191)]$INFO[Control.GetLabel(199)]</value>
         <value condition="[Window.IsVisible(script-globalsearch-main.xml) | Window.IsVisible(script-globalsearch-info.xml)] + String.IsEmpty(Control.GetLabel(190)) + String.IsEmpty(Control.GetLabel(191)) + String.IsEmpty(Control.GetLabel(199))">$LOCALIZE[283]</value>
+        <value condition="$EXP[InGameMode] + !String.IsEmpty(Container.FolderName)">$LOCALIZE[10821] - $INFO[Container.FolderName]</value>
         <value condition="Window.IsVisible(MyGames.xml) + !String.IsEmpty(Container.FolderName)">$INFO[Container.FolderName]</value>
+        <value condition="$EXP[InGameMode]">$LOCALIZE[10821]</value>
         <value condition="Window.IsVisible(MyGames.xml)">$LOCALIZE[10821]</value>
         <value condition="Window.IsVisible(MyVideoNav.xml) + String.IsEqual(Container.FolderPath,videodb://movies/titles/)">$LOCALIZE[20342]</value>
         <value condition="Window.IsVisible(MyVideoNav.xml) + String.IsEqual(Container.FolderPath,videodb://tvshows/titles/)">$LOCALIZE[20343]</value>
@@ -3017,7 +3061,7 @@
     <variable name="SubHeaderLabel">
         <value condition="[Window.IsVisible(script-globalsearch-main.xml) | Window.IsVisible(script-globalsearch-info.xml)] + String.IsEmpty(Control.GetLabel(190)) + String.IsEmpty(Control.GetLabel(191)) + String.IsEmpty(Control.GetLabel(199))">$VAR[GlobalSearchHeaderLabel]</value>
         <value condition="Window.IsVisible(LoginScreen.xml)">$LOCALIZE[10029]</value>
-        <value condition="Window.IsVisible(script-skin_helper_service-ColorPicker.xml)">$LOCALIZE[31239] [COLOR=$INFO[Window(home).Property(currentcolor)]]$INFO[Window(home).Property(currentcolor)][/COLOR]</value>
+        <value condition="Window.IsVisible(DialogColorPicker.xml)">$LOCALIZE[31239] [COLOR=$INFO[Window(home).Property(colorstring)]]$INFO[Window(home).Property(colorstring)][/COLOR]</value>
         <value condition="[Window.IsVisible(MyPVRChannels.xml) | Window.IsVisible(MyPVRSearch.xml) | Window.IsVisible(MyPVRTimers.xml) | Window.IsVisible(MyPVRGuide.xml) | Window.IsVisible(MyPVRRecordings.xml)]">[COLOR=$VAR[ColorHighlight]]$INFO[Container.NumItems,,[/COLOR] $LOCALIZE[31101]]$INFO[Control.GetLabel(3),  •  ,]$INFO[Control.GetLabel(28),  •  ,]</value>
         <value condition="!String.IsEmpty(Container.NumItems) + Window.IsVisible(AddonBrowser.xml) + Integer.IsGreater(System.AddonUpdateCount,0)">[COLOR=$VAR[ColorHighlight]]$INFO[Container.NumItems,,[/COLOR] $LOCALIZE[31101]]  •  [COLOR=$VAR[ColorHighlight]]$INFO[System.AddonUpdateCount,,[/COLOR] $LOCALIZE[24043]]$INFO[Control.GetLabel(3),  •  ,]</value>
         <value condition="!String.IsEmpty(Container.NumItems) + !Window.IsVisible(home)">[COLOR=$VAR[ColorHighlight]]$INFO[Container.NumItems,,[/COLOR] $LOCALIZE[31101]]$INFO[Control.GetLabel(3),  •  ,]</value>
@@ -3053,8 +3097,7 @@
             <include>Animation.ClearLogo.FadeOut</include>
             <visible>Skin.HasSetting(furniture.logo)</visible>
             <visible>![Window.IsVisible(Home.xml) + Window.IsVisible(DialogVideoInfo.xml)]</visible>
-            <visible>![Window.IsVisible(Home.xml) + Skin.HasSetting(home.showclearlogo) + $EXP[HomeIsVertical] ]</visible>
-            <visible>![Window.IsVisible(Home.xml) + !Skin.HasSetting(home.showclearlogo) + $EXP[HomeIsVerticalMultiWidgets] ]</visible>
+            <visible>![Window.IsVisible(Home.xml) + Skin.HasSetting(home.netflix.clearlogo) + [$EXP[HomeIsVertical] | $EXP[HomeIsVerticalMultiWidgets]]]</visible>
             <visible>![Control.IsVisible(504) + Skin.HasSetting(504clearlogo)]</visible>
             <visible>![Control.IsVisible(509) + Skin.HasSetting(509clearlogo)]</visible>
             <visible>![Control.IsVisible(510) + Skin.HasSetting(ShowClearart510)]</visible>
@@ -3167,22 +3210,22 @@
             <height>84</height>
             <animation effect="slide" start="0" end="0,-10" time="150" condition="Skin.HasSetting(furniture.weather)">Conditional</animation>
             <control type="image">
-                <visible>String.IsEmpty(System.Time(xx))</visible>
+                <visible>String.IsEmpty(System.Time(xx)) + System.AddonIsEnabled(service.skinhelper.ping)</visible>
                 <centertop>32</centertop>
                 <right>356</right>
                 <align>right</align>
                 <width>18</width>
                 <height>18</height>
-                <texture>$INFO[Window(Home).Property(SkinHelperPING.server1)]</texture>
+                <texture>$VAR[SkinHelperPing]</texture>
             </control>
             <control type="image">
-                <visible>!String.IsEmpty(System.Time(xx))</visible>
+                <visible>!String.IsEmpty(System.Time(xx)) + System.AddonIsEnabled(service.skinhelper.ping)</visible>
                 <centertop>32</centertop>
                 <right>386</right>
                 <align>right</align>
                 <width>18</width>
                 <height>18</height>
-                <texture>$INFO[Window(Home).Property(SkinHelperPING.server1)]</texture>
+                <texture>$VAR[SkinHelperPing]</texture>
             </control>
             <control type="group">
                 <visible>Skin.HasSetting(furniture.weatherleft)</visible>
@@ -3435,6 +3478,7 @@
                     <align>right</align>
                     <textcolor>Dark1</textcolor>
                     <label fallback="19055">$INFO[Player.Title]</label>
+                    <include condition="Skin.HasSetting(labels.autoscroll)">LabelScroll</include>
                 </control>
                 <control type="label">
                     <centertop>58</centertop>
@@ -3527,7 +3571,7 @@
             <height>120</height>
             <orientation>horizontal</orientation>
             <align>left</align>
-            <itemgap>3</itemgap>
+            <itemgap>0</itemgap>
             <usecontrolcoords>true</usecontrolcoords>
             <include>AlbumCount</include>
             <include content="Def_Flags_Furniture_Small" condition="!Skin.HasSetting(furniture.hide.musicrating)">
@@ -3536,16 +3580,16 @@
                 <param name="color" value="Dark1" />
             </include>
             <control type="label">
-                <left>-16</left>
+                <left>-6</left>
                 <width min="48">auto</width>
                 <centertop>50%</centertop>
                 <height>64</height>
                 <align>left</align>
                 <aligny>center</aligny>
-                <label>$INFO[ListItem.UserRating]</label>
+                <label>$VAR[RatingLabel]</label>
                 <font>Flag</font>
                 <textcolor>Dark1</textcolor>
-                <visible>!String.IsEmpty(ListItem.UserRating)</visible>
+                <visible>!String.IsEmpty(ListItem.Rating) | [!String.IsEmpty(ListItem.UserRating) + Skin.HasSetting(userrating.override.rating)]</visible>
                 <visible>Skin.HasSetting(furniture.numericrating) + !Skin.HasSetting(furniture.hide.musicrating)</visible>
             </control>
             <control type="label">
@@ -3675,6 +3719,24 @@
                 </control>
             </control>
             <control type="image">
+                <visible>!String.IsEmpty(ListItem.UserRating) + Skin.HasSetting(furniture.showuserrating.audio) + Skin.HasSetting(furniture.flagicons)</visible>
+                <centertop>50%</centertop>
+                <width>37</width>
+                <height>37</height>
+                <left>15</left>
+                <texture colordiffuse="Dark1" background="true">misc/userrating_white.png</texture>
+            </control>
+            <control type="label">
+                <visible>!String.IsEmpty(ListItem.UserRating) + Skin.HasSetting(furniture.showuserrating.audio) + Skin.HasSetting(furniture.flagicons)</visible>
+                <centertop>50%</centertop>
+                <width>auto</width>
+                <height>64</height>
+                <font>Tiny</font>
+                <left>5</left>
+                <textcolor>Dark2</textcolor>
+                <label>$INFO[ListItem.UserRating].0</label>
+            </control>
+            <control type="image">
                 <width>48</width>
                 <height>64</height>
                 <centertop>50%</centertop>
@@ -3735,7 +3797,7 @@
             <height>120</height>
             <orientation>horizontal</orientation>
             <align>left</align>
-            <itemgap>3</itemgap>
+            <itemgap>0</itemgap>
             <usecontrolcoords>true</usecontrolcoords>
             <include>AlbumCount</include>
             <include content="Def_Flags_Furniture_Small" condition="!Skin.HasSetting(furniture.hide.musicrating)">
@@ -3743,16 +3805,16 @@
                 <param name="visible" value="!Skin.HasSetting(furniture.numericrating)" />
             </include>
             <control type="label">
-                <left>-16</left>
+                <left>-6</left>
                 <width min="48">auto</width>
                 <centertop>50%</centertop>
                 <height>64</height>
                 <align>left</align>
                 <aligny>center</aligny>
-                <label>$INFO[ListItem.UserRating]</label>
+                <label>$VAR[RatingLabel]</label>
                 <font>Flag</font>
                 <textcolor>Dark1</textcolor>
-                <visible>!String.IsEmpty(ListItem.UserRating)</visible>
+                <visible>!String.IsEmpty(ListItem.Rating) | [!String.IsEmpty(ListItem.UserRating) + Skin.HasSetting(userrating.override.rating)]</visible>
                 <visible>Skin.HasSetting(furniture.numericrating) + !Skin.HasSetting(furniture.hide.musicrating)</visible>
             </control>
             <control type="label">
@@ -3882,6 +3944,24 @@
                 </control>
             </control>
             <control type="image">
+                <visible>!String.IsEmpty(ListItem.UserRating) + Skin.HasSetting(furniture.showuserrating.audio) + Skin.HasSetting(furniture.flagicons)</visible>
+                <centertop>50%</centertop>
+                <width>37</width>
+                <height>37</height>
+                <left>15</left>
+                <texture colordiffuse="$VAR[ColorUserrating]" background="true">misc/userrating_white.png</texture>
+            </control>
+            <control type="label">
+                <visible>!String.IsEmpty(ListItem.UserRating) + Skin.HasSetting(furniture.showuserrating.audio) + Skin.HasSetting(furniture.flagicons)</visible>
+                <centertop>50%</centertop>
+                <width>auto</width>
+                <height>64</height>
+                <font>Tiny</font>
+                <left>5</left>
+                <textcolor>Dark2</textcolor>
+                <label>$INFO[ListItem.UserRating].0</label>
+            </control>            
+            <control type="image">
                 <width>48</width>
                 <height>64</height>
                 <centertop>50%</centertop>
@@ -3936,7 +4016,7 @@
             <height>120</height>
             <orientation>horizontal</orientation>
             <align>left</align>
-            <itemgap>3</itemgap>
+            <itemgap>0</itemgap>
             <usecontrolcoords>true</usecontrolcoords>
             <include content="Def_Flags_Furniture_Small">
                 <param name="Star" value="FlagstarSong" />
@@ -3944,16 +4024,16 @@
                 <param name="color" value="Dark1" />
             </include>
             <control type="label">
-                <left>-16</left>
+                <left>-6</left>
                 <width min="48">auto</width>
                 <centertop>50%</centertop>
                 <height>64</height>
                 <align>left</align>
                 <aligny>center</aligny>
-                <label>$INFO[ListItem.UserRating]</label>
+                <label>$VAR[RatingLabel]</label>
                 <font>Flag</font>
                 <textcolor>Dark1</textcolor>
-                <visible>!String.IsEmpty(ListItem.UserRating)</visible>
+                <visible>!String.IsEmpty(ListItem.Rating) | [!String.IsEmpty(ListItem.UserRating) + Skin.HasSetting(userrating.override.rating)]</visible>
                 <visible>Skin.HasSetting(furniture.numericrating)</visible>
             </control>
             <control type="label">
@@ -4082,6 +4162,24 @@
                     <aspectratio>keep</aspectratio>
                 </control>
             </control>
+            <control type="image">
+                <visible>!String.IsEmpty(ListItem.UserRating) + Skin.HasSetting(furniture.showuserrating.audio) + Skin.HasSetting(furniture.flagicons)</visible>
+                <centertop>50%</centertop>
+                <width>37</width>
+                <height>37</height>
+                <left>15</left>
+                <texture colordiffuse="Dark1" background="true">misc/userrating_white.png</texture>
+            </control>
+            <control type="label">
+                <visible>!String.IsEmpty(ListItem.UserRating) + Skin.HasSetting(furniture.showuserrating.audio) + Skin.HasSetting(furniture.flagicons)</visible>
+                <centertop>50%</centertop>
+                <width>auto</width>
+                <height>64</height>
+                <font>Tiny</font>
+                <left>5</left>
+                <textcolor>Dark2</textcolor>
+                <label>$INFO[ListItem.UserRating].0</label>
+            </control>
             <control type="label">
                 <visible>Skin.HasSetting(thumbnails.moreinfos) + !Container.Content(albums)</visible>
                 <width>auto</width>
@@ -4106,23 +4204,23 @@
             <height>120</height>
             <orientation>horizontal</orientation>
             <align>left</align>
-            <itemgap>3</itemgap>
+            <itemgap>0</itemgap>
             <usecontrolcoords>true</usecontrolcoords>
             <include content="Def_Flags_Furniture_Small">
                 <param name="Star" value="FlagstarSong" />
                 <param name="visible" value="!Skin.HasSetting(furniture.numericrating)" />
             </include>
             <control type="label">
-                <left>-16</left>
+                <left>-6</left>
                 <width min="48">auto</width>
                 <centertop>50%</centertop>
                 <height>64</height>
                 <align>left</align>
                 <aligny>center</aligny>
-                <label>$INFO[ListItem.UserRating]</label>
+                <label>$VAR[RatingLabel]</label>
                 <font>Flag</font>
                 <textcolor>Dark1</textcolor>
-                <visible>!String.IsEmpty(ListItem.UserRating)</visible>
+                <visible>!String.IsEmpty(ListItem.Rating) | [!String.IsEmpty(ListItem.UserRating) + Skin.HasSetting(userrating.override.rating)]</visible>
                 <visible>Skin.HasSetting(furniture.numericrating)</visible>
             </control>
             <control type="label">
@@ -4251,6 +4349,24 @@
                     <aspectratio>keep</aspectratio>
                 </control>
             </control>
+            <control type="image">
+                <visible>!String.IsEmpty(ListItem.UserRating) + Skin.HasSetting(furniture.showuserrating.audio) + Skin.HasSetting(furniture.flagicons)</visible>
+                <centertop>50%</centertop>
+                <width>37</width>
+                <height>37</height>
+                <left>15</left>
+                <texture colordiffuse="$VAR[ColorUserrating]" background="true">misc/userrating_white.png</texture>
+            </control>
+            <control type="label">
+                <visible>!String.IsEmpty(ListItem.UserRating) + Skin.HasSetting(furniture.showuserrating.audio) + Skin.HasSetting(furniture.flagicons)</visible>
+                <centertop>50%</centertop>
+                <width>auto</width>
+                <height>64</height>
+                <font>Tiny</font>
+                <left>5</left>
+                <textcolor>Dark2</textcolor>
+                <label>$INFO[ListItem.UserRating].0</label>
+            </control>
             <control type="label">
                 <visible>Skin.HasSetting(thumbnails.moreinfos) + !Container.Content(albums)</visible>
                 <width>auto</width>
@@ -4262,6 +4378,257 @@
                 <font>Flag</font>
                 <textcolor>Dark1</textcolor>
             </control>
+        </control>
+    </include>
+
+    <include name="Furniture_Flags_Games">
+        <control type="grouplist">
+            <include>Animation.FurnitureVisible</include>
+            <visible>!Skin.HasSetting(furniture.coloredicons)</visible>
+            <visible>!Skin.HasSetting(furniture.flags)</visible>
+            <visible>$EXP[InGameMode]</visible>
+            <visible>!String.IsEqual(ListItem.Label,..)</visible>
+            <left>SidePad</left>
+            <centerbottom>NavBarPad</centerbottom>
+            <include content="def_right" condition="Skin.HasSetting(furniture.clock)">
+                <param name="right" value="SidePad" />
+            </include>
+            <include content="def_right" condition="!Skin.HasSetting(furniture.clock)">
+                <param name="right" value="440" />
+            </include>
+            <height>120</height>
+            <orientation>horizontal</orientation>
+            <align>left</align>
+            <itemgap>0</itemgap>
+            <usecontrolcoords>true</usecontrolcoords>
+            <control type="image" id="6699" description="Studio">
+                <width min="0" max="180">auto</width>
+                <height>100</height>
+                <centertop>50%</centertop>
+                <texture fallback="flags/empty_fallback.png">$VAR[GameStudioFlag]</texture>
+                <aspectratio align="left">keep</aspectratio>
+                <visible>Skin.HasSetting(furniture.flagicons) + !String.IsEmpty(ListItem.Studio)</visible>
+            </control>
+            <control type="image" description="Game Video Resolution">
+                <width min="20" max="70">auto</width>
+                <height>48</height>
+                <centertop>50%</centertop>
+                <texture colordiffuse="Dark1" fallback="flags/resolution/fallback.png">$VAR[GameResolutionFlag,flags/white/resolution/,.png]</texture>
+                <aspectratio align="left">keep</aspectratio>
+                <visible>!String.IsEmpty(Control.GetLabel(6601))</visible>
+                <visible>Skin.HasSetting(furniture.flagicons) + !Skin.HasSetting(furniture.flags.resolution)</visible>
+            </control>
+            <include content="Def_Flags_Furniture_Small" condition="!Skin.HasSetting(furniture.flags.rating)">
+                <param name="Star" value="Flagstar" />
+                <param name="visible" value="!Skin.HasSetting(furniture.numericrating)" />
+                <param name="color" value="Dark1" />
+            </include>
+            <control type="label" description="Rating">
+                <left>-6</left>
+                <width min="48">auto</width>
+                <centertop>50%</centertop>
+                <height>64</height>
+                <align>left</align>
+                <aligny>center</aligny>
+                <label>$VAR[RatingLabel]</label>
+                <font>Flag</font>
+                <textcolor>Dark1</textcolor>
+                <visible>!String.IsEmpty(ListItem.Rating)</visible>
+                <visible>Skin.HasSetting(furniture.numericrating) + !Skin.HasSetting(furniture.flags.rating)</visible>
+            </control>
+            <control type="image" description="Game Audio Codec">
+                <width min="20" max="108">auto</width>
+                <height>64</height>
+                <centertop>50%</centertop>
+                <texture colordiffuse="Dark1" fallback="flags/fallback.png">$VAR[GameAudioFlag,flags3/audio/,.png]</texture>
+                <aspectratio align="center">keep</aspectratio>
+                <visible>!String.IsEmpty(Control.GetLabel(6602))</visible>
+                <visible>Skin.HasSetting(furniture.flagicons) + !Skin.HasSetting(furniture.flags.audiocodec) + !Skin.HasSetting(furniture.coloredicons)</visible>
+            </control>
+            <control type="image" description="Video Resolution">
+                <width>48</width>
+                <height>64</height>
+                <centertop>50%</centertop>
+                <texture colordiffuse="Dark1">flags/video.png</texture>
+                <aspectratio align="left">scale</aspectratio>
+                <visible>!String.IsEmpty(Control.GetLabel(6601))</visible>
+                <visible>!Skin.HasSetting(furniture.flagicons)</visible>
+            </control>
+            <control type="label" description="Game Video">
+                <width min="128">auto</width>
+                <centertop>50%</centertop>
+                <height>64</height>
+                <align>left</align>
+                <aligny>center</aligny>
+                <label>$VAR[GameResolutionFlag]</label>
+                <font>Flag</font>
+                <textcolor>Dark1</textcolor>
+                <visible>!String.IsEmpty(Control.GetLabel(6601))</visible>
+                <visible>!Skin.HasSetting(furniture.flagicons)</visible>
+            </control>
+            <control type="image" description="Axudio">
+                <width>48</width>
+                <centertop>50%</centertop>
+                <height>64</height>
+                <texture colordiffuse="Dark1">flags/audio.png</texture>
+                <aspectratio align="left">scale</aspectratio>
+                <visible>!String.IsEmpty(Control.GetLabel(6602))</visible>
+                <visible>!Skin.HasSetting(furniture.flagicons)</visible>
+            </control>
+            <control type="label" description="Game Audio">
+                <width>auto</width>
+                <centertop>50%</centertop>
+                <height>64</height>
+                <align>left</align>
+                <aligny>center</aligny>
+                <label>$VAR[GameAudioFlag]</label>
+                <font>Flag</font>
+                <textcolor>Dark1</textcolor>
+                <visible>!String.IsEmpty(Control.GetLabel(6602))</visible>
+                <visible>!Skin.HasSetting(furniture.flagicons)</visible>
+            </control>
+            <control type="image" description="ESRB">
+                <width min="20" max="100">auto</width>
+                <height>100</height>
+                <centertop>50%</centertop>
+                <texture fallback="flags/fallback.png">$VAR[GameESRBFlag]</texture>
+                <aspectratio align="center">keep</aspectratio>
+                <visible>Skin.HasSetting(furniture.flagicons)</visible>
+            </control>
+            <include content="NumberOfPlayersFurniture" description="NumberOfPlayers">
+                <param name="nplayerfield" value="nplayers" />
+                <param name="textid" value="31692" />
+                <param name="playersTextId" value="OneOrMoreLocalPlayersVar"/>
+            </include>
+            <include content="NumberOfPlayersFurniture" description="NumberOfPlayersOnline">
+                <param name="nplayerfield" value="nplayers_online" />
+                <param name="textid" value="31693" />
+                <param name="playersTextId" value="OneOrMoreOnlinePlayersVar"/>
+            </include>
+        </control>
+        <control type="grouplist">
+            <include>Animation.FurnitureVisible</include>
+            <visible>Skin.HasSetting(furniture.coloredicons)</visible>
+            <visible>!Skin.HasSetting(furniture.flags)</visible>
+            <visible>$EXP[InGameMode]</visible>
+            <visible>!String.IsEqual(ListItem.Label,..)</visible>
+            <left>SidePad</left>
+            <centerbottom>NavBarPad</centerbottom>
+            <include content="def_right" condition="Skin.HasSetting(furniture.clock)">
+                <param name="right" value="SidePad" />
+            </include>
+            <include content="def_right" condition="!Skin.HasSetting(furniture.clock)">
+                <param name="right" value="440" />
+            </include>
+            <height>120</height>
+            <orientation>horizontal</orientation>
+            <align>left</align>
+            <itemgap>0</itemgap>
+            <usecontrolcoords>true</usecontrolcoords>
+            <control type="image" id="6699" description="Studio">
+                <width min="0" max="180">auto</width>
+                <height>100</height>
+                <centertop>50%</centertop>
+                <texture fallback="flags/empty_fallback.png">$VAR[GameStudioFlag]</texture>
+                <aspectratio align="left">keep</aspectratio>
+                <visible>Skin.HasSetting(furniture.flagicons) + !String.IsEmpty(ListItem.Studio)</visible>
+            </control>
+            <control type="image" description="Game Video Resolution">
+                <width min="20" max="90">auto</width>
+                <height>70</height>
+                <left>-10</left>
+                <centertop>50%</centertop>
+                <texture fallback="flags/fallback.png">$VAR[GameResolutionFlag,flags/color/resolution/,.png]</texture>
+                <aspectratio align="left">keep</aspectratio>
+                <visible>!String.IsEmpty(Control.GetLabel(6601))</visible>
+                <visible>Skin.HasSetting(furniture.flagicons) + !Skin.HasSetting(furniture.flags.resolution)</visible>
+            </control>
+            <include content="Def_Flags_Furniture_Small" condition="!Skin.HasSetting(furniture.flags.rating)">
+                <param name="Star" value="Flagstar" />
+                <param name="visible" value="!Skin.HasSetting(furniture.numericrating)" />
+            </include>
+            <control type="label" description="Rating">
+                <left>-6</left>
+                <width min="48">auto</width>
+                <centertop>50%</centertop>
+                <height>64</height>
+                <align>left</align>
+                <aligny>center</aligny>
+                <label>$VAR[RatingLabel]</label>
+                <font>Flag</font>
+                <textcolor>Dark1</textcolor>
+                <visible>!String.IsEmpty(ListItem.Rating)</visible>
+                <visible>Skin.HasSetting(furniture.numericrating) + !Skin.HasSetting(furniture.flags.rating)</visible>
+            </control>
+            <control type="image" description="Game Audio Codec">
+                <width min="20" max="108">auto</width>
+                <height>60</height>
+                <centertop>50%</centertop>
+                <texture fallback="flags/fallback.png">$VAR[GameAudioFlag,flags/color/audio/,.png]</texture>
+                <aspectratio align="center">keep</aspectratio>
+                <visible>!String.IsEmpty(Control.GetLabel(6602))</visible>
+                <visible>Skin.HasSetting(furniture.flagicons) + !Skin.HasSetting(furniture.flags.audiocodec)</visible>
+            </control>
+            <control type="image" description="Game Video Resolution">
+                <width>48</width>
+                <height>64</height>
+                <centertop>50%</centertop>
+                <texture colordiffuse="Dark1">flags/video.png</texture>
+                <aspectratio align="left">scale</aspectratio>
+                <visible>!String.IsEmpty(Control.GetLabel(6601))</visible>
+                <visible>!Skin.HasSetting(furniture.flagicons)</visible>
+            </control>
+            <control type="label" description="Video">
+                <width min="128">auto</width>
+                <centertop>50%</centertop>
+                <height>64</height>
+                <align>left</align>
+                <aligny>center</aligny>
+                <label>$VAR[GameResolutionFlag]</label>
+                <font>Flag</font>
+                <textcolor>Dark1</textcolor>
+                <visible>!String.IsEmpty(Control.GetLabel(6601))</visible>
+                <visible>!Skin.HasSetting(furniture.flagicons)</visible>
+            </control>
+            <control type="image" description="Audio">
+                <width>48</width>
+                <centertop>50%</centertop>
+                <height>64</height>
+                <texture colordiffuse="Dark1">flags/audio.png</texture>
+                <aspectratio align="left">scale</aspectratio>
+                <visible>!String.IsEmpty(Control.GetLabel(6602))</visible>
+                <visible>!Skin.HasSetting(furniture.flagicons)</visible>
+            </control>
+            <control type="label" description="Audio">
+                <width>auto</width>
+                <centertop>50%</centertop>
+                <height>64</height>
+                <align>left</align>
+                <aligny>center</aligny>
+                <label>$VAR[GameAudioFlag]</label>
+                <font>Flag</font>
+                <textcolor>Dark1</textcolor>
+                <visible>!String.IsEmpty(Control.GetLabel(6602))</visible>
+                <visible>!Skin.HasSetting(furniture.flagicons)</visible>
+            </control>
+            <control type="image" description="ESRB">
+                <width min="20" max="100">auto</width>
+                <height>100</height>
+                <centertop>50%</centertop>
+                <texture fallback="flags/empty_fallback.png">$VAR[GameESRBFlag]</texture>
+                <aspectratio align="center">keep</aspectratio>
+                <visible>Skin.HasSetting(furniture.flagicons)</visible>
+            </control>
+            <include content="NumberOfPlayersFurniture" description="NumberOfPlayers">
+                <param name="nplayerfield" value="nplayers" />
+                <param name="textid" value="31692" />
+                <param name="playersTextId" value="OneOrMoreLocalPlayersVar"/>
+            </include>
+            <include content="NumberOfPlayersFurniture" description="NumberOfPlayersOnline">
+                <param name="nplayerfield" value="nplayers_online" />
+                <param name="textid" value="31693" />
+                <param name="playersTextId" value="OneOrMoreOnlinePlayersVar"/>
+            </include>
         </control>
     </include>
 

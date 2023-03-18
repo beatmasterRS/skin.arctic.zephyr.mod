@@ -2,9 +2,7 @@
 <!-- Foundation -->
 <window id="2006">
     <onunload>ClearProperty(SetUserRating,home)</onunload>
-    <onunload>ClearProperty(SetUserRating2,home)</onunload>
     <onload condition="Skin.HasSetting(osd.alwaysshowmusicosd)">ActivateWindow(musicosd)</onload>
-    <onload>RunScript(script.artistslideshow)</onload>
     <controls>
         
         <!-- Background -->
@@ -100,9 +98,20 @@
             <width>100%</width>
             <texture>common/white.png</texture>
             <colordiffuse>Background</colordiffuse>
-            <animation effect="fade" start="100" end="60" condition="true">Conditional</animation>
+            <animation effect="fade" start="100" end="80" condition="true">Conditional</animation>
             <visible>Window.IsVisible(script-cu-lrclyrics-main.xml)</visible>
             <visible>!Skin.HasSetting(osd.morecontrast)</visible>
+            <animation effect="fade" start="0" end="100" time="250">Visible</animation>
+            <animation effect="fade" end="0" start="100" time="250">Hidden</animation>
+        </control>
+        <control type="image">
+            <height>100%</height>
+            <width>100%</width>
+            <texture>common/white.png</texture>
+            <colordiffuse>Background</colordiffuse>
+            <animation effect="fade" start="100" end="90" condition="true">Conditional</animation>
+            <visible>Window.IsVisible(script-cu-lrclyrics-main.xml)</visible>
+            <visible>Skin.HasSetting(osd.morecontrast)</visible>
             <animation effect="fade" start="0" end="100" time="250">Visible</animation>
             <animation effect="fade" end="0" start="100" time="250">Hidden</animation>
         </control>
@@ -111,9 +120,9 @@
         <control type="group">
             <visible>!Skin.HasSetting(osd.usethemeNewOSDMusic)</visible>
             <visible>!Window.IsVisible(musicosd)</visible>
-            <visible>Player.ShowInfo | Player.Seeking | Player.DisplayAfterSeek | Player.Paused | Player.Forwarding | Player.Rewinding</visible>
+            <visible>Player.ShowInfo | Player.Seeking | Player.HasPerformedSeek(3) | Player.Paused | Player.Forwarding | Player.Rewinding</visible>
             <visible>!Window.IsVisible(script-cu-lrclyrics-main.xml) | [Window.IsVisible(script-cu-lrclyrics-main.xml) + !Skin.HasSetting(hideseekbaronlyrics)]</visible>
-            <visible>Window.IsVisible(script-cu-lrclyrics-main.xml) | Player.Seeking | Player.DisplayAfterSeek | Player.Paused | Player.Forwarding | Player.Rewinding | Player.ShowInfo</visible>
+            <visible>Window.IsVisible(script-cu-lrclyrics-main.xml) | Player.Seeking | Player.HasPerformedSeek(3) | Player.Paused | Player.Forwarding | Player.Rewinding | Player.ShowInfo</visible>
             <animation type="Visible" condition="!Window.Next(musicplaylist)">
                 <effect type="fade" start="70" end="100" time="200"/>
                 <effect type="slide" start="0,120" end="0" time="200"/>
@@ -179,20 +188,21 @@
                 <control type="label">
                     <width>auto</width>
                     <height>60</height>
-                    <label>$INFO[MusicPlayer.UserRating,,.0]</label>
+                    <label>$VAR[RatingLabelMusicPlayer]</label>
                     <aligny>center</aligny>
                     <align>right</align>
                     <textcolor>$VAR[OSDPanelWhite30]</textcolor>
                     <font>Flag</font>
                     <textcolor>Dark1</textcolor>
-                    <visible>Skin.HasSetting(musicosd.numericrating) + Integer.IsGreater(MusicPlayer.UserRating,0)</visible>
+                    <visible>!String.IsEmpty(MusicPlayer.Rating) | [!String.IsEmpty(MusicPlayer.UserRating) + Skin.HasSetting(userrating.override.rating)]</visible>
+                    <visible>Skin.HasSetting(musicosd.numericrating)</visible>
                 </control>
             </control>
             <control type="group">
                 <visible>!Window.IsVisible(musicosd)</visible>
-                <visible>Player.ShowInfo | Player.Seeking | Player.DisplayAfterSeek | Player.Paused | Player.Forwarding | Player.Rewinding</visible>
+                <visible>Player.ShowInfo | Player.Seeking | Player.HasPerformedSeek(3) | Player.Paused | Player.Forwarding | Player.Rewinding</visible>
                 <visible>!Window.IsVisible(script-cu-lrclyrics-main.xml) | [Window.IsVisible(script-cu-lrclyrics-main.xml) + !Skin.HasSetting(hideseekbaronlyrics)]</visible>
-                <visible>Window.IsVisible(script-cu-lrclyrics-main.xml) | Player.Seeking | Player.DisplayAfterSeek | Player.Paused | Player.Forwarding | Player.Rewinding | Player.ShowInfo</visible>
+                <visible>Window.IsVisible(script-cu-lrclyrics-main.xml) | Player.Seeking | Player.HasPerformedSeek(3) | Player.Paused | Player.Forwarding | Player.Rewinding | Player.ShowInfo</visible>
                 <animation effect="fade" start="100" end="0" time="200">WindowClose</animation>
                 <animation effect="fade" start="0" end="100" time="200">WindowOpen</animation>
                 <animation effect="fade" start="100" end="0" time="200">Hidden</animation>
@@ -202,8 +212,7 @@
                     <animation effect="slide" start="0,0" end="0,-333" time="150" condition="Skin.HasSetting(osd.artistinfos) + !Window.IsVisible(script-cu-lrclyrics-main.xml)">Conditional</animation>
                     <right>SidePad</right>
                     <bottom>111</bottom>
-                    <width>350</width>
-                    <height>197</height>
+                    <width>400</width>
                     <fadetime>ClearArtFadetime</fadetime>
                     <texture>$VAR[MusicPlayerArt]</texture>
                     <aspectratio align="right" aligny="bottom">keep</aspectratio>
@@ -265,9 +274,9 @@
             </animation>
             <control type="group">
                 <visible>!Window.IsVisible(musicosd)</visible>
-                <visible>Player.ShowInfo | Player.Seeking | Player.DisplayAfterSeek | Player.Paused | Player.Forwarding | Player.Rewinding</visible>
+                <visible>Player.ShowInfo | Player.Seeking | Player.HasPerformedSeek(3) | Player.Paused | Player.Forwarding | Player.Rewinding</visible>
                 <visible>!Window.IsVisible(script-cu-lrclyrics-main.xml) | [Window.IsVisible(script-cu-lrclyrics-main.xml) + !Skin.HasSetting(hideseekbaronlyrics)]</visible>
-                <visible>Window.IsVisible(script-cu-lrclyrics-main.xml) | Player.Seeking | Player.DisplayAfterSeek | Player.Paused | Player.Forwarding | Player.Rewinding | Player.ShowInfo</visible>
+                <visible>Window.IsVisible(script-cu-lrclyrics-main.xml) | Player.Seeking | Player.HasPerformedSeek(3) | Player.Paused | Player.Forwarding | Player.Rewinding | Player.ShowInfo</visible>
                 <animation effect="fade" start="0" end="100" time="250">Visible</animation>
                 <animation effect="fade" end="0" start="100" time="250">Hidden</animation>
                 <control type="image">
@@ -292,9 +301,9 @@
             </control>
             <control type="group">
                 <visible>!Window.IsVisible(musicosd)</visible>
-                <visible>Player.ShowInfo | Player.Seeking | Player.DisplayAfterSeek | Player.Paused | Player.Forwarding | Player.Rewinding</visible>
+                <visible>Player.ShowInfo | Player.Seeking | Player.HasPerformedSeek(3) | Player.Paused | Player.Forwarding | Player.Rewinding</visible>
                 <visible>!Window.IsVisible(script-cu-lrclyrics-main.xml) | [Window.IsVisible(script-cu-lrclyrics-main.xml) + !Skin.HasSetting(hideseekbaronlyrics)]</visible>
-                <visible>Window.IsVisible(script-cu-lrclyrics-main.xml) | Player.Seeking | Player.DisplayAfterSeek | Player.Paused | Player.Forwarding | Player.Rewinding | Player.ShowInfo</visible>
+                <visible>Window.IsVisible(script-cu-lrclyrics-main.xml) | Player.Seeking | Player.HasPerformedSeek(3) | Player.Paused | Player.Forwarding | Player.Rewinding | Player.ShowInfo</visible>
                 <animation type="Visible">
                     <effect type="fade" start="0" end="100" time="250"/>
                 </animation>
@@ -312,8 +321,7 @@
                     <animation effect="slide" start="0,0" end="0,-70" time="150" condition="Skin.HasSetting(osd.artistinfos)">Conditional</animation>
                     <right>SidePadNewOSD</right>
                     <bottom>220</bottom>
-                    <width>350</width>
-                    <height>197</height>
+                    <width>400</width>
                     <fadetime>ClearArtFadetime</fadetime>
                     <texture>$VAR[MusicPlayerArt]</texture>
                     <aspectratio align="right" aligny="bottom">keep</aspectratio>
@@ -353,19 +361,20 @@
                     <control type="label">
                         <width>auto</width>
                         <height>60</height>
-                        <label>$INFO[MusicPlayer.UserRating,,.0]</label>
+                        <label>$VAR[RatingLabelMusicPlayer]</label>
                         <aligny>center</aligny>
                         <textcolor>$VAR[OSDPanelWhite30]</textcolor>
                         <font>Flag</font>
                         <textcolor>Dark1</textcolor>
-                        <visible>Skin.HasSetting(musicosd.numericrating) + Integer.IsGreater(MusicPlayer.UserRating,0)</visible>
+                        <visible>!String.IsEmpty(MusicPlayer.Rating) | [!String.IsEmpty(MusicPlayer.UserRating) + Skin.HasSetting(userrating.override.rating)]</visible>
+                        <visible>Skin.HasSetting(musicosd.numericrating)</visible>
                     </control>
                 </control>
                 <control type="group">
                     <top>110r</top>
                     <bottom>0</bottom>
                     <width>100%</width>
-                     <include content="MusicVisualisationInfoMatrx">
+                    <include content="MusicVisualisationInfoMatrx">
                         <param name="left" value="SidePadNewOSD" />
                         <param name="visible" value="!Skin.HasSetting(ShowMusicCd)" />
                     </include>
@@ -383,7 +392,7 @@
             <visible>!Window.IsVisible(musicosd)</visible>
             <visible>Player.ShowInfo</visible>
             <visible>!Window.IsVisible(script-cu-lrclyrics-main.xml) | [Window.IsVisible(script-cu-lrclyrics-main.xml) + !Skin.HasSetting(hideseekbaronlyrics)]</visible>
-            <visible>Window.IsVisible(script-cu-lrclyrics-main.xml) | Player.Seeking | Player.DisplayAfterSeek | Player.Paused | Player.Forwarding | Player.Rewinding | Player.ShowInfo</visible>
+            <visible>Window.IsVisible(script-cu-lrclyrics-main.xml) | Player.Seeking | Player.HasPerformedSeek(3) | Player.Paused | Player.Forwarding | Player.Rewinding | Player.ShowInfo</visible>
             <animation effect="slide" start="0,0" end="-50,-120" time="0" condition="!Skin.HasSetting(osd.usethemeNewOSDMusic)">Conditional</animation>
             <animation type="Hidden">
                 <effect type="slide" start="0,0" end="-520,0" tween="sine" easing="out" time="300" delay="0"/>
@@ -436,15 +445,15 @@
                     <left>SidePad</left>
                     <height>260</height>
                     <width>260</width>
-                    <aspectratio scalediffuse="false">scale</aspectratio>
-                    <texture diffuse="diffuse/wall.png" fallback="DefaultAlbumCover.png">$INFO[Player.Art(thumb)]</texture>
+                    <aspectratio scalediffuse="false">keep</aspectratio>
+                    <texture diffuse="diffuse/widgetsquare_new.png" fallback="DefaultAlbumCover.png">$INFO[Player.Art(thumb)]</texture>
                 </control>
                 <control type="image">
                     <top>636</top>
                     <left>79</left>
                     <height>262</height>
                     <width>262</width>
-                    <texture colordiffuse="$VAR[MusicOSDBox]" border="4">common/box21.png</texture>
+                    <texture colordiffuse="$VAR[MusicOSDBox]" border="4" infill="false">common/box21.png</texture>
                 </control>
             </control>
         </control>
@@ -490,7 +499,7 @@
                     <top>636</top>
                     <height>263</height>
                     <width>1302</width>
-                    <texture colordiffuse="BoxWidget" border="4">common/box21.png</texture>
+                    <texture colordiffuse="BoxWidget" border="4" infill="false">common/box21.png</texture>
                 </control>
                 <control type="label">
                     <left>35</left>
@@ -579,7 +588,7 @@
                     <top>634</top>
                     <height>263</height>
                     <width>1760</width>
-                    <texture colordiffuse="BoxWidget" border="4">common/box21.png</texture>
+                    <texture colordiffuse="BoxWidget" border="4" infill="false">common/box21.png</texture>
                 </control>
                 <control type="label">
                     <left>35</left>
