@@ -1835,6 +1835,20 @@
                 </include>
                 <visible>!Skin.HasSetting(hidebutton.video.studio)</visible>
             </control>
+            <control type="radiobutton" id="9013">
+                <visible>String.IsEqual(ListItem.DBType,movie) | String.IsEqual(ListItem.DBType,tvshow)</visible>
+                <onfocus>ClearProperty(moviecontent)</onfocus>
+                <onfocus>ClearProperty(ShowDisc)</onfocus>
+                <onclick>SetProperty(dontslide,1,home)</onclick>
+                <onclick condition="String.IsEqual(ListItem.DBType,movie)">RunScript(plugin.video.themoviedb.helper,wikipedia=$VAR[Wiki_Label],tmdb_type=movie)</onclick>
+                <onclick condition="String.IsEqual(ListItem.DBType,tvshow)">RunScript(plugin.video.themoviedb.helper,wikipedia=$VAR[Wiki_Label],tmdb_type=tv)</onclick>
+                <!-- <onclick condition="String.IsEqual(ListItem.DBType,tvshow)">RunScript(plugin.video.themoviedb.helper,wikipedia=$INFO[ListItem.Label],tmdb_type=person)</onclick>                 -->
+                <include>buttondimensions</include>
+                <include content="buttontextures">
+                    <param name="icon" value="buttonsdialogs/wiki.png"/>
+                </include>
+                <visible>Skin.HasSetting(showbutton.video.wiki)</visible>
+            </control>
             <control type="radiobutton" id="9006">
                 <visible>String.IsEqual(ListItem.DBType,movie)</visible>
                 <onfocus condition="!String.IsEqual(Window.Property(moviecontent),6)">ClearProperty(moviecontent)</onfocus>
@@ -5054,5 +5068,11 @@
     
     <variable name="AutoCompletionPath">
         <value condition="System.AddonIsEnabled(plugin.program.autocompletion)">plugin://plugin.program.autocompletion?info=autocomplete&amp;&amp;id=$INFO[Control.GetLabel(312).index(1)]&amp;&amp;limit=9</value>
+    </variable>
+    
+    <variable name="Wiki_Label">
+        <value condition="!String.IsEmpty(ListItem.TVShowTitle)">$INFO[ListItem.TVShowTitle]</value>
+        <value condition="!String.IsEmpty(ListItem.Title)">$INFO[ListItem.Title]</value>
+        <value>$INFO[ListItem.Label]</value>
     </variable>
 </includes>
