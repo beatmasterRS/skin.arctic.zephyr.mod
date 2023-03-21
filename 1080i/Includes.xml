@@ -1811,6 +1811,20 @@
                 <onclick>RunScript(plugin.video.specialfeatures,listitem)</onclick>
                 <visible>!Skin.HasSetting(hidebutton.video.specialfeatures)</visible>
             </control>
+            <control type="radiobutton" id="9013">
+                <visible>String.IsEqual(ListItem.DBType,movie) | String.IsEqual(ListItem.DBType,tvshow)</visible>
+                <onfocus>ClearProperty(moviecontent)</onfocus>
+                <onfocus>ClearProperty(ShowDisc)</onfocus>
+                <onfocus>ClearProperty(dontslide)</onfocus>
+                <onclick>SetProperty(dontslide,1,home)</onclick>
+                <onclick condition="String.IsEqual(ListItem.DBType,movie)">RunScript(plugin.video.themoviedb.helper,wikipedia=$VAR[Wiki_Label],tmdb_type=movie)</onclick>
+                <onclick condition="String.IsEqual(ListItem.DBType,tvshow)">RunScript(plugin.video.themoviedb.helper,wikipedia=$VAR[Wiki_Label],tmdb_type=tv)</onclick>
+                <include>buttondimensions</include>
+                <include content="buttontextures">
+                    <param name="icon" value="buttonsdialogs/wiki.png"/>
+                </include>
+                <visible>Skin.HasSetting(showbutton.video.wiki)</visible>
+            </control>
             <control type="radiobutton" id="9002">
                 <visible>String.IsEqual(ListItem.DBType,movie) | String.IsEqual(ListItem.DBType,tvshow)</visible>
                 <onfocus condition="!String.IsEqual(Window.Property(moviecontent),2)">ClearProperty(moviecontent)</onfocus>
@@ -1834,20 +1848,6 @@
                     <param name="icon" value="buttonsdialogs/studio.png"/>
                 </include>
                 <visible>!Skin.HasSetting(hidebutton.video.studio)</visible>
-            </control>
-            <control type="radiobutton" id="9013">
-                <visible>String.IsEqual(ListItem.DBType,movie) | String.IsEqual(ListItem.DBType,tvshow)</visible>
-                <onfocus>ClearProperty(moviecontent)</onfocus>
-                <onfocus>ClearProperty(ShowDisc)</onfocus>
-                <onclick>SetProperty(dontslide,1,home)</onclick>
-                <onclick condition="String.IsEqual(ListItem.DBType,movie)">RunScript(plugin.video.themoviedb.helper,wikipedia=$VAR[Wiki_Label],tmdb_type=movie)</onclick>
-                <onclick condition="String.IsEqual(ListItem.DBType,tvshow)">RunScript(plugin.video.themoviedb.helper,wikipedia=$VAR[Wiki_Label],tmdb_type=tv)</onclick>
-                <!-- <onclick condition="String.IsEqual(ListItem.DBType,tvshow)">RunScript(plugin.video.themoviedb.helper,wikipedia=$INFO[ListItem.Label],tmdb_type=person)</onclick>                 -->
-                <include>buttondimensions</include>
-                <include content="buttontextures">
-                    <param name="icon" value="buttonsdialogs/wiki.png"/>
-                </include>
-                <visible>Skin.HasSetting(showbutton.video.wiki)</visible>
             </control>
             <control type="radiobutton" id="9006">
                 <visible>String.IsEqual(ListItem.DBType,movie)</visible>
