@@ -3714,4 +3714,39 @@
             </control>
         </control>
     </include>
+    
+    <include name="Playlist_Item">
+        <param name="switch" value="$PARAM[switch]" default="false" />
+        <param name="number" value="$PARAM[number]" default="true" />
+        <definition>
+        <item>
+            <label>$INFO[MusicPlayer.offset($PARAM[itemid]).TrackNumber,,. ]$INFO[MusicPlayer.offset($PARAM[itemid]).Artist]$INFO[MusicPlayer.offset($PARAM[itemid]).Title, - ,]</label>
+            <label2>$INFO[MusicPlayer.offset($PARAM[itemid]).Duration]</label2>
+            <property name="TrackNumber">$INFO[MusicPlayer.offset($PARAM[itemid]).PlaylistPosition]</property>
+            <onclick>Playlist.PlayOffset($PARAM[itemid])</onclick>
+            <visible>MusicPlayer.offset($PARAM[itemid]).Exists + $PARAM[switch] + $PARAM[number]</visible>
+        </item>
+        <item>
+            <label>$INFO[MusicPlayer.offset($PARAM[itemid]).TrackNumber,,. ]$INFO[MusicPlayer.offset($PARAM[itemid]).Title]$INFO[MusicPlayer.offset($PARAM[itemid]).Artist, - ,]</label>
+            <label2>$INFO[MusicPlayer.offset($PARAM[itemid]).Duration]</label2>
+            <property name="TrackNumber">$INFO[MusicPlayer.offset($PARAM[itemid]).PlaylistPosition]</property>
+            <onclick>Playlist.PlayOffset($PARAM[itemid])</onclick>
+            <visible>MusicPlayer.offset($PARAM[itemid]).Exists + !$PARAM[switch] + $PARAM[number]</visible>
+        </item>
+        <item>
+            <label>$INFO[MusicPlayer.offset($PARAM[itemid]).Artist]$INFO[MusicPlayer.offset($PARAM[itemid]).Title, - ,]</label>
+            <label2>$INFO[MusicPlayer.offset($PARAM[itemid]).Duration]</label2>
+            <property name="TrackNumber">$INFO[MusicPlayer.offset($PARAM[itemid]).PlaylistPosition]</property>
+            <onclick>Playlist.PlayOffset($PARAM[itemid])</onclick>
+            <visible>MusicPlayer.offset($PARAM[itemid]).Exists + $PARAM[switch] + !$PARAM[number]</visible>
+        </item>
+        <item>
+            <label>$INFO[MusicPlayer.offset($PARAM[itemid]).Title]$INFO[MusicPlayer.offset($PARAM[itemid]).Artist, - ,]</label>
+            <label2>$INFO[MusicPlayer.offset($PARAM[itemid]).Duration]</label2>
+            <property name="TrackNumber">$INFO[MusicPlayer.offset($PARAM[itemid]).PlaylistPosition]</property>
+            <onclick>Playlist.PlayOffset($PARAM[itemid])</onclick>
+            <visible>MusicPlayer.offset($PARAM[itemid]).Exists + !$PARAM[switch] + !$PARAM[number]</visible>
+        </item>
+        </definition>
+    </include>
 </includes>
