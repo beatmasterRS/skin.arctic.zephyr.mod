@@ -2915,7 +2915,7 @@
             <lefttexture colordiffuse="Highlight2">osd/progress-end.png</lefttexture>
             <midtexture colordiffuse="Highlight2">osd/progress-end.png</midtexture>
             <righttexture colordiffuse="Highlight2">osd/progress-end.png</righttexture>
-            <visible>[Player.Playing | Player.Paused | Player.Caching] + !Player.Seeking</visible>
+            <visible>[Player.Playing | Player.Paused | Player.Caching] + !Player.Seeking + !Pvr.IsPlayingTv</visible>
         </control>
         <control type="progress">
             <description>Progress Bar</description>
@@ -2985,7 +2985,7 @@
             <lefttexture colordiffuse="Highlight2">osd/progress-end.png</lefttexture>
             <midtexture colordiffuse="Highlight2">osd/progress-end.png</midtexture>
             <righttexture colordiffuse="Highlight2">osd/progress-end.png</righttexture>
-            <visible>[Player.Playing | Player.Paused | Player.Caching] + !Player.Seeking</visible>
+            <visible>[Player.Playing | Player.Paused | Player.Caching] + !Player.Seeking + !Pvr.IsPlayingTv</visible>
         </control>
         <control type="progress">
             <description>Progress Bar</description>
@@ -3213,7 +3213,6 @@
         <control type="group">
             <left>$PARAM[left]</left>
             <right>SidePadNewOSD</right>
-            <visible>$PARAM[visible]</visible>
             <top>20</top>
             <animation effect="slide" start="0,0" end="0,-50" time="150" condition="Skin.HasSetting(osd.usethemeNewOSDMusic)">Conditional</animation>
             <bottom>20</bottom>
@@ -3303,13 +3302,18 @@
                 <midtexture colordiffuse="Highlight2">osd/progress-end.png</midtexture>
                 <righttexture colordiffuse="Highlight2">osd/progress-end.png</righttexture>
             </control>
-            <control type="progress">
+            <control type="progress" id="2001">
                 <description>Progress Bar</description>
                 <width>100%</width>
                 <bottom>10</bottom>
                 <height>8</height>
                 <info>Player.Progress</info>
             </control>
+            <include content="Progress_Control_Gradient">
+                <param name="info" value="Player.Progress"/>
+                <param name="visible" value="true"/>
+                <param name="id" value="2001" />
+            </include>
         </control>
     </include>
 
@@ -5183,6 +5187,8 @@
     </include>
     
     <include name="Progress_Control_Gradient">
+        <param name="id" value="$PARAM[id]" default="2000" />
+        <definition>
         <control type="progress">
             <width>100%</width>
             <bottom>10</bottom>
@@ -5192,8 +5198,9 @@
             <midtexture colordiffuse="$VAR[ColorHighlightOtherBar]" diffuse="progress/diffuse.png">osd/progress-end.png</midtexture>
             <righttexture colordiffuse="PanelWhite70" diffuse="progress/diffuse.png">osd/progress-end.png</righttexture>
             <include content="Defs_Progress_Colorfader">
-                <param name="info" value="Control.GetLabel(2000)" />
+                <param name="info" value="Control.GetLabel($PARAM[id])" />
             </include>
         </control>
+        </definition>
     </include>
 </includes>
