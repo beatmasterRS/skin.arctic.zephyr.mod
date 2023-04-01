@@ -77,6 +77,24 @@
                 <param name="left" value="100" />
                 <param name="visible" value="$EXP[IsPVRVideo] + !Skin.HasSetting(extended.nowplaying.videowindow)" />
             </include>
+            <control type="list" id="999">
+                <include>HiddenListControl</include>
+                <ondown>300</ondown>
+                <onleft>300</onleft>
+                <onright>300</onright>
+                <onup>300</onup>
+                <onback>300</onback>
+                <onfocus>SetProperty(shownowplayinginfo,1,home)</onfocus>
+                <content limit="1">$VAR[CurrentlyPlayingItem]</content>
+            </control>
+            <control type="button" id="4000">
+                <ondown>300</ondown>
+                <onleft>300</onleft>
+                <onright>300</onright>
+                <onup>300</onup>
+                <onback>300</onback>
+                <onfocus>SetFocus(25)</onfocus>
+            </control>
         </control>        
     </include>
 
@@ -210,6 +228,20 @@
                         <width>1100</width>
                         <include>MultiWidgetsSubLabelDefinition</include>
                         <label fallback="19055">$VAR[Label_NowPlaying_Time_VideoSubInfo]</label>
+                        <animation type="Visible" reversible="false">
+                            <effect type="fade" end="100" start="0" time="400" delay="300"/>
+                        </animation>
+                        <visible>!Control.HasFocus(25) | [Control.HasFocus(25) + !Container(999).IsUpdating + !Integer.IsGreater(Container(999).NumItems,0)]</visible>
+                    </control>
+                    <control type="label">
+                        <top>55</top>
+                        <width>1100</width>
+                        <include>MultiWidgetsSubLabelDefinition</include>
+                        <label>$LOCALIZE[22081]</label>
+                        <animation type="Hidden" reversible="false">
+                            <effect type="fade" end="0" start="100" time="400" delay="0"/>
+                        </animation>
+                        <visible>Control.HasFocus(25) + !Container(999).IsUpdating + Integer.IsGreater(Container(999).NumItems,0)</visible>
                     </control>
                     <animation effect="slide" start="0" end="0,-70" time="150" condition="ControlGroup(777).HasFocus() + Skin.HasSetting(home.nowplaying.controls) + !Skin.HasSetting(home.nowplaying.controls.always.visible)" reversible="false">Conditional</animation>
                     <animation effect="slide" start="0,-70" end="0,0" delay="300" time="250" tween="sine" easing="out" condition="!ControlGroup(777).HasFocus() + Skin.HasSetting(home.nowplaying.controls) + !Skin.HasSetting(home.nowplaying.controls.always.visible)" reversible="false">Conditional</animation>
@@ -236,6 +268,20 @@
                         <width>1100</width>
                         <include>MultiWidgetsSubLabelDefinition</include>
                         <label fallback="19055">$VAR[Label_NowPlaying_Time_MusicSubInfo]</label>
+                        <animation type="Visible" reversible="false">
+                            <effect type="fade" end="100" start="0" time="400" delay="300"/>
+                        </animation>
+                        <visible>!Control.HasFocus(25) | [Control.HasFocus(25) + !Container(999).IsUpdating + !Integer.IsGreater(Container(999).NumItems,0)]</visible>
+                    </control>
+                    <control type="label">
+                        <top>55</top>
+                        <width>1100</width>
+                        <include>MultiWidgetsSubLabelDefinition</include>
+                        <label>$LOCALIZE[22081]</label>
+                        <animation type="Hidden" reversible="false">
+                            <effect type="fade" end="0" start="100" time="400" delay="0"/>
+                        </animation>
+                        <visible>Control.HasFocus(25) + !Container(999).IsUpdating + Integer.IsGreater(Container(999).NumItems,0)</visible>
                     </control>
                     <animation effect="slide" start="0" end="0,-70" time="150" condition="ControlGroup(777).HasFocus() + Skin.HasSetting(home.nowplaying.controls) + !Skin.HasSetting(home.nowplaying.controls.always.visible)" reversible="false">Conditional</animation>
                     <animation effect="slide" start="0,-70" end="0,0" delay="300" time="250" tween="sine" easing="out" condition="!ControlGroup(777).HasFocus() + Skin.HasSetting(home.nowplaying.controls) + !Skin.HasSetting(home.nowplaying.controls.always.visible)" reversible="false">Conditional</animation>
@@ -593,6 +639,15 @@
                 <texture colordiffuse="BoxWidget" border="4" background="true" infill="false">common/box21.png</texture>
                 <visible>!Skin.HasSetting(thumbnails.white)</visible>
             </control>
+            <control type="group">
+                <animation type="Conditional" condition="Control.HasFocus(25)">
+                    <effect type="zoom" start="95" end="100" time="150" tween="sine" easing="inout" center="auto"/>
+                    <effect type="fade" start="0" end="100" time="150" tween="sine" easing="in"/>
+                </animation>
+                <include content="def_widgetfocus">
+                    <param name="id" value="25"/>
+                </include>
+            </control>
         </control>
         </definition>
     </include>
@@ -652,6 +707,17 @@
                 <bottom>10</bottom>
                 <texture colordiffuse="BoxWidget" border="4" background="true" infill="false">common/box21.png</texture>
                 <visible>!Skin.HasSetting(thumbnails.white)</visible>
+            </control>
+            <control type="group">
+                <animation type="Conditional" condition="Control.HasFocus(25)">
+                    <effect type="zoom" start="95" end="100" time="150" tween="sine" easing="inout" center="auto"/>
+                    <effect type="fade" start="0" end="100" time="150" tween="sine" easing="in"/>
+                </animation>
+                <include content="def_widgetfocus">
+                    <param name="id" value="25"/>
+                    <param name="glow_right" value="2"/>
+                    <param name="glow_left" value="1"/>
+                </include>
             </control>
         </control>
         </definition>
