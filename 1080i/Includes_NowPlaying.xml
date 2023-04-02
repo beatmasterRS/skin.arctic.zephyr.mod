@@ -380,7 +380,98 @@
                         <include condition="Skin.HasSetting(homemenu.netflix)">MultiWidgetsPlotLabelDefinitionNetflix</include>
                         <include condition="!Skin.HasSetting(homemenu.netflix)">MultiWidgetsPlotLabelDefinition</include>
                         <label>$VAR[Label_NowPlaying_Plot]</label>
-                        <visible>!String.IsEmpty(MusicPlayer.Property(Artist_Description)) | !String.IsEmpty(MusicPlayer.Property(Album_Description)) | Skin.HasSetting(home.extended.nowplaying.tracklist)</visible>
+                        <visible>[!String.IsEmpty(MusicPlayer.Property(Artist_Description)) | !String.IsEmpty(MusicPlayer.Property(Album_Description))] + !Skin.HasSetting(home.extended.nowplaying.tracklist)</visible>
+                    </control>
+                    <control type="label">
+                        <include>MultiWidgetsSubLabelDefinition</include>
+                        <label>[B]$LOCALIZE[19031]:[/B]</label>
+                        <visible>Skin.HasSetting(home.extended.nowplaying.tracklist)</visible>
+                    </control>
+                    <control type="list" id="7000">
+                        <visible>Skin.HasSetting(home.extended.nowplaying.tracklist)</visible>
+                        <posy>400</posy>
+                        <height>200</height>
+                        <width>700</width>
+                        <onleft>777</onleft>
+                        <onright>777</onright>
+                        <onup>301</onup>
+                        <ondown>777</ondown>
+                        <onback>777</onback>
+                        <orientation>vertical</orientation>
+                        <itemlayout height="40" width="700">
+                            <control type="label">
+                                <right>30</right>
+                                <height>100%</height>
+                                <aligny>center</aligny>
+                                <align>left</align>
+                                <font>Tiny</font>
+                                <textcolor>Dark1</textcolor>
+                                <label>$INFO[ListItem.Label]</label>
+                            </control>
+                        </itemlayout>
+                        <focusedlayout height="40" width="700">
+                            <control type="group">
+                                <visible>!Control.HasFocus(7000)</visible>
+                                <control type="label">
+                                    <right>30</right>
+                                    <height>100%</height>
+                                    <aligny>center</aligny>
+                                    <align>left</align>
+                                    <font>Tiny</font>
+                                    <textcolor>Dark1</textcolor>
+                                    <label>$INFO[ListItem.Label]</label>
+                                </control>
+                            </control>
+                            <control type="group">
+                                <visible>Control.HasFocus(7000)</visible>
+                                <control type="label">
+                                    <right>30</right>
+                                    <height>100%</height>
+                                    <aligny>center</aligny>
+                                    <align>left</align>
+                                    <font>Tiny</font>
+                                    <textcolor>$VAR[ColorHighlight]</textcolor>
+                                    <label>$INFO[ListItem.Label]</label>
+                                </control>
+                            </control>
+                        </focusedlayout>
+                        <content>
+                            <item id="1">
+                                <label>$INFO[MusicPlayer.offset(1).TrackNumber,,. ]$INFO[MusicPlayer.offset(1).Title]$INFO[MusicPlayer.offset(1).Artist, - ,]</label>
+                                <label2>$INFO[MusicPlayer.offset(1).Duration]</label2>
+                                <property name="TrackNumber">$INFO[MusicPlayer.offset(1).PlaylistPosition]</property>
+                                <onclick>Playlist.PlayOffset(1)</onclick>
+                                <visible>MusicPlayer.offset(1).Exists</visible>
+                            </item>
+                            <item id="2">
+                                <label>$INFO[MusicPlayer.offset(2).TrackNumber,,. ]$INFO[MusicPlayer.offset(2).Title]$INFO[MusicPlayer.offset(2).Artist, - ,]</label>
+                                <label2>$INFO[MusicPlayer.offset(2).Duration]</label2>
+                                <property name="TrackNumber">$INFO[MusicPlayer.offset(2).PlaylistPosition]</property>
+                                <onclick>Playlist.PlayOffset(2)</onclick>
+                                <visible>MusicPlayer.offset(2).Exists</visible>
+                            </item>
+                            <item id="3">
+                                <label>$INFO[MusicPlayer.offset(3).TrackNumber,,. ]$INFO[MusicPlayer.offset(3).Title]$INFO[MusicPlayer.offset(3).Artist, - ,]</label>
+                                <label2>$INFO[MusicPlayer.offset(3).Duration]</label2>
+                                <property name="TrackNumber">$INFO[MusicPlayer.offset(3).PlaylistPosition]</property>
+                                <onclick>Playlist.PlayOffset(3)</onclick>
+                                <visible>MusicPlayer.offset(3).Exists</visible>
+                            </item>
+                            <item id="4">
+                                <label>$INFO[MusicPlayer.offset(4).TrackNumber,,. ]$INFO[MusicPlayer.offset(4).Title]$INFO[MusicPlayer.offset(4).Artist, - ,]</label>
+                                <label2>$INFO[MusicPlayer.offset(4).Duration]</label2>
+                                <property name="TrackNumber">$INFO[MusicPlayer.offset(4).PlaylistPosition]</property>
+                                <onclick>Playlist.PlayOffset(4)</onclick>
+                                <visible>MusicPlayer.offset(4).Exists</visible>
+                            </item>
+                            <item id="5">
+                                <label>$INFO[MusicPlayer.offset(5).TrackNumber,,. ]$INFO[MusicPlayer.offset(5).Title]$INFO[MusicPlayer.offset(5).Artist, - ,]</label>
+                                <label2>$INFO[MusicPlayer.offset(5).Duration]</label2>
+                                <property name="TrackNumber">$INFO[MusicPlayer.offset(5).PlaylistPosition]</property>
+                                <onclick>Playlist.PlayOffset(5)</onclick>
+                                <visible>MusicPlayer.offset(5).Exists</visible>
+                            </item>
+                        </content>   
                     </control>
                     <control type="label">
                         <include>MultiWidgetsSubLabelDefinition</include>
