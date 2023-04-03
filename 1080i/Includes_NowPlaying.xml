@@ -79,20 +79,13 @@
             </include>
             <control type="list" id="999">
                 <include>HiddenListControl</include>
-                <ondown>300</ondown>
-                <onleft>300</onleft>
-                <onright>300</onright>
-                <onup>300</onup>
-                <onback>300</onback>
+                <include content="OnDirectionAction"><param name="ondirection" value="300" /></include>
                 <onfocus>SetProperty(shownowplayinginfo,1,home)</onfocus>
                 <content limit="1">$VAR[CurrentlyPlayingItem]</content>
             </control>
             <control type="button" id="4000">
-                <ondown>300</ondown>
-                <onleft>300</onleft>
-                <onright>300</onright>
-                <onup>300</onup>
-                <onback>300</onback>
+                <include>HiddenButton</include>
+                <include content="OnDirectionAction"><param name="ondirection" value="300" /></include>
                 <onfocus>SetFocus(25)</onfocus>
             </control>
         </control>        
@@ -352,13 +345,13 @@
                     <param name="label" value="$INFO[Player.Title]$INFO[VideoPlayer.StartTime,  •  ,]$INFO[VideoPlayer.EndTime, - ]$INFO[VideoPlayer.Duration(mins),  •  , $LOCALIZE[31102]]" />
                     <param name="visible" value="VideoPlayer.Content(livetv)" />
                 </include>
+                <include condition="Skin.HasSetting(homemenu.netflix) + !Skin.HasSetting(home.netflix.clearlogo) | Skin.HasSetting(homemenu.clean.flix)">IntentButton</include>
                 <control type="grouplist">
                     <width>100%</width>
                     <orientation>vertical</orientation>
                     <visible>Player.HasVideo</visible>
                     <itemgap>15</itemgap>
                     <usecontrolcoords>true</usecontrolcoords>
-                    <include condition="Skin.HasSetting(homemenu.netflix) + !Skin.HasSetting(home.netflix.clearlogo) | Skin.HasSetting(homemenu.clean.flix)">IntentButton</include>
                     <control type="textbox">
                         <include condition="Skin.HasSetting(homemenu.netflix)">MultiWidgetsPlotLabelDefinitionNetflix</include>
                         <include condition="!Skin.HasSetting(homemenu.netflix)">MultiWidgetsPlotLabelDefinition</include>
@@ -373,20 +366,111 @@
                 <control type="grouplist">
                     <width>100%</width>
                     <orientation>vertical</orientation>
-                    <visible>!Skin.HasSetting(home.extended.nowplaying.scrolling.text) + Player.HasAudio</visible>
+                    <visible>!Skin.HasSetting(home.extended.nowplaying.scrolling.text) + Player.HasAudio + !Skin.HasSetting(home.extended.nowplaying.tracklist)</visible>
                     <itemgap>15</itemgap>
-                    <include condition="Skin.HasSetting(homemenu.netflix) + !Skin.HasSetting(home.netflix.clearlogo) | Skin.HasSetting(homemenu.clean.flix)">IntentButton</include>
                     <control type="textbox">
                         <include condition="Skin.HasSetting(homemenu.netflix)">MultiWidgetsPlotLabelDefinitionNetflix</include>
                         <include condition="!Skin.HasSetting(homemenu.netflix)">MultiWidgetsPlotLabelDefinition</include>
                         <label>$VAR[Label_NowPlaying_Plot]</label>
-                        <visible>!String.IsEmpty(MusicPlayer.Property(Artist_Description)) | !String.IsEmpty(MusicPlayer.Property(Album_Description)) | Skin.HasSetting(home.extended.nowplaying.tracklist)</visible>
+                        <visible>!String.IsEmpty(MusicPlayer.Property(Artist_Description)) | !String.IsEmpty(MusicPlayer.Property(Album_Description))</visible>
                     </control>
                     <control type="label">
                         <include>MultiWidgetsSubLabelDefinition</include>
                         <label>$VAR[Label_NowPlaying_MusicSubInfo]</label>
                         <visible>!Skin.HasSetting(home.extended.nowplaying.tracklist)</visible>
                     </control>
+                </control>
+                <control type="label">
+                    <include>MultiWidgetsSubLabelDefinition</include>
+                    <label>[B]$LOCALIZE[19031]:[/B]</label>
+                    <visible>Skin.HasSetting(home.extended.nowplaying.tracklist)</visible>
+                </control>
+                <control type="button" id="779">
+                    <include>HiddenButton</include>
+                    <onfocus>SetFocus(301)</onfocus>
+                    <include content="OnDirectionAction"><param name="ondirection" value="300" /></include>
+                    <visible allowhiddenfocus="true">false</visible>
+                </control>
+                <control type="list" id="778">
+                    <visible>Skin.HasSetting(home.extended.nowplaying.tracklist)</visible>
+                    <height>200</height>
+                    <width>100%</width>
+                    <onleft>777</onleft>
+                    <onright>777</onright>
+                    <onup>779</onup>
+                    <ondown>780</ondown>
+                    <onback>300</onback>
+                    <orientation>vertical</orientation>
+                    <itemlayout height="35">
+                        <control type="label">
+                            <height>100%</height>
+                            <width>600</width>
+                            <aligny>center</aligny>
+                            <align>left</align>
+                            <font>Tiny</font>
+                            <textcolor>Dark2</textcolor>
+                            <label>$INFO[ListItem.Label]</label>
+                        </control>
+                    </itemlayout>
+                    <focusedlayout height="35">
+                        <control type="group">
+                            <visible>!Control.HasFocus(778)</visible>
+                            <control type="label">
+                                <height>100%</height>
+                                <width>600</width>
+                                <aligny>center</aligny>
+                                <align>left</align>
+                                <font>Tiny</font>
+                                <textcolor>Dark2</textcolor>
+                                <label>$INFO[ListItem.Label]</label>
+                            </control>
+                        </control>
+                        <control type="group">
+                            <visible>Control.HasFocus(778)</visible>
+                            <control type="label">
+                                <height>100%</height>
+                                <width>600</width>
+                                <aligny>center</aligny>
+                                <align>left</align>
+                                <font>Tiny</font>
+                                <textcolor>$VAR[ColorHighlight]</textcolor>
+                                <label>$INFO[ListItem.Label]</label>
+                            </control>
+                        </control>
+                    </focusedlayout>
+                    <content>
+                        <item id="1">
+                            <label>$INFO[MusicPlayer.offset(1).Title]$INFO[MusicPlayer.offset(1).Artist, - ,]</label>
+                            <onclick>Playlist.PlayOffset(1)</onclick>
+                            <visible>MusicPlayer.offset(1).Exists</visible>
+                        </item>
+                        <item id="2">
+                            <label>$INFO[MusicPlayer.offset(2).Title]$INFO[MusicPlayer.offset(2).Artist, - ,]</label>
+                            <onclick>Playlist.PlayOffset(2)</onclick>
+                            <visible>MusicPlayer.offset(2).Exists</visible>
+                        </item>
+                        <item id="3">
+                            <label>$INFO[MusicPlayer.offset(3).Title]$INFO[MusicPlayer.offset(3).Artist, - ,]</label>
+                            <onclick>Playlist.PlayOffset(3)</onclick>
+                            <visible>MusicPlayer.offset(3).Exists</visible>
+                        </item>
+                        <item id="4">
+                            <label>$INFO[MusicPlayer.offset(4).Title]$INFO[MusicPlayer.offset(4).Artist, - ,]</label>
+                            <onclick>Playlist.PlayOffset(4)</onclick>
+                            <visible>MusicPlayer.offset(4).Exists</visible>
+                        </item>
+                        <item id="5">
+                            <label>$INFO[MusicPlayer.offset(5).Title]$INFO[MusicPlayer.offset(5).Artist, - ,]</label>
+                            <onclick>Playlist.PlayOffset(5)</onclick>
+                            <visible>MusicPlayer.offset(5).Exists</visible>
+                        </item>
+                    </content>   
+                </control>
+                <control type="button" id="780">
+                    <include>HiddenButton</include>
+                    <onfocus>SetFocus(777)</onfocus>
+                    <include content="OnDirectionAction"><param name="ondirection" value="300" /></include>
+                    <visible allowhiddenfocus="true">false</visible>
                 </control>
             </control>
             
@@ -476,11 +560,11 @@
             <animation type="WindowOpen" reversible="false" condition="$EXP[ExtendedNowPlayingIsVisible]">
                 <effect type="slide" start="-145,0" end="0,0" tween="sine" easing="out" time="600" delay="500"/>
             </animation>
-            <animation type="Conditional" condition="!Control.HasFocus(300) + !Control.HasFocus(302) + !Control.HasFocus(2011) + !ControlGroup(777).HasFocus()" reversible="false">
+            <animation type="Conditional" condition="!Control.HasFocus(300) + !Control.HasFocus(302) + !Control.HasFocus(2011) + !ControlGroup(777).HasFocus() + !Control.HasFocus(778) + !Control.HasFocus(779) + !Control.HasFocus(780)" reversible="false">
                 <effect type="slide" start="0,0" end="-115,0" tween="sine" easing="out" time="300" delay="0"/>
                 <effect type="fade" start="100" end="0" time="150" delay="0"/>
             </animation>
-            <animation type="Conditional" condition="Control.HasFocus(300) | Control.HasFocus(302) | Control.HasFocus(2011) | ControlGroup(777).HasFocus()" reversible="false">
+            <animation type="Conditional" condition="Control.HasFocus(300) | Control.HasFocus(302) | Control.HasFocus(2011) | ControlGroup(777).HasFocus() | Control.HasFocus(778) | Control.HasFocus(779) | Control.HasFocus(780)" reversible="false">
                 <effect type="slide" start="-145,0" end="0,0" tween="sine" easing="out" time="600" delay="500"/>
                 <effect type="fade" start="0" end="100" time="1" delay="500"/>
             </animation>
