@@ -95,7 +95,7 @@
     <expression name="TrailerIsPlaying">String.IsEqual(Window(home).Property(TrailerPath2),Player.FileNameAndPath) + !String.IsEmpty(Player.FileNameAndPath)</expression>
     <expression name="AutoTrailerDebugging">Skin.HasSetting(home.netflix.autoplay.trailer) + Skin.HasSetting(DebugInfo.extended) + Skin.HasSetting(DebugInfo.extended)</expression>
     <expression name="ExtendedNowPlayingIsVisible">[Skin.HasSetting(extended.nowplaying) + Window.IsVisible(Home) + [Player.HasMedia | Player.Playing]] + [[!ControlGroup(301).HasFocus() + !Control.HasFocus(8888) + !Control.HasFocus(4567)] | ControlGroup(777).HasFocus()]</expression>
-    <expression name="ExtendedNowPlayingHelperAutoShow">!$EXP[TrailerIsReady] + !$EXP[TrailerIsPlaying] + !$EXP[TrailerWaitingForPlayer] + !$EXP[TrailerWindowIsActive] + [System.IdleTime(5) + !String.IsEmpty(Window(home).Property(nowplayingautoshowtimer)) + Skin.HasSetting(extended.nowplaying) + Window.IsVisible(Home) + [Player.HasMedia | Player.Playing] + Skin.HasSetting(home.nowplaying.info.auto.show) + !Window.IsVisible(DialogVideoInfo.xml) + !Window.IsVisible(DialogMusicInfo.xml) + !Window.IsVisible(DialogAddonInfo.xml) + !Window.IsVisible(DialogPVRInfo.xml) + !Window.IsVisible(DialogContextMenu.xml)]</expression>
+    <expression name="ExtendedNowPlayingHelperAutoShow">!$EXP[TrailerIsReady] + !$EXP[TrailerIsPlaying] + !$EXP[TrailerWaitingForPlayer] + !$EXP[TrailerWindowIsActive] + [System.IdleTime(5) + !String.IsEmpty(Window(home).Property(nowplayingautoshowtimer)) + Skin.HasSetting(extended.nowplaying) + Window.IsVisible(Home) + [Player.HasMedia | Player.Playing] + Skin.HasSetting(home.nowplaying.info.auto.show) + !Window.IsVisible(DialogVideoInfo.xml) + !Window.IsVisible(DialogMusicInfo.xml) + !Window.IsVisible(DialogAddonInfo.xml) + !Window.IsVisible(DialogPVRInfo.xml) + !Window.IsVisible(DialogContextMenu.xml) + !Window.IsVisible(script-embuary-video.xml) + !Window.IsVisible(script-embuary-person.xml) + !Window.IsVisible(script-embuary-image.xml) + !Window.IsVisible(DialogBusy.xml)]</expression>
     <expression name="ExtendedNowPlayingHelperAutoClose">!$EXP[TrailerIsReady] + !$EXP[TrailerIsPlaying] + !$EXP[TrailerWaitingForPlayer] + !$EXP[TrailerWindowIsActive] + [[!String.IsEmpty(Window(home).Property(controlsvisible)) | Control.HasFocus(25) | Control.HasFocus(778)] + Skin.HasSetting(extended.nowplaying) + Window.IsVisible(Home) + !Player.HasMedia + !Player.Playing + Skin.HasSetting(home.nowplaying.controls)]</expression>
     <expression name="TitleClearlogoAvailable">[!String.IsEmpty(ListItem.Art(clearlogo)) | !String.IsEmpty(ListItem.Art(artist.clearlogo)) | !String.IsEmpty(ListItem.Art(tvshow.clearlogo))] + !Container.Content(episodes) + !Container.Content(seasons)</expression>
     <expression name="IsAudioCodecATMOS">
@@ -1505,7 +1505,6 @@
                 <onfocus>ClearProperty(musiccontent)</onfocus>
                 <onfocus>ClearProperty(ShowDisc)</onfocus>
                 <onfocus>ClearProperty(RotateCover)</onfocus>
-                <onfocus condition="$EXP[HasHomemenuAutoSlideOutAnimation]">CancelAlarm(slide_out,true)</onfocus>
                 <onclick condition="String.IsEmpty(ListItem.DBID)">PlayMedia($INFO[ListItem.FilenameAndPath])</onclick>
                 <onclick condition="System.HasAddon(script.playalbum) + String.IsEqual(ListItem.DBType,song) + !String.IsEmpty(ListItem.DBID)">RunScript(script.playalbum,songid=$INFO[ListItem.DBID])</onclick>
                 <onclick condition="System.HasAddon(script.playalbum) + String.IsEqual(ListItem.DBType,album) + !String.IsEmpty(ListItem.DBID)">RunScript(script.playalbum,albumid=$INFO[ListItem.DBID])</onclick>
@@ -1520,7 +1519,6 @@
                 <onfocus>ClearProperty(musiccontent)</onfocus>
                 <onfocus>ClearProperty(ShowDisc)</onfocus>
                 <onfocus>ClearProperty(RotateCover)</onfocus>
-                <onfocus condition="$EXP[HasHomemenuAutoSlideOutAnimation]">CancelAlarm(slide_out,true)</onfocus>
                 <include>buttondimensionssquare</include>
                 <onclick condition="Player.Playing">Pause</onclick>
                 <onclick condition="!Player.Playing">Play</onclick>
@@ -1537,7 +1535,6 @@
             <control type="radiobutton" id="9002">
                 <visible>!String.IsEqual(ListItem.DBType,song)</visible>
                 <onfocus>ClearProperty(musiccontent)</onfocus>
-                <onfocus condition="$EXP[HasHomemenuAutoSlideOutAnimation]">CancelAlarm(slide_out,true)</onfocus>
                 <include>buttondimensionssquare</include>
                 <include content="buttontextures">
                     <param name="icon" value="buttonsdialogs/info.png"/>
@@ -1676,7 +1673,6 @@
             <control type="radiobutton" id="8">
                 <onfocus>ClearProperty(moviecontent)</onfocus>
                 <onfocus>ClearProperty(ShowDisc)</onfocus>
-                <onfocus condition="$EXP[HasHomemenuAutoSlideOutAnimation]">CancelAlarm(slide_out,true)</onfocus>
                 <include>buttondimensions</include>
                 <texturenofocus colordiffuse="Dark4" border="0">common/boxsquare.png</texturenofocus>
                 <texturefocus colordiffuse="$VAR[ColorHighlight]" border="0">common/boxsquare.png</texturefocus>
