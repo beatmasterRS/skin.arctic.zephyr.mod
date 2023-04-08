@@ -81,7 +81,7 @@
     <expression name="Widget6Enabled">String.IsEqual(Container(300).ListItem.Property(widgetEnable.6),yes)</expression>
     <expression name="HasHomemenuAutoSlideOutAnimation">Skin.HasSetting(homemenu.slide) + !Skin.HasSetting(only.hide.if.widgetcontainer.gets.focus) + [[$EXP[HomeIsModernMultiWidgets] + !Skin.HasSetting(homemenu.clean.flix)] | [$EXP[HomeIsVerticalMultiWidgets] + !Skin.HasSetting(homemenu.vertical.noslide)]]</expression>
     <expression name="HasHomemenuAutoSlideOutAnimationOnlyIfWidgetIsFocused">[Skin.HasSetting(homemenu.slide) + [$EXP[HomeIsModernMultiWidgets] + !Skin.HasSetting(homemenu.clean.flix)] | [$EXP[HomeIsVerticalMultiWidgets] + !Skin.HasSetting(homemenu.vertical.noslide)] + Skin.HasSetting(only.hide.if.widgetcontainer.gets.focus)]</expression>
-    
+
     <expression name="IsPVRVideo">!Player.HasAudio + VideoPlayer.Content(livetv)</expression>
     <expression name="IsPVRAudio">Player.HasAudio + VideoPlayer.Content(livetv)</expression>
     <expression name="IsAudio">Player.HasAudio + !VideoPlayer.Content(livetv)</expression>
@@ -1772,8 +1772,20 @@
                 <visible>!Skin.HasSetting(hidebutton.video.trailer)</visible>
             </control>
 
-            <!-- PreShow Experience Button -->
+            <!-- Cinema -->
             <control type="radiobutton" id="49">
+                <onfocus>ClearProperty(moviecontent)</onfocus>
+                <onfocus>ClearProperty(ShowDisc)</onfocus>
+                <description>Home Theatre</description>
+                <include>buttondimensions</include>
+                <include content="buttontextures">
+                    <param name="icon" value="buttonsdialogs/playcinema.png"/>
+                </include>
+                <onclick>RunScript(script.embuary.helper,action=playcinema,dbid=$INFO[ListItem.DBID],type=$INFO[ListItem.DBType],title='$ESCINFO[ListItem.Title]')</onclick>
+                <visible>String.IsEqual(ListItem.DBTYPE,movie) | String.IsEqual(ListItem.DBTYPE,episode)</visible>
+                <visible>Skin.HasSetting(hidebutton.video.cinema)</visible>
+            </control>
+            <control type="radiobutton" id="490">
                 <onfocus>ClearProperty(moviecontent)</onfocus>
                 <onfocus>ClearProperty(ShowDisc)</onfocus>
                 <description>PreShow Experience</description>
@@ -2863,9 +2875,8 @@
     </include>
 
     <include name="defaultcontrolpreshow">
-        <defaultcontrol always="true">49</defaultcontrol>
+        <defaultcontrol always="true">490</defaultcontrol>
     </include>
-
     <include name="defaultcontrolplay">
         <defaultcontrol always="true">8</defaultcontrol>
     </include>
