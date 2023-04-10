@@ -83,7 +83,7 @@
                 <onfocus>SetProperty(shownowplayinginfo,1,home)</onfocus>
                 <content limit="1">$VAR[CurrentlyPlayingItem]</content>
             </control>
-            <control type="button" id="4000">
+            <control type="button" id="4000" description="Helper">
                 <include>HiddenButton</include>
                 <include content="OnDirectionAction"><param name="ondirection" value="300" /></include>
                 <onfocus>SetFocus(25)</onfocus>
@@ -192,10 +192,10 @@
         <definition>
         <control type="group">
             <width>100%</width>
-            <include content="def_top" condition="Skin.HasSetting(homemenu.netflix) + Skin.HasSetting(home.nowplaying.controls)">
+            <include content="def_top" condition="Skin.HasSetting(homemenu.netflix) + !Skin.HasSetting(hide.home.nowplaying.controls)">
                 <param name="top" value="546" />
             </include>
-            <include content="def_top" condition="!Skin.HasSetting(homemenu.netflix) + Skin.HasSetting(home.nowplaying.controls)">
+            <include content="def_top" condition="!Skin.HasSetting(homemenu.netflix) + !Skin.HasSetting(hide.home.nowplaying.controls)">
                 <param name="top" value="166" />
             </include>
             <include content="def_top" condition="Skin.HasSetting(homemenu.netflix)">
@@ -208,71 +208,49 @@
             <visible>$PARAM[visible]</visible>
             <control type="group">
                 <left>240</left>
-                <include content="def_top" condition="Skin.HasSetting(home.nowplaying.controls)">
-                    <param name="top" value="125" />
+                <include content="def_top" condition="Skin.HasSetting(hide.home.nowplaying.controls)">
+                    <param name="top" value="60" />
                 </include>
-                <top>60</top>
+                <top>95</top>
                 <visible>Player.HasVideo</visible>
                 <control type="group">
                     <include>NowPlaying_PlayPause</include>
                     <include>NowPlaying_Time</include>
-                    <control type="label">
-                        <top>55</top>
-                        <width>1100</width>
-                        <include>MultiWidgetsSubLabelDefinition</include>
-                        <label fallback="19055">$VAR[Label_NowPlaying_Time_VideoSubInfo]</label>
-                        <animation type="Visible" reversible="false">
-                            <effect type="fade" end="100" start="0" time="400" delay="300"/>
-                        </animation>
-                        <visible>!Control.HasFocus(25) | [Control.HasFocus(25) + !Container(999).IsUpdating + !Integer.IsGreater(Container(999).NumItems,0)]</visible>
-                    </control>
-                    <control type="label">
-                        <top>55</top>
-                        <width>1100</width>
-                        <include>MultiWidgetsSubLabelDefinition</include>
-                        <label>$LOCALIZE[22081]</label>
-                        <animation type="Hidden" reversible="false">
-                            <effect type="fade" end="0" start="100" time="400" delay="0"/>
-                        </animation>
-                        <visible>Control.HasFocus(25) + !Container(999).IsUpdating + Integer.IsGreater(Container(999).NumItems,0)</visible>
-                    </control>
-                    <animation effect="slide" start="0,0" end="0,-70" time="0" condition="Skin.HasSetting(home.nowplaying.controls)">Conditional</animation>
                 </control>
-                <include condition="Skin.HasSetting(home.nowplaying.controls)">NowPlaying_Controls</include>
+                <control type="group">
+                    <top>30</top>
+                    <include condition="!Skin.HasSetting(hide.home.nowplaying.controls)">NowPlaying_Controls</include>
+                </control>
+                <control type="label">
+                    <top>55</top>
+                    <width>1100</width>
+                    <include>MultiWidgetsSubLabelDefinition</include>
+                    <label fallback="19055">$VAR[Label_NowPlaying_Time_VideoSubInfo]</label>
+                    <visible>Skin.HasSetting(hide.home.nowplaying.controls)</visible>
+                </control>
             </control>
             <control type="group">
                 <left>340</left>
-                <include content="def_top" condition="Skin.HasSetting(home.nowplaying.controls)">
-                    <param name="top" value="125" />
+                <include content="def_top" condition="Skin.HasSetting(hide.home.nowplaying.controls)">
+                    <param name="top" value="60" />
                 </include>
-                <top>60</top>
+                <top>95</top>
                 <visible>Player.HasAudio</visible>
                 <control type="group">
                     <include>NowPlaying_PlayPause</include>
                     <include>NowPlaying_Time</include>
-                    <control type="label">
-                        <top>55</top>
-                        <width>1100</width>
-                        <include>MultiWidgetsSubLabelDefinition</include>
-                        <label fallback="19055">$VAR[Label_NowPlaying_Time_MusicSubInfo]</label>
-                        <animation type="Visible" reversible="false">
-                            <effect type="fade" end="100" start="0" time="400" delay="300"/>
-                        </animation>
-                        <visible>!Control.HasFocus(25) | [Control.HasFocus(25) + !Container(999).IsUpdating + !Integer.IsGreater(Container(999).NumItems,0)]</visible>
-                    </control>
-                    <control type="label">
-                        <top>55</top>
-                        <width>1100</width>
-                        <include>MultiWidgetsSubLabelDefinition</include>
-                        <label>$LOCALIZE[22081]</label>
-                        <animation type="Hidden" reversible="false">
-                            <effect type="fade" end="0" start="100" time="400" delay="0"/>
-                        </animation>
-                        <visible>Control.HasFocus(25) + !Container(999).IsUpdating + Integer.IsGreater(Container(999).NumItems,0)</visible>
-                    </control>
-                    <animation effect="slide" start="0,0" end="0,-70" time="0" condition="Skin.HasSetting(home.nowplaying.controls)">Conditional</animation>
                 </control>
-                <include condition="Skin.HasSetting(home.nowplaying.controls)">NowPlaying_Controls</include>
+                <control type="group">
+                    <top>30</top>
+                    <include condition="!Skin.HasSetting(hide.home.nowplaying.controls)">NowPlaying_Controls</include>
+                </control>
+                <control type="label">
+                    <top>55</top>
+                    <width>1100</width>
+                    <include>MultiWidgetsSubLabelDefinition</include>
+                    <label fallback="19055">$VAR[Label_NowPlaying_Time_MusicSubInfo]</label>
+                    <visible>Skin.HasSetting(hide.home.nowplaying.controls)</visible>
+                </control>
             </control>
         </control>
         </definition>
@@ -373,7 +351,7 @@
                     <label>[B]$LOCALIZE[19031]:[/B]</label>
                     <visible>Skin.HasSetting(home.extended.nowplaying.tracklist) + Player.HasAudio</visible>
                 </control>
-                <control type="button" id="779">
+                <control type="button" id="779" description="Helper">
                     <include>HiddenButton</include>
                     <onfocus>SetFocus(301)</onfocus>
                     <include content="OnDirectionAction"><param name="ondirection" value="300" /></include>
@@ -383,10 +361,10 @@
                     <visible allowhiddenfocus="true">Skin.HasSetting(home.extended.nowplaying.tracklist) + Player.HasAudio</visible>
                     <height>200</height>
                     <width>100%</width>
-                    <onleft condition="Skin.HasSetting(home.nowplaying.controls)">777</onleft>
-                    <onright condition="Skin.HasSetting(home.nowplaying.controls)">777</onright>
-                    <onleft condition="!Skin.HasSetting(home.nowplaying.controls)">301</onleft>
-                    <onright condition="!Skin.HasSetting(home.nowplaying.controls)">301</onright>
+                    <onleft condition="!Skin.HasSetting(hide.home.nowplaying.controls)">777</onleft>
+                    <onright condition="!Skin.HasSetting(hide.home.nowplaying.controls)">777</onright>
+                    <onleft condition="Skin.HasSetting(hide.home.nowplaying.controls)">301</onleft>
+                    <onright condition="Skin.HasSetting(hide.home.nowplaying.controls)">301</onright>
                     <onup>779</onup>
                     <ondown>780</ondown>
                     <onback>300</onback>
@@ -433,39 +411,39 @@
                         <item id="1">
                             <label>$INFO[MusicPlayer.offset(1).TrackNumber,,. ]$INFO[MusicPlayer.offset(1).Artist,, - ]$INFO[MusicPlayer.offset(1).Title]</label>
                             <onclick>Playlist.PlayOffset(1)</onclick>
-                            <onclick condition="Skin.HasSetting(home.nowplaying.controls)">SetFocus(777)</onclick>
+                            <onclick condition="!Skin.HasSetting(hide.home.nowplaying.controls)">SetFocus(777)</onclick>
                             <visible>MusicPlayer.offset(1).Exists</visible>
                         </item>
                         <item id="2">
                             <label>$INFO[MusicPlayer.offset(2).TrackNumber,,. ]$INFO[MusicPlayer.offset(2).Artist,, - ]$INFO[MusicPlayer.offset(2).Title]</label>
                             <onclick>Playlist.PlayOffset(2)</onclick>
-                            <onclick condition="Skin.HasSetting(home.nowplaying.controls)">SetFocus(777)</onclick>
+                            <onclick condition="!Skin.HasSetting(hide.home.nowplaying.controls)">SetFocus(777)</onclick>
                             <visible>MusicPlayer.offset(2).Exists</visible>
                         </item>
                         <item id="3">
                             <label>$INFO[MusicPlayer.offset(3).TrackNumber,,. ]$INFO[MusicPlayer.offset(3).Artist,, - ]$INFO[MusicPlayer.offset(3).Title]</label>
                             <onclick>Playlist.PlayOffset(3)</onclick>
-                            <onclick condition="Skin.HasSetting(home.nowplaying.controls)">SetFocus(777)</onclick>
+                            <onclick condition="!Skin.HasSetting(hide.home.nowplaying.controls)">SetFocus(777)</onclick>
                             <visible>MusicPlayer.offset(3).Exists</visible>
                         </item>
                         <item id="4">
                             <label>$INFO[MusicPlayer.offset(4).TrackNumber,,. ]$INFO[MusicPlayer.offset(4).Artist,, - ]$INFO[MusicPlayer.offset(4).Title]</label>
                             <onclick>Playlist.PlayOffset(4)</onclick>
-                            <onclick condition="Skin.HasSetting(home.nowplaying.controls)">SetFocus(777)</onclick>
+                            <onclick condition="!Skin.HasSetting(hide.home.nowplaying.controls)">SetFocus(777)</onclick>
                             <visible>MusicPlayer.offset(4).Exists</visible>
                         </item>
                         <item id="5">
                             <label>$INFO[MusicPlayer.offset(5).TrackNumber,,. ]$INFO[MusicPlayer.offset(5).Artist,, - ]$INFO[MusicPlayer.offset(5).Title]</label>
                             <onclick>Playlist.PlayOffset(5)</onclick>
-                            <onclick condition="Skin.HasSetting(home.nowplaying.controls)">SetFocus(777)</onclick>
+                            <onclick condition="!Skin.HasSetting(hide.home.nowplaying.controls)">SetFocus(777)</onclick>
                             <visible>MusicPlayer.offset(5).Exists</visible>
                         </item>
                     </content>   
                 </control>
-                <control type="button" id="780">
+                <control type="button" id="780" description="Helper">
                     <include>HiddenButton</include>
-                    <onfocus condition="Skin.HasSetting(home.nowplaying.controls)">SetFocus(777)</onfocus>
-                    <onfocus condition="!Skin.HasSetting(home.nowplaying.controls)">SetFocus(300)</onfocus>
+                    <onfocus condition="!Skin.HasSetting(hide.home.nowplaying.controls)">SetFocus(777)</onfocus>
+                    <onfocus condition="Skin.HasSetting(hide.home.nowplaying.controls)">SetFocus(300)</onfocus>
                     <include content="OnDirectionAction"><param name="ondirection" value="300" /></include>
                     <visible allowhiddenfocus="true">false</visible>
                 </control>
