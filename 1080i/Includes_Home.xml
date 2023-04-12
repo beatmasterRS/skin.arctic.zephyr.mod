@@ -1526,9 +1526,11 @@
                     <onfocus>ClearProperty(listitem.trailer,home)</onfocus>
                     <onfocus>ClearProperty(controlsvisible,home)</onfocus>
                     <onfocus>ClearProperty(SetUserRating,home)</onfocus>
+                    <onfocus>ClearProperty(nowplayingautoshowtimer,home)</onfocus>
                     <include condition="!Skin.HasSetting(furniture.clock)">DefHomeRight520</include>
                     <include condition="Skin.HasSetting(furniture.clock)">DefHomeRightSidePad</include>
-                    <onup condition="$EXP[ExtendedNowPlayingIsVisible] + Skin.HasSetting(home.nowplaying.controls) + [$EXP[HomeIsModernMultiWidgets] | $EXP[HomeIsVerticalMultiWidgets]]">777</onup>
+                    <onup condition="$EXP[ExtendedNowPlayingIsVisible] + Skin.HasSetting(hide.home.nowplaying.controls) + [$EXP[HomeIsModernMultiWidgets] | $EXP[HomeIsVerticalMultiWidgets]] + Skin.HasSetting(home.extended.nowplaying.tracklist) + Integer.IsGreater(Container(778).NumItems,0) + Player.HasAudio">778</onup>
+                    <onup condition="$EXP[ExtendedNowPlayingIsVisible] + !Skin.HasSetting(hide.home.nowplaying.controls) + [$EXP[HomeIsModernMultiWidgets] | $EXP[HomeIsVerticalMultiWidgets]]">777</onup>
                     <onup condition="!Player.HasVideo | !Skin.HasSetting(global.showvideo)">301</onup>
                     <onup>301</onup>
                     <ondown condition="Integer.IsGreater(Container(302).NumItems,0)">SetFocus(302,0)</ondown>
@@ -3395,9 +3397,11 @@
                     <width>PosterW</width>
                     <height>720</height>
                     <orientation>vertical</orientation>
-                    <onright condition="$EXP[ExtendedNowPlayingIsVisible] + Skin.HasSetting(home.nowplaying.controls)">777</onright>
+                    <onright condition="$EXP[ExtendedNowPlayingIsVisible] + Skin.HasSetting(hide.home.nowplaying.controls) + Skin.HasSetting(home.extended.nowplaying.tracklist) + Integer.IsGreater(Container(778).NumItems,0) + Player.HasAudio">778</onright>
+                    <onright condition="$EXP[ExtendedNowPlayingIsVisible] + !Skin.HasSetting(hide.home.nowplaying.controls)">777</onright>
                     <onright>301</onright>
                     <onleft>302</onleft>
+                    <onfocus>ClearProperty(nowplayingautoshowtimer,home)</onfocus>
                     <onback condition="Skin.HasSetting(home.onback.go.to.first.widget) + Integer.IsGreater(Container(301).NumItems,0)">SetFocus(301)</onback>
                     <scrolltime>200</scrolltime>
                     <onfocus>ClearProperty(listitem.trailer,home)</onfocus>
@@ -3751,6 +3755,7 @@
         <height>40</height>
         <left>SidePad</left>
         <visible>!Skin.HasSetting(homemenu.clean.flix) | [Skin.HasSetting(homemenu.clean.flix) + !Skin.HasSetting(hidewidgettitle)]</visible>
+        <visible>![!Skin.HasSetting(hide.home.nowplaying.controls) + !String.IsEmpty(Window(home).Property(controlsvisible))]</visible>
         <include condition="Skin.HasSetting(homemenu.clean.flix) + !Skin.HasSetting(homemenu.clean.flix.no.slide)">Animation.Home.Clean</include>
         <include content="def_top" condition="Skin.HasSetting(homemenu.clean.flix) + !Skin.HasSetting(hidewidgettitle) + [Skin.HasSetting(home.oldmenuheight) | Skin.HasSetting(submenu.compatibility)]">
             <param name="top" value="705" />
