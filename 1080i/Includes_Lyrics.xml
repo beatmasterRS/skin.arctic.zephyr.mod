@@ -3,67 +3,58 @@
 
     <include name="NormalLyrics">
         <control type="group">
-            <include>Animation.FadeIn</include>
+            <visible>Player.HasMedia</visible>
+            <animation effect="slide" end="350" start="0" time="250" condition="Window.IsActive(musicosd) + !Skin.HasSetting(HideMusicOSDOnLyrics)">Conditional</animation>
+            <animation effect="slide" end="0,-100" start="0,0" time="150" condition="$EXP[MusicSeekbarIsVisible] + Skin.HasSetting(osd.usethemeNewOSDMusic) + !Skin.HasSetting(hideseekbaronlyrics)">Conditional</animation>
+            <animation effect="slide" end="0,-70" start="0,0" time="150" condition="$EXP[MusicSeekbarIsVisible] + !Skin.HasSetting(osd.usethemeNewOSDMusic) + !Skin.HasSetting(hideseekbaronlyrics)">Conditional</animation>
+            <top>190</top>
+            <bottom>190</bottom>
+            <width>100%</width>
+            <animation effect="fade" start="0" end="100" delay="350" time="350" tween="cubic" easing="inout">WindowOpen</animation>
             <include>Animation.FadeOut</include>
-            <control type="group">
-                <control type="group">
-                    <animation effect="slide" end="334" start="0" time="75" tween="quadratic" condition="Window.IsActive(musicosd) + !Skin.HasSetting(HideMusicOSDOnLyrics)">Conditional</animation>
-                    <animation effect="slide" end="0,-130" start="0,0" time="150" condition="Skin.HasSetting(osd.usethemeNewOSDMusic) + [Skin.HasSetting(osd.artistinfos) | !Skin.HasSetting(hideseekbaronlyrics)]">Conditional</animation>
-                    <top>180</top>
-                    <bottom>200</bottom>
-                    <width>100%</width>
-
-                <!-- ** Required ** Do not change <id> or <type> (Smooth scrolling list for lyrics) -->
-                    <control type="list" id="110">
-                        <left>350</left>
-                        <right>350</right>
-                        <top>0</top>
-                        <bottom>0</bottom>
-                        <onleft>101</onleft>
-                        <onright>101</onright>
-                        <onup>110</onup>
-                        <ondown>110</ondown>
-                        <pagecontrol>111</pagecontrol>
-                        <scrolltime>200</scrolltime>
-                        <itemlayout height="100" width="1220">
-                            <control type="label">
-                                <width>100%</width>
-                                <align>center</align>
-                                <selectedcolor>$VAR[ColorHighlight]</selectedcolor>
-                                <info>ListItem.Label</info>
-                                <textcolor>$VAR[OSDPanelWhite70]</textcolor>
-                                <font>Lyrics</font>
-                            </control>
-                        </itemlayout>
-                        <focusedlayout height="100" width="1220">
-                            <control type="label">
-                                <width>100%</width>
-                                <align>center</align>
-                                <textcolor>$VAR[ColorHighlight]</textcolor>
-                                <selectedcolor>$VAR[ColorHighlight]</selectedcolor>
-                                <info>ListItem.Label</info>
-                                <font>Lyrics</font>
-                            </control>
-                        </focusedlayout>
+            
+            <!-- ** Required ** Do not change <id> or <type> (Smooth scrolling list for lyrics) -->
+            <control type="list" id="110">
+                <left>350</left>
+                <right>350</right>
+                <top>0</top>
+                <bottom>0</bottom>
+                <onleft>101</onleft>
+                <onright>101</onright>
+                <onup>110</onup>
+                <ondown>110</ondown>
+                <pagecontrol>111</pagecontrol>
+                <scrolltime>200</scrolltime>
+                <itemlayout height="100" width="1220">
+                    <control type="label">
+                        <width>100%</width>
+                        <align>center</align>
+                        <selectedcolor>$VAR[ColorHighlight]</selectedcolor>
+                        <info>ListItem.Label</info>
+                        <textcolor>$VAR[OSDPanelWhite70]</textcolor>
+                        <font>Lyrics</font>
                     </control>
-                    <control type="label" id="200">
-                        <description>Scraper label</description>
-                        <visible>false</visible>
+                </itemlayout>
+                <focusedlayout height="100" width="1220">
+                    <control type="label">
+                        <width>100%</width>
+                        <align>center</align>
+                        <textcolor>$VAR[ColorHighlight]</textcolor>
+                        <selectedcolor>$VAR[ColorHighlight]</selectedcolor>
+                        <info>ListItem.Label</info>
+                        <font>Lyrics</font>
                     </control>
-                </control>
+                </focusedlayout>
+            </control>
+            <control type="label" id="200">
+                <description>Scraper label</description>
+                <visible>false</visible>
             </control>
         </control>
     </include>
 
     <include name="VideoLyrics">
         <control type="group">
-            <animation effect="slide" end="0,0" start="0,-540" time="200" tween="quadratic" easing="out">WindowOpen</animation>
-            <animation effect="slide" start="0,0" end="0,-540" time="200" tween="quadratic" easing="out">WindowClose</animation>
-            <!--control type="image">
-                <width>100%</width>
-                <height>540</height>
-                <texture border="1,1,1,40">topbar.png</texture>
-            </control-->
 
             <!-- ** Required ** Do not change <id> or <type> (Text box for lyrics) -->
             <control type="textbox" id="100">
@@ -148,9 +139,12 @@
 
         <!-- ** Required ** Do not change <id> or <type> -->
         <control type="group">
-            <animation effect="slide" end="0,150" start="0,0" time="0" condition="true">Conditional</animation>
-            <animation effect="slide" end="584,150" start="0,0" time="75" tween="quadratic" condition="Window.IsActive(musicosd) + !Skin.HasSetting(HideMusicOSDOnLyrics)">Conditional</animation>
-            <animation effect="zoom" end="70" start="100" time="75" tween="quadratic" condition="Window.IsActive(musicosd) + !Skin.HasSetting(HideMusicOSDOnLyrics)">Conditional</animation>
+            <visible>Player.HasMedia</visible>
+            <animation effect="slide" end="-25,200" start="0,0" time="0" condition="true">Conditional</animation>
+            <animation effect="zoom" end="70" center="auto" start="100" time="250" condition="Window.IsActive(musicosd) + !Skin.HasSetting(HideMusicOSDOnLyrics)">Conditional</animation>
+            <animation effect="slide" end="540" start="0" time="250" condition="Window.IsActive(musicosd) + !Skin.HasSetting(HideMusicOSDOnLyrics)">Conditional</animation>
+            <animation effect="slide" end="0,-100" start="0,0" time="150" condition="$EXP[MusicSeekbarIsVisible] + Skin.HasSetting(osd.usethemeNewOSDMusic) + !Skin.HasSetting(hideseekbaronlyrics)">Conditional</animation>
+            <animation effect="slide" end="0,-70" start="0,0" time="150" condition="$EXP[MusicSeekbarIsVisible] + !Skin.HasSetting(osd.usethemeNewOSDMusic) + !Skin.HasSetting(hideseekbaronlyrics)">Conditional</animation>
             <visible>!String.IsEmpty(Container(110).ListItem.Label) + !String.Contains(Container(110).ListItem.Label,@) + !String.Contains(Container(110).ListItem.Label,chorus) + !String.Contains(Container(110).ListItem.Label,lrc) + !String.Contains(Container(110).ListItem.Label,lyric) + !String.Contains(Container(110).ListItem.Label,qq) + !String.Contains(Container(110).ListItem.Label,www)</visible>
             <control type="group">
                 <visible>[!String.IsEmpty(Window(Home).Property(culrc.islrc)) + Integer.IsGreater(Container(110).ListItem.Property(duration),299) + !Integer.IsGreater(Container(110).ListItem.Property(duration),1449)] | String.IsEmpty(Container(110).ListItem.Property(part4))</visible>
