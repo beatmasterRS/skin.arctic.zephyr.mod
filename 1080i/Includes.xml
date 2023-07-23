@@ -80,6 +80,7 @@
     <expression name="Widget5Enabled">String.IsEqual(Container(300).ListItem.Property(widgetEnable.5),yes)</expression>
     <expression name="Widget6Enabled">String.IsEqual(Container(300).ListItem.Property(widgetEnable.6),yes)</expression>
     <expression name="HasHomemenuAutoSlideOutAnimation">Skin.HasSetting(homemenu.slide) + !Skin.HasSetting(only.hide.if.widgetcontainer.gets.focus) + [[$EXP[HomeIsModernMultiWidgets] + !Skin.HasSetting(homemenu.clean.flix)] | [$EXP[HomeIsVerticalMultiWidgets] + !Skin.HasSetting(homemenu.vertical.noslide)]]</expression>
+    <expression name="HasHomemenuAutoSlideOutAnimationOnlyIfWidgetIsFocused">[Skin.HasSetting(homemenu.slide) + [$EXP[HomeIsModernMultiWidgets] + !Skin.HasSetting(homemenu.clean.flix)] | [$EXP[HomeIsVerticalMultiWidgets] + !Skin.HasSetting(homemenu.vertical.noslide)] + Skin.HasSetting(only.hide.if.widgetcontainer.gets.focus)]</expression>
     
     <expression name="IsPVRVideo">!Player.HasAudio + VideoPlayer.Content(livetv)</expression>
     <expression name="IsPVRAudio">Player.HasAudio + VideoPlayer.Content(livetv)</expression>
@@ -93,14 +94,16 @@
     <expression name="TrailerWaitingForPlayer">!String.IsEmpty(Window(home).Property(TrailerPath2)) + !String.IsEmpty(Window(home).Property(TrailerPath)) + String.IsEmpty(Player.FileNameAndPath)</expression>
     <expression name="TrailerIsPlaying">String.IsEqual(Window(home).Property(TrailerPath2),Player.FileNameAndPath) + !String.IsEmpty(Player.FileNameAndPath)</expression>
     <expression name="AutoTrailerDebugging">Skin.HasSetting(home.netflix.autoplay.trailer) + Skin.HasSetting(DebugInfo.extended) + Skin.HasSetting(DebugInfo.extended)</expression>
-    <expression name="ExtendedNowPlayingIsVisible">[Skin.HasSetting(extended.nowplaying) + Window.IsVisible(Home) + Player.HasMedia] + [[!ControlGroup(301).HasFocus() + !Control.HasFocus(8888) + !Control.HasFocus(4567)] | ControlGroup(777).HasFocus()]</expression>
+    <expression name="ExtendedNowPlayingIsVisible">[Skin.HasSetting(extended.nowplaying) + Window.IsVisible(Home) + [Player.HasMedia | Player.Playing]] + [[!ControlGroup(301).HasFocus() + !Control.HasFocus(8888) + !Control.HasFocus(4567)] | ControlGroup(777).HasFocus()]</expression>
+    <expression name="ExtendedNowPlayingHelperAutoShow">!$EXP[TrailerIsReady] + !$EXP[TrailerIsPlaying] + !$EXP[TrailerWaitingForPlayer] + !$EXP[TrailerWindowIsActive] + [System.IdleTime(5) + !String.IsEmpty(Window(home).Property(nowplayingautoshowtimer)) + Skin.HasSetting(extended.nowplaying) + Window.IsVisible(Home) + [Player.HasMedia | Player.Playing] + Skin.HasSetting(home.nowplaying.info.auto.show) + !Window.IsVisible(DialogVideoInfo.xml) + !Window.IsVisible(DialogMusicInfo.xml) + !Window.IsVisible(DialogAddonInfo.xml) + !Window.IsVisible(DialogPVRInfo.xml) + !Window.IsVisible(DialogContextMenu.xml) + !Window.IsVisible(script-embuary-video.xml) + !Window.IsVisible(script-embuary-person.xml) + !Window.IsVisible(script-embuary-image.xml) + !Window.IsVisible(DialogBusy.xml)]</expression>
+    <expression name="ExtendedNowPlayingHelperAutoClose">!$EXP[TrailerIsReady] + !$EXP[TrailerIsPlaying] + !$EXP[TrailerWaitingForPlayer] + !$EXP[TrailerWindowIsActive] + [[!String.IsEmpty(Window(home).Property(controlsvisible)) | Control.HasFocus(25) | Control.HasFocus(778)] + Skin.HasSetting(extended.nowplaying) + Window.IsVisible(Home) + !Player.HasMedia + !Player.Playing + !Skin.HasSetting(hide.home.nowplaying.controls)]</expression>
     <expression name="TitleClearlogoAvailable">[!String.IsEmpty(ListItem.Art(clearlogo)) | !String.IsEmpty(ListItem.Art(artist.clearlogo)) | !String.IsEmpty(ListItem.Art(tvshow.clearlogo))] + !Container.Content(episodes) + !Container.Content(seasons)</expression>
     <expression name="IsAudioCodecATMOS">
         String.Contains(ListItem.FileNameAndPath,atmos) | [VideoPlayer.IsFullscreen + String.Contains(Player.FileNameAndPath,atmos)]
     </expression>
     <expression name="IsAudioCodecDTSX">
-        String.Contains(ListItem.FileNameAndPath,dts-x) | String.Contains(ListItem.FileNameAndPath,dtsx) | String.Contains(ListItem.FileNameAndPath,dts.x)
-        | [VideoPlayer.IsFullscreen + [String.Contains(Player.FileNameAndPath,dts-x) | String.Contains(Player.FileNameAndPath,dtsx) | String.Contains(Player.FileNameAndPath,dts.x)]]
+        String.Contains(ListItem.FileNameAndPath,dts-x) | String.Contains(ListItem.FileNameAndPath,dtsx)
+        | [VideoPlayer.IsFullscreen + [String.Contains(Player.FileNameAndPath,dts-x) | String.Contains(Player.FileNameAndPath,dtsx)]]
     </expression>
     <expression name="IsVideoHDR10Plus">
         String.IsEmpty(ListItem.HdrType) + String.IsEmpty(VideoPlayer.HdrType) + [String.Contains(ListItem.FileNameAndPath,hdr10plus)
@@ -1131,10 +1134,10 @@
     </include>
 
     <include name="buttondimensionsnumpad">
-        <width>186</width>
-        <height>89</height>
-        <radioposx>70</radioposx>
-        <radioposy>30</radioposy>
+        <width>89</width>
+        <height>186</height>
+        <radioposx>20</radioposx>
+        <radioposy>75</radioposy>
         <radiowidth>48</radiowidth>
     </include>
 
@@ -1614,7 +1617,6 @@
 
             <!-- Fanart Button -->
             <control type="radiobutton" id="9006">
-                <visible>String.IsEqual(ListItem.DBType,artist)</visible>
                 <onfocus>ClearProperty(ShowDisc)</onfocus>
                 <onfocus condition="!String.IsEqual(Window.Property(musiccontent),4)">ClearProperty(musiccontent)</onfocus>
                 <onfocus>SetProperty(musiccontent,4)</onfocus>
@@ -1743,8 +1745,8 @@
                 <visible>String.IsEqual(ListItem.DBType,movie) | String.IsEqual(ListItem.DBType,tvshow) | String.IsEqual(ListItem.DBType,episode)</visible>
                 <onfocus condition="!String.IsEqual(Window.Property(moviecontent),1)">ClearProperty(moviecontent)</onfocus>
                 <onfocus>SetProperty(moviecontent,1)</onfocus>
-                <onclick condition="String.IsEqual(ListItem.DBType,movie)">RunScript(script.embuary.info,call=movie,query=$INFO[ListItem.Label])</onclick>
-                <onclick condition="String.IsEqual(ListItem.DBType,tvshow)">RunScript(script.embuary.info,call=tv,query=$INFO[ListItem.Label])</onclick>
+                <onclick condition="String.IsEqual(ListItem.DBType,movie)">RunScript(script.embuary.info,call=movie,query=$INFO[ListItem.Title])</onclick>
+                <onclick condition="String.IsEqual(ListItem.DBType,tvshow) | String.IsEqual(ListItem.DBType,episode)">RunScript(script.embuary.info,call=tv,query=$INFO[ListItem.TvShowTitle])</onclick>
                 <include>buttondimensions</include>
                 <include content="buttontextures">
                     <param name="icon" value="buttonsdialogs/info.png"/>
@@ -3663,7 +3665,7 @@
 
     <include name="ControlButtons">
         <control type="grouplist" id="6150">
-            <visible>Player.HasMedia</visible>
+            <visible>Player.HasMedia | Player.Playing</visible>
             <usecontrolcoords>true</usecontrolcoords>
             <top>10</top>
             <height>60</height>
@@ -5094,4 +5096,19 @@
         <value condition="!String.IsEmpty(ListItem.Title)">$INFO[ListItem.Title]</value>
         <value>$INFO[ListItem.Label]</value>
     </variable>
+
+    <variable name="CurrentlyPlayingItem">
+        <value condition="Player.HasAudio + !String.IsEmpty(MusicPlayer.DBID)">musicdb://songs/?songid=$INFO[MusicPlayer.DBID]</value>
+        <value condition="Player.HasVideo + VideoPlayer.Content(movies)">videodb://movies/titles/?xsp=%7B%22rules%22%3A%7B%22and%22%3A%5B%7B%22field%22%3A%22title%22%2C%22operator%22%3A%22is%22%2C%22value%22%3A%5B%22$INFO[Player.Title]%22%5D%7D%2C%7B%22field%22%3A%22filename%22%2C%22operator%22%3A%22is%22%2C%22value%22%3A%5B%22$INFO[Player.Filename]%22%5D%7D%5D%7D%2C%22type%22%3A%22movies%22%7D</value>
+        <value condition="Player.HasVideo + VideoPlayer.Content(episodes)">videodb://tvshows/titles/-1/-1/?xsp=%7B%22rules%22%3A%7B%22and%22%3A%5B%7B%22field%22%3A%22title%22%2C%22operator%22%3A%22is%22%2C%22value%22%3A%5B%22$INFO[Player.Title]%22%5D%7D%2C%7B%22field%22%3A%22filename%22%2C%22operator%22%3A%22is%22%2C%22value%22%3A%5B%22$INFO[Player.Filename]%22%5D%7D%5D%7D%2C%22type%22%3A%22episodes%22%7D
+        </value>
+    </variable>
+    
+    <include name="OnDirectionAction">
+        <onleft>$PARAM[ondirection]</onleft>
+        <onright>$PARAM[ondirection]</onright>
+        <onup>$PARAM[ondirection]</onup>
+        <ondown>$PARAM[ondirection]</ondown>
+        <onback>$PARAM[ondirection]</onback>
+    </include>
 </includes>

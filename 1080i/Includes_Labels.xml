@@ -10,30 +10,6 @@
         <value>$LOCALIZE[31125]</value>
     </variable>
 
-    <variable name="ColorKodiLogo">
-        <value condition="String.IsEqual(Skin.String(kodilogocolor.name),none)">Dark2</value>
-        <value condition="!String.IsEmpty(Skin.String(kodilogocolor.name))">$INFO[Skin.String(kodilogocolor.name)]</value>
-        <value>Dark2</value>
-    </variable>
-
-    <variable name="ColorKodiLogoGradient">
-        <value condition="String.IsEqual(Skin.String(kodilogocolorgradient.name),none) | String.IsEmpty(Skin.String(kodilogocolorgradient.name))">00e8e8e8</value>
-        <value condition="!String.IsEmpty(Skin.String(kodilogocolorgradient.name))">$INFO[Skin.String(kodilogocolorgradient.name)]</value>
-        <value>$VAR[ColorKodiLogo]</value>
-    </variable>
-
-    <variable name="ColorStarsLabel">
-        <value condition="String.IsEqual(Skin.String(starscolor.name),none)">ffd402aa</value>
-        <value condition="!String.IsEmpty(Skin.String(starscolor.name))">$INFO[Skin.String(starscolor.name)]</value>
-        <value>ffd402aa</value>
-    </variable>
-
-    <variable name="ColorSquareLabel">
-        <value condition="String.IsEqual(Skin.String(squarecolor.name),none)">$INFO[Skin.String(focuscolor.name)]</value>
-        <value condition="!String.IsEmpty(Skin.String(squarecolor.name))">$INFO[Skin.String(squarecolor.name)]</value>
-        <value>$INFO[Skin.String(focuscolor.name)]</value>
-    </variable>
-
     <variable name="LabelWidgetShortcutsName">
         <value condition="!String.IsEmpty(Container(211).ListItem.Property(widgetName))">$INFO[Container(211).ListItem.Property(widgetName)]</value>
         <value condition="!String.IsEmpty(Container(211).ListItem.Property(background))">$LOCALIZE[31110]</value>
@@ -82,7 +58,6 @@
 
     <variable name="ProgressCircleLabel">
         <value condition="String.IsEqual(ListItem.DBType,movie) | String.IsEqual(ListItem.DBType,episode)">$VAR[Percentagelabel]</value>
-        <value condition="String.IsEqual(ListItem.DBType,tvshow) | String.IsEqual(ListItem.DBType,season) + String.IsEmpty(ListItem.Property(WatchedEpisodes))">0/$INFO[ListItem.Property(TotalEpisodes)]</value>
         <value condition="String.IsEqual(ListItem.DBType,tvshow) | String.IsEqual(ListItem.DBType,season)">$INFO[ListItem.Property(WatchedEpisodes)]/$INFO[ListItem.Property(TotalEpisodes)]</value>
     </variable>
 
@@ -178,6 +153,7 @@
     </variable>
     
     <variable name="IndicatorFlagLabelIsTVShowInProgress">
+        <value condition="Skin.HasSetting(markers.inprogress.tvshow.label)">$LOCALIZE[31492]</value>
         <value condition="Skin.HasSetting(markers.inprogress.percentage) + !String.IsEmpty(ListItem.Property(WatchedEpisodePercent))">$INFO[ListItem.Property(WatchedEpisodePercent),,%]</value>
         <value>$INFO[ListItem.Property(WatchedEpisodes)]/$INFO[ListItem.Property(TotalEpisodes)]</value>
     </variable>
@@ -208,7 +184,8 @@
     </variable>
     
     <variable name="IndicatorFlagLabelIsTVShowInProgress301">
-        <value condition="Skin.HasSetting(markers.inprogress.percentage) + !String.IsEmpty(Container(301).ListItem.Property(WatchedEpisodePercent)">$INFO[Container(301).ListItem.Property(WatchedEpisodePercent),,%]</value>
+        <value condition="Skin.HasSetting(markers.inprogress.tvshow.label)">$LOCALIZE[31492]</value>
+        <value condition="Skin.HasSetting(markers.inprogress.percentage) + !String.IsEmpty(Container(301).ListItem.Property(WatchedEpisodePercent))">$INFO[Container(301).ListItem.Property(WatchedEpisodePercent),,%]</value>
         <value>$INFO[Container(301).ListItem.Property(WatchedEpisodes)]/$INFO[Container(301).ListItem.Property(TotalEpisodes)]</value>
     </variable>
 
@@ -217,6 +194,7 @@
     </variable>
 
     <variable name="WatchedLabelList">
+        <value condition="String.IsEqual(Container.SortMethod,$LOCALIZE[553]) | String.IsEqual(Container.SortMethod,$LOCALIZE[561])"></value>
         <value condition="Skin.HasSetting(hide.markers)"></value>
         <value condition="ListItem.IsPlaying + !Skin.HasSetting(hide.markers.isplaying)">&#62811;</value>
         <value condition="[ListItem.IsResumable | $EXP[IsTVShowInProgress]] + Skin.HasSetting(hide.markers.inprogress)"></value>
@@ -1259,17 +1237,19 @@
     </variable>
 
     <variable name="LabelDurationVarInfo50">
-        <value condition="Container.Content(seasons) + !String.IsEqual(ListItem.Label,..)">$INFO[ListItem.Property(TotalEpisodes)] $LOCALIZE[20360]</value>
+        <value condition="Container.Content(seasons) + !String.IsEqual(ListItem.Label,..)">$INFO[ListItem.Property(TotalEpisodes),, $LOCALIZE[20360]]</value>
         <value condition="!Container.Content(tvshows)">$VAR[LabelDuration]</value>
     </variable>
 
     <variable name="50ListNormal">
+        <value condition="String.IsEqual(Container.SortMethod,$LOCALIZE[553]) | String.IsEqual(Container.SortMethod,$LOCALIZE[561])"></value>
         <value condition="Container.Content(tvshows) + !String.IsEqual(ListItem.Label,..)">$INFO[ListItem.Year]</value>
-        <value condition="Container.Content(seasons) + !String.IsEqual(ListItem.Label,..) + !Control.IsVisible(516)">$INFO[ListItem.Property(TotalEpisodes)] $LOCALIZE[20360]</value>
+        <value condition="Container.Content(seasons) + !String.IsEqual(ListItem.Label,..) + !Control.IsVisible(516)">$INFO[ListItem.Property(TotalEpisodes),, $LOCALIZE[20360]]</value>
         <value>$VAR[LabelDuration]</value>
     </variable>
 
     <variable name="50ListNormalRight">
+        <value condition="String.IsEqual(Container.SortMethod,$LOCALIZE[553]) | String.IsEqual(Container.SortMethod,$LOCALIZE[561])"></value>
         <value condition="Container.Content(tvshows) + !String.IsEqual(ListItem.Label,..)">$INFO[ListItem.Year]</value>
         <value condition="$EXP[InGameMode]">$VAR[GameYear]</value>
         <value>$VAR[LabelDuration]</value>
@@ -1667,6 +1647,7 @@
     </variable>
 
     <variable name="LabelRating">
+        <value condition="String.IsEqual(Container.SortMethod,$LOCALIZE[553]) | String.IsEqual(Container.SortMethod,$LOCALIZE[561])">$INFO[ListItem.Size]</value>
         <value condition="[!String.IsEmpty(ListItem.RatingAndVotes) | [!String.IsEmpty(ListItem.UserRating) + Skin.HasSetting(userrating.override.rating)]] + Control.IsVisible(504)">$VAR[RatingAndVotesLabel]</value>
         <value condition="[!String.IsEmpty(ListItem.Rating) | [!String.IsEmpty(ListItem.UserRating) + Skin.HasSetting(userrating.override.rating)]] + !Control.IsVisible(504)">$VAR[RatingLabel]</value>
         <value condition="String.IsEqual(Skin.String(RatingFallback),1)">$LOCALIZE[31375]</value>
@@ -1772,7 +1753,6 @@
     
     <variable name="Label_NowPlaying_Plot">
         <value condition="Player.HasVideo + !String.IsEmpty(VideoPlayer.Plot)">$INFO[VideoPlayer.Plot]</value>
-        <value condition="Player.HasAudio + Skin.HasSetting(home.extended.nowplaying.tracklist)">$INFO[MusicPlayer.NextTitle,[B]$LOCALIZE[19031]:[/B] ,][CR]$INFO[MusicPlayer.offset(1).Title]$INFO[MusicPlayer.offset(1).Artist, - ,][CR]$INFO[MusicPlayer.offset(2).Title]$INFO[MusicPlayer.offset(2).Artist, - ,][CR]$INFO[MusicPlayer.offset(3).Title]$INFO[MusicPlayer.offset(3).Artist, - ,][CR]$INFO[MusicPlayer.offset(4).Title]$INFO[MusicPlayer.offset(4).Artist, - ,]</value>
         <value condition="Player.HasAudio + !String.IsEmpty(MusicPlayer.Property(Artist_Description))">$INFO[MusicPlayer.Property(Artist_Description)]</value>
         <value condition="Player.HasAudio + !String.IsEmpty(MusicPlayer.Property(Album_Description))">$INFO[MusicPlayer.Property(Album_Description)]</value>
     </variable>
@@ -1823,7 +1803,7 @@
         <value condition="String.IsEqual(Window(Home).Property(colorpickerheader),kodilogocolorgradient.name)">$LOCALIZE[31140] - $LOCALIZE[31396]</value>
         <value condition="String.IsEqual(Window(Home).Property(colorpickerheader),selectbarcolor.name)">$LOCALIZE[31367]</value>
         <value condition="String.IsEqual(Window(Home).Property(colorpickerheader),focuscolor2.name)">$LOCALIZE[31367] - $LOCALIZE[31396]</value>
-        <value condition="String.IsEqual(Window(Home).Property(colorpickerheader),starscolor.name)">$LOCALIZE[31128]</value>
+        <value condition="String.IsEqual(Window(Home).Property(colorpickerheader),starscolornew.name)">$LOCALIZE[31707]</value>
         <value condition="String.IsEqual(Window(Home).Property(colorpickerheader),ratingcolor.name)">$LOCALIZE[31129]</value>
         <value condition="String.IsEqual(Window(Home).Property(colorpickerheader),userratingcolor.name)">$LOCALIZE[31132]</value>
     </variable>
@@ -1908,15 +1888,15 @@
     <variable name="Label_NowPlaying_VideoSubInfo">
         <value condition="VideoPlayer.Content(livetv)">$INFO[VideoPlayer.ChannelName]$INFO[VideoPlayer.StartTime,  •  ,]$INFO[VideoPlayer.EndTime, - ]$INFO[PVR.EpgEventDuration(mins),  •  , $LOCALIZE[31102]]</value>
         <value condition="VideoPlayer.Content(movies)">$INFO[VideoPlayer.Year,,  •  ]$VAR[LabelDurationPlayer]$VAR[RatingLabelVideoPlayer,  •  ,]</value>
-        <value condition="VideoPlayer.Content(episodes)">$INFO[VideoPlayer.Season,$LOCALIZE[36904] ,  •  ]$INFO[VideoPlayer.Episode,$LOCALIZE[36906] ,  •  ]$INFO[VideoPlayer.Premiered,,  •  ]$VAR[LabelDurationPlayer]</value>
+        <value condition="VideoPlayer.Content(episodes)">$INFO[VideoPlayer.Season,$LOCALIZE[36904] ,  •  ]$INFO[VideoPlayer.Episode,$LOCALIZE[36906] ,  •  ]$INFO[VideoPlayer.Premiered,,  •  ]$VAR[LabelDurationPlayer]$VAR[RatingLabelVideoPlayer,  •  ,]</value>
         <value condition="VideoPlayer.Content(files) + !String.IsEmpty(VideoPlayer.Studio)">$INFO[VideoPlayer.Studio]</value>
         <value condition="VideoPlayer.Content(files) + !String.IsEmpty(VideoPlayer.Artist)">$INFO[VideoPlayer.Artist]</value>
     </variable>
     
     <variable name="Label_NowPlaying_MusicSubInfo">
         <value condition="!String.IsEmpty(MusicPlayer.Artist) + !String.IsEmpty(MusicPlayer.Year)">$INFO[MusicPlayer.Artist]  •  $INFO[MusicPlayer.Year]$VAR[MusicPlayerRating,  •  ,]</value>
-        <value condition="!String.IsEmpty(MusicPlayer.Artist)">$INFO[MusicPlayer.Artist]</value>
-        <value condition="!String.IsEmpty(MusicPlayer.Year)">$INFO[MusicPlayer.Year]</value>
+        <value condition="!String.IsEmpty(MusicPlayer.Artist)">$INFO[MusicPlayer.Artist]$INFO[MusicPlayer.Year]$VAR[MusicPlayerRating,  •  ,]</value>
+        <value condition="!String.IsEmpty(MusicPlayer.Year)">$INFO[MusicPlayer.Year]$INFO[MusicPlayer.Year]$VAR[MusicPlayerRating,  •  ,]</value>
     </variable>
     
     <variable name="MusicPlayerRating">
@@ -1925,6 +1905,7 @@
     </variable>
     
     <variable name="Label_NowPlaying_Time_VideoSubInfo">
+        <value condition="!Player.Playing">$VAR[PlayerStatus]</value>
         <value condition="VideoPlayer.Content(livetv)">$INFO[VideoPlayer.NextTitle,$LOCALIZE[19031]: ]$INFO[VideoPlayer.NextStartTime, (,]$INFO[VideoPlayer.NextEndTime, - ,)]</value>
         <value condition="VideoPlayer.Content(movies)">$INFO[VideoPlayer.Tagline]</value>
         <value condition="VideoPlayer.Content(episodes)">$INFO[VideoPlayer.TvShowTitle]</value>
@@ -1932,15 +1913,9 @@
     </variable>
     
     <variable name="Label_NowPlaying_Time_MusicSubInfo">
+        <value condition="!Player.Playing">$VAR[PlayerStatus]</value>
         <value condition="!String.IsEmpty(MusicPlayer.Album)">$INFO[MusicPlayer.Album]</value>
         <value>$VAR[Label_MusicPlayerCodec]$INFO[MusicPlayer.BitRate,  •  ,kbps]$INFO[MusicPlayer.Samplerate, •  ,kHz]$INFO[MusicPlayer.BPM,  •  ,bpm]$INFO[MusicPlayer.BitsPerSample,  •  ,bit]</value>
-    </variable>
-    
-    <variable name="Label_NowPlayingControls">
-        <value condition="!Skin.HasSetting(home.nowplaying.controls) + !Skin.HasSetting(home.nowplaying.controls.always.visible)">$LOCALIZE[231]</value>
-        <value condition="Skin.HasSetting(home.nowplaying.controls.always.visible)">$LOCALIZE[20422]</value>
-        <value condition="$EXP[HomeIsModernMultiWidgets]">$LOCALIZE[31672]</value>
-        <value>$LOCALIZE[31671]</value>
     </variable>
     
     <variable name="VideoDecoder">
@@ -2033,5 +2008,25 @@
     <variable name="Label_AlbumCount">
         <value condition="[Container.Content(albums) | String.IsEqual(ListItem.DBType,album)] + Window.IsVisible(DialogMusicInfo.xml)">$INFO[Container(50).NumItems]</value>
         <value>$INFO[Container(5014).NumItems]</value>
+    </variable>
+    
+    <variable name="Label_ArtistBorn">
+        <value condition="!String.IsEmpty(ListItem.Property(Artist_Born)) + !String.IsEmpty(ListItem.Property(Artist_Died))">$LOCALIZE[21893]/$LOCALIZE[21896]</value>
+        <value>$LOCALIZE[21893]</value>
+    </variable>
+    
+    <variable name="InfoLabel_ArtistBorn">
+        <value condition="!String.IsEmpty(ListItem.Property(Artist_Born)) + !String.IsEmpty(ListItem.Property(Artist_Died))">$INFO[ListItem.Property(Artist_Born)]-$INFO[ListItem.Property(Artist_Died)]</value>
+        <value>$INFO[ListItem.Property(Artist_Born)]</value>
+    </variable>
+    
+    <variable name="Label_ArtistFormed">
+        <value condition="!String.IsEmpty(ListItem.Property(Artist_Formed)) + !String.IsEmpty(ListItem.Property(Artist_Disbanded))">$LOCALIZE[21894]/$LOCALIZE[21896]</value>
+        <value>$LOCALIZE[21894]</value>
+    </variable>
+    
+    <variable name="InfoLabel_ArtistFormed">
+        <value condition="!String.IsEmpty(ListItem.Property(Artist_Formed)) + !String.IsEmpty(ListItem.Property(Artist_Disbanded))">$INFO[ListItem.Property(Artist_Formed)]-$INFO[ListItem.Property(Artist_Disbanded)]</value>
+        <value>$INFO[ListItem.Property(Artist_Formed)]</value>
     </variable>
 </includes>
