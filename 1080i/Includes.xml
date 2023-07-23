@@ -1565,6 +1565,19 @@
                 <font>Null</font>
                 <visible>!Skin.HasSetting(hidebutton.music.rating)</visible>
             </control>
+            
+            <!-- Wikipedia Button -->
+            <control type="radiobutton" id="9030">
+                <onfocus>ClearProperty(musiccontent)</onfocus>
+                <onfocus>ClearProperty(ShowDisc)</onfocus>
+                <onfocus>ClearProperty(RotateCover)</onfocus>
+                <include>buttondimensionssquare</include>
+                <onclick>RunScript(script.wikipedia,wikipedia=$VAR[Wiki_Label])</onclick>
+                <include content="buttontextures">
+                    <param name="icon" value="buttonsdialogs/wiki.png"/>
+                </include>
+                <visible>!Skin.HasSetting(hidebutton.music.wiki) + System.AddonIsEnabled(script.wikipedia)</visible>
+            </control>
 
             <!-- Tracklist Button -->
             <control type="radiobutton" id="9003">
@@ -1818,6 +1831,20 @@
                 <onclick>Action(close)</onclick>
                 <onclick>RunScript(plugin.video.specialfeatures,listitem)</onclick>
                 <visible>!Skin.HasSetting(hidebutton.video.specialfeatures)</visible>
+            </control>
+            <control type="radiobutton" id="9013">
+                <visible>String.IsEqual(ListItem.DBType,movie) | String.IsEqual(ListItem.DBType,tvshow)</visible>
+                <onfocus>ClearProperty(moviecontent)</onfocus>
+                <onfocus>ClearProperty(ShowDisc)</onfocus>
+                <onfocus>ClearProperty(dontslide,home)</onfocus>
+                <onclick>SetProperty(dontslide,1,home)</onclick>
+                <onclick condition="String.IsEqual(ListItem.DBType,movie)">RunScript(script.wikipedia,wikipedia=$VAR[Wiki_Label],tmdb_type=movie)</onclick>
+                <onclick condition="String.IsEqual(ListItem.DBType,tvshow)">RunScript(script.wikipedia,wikipedia=$VAR[Wiki_Label],tmdb_type=tv)</onclick>
+                <include>buttondimensions</include>
+                <include content="buttontextures">
+                    <param name="icon" value="buttonsdialogs/wiki.png"/>
+                </include>
+                <visible>!Skin.HasSetting(hidebutton.video.wiki) + System.AddonIsEnabled(script.wikipedia)</visible>
             </control>
             <control type="radiobutton" id="9002">
                 <visible>String.IsEqual(ListItem.DBType,movie) | String.IsEqual(ListItem.DBType,tvshow)</visible>
@@ -5076,6 +5103,15 @@
         <value condition="System.AddonIsEnabled(plugin.program.autocompletion)">plugin://plugin.program.autocompletion?info=autocomplete&amp;&amp;id=$INFO[Control.GetLabel(312).index(1)]&amp;&amp;limit=9</value>
     </variable>
     
+    <variable name="Wiki_Label">
+        <value condition="String.IsEqual(ListItem.DBType,album) + !String.IsEmpty(ListItem.Album)">$INFO[ListItem.Album] $INFO[ListItem.Artist]</value>
+        <value condition="String.IsEqual(ListItem.DBType,song) + !String.IsEmpty(ListItem.Title)">$INFO[ListItem.Title] $INFO[ListItem.Artist]</value>
+        <value condition="String.IsEqual(ListItem.DBType,artist) + !String.IsEmpty(ListItem.Artist)">$INFO[ListItem.Artist]</value>
+        <value condition="!String.IsEmpty(ListItem.TVShowTitle)">$INFO[ListItem.TVShowTitle]</value>
+        <value condition="!String.IsEmpty(ListItem.Title)">$INFO[ListItem.Title]</value>
+        <value>$INFO[ListItem.Label]</value>
+    </variable>
+
     <variable name="CurrentlyPlayingItem">
         <value condition="Player.HasAudio + !String.IsEmpty(MusicPlayer.DBID)">musicdb://songs/?songid=$INFO[MusicPlayer.DBID]</value>
         <value condition="Player.HasVideo + VideoPlayer.Content(movies)">videodb://movies/titles/?xsp=%7B%22rules%22%3A%7B%22and%22%3A%5B%7B%22field%22%3A%22title%22%2C%22operator%22%3A%22is%22%2C%22value%22%3A%5B%22$INFO[Player.Title]%22%5D%7D%2C%7B%22field%22%3A%22filename%22%2C%22operator%22%3A%22is%22%2C%22value%22%3A%5B%22$INFO[Player.Filename]%22%5D%7D%5D%7D%2C%22type%22%3A%22movies%22%7D</value>
@@ -5090,5 +5126,4 @@
         <ondown>$PARAM[ondirection]</ondown>
         <onback>$PARAM[ondirection]</onback>
     </include>
-
 </includes>
