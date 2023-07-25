@@ -12,19 +12,18 @@
             <include>Animation.FadeOut</include>
             <centertop>50%</centertop>
             <centerleft>50%</centerleft>
-            <include content="Def9000Arrows"><param name="arrow_bottom" value="810" /><param name="arrow_top" value="-40" /></include>
             <include content="def_width" condition="$EXP[ShowExtendedContextMenu]">
                 <param name="width" value="966" />
             </include>
             <width>466</width>
-            <height>817</height>    
+            <height>680</height>    
             <control type="image">
                 <visible>$EXP[ShowExtendedContextMenu]</visible>
                 <posx>8</posx>
                 <top>-15</top>
                 <posy>-16</posy>
-                <width>950</width>
-                <height>817</height>
+                <width>948</width>
+                <height>700</height>
                 <texture border="16" colordiffuse="White100">common/box.png</texture>
             </control>
             <control type="image" id="999">
@@ -33,7 +32,7 @@
                 <top>-15</top>
                 <posy>-16</posy>
                 <width>450</width>
-                <height>817</height>
+                <height>677</height>
                 <texture border="16" colordiffuse="White100">common/box.png</texture>
             </control>
             <control type="group">
@@ -68,7 +67,7 @@
                     <top>90</top>
                     <left>454</left>
                     <width>1</width>
-                    <height>642</height>
+                    <height>562</height>
                     <bottom>10</bottom>
                     <colordiffuse>Black12</colordiffuse>
                     <texture>common/white.png</texture>
@@ -80,7 +79,6 @@
                 <param name="top" value="90"/>
                 <param name="width" value="450"/>
             </include>
-            
             <control type="button" id="5050">
                 <include>HiddenButton</include>
                 <onright>996</onright>
@@ -89,7 +87,6 @@
                 <onfocus>SetProperty(contextplot,1,home)</onfocus> 
                 <onunfocus>ClearProperty(contextplot,home)</onunfocus>   
             </control>
-            
             <control type="grouplist" id="996">
                 <animation condition="Control.HasFocus(5050)" effect="fade" end="0" start="100" time="250">Conditional</animation>
                 <description>grouplist for context buttons</description>
@@ -98,7 +95,7 @@
                 <width>510</width>
                 <top>90</top>
                 <onleft>5050</onleft>
-                <height max="700">auto</height>
+                <height max="560">auto</height>
                 <itemgap>0</itemgap>
                 <scrolltime>0</scrolltime>
                 <control type="button" id="1000">
@@ -107,26 +104,37 @@
                     <align>left</align>
                 </control>
             </control>
-            
             <control type="textbox">
                 <animation effect="fade" end="100" start="0" time="250" delay="300">Visible</animation>
                 <visible>Control.hasFocus(5050)</visible>
                 <top>85</top>
                 <left>38</left>
                 <width>410</width>
-                <height max="646">auto</height>
+                <height max="543">auto</height>
                 <font>Tiny</font>
                 <textcolor>Dark2</textcolor>
                 <align>left</align>
                 <label fallback="19055">$VAR[LabelPlotContextMenu]</label>
             </control>
-
             <control type="group" description="Poster">
-                <visible>$EXP[ShowExtendedContextMenu]</visible>
+                <visible>$EXP[ShowExtendedContextMenu] + String.IsEmpty(Window(home).Property(listitem.isthumb))</visible>
                 <left>495</left>
-                <top>90</top>
+                <top>16</top>
                 <control type="image">
                     <width>PosterW</width>
+                    <height>635</height>
+                    <fadetime>PosterFanartFadetime</fadetime>
+                    <aspectratio align="center" aligny="center" scalediffuse="false">scale</aspectratio>
+                    <texture background="true">$VAR[PosterImageContextMenu]</texture>
+                </control>
+            </control>
+            <control type="group" description="Poster">
+                <visible>$EXP[ShowExtendedContextMenu] + !String.IsEmpty(Window(home).Property(listitem.isthumb))</visible>
+                <left>495</left>
+                <top>16</top>
+                <control type="image">
+                    <width>PosterW</width>
+                    <height>PosterW</height>
                     <fadetime>PosterFanartFadetime</fadetime>
                     <aspectratio align="center" aligny="top" scalediffuse="false">keep</aspectratio>
                     <texture background="true">$VAR[PosterImageContextMenu]</texture>
