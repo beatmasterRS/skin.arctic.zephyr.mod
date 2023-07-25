@@ -62,7 +62,7 @@
                     <colordiffuse>Black12</colordiffuse>
                     <texture>common/white.png</texture>
                 </control>
-                <control type="image">  
+                <!--<control type="image">  
                     <visible>$EXP[ShowExtendedContextMenu]</visible>
                     <top>90</top>
                     <left>454</left>
@@ -71,7 +71,7 @@
                     <bottom>10</bottom>
                     <colordiffuse>Black12</colordiffuse>
                     <texture>common/white.png</texture>
-                </control>
+                </control>-->
             </control>
             <include content="Def_Gradient_Settings_Image">
                 <param name="controlid" value="996"/>
@@ -117,9 +117,17 @@
                 <label fallback="19055">$VAR[LabelPlotContextMenu]</label>
             </control>
             <control type="group" description="Poster">
-                <visible>$EXP[ShowExtendedContextMenu] + String.IsEmpty(Window(home).Property(listitem.isthumb))</visible>
+                <visible>$EXP[ShowExtendedContextMenu] + String.IsEmpty(Window(home).Property(listitem.isthumb)) + ![!String.IsEmpty(ListItem.Art(thumb)) + [String.IsEqual(ListItem.DBType,song) | String.IsEqual(ListItem.DBType,album) | String.IsEqual(ListItem.DBType,artist)]]</visible>
                 <left>495</left>
                 <top>16</top>
+                <control type="image">
+                    <left>-24</left>
+                    <top>-24</top>
+                    <width>PosterShadowW</width>
+                    <height>682</height>
+                    <texture border="32" infill="false">common/$VAR[shadow-24]</texture>
+                    <animation condition="true" effect="fade" end="33" start="100" time="0">Conditional</animation>
+                </control>
                 <control type="image">
                     <width>PosterW</width>
                     <height>635</height>
@@ -129,9 +137,17 @@
                 </control>
             </control>
             <control type="group" description="Poster">
-                <visible>$EXP[ShowExtendedContextMenu] + !String.IsEmpty(Window(home).Property(listitem.isthumb))</visible>
+                <visible>$EXP[ShowExtendedContextMenu] + [!String.IsEmpty(Window(home).Property(listitem.isthumb)) | [!String.IsEmpty(ListItem.Art(thumb)) + [String.IsEqual(ListItem.DBType,song) | String.IsEqual(ListItem.DBType,album) | String.IsEqual(ListItem.DBType,artist)]]]</visible>
                 <left>495</left>
                 <top>16</top>
+                <control type="image">
+                    <left>-24</left>
+                    <top>-24</top>
+                    <width>PosterShadowW</width>
+                    <height>474</height>
+                    <texture border="32" infill="false">common/$VAR[shadow-24]</texture>
+                    <animation condition="true" effect="fade" end="33" start="100" time="0">Conditional</animation>
+                </control>
                 <control type="image">
                     <width>PosterW</width>
                     <height>PosterW</height>
