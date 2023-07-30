@@ -1358,7 +1358,7 @@
 
     <include name="weatherlistinputpagetwo">
         <control type="group">
-            <width>285</width>
+            <width>275</width>
             <height>PosterH</height>
             <posy>PosterPad</posy>
             <left>$PARAM[weatherlistinputpagetwoleft]</left>
@@ -1389,8 +1389,8 @@
             <control type="image">
                 <centertop>35%</centertop>
                 <centerleft>50%</centerleft>
-                <width>285</width>
-                <height>285</height>
+                <width>240</width>
+                <height>240</height>
                 <aspectratio align="center" aligny="center">keep</aspectratio>
                 <texture>$INFO[Skin.String(weather.icons.path),,/]$INFO[Window.Property(Daily.$PARAM[Daily].FanartCode),,.png]</texture>
                 <visible>!String.IsEmpty(Skin.String(weather.icons.path)) + !String.Contains(Skin.String(weather.icons.path),animated)</visible>
@@ -1398,8 +1398,8 @@
             <control type="multiimage">
                 <centertop>35%</centertop>
                 <centerleft>50%</centerleft>
-                <width>285</width>
-                <height>285</height>
+                <width>240</width>
+                <height>240</height>
                 <aspectratio align="center" aligny="center">keep</aspectratio>
                 <imagepath>$INFO[Skin.String(weather.icons.path),,/]$INFO[Window(weather).Property(Daily.$PARAM[Daily].FanartCode)]</imagepath>
                 <visible>!String.IsEmpty(Skin.String(weather.icons.path)) + String.Contains(Skin.String(weather.icons.path),animated) + !String.IsEmpty(Window(weather).Property(Daily.$PARAM[Daily].FanartCode))</visible>
@@ -1450,6 +1450,105 @@
                 <visible>!Skin.HasSetting(thumbnails.white)</visible>
             </control>
         </control>
+    </include>
+    
+    <include name="weatherlistinputpageone">
+        <param name="title" value="$PARAM[title]" default="$LOCALIZE[33006]"/>
+        <definition>
+        <control type="group">
+            <width>275</width>
+            <height>PosterH</height>
+            <posy>PosterPad</posy>
+            <left>$PARAM[left]</left>
+            <control type="image">
+                <width>100%</width>
+                <height>100%</height>
+                <texture border="5" colordiffuse="Panel">common/box.png</texture>
+            </control>
+            <control type="image">
+                <left>0</left>
+                <top>0</top>
+                <right>0</right>
+                <bottom>0</bottom>
+                <texture colordiffuse="BoxNotification" border="4" background="true" infill="false">common/box21.png</texture>
+                <visible>!Skin.HasSetting(thumbnails.white)</visible>
+            </control>
+            <control type="multiimage" description="Fanart">
+                <visible>!Skin.HasSetting(weather.hidefanart) + String.Contains(Skin.String(weather.fanart.path),multi) + !String.IsEmpty(Skin.String(weather.fanart.path))</visible>
+                <width>100%</width>
+                <height>100%</height>
+                <fadetime>600</fadetime>
+                <timeperimage>12000</timeperimage>
+                <randomize>true</randomize>
+                <aspectratio>scale</aspectratio>
+                <animation effect="fade" start="100" end="10" condition="true">Conditional</animation>
+                <imagepath background="true">$INFO[Skin.String(weather.fanart.path)]$INFO[Window(Weather).Property(Day$PARAM[day].FanartCode)]/</imagepath>
+            </control>
+            <control type="image" description="Fanart">
+                <visible>!Skin.HasSetting(weather.hidefanart) + !String.Contains(Skin.String(weather.fanart.path),multi) + !String.IsEmpty(Skin.String(weather.fanart.path))</visible>
+                <width>100%</width>
+                <height>100%</height>
+                <aspectratio>scale</aspectratio>
+                <animation effect="fade" start="100" end="10" condition="true">Conditional</animation>
+                <texture background="true">$INFO[Skin.String(weather.fanart.path)]$INFO[Window.Property(Day$PARAM[day].FanartCode),,.jpg]</texture>
+            </control>
+            <control type="image">
+                <centertop>35%</centertop>
+                <centerleft>50%</centerleft>
+                <width>240</width>
+                <height>240</height>
+                <aspectratio align="center" aligny="center">keep</aspectratio>
+                <texture>$INFO[Skin.String(weather.icons.path),,/]$INFO[Window(weather).Property(Day$PARAM[day].FanartCode),,.png]</texture>
+                <visible>!String.IsEmpty(Skin.String(weather.icons.path)) + !String.Contains(Skin.String(weather.icons.path),animated)</visible>
+            </control>
+            <control type="multiimage">
+                <centertop>35%</centertop>
+                <centerleft>50%</centerleft>
+                <width>240</width>
+                <height>240</height>
+                <aspectratio align="center" aligny="center">keep</aspectratio>
+                <imagepath>$INFO[Skin.String(weather.icons.path),,/]$INFO[Window(weather).Property(Day$PARAM[day].FanartCode)]</imagepath>
+                <visible>!String.IsEmpty(Skin.String(weather.icons.path)) + String.Contains(Skin.String(weather.icons.path),animated)</visible>
+            </control>
+            <control type="image">
+                <centertop>35%</centertop>
+                <centerleft>50%</centerleft>
+                <width>240</width>
+                <height>240</height>
+                <aspectratio align="center" aligny="center">keep</aspectratio>
+                <texture>$INFO[Window(weather).Property(Day$PARAM[day].OutlookIcon)]</texture>
+                <visible>String.IsEmpty(Skin.String(weather.icons.path))</visible>
+            </control>
+            <control type="label">
+                <top>20</top>
+                <left>20</left>
+                <right>20</right>
+                <align>center</align>
+                <font>Small</font>
+                <textcolor>PanelWhite100</textcolor>
+                <label fallback="10006">$PARAM[title]</label>
+            </control>
+            <control type="label">
+                <centertop>65%</centertop>
+                <left>20</left>
+                <right>20</right>
+                <align>center</align>
+                <font>LargeBold</font>
+                <textcolor>PanelWhite100</textcolor>
+                <label fallback="10006">$INFO[Window(Weather).Property(Day$PARAM[day].HighTemp),[B],[/B]°]$INFO[Window(Weather).Property(Day$PARAM[day].LowTemp),  ,°]</label>
+            </control>
+            <control type="textbox">
+                <top>76%</top>
+                <height>130</height>
+                <left>20</left>
+                <right>20</right>
+                <align>center</align>
+                <font>Tiny</font>
+                <textcolor>PanelWhite100</textcolor>
+                <label fallback="10006">$INFO[Window(Weather).Property(Day$PARAM[day].Outlook)]</label>
+            </control>
+        </control>
+        </definition>
     </include>
 
     <include name="DialogConfirmButtons">
