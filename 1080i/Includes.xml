@@ -80,6 +80,7 @@
     <expression name="Widget5Enabled">String.IsEqual(Container(300).ListItem.Property(widgetEnable.5),yes)</expression>
     <expression name="Widget6Enabled">String.IsEqual(Container(300).ListItem.Property(widgetEnable.6),yes)</expression>
     <expression name="HasHomemenuAutoSlideOutAnimation">Skin.HasSetting(homemenu.slide) + !Skin.HasSetting(only.hide.if.widgetcontainer.gets.focus) + [[$EXP[HomeIsModernMultiWidgets] + !Skin.HasSetting(homemenu.clean.flix)] | [$EXP[HomeIsVerticalMultiWidgets] + !Skin.HasSetting(homemenu.vertical.noslide)]]</expression>
+    <expression name="HasHomemenuAutoSlideOutAnimationOnlyIfWidgetIsFocused">[Skin.HasSetting(homemenu.slide) + [$EXP[HomeIsModernMultiWidgets] + !Skin.HasSetting(homemenu.clean.flix)] | [$EXP[HomeIsVerticalMultiWidgets] + !Skin.HasSetting(homemenu.vertical.noslide)] + Skin.HasSetting(only.hide.if.widgetcontainer.gets.focus)]</expression>
     
     <expression name="IsPVRVideo">!Player.HasAudio + VideoPlayer.Content(livetv)</expression>
     <expression name="IsPVRAudio">Player.HasAudio + VideoPlayer.Content(livetv)</expression>
@@ -93,14 +94,16 @@
     <expression name="TrailerWaitingForPlayer">!String.IsEmpty(Window(home).Property(TrailerPath2)) + !String.IsEmpty(Window(home).Property(TrailerPath)) + String.IsEmpty(Player.FileNameAndPath)</expression>
     <expression name="TrailerIsPlaying">String.IsEqual(Window(home).Property(TrailerPath2),Player.FileNameAndPath) + !String.IsEmpty(Player.FileNameAndPath)</expression>
     <expression name="AutoTrailerDebugging">Skin.HasSetting(home.netflix.autoplay.trailer) + Skin.HasSetting(DebugInfo.extended) + Skin.HasSetting(DebugInfo.extended)</expression>
-    <expression name="ExtendedNowPlayingIsVisible">[Skin.HasSetting(extended.nowplaying) + Window.IsVisible(Home) + Player.HasMedia] + [[!ControlGroup(301).HasFocus() + !Control.HasFocus(8888) + !Control.HasFocus(4567)] | ControlGroup(777).HasFocus()]</expression>
+    <expression name="ExtendedNowPlayingIsVisible">[Skin.HasSetting(extended.nowplaying) + Window.IsVisible(Home) + [Player.HasMedia | Player.Playing]] + [[!ControlGroup(301).HasFocus() + !Control.HasFocus(8888) + !Control.HasFocus(4567)] | ControlGroup(777).HasFocus()]</expression>
+    <expression name="ExtendedNowPlayingHelperAutoShow">!$EXP[TrailerIsReady] + !$EXP[TrailerIsPlaying] + !$EXP[TrailerWaitingForPlayer] + !$EXP[TrailerWindowIsActive] + [System.IdleTime(5) + !String.IsEmpty(Window(home).Property(nowplayingautoshowtimer)) + Skin.HasSetting(extended.nowplaying) + Window.IsVisible(Home) + [Player.HasMedia | Player.Playing] + Skin.HasSetting(home.nowplaying.info.auto.show) + !Window.IsVisible(DialogVideoInfo.xml) + !Window.IsVisible(DialogMusicInfo.xml) + !Window.IsVisible(DialogAddonInfo.xml) + !Window.IsVisible(DialogPVRInfo.xml) + !Window.IsVisible(DialogContextMenu.xml) + !Window.IsVisible(script-embuary-video.xml) + !Window.IsVisible(script-embuary-person.xml) + !Window.IsVisible(script-embuary-image.xml) + !Window.IsVisible(DialogBusy.xml)]</expression>
+    <expression name="ExtendedNowPlayingHelperAutoClose">!$EXP[TrailerIsReady] + !$EXP[TrailerIsPlaying] + !$EXP[TrailerWaitingForPlayer] + !$EXP[TrailerWindowIsActive] + [[!String.IsEmpty(Window(home).Property(controlsvisible)) | Control.HasFocus(25) | Control.HasFocus(778)] + Skin.HasSetting(extended.nowplaying) + Window.IsVisible(Home) + !Player.HasMedia + !Player.Playing + !Skin.HasSetting(hide.home.nowplaying.controls)]</expression>
     <expression name="TitleClearlogoAvailable">[!String.IsEmpty(ListItem.Art(clearlogo)) | !String.IsEmpty(ListItem.Art(artist.clearlogo)) | !String.IsEmpty(ListItem.Art(tvshow.clearlogo))] + !Container.Content(episodes) + !Container.Content(seasons)</expression>
     <expression name="IsAudioCodecATMOS">
         String.Contains(ListItem.FileNameAndPath,atmos) | [VideoPlayer.IsFullscreen + String.Contains(Player.FileNameAndPath,atmos)]
     </expression>
     <expression name="IsAudioCodecDTSX">
-        String.Contains(ListItem.FileNameAndPath,dts-x) | String.Contains(ListItem.FileNameAndPath,dtsx) | String.Contains(ListItem.FileNameAndPath,dts.x)
-        | [VideoPlayer.IsFullscreen + [String.Contains(Player.FileNameAndPath,dts-x) | String.Contains(Player.FileNameAndPath,dtsx) | String.Contains(Player.FileNameAndPath,dts.x)]]
+        String.Contains(ListItem.FileNameAndPath,dts-x) | String.Contains(ListItem.FileNameAndPath,dtsx)
+        | [VideoPlayer.IsFullscreen + [String.Contains(Player.FileNameAndPath,dts-x) | String.Contains(Player.FileNameAndPath,dtsx)]]
     </expression>
     <expression name="IsVideoHDR10Plus">
         String.IsEmpty(ListItem.HdrType) + String.IsEmpty(VideoPlayer.HdrType) + [String.Contains(ListItem.FileNameAndPath,hdr10plus)
@@ -1131,10 +1134,10 @@
     </include>
 
     <include name="buttondimensionsnumpad">
-        <width>186</width>
-        <height>89</height>
-        <radioposx>70</radioposx>
-        <radioposy>30</radioposy>
+        <width>89</width>
+        <height>186</height>
+        <radioposx>20</radioposx>
+        <radioposy>75</radioposy>
         <radiowidth>48</radiowidth>
     </include>
 
@@ -1355,7 +1358,7 @@
 
     <include name="weatherlistinputpagetwo">
         <control type="group">
-            <width>285</width>
+            <width>275</width>
             <height>PosterH</height>
             <posy>PosterPad</posy>
             <left>$PARAM[weatherlistinputpagetwoleft]</left>
@@ -1386,8 +1389,8 @@
             <control type="image">
                 <centertop>35%</centertop>
                 <centerleft>50%</centerleft>
-                <width>285</width>
-                <height>285</height>
+                <width>240</width>
+                <height>240</height>
                 <aspectratio align="center" aligny="center">keep</aspectratio>
                 <texture>$INFO[Skin.String(weather.icons.path),,/]$INFO[Window.Property(Daily.$PARAM[Daily].FanartCode),,.png]</texture>
                 <visible>!String.IsEmpty(Skin.String(weather.icons.path)) + !String.Contains(Skin.String(weather.icons.path),animated)</visible>
@@ -1395,8 +1398,8 @@
             <control type="multiimage">
                 <centertop>35%</centertop>
                 <centerleft>50%</centerleft>
-                <width>285</width>
-                <height>285</height>
+                <width>240</width>
+                <height>240</height>
                 <aspectratio align="center" aligny="center">keep</aspectratio>
                 <imagepath>$INFO[Skin.String(weather.icons.path),,/]$INFO[Window(weather).Property(Daily.$PARAM[Daily].FanartCode)]</imagepath>
                 <visible>!String.IsEmpty(Skin.String(weather.icons.path)) + String.Contains(Skin.String(weather.icons.path),animated) + !String.IsEmpty(Window(weather).Property(Daily.$PARAM[Daily].FanartCode))</visible>
@@ -1447,6 +1450,105 @@
                 <visible>!Skin.HasSetting(thumbnails.white)</visible>
             </control>
         </control>
+    </include>
+    
+    <include name="weatherlistinputpageone">
+        <param name="title" value="$PARAM[title]" default="$LOCALIZE[33006]"/>
+        <definition>
+        <control type="group">
+            <width>275</width>
+            <height>PosterH</height>
+            <posy>PosterPad</posy>
+            <left>$PARAM[left]</left>
+            <control type="image">
+                <width>100%</width>
+                <height>100%</height>
+                <texture border="5" colordiffuse="Panel">common/box.png</texture>
+            </control>
+            <control type="image">
+                <left>0</left>
+                <top>0</top>
+                <right>0</right>
+                <bottom>0</bottom>
+                <texture colordiffuse="BoxNotification" border="4" background="true" infill="false">common/box21.png</texture>
+                <visible>!Skin.HasSetting(thumbnails.white)</visible>
+            </control>
+            <control type="multiimage" description="Fanart">
+                <visible>!Skin.HasSetting(weather.hidefanart) + String.Contains(Skin.String(weather.fanart.path),multi) + !String.IsEmpty(Skin.String(weather.fanart.path))</visible>
+                <width>100%</width>
+                <height>100%</height>
+                <fadetime>600</fadetime>
+                <timeperimage>12000</timeperimage>
+                <randomize>true</randomize>
+                <aspectratio>scale</aspectratio>
+                <animation effect="fade" start="100" end="10" condition="true">Conditional</animation>
+                <imagepath background="true">$INFO[Skin.String(weather.fanart.path)]$INFO[Window(Weather).Property(Day$PARAM[day].FanartCode)]/</imagepath>
+            </control>
+            <control type="image" description="Fanart">
+                <visible>!Skin.HasSetting(weather.hidefanart) + !String.Contains(Skin.String(weather.fanart.path),multi) + !String.IsEmpty(Skin.String(weather.fanart.path))</visible>
+                <width>100%</width>
+                <height>100%</height>
+                <aspectratio>scale</aspectratio>
+                <animation effect="fade" start="100" end="10" condition="true">Conditional</animation>
+                <texture background="true">$INFO[Skin.String(weather.fanart.path)]$INFO[Window.Property(Day$PARAM[day].FanartCode),,.jpg]</texture>
+            </control>
+            <control type="image">
+                <centertop>35%</centertop>
+                <centerleft>50%</centerleft>
+                <width>240</width>
+                <height>240</height>
+                <aspectratio align="center" aligny="center">keep</aspectratio>
+                <texture>$INFO[Skin.String(weather.icons.path),,/]$INFO[Window(weather).Property(Day$PARAM[day].FanartCode),,.png]</texture>
+                <visible>!String.IsEmpty(Skin.String(weather.icons.path)) + !String.Contains(Skin.String(weather.icons.path),animated)</visible>
+            </control>
+            <control type="multiimage">
+                <centertop>35%</centertop>
+                <centerleft>50%</centerleft>
+                <width>240</width>
+                <height>240</height>
+                <aspectratio align="center" aligny="center">keep</aspectratio>
+                <imagepath>$INFO[Skin.String(weather.icons.path),,/]$INFO[Window(weather).Property(Day$PARAM[day].FanartCode)]</imagepath>
+                <visible>!String.IsEmpty(Skin.String(weather.icons.path)) + String.Contains(Skin.String(weather.icons.path),animated)</visible>
+            </control>
+            <control type="image">
+                <centertop>35%</centertop>
+                <centerleft>50%</centerleft>
+                <width>240</width>
+                <height>240</height>
+                <aspectratio align="center" aligny="center">keep</aspectratio>
+                <texture>$INFO[Window(weather).Property(Day$PARAM[day].OutlookIcon)]</texture>
+                <visible>String.IsEmpty(Skin.String(weather.icons.path))</visible>
+            </control>
+            <control type="label">
+                <top>20</top>
+                <left>20</left>
+                <right>20</right>
+                <align>center</align>
+                <font>Small</font>
+                <textcolor>PanelWhite100</textcolor>
+                <label fallback="10006">$PARAM[title]</label>
+            </control>
+            <control type="label">
+                <centertop>65%</centertop>
+                <left>20</left>
+                <right>20</right>
+                <align>center</align>
+                <font>LargeBold</font>
+                <textcolor>PanelWhite100</textcolor>
+                <label fallback="10006">$INFO[Window(Weather).Property(Day$PARAM[day].HighTemp),[B],[/B]°]$INFO[Window(Weather).Property(Day$PARAM[day].LowTemp),  ,°]</label>
+            </control>
+            <control type="textbox">
+                <top>76%</top>
+                <height>130</height>
+                <left>20</left>
+                <right>20</right>
+                <align>center</align>
+                <font>Tiny</font>
+                <textcolor>PanelWhite100</textcolor>
+                <label fallback="10006">$INFO[Window(Weather).Property(Day$PARAM[day].Outlook)]</label>
+            </control>
+        </control>
+        </definition>
     </include>
 
     <include name="DialogConfirmButtons">
@@ -1537,6 +1639,41 @@
                     <param name="icon" value="buttonsdialogs/info.png"/>
                 </include>
             </control>
+            
+            <!-- Rating Button -->
+            <control type="radiobutton" id="9007">
+                <visible>!String.IsEqual(ListItem.DBType,artist)</visible>
+                <include>OnFocusOnClick</include>
+                <include>ClearOnFocusOnClick</include>
+                <onfocus>ClearProperty(ShowDisc)</onfocus>
+                <onfocus>ClearProperty(RotateCover)</onfocus>
+                <onfocus>ClearProperty(musiccontent)</onfocus>
+                <onclick>SendClick(7)</onclick>
+                <include>buttondimensionssquare</include>
+                <texturenofocus colordiffuse="Dark4" border="0">common/boxsquare.png</texturenofocus>
+                <texturefocus colordiffuse="$VAR[ColorHighlight]" border="0">common/boxsquare.png</texturefocus>
+                <textureradioonfocus colordiffuse="FFFFFFFF">buttonsdialogs/rating.png</textureradioonfocus>
+                <textureradioonnofocus colordiffuse="FFFFFFFF">buttonsdialogs/rating.png</textureradioonnofocus>
+                <textureradioofffocus colordiffuse="FFFFFFFF">buttonsdialogs/rating_new.png</textureradioofffocus>
+                <textureradiooffnofocus colordiffuse="FFFFFFFF">buttonsdialogs/rating_new.png</textureradiooffnofocus>
+                <selected>String.IsEmpty(ListItem.UserRating)</selected>
+                <textcolor>Dark4</textcolor>
+                <font>Null</font>
+                <visible>!Skin.HasSetting(hidebutton.music.rating)</visible>
+            </control>
+            
+            <!-- Wikipedia Button -->
+            <control type="radiobutton" id="9030">
+                <onfocus>ClearProperty(musiccontent)</onfocus>
+                <onfocus>ClearProperty(ShowDisc)</onfocus>
+                <onfocus>ClearProperty(RotateCover)</onfocus>
+                <include>buttondimensionssquare</include>
+                <onclick>RunScript(script.wikipedia,wikipedia=$VAR[Wiki_Label],language=$VAR[LanguageCheck])</onclick>
+                <include content="buttontextures">
+                    <param name="icon" value="buttonsdialogs/wiki.png"/>
+                </include>
+                <visible>!Skin.HasSetting(hidebutton.music.wiki) + System.AddonIsEnabled(script.wikipedia)</visible>
+            </control>
 
             <!-- Tracklist Button -->
             <control type="radiobutton" id="9003">
@@ -1579,7 +1716,6 @@
 
             <!-- Fanart Button -->
             <control type="radiobutton" id="9006">
-                <visible>String.IsEqual(ListItem.DBType,artist)</visible>
                 <onfocus>ClearProperty(ShowDisc)</onfocus>
                 <onfocus condition="!String.IsEqual(Window.Property(musiccontent),4)">ClearProperty(musiccontent)</onfocus>
                 <onfocus>SetProperty(musiccontent,4)</onfocus>
@@ -1592,27 +1728,6 @@
                     <param name="icon" value="buttonsdialogs/image.png"/>
                 </include>
                 <visible>!Skin.HasSetting(hidebutton.music.fanart)</visible>
-            </control>
-
-            <!-- Rating Button -->
-            <control type="radiobutton" id="9007">
-                <visible>!String.IsEqual(ListItem.DBType,artist)</visible>
-                <include>OnFocusOnClick</include>
-                <include>ClearOnFocusOnClick</include>
-                <onfocus>ClearProperty(ShowDisc)</onfocus>
-                <onfocus>ClearProperty(musiccontent)</onfocus>
-                <onclick>SendClick(7)</onclick>
-                <include>buttondimensionssquare</include>
-                <texturenofocus colordiffuse="Dark4" border="0">common/boxsquare.png</texturenofocus>
-                <texturefocus colordiffuse="$VAR[ColorHighlight]" border="0">common/boxsquare.png</texturefocus>
-                <textureradioonfocus colordiffuse="FFFFFFFF">buttonsdialogs/rating.png</textureradioonfocus>
-                <textureradioonnofocus colordiffuse="FFFFFFFF">buttonsdialogs/rating.png</textureradioonnofocus>
-                <textureradioofffocus colordiffuse="FFFFFFFF">buttonsdialogs/rating_new.png</textureradioofffocus>
-                <textureradiooffnofocus colordiffuse="FFFFFFFF">buttonsdialogs/rating_new.png</textureradiooffnofocus>
-                <selected>String.IsEmpty(ListItem.UserRating)</selected>
-                <textcolor>Dark4</textcolor>
-                <font>Null</font>
-                <visible>!Skin.HasSetting(hidebutton.music.rating)</visible>
             </control>
 
             <!-- More Of Artist Button -->
@@ -1729,6 +1844,8 @@
                 <visible>String.IsEqual(ListItem.DBType,movie) | String.IsEqual(ListItem.DBType,tvshow) | String.IsEqual(ListItem.DBType,episode)</visible>
                 <onfocus condition="!String.IsEqual(Window.Property(moviecontent),1)">ClearProperty(moviecontent)</onfocus>
                 <onfocus>SetProperty(moviecontent,1)</onfocus>
+                <onclick condition="String.IsEqual(ListItem.DBType,movie)">RunScript(script.embuary.info,call=movie,query=$INFO[ListItem.Title])</onclick>
+                <onclick condition="String.IsEqual(ListItem.DBType,tvshow) | String.IsEqual(ListItem.DBType,episode)">RunScript(script.embuary.info,call=tv,query=$INFO[ListItem.TvShowTitle])</onclick>
                 <include>buttondimensions</include>
                 <include content="buttontextures">
                     <param name="icon" value="buttonsdialogs/info.png"/>
@@ -1810,6 +1927,20 @@
                 <onclick>Action(close)</onclick>
                 <onclick>RunScript(plugin.video.specialfeatures,listitem)</onclick>
                 <visible>!Skin.HasSetting(hidebutton.video.specialfeatures)</visible>
+            </control>
+            <control type="radiobutton" id="9013">
+                <visible>String.IsEqual(ListItem.DBType,movie) | String.IsEqual(ListItem.DBType,tvshow)</visible>
+                <onfocus>ClearProperty(moviecontent)</onfocus>
+                <onfocus>ClearProperty(ShowDisc)</onfocus>
+                <onfocus>ClearProperty(dontslide,home)</onfocus>
+                <onclick>SetProperty(dontslide,1,home)</onclick>
+                <onclick condition="String.IsEqual(ListItem.DBType,movie)">RunScript(script.wikipedia,wikipedia=$VAR[Wiki_Label],tmdb_type=movie,language=$VAR[LanguageCheck])</onclick>
+                <onclick condition="String.IsEqual(ListItem.DBType,tvshow)">RunScript(script.wikipedia,wikipedia=$VAR[Wiki_Label],tmdb_type=tv,language=$VAR[LanguageCheck])</onclick>
+                <include>buttondimensions</include>
+                <include content="buttontextures">
+                    <param name="icon" value="buttonsdialogs/wiki.png"/>
+                </include>
+                <visible>!Skin.HasSetting(hidebutton.video.wiki) + System.AddonIsEnabled(script.wikipedia)</visible>
             </control>
             <control type="radiobutton" id="9002">
                 <visible>String.IsEqual(ListItem.DBType,movie) | String.IsEqual(ListItem.DBType,tvshow)</visible>
@@ -2238,7 +2369,7 @@
             <label>$VAR[LabelWIPDialogVideoInfoHeader]</label>
         </control>
         <control type="label">
-            <top>55</top>
+            <top>60</top>
             <height>36</height>
             <font>Tiny</font>
             <textcolor>Dark1</textcolor>
@@ -3633,7 +3764,7 @@
 
     <include name="ControlButtons">
         <control type="grouplist" id="6150">
-            <visible>Player.HasMedia</visible>
+            <visible>Player.HasMedia | Player.Playing</visible>
             <usecontrolcoords>true</usecontrolcoords>
             <top>10</top>
             <height>60</height>
@@ -4680,7 +4811,7 @@
             </control>
         </control>
         <control type="group">
-            <include condition="Skin.HasSetting(items.focus.zoom)">Animation.Focus.Zoom</include>
+            <include condition="Skin.HasSetting(items.focus.zoom)" content="Animation.Focus.Zoom"><param name="zoom" value="103" /></include>
             <height>$PARAM[height]</height>
             <include content="def_widgetfanart">
                 <param name="indicatorbackground" value="$PARAM[indicatorbackground]" />
@@ -4717,7 +4848,7 @@
             </control>
         </control>
         <control type="group">
-            <include condition="Skin.HasSetting(items.focus.zoom)">Animation.Focus.Zoom</include>
+            <include condition="Skin.HasSetting(items.focus.zoom)" content="Animation.Focus.Zoom"><param name="zoom" value="103" /></include>
             <height>$PARAM[height]</height>
             <include content="def_widgetlandscape">
                 <param name="indicatorbackground" value="$PARAM[indicatorbackground]" />
@@ -4740,7 +4871,7 @@
         <param name="reflections" value="$PARAM[reflections]" default="false"/>
         <definition>
         <control type="group">
-            <include condition="Skin.HasSetting(items.focus.zoom)">Animation.Focus.Zoom</include>
+            <include condition="Skin.HasSetting(items.focus.zoom)" content="Animation.Focus.Zoom"><param name="zoom" value="103" /></include>
             <height>$PARAM[height]</height>
             <include content="def_widgetbanner">
                 <param name="indicatorbackground" value="$PARAM[indicatorbackground]" />
@@ -4790,7 +4921,7 @@
             </control>
         </control>
         <control type="group">
-            <include condition="Skin.HasSetting(items.focus.zoom)">Animation.Focus.Zoom</include>
+            <include condition="Skin.HasSetting(items.focus.zoom)" content="Animation.Focus.Zoom"><param name="zoom" value="103" /></include>
             <height>$PARAM[height]</height>
             <include content="def_widgetthumb">
                 <param name="clearlogo" value="$PARAM[clearlogo]"/>
@@ -5054,5 +5185,37 @@
     
     <variable name="AutoCompletionPath">
         <value condition="System.AddonIsEnabled(plugin.program.autocompletion)">plugin://plugin.program.autocompletion?info=autocomplete&amp;&amp;id=$INFO[Control.GetLabel(312).index(1)]&amp;&amp;limit=9</value>
+    </variable>
+    
+    <variable name="Wiki_Label">
+        <value condition="String.IsEqual(ListItem.DBType,album) + !String.IsEmpty(ListItem.Album)">$INFO[ListItem.Album] $INFO[ListItem.Artist]</value>
+        <value condition="String.IsEqual(ListItem.DBType,song) + !String.IsEmpty(ListItem.Title)">$INFO[ListItem.Title] $INFO[ListItem.Artist]</value>
+        <value condition="String.IsEqual(ListItem.DBType,artist) + !String.IsEmpty(ListItem.Artist)">$INFO[ListItem.Artist]</value>
+        <value condition="!String.IsEmpty(ListItem.TVShowTitle)">$INFO[ListItem.TVShowTitle]</value>
+        <value condition="!String.IsEmpty(ListItem.Title)">$INFO[ListItem.Title]</value>
+        <value>$INFO[ListItem.Label]</value>
+    </variable>
+
+    <variable name="CurrentlyPlayingItem">
+        <value condition="Player.HasAudio + !String.IsEmpty(MusicPlayer.DBID)">musicdb://songs/?songid=$INFO[MusicPlayer.DBID]</value>
+        <value condition="Player.HasVideo + VideoPlayer.Content(movies)">videodb://movies/titles/?xsp=%7B%22rules%22%3A%7B%22and%22%3A%5B%7B%22field%22%3A%22title%22%2C%22operator%22%3A%22is%22%2C%22value%22%3A%5B%22$INFO[Player.Title]%22%5D%7D%2C%7B%22field%22%3A%22filename%22%2C%22operator%22%3A%22is%22%2C%22value%22%3A%5B%22$INFO[Player.Filename]%22%5D%7D%5D%7D%2C%22type%22%3A%22movies%22%7D</value>
+        <value condition="Player.HasVideo + VideoPlayer.Content(episodes)">videodb://tvshows/titles/-1/-1/?xsp=%7B%22rules%22%3A%7B%22and%22%3A%5B%7B%22field%22%3A%22title%22%2C%22operator%22%3A%22is%22%2C%22value%22%3A%5B%22$INFO[Player.Title]%22%5D%7D%2C%7B%22field%22%3A%22filename%22%2C%22operator%22%3A%22is%22%2C%22value%22%3A%5B%22$INFO[Player.Filename]%22%5D%7D%5D%7D%2C%22type%22%3A%22episodes%22%7D
+        </value>
+    </variable>
+    
+    <include name="OnDirectionAction">
+        <onleft>$PARAM[ondirection]</onleft>
+        <onright>$PARAM[ondirection]</onright>
+        <onup>$PARAM[ondirection]</onup>
+        <ondown>$PARAM[ondirection]</ondown>
+        <onback>$PARAM[ondirection]</onback>
+    </include>
+    
+    <variable name="LanguageCheck">
+        <value condition="String.IsEqual(System.Language,Italian)">it</value>
+        <value condition="String.IsEqual(System.Language,German)">de</value>
+        <value condition="String.Contains(System.Language,French)">fr</value>
+        <value condition="String.Contains(System.Language,Spanish)">es</value>
+        <value>en</value>
     </variable>
 </includes>
