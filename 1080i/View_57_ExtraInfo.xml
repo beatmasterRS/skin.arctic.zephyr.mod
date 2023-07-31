@@ -60,11 +60,17 @@
             <visible>Control.IsVisible(57)</visible>
             <include>ViewSlideForJumpBar</include>
             <control type="group">
-                <posy>320</posy>
+                <include content="def_top" condition="Skin.HasSetting(511ListInfo)">
+                    <param name="top" value="370" />
+                </include>
+                <top>320</top>
                 <control type="fixedlist" id="57">
                     <oninfo condition="Container.Content(actors)">RunScript(script.embuary.info,call=person,query='"$INFO[ListItem.Label]"')</oninfo>
                     <visible>$EXP[InGameMode] | Container.Content(musicvideos) | Container.Content(artists) | Container.Content(movies) | Container.Content(files) | Container.Content(tvshows) | [Container.Content(episodes) + !String.Contains(Container.FolderPath,plugin://,left)] | Container.Content(actors) | Container.Content(sets) | Container.Content(seasons) | Container.Content(videos)</visible>
                     <top>PosterPad</top>
+                    <include content="def_height" condition="Skin.HasSetting(511ListInfo)">
+                        <param name="height" value="270" />
+                    </include>
                     <height>320</height>
                     <right>SidePad</right>
                     <width>1100</width>
@@ -72,7 +78,13 @@
                     <onright>60</onright>
                     <onup>57</onup>
                     <ondown>57</ondown>
+                    <include content="def_focusposition" condition="Skin.HasSetting(511ListInfo)">
+                        <param name="focusposition" value="1" />
+                    </include>
                     <focusposition>2</focusposition>
+                    <include content="def_movement" condition="Skin.HasSetting(511ListInfo)">
+                        <param name="movement" value="1" />
+                    </include>
                     <movement>2</movement>
                     <pagecontrol>60</pagecontrol>
                     <include content="forced_view" condition="Skin.HasSetting(enable.forcedviews)">
@@ -93,10 +105,10 @@
                             <include>50itemlayout</include>
                         </control>
                     </focusedlayout>
-                    <itemlayout condition="Skin.HasSetting(511ListInfo)" width="1100" height="91.4">
+                    <itemlayout condition="Skin.HasSetting(511ListInfo)" width="1100" height="90">
                         <include>50itemlayout_info</include>
                     </itemlayout>
-                    <focusedlayout condition="Skin.HasSetting(511ListInfo)" width="1100" height="91.4">
+                    <focusedlayout condition="Skin.HasSetting(511ListInfo)" width="1100" height="90">
                         <control type="group">
                             <visible>Control.HasFocus(57)</visible>
                             <include>50focuslayout_info</include>
@@ -108,30 +120,43 @@
                     </focusedlayout>
                 </control>
                 <control type="scrollbar" id="60">
-                    <include content="scrollbar_vertical">
+                    <include content="scrollbar_vertical" condition="Skin.HasSetting(511ListInfo)">
+                        <param name="scrollid" value="60"/>
+                        <param name="posy" value="216"/>
+                        <param name="height" value="270"/>
+                    </include>
+                    <include content="scrollbar_vertical" condition="!Skin.HasSetting(511ListInfo)">
                         <param name="scrollid" value="60"/>
                         <param name="posy" value="216"/>
                         <param name="height" value="325"/>
                     </include>
                 </control>
             </control>
-            <include content="LowList_Info">
+            <include content="LowList_Info" condition="Skin.HasSetting(511ListInfo)">
+                <param name="left" value="70"/>
+                <param name="bottom" value="165"/>
+                <param name="group_height" value="290"/>
+            </include>
+            <include content="LowList_Info" condition="!Skin.HasSetting(511ListInfo)">
                 <param name="left" value="70"/>
             </include>
         </control>
     </include>
 
     <include name="LowList_Info">
+        <param name="bottom" default="199"/>
+        <param name="group_height" default="330"/>
+        <definition>
         <control type="group">
             <left>$PARAM[left]</left>
             <width>645</width>
-            <top>206</top>
+            <bottom>$PARAM[bottom]</bottom>
             <height>660</height>
             <control type="group">
                 <left>12</left>
                 <right>12</right>
                 <posy>319</posy>
-                <height>330</height>
+                <height>$PARAM[group_height]</height>
                 <control type="label">
                     <top>10</top>
                     <aligny>center</aligny>
@@ -161,6 +186,7 @@
                 </control>
             </control>
         </control>
+        </definition>
     </include>
 
     <include name="Fanart_Info">
