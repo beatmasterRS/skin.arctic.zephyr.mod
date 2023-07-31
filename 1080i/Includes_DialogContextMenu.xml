@@ -1,0 +1,239 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<includes>
+    <include name="DialogContextMenuExtended">
+        <include content="def_width" condition="$EXP[ShowExtendedContextMenu]">
+            <param name="width" value="966" />
+        </include>
+        <width>466</width>
+        <height>680</height>    
+        <control type="image">
+            <visible>$EXP[ShowExtendedContextMenu]</visible>
+            <posx>8</posx>
+            <top>-15</top>
+            <posy>-16</posy>
+            <width>938</width>
+            <height>696</height>
+            <texture border="16" colordiffuse="White100">common/box.png</texture>
+        </control>
+        <control type="image" id="999">
+            <visible>!$EXP[ShowExtendedContextMenu]</visible>
+            <posx>8</posx>
+            <top>-15</top>
+            <posy>-16</posy>
+            <width>450</width>
+            <height>677</height>
+            <texture border="16" colordiffuse="White100">common/box.png</texture>
+        </control>
+        <control type="group">
+            <left>22</left>
+            <top>0</top>
+            <control type="label">
+                <description>Header Label</description>
+                <left>70</left>
+                <width>1000</width>
+                <posy>0</posy>
+                <include>FontTop</include>
+                <textcolor>Dark2</textcolor>
+                <label>10106</label>
+            </control>
+            <include>Kodi_Logo</include>
+
+            <!-- Lines -->
+            <control type="image">
+                <top>70</top>
+                <left>17</left>
+                <include content="def_width" condition="$EXP[ShowExtendedContextMenu]">
+                    <param name="width" value="410" />
+                </include>
+                <width>385</width>
+                <height>1</height>
+                <bottom>10</bottom>
+                <colordiffuse>Black12</colordiffuse>
+                <texture>common/white.png</texture>
+            </control>
+        </control>
+        <include content="Def_Gradient_Settings_Image">
+            <param name="controlid" value="996"/>
+            <param name="left" value="8"/>
+            <param name="top" value="90"/>
+            <param name="width" value="450"/>
+        </include>
+        <control type="button" id="5050">
+            <include>HiddenButton</include>
+            <onright>996</onright>
+            <onleft>996</onleft>
+            <onback>996</onback>
+            <ondown>SetFocus(8601)</ondown>
+            <ondown>Down</ondown>
+            <ondown>SetFocus(5050)</ondown>
+            <onup>SetFocus(8601)</onup>
+            <onup>Up</onup>
+            <onup>SetFocus(5050)</onup>
+            <onfocus>SetProperty(contextplot,1,home)</onfocus> 
+            <onunfocus>ClearProperty(contextplot,home)</onunfocus>   
+        </control>
+        <control type="scrollbar" id="8601">
+            <width>1</width>
+            <height>1</height>
+            <visible allowhiddenfocus="true">false</visible>
+            <include content="OnDirectionAction"><param name="ondirection" value="$PARAM[ondirection]" /></include>
+            <onback>ClearProperty(dontautoclose,home)</onback>
+            <onup>ClearProperty(dontautoclose,home)</onup>
+            <ondown>ClearProperty(dontautoclose,home)</ondown>
+            <onleft>ClearProperty(dontautoclose,home)</onleft>
+            <onright>ClearProperty(dontautoclose,home)</onright>
+        </control>
+        <control type="grouplist" id="996">
+            <animation condition="Control.HasFocus(5050)" effect="fade" end="0" start="100" time="250">Conditional</animation>
+            <description>grouplist for context buttons</description>
+            <posx>8</posx>
+            <posy>0</posy>
+            <width>510</width>
+            <top>90</top>
+            <onleft condition="$EXP[ShowExtendedContextMenu]">5050</onleft>
+            <height max="560">auto</height>
+            <itemgap>0</itemgap>
+            <scrolltime>0</scrolltime>
+            <control type="button" id="1000">
+                <description>Buttons</description>
+                <include>DefContextButtonGradient</include>
+                <align>left</align>
+            </control>
+        </control>
+        <control type="textbox" id="8600">
+            <animation effect="fade" end="100" start="0" time="250" delay="300">Visible</animation>
+            <visible>Control.HasFocus(5050)</visible>
+            <top>85</top>
+            <left>38</left>
+            <width>410</width>
+            <height>543</height>
+            <font>Tiny</font>
+            <textcolor>Dark2</textcolor>
+            <align>left</align>
+            <pagecontrol>8601</pagecontrol>
+            <label fallback="19055">$VAR[LabelPlotContextMenu]</label>
+        </control>
+        <control type="group">
+            <visible>$EXP[ShowExtendedContextMenu] + Control.HasFocus(5050) + Container(8600).HasNext</visible>
+            <animation effect="fade" end="100" start="0" time="250" delay="300">Visible</animation>
+            <include>Animation.FadeIn</include>
+            <left>235</left>
+            <top>630</top>
+            <control type="image">
+                <top>0</top>
+                <include>arrowdimensions</include>
+                <texture colordiffuse="Dark2" flipy="false">common/arrow-small.png</texture>
+            </control>
+        </control>
+        <control type="group" description="Poster">
+            <visible>$EXP[ShowExtendedContextMenu] + String.IsEmpty(Window(home).Property(listitem.isthumb)) + ![!String.IsEmpty(ListItem.Art(thumb)) + [String.IsEqual(ListItem.DBType,song) | String.IsEqual(ListItem.DBType,album) | String.IsEqual(ListItem.DBType,artist)]]</visible>
+            <left>488</left>
+            <top>16</top>
+            <control type="image">
+                <left>-24</left>
+                <top>-24</top>
+                <width>PosterShadowW</width>
+                <height>682</height>
+                <texture border="32" infill="false">common/$VAR[shadow-24]</texture>
+                <animation condition="true" effect="fade" end="33" start="100" time="0">Conditional</animation>
+            </control>
+            <control type="image">
+                <width>PosterW</width>
+                <height>635</height>
+                <fadetime>PosterFanartFadetime</fadetime>
+                <aspectratio align="center" aligny="center" scalediffuse="false">scale</aspectratio>
+                <texture background="true">$VAR[PosterImageContextMenu]</texture>
+            </control>
+        </control>
+        <control type="group" description="Poster">
+            <visible>$EXP[ShowExtendedContextMenu] + [!String.IsEmpty(Window(home).Property(listitem.isthumb)) | [!String.IsEmpty(ListItem.Art(thumb)) + [String.IsEqual(ListItem.DBType,song) | String.IsEqual(ListItem.DBType,album) | String.IsEqual(ListItem.DBType,artist)]]]</visible>
+            <left>488</left>
+            <top>16</top>
+            <control type="image">
+                <left>-24</left>
+                <top>-24</top>
+                <width>PosterShadowW</width>
+                <height>474</height>
+                <texture border="32" infill="false">common/$VAR[shadow-24]</texture>
+                <animation condition="true" effect="fade" end="33" start="100" time="0">Conditional</animation>
+            </control>
+            <control type="image">
+                <width>PosterW</width>
+                <height>PosterW</height>
+                <fadetime>PosterFanartFadetime</fadetime>
+                <aspectratio align="center" aligny="top" scalediffuse="false">keep</aspectratio>
+                <texture background="true">$VAR[PosterImageContextMenu]</texture>
+            </control>
+        </control>
+    </include>
+    
+    <include name="DialogContextMenuStandard">
+        <width>466</width>
+        <height>680</height>    
+        <control type="image" id="999">
+            <posx>8</posx>
+            <top>-15</top>
+            <posy>-16</posy>
+            <width>450</width>
+            <height>677</height>
+            <texture border="16" colordiffuse="White100">common/box.png</texture>
+        </control>
+        <control type="group">
+            <left>22</left>
+            <top>0</top>
+            <control type="label">
+                <description>Header Label</description>
+                <left>70</left>
+                <width>1000</width>
+                <posy>0</posy>
+                <include>FontTop</include>
+                <textcolor>Dark2</textcolor>
+                <label>10106</label>
+            </control>
+            <include>Kodi_Logo</include>
+
+            <!-- Lines -->
+            <control type="image">
+                <top>70</top>
+                <left>17</left>
+                <width>385</width>
+                <height>1</height>
+                <bottom>10</bottom>
+                <colordiffuse>Black12</colordiffuse>
+                <texture>common/white.png</texture>
+            </control>
+        </control>
+        <include content="Def_Gradient_Settings_Image">
+            <param name="controlid" value="996"/>
+            <param name="left" value="8"/>
+            <param name="top" value="90"/>
+            <param name="width" value="450"/>
+        </include>
+        <control type="scrollbar" id="8601">
+            <width>1</width>
+            <height>1</height>
+            <visible allowhiddenfocus="true">false</visible>
+            <include content="OnDirectionAction"><param name="ondirection" value="$PARAM[ondirection]" /></include>
+            <onback>ClearProperty(dontautoclose,home)</onback>
+            <onup>ClearProperty(dontautoclose,home)</onup>
+            <ondown>ClearProperty(dontautoclose,home)</ondown>
+            <onleft>ClearProperty(dontautoclose,home)</onleft>
+            <onright>ClearProperty(dontautoclose,home)</onright>
+        </control>
+        <control type="grouplist" id="996">
+            <description>grouplist for context buttons</description>
+            <posx>8</posx>
+            <posy>0</posy>
+            <width>510</width>
+            <top>90</top>
+            <height max="560">auto</height>
+            <itemgap>0</itemgap>
+            <scrolltime>0</scrolltime>
+            <control type="button" id="1000">
+                <description>Buttons</description>
+                <include>DefContextButtonGradient</include>
+                <align>left</align>
+            </control>
+        </control>
+    </include>
+</includes>
