@@ -5,6 +5,7 @@
     <include file="Includes_VideoLyrics.xml"/>
     <include file="Includes_Lyrics.xml"/>
     <include file="Includes_Lists.xml"/>
+    <include file="Includes_DialogContextMenu.xml"/>
     <include file="Includes_DialogVideoInfo.xml"/>
     <include file="Includes_DialogMusicInfo.xml"/>
     <include file="Includes_DialogAddonInfo.xml"/>
@@ -97,6 +98,7 @@
     <expression name="ExtendedNowPlayingIsVisible">[Skin.HasSetting(extended.nowplaying) + Window.IsVisible(Home) + [Player.HasMedia | Player.Playing]] + [[!ControlGroup(301).HasFocus() + !Control.HasFocus(8888) + !Control.HasFocus(4567)] | ControlGroup(777).HasFocus()]</expression>
     <expression name="ExtendedNowPlayingHelperAutoShow">!$EXP[TrailerIsReady] + !$EXP[TrailerIsPlaying] + !$EXP[TrailerWaitingForPlayer] + !$EXP[TrailerWindowIsActive] + [System.IdleTime(5) + !String.IsEmpty(Window(home).Property(nowplayingautoshowtimer)) + Skin.HasSetting(extended.nowplaying) + Window.IsVisible(Home) + [Player.HasMedia | Player.Playing] + Skin.HasSetting(home.nowplaying.info.auto.show) + !Window.IsVisible(DialogVideoInfo.xml) + !Window.IsVisible(DialogMusicInfo.xml) + !Window.IsVisible(DialogAddonInfo.xml) + !Window.IsVisible(DialogPVRInfo.xml) + !Window.IsVisible(DialogContextMenu.xml) + !Window.IsVisible(script-embuary-video.xml) + !Window.IsVisible(script-embuary-person.xml) + !Window.IsVisible(script-embuary-image.xml) + !Window.IsVisible(DialogBusy.xml)]</expression>
     <expression name="ExtendedNowPlayingHelperAutoClose">!$EXP[TrailerIsReady] + !$EXP[TrailerIsPlaying] + !$EXP[TrailerWaitingForPlayer] + !$EXP[TrailerWindowIsActive] + [[!String.IsEmpty(Window(home).Property(controlsvisible)) | Control.HasFocus(25) | Control.HasFocus(778)] + Skin.HasSetting(extended.nowplaying) + Window.IsVisible(Home) + !Player.HasMedia + !Player.Playing + !Skin.HasSetting(hide.home.nowplaying.controls)]</expression>
+    <expression name="ShowExtendedContextMenu">[!String.IsEmpty(Window(home).Property(listitem.poster)) | !String.IsEmpty(ListItem.Art(tvshow.poster)) | !String.IsEmpty(ListItem.Art(poster)) | [!String.IsEmpty(ListItem.Art(thumb)) + [String.IsEqual(ListItem.DBType,song) | String.IsEqual(ListItem.DBType,album) | String.IsEqual(ListItem.DBType,artist)]]]</expression>
     <expression name="TitleClearlogoAvailable">[!String.IsEmpty(ListItem.Art(clearlogo)) | !String.IsEmpty(ListItem.Art(artist.clearlogo)) | !String.IsEmpty(ListItem.Art(tvshow.clearlogo))] + !Container.Content(episodes) + !Container.Content(seasons)</expression>
     <expression name="IsAudioCodecATMOS">
         String.Contains(ListItem.FileNameAndPath,atmos) | [VideoPlayer.IsFullscreen + String.Contains(Player.FileNameAndPath,atmos)]
@@ -3316,6 +3318,29 @@
             <onunfocus condition="!String.IsEmpty(Window(home).Property(TrailerIsPlayingFullscreen))">ClearProperty(TrailerIsPlayingFullscreen,home)</onunfocus>
         </control>
     </include>
+    
+    <include name="SetExtendedContextMenu">
+        <control type="button">
+            <visible>false</visible>
+
+            <!-- Set Property / Skin String -->
+            <onfocus>ClearProperty(listitem.poster,home)</onfocus>
+            <onfocus>ClearProperty(listitem.isthumb,home)</onfocus>
+            <onfocus>ClearProperty(listitem.plot,home)</onfocus>
+            <onfocus>ClearProperty(listitem.tagline,home)</onfocus>
+            
+            <onfocus condition="!String.IsEmpty(ListItem.Art(tvshow.poster))">SetProperty(listitem.poster,$INFO[ListItem.Art(tvshow.poster)],home)</onfocus>
+            <onfocus condition="!String.IsEmpty(ListItem.Art(poster))">SetProperty(listitem.poster,$INFO[ListItem.Art(poster)],home)</onfocus>
+            <onfocus condition="!String.IsEmpty(ListItem.Art(thumb)) + [String.IsEqual(ListItem.DBType,song) | String.IsEqual(ListItem.DBType,album) | String.IsEqual(ListItem.DBType,artist)]">SetProperty(listitem.poster,$INFO[ListItem.Art(thumb)],home)</onfocus>
+            
+            <onfocus condition="!String.IsEmpty(ListItem.Art(thumb)) + [String.IsEqual(ListItem.DBType,song) | String.IsEqual(ListItem.DBType,album) | String.IsEqual(ListItem.DBType,artist)]">SetProperty(listitem.isthumb,1,home)</onfocus>
+            
+            <onfocus condition="!String.IsEmpty(ListItem.Plot)">SetProperty(listitem.plot,$ESCINFO[ListItem.Plot],home)</onfocus>
+            <onfocus condition="!String.IsEmpty(ListItem.Property(Artist_Description))">SetProperty(listitem.plot,$ESCINFO[ListItem.Property(Artist_Description)],home)</onfocus>
+            <onfocus condition="!String.IsEmpty(ListItem.Property(Album_Description))">SetProperty(listitem.plot,$ESCINFO[ListItem.Property(Album_Description)],home)</onfocus>
+            <onfocus condition="!String.IsEmpty(ListItem.Tagline)">SetProperty(listitem.tagline,$ESCINFO[ListItem.Tagline],home)</onfocus>
+        </control>
+    </include>
 
     <include name="MusicVisualisationInfoMatrx">
         <control type="group">
@@ -5210,7 +5235,6 @@
         <ondown>$PARAM[ondirection]</ondown>
         <onback>$PARAM[ondirection]</onback>
     </include>
-    
     <variable name="LanguageCheck">
         <value condition="String.IsEqual(System.Language,Italian)">it</value>
         <value condition="String.IsEqual(System.Language,German)">de</value>
