@@ -3,6 +3,7 @@
     <defaultcontrol always="true">9101</defaultcontrol>
     <onunload>ClearProperty(DialogBusy,Home)</onunload>
     <onunload>ClearProperty(BusyloaderSettings,Home)</onunload>
+    <onunload condition="System.AddonIsEnabled(script.wikipedia)">Skin.SetString(Wikipedia.Format.Link,[COLOR=Dark2]{}[/COLOR])</onunload>
     <onload condition="String.IsEmpty(Skin.String(colorpalette))">Skin.SetString(colorpalette,rainbow)</onload>
     <controls>
         <include>GlobalBackground</include>
@@ -359,7 +360,7 @@
                             <onclick condition="Skin.HasSetting(home.oldmenuheight)">Skin.ToggleSetting(submenu.compatibility)</onclick>
                             <onclick condition="Skin.HasSetting(submenu.compatibility)">Skin.Reset(home.oldmenuheight)</onclick>
                             <onclick condition="Skin.HasSetting(submenu.compatibility)">Skin.Reset(submenu.compatibility)</onclick>
-                            <visible>!$EXP[HomeIsVerticalAll] + !$EXP[HomeIsClassic]</visible>
+                            <visible>!$EXP[HomeIsVerticalAll] + !$EXP[HomeIsClassic] + ![Skin.HasSetting(home.modernwidgets) + !Skin.HasSetting(home.vertical.widgets)]</visible>
                         </control>
                         <control type="radiobutton" id="9806" description="Flags">
                             <width>1360</width>
@@ -2161,16 +2162,6 @@
                             <param name="addonname" value="service.library.data.provider"/>
                         </include>
                         <include content="DefSkinAddons">
-                            <param name="id" value="11019"/>
-                            <param name="visible" value="ControlGroup(9100).HasFocus(9113)"/>
-                            <param name="addonname" value="script.skin.info.service"/>
-                        </include>
-                        <include content="DefSkinAddons">
-                            <param name="id" value="11035"/>
-                            <param name="visible" value="ControlGroup(9100).HasFocus(9113)"/>
-                            <param name="addonname" value="script.favourites"/>
-                        </include>
-                        <include content="DefSkinAddons">
                             <param name="id" value="11020"/>
                             <param name="visible" value="ControlGroup(9100).HasFocus(9113)"/>
                             <param name="addonname" value="plugin.video.imdb.trailers"/>
@@ -2189,6 +2180,21 @@
                             <param name="id" value="11023"/>
                             <param name="visible" value="ControlGroup(9100).HasFocus(9113)"/>
                             <param name="addonname" value="script.module.pvr.artwork"/>
+                        </include>
+                        <include content="DefSkinAddons">
+                            <param name="id" value="11024"/>
+                            <param name="visible" value="ControlGroup(9100).HasFocus(9113)"/>
+                            <param name="addonname" value="script.wikipedia"/>
+                        </include>
+                        <include content="DefSkinAddons">
+                            <param name="id" value="11019"/>
+                            <param name="visible" value="ControlGroup(9100).HasFocus(9113)"/>
+                            <param name="addonname" value="script.skin.info.service"/>
+                        </include>
+                        <include content="DefSkinAddons">
+                            <param name="id" value="11035"/>
+                            <param name="visible" value="ControlGroup(9100).HasFocus(9113)"/>
+                            <param name="addonname" value="script.favourites"/>
                         </include>
                     </control>
 
@@ -2559,13 +2565,21 @@
                             <selected>Skin.HasSetting(dontuselandscapeseasons)</selected>
                             <onclick>Skin.ToggleSetting(dontuselandscapeseasons)</onclick>
                         </control>
-                        <control type="radiobutton" id="9294">
+                        <control type="radiobutton" id="9298">
                             <width>1360</width>
                             <visible>ControlGroup(9100).HasFocus(9106)</visible>
                             <include>DefSettingsButtonGradientSkinSettings</include>
                             <label>31032</label>
                             <selected>Skin.HasSetting(dontuselandscapemovies)</selected>
                             <onclick>Skin.ToggleSetting(dontuselandscapemovies)</onclick>
+                        </control>
+                        <control type="radiobutton" id="9294">
+                            <width>1360</width>
+                            <visible>ControlGroup(9100).HasFocus(9106)</visible>
+                            <include>DefSettingsButtonGradientSkinSettings</include>
+                            <label>31706</label>
+                            <selected>Skin.HasSetting(global.use.keyart)</selected>
+                            <onclick>Skin.ToggleSetting(global.use.keyart)</onclick>
                         </control>
                         <control type="radiobutton" id="9295">
                             <width>1360</width>

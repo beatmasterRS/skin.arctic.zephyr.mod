@@ -309,7 +309,7 @@
                     <top>22</top>
                     <height>24</height>
                     <aligny>center</aligny>
-                    <font>SmallBold</font>
+                    <font>NotificationBold</font>
                     <textcolor>Dark1</textcolor>
                     <label>$VAR[LabelNextRecordingHeader]</label>
                 </control>
@@ -318,7 +318,7 @@
                     <bottom>22</bottom>
                     <height>24</height>
                     <aligny>center</aligny>
-                    <font>Tiny</font>
+                    <font>Flag</font>
                     <textcolor>Dark1</textcolor>
                     <label>$VAR[LabelNextRecording]</label>
                 </control>
@@ -1438,6 +1438,8 @@
                 </control>
                 <control type="group">
                     <visible>![Skin.HasSetting(homemenu.hide.lines) + $EXP[HomeIsModernMultiWidgets]]</visible>
+                    <animation effect="fade" end="100" start="0" time="100" delay="100">WindowOpen</animation>
+                    <animation effect="fade" start="100" end="0" time="50">WindowClose</animation>
                     <control type="image" description="Shadow">
                         <width>100%</width>
                         <height>1</height>
@@ -4068,7 +4070,8 @@
         <param name="left" value="$PARAM[left]" default="0"/>
         <param name="visible" value="$PARAM[visible]" default="true"/>
         <control type="image" description="clearlogo" id="$PARAM[id]37">
-            <height>102</height>
+            <height>ClearLogoMaxHeight</height>
+            <width>ClearLogoMaxWidth</width>
             <aspectratio scalediffuse="true" align="left">keep</aspectratio>
             <texture background="true">$INFO[Container($PARAM[id]).ListItem.Art(clearlogo)]</texture>
             <visible>$PARAM[visible] + Skin.HasSetting(home.netflix.clearlogo) + Skin.HasSetting(homemenu.netflix) + !String.IsEmpty(Container($PARAM[id]).ListItem.Art(clearlogo)) + !Skin.HasSetting(homemenu.clean.flix)</visible>
@@ -4471,21 +4474,21 @@
 
         <!-- Artists -->
         <control type="image" description="clearlogo">
-            <include>ClearLogoHomeImageContainer</include>
+            <include>ClearArtHomeImageContainer</include>
             <texture background="true">$INFO[Container($PARAM[id]).ListItem.Art(clearart)]</texture>
             <visible>String.IsEqual(Container($PARAM[id]).ListItem.DBType,artist)</visible>
         </control>
 
         <!-- Albums and Songs -->
         <control type="image" description="clearlogo">
-            <include>ClearLogoHomeImageContainer</include>
+            <include>ClearArtHomeImageContainer</include>
             <texture background="true">$INFO[Container($PARAM[id]).ListItem.Art(artist.clearart)]</texture>
             <visible>String.IsEqual(Container($PARAM[id]).ListItem.DBType,album) | String.IsEqual(Container($PARAM[id]).ListItem.DBType,song)</visible>
         </control>
 
         <!-- All Other -->
         <control type="image" description="clearlogo">
-            <include>ClearLogoHomeImageContainer</include>
+            <include>ClearArtHomeImageContainer</include>
             <texture background="true">$INFO[Container($PARAM[id]).ListItem.Art(clearart)]</texture>
             <visible>!String.IsEqual(Container($PARAM[id]).ListItem.DBType,artist) + !String.IsEqual(Container($PARAM[id]).ListItem.DBType,album) + !String.IsEqual(Container($PARAM[id]).ListItem.DBType,song)</visible>
         </control>
