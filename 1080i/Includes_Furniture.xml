@@ -56,8 +56,8 @@
         <height>$PARAM[height]</height>
         <width>8</width>
         <onleft>50</onleft>
-        <onright condition="$PARAM[jumpbar] + !Skin.HasSetting(use.old.jumpbar)">290001</onright>
-        <onright condition="$PARAM[jumpbar] + Skin.HasSetting(use.old.jumpbar)">390000</onright>
+        <onright condition="$PARAM[jumpbar] + Skin.HasSetting(use.new.jumpbar)">290001</onright>
+        <onright condition="$PARAM[jumpbar] + !Skin.HasSetting(use.new.jumpbar)">390000</onright>
         <texturesliderbackground border="4" colordiffuse="Dark4">scrollbar/scrollv.png</texturesliderbackground>
         <texturesliderbar border="4" colordiffuse="Dark3">scrollbar/scrollv.png</texturesliderbar>
         <texturesliderbarfocus border="4" colordiffuse="Dark2">scrollbar/scrollv.png</texturesliderbarfocus>
@@ -81,8 +81,8 @@
         <orientation>horizontal</orientation>
         <height>8</height>
         <onup>$PARAM[onup]</onup>
-        <ondown condition="$PARAM[jumpbar] + !Skin.HasSetting(use.old.jumpbar)">290001</ondown>
-        <ondown condition="$PARAM[jumpbar] + Skin.HasSetting(use.old.jumpbar)">390000</ondown>
+        <ondown condition="$PARAM[jumpbar] + Skin.HasSetting(use.new.jumpbar)">290001</ondown>
+        <ondown condition="$PARAM[jumpbar] + !Skin.HasSetting(use.new.jumpbar)">390000</ondown>
         <texturesliderbackground border="4" colordiffuse="Dark4">scrollbar/scrollv.png</texturesliderbackground>
         <texturesliderbar border="4" colordiffuse="Dark3">scrollbar/scrollv.png</texturesliderbar>
         <texturesliderbarfocus border="4" colordiffuse="Dark2">scrollbar/scrollv.png</texturesliderbarfocus>
@@ -158,7 +158,7 @@
 
     <include name="JumpBarHorizontal2">
         <control type="group">
-            <visible>[[String.IsEqual(Container.SortMethod,$LOCALIZE[551]) | String.IsEqual(Container.SortMethod,$LOCALIZE[556]) | String.IsEqual(Container.SortMethod,$LOCALIZE[561]) | String.IsEqual(Container.SortMethod,$LOCALIZE[558]) | String.IsEqual(Container.SortMethod,$LOCALIZE[557])] + Integer.IsGreater(Container.NumPages,4)] | Skin.HasSetting(use.old.jumpbar)</visible>
+            <visible>[[String.IsEqual(Container.SortMethod,$LOCALIZE[551]) | String.IsEqual(Container.SortMethod,$LOCALIZE[556]) | String.IsEqual(Container.SortMethod,$LOCALIZE[561]) | String.IsEqual(Container.SortMethod,$LOCALIZE[558]) | String.IsEqual(Container.SortMethod,$LOCALIZE[557])] + Integer.IsGreater(Container.NumPages,4)] | !Skin.HasSetting(use.new.jumpbar)</visible>
             <animation effect="slide" start="0,0" end="-84,0" time="400" tween="quadratic" easing="out" condition="Control.HasFocus(290001)" reversible="false">Conditional</animation>
             <animation effect="slide" start="-84,0" end="0,0" time="400" tween="quadratic" easing="in" condition="!Control.HasFocus(290001)" reversible="false">Conditional</animation>
             <animation effect="slide" start="0,0" end="84,0" time="400" tween="quadratic" easing="in">WindowClose</animation>
@@ -177,8 +177,8 @@
             <control type="image">
                 <texture colordiffuse="BoxNotification" border="4" background="true" infill="false">common/box21.png</texture>
             </control>
-            <include condition="!Skin.HasSetting(use.old.jumpbar)">NewJumpbar</include>
-            <include condition="Skin.HasSetting(use.old.jumpbar)">OldJumpbar</include>
+            <include condition="Skin.HasSetting(use.new.jumpbar)">NewJumpbar</include>
+            <include condition="!Skin.HasSetting(use.new.jumpbar)">OldJumpbar</include>
         </control>
     </include>
 
@@ -2523,7 +2523,7 @@
     </variable>
 
     <include name="Furniture_Header">
-        <include condition="Skin.HasSetting(use.old.jumpbar)">JumpbarHelper</include>
+        <include condition="!Skin.HasSetting(use.new.jumpbar)">JumpbarHelper</include>
         <control type="image" description="clearlogo">
             <include>Animation.FadeIn</include>
             <include>Animation.FadeOut</include>
