@@ -4974,7 +4974,7 @@
                 <control type="button" id="25">
                     <width>299</width>
                     <include>DefContextButtonGradientSelect</include>
-                    <label>$LOCALIZE[Set default]</label>
+                    <label>$LOCALIZE[31721]</label>
                     <visible>ControlGroup(200).HasFocus(201)</visible>
                 </control>
             </control>
@@ -4996,9 +4996,10 @@
             <param name="controlid" value="200"/>
             <param name="left" value="-22"/>
             <param name="top" value="20"/>
-            <param name="width" value="330"/>
+            <param name="width" value="332"/>
             <param name="height" value="66"/>
             <param name="slide" value="66"/>
+            <param name="visible" value="ControlGroup(200).HasFocus() | ControlGroup(100).HasFocus() | ControlGroup(101).HasFocus()"/>
         </include>
         <control type="grouplist" id="200">
             <itemgap>0</itemgap>
@@ -5009,13 +5010,13 @@
             <left>-18</left>
             <top>20</top>
             <control type="button" id="201">
-                <width>328</width>
+                <width>330</width>
                 <include>DefContextButtonGradientSelect</include>
                 <label>$LOCALIZE[40000]</label>
                 <visible>Window.IsActive(videoversion)| Window.IsActive(videoversionselect) + Integer.IsGreater(Container(50).NumItems,0)</visible>
             </control>
             <control type="button" id="202">
-                <width>328</width>
+                <width>330</width>
                 <include>DefContextButtonGradientSelect</include>
                 <label>$LOCALIZE[31722]</label>
                 <visible>Window.IsActive(videoversion) | Window.IsActive(videoversionselect) + Integer.IsGreater(Container(51).NumItems,0)</visible>
@@ -5023,8 +5024,8 @@
         </control>
         <control type="image">
             <description>Large Icon Image</description>
-            <top>310</top>
-            <left>9</left>
+            <top>312</top>
+            <left>10</left>
             <width>300</width>
             <height>450</height>
             <texture fallback="DefaultAddonNone.png">$VAR[VideoVersionPosterVar]</texture>
@@ -5032,16 +5033,16 @@
         </control>
         <control type="group" id="100">
             <control type="list" id="50">
-                <left>312</left>
+                <left>311</left>
                 <top>20</top>
-                <width>400</width>
+                <width>800</width>
                 <height>483</height>
                 <onup>50</onup>
                 <ondown>50</ondown>
                 <onleft>200</onleft>
                 <onright condition="Window.IsActive(videoversion)">101</onright>
                 <visible>ControlGroup(200).HasFocus(201)</visible>
-                <itemlayout height="69" width="400">
+                <itemlayout height="69" width="400" condition="Window.IsActive(videoversion)">
                     <control type="label">
                         <left>30</left>
                         <right>30</right>
@@ -5052,18 +5053,20 @@
                         <info>ListItem.Label</info>
                     </control>
                 </itemlayout>
-                <focusedlayout height="69" width="400">
+                <focusedlayout height="69" width="400" condition="Window.IsActive(videoversion)">
                     <control type="image">
                         <left>0</left>
                         <right>0</right>
                         <height>66</height>
                         <texture border="5" colordiffuse="$VAR[ColorSelectOtherBar]">common/white.png</texture>
+                        <visible>Control.HasFocus(50) | ControlGroup(101).HasFocus()</visible>
                     </control>
                     <control type="image">
                         <left>0</left>
                         <right>0</right>
                         <height>66</height>
                         <texture border="8" colordiffuse="$VAR[ColorHighlightOtherBar]">common/gradient-box-wide.png</texture>
+                        <visible>Control.HasFocus(50) | ControlGroup(101).HasFocus()</visible>
                     </control>
                     <control type="label">
                         <left>30</left>
@@ -5073,20 +5076,78 @@
                         <aligny>center</aligny>
                         <textcolor>Selected</textcolor>
                         <info>ListItem.Label</info>
+                        <visible>Control.HasFocus(50)</visible>
+                    </control>
+                    <control type="label">
+                        <left>30</left>
+                        <right>30</right>
+                        <height>66</height>
+                        <font>Small</font>
+                        <aligny>center</aligny>
+                        <textcolor>Black70</textcolor>
+                        <info>ListItem.Label</info>
+                        <visible>!Control.HasFocus(50)</visible>
+                    </control>
+                </focusedlayout>
+                <itemlayout height="69" width="698" condition="!Window.IsActive(videoversion)">
+                    <control type="label">
+                        <left>30</left>
+                        <right>30</right>
+                        <font>Small</font>
+                        <textcolor>Black70</textcolor>
+                        <height>66</height>
+                        <aligny>center</aligny>
+                        <info>ListItem.Label</info>
+                    </control>
+                </itemlayout>
+                <focusedlayout height="69" width="698" condition="!Window.IsActive(videoversion)">
+                    <control type="image">
+                        <left>0</left>
+                        <right>0</right>
+                        <height>66</height>
+                        <texture border="5" colordiffuse="$VAR[ColorSelectOtherBar]">common/white.png</texture>
+                        <visible>Control.HasFocus(50) | ControlGroup(101).HasFocus()</visible>
+                    </control>
+                    <control type="image">
+                        <left>0</left>
+                        <right>0</right>
+                        <height>66</height>
+                        <texture border="8" colordiffuse="$VAR[ColorHighlightOtherBar]">common/gradient-box-wide.png</texture>
+                        <visible>Control.HasFocus(50) | ControlGroup(101).HasFocus()</visible>
+                    </control>
+                    <control type="label">
+                        <left>30</left>
+                        <right>30</right>
+                        <height>66</height>
+                        <font>Small</font>
+                        <aligny>center</aligny>
+                        <textcolor>Selected</textcolor>
+                        <info>ListItem.Label</info>
+                        <visible>Control.HasFocus(50)</visible>
+                    </control>
+                    <control type="label">
+                        <left>30</left>
+                        <right>30</right>
+                        <height>66</height>
+                        <font>Small</font>
+                        <aligny>center</aligny>
+                        <textcolor>Black70</textcolor>
+                        <info>ListItem.Label</info>
+                        <visible>!Control.HasFocus(50)</visible>
                     </control>
                 </focusedlayout>
             </control>
             <control type="list" id="51">
-                <left>312</left>
+                <left>311</left>
                 <top>20</top>
-                <width>400</width>
+                <width>800</width>
                 <height>483</height>
                 <onup>50</onup>
                 <ondown>50</ondown>
                 <onleft>200</onleft>
                 <onright condition="Window.IsActive(videoversion)">101</onright>
                 <visible>ControlGroup(200).HasFocus(202)</visible>
-                <itemlayout height="69" width="400">
+                <itemlayout height="69" width="400" condition="Window.IsActive(videoversion)">
                     <control type="label">
                         <left>30</left>
                         <right>30</right>
@@ -5097,18 +5158,20 @@
                         <info>ListItem.Label</info>
                     </control>
                 </itemlayout>
-                <focusedlayout height="69" width="400">
+                <focusedlayout height="69" width="400" condition="Window.IsActive(videoversion)">
                     <control type="image">
                         <left>0</left>
                         <right>0</right>
                         <height>66</height>
                         <texture border="5" colordiffuse="$VAR[ColorSelectOtherBar]">common/white.png</texture>
+                        <visible>Control.HasFocus(51) | ControlGroup(101).HasFocus()</visible>
                     </control>
                     <control type="image">
                         <left>0</left>
                         <right>0</right>
                         <height>66</height>
                         <texture border="8" colordiffuse="$VAR[ColorHighlightOtherBar]">common/gradient-box-wide.png</texture>
+                        <visible>Control.HasFocus(51) | ControlGroup(101).HasFocus()</visible>
                     </control>
                     <control type="label">
                         <left>30</left>
@@ -5118,6 +5181,64 @@
                         <aligny>center</aligny>
                         <textcolor>Selected</textcolor>
                         <info>ListItem.Label</info>
+                        <visible>Control.HasFocus(51)</visible>
+                    </control>
+                    <control type="label">
+                        <left>30</left>
+                        <right>30</right>
+                        <height>66</height>
+                        <font>Small</font>
+                        <aligny>center</aligny>
+                        <textcolor>Black70</textcolor>
+                        <info>ListItem.Label</info>
+                        <visible>!Control.HasFocus(51)</visible>
+                    </control>
+                </focusedlayout>
+                <itemlayout height="69" width="698" condition="!Window.IsActive(videoversion)">
+                    <control type="label">
+                        <left>30</left>
+                        <right>30</right>
+                        <font>Small</font>
+                        <textcolor>Black70</textcolor>
+                        <height>66</height>
+                        <aligny>center</aligny>
+                        <info>ListItem.Label</info>
+                    </control>
+                </itemlayout>
+                <focusedlayout height="69" width="698" condition="!Window.IsActive(videoversion)">
+                    <control type="image">
+                        <left>0</left>
+                        <right>0</right>
+                        <height>66</height>
+                        <texture border="5" colordiffuse="$VAR[ColorSelectOtherBar]">common/white.png</texture>
+                        <visible>Control.HasFocus(51) | ControlGroup(101).HasFocus()</visible>
+                    </control>
+                    <control type="image">
+                        <left>0</left>
+                        <right>0</right>
+                        <height>66</height>
+                        <texture border="8" colordiffuse="$VAR[ColorHighlightOtherBar]">common/gradient-box-wide.png</texture>
+                        <visible>Control.HasFocus(51) | ControlGroup(101).HasFocus()</visible>
+                    </control>
+                    <control type="label">
+                        <left>30</left>
+                        <right>30</right>
+                        <height>66</height>
+                        <font>Small</font>
+                        <aligny>center</aligny>
+                        <textcolor>Selected</textcolor>
+                        <info>ListItem.Label</info>
+                        <visible>Control.HasFocus(51)</visible>
+                    </control>
+                    <control type="label">
+                        <left>30</left>
+                        <right>30</right>
+                        <height>66</height>
+                        <font>Small</font>
+                        <aligny>center</aligny>
+                        <textcolor>Black70</textcolor>
+                        <info>ListItem.Label</info>
+                        <visible>!Control.HasFocus(51)</visible>
                     </control>
                 </focusedlayout>
             </control>
@@ -5128,7 +5249,7 @@
             <right>10</right>
             <font>Tiny</font>
             <height>50</height>
-            <top>718</top>
+            <top>720</top>
             <align>right</align>
             <textcolor>Black70</textcolor>
             <label>$VAR[VideoVersionFileVar]</label>
