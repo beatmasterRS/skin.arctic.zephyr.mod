@@ -72,6 +72,14 @@
         <value condition="!String.IsEmpty(Skin.String(focuscolorotherbar.name))">$INFO[Skin.String(focuscolorotherbar.name)]</value>
         <value>$VAR[ColorSelectOtherBar]</value>
     </variable>
+    
+    <variable name="ColorIndicatorBackgroundSwitch">
+        <value condition="!ListItem.IsResumable + !$EXP[IsTVShowInProgress] + !ListItem.IsPlaying + String.IsEqual(ListItem.Overlay,OverlayWatched.png) + !Skin.HasSetting(hide.markers.watched)">$VAR[ColorIndicatorBackgroundWatched]</value>
+        <value condition="[ListItem.IsResumable | $EXP[IsTVShowInProgress]] + !ListItem.IsPlaying + !Skin.HasSetting(hide.markers.inprogress)">$VAR[ColorIndicatorBackgroundInprogress]</value>
+        <value condition="ListItem.IsPlaying + !Skin.HasSetting(hide.markers.isplaying)">$VAR[ColorIndicatorBackgroundIsPlaying]</value>
+        <value condition="!ListItem.IsResumable + !$EXP[IsTVShowInProgress] + !ListItem.IsPlaying + [[String.IsEqual(ListItem.Overlay,OverlayUnwatched.png) + [$EXP[IsNewMovie] | $EXP[IsNewTVShow] | $EXP[IsNewEpisode]]]] + !Skin.HasSetting(hide.markers.newcontent)">$VAR[ColorIndicatorBackgroundNew]</value>
+        <value condition="![!ListItem.IsResumable + !$EXP[IsTVShowInProgress] + !ListItem.IsPlaying + [[String.IsEqual(ListItem.Overlay,OverlayUnwatched.png) + [$EXP[IsNewMovie] | $EXP[IsNewTVShow] | $EXP[IsNewEpisode]]]] + !Skin.HasSetting(hide.markers.newcontent)] + [ListItem.HasVideoVersions + !Skin.HasSetting(hide.markers.versions)]">$VAR[ColorIndicatorBackgroundInprogress]</value>
+    </variable>
 
     <variable name="ColorIndicatorBackgroundWatched">
         <value condition="String.IsEqual(Skin.String(indicatorcolorbackgroundwatched.name),none)">FF294B89</value>
@@ -3487,40 +3495,12 @@
                  <top>8</top>
                  <width>100</width>
                  <height>100</height>
-                 <texture colordiffuse="$VAR[ColorIndicatorBackgroundIsPlaying]" background="true">misc/overlaywatched.png</texture>
-                 <visible>ListItem.IsPlaying + !Skin.HasSetting(hide.markers.isplaying)</visible>
-            </control>
-            <control type="image">
-                 <right>8</right>
-                 <top>8</top>
-                 <width>100</width>
-                 <height>100</height>
-                 <texture colordiffuse="$VAR[ColorIndicatorBackgroundInprogress]" background="true">misc/overlaywatched.png</texture>
-                 <visible>[ListItem.IsResumable | $EXP[IsTVShowInProgress]] + !ListItem.IsPlaying + !Skin.HasSetting(hide.markers.inprogress)</visible>
-            </control>
-            <control type="image">
-                 <right>8</right>
-                 <top>8</top>
-                 <width>100</width>
-                 <height>100</height>
-                 <texture colordiffuse="$VAR[ColorIndicatorBackgroundWatched]" background="true">misc/overlaywatched.png</texture>
-                 <visible>!ListItem.IsResumable + !$EXP[IsTVShowInProgress] + !ListItem.IsPlaying + String.IsEqual(ListItem.Overlay,OverlayWatched.png) + !Skin.HasSetting(hide.markers.watched)</visible>
-            </control>
-            <control type="image">
-                 <right>8</right>
-                 <top>8</top>
-                 <width>100</width>
-                 <height>100</height>
-                 <texture colordiffuse="$VAR[ColorIndicatorBackgroundNew]" background="true">misc/overlaywatched.png</texture>
-                 <visible>!ListItem.IsResumable + !$EXP[IsTVShowInProgress] + !ListItem.IsPlaying + [[String.IsEqual(ListItem.Overlay,OverlayUnwatched.png) + [$EXP[IsNewMovie] | $EXP[IsNewTVShow] | $EXP[IsNewEpisode]]]] + !Skin.HasSetting(hide.markers.newcontent)</visible>
-            </control>
-            <control type="image">
-                 <right>8</right>
-                 <top>8</top>
-                 <width>100</width>
-                 <height>100</height>
-                 <texture colordiffuse="$VAR[ColorIndicatorBackgroundInprogress]" background="true">misc/overlaywatched.png</texture>
-                 <visible>![!ListItem.IsResumable + !$EXP[IsTVShowInProgress] + !ListItem.IsPlaying + [[String.IsEqual(ListItem.Overlay,OverlayUnwatched.png) + [$EXP[IsNewMovie] | $EXP[IsNewTVShow] | $EXP[IsNewEpisode]]]] + !Skin.HasSetting(hide.markers.newcontent)] + [ListItem.HasVideoVersions + !Skin.HasSetting(hide.markers.versions)]</visible>
+                 <texture colordiffuse="$VAR[ColorIndicatorBackgroundSwitch]" background="true">misc/overlaywatched.png</texture>
+                 <visible>[ListItem.IsPlaying + !Skin.HasSetting(hide.markers.isplaying)] |
+                 [[ListItem.IsResumable | $EXP[IsTVShowInProgress]] + !ListItem.IsPlaying + !Skin.HasSetting(hide.markers.inprogress)] | 
+                 [!ListItem.IsResumable + !$EXP[IsTVShowInProgress] + !ListItem.IsPlaying + String.IsEqual(ListItem.Overlay,OverlayWatched.png) + !Skin.HasSetting(hide.markers.watched)] | 
+                 [!ListItem.IsResumable + !$EXP[IsTVShowInProgress] + !ListItem.IsPlaying + [[String.IsEqual(ListItem.Overlay,OverlayUnwatched.png) + [$EXP[IsNewMovie] | $EXP[IsNewTVShow] | $EXP[IsNewEpisode]]]] + !Skin.HasSetting(hide.markers.newcontent)] | 
+                 [![!ListItem.IsResumable + !$EXP[IsTVShowInProgress] + !ListItem.IsPlaying + [[String.IsEqual(ListItem.Overlay,OverlayUnwatched.png) + [$EXP[IsNewMovie] | $EXP[IsNewTVShow] | $EXP[IsNewEpisode]]]] + !Skin.HasSetting(hide.markers.newcontent)] + [ListItem.HasVideoVersions + !Skin.HasSetting(hide.markers.versions)]]</visible>
             </control>
             <control type="label">
                  <right>-9</right>
