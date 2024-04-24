@@ -140,22 +140,23 @@
     <variable name="IndicatorFlagLabel">
         <value condition="Skin.HasSetting(hide.markers) | [ListItem.IsPlaying + !Skin.HasSetting(hide.markers.isplaying)]"></value>
         <value condition="[ListItem.IsResumable | $EXP[IsTVShowInProgress]] + Skin.HasSetting(hide.markers.inprogress)"></value>
-        <value condition="ListItem.IsResumable">$VAR[IndicatorFlagLabelIsResumable]</value>
-        <value condition="$EXP[IsTVShowInProgress]">$VAR[IndicatorFlagLabelIsTVShowInProgress]</value>
+        <value condition="ListItem.IsResumable + !$EXP[IsNewTVShow]">$VAR[IndicatorFlagLabelIsResumable]</value>
         <value condition="String.IsEqual(ListItem.Overlay,OverlayWatched.png) + Skin.HasSetting(hide.markers.watched)"></value>
         <value condition="String.IsEqual(ListItem.Overlay,OverlayWatched.png)">$LOCALIZE[31493]</value>
         <value condition="String.IsEqual(ListItem.Overlay,OverlayUnwatched.png) + [$EXP[IsNewMovie] | $EXP[IsNewTVShow] | $EXP[IsNewEpisode]] + !Skin.HasSetting(hide.markers.newcontent)">$LOCALIZE[31494]</value>
     </variable>
 
     <variable name="IndicatorFlagLabelIsResumable">
-        <value condition="Skin.HasSetting(markers.inprogress.percentage) + !String.IsEmpty(ListItem.PercentPlayed)">$INFO[ListItem.PercentPlayed,,%]</value>
+        <value condition="$EXP[IsTVShowInProgress]">$VAR[IndicatorFlagLabelIsTVShowInProgress]</value>
+        <value condition="Skin.HasSetting(markers.inprogress.percentage) + !String.IsEmpty(ListItem.PercentPlayed) + !String.IsEqual(ListItem.PercentPlayed,0)">$INFO[ListItem.PercentPlayed,,%]</value>
         <value>$LOCALIZE[31492]</value>
     </variable>
     
     <variable name="IndicatorFlagLabelIsTVShowInProgress">
+        <value condition="Skin.HasSetting(markers.inprogress.percentage) + !String.IsEmpty(ListItem.Property(WatchedEpisodePercent)) + !String.IsEqual(ListItem.Property(WatchedEpisodePercent),0)">$INFO[ListItem.Property(WatchedEpisodePercent),,%]</value>
         <value condition="Skin.HasSetting(markers.inprogress.tvshow.label)">$LOCALIZE[31492]</value>
-        <value condition="Skin.HasSetting(markers.inprogress.percentage) + !String.IsEmpty(ListItem.Property(WatchedEpisodePercent))">$INFO[ListItem.Property(WatchedEpisodePercent),,%]</value>
-        <value>$INFO[ListItem.Property(WatchedEpisodes)]/$INFO[ListItem.Property(TotalEpisodes)]</value>
+        <value condition="!Skin.HasSetting(markers.inprogress.tvshow.label) + !String.IsEqual(ListItem.Property(WatchedEpisodes),0)">$INFO[ListItem.Property(WatchedEpisodes)]/$INFO[ListItem.Property(TotalEpisodes)]</value>
+        <value>$LOCALIZE[31492]</value>
     </variable>
     
     <variable name="WatchedLabelPoster301">
