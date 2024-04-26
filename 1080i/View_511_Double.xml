@@ -17,10 +17,6 @@
             <pagecontrol>1691</pagecontrol>
             <viewtype label="31081">list</viewtype>
             <include>ScrolltimeViewsList</include>
-            <onfocus condition="Skin.HasSetting(home.netflix.autoplay.trailer)">ClearProperty(TrailerIsPlayingFullscreen,home)</onfocus>
-            <onfocus condition="Skin.HasSetting(home.netflix.autoplay.trailer)">SetProperty(TrailerWindowBuiltinView,1,home)</onfocus>
-            <onunfocus condition="Skin.HasSetting(home.netflix.autoplay.trailer)">ClearProperty(listitem.trailer,home)</onunfocus>
-            <onunfocus condition="Skin.HasSetting(home.netflix.autoplay.trailer)">ClearProperty(TrailerWindowBuiltinView,home)</onunfocus>
             <itemlayout height="286" width="185">
                 <control type="group">
                     <height>275</height>
@@ -69,6 +65,7 @@
                 <control type="group">
                     <include>56focuslayout</include>
                 </control>
+                <include condition="Skin.HasSetting(home.netflix.autoplay.trailer)">SetAutoTrailerControl</include>
             </focusedlayout>
             <itemlayout condition="Skin.HasSetting(511ListInfo)" width="720" height="90">
                 <include>56itemlayout_info</include>
@@ -76,6 +73,7 @@
             <focusedlayout condition="Skin.HasSetting(511ListInfo)" width="720" height="90">
                 <control type="group">
                     <include>56focuslayout_info</include>
+                    <include condition="Skin.HasSetting(home.netflix.autoplay.trailer)">SetAutoTrailerControl</include>
                 </control>
             </focusedlayout>
         </control>
@@ -87,7 +85,11 @@
             <include>Animation.Common</include>
             <!--<include>JumpBarHorizontal</include>-->
             <include>ViewSlideForJumpBar</include>
-            <visible>Control.IsVisible(511)</visible>
+            <visible>Control.IsVisible(511)</visible>   
+            <onfocus condition="Skin.HasSetting(home.netflix.autoplay.trailer)">ClearProperty(TrailerIsPlayingFullscreen,home)</onfocus>
+            <onfocus condition="Skin.HasSetting(home.netflix.autoplay.trailer)">SetProperty(TrailerWindowBuiltinView,1,home)</onfocus>
+            <onunfocus condition="Skin.HasSetting(home.netflix.autoplay.trailer)">ClearProperty(listitem.trailer,home)</onunfocus>
+            <onunfocus condition="Skin.HasSetting(home.netflix.autoplay.trailer)">ClearProperty(TrailerWindowBuiltinView,home)</onunfocus>            
             <control type="group">
                 <width>1920</width>
                 <left>0</left>
@@ -143,19 +145,11 @@
                     <texture diffuse="diffuse/widgetfanart_new.png" background="true">$VAR[FanartImageFanart]</texture>
                     <include>Animation.AutoTrailer.FadeOut.Background</include>
                 </control>
-                <control type="videowindow">
-                    <visible>$EXP[TrailerWindowIsActive] + !$EXP[ExtendedNowPlayingIsVisible]</visible>
-                    <width>639</width>
-                    <height>359</height>
-                    <top>10</top>
-                    <animation effect="slide" start="0,0" end="0,-90" time="0" condition="Skin.HasSetting(home.netflix.autoplay.trailer.custom.window.force)">Conditional</animation>
-                    <animation effect="slide" start="0,0" end="0,-50" time="0" condition="Skin.HasSetting(home.netflix.autoplay.trailer.custom.window) + String.IsEqual(VideoPlayer.VideoAspect,1.85) + !String.IsEmpty(VideoPlayer.VideoAspect)">Conditional</animation>
-                    <animation effect="slide" start="0,0" end="0,-90" time="0" condition="Skin.HasSetting(home.netflix.autoplay.trailer.custom.window) + !String.IsEqual(VideoPlayer.VideoAspect,1.85) + !String.IsEqual(VideoPlayer.VideoAspect,1.78) + !String.IsEqual(VideoPlayer.VideoAspect,1.66) + !String.IsEqual(VideoPlayer.VideoAspect,1.37) + !String.IsEqual(VideoPlayer.VideoAspect,1.33) + !String.IsEmpty(VideoPlayer.VideoAspect)">Conditional</animation>
-                    <animation type="WindowClose" reversible="false">
-                        <effect type="zoom" center="auto" start="100" end="0" time="0" />
-                    </animation>
-                </control>
-
+                <include content="View_511_BuiltinTrailer">
+                    <param name="top" value="10"/>
+                    <param name="width" value="639"/>
+                    <param name="height" value="359"/>
+                </include>
                 <control type="image">
                     <left>-1</left>
                     <top>9</top>
@@ -214,7 +208,13 @@
                         <fadetime>PosterFanartFadetime</fadetime>
                         <aspectratio aligny="center" align="center" scalediffuse="false">scale</aspectratio>
                         <texture diffuse="diffuse/widgetfanart_new.png" background="true">$VAR[FanartImageFanart]</texture>
+                        <include>Animation.AutoTrailer.FadeOut.Background</include>
                     </control>
+                    <include content="View_511_BuiltinTrailer">
+                        <param name="top" value="10"/>
+                        <param name="width" value="720"/>
+                        <param name="height" value="404"/>
+                    </include>
                     <control type="image">
                         <left>-1</left>
                         <top>9</top>
@@ -345,7 +345,13 @@
                     <fadetime>PosterFanartFadetime</fadetime>
                     <aspectratio aligny="center" align="center" scalediffuse="false">scale</aspectratio>
                     <texture diffuse="diffuse/widgetfanart_new.png" background="true">$VAR[FanartImageFanart]</texture>
+                    <include>Animation.AutoTrailer.FadeOut.Background</include>
                 </control>
+                <include content="View_511_BuiltinTrailer">
+                    <param name="top" value="10"/>
+                    <param name="width" value="1022"/>
+                    <param name="height" value="538"/>
+                </include>
                 <control type="image">
                     <left>-1</left>
                     <top>9</top>
@@ -375,5 +381,25 @@
                 </include>
             </control>
         </control>
+    </include>
+
+    <include name="View_511_BuiltinTrailer">
+        <param name="top" value="$PARAM[top]" default="10"/>
+        <param name="width" value="$PARAM[width]" default="639"/>
+        <param name="height" value="$PARAM[height]" default="359"/>
+        <definition>
+            <control type="videowindow">
+                <visible>$EXP[TrailerWindowIsActive] + !$EXP[ExtendedNowPlayingIsVisible]</visible>
+                <width>$PARAM[width]</width>
+                <height>$PARAM[height]</height>
+                <top>$PARAM[top]</top>
+                <animation effect="slide" start="0,0" end="0,-90" time="0" condition="Skin.HasSetting(home.netflix.autoplay.trailer.custom.window.force)">Conditional</animation>
+                <animation effect="slide" start="0,0" end="0,-50" time="0" condition="Skin.HasSetting(home.netflix.autoplay.trailer.custom.window) + String.IsEqual(VideoPlayer.VideoAspect,1.85) + !String.IsEmpty(VideoPlayer.VideoAspect)">Conditional</animation>
+                <animation effect="slide" start="0,0" end="0,-90" time="0" condition="Skin.HasSetting(home.netflix.autoplay.trailer.custom.window) + !String.IsEqual(VideoPlayer.VideoAspect,1.85) + !String.IsEqual(VideoPlayer.VideoAspect,1.78) + !String.IsEqual(VideoPlayer.VideoAspect,1.66) + !String.IsEqual(VideoPlayer.VideoAspect,1.37) + !String.IsEqual(VideoPlayer.VideoAspect,1.33) + !String.IsEmpty(VideoPlayer.VideoAspect)">Conditional</animation>
+                <animation type="WindowClose" reversible="false">
+                    <effect type="zoom" center="auto" start="100" end="0" time="0" />
+                </animation>
+            </control>
+        </definition>
     </include>
 </includes>
