@@ -89,7 +89,7 @@
     <expression name="MusicSeekbarIsVisible">!Window.IsVisible(musicosd) + [Player.ShowInfo | Player.Seeking | Player.HasPerformedSeek(3) | Player.Paused | Player.Forwarding | Player.Rewinding]</expression>
     <expression name="VideoOSDShort">!String.IsEmpty(Window(home).Property(osdshowinfo)) | [Player.ShowInfo | !String.IsEmpty(Window(home).Property(osdinfo))] | [Window.IsVisible(videoosd) + Window.IsVisible(DialogFullScreenInfo.xml)]</expression>
     <expression name="VideoOSDWide">String.IsEmpty(Window(home).Property(osdshowinfo)) + String.IsEmpty(Window(home).Property(osdinfo)) + !Player.ShowInfo + ![Window.IsVisible(videoosd) + Window.IsVisible(DialogFullScreenInfo.xml)]</expression>
-    <expression name="TrailerWindowIsActive">Skin.HasSetting(home.netflix.autoplay.trailer) + [[Window.IsVisible(Home.xml) + [$EXP[HomeIsModernMultiWidgetsNetflix] | $EXP[HomeIsCleanMinimal] | $EXP[HomeIsVerticalMultiWidgetsNetflix]]] | Control.IsVisible(521) | Control.IsVisible(522) | Control.IsVisible(510)] + !Window.IsVisible(DialogVideoInfo.xml) + String.IsEqual(Window(home).Property(TrailerPath2),Player.FileNameAndPath) + !String.IsEmpty(Player.FileNameAndPath)</expression>
+    <expression name="TrailerWindowIsActive">Skin.HasSetting(home.netflix.autoplay.trailer) + [[Window.IsVisible(Home.xml) + [$EXP[HomeIsModernMultiWidgetsNetflix] | $EXP[HomeIsCleanMinimal] | $EXP[HomeIsVerticalMultiWidgetsNetflix]]] | Control.IsVisible(521) | Control.IsVisible(522) | Control.IsVisible(510) | Control.IsVisible(511)] + !Window.IsVisible(DialogVideoInfo.xml) + String.IsEqual(Window(home).Property(TrailerPath2),Player.FileNameAndPath) + !String.IsEmpty(Player.FileNameAndPath)</expression>
     <expression name="TrailerIsReady">Skin.HasSetting(home.netflix.autoplay.trailer) + [Window.IsVisible(Home.xml) | Window.IsVisible(MyVideoNav.xml) | $EXP[InGameMode]] + !Control.HasFocus(300) + !Player.HasMedia + !String.IsEmpty(Window(home).Property(listitem.trailer)) + !System.HasVisibleModalDialog + !Window.IsVisible(script-globalsearch.xml) + !String.IsEqual(Window(home).Property(TrailerPath),Window(home).Property(listitem.trailer)) + !System.IdleTime(30)</expression>
     <expression name="TrailerWaitingForPlayer">!String.IsEmpty(Window(home).Property(TrailerPath2)) + !String.IsEmpty(Window(home).Property(TrailerPath)) + String.IsEmpty(Player.FileNameAndPath)</expression>
     <expression name="TrailerIsPlaying">String.IsEqual(Window(home).Property(TrailerPath2),Player.FileNameAndPath) + !String.IsEmpty(Player.FileNameAndPath)</expression>
@@ -910,7 +910,7 @@
         </control>
 
         <!-- Trailer Window Home -->
-        <include condition="Skin.HasSetting(home.netflix.autoplay.trailer)">TrailerWindow</include>
+        <include condition="Skin.HasSetting(home.netflix.autoplay.trailer) + String.IsEmpty(Window(home).Property(TrailerWindowBuiltinView))">TrailerWindow</include>
 
         <!-- Global Fanart -->
         <control type="multiimage" description="Fanart">

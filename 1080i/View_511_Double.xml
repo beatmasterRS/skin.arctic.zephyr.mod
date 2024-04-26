@@ -3,8 +3,6 @@
 <includes>
 
     <include name="DoubleView511">
-        <onunfocus condition="Skin.HasSetting(home.netflix.autoplay.trailer)">ClearProperty(listitem.trailer,home)</onunfocus>
-        <onfocus condition="Skin.HasSetting(home.netflix.autoplay.trailer)">ClearProperty(TrailerIsPlayingFullscreen,home)</onfocus>
         <control type="panel" id="511">
             <animation effect="slide" start="0,0" end="1040,0" time="200" condition="Skin.HasSetting(flip511rightleft)">Conditional</animation>
             <visible>$EXP[InGameMode] | Container.Content(musicvideos) | Container.Content(movies) | Container.Content(tvshows) | Container.Content(seasons) | Container.Content(sets) | Container.Content(videos)</visible>
@@ -19,6 +17,10 @@
             <pagecontrol>1691</pagecontrol>
             <viewtype label="31081">list</viewtype>
             <include>ScrolltimeViewsList</include>
+            <onfocus condition="Skin.HasSetting(home.netflix.autoplay.trailer)">ClearProperty(TrailerIsPlayingFullscreen,home)</onfocus>
+            <onfocus condition="Skin.HasSetting(home.netflix.autoplay.trailer)">SetProperty(TrailerWindowBuiltinView,1,home)</onfocus>
+            <onunfocus condition="Skin.HasSetting(home.netflix.autoplay.trailer)">ClearProperty(listitem.trailer,home)</onunfocus>
+            <onunfocus condition="Skin.HasSetting(home.netflix.autoplay.trailer)">ClearProperty(TrailerWindowBuiltinView,home)</onunfocus>
             <itemlayout height="286" width="185">
                 <control type="group">
                     <height>275</height>
@@ -139,15 +141,19 @@
                     <fadetime>PosterFanartFadetime</fadetime>
                     <aspectratio aligny="center" align="center" scalediffuse="false">scale</aspectratio>
                     <texture diffuse="diffuse/widgetfanart_new.png" background="true">$VAR[FanartImageFanart]</texture>
+                    <include>Animation.AutoTrailer.FadeOut.Background</include>
                 </control>
-                <control type="image">
-                    <description>Trailer</description>
+                <control type="videowindow">
+                    <visible>$EXP[TrailerWindowIsActive] + !$EXP[ExtendedNowPlayingIsVisible]</visible>
                     <width>639</width>
                     <height>359</height>
                     <top>10</top>
-                    <fadetime>PosterFanartFadetime</fadetime>
-                    <aspectratio aligny="center" align="center" scalediffuse="false">scale</aspectratio>
-                    <texture diffuse="diffuse/widgetfanart_new.png" background="true">$VAR[FanartImageFanart]</texture>
+                    <animation effect="slide" start="0,0" end="0,-90" time="0" condition="Skin.HasSetting(home.netflix.autoplay.trailer.custom.window.force)">Conditional</animation>
+                    <animation effect="slide" start="0,0" end="0,-50" time="0" condition="Skin.HasSetting(home.netflix.autoplay.trailer.custom.window) + String.IsEqual(VideoPlayer.VideoAspect,1.85) + !String.IsEmpty(VideoPlayer.VideoAspect)">Conditional</animation>
+                    <animation effect="slide" start="0,0" end="0,-90" time="0" condition="Skin.HasSetting(home.netflix.autoplay.trailer.custom.window) + !String.IsEqual(VideoPlayer.VideoAspect,1.85) + !String.IsEqual(VideoPlayer.VideoAspect,1.78) + !String.IsEqual(VideoPlayer.VideoAspect,1.66) + !String.IsEqual(VideoPlayer.VideoAspect,1.37) + !String.IsEqual(VideoPlayer.VideoAspect,1.33) + !String.IsEmpty(VideoPlayer.VideoAspect)">Conditional</animation>
+                    <animation type="WindowClose" reversible="false">
+                        <effect type="zoom" center="auto" start="100" end="0" time="0" />
+                    </animation>
                 </control>
 
                 <control type="image">
