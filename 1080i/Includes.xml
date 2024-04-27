@@ -89,7 +89,7 @@
     <expression name="MusicSeekbarIsVisible">!Window.IsVisible(musicosd) + [Player.ShowInfo | Player.Seeking | Player.HasPerformedSeek(3) | Player.Paused | Player.Forwarding | Player.Rewinding]</expression>
     <expression name="VideoOSDShort">!String.IsEmpty(Window(home).Property(osdshowinfo)) | [Player.ShowInfo | !String.IsEmpty(Window(home).Property(osdinfo))] | [Window.IsVisible(videoosd) + Window.IsVisible(DialogFullScreenInfo.xml)]</expression>
     <expression name="VideoOSDWide">String.IsEmpty(Window(home).Property(osdshowinfo)) + String.IsEmpty(Window(home).Property(osdinfo)) + !Player.ShowInfo + ![Window.IsVisible(videoosd) + Window.IsVisible(DialogFullScreenInfo.xml)]</expression>
-    <expression name="TrailerWindowIsActive">Skin.HasSetting(home.netflix.autoplay.trailer) + [[Window.IsVisible(Home.xml) + [$EXP[HomeIsModernMultiWidgetsNetflix] | $EXP[HomeIsCleanMinimal] | $EXP[HomeIsVerticalMultiWidgetsNetflix]]] | Control.IsVisible(521) | Control.IsVisible(522) | Control.IsVisible(510) | Control.IsVisible(511)] + !Window.IsVisible(DialogVideoInfo.xml) + String.IsEqual(Window(home).Property(TrailerPath2),Player.FileNameAndPath) + !String.IsEmpty(Player.FileNameAndPath)</expression>
+    <expression name="TrailerWindowIsActive">Skin.HasSetting(home.netflix.autoplay.trailer) + [[Window.IsVisible(Home.xml) + [$EXP[HomeIsModernMultiWidgetsNetflix] | $EXP[HomeIsCleanMinimal] | $EXP[HomeIsVerticalMultiWidgetsNetflix]]] | Control.IsVisible(521) | Control.IsVisible(522) | Control.IsVisible(510) | Control.IsVisible(511) | Control.IsVisible(512)] + !Window.IsVisible(DialogVideoInfo.xml) + String.IsEqual(Window(home).Property(TrailerPath2),Player.FileNameAndPath) + !String.IsEmpty(Player.FileNameAndPath)</expression>
     <expression name="TrailerWindowIsBuiltinCurrentView">!String.IsEmpty(Window(home).Property(TrailerWindowBuiltinView))</expression>
     <expression name="TrailerIsReady">Skin.HasSetting(home.netflix.autoplay.trailer) + [Window.IsVisible(Home.xml) | Window.IsVisible(MyVideoNav.xml) | $EXP[InGameMode]] + !Control.HasFocus(300) + !Player.HasMedia + !String.IsEmpty(Window(home).Property(listitem.trailer)) + !System.HasVisibleModalDialog + !Window.IsVisible(script-globalsearch.xml) + !String.IsEqual(Window(home).Property(TrailerPath),Window(home).Property(listitem.trailer)) + !System.IdleTime(30)</expression>
     <expression name="TrailerWaitingForPlayer">!String.IsEmpty(Window(home).Property(TrailerPath2)) + !String.IsEmpty(Window(home).Property(TrailerPath)) + String.IsEmpty(Player.FileNameAndPath)</expression>
@@ -798,7 +798,24 @@
             <texture colordiffuse="Background">common/trailerwindow.png</texture>
         </control>
     </include>
-    
+
+    <include name="BuiltinTrailerWindow">
+        <param name="top" value="$PARAM[top]" default="10"/>
+        <param name="width" value="$PARAM[width]" default="639"/>
+        <param name="height" value="$PARAM[height]" default="359"/>
+        <definition>
+            <control type="videowindow">
+                <visible>$EXP[TrailerWindowIsActive] + !$EXP[ExtendedNowPlayingIsVisible]</visible>
+                <width>$PARAM[width]</width>
+                <height>$PARAM[height]</height>
+                <top>$PARAM[top]</top>
+                <animation type="WindowClose" reversible="false">
+                    <effect type="zoom" center="auto" start="100" end="0" time="0" />
+                </animation>
+            </control>
+        </definition>
+    </include>
+
     <include name="BlurImageEmbuary">
         <control type="image" id="100000">
             <left>-3000</left>
