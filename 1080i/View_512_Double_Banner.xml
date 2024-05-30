@@ -6,6 +6,10 @@
         <control type="panel" id="512">
             <animation effect="slide" start="0,0" end="675,0" time="200" condition="Skin.HasSetting(flip512rightleft)">Conditional</animation>
             <visible>$EXP[InGameMode] | Container.Content(musicvideos) | Container.Content(movies) | Container.Content(tvshows) | Container.Content(seasons) | Container.Content(sets) | Container.Content(videos)</visible>
+            <onunfocus condition="Skin.HasSetting(home.netflix.autoplay.trailer)">ClearProperty(listitem.trailer,home)</onunfocus>
+            <onunfocus condition="Skin.HasSetting(home.netflix.autoplay.trailer)">ClearProperty(TrailerWindowBuiltinView,home)</onunfocus>            
+            <onfocus condition="Skin.HasSetting(home.netflix.autoplay.trailer)">ClearProperty(TrailerIsPlayingFullscreen,home)</onfocus>
+            <onfocus condition="Skin.HasSetting(home.netflix.autoplay.trailer)">SetProperty(TrailerWindowBuiltinView,1,home)</onfocus>
             <include content="forced_view" condition="Skin.HasSetting(enable.forcedviews)">
                 <param name="string" value="$LOCALIZE[31091]" />
             </include>
@@ -37,6 +41,7 @@
                         <param name="height" value="271"/>
                         <param name="glow_height" value="267"/>
                     </include>
+                    <include condition="Skin.HasSetting(home.netflix.autoplay.trailer)">SetAutoTrailerControl</include>
                 </control>
             </focusedlayout>
         </control>
@@ -46,6 +51,10 @@
         <control type="panel" id="512">
             <animation effect="slide" start="0,0" end="690,0" time="200" condition="Skin.HasSetting(flip512rightleft)">Conditional</animation>
             <visible>$EXP[InGameMode] | Container.Content(musicvideos) | Container.Content(movies) | Container.Content(tvshows) | Container.Content(episodes) | Container.Content(seasons) | Container.Content(sets) | Container.Content(videos)</visible>
+            <onunfocus condition="Skin.HasSetting(home.netflix.autoplay.trailer)">ClearProperty(listitem.trailer,home)</onunfocus>
+            <onunfocus condition="Skin.HasSetting(home.netflix.autoplay.trailer)">ClearProperty(TrailerWindowBuiltinView,home)</onunfocus>            
+            <onfocus condition="Skin.HasSetting(home.netflix.autoplay.trailer)">ClearProperty(TrailerIsPlayingFullscreen,home)</onfocus>
+            <onfocus condition="Skin.HasSetting(home.netflix.autoplay.trailer)">SetProperty(TrailerWindowBuiltinView,1,home)</onfocus>
             <include content="forced_view" condition="Skin.HasSetting(enable.forcedviews)">
                 <param name="string" value="$LOCALIZE[31091]" />
             </include>
@@ -66,6 +75,7 @@
             <focusedlayout condition="!Skin.HasSetting(511ListInfo)" width="1070" height="67.5">
                 <control type="group">
                     <include>56focuslayout</include>
+                    <include condition="Skin.HasSetting(home.netflix.autoplay.trailer)">SetAutoTrailerControl</include>
                 </control>
             </focusedlayout>
             <itemlayout condition="Skin.HasSetting(511ListInfo)" width="1070" height="90">
@@ -74,6 +84,7 @@
             <focusedlayout condition="Skin.HasSetting(511ListInfo)" width="1070" height="90">
                 <control type="group">
                     <include>56focuslayout_info</include>
+                    <include condition="Skin.HasSetting(home.netflix.autoplay.trailer)">SetAutoTrailerControl</include>
                 </control>
             </focusedlayout>
         </control>
@@ -139,7 +150,13 @@
                         <fadetime>PosterFanartFadetime</fadetime>
                         <aspectratio aligny="center" align="center" scalediffuse="false">scale</aspectratio>
                         <texture diffuse="diffuse/widgetfanart_new.png" background="true">$VAR[FanartImageFanart]</texture>
+                        <include>Animation.AutoTrailer.FadeOut.Image</include>
                     </control>
+                    <include content="BuiltinTrailerWindow">
+                        <param name="top" value="14"/>
+                        <param name="width" value="662"/>
+                        <param name="height" value="381"/>
+                    </include>
                     <control type="image">
                         <left>-1</left>
                         <top>13</top>
