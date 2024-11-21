@@ -859,8 +859,30 @@
 
             <!-- WENN PVR NIIIICHT läuft-->
             <visible>!VideoPlayer.Content(LiveTV)</visible>
+            <control type="label">
+                <visible>Player.Seeking</visible>
+                <left>0</left>
+                <include content="def_width" condition="Skin.HasSetting(ClockOSD) + !Skin.HasSetting(osd.usethemeNewOSD)">
+                    <param name="width" value="1140" />
+                </include>
+                <include content="def_width" condition="Skin.HasSetting(ClockOSD) + Skin.HasSetting(osd.usethemeNewOSD)">
+                    <param name="width" value="970" />
+                </include>
+                <include content="def_width" condition="!Skin.HasSetting(osd.usethemeNewOSD)">
+                    <param name="width" value="940" />
+                </include>
+                <include content="def_width" condition="Skin.HasSetting(osd.usethemeNewOSD)">
+                    <param name="width" value="770" />
+                </include>
+                <width>940</width>
+                <bottom>30</bottom>
+                <height>40</height>
+                <font>Tiny</font>
+                <textcolor>$VAR[OSDPanelWhite70]</textcolor>
+                <label>$VAR[PlayerStatus]</label>
+            </control>
             <control type="fadelabel">
-                <visible>!VideoPlayer.Content(episodes)</visible>
+                <visible>!VideoPlayer.Content(episodes) + !Player.Seeking</visible>
                 <left>0</left>
                 <include content="def_width" condition="Skin.HasSetting(ClockOSD) + !Skin.HasSetting(osd.usethemeNewOSD)">
                     <param name="width" value="1140" />
@@ -888,7 +910,7 @@
                 <label>$INFO[Player.FinishTime,$LOCALIZE[31013] ]</label>
             </control>
             <control type="fadelabel">
-                <visible>VideoPlayer.Content(episodes)</visible>
+                <visible>VideoPlayer.Content(episodes) + !Player.Seeking</visible>
                 <left>0</left>
                 <include content="def_width" condition="Skin.HasSetting(ClockOSD) + !Skin.HasSetting(osd.usethemeNewOSD)">
                     <param name="width" value="1140" />
@@ -1074,8 +1096,9 @@
     </include>
 
     <include name="DefOSDUpDown">
-        <onup condition="String.IsEmpty(Window(home).Property(osdshowinfo)) + !Window.IsVisible(MusicOSD.xml)">SetProperty(osdshowinfo,1,home)</onup>
-        <onup condition="!String.IsEmpty(Window(home).Property(osdshowinfo)) + !Window.IsVisible(MusicOSD.xml)">ClearProperty(osdshowinfo,home)</onup>
+        <onup condition="Skin.HasSetting(osd.seekableprogressbar) + !Window.IsVisible(MusicOSD.xml)">2137</onup>
+        <onup condition="String.IsEmpty(Window(home).Property(osdshowinfo)) + !Skin.HasSetting(osd.seekableprogressbar) + !Window.IsVisible(MusicOSD.xml)">SetProperty(osdshowinfo,1,home)</onup>
+        <onup condition="!String.IsEmpty(Window(home).Property(osdshowinfo)) + !Skin.HasSetting(osd.seekableprogressbar) + !Window.IsVisible(MusicOSD.xml)">ClearProperty(osdshowinfo,home)</onup>
         <ondown condition="String.IsEmpty(Window(home).Property(osdshowinfo)) + !Window.IsVisible(MusicOSD.xml)">SetProperty(osdshowinfo,1,home)</ondown>
         <ondown condition="!String.IsEmpty(Window(home).Property(osdshowinfo)) + !Window.IsVisible(MusicOSD.xml)">ClearProperty(osdshowinfo,home)</ondown>
         <onup condition="Window.IsVisible(MusicOSD.xml)">9100</onup>
@@ -1091,6 +1114,21 @@
         <onup>ClearProperty(controlsvisible,home)</onup>
         <ondown>ClearProperty(controlsvisible,home)</ondown>
         <onfocus condition="$EXP[HasHomemenuAutoSlideOutAnimation]">CancelAlarm(slide_out,true)</onfocus>
+    </include>
+
+    <include name="OSDHiddenSeekableProgressBar">
+        <control type="button" id="2137">
+            <visible>Skin.HasSetting(osd.seekableprogressbar) + !Window.IsVisible(MusicOSD.xml)</visible>
+            <include>HiddenButton</include>
+            <onup condition="String.IsEmpty(Window(home).Property(osdshowinfo)) + !Window.IsVisible(MusicOSD.xml)">SetProperty(osdshowinfo,1,home)</onup>
+            <onup condition="!String.IsEmpty(Window(home).Property(osdshowinfo)) + !Window.IsVisible(MusicOSD.xml)">ClearProperty(osdshowinfo,home)</onup>
+            <ondown>$PARAM[osdId]</ondown>
+            <onleft>StepBack</onleft>
+            <onright>StepForward</onright>
+            <onclick>PlayerControl(Play)</onclick>
+            <onfocus>SetProperty(seekableprogressbarfocused,1,home)</onfocus>
+            <onunfocus>ClearProperty(seekableprogressbarfocused,home)</onunfocus>
+        </control>
     </include>
 
     <include name="OSDVideosRight">
@@ -2434,7 +2472,7 @@
     <include name="OSD1">
     
         <!-- Normal -->
-        <control type="group">
+        <control type="group" id="2136">
             <height>74</height>
             <bottom>15</bottom>
             <animation type="WindowOpen">
@@ -2551,12 +2589,15 @@
                 <include condition="VideoPlayer.Content(livetv)">OSDPVRRight</include>
             </control>
         </control>
+        <include content="OSDHiddenSeekableProgressBar">
+            <param name="osdId" value="2136"/>
+        </include>
     </include>
     
     <include name="OSD2">
         
         <!-- New OSD -->
-        <control type="group">
+        <control type="group" id="2136">
             <height>74</height>
             <bottom>110</bottom>
             <animation type="WindowOpen">
@@ -2730,6 +2771,9 @@
                 <include condition="VideoPlayer.Content(livetv)">OSDPVRRightNewOSD</include>
             </control>
         </control>
+        <include content="OSDHiddenSeekableProgressBar">
+            <param name="osdId" value="2136"/>
+        </include>
     </include>
     
     <include name="OSD3">
