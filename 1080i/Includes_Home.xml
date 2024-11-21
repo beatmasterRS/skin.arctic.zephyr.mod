@@ -4074,7 +4074,13 @@
             <width>ClearLogoMaxWidth</width>
             <aspectratio scalediffuse="true" align="left">keep</aspectratio>
             <texture background="true">$INFO[Container($PARAM[id]).ListItem.Art(clearlogo)]</texture>
-            <visible>$PARAM[visible] + Skin.HasSetting(home.netflix.clearlogo) + Skin.HasSetting(homemenu.netflix) + !String.IsEmpty(Container($PARAM[id]).ListItem.Art(clearlogo)) + !Skin.HasSetting(homemenu.clean.flix)</visible>
+            <visible>$PARAM[visible] + Skin.HasSetting(home.netflix.clearlogo) + Skin.HasSetting(homemenu.netflix) + !String.IsEmpty(Container($PARAM[id]).ListItem.Art(clearlogo)) + !Skin.HasSetting(tmdbhelper.enablecrop) + !Skin.HasSetting(homemenu.clean.flix)</visible>
+        </control>
+        <control type="image" description="clearlogo" id="$PARAM[id]38">
+            <height>102</height>
+            <aspectratio scalediffuse="true" align="left">keep</aspectratio>
+            <texture background="true">$INFO[Window(Home).Property(TMDbHelper.ListItem.cropimage)]</texture>
+            <visible>$PARAM[visible] + Skin.HasSetting(home.netflix.clearlogo) + Skin.HasSetting(homemenu.netflix) + [Skin.HasSetting(tmdbhelper.enablecrop) + !String.IsEmpty(Window(Home).Property(TMDbHelper.ListItem.cropimage))] + !Skin.HasSetting(homemenu.clean.flix)</visible>
         </control>
         <control type="label">
             <include content="def_font" condition="Skin.HasSetting(homemenu.netflix)">
@@ -4089,7 +4095,7 @@
             <textcolor>Dark1</textcolor>
             <label>$PARAM[label]</label>
             <include condition="Skin.HasSetting(labels.autoscroll)">LabelScroll</include>
-            <visible>$PARAM[visible] + [[[!Skin.HasSetting(home.netflix.clearlogo) | Skin.HasSetting(homemenu.clean.flix)] | [Skin.HasSetting(home.netflix.clearlogo) + Skin.HasSetting(homemenu.netflix) + String.IsEmpty(Container($PARAM[id]).ListItem.Art(clearlogo))]] | !Skin.HasSetting(homemenu.netflix)]</visible>
+            <visible>$PARAM[visible] + [[[!Skin.HasSetting(home.netflix.clearlogo) | Skin.HasSetting(homemenu.clean.flix)] | [Skin.HasSetting(home.netflix.clearlogo) + Skin.HasSetting(homemenu.netflix) + [[String.IsEmpty(Container($PARAM[id]).ListItem.Art(clearlogo)) + !Skin.HasSetting(tmdbhelper.enablecrop)] | [String.IsEmpty(Window(Home).Property(TMDbHelper.ListItem.cropimage)) + Skin.HasSetting(tmdbhelper.enablecrop)]]]] | !Skin.HasSetting(homemenu.netflix)]</visible>
         </control>
         </definition>
     </include>
