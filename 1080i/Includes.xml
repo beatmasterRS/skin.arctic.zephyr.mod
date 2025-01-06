@@ -132,7 +132,7 @@
     </expression>
     
     <expression name="IsTVShowInProgress">
-        [Container.Content(tvshows) | String.IsEqual(ListItem.DBTYPE,tvshow) | Container.Content(season) | String.IsEqual(ListItem.DBTYPE,season)] + !String.IsEqual(ListItem.Overlay,OverlayWatched.png) + !$EXP[IsNewTVShow] + [!String.IsEqual(ListItem.Property(WatchedEpisodes),ListItem.Property(TotalEpisodes)) | Integer.IsGreater(ListItem.Property(WatchedEpisodes),0)]
+        [Container.Content(tvshows) | String.IsEqual(ListItem.DBTYPE,tvshow) | Container.Content(season) | String.IsEqual(ListItem.DBTYPE,season)] + !String.IsEqual(ListItem.Overlay,OverlayWatched.png) + !$EXP[IsNewTVShow] + [[!String.IsEqual(ListItem.Property(WatchedEpisodes),ListItem.Property(TotalEpisodes)) + !String.IsEqual(ListItem.Property(WatchedEpisodes),0) + !String.IsEmpty(ListItem.Property(WatchedEpisodes))] | Integer.IsGreater(ListItem.Property(WatchedEpisodes),0)]
     </expression>
     
     <expression name="IsTVShowInProgress301">
@@ -1912,9 +1912,9 @@
                 <include content="buttontextures">
                     <param name="icon" value="buttonsdialogs/playcinema.png"/>
                 </include>
-                <onclick>RunScript(script.embuary.helper,action=playcinema,dbid=$INFO[ListItem.DBID],type=$INFO[ListItem.DBType],title='$ESCINFO[ListItem.Title]')</onclick>
+                <onclick>RunScript(script.preshowexperience,dbtype=$INFO[ListItem.DBType],dbid=$INFO[ListItem.DBID])</onclick>
                 <visible>String.IsEqual(ListItem.DBTYPE,movie) | String.IsEqual(ListItem.DBTYPE,episode)</visible>
-                <visible>Skin.HasSetting(hidebutton.video.cinema)</visible>
+                <visible>Skin.HasSetting(hidebutton.video.cinema) + System.AddonIsEnabled(script.preshowexperience)</visible>
             </control>
             <control type="radiobutton" id="7">
                 <onfocus>ClearProperty(moviecontent)</onfocus>
