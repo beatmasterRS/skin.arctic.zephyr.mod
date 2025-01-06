@@ -963,15 +963,6 @@
             <height>64</height>
             <orientation>horizontal</orientation>
             <align>right</align>
-            <control type="label" description="Video Info">
-                <width>auto</width>
-                <align>right</align>
-                <height>40</height>
-                <font>Tiny</font>
-                <textcolor>$VAR[OSDPanelWhite70]</textcolor>
-                <label>$VAR[LabelOSDAudioChannels,,  •  ]$INFO[VideoPlayer.VideoResolution,,]  •  </label>
-                <visible>false</visible>
-            </control>
             <control type="label">
                 <visible>!Skin.HasSetting(ClockOSD)</visible>
                 <width>auto</width>
@@ -1092,13 +1083,14 @@
     </include>
     
     <include name="DefControlsHomeUpDown">
+        <onup condition="Skin.HasSetting(home.extended.nowplaying.tracklist) + Integer.IsGreater(Container(778).NumItems,0) + Player.HasAudio">778</onup>
         <onup>301</onup>
         <ondown>300</ondown>
         <onback>300</onback>
         <onfocus>SetProperty(controlsvisible,1,home)</onfocus>
-        <onunfocus>ClearProperty(controlsvisible,home)</onunfocus>
+        <onup>ClearProperty(controlsvisible,home)</onup>
+        <ondown>ClearProperty(controlsvisible,home)</ondown>
         <onfocus condition="$EXP[HasHomemenuAutoSlideOutAnimation]">CancelAlarm(slide_out,true)</onfocus>
-        <onunfocus condition="$EXP[HasHomemenuAutoSlideOutAnimation]">AlarmClock(slide_out,SetFocus(2011),00:05,silent)</onunfocus>
     </include>
 
     <include name="OSDVideosRight">
@@ -1542,6 +1534,23 @@
     </variable>
 
     <include name="OSDControlsHome">
+        <control type="button" id="25">
+            <description>Skip Back</description>
+            <width>48</width>
+            <height>48</height>
+            <label/>
+            <font />
+            <include>DefControlsHomeUpDown</include>
+            <texturefocus colordiffuse="$VAR[ColorHighlight]" flipx="true">osd/info.png</texturefocus>
+            <texturenofocus colordiffuse="Dark2" flipx="true">osd/info.png</texturenofocus>
+            <onclick condition="!Container(999).IsUpdating + Integer.IsGreater(Container(999).NumItems,0)">SetFocus(999)</onclick>
+            <onclick condition="!Container(999).IsUpdating + Integer.IsGreater(Container(999).NumItems,0)">Action(info)</onclick>
+            <oninfo condition="!Container(999).IsUpdating + Integer.IsGreater(Container(999).NumItems,0)">SetFocus(999)</oninfo>
+            <oninfo condition="!Container(999).IsUpdating + Integer.IsGreater(Container(999).NumItems,0)">Action(info)</oninfo>
+            <onfocus condition="!Player.HasMedia">SetFocus(300)</onfocus>
+            <visible allowhiddenfocus="!String.IsEmpty(VideoPlayer.DBID) | !String.IsEmpty(MusicPlayer.DBID)">false</visible>
+            <!-- !VideoPlayer.Content(livetv) + !Container(999).IsUpdating + Integer.IsGreater(Container(999).NumItems,0) -->
+        </control>
         <control type="button" id="12">
             <description>Skip Back</description>
             <width>48</width>
@@ -1659,8 +1668,7 @@
             <alttexturenofocus colordiffuse="Dark2">osd/rating_new.png</alttexturenofocus>
             <usealttexture>!String.IsEmpty(MusicPlayer.UserRating)</usealttexture>
             <onclick>SetRating</onclick>
-            <enable>MusicPlayer.Content(files) + !Player.HasVideo</enable>
-            <animation effect="fade" start="100" end="33" time="100" condition="!MusicPlayer.Content(files) | Player.HasVideo">Conditional</animation>
+            <visible>!String.IsEmpty(MusicPlayer.DBID)</visible>
         </control>
     </include>
     
@@ -1856,6 +1864,7 @@
             <alttexturenofocus colordiffuse="Dark2">osd/rating_new.png</alttexturenofocus>
             <usealttexture>!String.IsEmpty(MusicPlayer.UserRating)</usealttexture>
             <onclick>SetRating</onclick>
+            <visible>!String.IsEmpty(MusicPlayer.DBID)</visible>
         </control>
         <control type="button" id="24">
             <description>Settings</description>

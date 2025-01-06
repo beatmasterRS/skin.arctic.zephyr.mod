@@ -99,10 +99,16 @@
             <visible>Control.IsVisible(50)</visible>
             <include>ViewSlideForJumpBar</include>
             <control type="group">
-                <posy>320</posy>
+                <include content="def_top" condition="Skin.HasSetting(511ListInfo)">
+                    <param name="top" value="370" />
+                </include>
+                <top>320</top>
                 <control type="fixedlist" id="50">
                     <visible>$EXP[InGameMode] | Container.Content(musicvideos) | Container.Content(movies) | Container.Content(tvshows) | Container.Content(actors) | Container.Content(sets) | Container.Content(seasons) | [Container.Content(files) + !String.Contains(Container.FolderPath,plugin://,left) + !String.IsEqual(Container.FolderPath,library://video/movies/) + !String.IsEqual(Container.FolderPath,library://video/tvshows/) + !String.IsEqual(Container.FolderPath,special://videoplaylists/)] | [Container.Content(episodes) + !String.Contains(Container.FolderPath,plugin://,left)]</visible>
                     <top>PosterPad</top>
+                    <include content="def_height" condition="Skin.HasSetting(511ListInfo)">
+                        <param name="height" value="270" />
+                    </include>
                     <height>320</height>
                     <left>ListX</left>
                     <right>SidePad</right>
@@ -110,7 +116,13 @@
                     <onright>1699</onright>
                     <onup>50</onup>
                     <ondown>50</ondown>
+                    <include content="def_focusposition" condition="Skin.HasSetting(511ListInfo)">
+                        <param name="focusposition" value="1" />
+                    </include>
                     <focusposition>2</focusposition>
+                    <include content="def_movement" condition="Skin.HasSetting(511ListInfo)">
+                        <param name="movement" value="1" />
+                    </include>
                     <movement>2</movement>
                     <pagecontrol>1699</pagecontrol>
                     <viewtype label="535">list</viewtype>
@@ -143,9 +155,13 @@
                     </focusedlayout>
                 </control>
                 <control type="scrollbar" id="1699">
-                    <include content="scrollbar_vertical">
+                    <include content="scrollbar_vertical" condition="!Skin.HasSetting(511ListInfo)">
                         <param name="scrollid" value="1699"/>
                         <param name="height" value="320"/>
+                    </include>
+                    <include content="scrollbar_vertical" condition="Skin.HasSetting(511ListInfo)">
+                        <param name="scrollid" value="1699"/>
+                        <param name="height" value="270"/>
                     </include>
                 </control>
             </control>
@@ -158,6 +174,7 @@
             <include>Animation.PosterSlide</include>
             <left>SidePad</left>
             <top>PosterPad</top>
+            <animation effect="fade" end="5" start="100" time="250" condition="[Window.IsVisible(script-wikipedia.xml) + !Skin.HasSetting(hidebutton.video.wiki)]">Conditional</animation>
             <control type="image">
                 <top>PosterH</top>
                 <width>PosterW</width>
@@ -208,6 +225,7 @@
             <animation effect="rotatey" end="-180" start="0" center="400,0" time="350" condition="String.IsEqual(Window.Property(RotateCover),1)">Conditional</animation>
             <left>SidePad</left>
             <top>PosterPad</top>
+            <animation effect="fade" end="5" start="100" time="250" condition="[Window.IsVisible(script-wikipedia.xml) + !Skin.HasSetting(hidebutton.music.wiki)]">Conditional</animation>
             <control type="image">
                 <top>PosterH</top>
                 <width>PosterH</width>
@@ -643,7 +661,7 @@
             <textcolor>Light1</textcolor>
             <selectedcolor>Light1</selectedcolor>
             <label>$INFO[ListItem.Label]</label>
-            <animation effect="slide" start="0" end="-90" time="0" condition="!Container.Content(movies)">Conditional</animation>
+            <animation effect="slide" start="0" end="-90" time="0" condition="!Container.Content(movies) | [Container.Content(movies) + String.IsEmpty(ListItem.Year)]">Conditional</animation>
             <visible>!Container.Content(episodes) + !Container.Content(tvshows)</visible>
         </control>
         <control type="label">
@@ -695,8 +713,8 @@
             <selectedcolor>Light1</selectedcolor>
             <label>$VAR[LabelRating]</label>
             <visible>!String.IsEqual(ListItem.Label,..)</visible>
-            <visible>!Container.Content(seasons)</visible>
-            <visible>!Skin.HasSetting(hide.ratings)</visible>
+            <visible>!Container.Content(seasons) | String.IsEqual(Container.SortMethod,$LOCALIZE[553]) | String.IsEqual(Container.SortMethod,$LOCALIZE[561])</visible>
+            <visible>!Skin.HasSetting(hide.ratings) | String.IsEqual(Container.SortMethod,$LOCALIZE[553]) | String.IsEqual(Container.SortMethod,$LOCALIZE[561])</visible>
         </control>
     </include>
 
@@ -721,7 +739,7 @@
             <label>$INFO[ListItem.Label]</label>
             <textcolor>Dark1</textcolor>
             <selectedcolor>Dark1</selectedcolor>
-            <animation effect="slide" start="0" end="-90" time="0" condition="!Container.Content(movies)">Conditional</animation>
+            <animation effect="slide" start="0" end="-90" time="0" condition="!Container.Content(movies) | [Container.Content(movies) + String.IsEmpty(ListItem.Year)]">Conditional</animation>
             <visible>!Container.Content(episodes) + !Container.Content(tvshows)</visible>
         </control>
         <control type="label">
@@ -773,8 +791,8 @@
             <selectedcolor>Dark1</selectedcolor>
             <label>$VAR[LabelRating]</label>
             <visible>!String.IsEqual(ListItem.Label,..)</visible>
-            <visible>!Container.Content(seasons)</visible>
-            <visible>!Skin.HasSetting(hide.ratings)</visible>
+            <visible>!Container.Content(seasons) | String.IsEqual(Container.SortMethod,$LOCALIZE[553]) | String.IsEqual(Container.SortMethod,$LOCALIZE[561])</visible>
+            <visible>!Skin.HasSetting(hide.ratings) | String.IsEqual(Container.SortMethod,$LOCALIZE[553]) | String.IsEqual(Container.SortMethod,$LOCALIZE[561])</visible>
         </control>
     </include>
 
@@ -1616,7 +1634,7 @@
             <textcolor>Light1</textcolor>
             <selectedcolor>Light1</selectedcolor>
             <label>$INFO[ListItem.Label]</label>
-            <animation effect="slide" start="0" end="-90" time="0" condition="!Container.Content(movies)">Conditional</animation>
+            <animation effect="slide" start="0" end="-90" time="0" condition="!Container.Content(movies) | [Container.Content(movies) + String.IsEmpty(ListItem.Year)]">Conditional</animation>
             <visible>!Container.Content(episodes) + !Container.Content(tvshows)</visible>
         </control>
         <control type="label">
@@ -1712,8 +1730,8 @@
             <selectedcolor>Light1</selectedcolor>
             <label>$VAR[LabelRating]</label>
             <visible>!String.IsEqual(ListItem.Label,..)</visible>
-            <visible>!Container.Content(seasons)</visible>
-            <visible>!Skin.HasSetting(hide.ratings)</visible>
+            <visible>!Container.Content(seasons) | String.IsEqual(Container.SortMethod,$LOCALIZE[553]) | String.IsEqual(Container.SortMethod,$LOCALIZE[561])</visible>
+            <visible>!Skin.HasSetting(hide.ratings) | String.IsEqual(Container.SortMethod,$LOCALIZE[553]) | String.IsEqual(Container.SortMethod,$LOCALIZE[561])</visible>
         </control>
     </include>
 
@@ -1740,7 +1758,7 @@
             <label>$INFO[ListItem.Label]</label>
             <textcolor>Dark1</textcolor>
             <selectedcolor>Dark1</selectedcolor>
-            <animation effect="slide" start="0" end="-90" time="0" condition="!Container.Content(movies)">Conditional</animation>
+            <animation effect="slide" start="0" end="-90" time="0" condition="!Container.Content(movies) | [Container.Content(movies) + String.IsEmpty(ListItem.Year)]">Conditional</animation>
             <visible>!Container.Content(episodes) + !Container.Content(tvshows)</visible>
         </control>
         <control type="label">
@@ -1821,8 +1839,8 @@
             <selectedcolor>Dark1</selectedcolor>
             <label>$VAR[LabelRating]</label>
             <visible>!String.IsEqual(ListItem.Label,..)</visible>
-            <visible>!Container.Content(seasons)</visible>
-            <visible>!Skin.HasSetting(hide.ratings)</visible>
+            <visible>!Container.Content(seasons) | String.IsEqual(Container.SortMethod,$LOCALIZE[553]) | String.IsEqual(Container.SortMethod,$LOCALIZE[561])</visible>
+            <visible>!Skin.HasSetting(hide.ratings) | String.IsEqual(Container.SortMethod,$LOCALIZE[553]) | String.IsEqual(Container.SortMethod,$LOCALIZE[561])</visible>
         </control>
     </include>
 </includes>

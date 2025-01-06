@@ -309,7 +309,7 @@
                     <top>22</top>
                     <height>24</height>
                     <aligny>center</aligny>
-                    <font>SmallBold</font>
+                    <font>NotificationBold</font>
                     <textcolor>Dark1</textcolor>
                     <label>$VAR[LabelNextRecordingHeader]</label>
                 </control>
@@ -1396,7 +1396,7 @@
 
         <!-- Home Row -->
         <control type="group">
-            <animation effect="slide" start="0" end="0,163" time="150" condition="!Control.HasFocus(300) + !Control.HasFocus(302) + !ControlGroup(777).HasFocus() + Skin.HasSetting(homemenu.clean.flix) + !Skin.HasSetting(homemenu.clean.flix.no.slide)">Conditional</animation>
+            <animation effect="slide" start="0" end="0,163" time="150" condition="!Control.HasFocus(300) + !Control.HasFocus(302) + Skin.HasSetting(homemenu.clean.flix) + !Skin.HasSetting(homemenu.clean.flix.no.slide)">Conditional</animation>
             <animation effect="slide" start="0" end="0,53" time="150" condition="!Control.HasFocus(300) + !Control.HasFocus(302) + Skin.HasSetting(homemenu.clean.flix) + !Skin.HasSetting(homemenu.clean.flix.no.slide) + [Skin.HasSetting(home.oldmenuheight) | Skin.HasSetting(submenu.compatibility)]">Conditional</animation>
             <animation effect="slide" start="0" end="0,-24" time="0" condition="Skin.HasSetting(home.modernwidgets) + Skin.HasSetting(home.vertical.widgets) + Skin.HasSetting(home.oldmenuheight)">Conditional</animation>
             <animation effect="slide" start="0" end="0,30" time="0" condition="Skin.HasSetting(home.modernwidgets)">Conditional</animation>
@@ -1409,6 +1409,7 @@
             <animation effect="slide" start="0" end="0,220" time="150" condition="$EXP[HomeIsModernMultiWidgets] + [Skin.HasSetting(submenu.compatibility) | Skin.HasSetting(home.oldmenuheight)]">WindowClose</animation>
             <animation effect="slide" end="0" start="0,250" time="150" condition="!$EXP[HomeIsModernMultiWidgets]">WindowOpen</animation>
             <animation effect="slide" start="0" end="0,250" time="150" condition="!$EXP[HomeIsModernMultiWidgets]">WindowClose</animation>
+            <animation effect="slide" start="0" end="0,163" time="150" condition="!Control.HasFocus(300) + !Control.HasFocus(302) + Skin.HasSetting(homemenu.slide) + Skin.HasSetting(disable.only.hide.menu.items) + $EXP[HomeIsModernMultiWidgets] + !Skin.HasSetting(homemenu.clean.flix)">Conditional</animation>
             <control type="group">
                 <visible>[!Skin.HasSetting(home.oldmenuheight) | Skin.HasSetting(home.modernwidgets)] + ![Skin.HasSetting(home.modernwidgets) + Skin.HasSetting(home.vertical.widgets) + Skin.HasSetting(home.oldmenuheight)]</visible>
                 <control type="group">
@@ -1437,6 +1438,8 @@
                 </control>
                 <control type="group">
                     <visible>![Skin.HasSetting(homemenu.hide.lines) + $EXP[HomeIsModernMultiWidgets]]</visible>
+                    <animation effect="fade" end="100" start="0" time="100" delay="100">WindowOpen</animation>
+                    <animation effect="fade" start="100" end="0" time="50">WindowClose</animation>
                     <control type="image" description="Shadow">
                         <width>100%</width>
                         <height>1</height>
@@ -1493,7 +1496,7 @@
             </control>
             <include>Furniture_Clock</include>
             <control type="group">
-                <animation effect="slide" start="0" end="0,163" time="150" condition="!Control.HasFocus(300) + !Control.HasFocus(302) + Skin.HasSetting(homemenu.slide) + $EXP[HomeIsModernMultiWidgets] + !Skin.HasSetting(homemenu.clean.flix)">Conditional</animation>
+                <animation effect="slide" start="0" end="0,163" time="150" condition="!Control.HasFocus(300) + !Control.HasFocus(302) + Skin.HasSetting(homemenu.slide) + !Skin.HasSetting(disable.only.hide.menu.items) + $EXP[HomeIsModernMultiWidgets] + !Skin.HasSetting(homemenu.clean.flix)">Conditional</animation>
                 <control type="image">
                     <visible>Integer.IsGreater(Container(300).NumItems,6)</visible>
                     <top>962</top>
@@ -1526,9 +1529,11 @@
                     <onfocus>ClearProperty(listitem.trailer,home)</onfocus>
                     <onfocus>ClearProperty(controlsvisible,home)</onfocus>
                     <onfocus>ClearProperty(SetUserRating,home)</onfocus>
+                    <onfocus>ClearProperty(nowplayingautoshowtimer,home)</onfocus>
                     <include condition="!Skin.HasSetting(furniture.clock)">DefHomeRight520</include>
                     <include condition="Skin.HasSetting(furniture.clock)">DefHomeRightSidePad</include>
-                    <onup condition="$EXP[ExtendedNowPlayingIsVisible] + Skin.HasSetting(home.nowplaying.controls) + [$EXP[HomeIsModernMultiWidgets] | $EXP[HomeIsVerticalMultiWidgets]]">777</onup>
+                    <onup condition="$EXP[ExtendedNowPlayingIsVisible] + Skin.HasSetting(hide.home.nowplaying.controls) + [$EXP[HomeIsModernMultiWidgets] | $EXP[HomeIsVerticalMultiWidgets]] + Skin.HasSetting(home.extended.nowplaying.tracklist) + Integer.IsGreater(Container(778).NumItems,0) + Player.HasAudio">778</onup>
+                    <onup condition="$EXP[ExtendedNowPlayingIsVisible] + !Skin.HasSetting(hide.home.nowplaying.controls) + [$EXP[HomeIsModernMultiWidgets] | $EXP[HomeIsVerticalMultiWidgets]]">777</onup>
                     <onup condition="!Player.HasVideo | !Skin.HasSetting(global.showvideo)">301</onup>
                     <onup>301</onup>
                     <ondown condition="Integer.IsGreater(Container(302).NumItems,0)">SetFocus(302,0)</ondown>
@@ -3395,9 +3400,11 @@
                     <width>PosterW</width>
                     <height>720</height>
                     <orientation>vertical</orientation>
-                    <onright condition="$EXP[ExtendedNowPlayingIsVisible] + Skin.HasSetting(home.nowplaying.controls)">777</onright>
+                    <onright condition="$EXP[ExtendedNowPlayingIsVisible] + Skin.HasSetting(hide.home.nowplaying.controls) + Skin.HasSetting(home.extended.nowplaying.tracklist) + Integer.IsGreater(Container(778).NumItems,0) + Player.HasAudio">778</onright>
+                    <onright condition="$EXP[ExtendedNowPlayingIsVisible] + !Skin.HasSetting(hide.home.nowplaying.controls)">777</onright>
                     <onright>301</onright>
                     <onleft>302</onleft>
+                    <onfocus>ClearProperty(nowplayingautoshowtimer,home)</onfocus>
                     <onback condition="Skin.HasSetting(home.onback.go.to.first.widget) + Integer.IsGreater(Container(301).NumItems,0)">SetFocus(301)</onback>
                     <scrolltime>200</scrolltime>
                     <onfocus>ClearProperty(listitem.trailer,home)</onfocus>
@@ -3750,8 +3757,8 @@
         <usecontrolcoords>true</usecontrolcoords>
         <height>40</height>
         <left>SidePad</left>
-        <visible>!Skin.HasSetting(homemenu.clean.flix) | [Skin.HasSetting(homemenu.clean.flix) + !Skin.HasSetting(hidewidgettitle)]</visible>
-        <include condition="Skin.HasSetting(homemenu.clean.flix) + !Skin.HasSetting(homemenu.clean.flix.no.slide)">Animation.Home.Clean</include>
+        <visible>!Skin.HasSetting(hidewidgettitle)</visible>
+        <visible>![!Skin.HasSetting(hide.home.nowplaying.controls) + !String.IsEmpty(Window(home).Property(controlsvisible))]</visible>
         <include content="def_top" condition="Skin.HasSetting(homemenu.clean.flix) + !Skin.HasSetting(hidewidgettitle) + [Skin.HasSetting(home.oldmenuheight) | Skin.HasSetting(submenu.compatibility)]">
             <param name="top" value="705" />
         </include>
@@ -3864,6 +3871,7 @@
         <control type="group">
             <left>0</left>
             <animation effect="slide" start="0" end="0,-27" time="150" condition="Skin.HasSetting(home.modernwidgets) + Skin.HasSetting(home.vertical.widgets) + Skin.HasSetting(home.oldmenuheight)">Conditional</animation>
+            <include condition="Skin.HasSetting(homemenu.clean.flix) + !Skin.HasSetting(homemenu.clean.flix.no.slide)">Animation.Home.Clean</include>
 
             <!-- Widget -->
             <control type="grouplist" id="301">
@@ -4062,7 +4070,8 @@
         <param name="left" value="$PARAM[left]" default="0"/>
         <param name="visible" value="$PARAM[visible]" default="true"/>
         <control type="image" description="clearlogo" id="$PARAM[id]37">
-            <height>102</height>
+            <height>ClearLogoMaxHeight</height>
+            <width>ClearLogoMaxWidth</width>
             <aspectratio scalediffuse="true" align="left">keep</aspectratio>
             <texture background="true">$INFO[Container($PARAM[id]).ListItem.Art(clearlogo)]</texture>
             <visible>$PARAM[visible] + Skin.HasSetting(home.netflix.clearlogo) + Skin.HasSetting(homemenu.netflix) + !String.IsEmpty(Container($PARAM[id]).ListItem.Art(clearlogo)) + !Skin.HasSetting(homemenu.clean.flix)</visible>
@@ -4465,21 +4474,21 @@
 
         <!-- Artists -->
         <control type="image" description="clearlogo">
-            <include>ClearLogoHomeImageContainer</include>
+            <include>ClearArtHomeImageContainer</include>
             <texture background="true">$INFO[Container($PARAM[id]).ListItem.Art(clearart)]</texture>
             <visible>String.IsEqual(Container($PARAM[id]).ListItem.DBType,artist)</visible>
         </control>
 
         <!-- Albums and Songs -->
         <control type="image" description="clearlogo">
-            <include>ClearLogoHomeImageContainer</include>
+            <include>ClearArtHomeImageContainer</include>
             <texture background="true">$INFO[Container($PARAM[id]).ListItem.Art(artist.clearart)]</texture>
             <visible>String.IsEqual(Container($PARAM[id]).ListItem.DBType,album) | String.IsEqual(Container($PARAM[id]).ListItem.DBType,song)</visible>
         </control>
 
         <!-- All Other -->
         <control type="image" description="clearlogo">
-            <include>ClearLogoHomeImageContainer</include>
+            <include>ClearArtHomeImageContainer</include>
             <texture background="true">$INFO[Container($PARAM[id]).ListItem.Art(clearart)]</texture>
             <visible>!String.IsEqual(Container($PARAM[id]).ListItem.DBType,artist) + !String.IsEqual(Container($PARAM[id]).ListItem.DBType,album) + !String.IsEqual(Container($PARAM[id]).ListItem.DBType,song)</visible>
         </control>

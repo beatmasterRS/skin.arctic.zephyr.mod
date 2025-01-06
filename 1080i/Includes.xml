@@ -81,11 +81,13 @@
     <expression name="Widget5Enabled">String.IsEqual(Container(300).ListItem.Property(widgetEnable.5),yes)</expression>
     <expression name="Widget6Enabled">String.IsEqual(Container(300).ListItem.Property(widgetEnable.6),yes)</expression>
     <expression name="HasHomemenuAutoSlideOutAnimation">Skin.HasSetting(homemenu.slide) + !Skin.HasSetting(only.hide.if.widgetcontainer.gets.focus) + [[$EXP[HomeIsModernMultiWidgets] + !Skin.HasSetting(homemenu.clean.flix)] | [$EXP[HomeIsVerticalMultiWidgets] + !Skin.HasSetting(homemenu.vertical.noslide)]]</expression>
+    <expression name="HasHomemenuAutoSlideOutAnimationOnlyIfWidgetIsFocused">[Skin.HasSetting(homemenu.slide) + [$EXP[HomeIsModernMultiWidgets] + !Skin.HasSetting(homemenu.clean.flix)] | [$EXP[HomeIsVerticalMultiWidgets] + !Skin.HasSetting(homemenu.vertical.noslide)] + Skin.HasSetting(only.hide.if.widgetcontainer.gets.focus)]</expression>
     
     <expression name="IsPVRVideo">!Player.HasAudio + VideoPlayer.Content(livetv)</expression>
     <expression name="IsPVRAudio">Player.HasAudio + VideoPlayer.Content(livetv)</expression>
     <expression name="IsAudio">Player.HasAudio + !VideoPlayer.Content(livetv)</expression>
     <expression name="IsVideo">Player.HasVideo + !VideoPlayer.Content(livetv)</expression>
+    <expression name="MusicSeekbarIsVisible">!Window.IsVisible(musicosd) + [Player.ShowInfo | Player.Seeking | Player.HasPerformedSeek(3) | Player.Paused | Player.Forwarding | Player.Rewinding]</expression>
     <expression name="VideoOSDShort">!String.IsEmpty(Window(home).Property(osdshowinfo)) | [Player.ShowInfo | !String.IsEmpty(Window(home).Property(osdinfo))] | [Window.IsVisible(videoosd) + Window.IsVisible(DialogFullScreenInfo.xml)]</expression>
     <expression name="VideoOSDWide">String.IsEmpty(Window(home).Property(osdshowinfo)) + String.IsEmpty(Window(home).Property(osdinfo)) + !Player.ShowInfo + ![Window.IsVisible(videoosd) + Window.IsVisible(DialogFullScreenInfo.xml)]</expression>
     <expression name="TrailerWindowIsActive">Skin.HasSetting(home.netflix.autoplay.trailer) + [[Window.IsVisible(Home.xml) + [$EXP[HomeIsModernMultiWidgetsNetflix] | $EXP[HomeIsCleanMinimal] | $EXP[HomeIsVerticalMultiWidgetsNetflix]]] | Control.IsVisible(521) | Control.IsVisible(522) | Control.IsVisible(510)] + !Window.IsVisible(DialogVideoInfo.xml) + String.IsEqual(Window(home).Property(TrailerPath2),Player.FileNameAndPath) + !String.IsEmpty(Player.FileNameAndPath)</expression>
@@ -93,26 +95,28 @@
     <expression name="TrailerWaitingForPlayer">!String.IsEmpty(Window(home).Property(TrailerPath2)) + !String.IsEmpty(Window(home).Property(TrailerPath)) + String.IsEmpty(Player.FileNameAndPath)</expression>
     <expression name="TrailerIsPlaying">String.IsEqual(Window(home).Property(TrailerPath2),Player.FileNameAndPath) + !String.IsEmpty(Player.FileNameAndPath)</expression>
     <expression name="AutoTrailerDebugging">Skin.HasSetting(home.netflix.autoplay.trailer) + Skin.HasSetting(DebugInfo.extended) + Skin.HasSetting(DebugInfo.extended)</expression>
-    <expression name="ExtendedNowPlayingIsVisible">[Skin.HasSetting(extended.nowplaying) + Window.IsVisible(Home) + Player.HasMedia] + [[!ControlGroup(301).HasFocus() + !Control.HasFocus(8888) + !Control.HasFocus(4567)] | ControlGroup(777).HasFocus()]</expression>
+    <expression name="ExtendedNowPlayingIsVisible">[Skin.HasSetting(extended.nowplaying) + Window.IsVisible(Home) + [Player.HasMedia | Player.Playing]] + [[!ControlGroup(301).HasFocus() + !Control.HasFocus(8888) + !Control.HasFocus(4567)] | ControlGroup(777).HasFocus()]</expression>
+    <expression name="ExtendedNowPlayingHelperAutoShow">!$EXP[TrailerIsReady] + !$EXP[TrailerIsPlaying] + !$EXP[TrailerWaitingForPlayer] + !$EXP[TrailerWindowIsActive] + [System.IdleTime(5) + !String.IsEmpty(Window(home).Property(nowplayingautoshowtimer)) + Skin.HasSetting(extended.nowplaying) + Window.IsVisible(Home) + [Player.HasMedia | Player.Playing] + Skin.HasSetting(home.nowplaying.info.auto.show) + !Window.IsVisible(DialogVideoInfo.xml) + !Window.IsVisible(DialogMusicInfo.xml) + !Window.IsVisible(DialogAddonInfo.xml) + !Window.IsVisible(DialogPVRInfo.xml) + !Window.IsVisible(DialogContextMenu.xml) + !Window.IsVisible(script-embuary-video.xml) + !Window.IsVisible(script-embuary-person.xml) + !Window.IsVisible(script-embuary-image.xml) + !Window.IsVisible(DialogBusy.xml)]</expression>
+    <expression name="ExtendedNowPlayingHelperAutoClose">!$EXP[TrailerIsReady] + !$EXP[TrailerIsPlaying] + !$EXP[TrailerWaitingForPlayer] + !$EXP[TrailerWindowIsActive] + [[!String.IsEmpty(Window(home).Property(controlsvisible)) | Control.HasFocus(25) | Control.HasFocus(778)] + Skin.HasSetting(extended.nowplaying) + Window.IsVisible(Home) + !Player.HasMedia + !Player.Playing + !Skin.HasSetting(hide.home.nowplaying.controls)]</expression>
     <expression name="TitleClearlogoAvailable">[!String.IsEmpty(ListItem.Art(clearlogo)) | !String.IsEmpty(ListItem.Art(artist.clearlogo)) | !String.IsEmpty(ListItem.Art(tvshow.clearlogo))] + !Container.Content(episodes) + !Container.Content(seasons)</expression>
     <expression name="IsAudioCodecATMOS">
         String.Contains(ListItem.FileNameAndPath,atmos) | [VideoPlayer.IsFullscreen + String.Contains(Player.FileNameAndPath,atmos)]
     </expression>
     <expression name="IsAudioCodecDTSX">
-        String.Contains(ListItem.FileNameAndPath,dts-x) | String.Contains(ListItem.FileNameAndPath,dtsx) | String.Contains(ListItem.FileNameAndPath,dts.x)
-        | [VideoPlayer.IsFullscreen + [String.Contains(Player.FileNameAndPath,dts-x) | String.Contains(Player.FileNameAndPath,dtsx) | String.Contains(Player.FileNameAndPath,dts.x)]]
+        String.Contains(ListItem.FileNameAndPath,dts-x) | String.Contains(ListItem.FileNameAndPath,dtsx)
+        | [VideoPlayer.IsFullscreen + [String.Contains(Player.FileNameAndPath,dts-x) | String.Contains(Player.FileNameAndPath,dtsx)]]
     </expression>
     <expression name="IsVideoHDR10Plus">
         String.IsEmpty(ListItem.HdrType) + String.IsEmpty(VideoPlayer.HdrType) + [String.Contains(ListItem.FileNameAndPath,hdr10plus)
         | [VideoPlayer.IsFullscreen + String.Contains(Player.FileNameAndPath,hdr10plus)]]
     </expression>
     <expression name="IsVideoHDR10">
-        String.IsEqual(ListItem.HdrType,hdr10) | String.Contains(ListItem.FileNameAndPath,hdr10)
-        | [VideoPlayer.IsFullscreen + [String.IsEqual(VideoPlayer.HdrType, hdr10) | String.Contains(Player.FileNameAndPath,hdr10)]]
+        [String.IsEqual(ListItem.HdrType,hdr10) | String.Contains(ListItem.FileNameAndPath,hdr10)
+        | [VideoPlayer.IsFullscreen + [String.IsEqual(VideoPlayer.HdrType,hdr10) | String.Contains(Player.FileNameAndPath,hdr10)]]] + !$EXP[IsVideoHDR10Plus]
     </expression>
     <expression name="IsVideoHDR">
-        String.IsEmpty(ListItem.HdrType) + String.IsEmpty(VideoPlayer.HdrType) + [String.Contains(ListItem.FileNameAndPath,hdr)
-        | [VideoPlayer.IsFullscreen + String.Contains(Player.FileNameAndPath,hdr)]]
+        [String.IsEmpty(ListItem.HdrType) + String.IsEmpty(VideoPlayer.HdrType) + [String.Contains(ListItem.FileNameAndPath,hdr)
+        | [VideoPlayer.IsFullscreen + String.Contains(Player.FileNameAndPath,hdr)]]] + !$EXP[IsVideoHDR10Plus] + !$EXP[IsVideoHDR10]
     </expression>
     <expression name="IsVideoHLG">
         String.IsEqual(ListItem.HdrType,hlg) | String.Contains(ListItem.FileNameAndPath,hlg)
@@ -126,6 +130,15 @@
         [Container.Content(tvshows) | Container.Content(seasons) | String.IsEqual(ListItem.DBTYPE,tvshow) | String.IsEqual(ListItem.DBTYPE,season)]
         + [!String.IsEmpty(Window(Home).Property(TMDbHelper.ListItem.Next_Aired)) | !String.IsEmpty(Window(Home).Property(TMDbHelper.ListItem.Last_Aired))]
     </expression>
+    
+    <expression name="IsTVShowInProgress">
+        [Container.Content(tvshows) | String.IsEqual(ListItem.DBTYPE,tvshow) | Container.Content(season) | String.IsEqual(ListItem.DBTYPE,season)] + !String.IsEqual(ListItem.Overlay,OverlayWatched.png) + !$EXP[IsNewTVShow] + [[!String.IsEqual(ListItem.Property(WatchedEpisodes),ListItem.Property(TotalEpisodes)) + !String.IsEqual(ListItem.Property(WatchedEpisodes),0) + !String.IsEmpty(ListItem.Property(WatchedEpisodes))] | Integer.IsGreater(ListItem.Property(WatchedEpisodes),0)]
+    </expression>
+    
+    <expression name="IsTVShowInProgress301">
+        [Container.Content(tvshows) | String.IsEqual(Container(301).ListItem.DBTYPE,tvshow) | Container.Content(season) | String.IsEqual(Container(301).ListItem.DBTYPE,season)] + !String.IsEqual(Container(301).ListItem.Overlay,OverlayWatched.png) + Integer.IsGreater(Container(301).ListItem.Property(WatchedEpisodes),0) + !$EXP[IsNewTVShow301]
+    </expression>
+    
     <expression name="IsNewMovie">
         [Container.Content(movies) | Window.isVisible(Home.xml)]
         + [
@@ -228,7 +241,8 @@
         | Window.IsActive(games) 
         | Container.Content(games) ]
     </expression>
-
+    
+    <expression name="SortLetterIsNumber">[String.IsEqual(ListItem.SortLetter,$NUMBER[0]) | String.IsEqual(ListItem.SortLetter,$NUMBER[1]) | String.IsEqual(ListItem.SortLetter,$NUMBER[2]) | String.IsEqual(ListItem.SortLetter,$NUMBER[3]) | String.IsEqual(ListItem.SortLetter,$NUMBER[4]) | String.IsEqual(ListItem.SortLetter,$NUMBER[5]) | String.IsEqual(ListItem.SortLetter,$NUMBER[6]) | String.IsEqual(ListItem.SortLetter,$NUMBER[7]) | String.IsEqual(ListItem.SortLetter,$NUMBER[8]) | String.IsEqual(ListItem.SortLetter,$NUMBER[9])]</expression>
 
     <include name="ScrolltimeDetailsList">
         <scrolltime tween="quadratic">300</scrolltime>
@@ -459,12 +473,13 @@
         <value condition="Window.IsVisible(weather) + !String.IsEmpty(Skin.String(weather.fanart.path))">$INFO[Skin.String(weather.fanart.path)]$INFO[Window(Weather).Property(Current.FanartCode)]/</value>
         <value condition="Window.IsVisible(home) + ![Skin.HasSetting(extended.nowplaying) + Player.Playing + !Skin.HasSetting(home.hide.nowplaying) + [$EXP[HomeIsModernMultiWidgets] | $EXP[HomeIsVerticalMultiWidgets]]] + !String.IsEmpty(Skin.String(weather.fanart.path)) + [String.IsEqual(Container(300).ListItem.Property(widget),weatherdaily) | String.IsEqual(Container(300).ListItem.Property(widget),weatherhourly)] + !Skin.HasSetting(home.dontshowfanart) + String.Contains(Skin.String(weather.fanart.path),multi) + String.IsEmpty(Container(300).ListItem.Property(Background))">$INFO[Skin.String(weather.fanart.path)]$INFO[Window(Weather).Property(Current.FanartCode)]/</value>
         <value condition="Window.IsVisible(home) + ![Skin.HasSetting(extended.nowplaying) + Player.Playing + !Skin.HasSetting(home.hide.nowplaying) + [$EXP[HomeIsModernMultiWidgets] | $EXP[HomeIsVerticalMultiWidgets]]] + !String.IsEmpty(Skin.String(weather.fanart.path)) + [String.IsEqual(Container(300).ListItem.Property(widget),weatherdaily) | String.IsEqual(Container(300).ListItem.Property(widget),weatherhourly)] + !Skin.HasSetting(home.dontshowfanart) + !String.Contains(Skin.String(weather.fanart.path),multi) + String.IsEmpty(Container(300).ListItem.Property(Background))">$INFO[Skin.String(weather.fanart.path)]$INFO[Window(Weather).Property(Current.FanartCode),,.jpg]</value>
-        <value condition="!String.IsEmpty(Control.GetLabel(4399)) + Skin.HasSetting(EnableExtraFanart) + !Skin.HasSetting(global.hidefanart) + [!Skin.HasSetting(disable.background.addons.fanart) | [Skin.HasSetting(disable.background.addons.fanart) + !String.Contains(Control.GetLabel(4399),addons) + ![String.Contains(Control.GetLabel(4399),plugin) | String.Contains(Control.GetLabel(4399),script) | String.Contains(Control.GetLabel(4399),service)]]]">$INFO[Control.GetLabel(4399)]</value>
+        <value condition="[!String.IsEmpty(Control.GetLabel(4399)) + Skin.HasSetting(EnableExtraFanart) + !Skin.HasSetting(global.hidefanart) + [!Skin.HasSetting(disable.background.addons.fanart) | [Skin.HasSetting(disable.background.addons.fanart) + !String.Contains(Control.GetLabel(4399),addons) + ![String.Contains(Control.GetLabel(4399),plugin) | String.Contains(Control.GetLabel(4399),script) | String.Contains(Control.GetLabel(4399),service)]]]] + !String.IsEqual(ListItem.DBType,season) + !Container.Content(seasons) + ![String.IsEqual(ListItem.DBType,episode) + !String.IsEmpty(ListItem.Art(thumb)) + Skin.HasSetting(background.episodes.use.thumbnail)]">$INFO[Control.GetLabel(4399)]</value>
 
         <!-- Now Playing -->
         <value condition="Skin.HasSetting(extended.nowplaying) + Window.IsVisible(home) + !ControlGroup(301).HasFocus() + !Skin.HasSetting(home.dontshowfanart) + String.IsEmpty(Container(301).ListItem.Property(backgroundPlaylist)) + !String.IsEmpty(Window(Visualisation).Property(ArtistSlideshow.Image)) + System.AddonIsEnabled(script.artistslideshow) + !Skin.HasSetting(ArtistSlideShow.Disabled) + Player.HasAudio">$INFO[Window(Visualisation).Property(ArtistSlideshow.Image)]</value>
         <value condition="Skin.HasSetting(extended.nowplaying) + Window.IsVisible(home) + !ControlGroup(301).HasFocus() + !Skin.HasSetting(home.dontshowfanart) + String.IsEmpty(Container(301).ListItem.Property(backgroundPlaylist)) + [Skin.HasSetting(musicvis.fanartfallback) + !String.IsEmpty(Player.Art(fanart)) + [String.IsEmpty(Window(Visualisation).Property(ArtistSlideshow.Image)) | !System.AddonIsEnabled(script.artistslideshow) | Skin.HasSetting(ArtistSlideShow.Disabled)]] + Player.HasAudio">$INFO[Player.Art(fanart)]</value>
         <value condition="Skin.HasSetting(extended.nowplaying) + Window.IsVisible(home) + !ControlGroup(301).HasFocus() + !Skin.HasSetting(home.dontshowfanart) + String.IsEmpty(Container(301).ListItem.Property(backgroundPlaylist)) + [!String.IsEmpty(Skin.String(fanart.fallback.music)) + [String.IsEmpty(Player.Art(fanart)) | !Skin.HasSetting(musicvis.fanartfallback)] + [String.IsEmpty(Window(Visualisation).Property(ArtistSlideshow.Image)) | Skin.HasSetting(ArtistSlideShow.Disabled)]] + Player.HasAudio">$INFO[Skin.String(fanart.fallback.music)]</value>
+        <value condition="Skin.HasSetting(extended.nowplaying) + Window.IsVisible(home) + !ControlGroup(301).HasFocus() + !Skin.HasSetting(home.dontshowfanart) + String.IsEmpty(Container(301).ListItem.Property(backgroundPlaylist)) + !String.IsEmpty(Player.Art(thumb)) + Player.HasMedia + !String.IsEmpty(VideoPlayer.Episode) + Skin.HasSetting(background.episodes.use.thumbnail)">$INFO[Player.Art(thumb)]</value>
         <value condition="Skin.HasSetting(extended.nowplaying) + Window.IsVisible(home) + !ControlGroup(301).HasFocus() + !Skin.HasSetting(home.dontshowfanart) + String.IsEmpty(Container(301).ListItem.Property(backgroundPlaylist)) + !String.IsEmpty(Player.Art(fanart)) + Player.HasMedia">$INFO[Player.Art(fanart)]</value>
         <value condition="Skin.HasSetting(extended.nowplaying) + Window.IsVisible(home) + !ControlGroup(301).HasFocus() + !Skin.HasSetting(home.dontshowfanart) + String.IsEmpty(Container(301).ListItem.Property(backgroundPlaylist)) + String.IsEmpty(Player.Art(fanart)) + String.IsEmpty(Window(Visualisation).Property(ArtistSlideshow.Image)) + Player.HasMedia + String.IsEmpty(Container(300).ListItem.Property(background))">common/null.png</value>
 
@@ -472,17 +487,19 @@
         <value condition="!Skin.HasSetting(home.dontshowfanart) + [[Skin.HasSetting(home.vertical) + Skin.HasSetting(home.vertical.widgets)] | [!Skin.HasSetting(home.vertical) + !Skin.HasSetting(home.classicwidgets) + Skin.HasSetting(home.vertical.widgets)]] + Window.IsVisible(home) + !String.IsEqual(Container(300).ListItem.Property(background),playlistBackground) + !String.IsEmpty(ListItem.Property(Background))">$INFO[ListItem.Property(Background)]</value>
 
         <!--Multi Widget -->
+        <value condition="!Skin.HasSetting(home.dontshowfanart) + [[Skin.HasSetting(home.vertical) + Skin.HasSetting(home.vertical.widgets)] | [!Skin.HasSetting(home.vertical) + !Skin.HasSetting(home.classicwidgets) + Skin.HasSetting(home.vertical.widgets)]] + Window.IsVisible(home) + !String.IsEmpty(ListItem.Art(thumb)) + String.IsEqual(ListItem.DBType,episode) + Skin.HasSetting(background.episodes.use.thumbnail)">$INFO[ListItem.Art(thumb)]</value>
         <value condition="!Skin.HasSetting(home.dontshowfanart) + [[Skin.HasSetting(home.vertical) + Skin.HasSetting(home.vertical.widgets)] | [!Skin.HasSetting(home.vertical) + !Skin.HasSetting(home.classicwidgets) + Skin.HasSetting(home.vertical.widgets)]] + Window.IsVisible(home) + !String.IsEmpty(ListItem.Art(fanart)) + [!Skin.HasSetting(disable.background.addons.fanart) | [Skin.HasSetting(disable.background.addons.fanart) + !String.Contains(ListItem.Art(fanart),addons) + ![String.Contains(ListItem.Art(fanart),plugin) | String.Contains(ListItem.Art(fanart),script) | String.Contains(ListItem.Art(fanart),service)]]]">$INFO[ListItem.Art(fanart)]</value>
         <value condition="!Skin.HasSetting(home.dontshowfanart) + [[Skin.HasSetting(home.vertical) + Skin.HasSetting(home.vertical.widgets)] | [!Skin.HasSetting(home.vertical) + !Skin.HasSetting(home.classicwidgets) + Skin.HasSetting(home.vertical.widgets)]] + Window.IsVisible(home) + !String.IsEmpty(ListItem.Property(fanart))">$INFO[ListItem.Property(fanart)]</value>
 
         <!--Multi Widget -->
+        <value condition="!Skin.HasSetting(home.dontshowfanart) + Window.IsVisible(home) + !String.IsEmpty(Container(301).ListItem.Art(thumb)) + Control.IsVisible(301) + String.IsEqual(Container(301).ListItem.DBType,episode) + Skin.HasSetting(background.episodes.use.thumbnail)">$INFO[Container(301).ListItem.Art(thumb)]</value>
         <value condition="!Skin.HasSetting(home.dontshowfanart) + Window.IsVisible(home) + !String.IsEmpty(Container(301).ListItem.Art(fanart)) + Control.IsVisible(301)">$INFO[Container(301).ListItem.Art(fanart)]</value>
         <value condition="!Skin.HasSetting(home.dontshowfanart) + Window.IsVisible(home) + !String.IsEmpty(Container(301).ListItem.Property(fanart)) + Control.IsVisible(301)">$INFO[Container(301).ListItem.Property(fanart)]</value>
-        <!--Multi Widget WEATHER -->
+        <!--Multi Widget Weather -->
         <value condition="[Skin.HasSetting(home.vertical) + Skin.HasSetting(home.vertical.widgets)] + Window.IsVisible(home) + !String.IsEmpty(Skin.String(weather.fanart.path)) + [String.IsEqual(Container(300).ListItem.Property(widget),weatherdaily) | String.IsEqual(Container(300).ListItem.Property(widget),weatherhourly)] + !Skin.HasSetting(home.dontshowfanart) + String.Contains(Skin.String(weather.fanart.path),multi)">$INFO[Skin.String(weather.fanart.path)]$INFO[Window(Weather).Property(Current.FanartCode)]/</value>
         <value condition="[Skin.HasSetting(home.vertical) + Skin.HasSetting(home.vertical.widgets)] + Window.IsVisible(home) + !String.IsEmpty(Skin.String(weather.fanart.path)) + [String.IsEqual(Container(300).ListItem.Property(widget),weatherdaily) | String.IsEqual(Container(300).ListItem.Property(widget),weatherhourly)] + !Skin.HasSetting(home.dontshowfanart) + !String.Contains(Skin.String(weather.fanart.path),multi) + String.IsEmpty(Container(300).ListItem.Property(background)) + [Control.HasFocus(300) | Control.HasFocus(302) | Control.HasFocus(2011)]">$INFO[Skin.String(weather.fanart.path)]$INFO[Window(Weather).Property(Current.FanartCode),,.jpg]</value>
 
-        <!--Multi Widget -->
+        <!--Multi Widget User Background-->
         <value condition="!Skin.HasSetting(home.dontshowfanart) + [[Skin.HasSetting(home.vertical) + Skin.HasSetting(home.vertical.widgets)] | [!Skin.HasSetting(home.vertical) + !Skin.HasSetting(home.classicwidgets) + Skin.HasSetting(home.vertical.widgets)]] + Window.IsVisible(home) + !String.IsEmpty(Container(30111).ListItem.Property(Background)) + String.IsEmpty(Container(301).ListItem.Property(backgroundPlaylist)) + Control.IsVisible(30111) + !Control.HasFocus(30111)">$INFO[Container(30111).ListItem.Property(Background)]</value>
         <value condition="!Skin.HasSetting(home.dontshowfanart) + [[Skin.HasSetting(home.vertical) + Skin.HasSetting(home.vertical.widgets)] | [!Skin.HasSetting(home.vertical) + !Skin.HasSetting(home.classicwidgets) + Skin.HasSetting(home.vertical.widgets)]] + Window.IsVisible(home) + !String.IsEmpty(Container(30121).ListItem.Property(Background)) + String.IsEmpty(Container(301).ListItem.Property(backgroundPlaylist)) + !String.IsEmpty(Container(30121).ListItem.Property(Background)) + Control.IsVisible(30121) + !Control.HasFocus(30121)">$INFO[Container(30121).ListItem.Property(Background)]</value>
         <value condition="!Skin.HasSetting(home.dontshowfanart) + [[Skin.HasSetting(home.vertical) + Skin.HasSetting(home.vertical.widgets)] | [!Skin.HasSetting(home.vertical) + !Skin.HasSetting(home.classicwidgets) + Skin.HasSetting(home.vertical.widgets)]] + Window.IsVisible(home) + !String.IsEmpty(Container(30131).ListItem.Property(Background)) + String.IsEmpty(Container(301).ListItem.Property(backgroundPlaylist)) + !String.IsEmpty(Container(30131).ListItem.Property(Background)) + Control.IsVisible(30131) + !Control.HasFocus(30131)">$INFO[Container(30131).ListItem.Property(Background)]</value>
@@ -501,6 +518,25 @@
         <value condition="!Skin.HasSetting(home.dontshowfanart) + [[Skin.HasSetting(home.vertical) + Skin.HasSetting(home.vertical.widgets)] | [!Skin.HasSetting(home.vertical) + !Skin.HasSetting(home.classicwidgets) + Skin.HasSetting(home.vertical.widgets)]] + Window.IsVisible(home) + String.IsEmpty(Container(3011).ListItem.Property(Background)) + String.IsEmpty(Container(3011).ListItem.Property(backgroundPlaylist)) + !String.IsEmpty(Container(3011).ListItem.Property(Background)) + Control.IsVisible(3011)">$INFO[Container(3011).ListItem.Property(Background)]</value>
 
         <!--Multi Widget First Widget -->
+        <!-- Episodes -->
+        <value condition="!Skin.HasSetting(home.dontshowfanart) + [[Skin.HasSetting(home.vertical) + Skin.HasSetting(home.vertical.widgets)] | [!Skin.HasSetting(home.vertical) + !Skin.HasSetting(home.classicwidgets) + Skin.HasSetting(home.vertical.widgets)]] + Window.IsVisible(home) + String.IsEmpty(Container(301).ListItem.Property(Background)) + String.IsEmpty(Container(301).ListItem.Property(backgroundPlaylist)) + !String.IsEmpty(Container(30111).ListItem.Art(thumb)) + String.IsEqual(Container(30111).ListItem.DBType,episode) + Skin.HasSetting(background.episodes.use.thumbnail) + Control.IsVisible(30111) + !Control.HasFocus(30111) + String.IsEmpty(Container(300).ListItem.Property(background)) + [Control.HasFocus(300) | Control.HasFocus(302) | Control.HasFocus(2011)]">$INFO[Container(30111).ListItem.Art(thumb)]</value>
+        <value condition="!Skin.HasSetting(home.dontshowfanart) + [[Skin.HasSetting(home.vertical) + Skin.HasSetting(home.vertical.widgets)] | [!Skin.HasSetting(home.vertical) + !Skin.HasSetting(home.classicwidgets) + Skin.HasSetting(home.vertical.widgets)]] + Window.IsVisible(home) + String.IsEmpty(Container(301).ListItem.Property(Background)) + String.IsEmpty(Container(301).ListItem.Property(backgroundPlaylist)) + !String.IsEmpty(Container(30121).ListItem.Art(thumb)) + String.IsEqual(Container(30121).ListItem.DBType,episode) + Skin.HasSetting(background.episodes.use.thumbnail) + Control.IsVisible(30121) + !Control.HasFocus(30121) + String.IsEmpty(Container(300).ListItem.Property(background)) + [Control.HasFocus(300) | Control.HasFocus(302) | Control.HasFocus(2011)]">$INFO[Container(30121).ListItem.Art(thumb)]</value>
+        <value condition="!Skin.HasSetting(home.dontshowfanart) + [[Skin.HasSetting(home.vertical) + Skin.HasSetting(home.vertical.widgets)] | [!Skin.HasSetting(home.vertical) + !Skin.HasSetting(home.classicwidgets) + Skin.HasSetting(home.vertical.widgets)]] + Window.IsVisible(home) + String.IsEmpty(Container(301).ListItem.Property(Background)) + String.IsEmpty(Container(301).ListItem.Property(backgroundPlaylist)) + !String.IsEmpty(Container(30131).ListItem.Art(thumb)) + String.IsEqual(Container(30131).ListItem.DBType,episode) + Skin.HasSetting(background.episodes.use.thumbnail) + Control.IsVisible(30131) + !Control.HasFocus(30131) + String.IsEmpty(Container(300).ListItem.Property(background)) + [Control.HasFocus(300) | Control.HasFocus(302) | Control.HasFocus(2011)]">$INFO[Container(30131).ListItem.Art(thumb)]</value>
+        <value condition="!Skin.HasSetting(home.dontshowfanart) + [[Skin.HasSetting(home.vertical) + Skin.HasSetting(home.vertical.widgets)] | [!Skin.HasSetting(home.vertical) + !Skin.HasSetting(home.classicwidgets) + Skin.HasSetting(home.vertical.widgets)]] + Window.IsVisible(home) + String.IsEmpty(Container(301).ListItem.Property(Background)) + String.IsEmpty(Container(301).ListItem.Property(backgroundPlaylist)) + !String.IsEmpty(Container(30141).ListItem.Art(thumb)) + String.IsEqual(Container(30141).ListItem.DBType,episode) + Skin.HasSetting(background.episodes.use.thumbnail) + Control.IsVisible(30141) + !Control.HasFocus(30141) + String.IsEmpty(Container(300).ListItem.Property(background)) + [Control.HasFocus(300) | Control.HasFocus(302) | Control.HasFocus(2011)]">$INFO[Container(30141).ListItem.Art(thumb)]</value>
+        <value condition="!Skin.HasSetting(home.dontshowfanart) + [[Skin.HasSetting(home.vertical) + Skin.HasSetting(home.vertical.widgets)] | [!Skin.HasSetting(home.vertical) + !Skin.HasSetting(home.classicwidgets) + Skin.HasSetting(home.vertical.widgets)]] + Window.IsVisible(home) + String.IsEmpty(Container(301).ListItem.Property(Background)) + String.IsEmpty(Container(301).ListItem.Property(backgroundPlaylist)) + !String.IsEmpty(Container(30151).ListItem.Art(thumb)) + String.IsEqual(Container(30151).ListItem.DBType,episode) + Skin.HasSetting(background.episodes.use.thumbnail) + Control.IsVisible(30151) + !Control.HasFocus(30151) + String.IsEmpty(Container(300).ListItem.Property(background)) + [Control.HasFocus(300) | Control.HasFocus(302) | Control.HasFocus(2011)]">$INFO[Container(30151).ListItem.Art(thumb)]</value>
+        <value condition="!Skin.HasSetting(home.dontshowfanart) + [[Skin.HasSetting(home.vertical) + Skin.HasSetting(home.vertical.widgets)] | [!Skin.HasSetting(home.vertical) + !Skin.HasSetting(home.classicwidgets) + Skin.HasSetting(home.vertical.widgets)]] + Window.IsVisible(home) + String.IsEmpty(Container(301).ListItem.Property(Background)) + String.IsEmpty(Container(301).ListItem.Property(backgroundPlaylist)) + !String.IsEmpty(Container(30161).ListItem.Art(thumb)) + String.IsEqual(Container(30161).ListItem.DBType,episode) + Skin.HasSetting(background.episodes.use.thumbnail) + Control.IsVisible(30161) + !Control.HasFocus(30161) + String.IsEmpty(Container(300).ListItem.Property(background)) + [Control.HasFocus(300) | Control.HasFocus(302) | Control.HasFocus(2011)]">$INFO[Container(30161).ListItem.Art(thumb)]</value>
+        <value condition="!Skin.HasSetting(home.dontshowfanart) + [[Skin.HasSetting(home.vertical) + Skin.HasSetting(home.vertical.widgets)] | [!Skin.HasSetting(home.vertical) + !Skin.HasSetting(home.classicwidgets) + Skin.HasSetting(home.vertical.widgets)]] + Window.IsVisible(home) + String.IsEmpty(Container(301).ListItem.Property(Background)) + String.IsEmpty(Container(301).ListItem.Property(backgroundPlaylist)) + !String.IsEmpty(Container(30171).ListItem.Art(thumb)) + String.IsEqual(Container(30171).ListItem.DBType,episode) + Skin.HasSetting(background.episodes.use.thumbnail) + Control.IsVisible(30171) + !Control.HasFocus(30171) + String.IsEmpty(Container(300).ListItem.Property(background)) + [Control.HasFocus(300) | Control.HasFocus(302) | Control.HasFocus(2011)]">$INFO[Container(30171).ListItem.Art(thumb)]</value>
+        <value condition="!Skin.HasSetting(home.dontshowfanart) + [[Skin.HasSetting(home.vertical) + Skin.HasSetting(home.vertical.widgets)] | [!Skin.HasSetting(home.vertical) + !Skin.HasSetting(home.classicwidgets) + Skin.HasSetting(home.vertical.widgets)]] + Window.IsVisible(home) + String.IsEmpty(Container(301).ListItem.Property(Background)) + String.IsEmpty(Container(301).ListItem.Property(backgroundPlaylist)) + !String.IsEmpty(Container(30181).ListItem.Art(thumb)) + String.IsEqual(Container(30181).ListItem.DBType,episode) + Skin.HasSetting(background.episodes.use.thumbnail) + Control.IsVisible(30181) + !Control.HasFocus(30181) + String.IsEmpty(Container(300).ListItem.Property(background)) + [Control.HasFocus(300) | Control.HasFocus(302) | Control.HasFocus(2011)]">$INFO[Container(30181).ListItem.Art(thumb)]</value>
+        <value condition="!Skin.HasSetting(home.dontshowfanart) + [[Skin.HasSetting(home.vertical) + Skin.HasSetting(home.vertical.widgets)] | [!Skin.HasSetting(home.vertical) + !Skin.HasSetting(home.classicwidgets) + Skin.HasSetting(home.vertical.widgets)]] + Window.IsVisible(home) + String.IsEmpty(Container(301).ListItem.Property(Background)) + String.IsEmpty(Container(301).ListItem.Property(backgroundPlaylist)) + !String.IsEmpty(Container(30191).ListItem.Art(thumb)) + String.IsEqual(Container(30191).ListItem.DBType,episode) + Skin.HasSetting(background.episodes.use.thumbnail) + Control.IsVisible(30191) + !Control.HasFocus(30191) + String.IsEmpty(Container(300).ListItem.Property(background)) + [Control.HasFocus(300) | Control.HasFocus(302) | Control.HasFocus(2011)]">$INFO[Container(30191).ListItem.Art(thumb)]</value>
+        <value condition="!Skin.HasSetting(home.dontshowfanart) + [[Skin.HasSetting(home.vertical) + Skin.HasSetting(home.vertical.widgets)] | [!Skin.HasSetting(home.vertical) + !Skin.HasSetting(home.classicwidgets) + Skin.HasSetting(home.vertical.widgets)]] + Window.IsVisible(home) + String.IsEmpty(Container(301).ListItem.Property(Background)) + String.IsEmpty(Container(301).ListItem.Property(backgroundPlaylist)) + !String.IsEmpty(Container(301101).ListItem.Art(thumb)) + String.IsEqual(Container(301101).ListItem.DBType,episode) + Skin.HasSetting(background.episodes.use.thumbnail) + Control.IsVisible(301101) + !Control.HasFocus(301101) + String.IsEmpty(Container(300).ListItem.Property(background)) + [Control.HasFocus(300) | Control.HasFocus(302) | Control.HasFocus(2011)]">$INFO[Container(301101).ListItem.Art(thumb)]</value>
+        <value condition="!Skin.HasSetting(home.dontshowfanart) + [[Skin.HasSetting(home.vertical) + Skin.HasSetting(home.vertical.widgets)] | [!Skin.HasSetting(home.vertical) + !Skin.HasSetting(home.classicwidgets) + Skin.HasSetting(home.vertical.widgets)]] + Window.IsVisible(home) + String.IsEmpty(Container(301).ListItem.Property(Background)) + String.IsEmpty(Container(301).ListItem.Property(backgroundPlaylist)) + !String.IsEmpty(Container(301111).ListItem.Art(thumb)) + String.IsEqual(Container(301111).ListItem.DBType,episode) + Skin.HasSetting(background.episodes.use.thumbnail) + Control.IsVisible(301111) + !Control.HasFocus(301111) + String.IsEmpty(Container(300).ListItem.Property(background)) + [Control.HasFocus(300) | Control.HasFocus(302) | Control.HasFocus(2011)]">$INFO[Container(301111).ListItem.Art(thumb)]</value>
+        <value condition="!Skin.HasSetting(home.dontshowfanart) + [[Skin.HasSetting(home.vertical) + Skin.HasSetting(home.vertical.widgets)] | [!Skin.HasSetting(home.vertical) + !Skin.HasSetting(home.classicwidgets) + Skin.HasSetting(home.vertical.widgets)]] + Window.IsVisible(home) + String.IsEmpty(Container(301).ListItem.Property(Background)) + String.IsEmpty(Container(301).ListItem.Property(backgroundPlaylist)) + !String.IsEmpty(Container(301121).ListItem.Art(thumb)) + String.IsEqual(Container(301121).ListItem.DBType,episode) + Skin.HasSetting(background.episodes.use.thumbnail) + Control.IsVisible(301121) + !Control.HasFocus(301121) + String.IsEmpty(Container(300).ListItem.Property(background)) + [Control.HasFocus(300) | Control.HasFocus(302) | Control.HasFocus(2011)]">$INFO[Container(301121).ListItem.Art(thumb)]</value>
+        <value condition="!Skin.HasSetting(home.dontshowfanart) + [[Skin.HasSetting(home.vertical) + Skin.HasSetting(home.vertical.widgets)] | [!Skin.HasSetting(home.vertical) + !Skin.HasSetting(home.classicwidgets) + Skin.HasSetting(home.vertical.widgets)]] + Window.IsVisible(home) + String.IsEmpty(Container(301).ListItem.Property(Background)) + String.IsEmpty(Container(301).ListItem.Property(backgroundPlaylist)) + !String.IsEmpty(Container(301131).ListItem.Art(thumb)) + String.IsEqual(Container(301131).ListItem.DBType,episode) + Skin.HasSetting(background.episodes.use.thumbnail) + Control.IsVisible(301131) + !Control.HasFocus(301131) + String.IsEmpty(Container(300).ListItem.Property(background)) + [Control.HasFocus(300) | Control.HasFocus(302) | Control.HasFocus(2011)]">$INFO[Container(301131).ListItem.Art(thumb)]</value>
+        <value condition="!Skin.HasSetting(home.dontshowfanart) + [[Skin.HasSetting(home.vertical) + Skin.HasSetting(home.vertical.widgets)] | [!Skin.HasSetting(home.vertical) + !Skin.HasSetting(home.classicwidgets) + Skin.HasSetting(home.vertical.widgets)]] + Window.IsVisible(home) + String.IsEmpty(Container(301).ListItem.Property(Background)) + String.IsEmpty(Container(301).ListItem.Property(backgroundPlaylist)) + !String.IsEmpty(Container(301141).ListItem.Art(thumb)) + String.IsEqual(Container(301141).ListItem.DBType,episode) + Skin.HasSetting(background.episodes.use.thumbnail) + Control.IsVisible(301141) + !Control.HasFocus(301141) + String.IsEmpty(Container(300).ListItem.Property(background)) + [Control.HasFocus(300) | Control.HasFocus(302) | Control.HasFocus(2011)]">$INFO[Container(301141).ListItem.Art(thumb)]</value>
+        <value condition="!Skin.HasSetting(home.dontshowfanart) + [[Skin.HasSetting(home.vertical) + Skin.HasSetting(home.vertical.widgets)] | [!Skin.HasSetting(home.vertical) + !Skin.HasSetting(home.classicwidgets) + Skin.HasSetting(home.vertical.widgets)]] + Window.IsVisible(home) + String.IsEmpty(Container(301).ListItem.Property(Background)) + String.IsEmpty(Container(301).ListItem.Property(backgroundPlaylist)) + !String.IsEmpty(Container(301151).ListItem.Art(thumb)) + String.IsEqual(Container(301151).ListItem.DBType,episode) + Skin.HasSetting(background.episodes.use.thumbnail) + Control.IsVisible(301151) + !Control.HasFocus(301151) + String.IsEmpty(Container(300).ListItem.Property(background)) + [Control.HasFocus(300) | Control.HasFocus(302) | Control.HasFocus(2011)]">$INFO[Container(301151).ListItem.Art(thumb)]</value>
+        <value condition="!Skin.HasSetting(home.dontshowfanart) + [[Skin.HasSetting(home.vertical) + Skin.HasSetting(home.vertical.widgets)] | [!Skin.HasSetting(home.vertical) + !Skin.HasSetting(home.classicwidgets) + Skin.HasSetting(home.vertical.widgets)]] + Window.IsVisible(home) + String.IsEmpty(Container(3011).ListItem.Property(Background)) + String.IsEmpty(Container(3011).ListItem.Property(backgroundPlaylist)) + !String.IsEmpty(Container(3011).ListItem.Art(thumb)) + String.IsEqual(Container(301161).ListItem.DBType,episode) + Skin.HasSetting(background.episodes.use.thumbnail) + Control.IsVisible(3011) + String.IsEmpty(Container(300).ListItem.Property(background)) + [Control.HasFocus(300) | Control.HasFocus(302) | Control.HasFocus(2011)]">$INFO[Container(3011).ListItem.Art(thumb)]</value>
+        
+        <!-- Other -->
         <value condition="!Skin.HasSetting(home.dontshowfanart) + [[Skin.HasSetting(home.vertical) + Skin.HasSetting(home.vertical.widgets)] | [!Skin.HasSetting(home.vertical) + !Skin.HasSetting(home.classicwidgets) + Skin.HasSetting(home.vertical.widgets)]] + Window.IsVisible(home) + String.IsEmpty(Container(301).ListItem.Property(Background)) + String.IsEmpty(Container(301).ListItem.Property(backgroundPlaylist)) + !String.IsEmpty(Container(30111).ListItem.Art(fanart)) + Control.IsVisible(30111) + !Control.HasFocus(30111) + String.IsEmpty(Container(300).ListItem.Property(background)) + [Control.HasFocus(300) | Control.HasFocus(302) | Control.HasFocus(2011)]">$INFO[Container(30111).ListItem.Art(fanart)]</value>
         <value condition="!Skin.HasSetting(home.dontshowfanart) + [[Skin.HasSetting(home.vertical) + Skin.HasSetting(home.vertical.widgets)] | [!Skin.HasSetting(home.vertical) + !Skin.HasSetting(home.classicwidgets) + Skin.HasSetting(home.vertical.widgets)]] + Window.IsVisible(home) + String.IsEmpty(Container(301).ListItem.Property(Background)) + String.IsEmpty(Container(301).ListItem.Property(backgroundPlaylist)) + !String.IsEmpty(Container(30121).ListItem.Art(fanart)) + Control.IsVisible(30121) + !Control.HasFocus(30121) + String.IsEmpty(Container(300).ListItem.Property(background)) + [Control.HasFocus(300) | Control.HasFocus(302) | Control.HasFocus(2011)]">$INFO[Container(30121).ListItem.Art(fanart)]</value>
         <value condition="!Skin.HasSetting(home.dontshowfanart) + [[Skin.HasSetting(home.vertical) + Skin.HasSetting(home.vertical.widgets)] | [!Skin.HasSetting(home.vertical) + !Skin.HasSetting(home.classicwidgets) + Skin.HasSetting(home.vertical.widgets)]] + Window.IsVisible(home) + String.IsEmpty(Container(301).ListItem.Property(Background)) + String.IsEmpty(Container(301).ListItem.Property(backgroundPlaylist)) + !String.IsEmpty(Container(30131).ListItem.Art(fanart)) + Control.IsVisible(30131) + !Control.HasFocus(30131) + String.IsEmpty(Container(300).ListItem.Property(background)) + [Control.HasFocus(300) | Control.HasFocus(302) | Control.HasFocus(2011)]">$INFO[Container(30131).ListItem.Art(fanart)]</value>
@@ -519,6 +555,24 @@
         <value condition="!Skin.HasSetting(home.dontshowfanart) + [[Skin.HasSetting(home.vertical) + Skin.HasSetting(home.vertical.widgets)] | [!Skin.HasSetting(home.vertical) + !Skin.HasSetting(home.classicwidgets) + Skin.HasSetting(home.vertical.widgets)]] + Window.IsVisible(home) + String.IsEmpty(Container(3011).ListItem.Property(Background)) + String.IsEmpty(Container(3011).ListItem.Property(backgroundPlaylist)) + !String.IsEmpty(Container(3011).ListItem.Art(fanart)) + Control.IsVisible(3011) + String.IsEmpty(Container(300).ListItem.Property(background)) + [Control.HasFocus(300) | Control.HasFocus(302) | Control.HasFocus(2011)]">$INFO[Container(3011).ListItem.Art(fanart)]</value>
 
         <!--Multi Widget Second Widget (case First Widget become empty) -->
+        <!-- Episodes -->
+        <value condition="!Skin.HasSetting(home.dontshowfanart) + [[Skin.HasSetting(home.vertical) + Skin.HasSetting(home.vertical.widgets)] | [!Skin.HasSetting(home.vertical) + !Skin.HasSetting(home.classicwidgets) + Skin.HasSetting(home.vertical.widgets)]] + Window.IsVisible(home) + String.IsEmpty(Container(301).ListItem.Property(Background)) + String.IsEmpty(Container(301).ListItem.Property(backgroundPlaylist)) + !String.IsEmpty(Container(30112).ListItem.Art(thumb)) + Integer.IsEqual(Container(30111).NumItems,0) + Control.IsVisible(30112) + !Control.HasFocus(30112) + String.IsEmpty(Container(300).ListItem.Property(background)) + [Control.HasFocus(300) | Control.HasFocus(302) | Control.HasFocus(2011)] + String.IsEqual(Container(30112).ListItem.DBType,episode) + Skin.HasSetting(background.episodes.use.thumbnail)">$INFO[Container(30112).ListItem.Art(thumb)]</value>
+        <value condition="!Skin.HasSetting(home.dontshowfanart) + [[Skin.HasSetting(home.vertical) + Skin.HasSetting(home.vertical.widgets)] | [!Skin.HasSetting(home.vertical) + !Skin.HasSetting(home.classicwidgets) + Skin.HasSetting(home.vertical.widgets)]] + Window.IsVisible(home) + String.IsEmpty(Container(301).ListItem.Property(Background)) + String.IsEmpty(Container(301).ListItem.Property(backgroundPlaylist)) + !String.IsEmpty(Container(30122).ListItem.Art(thumb)) + Integer.IsEqual(Container(30121).NumItems,0) + Control.IsVisible(30122) + !Control.HasFocus(30122) + String.IsEmpty(Container(300).ListItem.Property(background)) + [Control.HasFocus(300) | Control.HasFocus(302) | Control.HasFocus(2011)] + String.IsEqual(Container(30122).ListItem.DBType,episode) + Skin.HasSetting(background.episodes.use.thumbnail)">$INFO[Container(30122).ListItem.Art(thumb)]</value>
+        <value condition="!Skin.HasSetting(home.dontshowfanart) + [[Skin.HasSetting(home.vertical) + Skin.HasSetting(home.vertical.widgets)] | [!Skin.HasSetting(home.vertical) + !Skin.HasSetting(home.classicwidgets) + Skin.HasSetting(home.vertical.widgets)]] + Window.IsVisible(home) + String.IsEmpty(Container(301).ListItem.Property(Background)) + String.IsEmpty(Container(301).ListItem.Property(backgroundPlaylist)) + !String.IsEmpty(Container(30132).ListItem.Art(thumb)) + Integer.IsEqual(Container(30131).NumItems,0) + Control.IsVisible(30132) + !Control.HasFocus(30132) + String.IsEmpty(Container(300).ListItem.Property(background)) + [Control.HasFocus(300) | Control.HasFocus(302) | Control.HasFocus(2011)] + String.IsEqual(Container(30132).ListItem.DBType,episode) + Skin.HasSetting(background.episodes.use.thumbnail)">$INFO[Container(30132).ListItem.Art(thumb)]</value>
+        <value condition="!Skin.HasSetting(home.dontshowfanart) + [[Skin.HasSetting(home.vertical) + Skin.HasSetting(home.vertical.widgets)] | [!Skin.HasSetting(home.vertical) + !Skin.HasSetting(home.classicwidgets) + Skin.HasSetting(home.vertical.widgets)]] + Window.IsVisible(home) + String.IsEmpty(Container(301).ListItem.Property(Background)) + String.IsEmpty(Container(301).ListItem.Property(backgroundPlaylist)) + !String.IsEmpty(Container(30142).ListItem.Art(thumb)) + Integer.IsEqual(Container(30141).NumItems,0) + Control.IsVisible(30142) + !Control.HasFocus(30142) + String.IsEmpty(Container(300).ListItem.Property(background)) + [Control.HasFocus(300) | Control.HasFocus(302) | Control.HasFocus(2011)] + String.IsEqual(Container(30142).ListItem.DBType,episode) + Skin.HasSetting(background.episodes.use.thumbnail)">$INFO[Container(30142).ListItem.Art(thumb)]</value>
+        <value condition="!Skin.HasSetting(home.dontshowfanart) + [[Skin.HasSetting(home.vertical) + Skin.HasSetting(home.vertical.widgets)] | [!Skin.HasSetting(home.vertical) + !Skin.HasSetting(home.classicwidgets) + Skin.HasSetting(home.vertical.widgets)]] + Window.IsVisible(home) + String.IsEmpty(Container(301).ListItem.Property(Background)) + String.IsEmpty(Container(301).ListItem.Property(backgroundPlaylist)) + !String.IsEmpty(Container(30152).ListItem.Art(thumb)) + Integer.IsEqual(Container(30151).NumItems,0) + Control.IsVisible(30152) + !Control.HasFocus(30152) + String.IsEmpty(Container(300).ListItem.Property(background)) + [Control.HasFocus(300) | Control.HasFocus(302) | Control.HasFocus(2011)] + String.IsEqual(Container(30152).ListItem.DBType,episode) + Skin.HasSetting(background.episodes.use.thumbnail)">$INFO[Container(30152).ListItem.Art(thumb)]</value>
+        <value condition="!Skin.HasSetting(home.dontshowfanart) + [[Skin.HasSetting(home.vertical) + Skin.HasSetting(home.vertical.widgets)] | [!Skin.HasSetting(home.vertical) + !Skin.HasSetting(home.classicwidgets) + Skin.HasSetting(home.vertical.widgets)]] + Window.IsVisible(home) + String.IsEmpty(Container(301).ListItem.Property(Background)) + String.IsEmpty(Container(301).ListItem.Property(backgroundPlaylist)) + !String.IsEmpty(Container(30162).ListItem.Art(thumb)) + Integer.IsEqual(Container(30161).NumItems,0) + Control.IsVisible(30162) + !Control.HasFocus(30162) + String.IsEmpty(Container(300).ListItem.Property(background)) + [Control.HasFocus(300) | Control.HasFocus(302) | Control.HasFocus(2011)] + String.IsEqual(Container(30162).ListItem.DBType,episode) + Skin.HasSetting(background.episodes.use.thumbnail)">$INFO[Container(30162).ListItem.Art(thumb)]</value>
+        <value condition="!Skin.HasSetting(home.dontshowfanart) + [[Skin.HasSetting(home.vertical) + Skin.HasSetting(home.vertical.widgets)] | [!Skin.HasSetting(home.vertical) + !Skin.HasSetting(home.classicwidgets) + Skin.HasSetting(home.vertical.widgets)]] + Window.IsVisible(home) + String.IsEmpty(Container(301).ListItem.Property(Background)) + String.IsEmpty(Container(301).ListItem.Property(backgroundPlaylist)) + !String.IsEmpty(Container(30172).ListItem.Art(thumb)) + Integer.IsEqual(Container(30171).NumItems,0) + Control.IsVisible(30172) + !Control.HasFocus(30172) + String.IsEmpty(Container(300).ListItem.Property(background)) + [Control.HasFocus(300) | Control.HasFocus(302) | Control.HasFocus(2011)] + String.IsEqual(Container(30172).ListItem.DBType,episode) + Skin.HasSetting(background.episodes.use.thumbnail)">$INFO[Container(30172).ListItem.Art(thumb)]</value>
+        <value condition="!Skin.HasSetting(home.dontshowfanart) + [[Skin.HasSetting(home.vertical) + Skin.HasSetting(home.vertical.widgets)] | [!Skin.HasSetting(home.vertical) + !Skin.HasSetting(home.classicwidgets) + Skin.HasSetting(home.vertical.widgets)]] + Window.IsVisible(home) + String.IsEmpty(Container(301).ListItem.Property(Background)) + String.IsEmpty(Container(301).ListItem.Property(backgroundPlaylist)) + !String.IsEmpty(Container(30182).ListItem.Art(thumb)) + Integer.IsEqual(Container(30181).NumItems,0) + Control.IsVisible(30182) + !Control.HasFocus(30182) + String.IsEmpty(Container(300).ListItem.Property(background)) + [Control.HasFocus(300) | Control.HasFocus(302) | Control.HasFocus(2011)] + String.IsEqual(Container(30182).ListItem.DBType,episode) + Skin.HasSetting(background.episodes.use.thumbnail)">$INFO[Container(30182).ListItem.Art(thumb)]</value>
+        <value condition="!Skin.HasSetting(home.dontshowfanart) + [[Skin.HasSetting(home.vertical) + Skin.HasSetting(home.vertical.widgets)] | [!Skin.HasSetting(home.vertical) + !Skin.HasSetting(home.classicwidgets) + Skin.HasSetting(home.vertical.widgets)]] + Window.IsVisible(home) + String.IsEmpty(Container(301).ListItem.Property(Background)) + String.IsEmpty(Container(301).ListItem.Property(backgroundPlaylist)) + !String.IsEmpty(Container(30192).ListItem.Art(thumb)) + Integer.IsEqual(Container(30191).NumItems,0) + Control.IsVisible(30192) + !Control.HasFocus(30192) + String.IsEmpty(Container(300).ListItem.Property(background)) + [Control.HasFocus(300) | Control.HasFocus(302) | Control.HasFocus(2011)] + String.IsEqual(Container(30192).ListItem.DBType,episode) + Skin.HasSetting(background.episodes.use.thumbnail)">$INFO[Container(30192).ListItem.Art(thumb)]</value>
+        <value condition="!Skin.HasSetting(home.dontshowfanart) + [[Skin.HasSetting(home.vertical) + Skin.HasSetting(home.vertical.widgets)] | [!Skin.HasSetting(home.vertical) + !Skin.HasSetting(home.classicwidgets) + Skin.HasSetting(home.vertical.widgets)]] + Window.IsVisible(home) + String.IsEmpty(Container(301).ListItem.Property(Background)) + String.IsEmpty(Container(301).ListItem.Property(backgroundPlaylist)) + !String.IsEmpty(Container(301102).ListItem.Art(thumb)) + Integer.IsEqual(Container(301101).NumItems,0) + Control.IsVisible(301102) + !Control.HasFocus(301102) + String.IsEmpty(Container(300).ListItem.Property(background)) + [Control.HasFocus(300) | Control.HasFocus(302) | Control.HasFocus(2011)] + String.IsEqual(Container(301102).ListItem.DBType,episode) + Skin.HasSetting(background.episodes.use.thumbnail)">$INFO[Container(301102).ListItem.Art(thumb)]</value>
+        <value condition="!Skin.HasSetting(home.dontshowfanart) + [[Skin.HasSetting(home.vertical) + Skin.HasSetting(home.vertical.widgets)] | [!Skin.HasSetting(home.vertical) + !Skin.HasSetting(home.classicwidgets) + Skin.HasSetting(home.vertical.widgets)]] + Window.IsVisible(home) + String.IsEmpty(Container(301).ListItem.Property(Background)) + String.IsEmpty(Container(301).ListItem.Property(backgroundPlaylist)) + !String.IsEmpty(Container(301112).ListItem.Art(thumb)) + Integer.IsEqual(Container(301111).NumItems,0) + Control.IsVisible(301112) + !Control.HasFocus(301112) + String.IsEmpty(Container(300).ListItem.Property(background)) + [Control.HasFocus(300) | Control.HasFocus(302) | Control.HasFocus(2011)] + String.IsEqual(Container(301112).ListItem.DBType,episode) + Skin.HasSetting(background.episodes.use.thumbnail)">$INFO[Container(301112).ListItem.Art(thumb)]</value>
+        <value condition="!Skin.HasSetting(home.dontshowfanart) + [[Skin.HasSetting(home.vertical) + Skin.HasSetting(home.vertical.widgets)] | [!Skin.HasSetting(home.vertical) + !Skin.HasSetting(home.classicwidgets) + Skin.HasSetting(home.vertical.widgets)]] + Window.IsVisible(home) + String.IsEmpty(Container(301).ListItem.Property(Background)) + String.IsEmpty(Container(301).ListItem.Property(backgroundPlaylist)) + !String.IsEmpty(Container(301122).ListItem.Art(thumb)) + Integer.IsEqual(Container(301121).NumItems,0) + Control.IsVisible(301122) + !Control.HasFocus(301122) + String.IsEmpty(Container(300).ListItem.Property(background)) + [Control.HasFocus(300) | Control.HasFocus(302) | Control.HasFocus(2011)] + String.IsEqual(Container(301122).ListItem.DBType,episode) + Skin.HasSetting(background.episodes.use.thumbnail)">$INFO[Container(301122).ListItem.Art(thumb)]</value>
+        <value condition="!Skin.HasSetting(home.dontshowfanart) + [[Skin.HasSetting(home.vertical) + Skin.HasSetting(home.vertical.widgets)] | [!Skin.HasSetting(home.vertical) + !Skin.HasSetting(home.classicwidgets) + Skin.HasSetting(home.vertical.widgets)]] + Window.IsVisible(home) + String.IsEmpty(Container(301).ListItem.Property(Background)) + String.IsEmpty(Container(301).ListItem.Property(backgroundPlaylist)) + !String.IsEmpty(Container(301132).ListItem.Art(thumb)) + Integer.IsEqual(Container(301131).NumItems,0) + Control.IsVisible(301132) + !Control.HasFocus(301132) + String.IsEmpty(Container(300).ListItem.Property(background)) + [Control.HasFocus(300) | Control.HasFocus(302) | Control.HasFocus(2011)] + String.IsEqual(Container(301132).ListItem.DBType,episode) + Skin.HasSetting(background.episodes.use.thumbnail)">$INFO[Container(301132).ListItem.Art(thumb)]</value>
+        <value condition="!Skin.HasSetting(home.dontshowfanart) + [[Skin.HasSetting(home.vertical) + Skin.HasSetting(home.vertical.widgets)] | [!Skin.HasSetting(home.vertical) + !Skin.HasSetting(home.classicwidgets) + Skin.HasSetting(home.vertical.widgets)]] + Window.IsVisible(home) + String.IsEmpty(Container(301).ListItem.Property(Background)) + String.IsEmpty(Container(301).ListItem.Property(backgroundPlaylist)) + !String.IsEmpty(Container(301142).ListItem.Art(thumb)) + Integer.IsEqual(Container(301141).NumItems,0) + Control.IsVisible(301142) + !Control.HasFocus(301142) + String.IsEmpty(Container(300).ListItem.Property(background)) + [Control.HasFocus(300) | Control.HasFocus(302) | Control.HasFocus(2011)] + String.IsEqual(Container(301142).ListItem.DBType,episode) + Skin.HasSetting(background.episodes.use.thumbnail)">$INFO[Container(301142).ListItem.Art(thumb)]</value>
+        <value condition="!Skin.HasSetting(home.dontshowfanart) + [[Skin.HasSetting(home.vertical) + Skin.HasSetting(home.vertical.widgets)] | [!Skin.HasSetting(home.vertical) + !Skin.HasSetting(home.classicwidgets) + Skin.HasSetting(home.vertical.widgets)]] + Window.IsVisible(home) + String.IsEmpty(Container(301).ListItem.Property(Background)) + String.IsEmpty(Container(301).ListItem.Property(backgroundPlaylist)) + !String.IsEmpty(Container(301152).ListItem.Art(thumb)) + Integer.IsEqual(Container(301151).NumItems,0) + Control.IsVisible(301152) + !Control.HasFocus(301152) + String.IsEmpty(Container(300).ListItem.Property(background)) + [Control.HasFocus(300) | Control.HasFocus(302) | Control.HasFocus(2011)] + String.IsEqual(Container(30112).ListItem.DBType,episode) + Skin.HasSetting(background.episodes.use.thumbnail)">$INFO[Container(301152).ListItem.Art(thumb)]</value>
+        
+        <!-- Other -->
         <value condition="!Skin.HasSetting(home.dontshowfanart) + [[Skin.HasSetting(home.vertical) + Skin.HasSetting(home.vertical.widgets)] | [!Skin.HasSetting(home.vertical) + !Skin.HasSetting(home.classicwidgets) + Skin.HasSetting(home.vertical.widgets)]] + Window.IsVisible(home) + String.IsEmpty(Container(301).ListItem.Property(Background)) + String.IsEmpty(Container(301).ListItem.Property(backgroundPlaylist)) + !String.IsEmpty(Container(30112).ListItem.Art(fanart)) + Integer.IsEqual(Container(30111).NumItems,0) + Control.IsVisible(30112) + !Control.HasFocus(30112) + String.IsEmpty(Container(300).ListItem.Property(background)) + [Control.HasFocus(300) | Control.HasFocus(302) | Control.HasFocus(2011)]">$INFO[Container(30112).ListItem.Art(fanart)]</value>
         <value condition="!Skin.HasSetting(home.dontshowfanart) + [[Skin.HasSetting(home.vertical) + Skin.HasSetting(home.vertical.widgets)] | [!Skin.HasSetting(home.vertical) + !Skin.HasSetting(home.classicwidgets) + Skin.HasSetting(home.vertical.widgets)]] + Window.IsVisible(home) + String.IsEmpty(Container(301).ListItem.Property(Background)) + String.IsEmpty(Container(301).ListItem.Property(backgroundPlaylist)) + !String.IsEmpty(Container(30122).ListItem.Art(fanart)) + Integer.IsEqual(Container(30121).NumItems,0) + Control.IsVisible(30122) + !Control.HasFocus(30122) + String.IsEmpty(Container(300).ListItem.Property(background)) + [Control.HasFocus(300) | Control.HasFocus(302) | Control.HasFocus(2011)]">$INFO[Container(30122).ListItem.Art(fanart)]</value>
         <value condition="!Skin.HasSetting(home.dontshowfanart) + [[Skin.HasSetting(home.vertical) + Skin.HasSetting(home.vertical.widgets)] | [!Skin.HasSetting(home.vertical) + !Skin.HasSetting(home.classicwidgets) + Skin.HasSetting(home.vertical.widgets)]] + Window.IsVisible(home) + String.IsEmpty(Container(301).ListItem.Property(Background)) + String.IsEmpty(Container(301).ListItem.Property(backgroundPlaylist)) + !String.IsEmpty(Container(30132).ListItem.Art(fanart)) + Integer.IsEqual(Container(30131).NumItems,0) + Control.IsVisible(30132) + !Control.HasFocus(30132) + String.IsEmpty(Container(300).ListItem.Property(background)) + [Control.HasFocus(300) | Control.HasFocus(302) | Control.HasFocus(2011)]">$INFO[Container(30132).ListItem.Art(fanart)]</value>
@@ -552,11 +606,13 @@
         <value condition="Window.IsVisible(tvguide) + !String.IsEmpty(Window(Home).Property(PVR.Artwork.fanart)) +  Skin.HasSetting(Skin_enablePvrArtwork)">$INFO[Window(Home).Property(PVR.Artwork.Fanart)]</value>
         <value condition="Window.IsVisible(tvguide) + !String.IsEmpty(ListItem.EpgEventIcon)">$INFO[ListItem.EpgEventIcon]</value>
         <value condition="!String.IsEmpty(Window(Home).Property(SkinHelper.ExtraFanArtPath)) + Skin.HasSetting(SkinHelper.EnableExtraFanart) + System.AddonIsEnabled(script.skin.helper.service) + Window.IsVisible(MyVideoNav.xml)">$INFO[Window(Home).Property(SkinHelper.ExtraFanArtPath)]</value>
+        <value condition="Skin.HasSetting(background.episodes.use.thumbnail) + String.IsEqual(ListItem.DBType,episode) + !String.IsEmpty(ListItem.Art(thumb))">$INFO[ListItem.Art(thumb)]</value>
         <value condition="!String.IsEmpty(ListItem.Art(fanart))">$INFO[ListItem.Art(fanart)]</value>
         <value condition="!String.IsEmpty(Container(9500).ListItem.Art(fanart))">$INFO[Container(9500).ListItem.Art(fanart)]</value>
         <value condition="!String.IsEmpty(ListItem.Property(Fanart_Image))">$INFO[ListItem.Property(Fanart_Image)]</value>
         <value condition="!String.IsEmpty(ListItem.Property(Fanart))">$INFO[ListItem.Property(Fanart)]</value>
         <value condition="!String.IsEmpty(Skin.String(fanart.fallback))">$INFO[Skin.String(fanart.fallback)]</value>
+        <value condition="!String.IsEmpty(Container.Art(fanart))">$INFO[Container.Art(fanart)]</value>
         <value>common/null.png</value>
     </variable>
 
@@ -803,6 +859,26 @@
             <label>$INFO[ListItem.Art(fanart18)]</label>
             <label>$INFO[ListItem.Art(fanart19)]</label>
             <label>$INFO[ListItem.Art(fanart20)]</label>
+            <label>$INFO[ListItem.Art(artist.fanart1)]</label>
+            <label>$INFO[ListItem.Art(artist.fanart2)]</label>
+            <label>$INFO[ListItem.Art(artist.fanart3)]</label>
+            <label>$INFO[ListItem.Art(artist.fanart4)]</label>
+            <label>$INFO[ListItem.Art(artist.fanart5)]</label>
+            <label>$INFO[ListItem.Art(artist.fanart6)]</label>
+            <label>$INFO[ListItem.Art(artist.fanart7)]</label>
+            <label>$INFO[ListItem.Art(artist.fanart8)]</label>
+            <label>$INFO[ListItem.Art(artist.fanart9)]</label>
+            <label>$INFO[ListItem.Art(artist.fanart10)]</label>
+            <label>$INFO[ListItem.Art(artist.fanart11)]</label>
+            <label>$INFO[ListItem.Art(artist.fanart12)]</label>
+            <label>$INFO[ListItem.Art(artist.fanart13)]</label>
+            <label>$INFO[ListItem.Art(artist.fanart14)]</label>
+            <label>$INFO[ListItem.Art(artist.fanart15)]</label>
+            <label>$INFO[ListItem.Art(artist.fanart16)]</label>
+            <label>$INFO[ListItem.Art(artist.fanart17)]</label>
+            <label>$INFO[ListItem.Art(artist.fanart18)]</label>
+            <label>$INFO[ListItem.Art(artist.fanart19)]</label>
+            <label>$INFO[ListItem.Art(artist.fanart20)]</label>
             <label>$INFO[ListItem.Art(tvshow.fanart1)]</label>
             <label>$INFO[ListItem.Art(tvshow.fanart2)]</label>
             <label>$INFO[ListItem.Art(tvshow.fanart3)]</label>
@@ -1060,10 +1136,10 @@
     </include>
 
     <include name="buttondimensionsnumpad">
-        <width>186</width>
-        <height>89</height>
-        <radioposx>70</radioposx>
-        <radioposy>30</radioposy>
+        <width>89</width>
+        <height>186</height>
+        <radioposx>20</radioposx>
+        <radioposy>75</radioposy>
         <radiowidth>48</radiowidth>
     </include>
 
@@ -1284,7 +1360,7 @@
 
     <include name="weatherlistinputpagetwo">
         <control type="group">
-            <width>285</width>
+            <width>275</width>
             <height>PosterH</height>
             <posy>PosterPad</posy>
             <left>$PARAM[weatherlistinputpagetwoleft]</left>
@@ -1315,8 +1391,8 @@
             <control type="image">
                 <centertop>35%</centertop>
                 <centerleft>50%</centerleft>
-                <width>285</width>
-                <height>285</height>
+                <width>240</width>
+                <height>240</height>
                 <aspectratio align="center" aligny="center">keep</aspectratio>
                 <texture>$INFO[Skin.String(weather.icons.path),,/]$INFO[Window.Property(Daily.$PARAM[Daily].FanartCode),,.png]</texture>
                 <visible>!String.IsEmpty(Skin.String(weather.icons.path)) + !String.Contains(Skin.String(weather.icons.path),animated)</visible>
@@ -1324,8 +1400,8 @@
             <control type="multiimage">
                 <centertop>35%</centertop>
                 <centerleft>50%</centerleft>
-                <width>285</width>
-                <height>285</height>
+                <width>240</width>
+                <height>240</height>
                 <aspectratio align="center" aligny="center">keep</aspectratio>
                 <imagepath>$INFO[Skin.String(weather.icons.path),,/]$INFO[Window(weather).Property(Daily.$PARAM[Daily].FanartCode)]</imagepath>
                 <visible>!String.IsEmpty(Skin.String(weather.icons.path)) + String.Contains(Skin.String(weather.icons.path),animated) + !String.IsEmpty(Window(weather).Property(Daily.$PARAM[Daily].FanartCode))</visible>
@@ -1376,6 +1452,105 @@
                 <visible>!Skin.HasSetting(thumbnails.white)</visible>
             </control>
         </control>
+    </include>
+    
+    <include name="weatherlistinputpageone">
+        <param name="title" value="$PARAM[title]" default="$LOCALIZE[33006]"/>
+        <definition>
+        <control type="group">
+            <width>275</width>
+            <height>PosterH</height>
+            <posy>PosterPad</posy>
+            <left>$PARAM[left]</left>
+            <control type="image">
+                <width>100%</width>
+                <height>100%</height>
+                <texture border="5" colordiffuse="Panel">common/box.png</texture>
+            </control>
+            <control type="image">
+                <left>0</left>
+                <top>0</top>
+                <right>0</right>
+                <bottom>0</bottom>
+                <texture colordiffuse="BoxNotification" border="4" background="true" infill="false">common/box21.png</texture>
+                <visible>!Skin.HasSetting(thumbnails.white)</visible>
+            </control>
+            <control type="multiimage" description="Fanart">
+                <visible>!Skin.HasSetting(weather.hidefanart) + String.Contains(Skin.String(weather.fanart.path),multi) + !String.IsEmpty(Skin.String(weather.fanart.path))</visible>
+                <width>100%</width>
+                <height>100%</height>
+                <fadetime>600</fadetime>
+                <timeperimage>12000</timeperimage>
+                <randomize>true</randomize>
+                <aspectratio>scale</aspectratio>
+                <animation effect="fade" start="100" end="10" condition="true">Conditional</animation>
+                <imagepath background="true">$INFO[Skin.String(weather.fanart.path)]$INFO[Window(Weather).Property(Day$PARAM[day].FanartCode)]/</imagepath>
+            </control>
+            <control type="image" description="Fanart">
+                <visible>!Skin.HasSetting(weather.hidefanart) + !String.Contains(Skin.String(weather.fanart.path),multi) + !String.IsEmpty(Skin.String(weather.fanart.path))</visible>
+                <width>100%</width>
+                <height>100%</height>
+                <aspectratio>scale</aspectratio>
+                <animation effect="fade" start="100" end="10" condition="true">Conditional</animation>
+                <texture background="true">$INFO[Skin.String(weather.fanart.path)]$INFO[Window.Property(Day$PARAM[day].FanartCode),,.jpg]</texture>
+            </control>
+            <control type="image">
+                <centertop>35%</centertop>
+                <centerleft>50%</centerleft>
+                <width>240</width>
+                <height>240</height>
+                <aspectratio align="center" aligny="center">keep</aspectratio>
+                <texture>$INFO[Skin.String(weather.icons.path),,/]$INFO[Window(weather).Property(Day$PARAM[day].FanartCode),,.png]</texture>
+                <visible>!String.IsEmpty(Skin.String(weather.icons.path)) + !String.Contains(Skin.String(weather.icons.path),animated)</visible>
+            </control>
+            <control type="multiimage">
+                <centertop>35%</centertop>
+                <centerleft>50%</centerleft>
+                <width>240</width>
+                <height>240</height>
+                <aspectratio align="center" aligny="center">keep</aspectratio>
+                <imagepath>$INFO[Skin.String(weather.icons.path),,/]$INFO[Window(weather).Property(Day$PARAM[day].FanartCode)]</imagepath>
+                <visible>!String.IsEmpty(Skin.String(weather.icons.path)) + String.Contains(Skin.String(weather.icons.path),animated)</visible>
+            </control>
+            <control type="image">
+                <centertop>35%</centertop>
+                <centerleft>50%</centerleft>
+                <width>240</width>
+                <height>240</height>
+                <aspectratio align="center" aligny="center">keep</aspectratio>
+                <texture>$INFO[Window(weather).Property(Day$PARAM[day].OutlookIcon)]</texture>
+                <visible>String.IsEmpty(Skin.String(weather.icons.path))</visible>
+            </control>
+            <control type="label">
+                <top>20</top>
+                <left>20</left>
+                <right>20</right>
+                <align>center</align>
+                <font>Small</font>
+                <textcolor>PanelWhite100</textcolor>
+                <label fallback="10006">$PARAM[title]</label>
+            </control>
+            <control type="label">
+                <centertop>65%</centertop>
+                <left>20</left>
+                <right>20</right>
+                <align>center</align>
+                <font>LargeBold</font>
+                <textcolor>PanelWhite100</textcolor>
+                <label fallback="10006">$INFO[Window(Weather).Property(Day$PARAM[day].HighTemp),[B],[/B]°]$INFO[Window(Weather).Property(Day$PARAM[day].LowTemp),  ,°]</label>
+            </control>
+            <control type="textbox">
+                <top>76%</top>
+                <height>130</height>
+                <left>20</left>
+                <right>20</right>
+                <align>center</align>
+                <font>Tiny</font>
+                <textcolor>PanelWhite100</textcolor>
+                <label fallback="10006">$INFO[Window(Weather).Property(Day$PARAM[day].Outlook)]</label>
+            </control>
+        </control>
+        </definition>
     </include>
 
     <include name="DialogConfirmButtons">
@@ -1466,6 +1641,41 @@
                     <param name="icon" value="buttonsdialogs/info.png"/>
                 </include>
             </control>
+            
+            <!-- Rating Button -->
+            <control type="radiobutton" id="9007">
+                <visible>!String.IsEqual(ListItem.DBType,artist)</visible>
+                <include>OnFocusOnClick</include>
+                <include>ClearOnFocusOnClick</include>
+                <onfocus>ClearProperty(ShowDisc)</onfocus>
+                <onfocus>ClearProperty(RotateCover)</onfocus>
+                <onfocus>ClearProperty(musiccontent)</onfocus>
+                <onclick>SendClick(7)</onclick>
+                <include>buttondimensionssquare</include>
+                <texturenofocus colordiffuse="Dark4" border="0">common/boxsquare.png</texturenofocus>
+                <texturefocus colordiffuse="$VAR[ColorHighlight]" border="0">common/boxsquare.png</texturefocus>
+                <textureradioonfocus colordiffuse="FFFFFFFF">buttonsdialogs/rating.png</textureradioonfocus>
+                <textureradioonnofocus colordiffuse="FFFFFFFF">buttonsdialogs/rating.png</textureradioonnofocus>
+                <textureradioofffocus colordiffuse="FFFFFFFF">buttonsdialogs/rating_new.png</textureradioofffocus>
+                <textureradiooffnofocus colordiffuse="FFFFFFFF">buttonsdialogs/rating_new.png</textureradiooffnofocus>
+                <selected>String.IsEmpty(ListItem.UserRating)</selected>
+                <textcolor>Dark4</textcolor>
+                <font>Null</font>
+                <visible>!Skin.HasSetting(hidebutton.music.rating)</visible>
+            </control>
+            
+            <!-- Wikipedia Button -->
+            <control type="radiobutton" id="9030">
+                <onfocus>ClearProperty(musiccontent)</onfocus>
+                <onfocus>ClearProperty(ShowDisc)</onfocus>
+                <onfocus>ClearProperty(RotateCover)</onfocus>
+                <include>buttondimensionssquare</include>
+                <onclick>RunScript(script.wikipedia,wikipedia=$VAR[Wiki_Label],language=$VAR[LanguageCheck])</onclick>
+                <include content="buttontextures">
+                    <param name="icon" value="buttonsdialogs/wiki.png"/>
+                </include>
+                <visible>!Skin.HasSetting(hidebutton.music.wiki) + System.AddonIsEnabled(script.wikipedia)</visible>
+            </control>
 
             <!-- Tracklist Button -->
             <control type="radiobutton" id="9003">
@@ -1508,7 +1718,6 @@
 
             <!-- Fanart Button -->
             <control type="radiobutton" id="9006">
-                <visible>String.IsEqual(ListItem.DBType,artist)</visible>
                 <onfocus>ClearProperty(ShowDisc)</onfocus>
                 <onfocus condition="!String.IsEqual(Window.Property(musiccontent),4)">ClearProperty(musiccontent)</onfocus>
                 <onfocus>SetProperty(musiccontent,4)</onfocus>
@@ -1521,27 +1730,6 @@
                     <param name="icon" value="buttonsdialogs/image.png"/>
                 </include>
                 <visible>!Skin.HasSetting(hidebutton.music.fanart)</visible>
-            </control>
-
-            <!-- Rating Button -->
-            <control type="radiobutton" id="9007">
-                <visible>!String.IsEqual(ListItem.DBType,artist)</visible>
-                <include>OnFocusOnClick</include>
-                <include>ClearOnFocusOnClick</include>
-                <onfocus>ClearProperty(ShowDisc)</onfocus>
-                <onfocus>ClearProperty(musiccontent)</onfocus>
-                <onclick>SendClick(7)</onclick>
-                <include>buttondimensionssquare</include>
-                <texturenofocus colordiffuse="Dark4" border="0">common/boxsquare.png</texturenofocus>
-                <texturefocus colordiffuse="$VAR[ColorHighlight]" border="0">common/boxsquare.png</texturefocus>
-                <textureradioonfocus colordiffuse="FFFFFFFF">buttonsdialogs/rating.png</textureradioonfocus>
-                <textureradioonnofocus colordiffuse="FFFFFFFF">buttonsdialogs/rating.png</textureradioonnofocus>
-                <textureradioofffocus colordiffuse="FFFFFFFF">buttonsdialogs/rating_new.png</textureradioofffocus>
-                <textureradiooffnofocus colordiffuse="FFFFFFFF">buttonsdialogs/rating_new.png</textureradiooffnofocus>
-                <selected>String.IsEmpty(ListItem.UserRating)</selected>
-                <textcolor>Dark4</textcolor>
-                <font>Null</font>
-                <visible>!Skin.HasSetting(hidebutton.music.rating)</visible>
             </control>
 
             <!-- More Of Artist Button -->
@@ -1658,6 +1846,8 @@
                 <visible>String.IsEqual(ListItem.DBType,movie) | String.IsEqual(ListItem.DBType,tvshow) | String.IsEqual(ListItem.DBType,episode)</visible>
                 <onfocus condition="!String.IsEqual(Window.Property(moviecontent),1)">ClearProperty(moviecontent)</onfocus>
                 <onfocus>SetProperty(moviecontent,1)</onfocus>
+                <onclick condition="String.IsEqual(ListItem.DBType,movie)">RunScript(script.embuary.info,call=movie,query=$INFO[ListItem.Title])</onclick>
+                <onclick condition="String.IsEqual(ListItem.DBType,tvshow) | String.IsEqual(ListItem.DBType,episode)">RunScript(script.embuary.info,call=tv,query=$INFO[ListItem.TvShowTitle])</onclick>
                 <include>buttondimensions</include>
                 <include content="buttontextures">
                     <param name="icon" value="buttonsdialogs/info.png"/>
@@ -1705,9 +1895,9 @@
                 <include content="buttontextures">
                     <param name="icon" value="buttonsdialogs/playcinema.png"/>
                 </include>
-                <onclick>RunScript(script.embuary.helper,action=playcinema,dbid=$INFO[ListItem.DBID],type=$INFO[ListItem.DBType],title='$ESCINFO[ListItem.Title]')</onclick>
+                <onclick>RunScript(script.preshowexperience,dbtype=$INFO[ListItem.DBType],dbid=$INFO[ListItem.DBID])</onclick>
                 <visible>String.IsEqual(ListItem.DBTYPE,movie) | String.IsEqual(ListItem.DBTYPE,episode)</visible>
-                <visible>Skin.HasSetting(hidebutton.video.cinema)</visible>
+                <visible>Skin.HasSetting(hidebutton.video.cinema) + System.AddonIsEnabled(script.preshowexperience)</visible>
             </control>
             <control type="radiobutton" id="7">
                 <onfocus>ClearProperty(moviecontent)</onfocus>
@@ -1739,6 +1929,20 @@
                 <onclick>Action(close)</onclick>
                 <onclick>RunScript(plugin.video.specialfeatures,listitem)</onclick>
                 <visible>!Skin.HasSetting(hidebutton.video.specialfeatures)</visible>
+            </control>
+            <control type="radiobutton" id="9013">
+                <visible>String.IsEqual(ListItem.DBType,movie) | String.IsEqual(ListItem.DBType,tvshow)</visible>
+                <onfocus>ClearProperty(moviecontent)</onfocus>
+                <onfocus>ClearProperty(ShowDisc)</onfocus>
+                <onfocus>ClearProperty(dontslide,home)</onfocus>
+                <onclick>SetProperty(dontslide,1,home)</onclick>
+                <onclick condition="String.IsEqual(ListItem.DBType,movie)">RunScript(script.wikipedia,wikipedia=$VAR[Wiki_Label],tmdb_type=movie,language=$VAR[LanguageCheck])</onclick>
+                <onclick condition="String.IsEqual(ListItem.DBType,tvshow)">RunScript(script.wikipedia,wikipedia=$VAR[Wiki_Label],tmdb_type=tv,language=$VAR[LanguageCheck])</onclick>
+                <include>buttondimensions</include>
+                <include content="buttontextures">
+                    <param name="icon" value="buttonsdialogs/wiki.png"/>
+                </include>
+                <visible>!Skin.HasSetting(hidebutton.video.wiki) + System.AddonIsEnabled(script.wikipedia)</visible>
             </control>
             <control type="radiobutton" id="9002">
                 <visible>String.IsEqual(ListItem.DBType,movie) | String.IsEqual(ListItem.DBType,tvshow)</visible>
@@ -2167,7 +2371,7 @@
             <label>$VAR[LabelWIPDialogVideoInfoHeader]</label>
         </control>
         <control type="label">
-            <top>55</top>
+            <top>60</top>
             <height>36</height>
             <font>Tiny</font>
             <textcolor>Dark1</textcolor>
@@ -2786,40 +2990,6 @@
         <defaultcontrol always="false">300</defaultcontrol>
     </include>
 
-    <include name="JumpbarHelper">
-        <control type="button" id="390000">
-            <include>HiddenButton</include>
-            <onfocus condition="!String.IsEqual(ListItem.SortLetter,A) + !String.IsEqual(ListItem.SortLetter,B) + !String.IsEqual(ListItem.SortLetter,C) + !String.IsEqual(ListItem.SortLetter,D) + !String.IsEqual(ListItem.SortLetter,E) + !String.IsEqual(ListItem.SortLetter,F) + !String.IsEqual(ListItem.SortLetter,G) + !String.IsEqual(ListItem.SortLetter,H) + !String.IsEqual(ListItem.SortLetter,I) + !String.IsEqual(ListItem.SortLetter,J) + !String.IsEqual(ListItem.SortLetter,K) + !String.IsEqual(ListItem.SortLetter,L) + !String.IsEqual(ListItem.SortLetter,M) + !String.IsEqual(ListItem.SortLetter,N) + !String.IsEqual(ListItem.SortLetter,O) + !String.IsEqual(ListItem.SortLetter,P) + !String.IsEqual(ListItem.SortLetter,Q) + !String.IsEqual(ListItem.SortLetter,R) + !String.IsEqual(ListItem.SortLetter,S) + !String.IsEqual(ListItem.SortLetter,T) + !String.IsEqual(ListItem.SortLetter,U) + !String.IsEqual(ListItem.SortLetter,V) + !String.IsEqual(ListItem.SortLetter,W) + !String.IsEqual(ListItem.SortLetter,X) + !String.IsEqual(ListItem.SortLetter,Y) + !String.IsEqual(ListItem.SortLetter,Z) + [Integer.IsGreater(Container(290001).NumItems,0) | Container(290001).IsUpdating]">SetFocus(290001,0,absolute)</onfocus>
-            <onfocus condition="!String.IsEqual(ListItem.SortLetter,A) + !String.IsEqual(ListItem.SortLetter,B) + !String.IsEqual(ListItem.SortLetter,C) + !String.IsEqual(ListItem.SortLetter,D) + !String.IsEqual(ListItem.SortLetter,E) + !String.IsEqual(ListItem.SortLetter,F) + !String.IsEqual(ListItem.SortLetter,G) + !String.IsEqual(ListItem.SortLetter,H) + !String.IsEqual(ListItem.SortLetter,I) + !String.IsEqual(ListItem.SortLetter,J) + !String.IsEqual(ListItem.SortLetter,K) + !String.IsEqual(ListItem.SortLetter,L) + !String.IsEqual(ListItem.SortLetter,M) + !String.IsEqual(ListItem.SortLetter,N) + !String.IsEqual(ListItem.SortLetter,O) + !String.IsEqual(ListItem.SortLetter,P) + !String.IsEqual(ListItem.SortLetter,Q) + !String.IsEqual(ListItem.SortLetter,R) + !String.IsEqual(ListItem.SortLetter,S) + !String.IsEqual(ListItem.SortLetter,T) + !String.IsEqual(ListItem.SortLetter,U) + !String.IsEqual(ListItem.SortLetter,V) + !String.IsEqual(ListItem.SortLetter,W) + !String.IsEqual(ListItem.SortLetter,X) + !String.IsEqual(ListItem.SortLetter,Y) + !String.IsEqual(ListItem.SortLetter,Z) + !Integer.IsGreater(Container(290001).NumItems,0) + !Container(290001).IsUpdating">SetFocus(50)</onfocus>
-            <onfocus condition="String.IsEqual(ListItem.SortLetter,A)">SetFocus(290001,1,absolute)</onfocus>
-            <onfocus condition="String.IsEqual(ListItem.SortLetter,B)">SetFocus(290001,2,absolute)</onfocus>
-            <onfocus condition="String.IsEqual(ListItem.SortLetter,C)">SetFocus(290001,3,absolute)</onfocus>
-            <onfocus condition="String.IsEqual(ListItem.SortLetter,D)">SetFocus(290001,4,absolute)</onfocus>
-            <onfocus condition="String.IsEqual(ListItem.SortLetter,E)">SetFocus(290001,5,absolute)</onfocus>
-            <onfocus condition="String.IsEqual(ListItem.SortLetter,F)">SetFocus(290001,6,absolute)</onfocus>
-            <onfocus condition="String.IsEqual(ListItem.SortLetter,G)">SetFocus(290001,7,absolute)</onfocus>
-            <onfocus condition="String.IsEqual(ListItem.SortLetter,H)">SetFocus(290001,8,absolute)</onfocus>
-            <onfocus condition="String.IsEqual(ListItem.SortLetter,I)">SetFocus(290001,9,absolute)</onfocus>
-            <onfocus condition="String.IsEqual(ListItem.SortLetter,J)">SetFocus(290001,10,absolute)</onfocus>
-            <onfocus condition="String.IsEqual(ListItem.SortLetter,K)">SetFocus(290001,11,absolute)</onfocus>
-            <onfocus condition="String.IsEqual(ListItem.SortLetter,L)">SetFocus(290001,12,absolute)</onfocus>
-            <onfocus condition="String.IsEqual(ListItem.SortLetter,M)">SetFocus(290001,13,absolute)</onfocus>
-            <onfocus condition="String.IsEqual(ListItem.SortLetter,N)">SetFocus(290001,14,absolute)</onfocus>
-            <onfocus condition="String.IsEqual(ListItem.SortLetter,O)">SetFocus(290001,15,absolute)</onfocus>
-            <onfocus condition="String.IsEqual(ListItem.SortLetter,P)">SetFocus(290001,16,absolute)</onfocus>
-            <onfocus condition="String.IsEqual(ListItem.SortLetter,Q)">SetFocus(290001,17,absolute)</onfocus>
-            <onfocus condition="String.IsEqual(ListItem.SortLetter,R)">SetFocus(290001,18,absolute)</onfocus>
-            <onfocus condition="String.IsEqual(ListItem.SortLetter,S)">SetFocus(290001,19,absolute)</onfocus>
-            <onfocus condition="String.IsEqual(ListItem.SortLetter,T)">SetFocus(290001,20,absolute)</onfocus>
-            <onfocus condition="String.IsEqual(ListItem.SortLetter,U)">SetFocus(290001,21,absolute)</onfocus>
-            <onfocus condition="String.IsEqual(ListItem.SortLetter,V)">SetFocus(290001,22,absolute)</onfocus>
-            <onfocus condition="String.IsEqual(ListItem.SortLetter,W)">SetFocus(290001,23,absolute)</onfocus>
-            <onfocus condition="String.IsEqual(ListItem.SortLetter,X)">SetFocus(290001,24,absolute)</onfocus>
-            <onfocus condition="String.IsEqual(ListItem.SortLetter,Y)">SetFocus(290001,25,absolute)</onfocus>
-            <onfocus condition="String.IsEqual(ListItem.SortLetter,Z)">SetFocus(290001,26,absolute)</onfocus>
-        </control>
-    </include>
-
     <include name="ProgressBar">
         <control type="ranges">
             <visible>Skin.HasSetting(cutlist.markers)</visible>
@@ -3056,32 +3226,6 @@
         <top>20</top>
         <include>arrowdimensions</include>
         <texture colordiffuse="Dark1" flipy="false">common/arrow-small-right.png</texture>
-    </include>
-
-    <include name="more">
-        <control type="label">
-            <align>center</align>
-            <aligny>center</aligny>
-            <width>100%</width>
-            <height>100%</height>
-            <textcolor>PanelWhite70</textcolor>
-            <font>Small</font>
-            <label>31429</label>
-            <visible>!String.IsEqual(ListItem.Label,..)</visible>
-            <visible>String.IsEqual(ListItem.Property(LabelMore),more)</visible>
-        </control>
-    </include>
-
-    <include name="morecontent">
-        <content>
-            <item>
-                <label>$LOCALIZE[31429]</label>
-                <property name="LabelMore">more</property>
-                <icon>buttonsdialogs/morewidget.png</icon>
-                <onclick>ActivateWindow($PARAM[targetcontent],$PARAM[content],return)</onclick>
-                <visible>Integer.IsGreater(Container($PARAM[id]).NumItems,9)</visible>
-            </item>
-        </content>
     </include>
 
     <include name="SetWidgetContainerForTMDB">
@@ -3562,7 +3706,7 @@
 
     <include name="ControlButtons">
         <control type="grouplist" id="6150">
-            <visible>Player.HasMedia</visible>
+            <visible>Player.HasMedia | Player.Playing</visible>
             <usecontrolcoords>true</usecontrolcoords>
             <top>10</top>
             <height>60</height>
@@ -4609,7 +4753,7 @@
             </control>
         </control>
         <control type="group">
-            <include condition="Skin.HasSetting(items.focus.zoom)">Animation.Focus.Zoom</include>
+            <include condition="Skin.HasSetting(items.focus.zoom)" content="Animation.Focus.Zoom"><param name="zoom" value="103" /></include>
             <height>$PARAM[height]</height>
             <include content="def_widgetfanart">
                 <param name="indicatorbackground" value="$PARAM[indicatorbackground]" />
@@ -4646,7 +4790,7 @@
             </control>
         </control>
         <control type="group">
-            <include condition="Skin.HasSetting(items.focus.zoom)">Animation.Focus.Zoom</include>
+            <include condition="Skin.HasSetting(items.focus.zoom)" content="Animation.Focus.Zoom"><param name="zoom" value="103" /></include>
             <height>$PARAM[height]</height>
             <include content="def_widgetlandscape">
                 <param name="indicatorbackground" value="$PARAM[indicatorbackground]" />
@@ -4669,7 +4813,7 @@
         <param name="reflections" value="$PARAM[reflections]" default="false"/>
         <definition>
         <control type="group">
-            <include condition="Skin.HasSetting(items.focus.zoom)">Animation.Focus.Zoom</include>
+            <include condition="Skin.HasSetting(items.focus.zoom)" content="Animation.Focus.Zoom"><param name="zoom" value="103" /></include>
             <height>$PARAM[height]</height>
             <include content="def_widgetbanner">
                 <param name="indicatorbackground" value="$PARAM[indicatorbackground]" />
@@ -4719,7 +4863,7 @@
             </control>
         </control>
         <control type="group">
-            <include condition="Skin.HasSetting(items.focus.zoom)">Animation.Focus.Zoom</include>
+            <include condition="Skin.HasSetting(items.focus.zoom)" content="Animation.Focus.Zoom"><param name="zoom" value="103" /></include>
             <height>$PARAM[height]</height>
             <include content="def_widgetthumb">
                 <param name="clearlogo" value="$PARAM[clearlogo]"/>
@@ -4932,7 +5076,7 @@
             <top>548</top>
             <visible>!String.IsEqual(ListItem.Label,..)</visible>
             <control type="image">
-                <visible>!ListItem.IsFolder + !String.IsEmpty(ListItem.Art(discart)) + Skin.HasSetting(discartfanart) + !Container.OnNext + !Container.OnPrevious</visible>
+                <visible>!String.IsEmpty(ListItem.Art(discart)) + Skin.HasSetting(discartfanart) + !Container.OnNext + !Container.OnPrevious</visible>
                 <top>$PARAM[discposition]</top>
                 <width>235</width>
                 <height>235</height>
@@ -4983,5 +5127,37 @@
     
     <variable name="AutoCompletionPath">
         <value condition="System.AddonIsEnabled(plugin.program.autocompletion)">plugin://plugin.program.autocompletion?info=autocomplete&amp;&amp;id=$INFO[Control.GetLabel(312).index(1)]&amp;&amp;limit=9</value>
+    </variable>
+    
+    <variable name="Wiki_Label">
+        <value condition="String.IsEqual(ListItem.DBType,album) + !String.IsEmpty(ListItem.Album)">$INFO[ListItem.Album] $INFO[ListItem.Artist]</value>
+        <value condition="String.IsEqual(ListItem.DBType,song) + !String.IsEmpty(ListItem.Title)">$INFO[ListItem.Title] $INFO[ListItem.Artist]</value>
+        <value condition="String.IsEqual(ListItem.DBType,artist) + !String.IsEmpty(ListItem.Artist)">$INFO[ListItem.Artist]</value>
+        <value condition="!String.IsEmpty(ListItem.TVShowTitle)">$INFO[ListItem.TVShowTitle]</value>
+        <value condition="!String.IsEmpty(ListItem.Title)">$INFO[ListItem.Title]</value>
+        <value>$INFO[ListItem.Label]</value>
+    </variable>
+
+    <variable name="CurrentlyPlayingItem">
+        <value condition="Player.HasAudio + !String.IsEmpty(MusicPlayer.DBID)">musicdb://songs/?songid=$INFO[MusicPlayer.DBID]</value>
+        <value condition="Player.HasVideo + VideoPlayer.Content(movies)">videodb://movies/titles/?xsp=%7B%22rules%22%3A%7B%22and%22%3A%5B%7B%22field%22%3A%22title%22%2C%22operator%22%3A%22is%22%2C%22value%22%3A%5B%22$INFO[Player.Title]%22%5D%7D%2C%7B%22field%22%3A%22filename%22%2C%22operator%22%3A%22is%22%2C%22value%22%3A%5B%22$INFO[Player.Filename]%22%5D%7D%5D%7D%2C%22type%22%3A%22movies%22%7D</value>
+        <value condition="Player.HasVideo + VideoPlayer.Content(episodes)">videodb://tvshows/titles/-1/-1/?xsp=%7B%22rules%22%3A%7B%22and%22%3A%5B%7B%22field%22%3A%22title%22%2C%22operator%22%3A%22is%22%2C%22value%22%3A%5B%22$INFO[Player.Title]%22%5D%7D%2C%7B%22field%22%3A%22filename%22%2C%22operator%22%3A%22is%22%2C%22value%22%3A%5B%22$INFO[Player.Filename]%22%5D%7D%5D%7D%2C%22type%22%3A%22episodes%22%7D
+        </value>
+    </variable>
+    
+    <include name="OnDirectionAction">
+        <onleft>$PARAM[ondirection]</onleft>
+        <onright>$PARAM[ondirection]</onright>
+        <onup>$PARAM[ondirection]</onup>
+        <ondown>$PARAM[ondirection]</ondown>
+        <onback>$PARAM[ondirection]</onback>
+    </include>
+    
+    <variable name="LanguageCheck">
+        <value condition="String.IsEqual(System.Language,Italian)">it</value>
+        <value condition="String.IsEqual(System.Language,German)">de</value>
+        <value condition="String.Contains(System.Language,French)">fr</value>
+        <value condition="String.Contains(System.Language,Spanish)">es</value>
+        <value>en</value>
     </variable>
 </includes>

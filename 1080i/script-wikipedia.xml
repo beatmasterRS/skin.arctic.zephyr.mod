@@ -1,0 +1,171 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<window type="dialog">
+    <defaultcontrol always="true">9902</defaultcontrol>
+    <onload>SetProperty(TMDbHelper.ServicePause,1)</onload>
+    <onunload>ClearProperty(dontslide,home)</onunload>
+    <controls>
+        <control type="group">
+            <animation effect="fade" start="0" end="100" time="350" delay="100" tween="cubic" easing="inout">WindowOpen</animation>
+            
+            <!-- Title of the Wikipedia article -->
+            <control type="label" id="9901">
+                <top>90</top>
+                <include content="def_left" condition="Window.IsVisible(DialogMusicInfo.xml)"><param name="left" value="785" /></include>
+                <left>570</left>
+                <font>LargeNew</font>
+                <description>Header Label</description>
+                <textcolor>Dark1</textcolor>
+            </control>
+
+            <control type="group">
+                <left>SidePad</left>
+                <top>216</top>
+                <right>SidePad</right>
+                <height>890</height>
+                <control type="list" id="9902">
+                    <height>640</height>
+                    <include content="def_width" condition="Window.IsVisible(DialogMusicInfo.xml)"><param name="width" value="PosterH" /></include>
+                    <width>428</width>
+                    <onright>1500</onright>
+                    <onup>9902</onup>
+                    <ondown>9902</ondown>
+                    <focusposition>2</focusposition>
+                    <viewtype label="535">list</viewtype>
+                    <include>ScrolltimeViewsList</include>
+                    <itemlayout width="428" height="64" condition="!Window.IsVisible(DialogMusicInfo.xml)">
+                        <control type="label">
+                            <posx>30</posx>
+                            <width>370</width>
+                            <aligny>center</aligny>
+                            <height>64</height>
+                            <font>SmallNavi</font>
+                            <label>$INFO[ListItem.Label]</label>
+                            <textcolor>Dark1</textcolor>
+                            <selectedcolor>Dark1</selectedcolor>
+                        </control>
+                    </itemlayout>
+                    <focusedlayout width="428" height="64" condition="!Window.IsVisible(DialogMusicInfo.xml)">
+                        <control type="image">
+                            <width>428</width>
+                            <height>64</height>
+                            <texture border="5" colordiffuse="$VAR[ColorSelectOtherBar]">common/white.png</texture>
+                        </control>
+                        <control type="image">
+                            <width>428</width>
+                            <height>64</height>
+                            <texture border="5" colordiffuse="$VAR[ColorHighlightOtherBar]">common/gradient-box-wide-cut.png</texture>
+                        </control>
+                        <control type="label">
+                            <posx>30</posx>
+                            <width>370</width>
+                            <aligny>center</aligny>
+                            <height>64</height>
+                            <font>SmallNavi</font>
+                            <label>$INFO[ListItem.Label]</label>
+                            <textcolor>Selected</textcolor>
+                            <selectedcolor>Selected</selectedcolor>
+                        </control>
+                    </focusedlayout>
+                    <itemlayout width="PosterH" height="64" condition="Window.IsVisible(DialogMusicInfo.xml)">
+                        <control type="label">
+                            <posx>30</posx>
+                            <width>580</width>
+                            <aligny>center</aligny>
+                            <height>64</height>
+                            <font>SmallNavi</font>
+                            <label>$INFO[ListItem.Label]</label>
+                            <textcolor>Dark1</textcolor>
+                            <selectedcolor>Dark1</selectedcolor>
+                        </control>
+                    </itemlayout>
+                    <focusedlayout width="PosterH" height="64" condition="Window.IsVisible(DialogMusicInfo.xml)">
+                        <control type="image">
+                            <width>PosterH</width>
+                            <height>64</height>
+                            <texture border="5" colordiffuse="$VAR[ColorSelectOtherBar]">common/white.png</texture>
+                        </control>
+                        <control type="image">
+                            <width>PosterH</width>
+                            <height>64</height>
+                            <texture border="5" colordiffuse="$VAR[ColorHighlightOtherBar]">common/gradient-box-wide-cut.png</texture>
+                        </control>
+                        <control type="label">
+                            <posx>30</posx>
+                            <width>580</width>
+                            <aligny>center</aligny>
+                            <height>64</height>
+                            <font>SmallNavi</font>
+                            <label>$INFO[ListItem.Label]</label>
+                            <textcolor>Selected</textcolor>
+                            <selectedcolor>Selected</selectedcolor>
+                        </control>
+                    </focusedlayout>
+                </control>
+                
+                <include content="scrollbar_dialog">
+                    <param name="scrollid" value="1500"/>
+                    <param name="onleft" value="9902"/>
+                    <param name="onright" value="9902"/>
+                    <param name="height" value="500"/>
+                    <param name="posy" value="0"/>
+                </include>
+                        
+                <!-- Right Group -->
+                <control type="group">
+                    <include content="def_left" condition="Window.IsVisible(DialogMusicInfo.xml)"><param name="left" value="705" /></include>
+                    <left>490</left>
+                    <height>614</height>
+                    <control type="group">
+                        
+                        <!-- Creative commons licence logo -->
+                        <control type="textbox" id="9904">
+                            <top>560</top>
+                            <align>left</align>
+                            <textcolor>Dark3</textcolor>
+                            <font>Small20</font>
+                        </control>
+                        
+                        <!-- Creative commons attribution label -->
+                        <control type="image" id="9905">
+                            <bottom>2</bottom>
+                            <height>42</height>
+                            <aspectratio align="right">keep</aspectratio>
+                            <visible>false</visible> <!-- Optional: https://github.com/jurialmunkey/plugin.video.themoviedb.helper/wiki/Wikipedia -->
+                        </control>
+
+                        <!-- Textbox with the text of the section focused in 9902 -->
+                        <control type="textbox" id="9903">
+                            <top>-4</top>
+                            <height>500</height>
+                            <align>left</align>
+                            <textcolor>Dark2</textcolor>
+                            <font>Tiny</font>
+                            <pagecontrol>1500</pagecontrol>
+                            <right>400</right>
+                        </control>
+
+                        <!-- Image on right -->
+                        <control type="group">
+                            <right>0</right>
+                            <width>320</width>
+                            <visible>!String.IsEmpty(Window.Property(Image))</visible>
+                            <control type="image">
+                                <width>320</width>
+                                <aspectratio align="center" aligny="top">keep</aspectratio>
+                                <texture background="true">$INFO[Window.Property(Image)]</texture>
+                            </control>
+                            <control type="textbox">
+                                <align>center</align>
+                                <height>120</height>
+                                <bottom>0</bottom>
+                                <textcolor>Dark3</textcolor>
+                                <font>Small20</font>
+                                <label>$INFO[Window.Property(ImageText)]</label>
+                            </control>
+                        </control>
+                    </control>
+                </control>
+            </control>
+        </control>
+    </controls>
+</window>

@@ -20,9 +20,21 @@
     </variable>
 
     <variable name="ColorStars">
-        <value condition="String.IsEqual(Skin.String(starscolor.name),none)">ColoredStars</value>
-        <value condition="!String.IsEmpty(Skin.String(starscolor.name))">$INFO[Skin.String(starscolor.name)]</value>
-        <value>ColoredStars</value>
+        <value condition="String.IsEqual(Skin.String(starscolornew.name),none)">$VAR[ColorHighlight]</value>
+        <value condition="!String.IsEmpty(Skin.String(starscolornew.name))">$INFO[Skin.String(starscolornew.name)]</value>
+        <value>$VAR[ColorHighlight]</value>
+    </variable>
+    
+    <variable name="ColorKodiLogo">
+        <value condition="String.IsEqual(Skin.String(kodilogocolor.name),none)">Dark2</value>
+        <value condition="!String.IsEmpty(Skin.String(kodilogocolor.name))">$INFO[Skin.String(kodilogocolor.name)]</value>
+        <value>Dark2</value>
+    </variable>
+
+    <variable name="ColorKodiLogoGradient">
+        <value condition="String.IsEqual(Skin.String(kodilogocolorgradient.name),none) | String.IsEmpty(Skin.String(kodilogocolorgradient.name))">00e8e8e8</value>
+        <value condition="!String.IsEmpty(Skin.String(kodilogocolorgradient.name))">$INFO[Skin.String(kodilogocolorgradient.name)]</value>
+        <value>$VAR[ColorKodiLogo]</value>
     </variable>
 
     <variable name="ColorRating">
@@ -107,8 +119,8 @@
         <value>ColorRating</value>
     </variable>
     
-    <variable name="starscolor.name.own">
-        <value condition="!String.IsEmpty(Skin.String(starscolor.name.own))">$INFO[Skin.String(starscolor.name.own)]</value>
+    <variable name="starscolornew.name.own">
+        <value condition="!String.IsEmpty(Skin.String(starscolornew.name.own))">$INFO[Skin.String(starscolornew.name.own)]</value>
         <value>ffd402aa</value>
     </variable>
     
@@ -135,6 +147,11 @@
     <variable name="DefWidgetTarget">
         <value condition="!String.IsEmpty(Skin.String(widgetTarget)) + String.IsEmpty(Skin.String(home.slideshowpath)) + !String.IsEqual(Skin.String(home.slideshowpath),pvr/background.jpg)">$INFO[Skin.String(widgetTarget)]</value>
         <value>videos</value>
+    </variable>
+    
+    <variable name="DefBrowse">
+        <value condition="Skin.HasSetting(enable.morewidget)">auto</value>
+        <value>never</value>
     </variable>
 
     <variable name="DefWidgetLimit">
@@ -913,6 +930,7 @@
                             <textcolor>PanelWhite70</textcolor>
                             <selectedcolor>PanelWhite70</selectedcolor>
                             <label>$VAR[LabelDurationTimeCheck9500]</label>
+                            <visible>!String.IsEqual(Container(9500).ListItem.DBType,tvshow)</visible>
                         </control>
                         <control type="label">
                             <centerright>96</centerright>
@@ -994,6 +1012,7 @@
                             <textcolor>PanelWhite70</textcolor>
                             <selectedcolor>PanelWhite70</selectedcolor>
                             <label>$VAR[LabelDurationTimeCheck9500]</label>
+                            <visible>!String.IsEqual(Container(9500).ListItem.DBType,tvshow)</visible>
                         </control>
                         <control type="label">
                             <centerright>96</centerright>
@@ -2076,7 +2095,7 @@
                 <param name="height" value="$PARAM[height2]" />
             </include>
             <height>$PARAM[height]</height>
-            <include content="def_left" condition="![$EXP[HomeIsModernMultiWidgets] + !Skin.HasSetting(homemenu.clean.flix)] | Skin.HasSetting(old.widgets.movement)"><param name="left" value="70" /></include>
+            <include content="def_left" condition="![$EXP[HomeIsModernMultiWidgets] + !Skin.HasSetting(homemenu.clean.flix)]"><param name="left" value="70" /></include>
             <left>0</left>
             <include content="def_right" condition="$EXP[HomeIsVerticalMultiWidgets] + Skin.HasSetting(homemenu.vertical.noslide) + ![Skin.HasSetting(home.showicons) + Skin.HasSetting(homemenu.only.icons)]"><param name="right" value="310" /></include>
             <right>0</right>
@@ -2088,6 +2107,8 @@
             <onfocus>SetProperty(TMDbHelper.WidgetContainer,$PARAM[id],Home)</onfocus>
             <onfocus>SetProperty(BackToId,$PARAM[backid],Home)</onfocus>
             <onfocus condition="$EXP[HasHomemenuAutoSlideOutAnimation]">CancelAlarm(slide_out,true)</onfocus>
+            <onfocus condition="Skin.HasSetting(extended.nowplaying) + Window.IsVisible(Home) + Skin.HasSetting(home.nowplaying.info.auto.show)">SetProperty(nowplayingautoshowtimer,1,home)</onfocus>
+            <onunfocus>ClearProperty(nowplayingautoshowtimer,home)</onunfocus>
             <onfocus condition="Integer.IsGreater(Container(301$PARAM[idshort]1).NumItems,0) + Control.IsVisible(301$PARAM[idshort]1)">SetProperty(LastId,301$PARAM[idshort]1,Home)</onfocus>
             <onfocus condition="Integer.IsGreater(Container(301$PARAM[idshort]2).NumItems,0) + Control.IsVisible(301$PARAM[idshort]2)">SetProperty(LastId,301$PARAM[idshort]2,Home)</onfocus>
             <onfocus condition="Integer.IsGreater(Container(301$PARAM[idshort]3).NumItems,0) + Control.IsVisible(301$PARAM[idshort]3)">SetProperty(LastId,301$PARAM[idshort]3,Home)</onfocus>
@@ -2256,6 +2277,10 @@
 
     <include name="def_font">
         <font>$PARAM[font]</font>
+    </include>
+    
+    <include name="def_movement">
+        <movement>$PARAM[movement]</movement>
     </include>
     
     <include name="def_textheight">
@@ -2676,7 +2701,7 @@
         <itemlayout height="325" width="325">
             <control type="group">
                 <width>325</width>
-                <include content="def_left" condition="$EXP[HomeIsModernMultiWidgets] + !Skin.HasSetting(homemenu.clean.flix) + !Skin.HasSetting(old.widgets.movement)"><param name="left" value="70" /></include>
+                <include content="def_left" condition="$EXP[HomeIsModernMultiWidgets] + !Skin.HasSetting(homemenu.clean.flix)"><param name="left" value="70" /></include>
                 <include>include.widget.square.system</include>
             </control>
         </itemlayout>
@@ -2690,7 +2715,7 @@
         <itemlayout height="125" width="125" condition="$PARAM[SquareSmall]">
             <control type="group">
                 <width>125</width>
-                <include content="def_left" condition="$EXP[HomeIsModernMultiWidgets] + !Skin.HasSetting(homemenu.clean.flix) + !Skin.HasSetting(old.widgets.movement)"><param name="left" value="70" /></include>
+                <include content="def_left" condition="$EXP[HomeIsModernMultiWidgets] + !Skin.HasSetting(homemenu.clean.flix)"><param name="left" value="70" /></include>
                 <include content="include.widget.square">
                     <param name="id" value="$PARAM[shortcutsid]"/>
                     <param name="height" value="125"/>
@@ -2701,7 +2726,7 @@
         <itemlayout height="175" width="222" condition="$PARAM[SquareMedium]">
             <control type="group">
                 <width>222</width>
-                <include content="def_left" condition="$EXP[HomeIsModernMultiWidgets] + !Skin.HasSetting(homemenu.clean.flix) + !Skin.HasSetting(old.widgets.movement)"><param name="left" value="70" /></include>
+                <include content="def_left" condition="$EXP[HomeIsModernMultiWidgets] + !Skin.HasSetting(homemenu.clean.flix)"><param name="left" value="70" /></include>
                 <include content="include.widget.square">
                     <param name="id" value="$PARAM[shortcutsid]"/>
                     <param name="aspectratio" value="$PARAM[aspectratio]"/>
@@ -2713,7 +2738,7 @@
         <itemlayout height="325" width="325" condition="![$PARAM[SquareSmall] | $PARAM[SquareMedium]]">
             <control type="group">
                 <width>325</width>
-                <include content="def_left" condition="$EXP[HomeIsModernMultiWidgets] + !Skin.HasSetting(homemenu.clean.flix) + !Skin.HasSetting(old.widgets.movement)"><param name="left" value="70" /></include>
+                <include content="def_left" condition="$EXP[HomeIsModernMultiWidgets] + !Skin.HasSetting(homemenu.clean.flix)"><param name="left" value="70" /></include>
                 <include content="include.widget.square">
                     <param name="id" value="$PARAM[shortcutsid]"/>
                     <param name="aspectratio" value="$PARAM[aspectratio]"/>
@@ -2728,7 +2753,7 @@
         <itemlayout height="61.9" width="1756">
             <control type="group">
                 <width>1756</width>
-                <include content="def_left" condition="$EXP[HomeIsModernMultiWidgets] + !Skin.HasSetting(homemenu.clean.flix) + !Skin.HasSetting(old.widgets.movement)"><param name="left" value="70" /></include>
+                <include content="def_left" condition="$EXP[HomeIsModernMultiWidgets] + !Skin.HasSetting(homemenu.clean.flix)"><param name="left" value="70" /></include>
                 <include>include.widget.pvr</include>
             </control>
         </itemlayout>
@@ -2738,7 +2763,7 @@
         <focusedlayout height="61.9" width="1756">
             <control type="group">
                 <width>1756</width>
-                <include content="def_left" condition="$EXP[HomeIsModernMultiWidgets] + !Skin.HasSetting(homemenu.clean.flix) + !Skin.HasSetting(old.widgets.movement)"><param name="left" value="70" /></include>
+                <include content="def_left" condition="$EXP[HomeIsModernMultiWidgets] + !Skin.HasSetting(homemenu.clean.flix)"><param name="left" value="70" /></include>
                 <include content="include.widget.pvr.focus">
                     <param name="shortcutsid" value="$PARAM[shortcutsid]"/>
                     <param name="glow_top" value="-4"/>
@@ -2765,7 +2790,7 @@
         <itemlayout height="325" width="222" condition="![$PARAM[Banner] | $PARAM[Thumbnail] | $PARAM[Fanart] | $PARAM[FanartSmall] | $PARAM[ThumbnailSmall] | $PARAM[ThumbnailPosterSmall] | $PARAM[Square]]">
             <control type="group">
                 <width>222</width>
-                <include content="def_left" condition="$EXP[HomeIsModernMultiWidgets] + !Skin.HasSetting(homemenu.clean.flix) + !Skin.HasSetting(old.widgets.movement)"><param name="left" value="70" /></include>
+                <include content="def_left" condition="$EXP[HomeIsModernMultiWidgets] + !Skin.HasSetting(homemenu.clean.flix)"><param name="left" value="70" /></include>
                 <include content="include.widget.poster">
                     <param name="reflections" value="Skin.HasSetting(home.widgets.show.reflections)"/>
                 </include>
@@ -2774,7 +2799,7 @@
         <itemlayout height="325" width="325" condition="$PARAM[Square]">
             <control type="group">
                 <width>325</width>
-                <include content="def_left" condition="$EXP[HomeIsModernMultiWidgets] + !Skin.HasSetting(homemenu.clean.flix) + !Skin.HasSetting(old.widgets.movement)"><param name="left" value="70" /></include>
+                <include content="def_left" condition="$EXP[HomeIsModernMultiWidgets] + !Skin.HasSetting(homemenu.clean.flix)"><param name="left" value="70" /></include>
                 <include content="include.widget.square">
                     <param name="aspectratio" value="$PARAM[aspectratio]"/>
                     <param name="distance" value="$PARAM[distance]"/>
@@ -2785,7 +2810,7 @@
         <itemlayout height="325" width="562" condition="$PARAM[Fanart]">
             <control type="group">
                 <width>562</width>
-                <include content="def_left" condition="$EXP[HomeIsModernMultiWidgets] + !Skin.HasSetting(homemenu.clean.flix) + !Skin.HasSetting(old.widgets.movement)"><param name="left" value="70" /></include>
+                <include content="def_left" condition="$EXP[HomeIsModernMultiWidgets] + !Skin.HasSetting(homemenu.clean.flix)"><param name="left" value="70" /></include>
                 <include content="include.widget.fanart">
                     <param name="reflections" value="Skin.HasSetting(home.widgets.show.reflections)"/>
                 </include>
@@ -2794,7 +2819,7 @@
         <itemlayout height="325" width="400" condition="$PARAM[FanartSmall]">
             <control type="group">
                 <width>400</width>
-                <include content="def_left" condition="$EXP[HomeIsModernMultiWidgets] + !Skin.HasSetting(homemenu.clean.flix) + !Skin.HasSetting(old.widgets.movement)"><param name="left" value="70" /></include>
+                <include content="def_left" condition="$EXP[HomeIsModernMultiWidgets] + !Skin.HasSetting(homemenu.clean.flix)"><param name="left" value="70" /></include>
                 <include content="include.widget.fanart">
                     <param name="reflections" value="false"/>
                     <param name="small" value="true"/>
@@ -2804,7 +2829,7 @@
         <itemlayout height="325" width="1690" condition="$PARAM[Banner]">
             <control type="group">
                 <width>1690</width>
-                <include content="def_left" condition="$EXP[HomeIsModernMultiWidgets] + !Skin.HasSetting(homemenu.clean.flix) + !Skin.HasSetting(old.widgets.movement)"><param name="left" value="70" /></include>
+                <include content="def_left" condition="$EXP[HomeIsModernMultiWidgets] + !Skin.HasSetting(homemenu.clean.flix)"><param name="left" value="70" /></include>
                 <include content="include.widget.banner">
                     <param name="reflections" value="Skin.HasSetting(home.widgets.show.reflections)"/>
                 </include>
@@ -2813,7 +2838,7 @@
         <itemlayout height="325" width="562" condition="$PARAM[Thumbnail]">
             <control type="group">
                 <width>562</width>
-                <include content="def_left" condition="$EXP[HomeIsModernMultiWidgets] + !Skin.HasSetting(homemenu.clean.flix) + !Skin.HasSetting(old.widgets.movement)"><param name="left" value="70" /></include>
+                <include content="def_left" condition="$EXP[HomeIsModernMultiWidgets] + !Skin.HasSetting(homemenu.clean.flix)"><param name="left" value="70" /></include>
                 <include content="include.widget.thumb">
                     <param name="clearlogo" value="$PARAM[shortcutsclearlogo]"/>
                     <param name="reflections" value="Skin.HasSetting(home.widgets.show.reflections)"/>
@@ -2823,7 +2848,7 @@
         <itemlayout height="325" width="400" condition="$PARAM[ThumbnailSmall]">
             <control type="group">
                 <width>400</width>
-                <include content="def_left" condition="$EXP[HomeIsModernMultiWidgets] + !Skin.HasSetting(homemenu.clean.flix) + !Skin.HasSetting(old.widgets.movement)"><param name="left" value="70" /></include>
+                <include content="def_left" condition="$EXP[HomeIsModernMultiWidgets] + !Skin.HasSetting(homemenu.clean.flix)"><param name="left" value="70" /></include>
                 <include content="include.widget.thumb">
                     <param name="clearlogo" value="$PARAM[shortcutsclearlogo]"/>
                     <param name="small" value="true"/>
@@ -2834,7 +2859,7 @@
         <itemlayout height="325" width="542" condition="$PARAM[ThumbnailPosterSmall]">
             <control type="group">
                 <width>542</width>
-                <include content="def_left" condition="$EXP[HomeIsModernMultiWidgets] + !Skin.HasSetting(homemenu.clean.flix) + !Skin.HasSetting(old.widgets.movement)"><param name="left" value="70" /></include>
+                <include content="def_left" condition="$EXP[HomeIsModernMultiWidgets] + !Skin.HasSetting(homemenu.clean.flix)"><param name="left" value="70" /></include>
                 <include content="include.widget.thumb">
                     <param name="clearlogo" value="false"/>
                     <param name="small" value="true"/>
@@ -2854,21 +2879,21 @@
         <itemlayout height="325" width="222" condition="![$PARAM[Fanart] | $PARAM[Square]]">
             <control type="group">
                 <width>222</width>
-                <include content="def_left" condition="$EXP[HomeIsModernMultiWidgets] + !Skin.HasSetting(homemenu.clean.flix) + !Skin.HasSetting(old.widgets.movement)"><param name="left" value="70" /></include>
+                <include content="def_left" condition="$EXP[HomeIsModernMultiWidgets] + !Skin.HasSetting(homemenu.clean.flix)"><param name="left" value="70" /></include>
                 <include>weatherlayoutwidgetsvertical.poster</include>
             </control>
         </itemlayout>
         <itemlayout height="325" width="325" condition="$PARAM[Square]">
             <control type="group">
                 <width>325</width>
-                <include content="def_left" condition="$EXP[HomeIsModernMultiWidgets] + !Skin.HasSetting(homemenu.clean.flix) + !Skin.HasSetting(old.widgets.movement)"><param name="left" value="70" /></include>
+                <include content="def_left" condition="$EXP[HomeIsModernMultiWidgets] + !Skin.HasSetting(homemenu.clean.flix)"><param name="left" value="70" /></include>
                 <include>weatherlayoutwidgetsvertical.square</include>
             </control>
         </itemlayout>
         <itemlayout height="325" width="562" condition="$PARAM[Fanart]">
             <control type="group">
                 <width>562</width>
-                <include content="def_left" condition="$EXP[HomeIsModernMultiWidgets] + !Skin.HasSetting(homemenu.clean.flix) + !Skin.HasSetting(old.widgets.movement)"><param name="left" value="70" /></include>
+                <include content="def_left" condition="$EXP[HomeIsModernMultiWidgets] + !Skin.HasSetting(homemenu.clean.flix)"><param name="left" value="70" /></include>
                 <include>weatherlayoutwidgetsvertical.fanart</include>
             </control>
         </itemlayout>
@@ -2880,7 +2905,7 @@
         <focusedlayout height="325" width="325">
             <control type="group">
                 <width>325</width>
-                <include content="def_left" condition="$EXP[HomeIsModernMultiWidgets] + !Skin.HasSetting(homemenu.clean.flix) + !Skin.HasSetting(old.widgets.movement)"><param name="left" value="70" /></include>
+                <include content="def_left" condition="$EXP[HomeIsModernMultiWidgets] + !Skin.HasSetting(homemenu.clean.flix)"><param name="left" value="70" /></include>
                 <include content="include.widget.square.system.focus">
                     <param name="id" value="$PARAM[shortcutsid]"/>
                     <param name="glow_left" value="2"/>
@@ -2901,7 +2926,7 @@
         <focusedlayout height="125" width="125" condition="$PARAM[SquareSmall]">
             <control type="group">
                 <width>125</width>
-                <include content="def_left" condition="$EXP[HomeIsModernMultiWidgets] + !Skin.HasSetting(homemenu.clean.flix) + !Skin.HasSetting(old.widgets.movement)"><param name="left" value="70" /></include>
+                <include content="def_left" condition="$EXP[HomeIsModernMultiWidgets] + !Skin.HasSetting(homemenu.clean.flix)"><param name="left" value="70" /></include>
                 <include content="include.widget.square.focus">
                     <param name="id" value="$PARAM[shortcutsid]"/>
                     <param name="height" value="125"/>
@@ -2916,7 +2941,7 @@
         <focusedlayout height="175" width="222" condition="$PARAM[SquareMedium]">
             <control type="group">
                 <width>222</width>
-                <include content="def_left" condition="$EXP[HomeIsModernMultiWidgets] + !Skin.HasSetting(homemenu.clean.flix) + !Skin.HasSetting(old.widgets.movement)"><param name="left" value="70" /></include>
+                <include content="def_left" condition="$EXP[HomeIsModernMultiWidgets] + !Skin.HasSetting(homemenu.clean.flix)"><param name="left" value="70" /></include>
                 <include content="include.widget.square.focus">
                     <param name="id" value="$PARAM[shortcutsid]"/>
                     <param name="aspectratio" value="$PARAM[aspectratio]"/>
@@ -2932,7 +2957,7 @@
         <focusedlayout height="325" width="325" condition="![$PARAM[SquareSmall] | $PARAM[SquareMedium]]">
             <control type="group">
                 <width>325</width>
-                <include content="def_left" condition="$EXP[HomeIsModernMultiWidgets] + !Skin.HasSetting(homemenu.clean.flix) + !Skin.HasSetting(old.widgets.movement)"><param name="left" value="70" /></include>
+                <include content="def_left" condition="$EXP[HomeIsModernMultiWidgets] + !Skin.HasSetting(homemenu.clean.flix)"><param name="left" value="70" /></include>
                 <include content="include.widget.square.focus">
                     <param name="id" value="$PARAM[shortcutsid]"/>
                     <param name="aspectratio" value="$PARAM[aspectratio]"/>
@@ -2958,7 +2983,7 @@
         <focusedlayout height="325" width="222" condition="![$PARAM[Banner] | $PARAM[Thumbnail] | $PARAM[Fanart] | $PARAM[FanartSmall] | $PARAM[ThumbnailSmall] | $PARAM[ThumbnailPosterSmall] | $PARAM[Square]] | $EXP[HomeIsCleanMinimal]">
             <control type="group">
                 <width>222</width>
-                <include content="def_left" condition="$EXP[HomeIsModernMultiWidgets] + !Skin.HasSetting(homemenu.clean.flix) + !Skin.HasSetting(old.widgets.movement)"><param name="left" value="70" /></include>
+                <include content="def_left" condition="$EXP[HomeIsModernMultiWidgets] + !Skin.HasSetting(homemenu.clean.flix)"><param name="left" value="70" /></include>
                 <include content="include.widget.poster.focus">
                     <param name="id" value="$PARAM[shortcutsid]"/>
                     <param name="reflections" value="Skin.HasSetting(home.widgets.show.reflections)"/>
@@ -2972,7 +2997,7 @@
         <focusedlayout height="325" width="325" condition="$PARAM[Square] + !$EXP[HomeIsCleanMinimal]">
             <control type="group">
                 <width>325</width>
-                <include content="def_left" condition="$EXP[HomeIsModernMultiWidgets] + !Skin.HasSetting(homemenu.clean.flix) + !Skin.HasSetting(old.widgets.movement)"><param name="left" value="70" /></include>
+                <include content="def_left" condition="$EXP[HomeIsModernMultiWidgets] + !Skin.HasSetting(homemenu.clean.flix)"><param name="left" value="70" /></include>
                 <include content="include.widget.square.focus">
                     <param name="id" value="$PARAM[shortcutsid]"/>
                     <param name="aspectratio" value="$PARAM[aspectratio]"/>
@@ -2987,7 +3012,7 @@
         <focusedlayout height="325" width="562" condition="$PARAM[Fanart] + !$EXP[HomeIsCleanMinimal]">
             <control type="group">
                 <width>562</width>
-                <include content="def_left" condition="$EXP[HomeIsModernMultiWidgets] + !Skin.HasSetting(homemenu.clean.flix) + !Skin.HasSetting(old.widgets.movement)"><param name="left" value="70" /></include>
+                <include content="def_left" condition="$EXP[HomeIsModernMultiWidgets] + !Skin.HasSetting(homemenu.clean.flix)"><param name="left" value="70" /></include>
                 <include content="include.widget.fanart.focus">
                     <param name="id" value="$PARAM[shortcutsid]"/>
                     <param name="reflections" value="Skin.HasSetting(home.widgets.show.reflections)"/>
@@ -3000,7 +3025,7 @@
         <focusedlayout height="325" width="400" condition="$PARAM[FanartSmall] + !$EXP[HomeIsCleanMinimal]">
             <control type="group">
                 <width>400</width>
-                <include content="def_left" condition="$EXP[HomeIsModernMultiWidgets] + !Skin.HasSetting(homemenu.clean.flix) + !Skin.HasSetting(old.widgets.movement)"><param name="left" value="70" /></include>
+                <include content="def_left" condition="$EXP[HomeIsModernMultiWidgets] + !Skin.HasSetting(homemenu.clean.flix)"><param name="left" value="70" /></include>
                 <include content="include.widget.fanart.focus">
                     <param name="id" value="$PARAM[shortcutsid]"/>
                     <param name="reflections" value="false"/>
@@ -3014,7 +3039,7 @@
         <focusedlayout height="325" width="1690" condition="$PARAM[Banner] + !$EXP[HomeIsCleanMinimal]">
             <control type="group">
                 <width>1690</width>
-                <include content="def_left" condition="$EXP[HomeIsModernMultiWidgets] + !Skin.HasSetting(homemenu.clean.flix) + !Skin.HasSetting(old.widgets.movement)"><param name="left" value="70" /></include>
+                <include content="def_left" condition="$EXP[HomeIsModernMultiWidgets] + !Skin.HasSetting(homemenu.clean.flix)"><param name="left" value="70" /></include>
                 <include content="include.widget.banner.focus">
                     <param name="id" value="$PARAM[shortcutsid]"/>
                     <param name="reflections" value="Skin.HasSetting(home.widgets.show.reflections)"/>
@@ -3027,7 +3052,7 @@
         <focusedlayout height="325" width="562" condition="$PARAM[Thumbnail] + !$EXP[HomeIsCleanMinimal]">
             <control type="group">
                 <width>562</width>
-                <include content="def_left" condition="$EXP[HomeIsModernMultiWidgets] + !Skin.HasSetting(homemenu.clean.flix) + !Skin.HasSetting(old.widgets.movement)"><param name="left" value="70" /></include>
+                <include content="def_left" condition="$EXP[HomeIsModernMultiWidgets] + !Skin.HasSetting(homemenu.clean.flix)"><param name="left" value="70" /></include>
                 <include content="include.widget.thumb.focus">
                     <param name="id" value="$PARAM[shortcutsid]"/>
                     <param name="clearlogo" value="$PARAM[shortcutsclearlogo]"/>
@@ -3041,7 +3066,7 @@
         <focusedlayout height="325" width="400" condition="$PARAM[ThumbnailSmall] + !$EXP[HomeIsCleanMinimal]">
             <control type="group">
                 <width>400</width>
-                <include content="def_left" condition="$EXP[HomeIsModernMultiWidgets] + !Skin.HasSetting(homemenu.clean.flix) + !Skin.HasSetting(old.widgets.movement)"><param name="left" value="70" /></include>
+                <include content="def_left" condition="$EXP[HomeIsModernMultiWidgets] + !Skin.HasSetting(homemenu.clean.flix)"><param name="left" value="70" /></include>
                 <include content="include.widget.thumb.focus">
                     <param name="id" value="$PARAM[shortcutsid]"/>
                     <param name="clearlogo" value="$PARAM[shortcutsclearlogo]"/>
@@ -3056,7 +3081,7 @@
         <focusedlayout height="325" width="542" condition="$PARAM[ThumbnailPosterSmall] + !$EXP[HomeIsCleanMinimal]">
             <control type="group">
                 <width>542</width>
-                <include content="def_left" condition="$EXP[HomeIsModernMultiWidgets] + !Skin.HasSetting(homemenu.clean.flix) + !Skin.HasSetting(old.widgets.movement)"><param name="left" value="70" /></include>
+                <include content="def_left" condition="$EXP[HomeIsModernMultiWidgets] + !Skin.HasSetting(homemenu.clean.flix)"><param name="left" value="70" /></include>
                 <include content="include.widget.thumb.focus">
                     <param name="id" value="$PARAM[shortcutsid]"/>
                     <param name="clearlogo" value="false"/>
@@ -3080,7 +3105,7 @@
         <focusedlayout height="325" width="222" condition="![$PARAM[Square] | $PARAM[Fanart]]">
             <control type="group">
                 <width>222</width>
-                <include content="def_left" condition="$EXP[HomeIsModernMultiWidgets] + !Skin.HasSetting(homemenu.clean.flix) + !Skin.HasSetting(old.widgets.movement)"><param name="left" value="70" /></include>
+                <include content="def_left" condition="$EXP[HomeIsModernMultiWidgets] + !Skin.HasSetting(homemenu.clean.flix)"><param name="left" value="70" /></include>
                 <include content="weatherlayoutwidgetsvertical.poster.focus">
                     <param name="id" value="$PARAM[shortcutsid]"/>
                 </include>
@@ -3092,7 +3117,7 @@
         <focusedlayout height="325" width="325" condition="$PARAM[Square]">
             <control type="group">
                 <width>325</width>
-                <include content="def_left" condition="$EXP[HomeIsModernMultiWidgets] + !Skin.HasSetting(homemenu.clean.flix) + !Skin.HasSetting(old.widgets.movement)"><param name="left" value="70" /></include>
+                <include content="def_left" condition="$EXP[HomeIsModernMultiWidgets] + !Skin.HasSetting(homemenu.clean.flix)"><param name="left" value="70" /></include>
                 <include content="weatherlayoutwidgetsvertical.square.focus">
                     <param name="id" value="$PARAM[shortcutsid]"/>
                     <param name="glow_left" value="2"/>
@@ -3103,7 +3128,7 @@
         <focusedlayout height="325" width="562" condition="$PARAM[Fanart]">
             <control type="group">
                 <width>562</width>
-                <include content="def_left" condition="$EXP[HomeIsModernMultiWidgets] + !Skin.HasSetting(homemenu.clean.flix) + !Skin.HasSetting(old.widgets.movement)"><param name="left" value="70" /></include>
+                <include content="def_left" condition="$EXP[HomeIsModernMultiWidgets] + !Skin.HasSetting(homemenu.clean.flix)"><param name="left" value="70" /></include>
                 <include content="weatherlayoutwidgetsvertical.fanart.focus">
                     <param name="id" value="$PARAM[shortcutsid]"/>
                     <param name="glow_left" value="11"/>
@@ -3114,7 +3139,7 @@
         </definition>
     </include>
 
-    <include name="ClearLogoHomeImageContainer">
+    <include name="ClearArtHomeImageContainer">
         <animation effect="slide" start="0" end="0,30" time="0" condition="!Skin.HasSetting(home.widgets.show.reflections)">Conditional</animation>
         <animation effect="slide" start="0" end="0,2" time="0" condition="Skin.HasSetting(home.widgets.show.reflections)">Conditional</animation>
         <animation effect="slide" start="0" end="6,0" time="0" condition="$EXP[HomeIsVerticalMultiWidgets]">Conditional</animation>
@@ -3207,221 +3232,18 @@
         </control>
     </include>
 
-    <include name="NewJumpbar">
-        <content>plugin://script.embuary.helper/?info=jumptoletter&amp;showall=true&amp;reload=$INFO[Container.NumItems]</content>
-    </include>
-    
-    <include name="OldJumpbar">
-        <content>
-            <item id="0">
-                <label>#</label>
-                <onclick>$VAR[ClickToJump]</onclick>
-                <onclick>JumpSMS9</onclick>
-                <onclick>JumpSMS2</onclick>
-                <onclick>JumpSMS2</onclick>
-                <onclick>JumpSMS2</onclick>
-                <onclick>JumpSMS2</onclick>
-            </item>
-            <item id="1">
-                <label>A</label>
-                <onclick>$VAR[ClickToJump]</onclick>
-                <onclick>JumpSMS9</onclick>
-                <onclick>JumpSMS2</onclick>
-            </item>
-            <item id="2">
-                <label>B</label>
-                <onclick>$VAR[ClickToJump]</onclick>
-                <onclick>JumpSMS9</onclick>
-                <onclick>JumpSMS2</onclick>
-                <onclick>JumpSMS2</onclick>
-            </item>
-            <item id="4">
-                <label>C</label>
-                <onclick>$VAR[ClickToJump]</onclick>
-                <onclick>JumpSMS9</onclick>
-                <onclick>JumpSMS2</onclick>
-                <onclick>JumpSMS2</onclick>
-                <onclick>JumpSMS2</onclick>
-            </item>
-            <item id="5">
-                <label>D</label>
-                <onclick>$VAR[ClickToJump]</onclick>
-                <onclick>JumpSMS9</onclick>
-                <onclick>JumpSMS3</onclick>
-            </item>
-            <item id="6">
-                <label>E</label>
-                <onclick>$VAR[ClickToJump]</onclick>
-                <onclick>JumpSMS9</onclick>
-                <onclick>JumpSMS3</onclick>
-                <onclick>JumpSMS3</onclick>
-            </item>
-            <item id="7">
-                <label>F</label>
-                <onclick>$VAR[ClickToJump]</onclick>
-                <onclick>JumpSMS9</onclick>
-                <onclick>JumpSMS3</onclick>
-                <onclick>JumpSMS3</onclick>
-                <onclick>JumpSMS3</onclick>
-            </item>
-            <item id="8">
-                <label>G</label>
-                <onclick>$VAR[ClickToJump]</onclick>
-                <onclick>JumpSMS9</onclick>
-                <onclick>JumpSMS4</onclick>
-            </item>
-            <item id="9">
-                <label>H</label>
-                <onclick>$VAR[ClickToJump]</onclick>
-                <onclick>JumpSMS9</onclick>
-                <onclick>JumpSMS4</onclick>
-                <onclick>JumpSMS4</onclick>
-            </item>
-            <item id="10">
-                <label>I</label>
-                <onclick>$VAR[ClickToJump]</onclick>
-                <onclick>JumpSMS9</onclick>
-                <onclick>JumpSMS4</onclick>
-                <onclick>JumpSMS4</onclick>
-                <onclick>JumpSMS4</onclick>
-            </item>
-            <item id="11">
-                <label>J</label>
-                <onclick>$VAR[ClickToJump]</onclick>
-                <onclick>JumpSMS9</onclick>
-                <onclick>JumpSMS5</onclick>
-            </item>
-            <item id="12">
-                <label>K</label>
-                <onclick>$VAR[ClickToJump]</onclick>
-                <onclick>JumpSMS9</onclick>
-                <onclick>JumpSMS5</onclick>
-                <onclick>JumpSMS5</onclick>
-            </item>
-            <item id="13">
-                <label>L</label>
-                <onclick>$VAR[ClickToJump]</onclick>
-                <onclick>JumpSMS9</onclick>
-                <onclick>JumpSMS5</onclick>
-                <onclick>JumpSMS5</onclick>
-                <onclick>JumpSMS5</onclick>
-            </item>
-            <item id="14">
-                <label>M</label>
-                <onclick>$VAR[ClickToJump]</onclick>
-                <onclick>JumpSMS9</onclick>
-                <onclick>JumpSMS6</onclick>
-            </item>
-            <item id="15">
-                <label>N</label>
-                <onclick>$VAR[ClickToJump]</onclick>
-                <onclick>JumpSMS9</onclick>
-                <onclick>JumpSMS6</onclick>
-                <onclick>JumpSMS6</onclick>
-            </item>
-            <item id="16">
-                <label>O</label>
-                <onclick>$VAR[ClickToJump]</onclick>
-                <onclick>JumpSMS9</onclick>
-                <onclick>JumpSMS6</onclick>
-                <onclick>JumpSMS6</onclick>
-                <onclick>JumpSMS6</onclick>
-            </item>
-            <item id="17">
-                <label>P</label>
-                <onclick>$VAR[ClickToJump]</onclick>
-                <onclick>JumpSMS9</onclick>
-                <onclick>JumpSMS7</onclick>
-            </item>
-            <item id="18">
-                <label>Q</label>
-                <onclick>$VAR[ClickToJump]</onclick>
-                <onclick>JumpSMS9</onclick>
-                <onclick>JumpSMS7</onclick>
-                <onclick>JumpSMS7</onclick>
-            </item>
-            <item id="19">
-                <label>R</label>
-                <onclick>$VAR[ClickToJump]</onclick>
-                <onclick>JumpSMS9</onclick>
-                <onclick>JumpSMS7</onclick>
-                <onclick>JumpSMS7</onclick>
-                <onclick>JumpSMS7</onclick>
-            </item>
-            <item id="20">
-                <label>S</label>
-                <onclick>$VAR[ClickToJump]</onclick>
-                <onclick>JumpSMS9</onclick>
-                <onclick>JumpSMS7</onclick>
-                <onclick>JumpSMS7</onclick>
-                <onclick>JumpSMS7</onclick>
-                <onclick>JumpSMS7</onclick>
-            </item>
-            <item id="21">
-                <label>T</label>
-                <onclick>$VAR[ClickToJump]</onclick>
-                <onclick>JumpSMS9</onclick>
-                <onclick>JumpSMS8</onclick>
-            </item>
-            <item id="22">
-                <label>U</label>
-                <onclick>$VAR[ClickToJump]</onclick>
-                <onclick>JumpSMS9</onclick>
-                <onclick>JumpSMS8</onclick>
-                <onclick>JumpSMS8</onclick>
-            </item>
-            <item id="23">
-                <label>V</label>
-                <onclick>$VAR[ClickToJump]</onclick>
-                <onclick>JumpSMS9</onclick>
-                <onclick>JumpSMS8</onclick>
-                <onclick>JumpSMS8</onclick>
-                <onclick>JumpSMS8</onclick>
-            </item>
-            <item id="24">
-                <label>W</label>
-                <onclick>$VAR[ClickToJump]</onclick>
-                <onclick>JumpSMS7</onclick>
-                <onclick>JumpSMS9</onclick>
-            </item>
-            <item id="25">
-                <label>X</label>
-                <onclick>$VAR[ClickToJump]</onclick>
-                <onclick>JumpSMS7</onclick>
-                <onclick>JumpSMS9</onclick>
-                <onclick>JumpSMS9</onclick>
-            </item>
-            <item id="26">
-                <label>Y</label>
-                <onclick>$VAR[ClickToJump]</onclick>
-                <onclick>JumpSMS7</onclick>
-                <onclick>JumpSMS9</onclick>
-                <onclick>JumpSMS9</onclick>
-                <onclick>JumpSMS9</onclick>
-            </item>
-            <item id="27">
-                <label>Z</label>
-                <onclick>$VAR[ClickToJump]</onclick>
-                <onclick>JumpSMS7</onclick>
-                <onclick>JumpSMS9</onclick>
-                <onclick>JumpSMS9</onclick>
-                <onclick>JumpSMS9</onclick>
-                <onclick>JumpSMS9</onclick>
-            </item>
-        </content>
-    </include>
-
     <include name="Def_Flag">
         <param name="left" value="$PARAM[left]" default="0"/>
         <param name="visible" value="$PARAM[visible]" default="true"/>
         <param name="width" value="$PARAM[width]" default="37"/>
+        <param name="color" value="$PARAM[color]" default="$VAR[ColorStars]"/>
         <definition>
         <control type="image">
             <left>$PARAM[left]</left>
             <width>$PARAM[width]</width>
             <height>$PARAM[width]</height>
             <centertop>50%</centertop>
-            <texture colordiffuse="$VAR[ColorHighlight]">misc/$VAR[$PARAM[Star]].png</texture>
+            <texture colordiffuse="$PARAM[color]">misc/$VAR[$PARAM[Star]].png</texture>
             <visible>$PARAM[visible]</visible>
         </control>
         </definition>
@@ -3527,11 +3349,7 @@
             <width>1</width>
             <height>1</height>
             <visible allowhiddenfocus="true">false</visible>
-            <onback>$PARAM[ondirection]</onback>
-            <onup>$PARAM[ondirection]</onup>
-            <ondown>$PARAM[ondirection]</ondown>
-            <onleft>$PARAM[ondirection]</onleft>
-            <onright>$PARAM[ondirection]</onright>
+            <include content="OnDirectionAction"><param name="ondirection" value="$PARAM[ondirection]" /></include>
             <onback>ClearProperty(dontautoclose,home)</onback>
             <onup>ClearProperty(dontautoclose,home)</onup>
             <ondown>ClearProperty(dontautoclose,home)</ondown>
@@ -3551,7 +3369,8 @@
                 <visible>Skin.HasSetting(furniture.logo)</visible>
                 <centertop>120</centertop>
                 <centerleft>50%</centerleft>
-                <height>102</height>
+                <height>ClearLogoMaxHeight</height>
+                <width>ClearLogoMaxWidth</width>
                 <aspectratio align="center">keep</aspectratio>
                 <texture background="true">$VAR[ClearLogoTopVar]</texture>
             </control>
@@ -3685,7 +3504,7 @@
                  <width>100</width>
                  <height>100</height>
                  <texture colordiffuse="$VAR[ColorIndicatorBackgroundWatched]" background="true">misc/overlaywatched.png</texture>
-                 <visible>!ListItem.IsResumable + !ListItem.IsPlaying + String.IsEqual(ListItem.Overlay,OverlayWatched.png) + !Skin.HasSetting(hide.markers.watched)</visible>
+                 <visible>!ListItem.IsResumable + !$EXP[IsTVShowInProgress] + !ListItem.IsPlaying + String.IsEqual(ListItem.Overlay,OverlayWatched.png) + !Skin.HasSetting(hide.markers.watched)</visible>
             </control>
             <control type="image">
                  <right>8</right>
@@ -3693,7 +3512,7 @@
                  <width>100</width>
                  <height>100</height>
                  <texture colordiffuse="$VAR[ColorIndicatorBackgroundNew]" background="true">misc/overlaywatched.png</texture>
-                 <visible>!ListItem.IsResumable + !ListItem.IsPlaying + [[String.IsEqual(ListItem.Overlay,OverlayUnwatched.png) + [$EXP[IsNewMovie] | $EXP[IsNewTVShow] | $EXP[IsNewEpisode]]]] + !Skin.HasSetting(hide.markers.newcontent)</visible>
+                 <visible>[!ListItem.IsResumable | $EXP[IsNewTVShow]] + !$EXP[IsTVShowInProgress] + !ListItem.IsPlaying + [[String.IsEqual(ListItem.Overlay,OverlayUnwatched.png) + [$EXP[IsNewMovie] | $EXP[IsNewTVShow] | $EXP[IsNewEpisode]]]] + !Skin.HasSetting(hide.markers.newcontent)</visible>
             </control>
             <control type="label">
                  <right>-9</right>
@@ -3761,7 +3580,7 @@
                  <width>100</width>
                  <height>100</height>
                  <texture colordiffuse="$VAR[ColorIndicatorBackgroundInprogress]">misc/overlaywatched.png</texture>
-                 <visible>Container(301).ListItem.IsResumable + !Container(301).ListItem.IsPlaying + !Skin.HasSetting(hide.markers.inprogress)</visible>
+                 <visible>[Container(301).ListItem.IsResumable | $EXP[IsTVShowInProgress301]] + !Container(301).ListItem.IsPlaying + !Skin.HasSetting(hide.markers.inprogress)</visible>
             </control>
             <control type="image">
                  <right>8</right>
@@ -3769,7 +3588,7 @@
                  <width>100</width>
                  <height>100</height>
                  <texture colordiffuse="$VAR[ColorIndicatorBackgroundWatched]">misc/overlaywatched.png</texture>
-                 <visible>!Container(301).ListItem.IsResumable + !Container(301).ListItem.IsPlaying + String.IsEqual(Container(301).ListItem.Overlay,OverlayWatched.png) + !Skin.HasSetting(hide.markers.watched)</visible>
+                 <visible>!Container(301).ListItem.IsResumable + !$EXP[IsTVShowInProgress301] + !Container(301).ListItem.IsPlaying + String.IsEqual(Container(301).ListItem.Overlay,OverlayWatched.png) + !Skin.HasSetting(hide.markers.watched)</visible>
             </control>
             <control type="image">
                  <right>8</right>
@@ -3777,7 +3596,7 @@
                  <width>100</width>
                  <height>100</height>
                  <texture colordiffuse="$VAR[ColorIndicatorBackgroundNew]">misc/overlaywatched.png</texture>
-                 <visible>!Container(301).ListItem.IsResumable + !Container(301).ListItem.IsPlaying + [[String.IsEqual(Container(301).ListItem.Overlay,OverlayUnwatched.png) + [$EXP[IsNewMovie301] | $EXP[IsNewTVShow301] | $EXP[IsNewEpisode301]]]] + !Skin.HasSetting(hide.markers.newcontent)</visible>
+                 <visible>!Container(301).ListItem.IsResumable + !$EXP[IsTVShowInProgress301] + !Container(301).ListItem.IsPlaying + [[String.IsEqual(Container(301).ListItem.Overlay,OverlayUnwatched.png) + [$EXP[IsNewMovie301] | $EXP[IsNewTVShow301] | $EXP[IsNewEpisode301]]]] + !Skin.HasSetting(hide.markers.newcontent)</visible>
             </control>
             <control type="label">
                  <right>-9</right>
@@ -3835,7 +3654,7 @@
             <width>$PARAM[height]</width>
             <height>$PARAM[height]</height>
             <centertop>50%</centertop>
-            <texture colordiffuse="$VAR[ColorHighlight]">misc/$VAR[FlagstarMusic$PARAM[Flagstar]].png</texture>
+            <texture colordiffuse="$VAR[ColorStars]">misc/$VAR[FlagstarMusic$PARAM[Flagstar]].png</texture>
             <visible>Integer.IsGreater(MusicPlayer.Time,0)</visible>
             <visible>$PARAM[visible]</visible>
             <animation type="Visible" condition="Integer.IsGreater(MusicPlayer.UserRating,$PARAM[IsGreater]) | [Integer.IsGreater(MusicPlayer.Rating,$PARAM[IsGreater]) + !Integer.IsGreater(MusicPlayer.UserRating,0)]">
@@ -4283,7 +4102,6 @@
         <include content="IndicatorPoster" condition="!Skin.HasSetting(hide.markers)">
             <param name="indicatorbackground" value="$PARAM[indicatorbackground]" />
         </include>
-        <include condition="Skin.HasSetting(enable.morewidget)">more</include>
         </definition>
     </include>
 
@@ -4381,7 +4199,6 @@
         <include content="IndicatorPoster" condition="!Skin.HasSetting(hide.markers)">
             <param name="indicatorbackground" value="$PARAM[indicatorbackground]" />
         </include>
-        <include condition="Skin.HasSetting(enable.morewidget)">more</include>
     </include>
 
     <include name="def_widgetsquare_system">
@@ -4582,7 +4399,6 @@
         <include content="IndicatorPoster" condition="!Skin.HasSetting(hide.markers)">
             <param name="indicatorbackground" value="$PARAM[indicatorbackground]" />
         </include>
-        <include condition="Skin.HasSetting(enable.morewidget)">more</include>
         </definition>
     </include>
 
@@ -4697,7 +4513,6 @@
         <include content="IndicatorPoster" condition="!Skin.HasSetting(hide.markers)">
             <param name="indicatorbackground" value="$PARAM[indicatorbackground]" />
         </include>
-        <include condition="Skin.HasSetting(enable.morewidget)">more</include>
         </definition>
     </include>
 
@@ -4825,7 +4640,6 @@
         <include content="IndicatorPoster" condition="!Skin.HasSetting(hide.markers)">
             <param name="indicatorbackground" value="$PARAM[indicatorbackground]" />
         </include>
-        <include condition="Skin.HasSetting(enable.morewidget)">more</include>
         </definition>
     </include>
     
@@ -5065,5 +4879,38 @@
     
     <include name="DefTrailerVideoWindowFullscreen">
         <include>Dimensions_Fullscreen</include>
+    </include>
+    
+    <include name="Def_DialogSquareInfo_Line">
+        <definition>
+        <param name="path" value="$PARAM[path]" default="false" />
+        <control type="group">
+            <height>36</height>
+            <width>800</width>
+            <control type="label">
+                <width>230</width>
+                <height>36</height>
+                <font>Tiny</font>
+                <textcolor>Dark1</textcolor>
+                <label>[B]$PARAM[label][/B]</label>
+            </control>
+            <control type="label">
+                <left>250</left>
+                <width>100%</width>
+                <height>36</height>
+                <font>Tiny</font>
+                <textcolor>Dark2</textcolor>
+                <label fallback="19055">$PARAM[value]</label>
+                <include condition="$PARAM[path]">Def_DialogSquareInfo_Line_Path</include>
+            </control>
+        </control>
+        </definition>
+    </include>
+    
+    <include name="Def_DialogSquareInfo_Line_Path">
+        <scroll>true</scroll>
+        <wrapmultiline>false</wrapmultiline>
+        <scrollspeed>40</scrollspeed>
+        <scrollsuffix>  ••  </scrollsuffix>
     </include>
 </includes>
