@@ -29,11 +29,17 @@
                 <texture background="true">$VAR[ClearLogoTopVar]</texture>
                 <fadetime>ClearArtFadetime</fadetime>
             </control>
-            <control type="panel" id="509">
+            <control type="fixedlist" id="509">
                 <visible>Container.Content(movies) | Container.Content(musicvideos) | Container.Content(tvshows) | Container.Content(seasons) | Container.Content(sets) | Container.Content(videos) | $EXP[InGameMode]</visible>
-                <top>350</top>
+                <include content="def_focusposition" condition="!Skin.HasSetting(509NoCenter) + Skin.HasSetting(509fanart)">
+                    <param name="focusposition" value="1" />
+                </include>
+                <include condition="!Skin.HasSetting(509fanart) + !Skin.HasSetting(509NoCenter)">View_509_Shift_Center</include>
+                <include content="def_width" condition="[Skin.HasSetting(509NoCenter) + !Skin.HasSetting(509fanart)] | Skin.HasSetting(509fanart)">
+                    <param name="width" value="1780" />
+                </include>
                 <left>71</left>
-                <width>1780</width>
+                <top>350</top>
                 <height>395</height>
                 <onup condition="!Skin.HasSetting(global.kioskmode)">9000</onup>
                 <ondown>1677</ondown>
@@ -135,5 +141,12 @@
                 <label>$INFO[ListItem.Plot]</label>
             </control>
         </control>
+    </include>
+    
+    <include name="View_509_Shift_Center">
+        <left>-40</left>
+        <animation effect="slide" end="-122.14" condition="Integer.IsEqual(Container.NumAllItems,6) | Integer.IsEqual(Container.NumAllItems,4) | Integer.IsEqual(Container.NumAllItems,2)">Conditional</animation>
+        <focusposition>4</focusposition>
+        <movement>3</movement>
     </include>
 </includes>
